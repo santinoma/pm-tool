@@ -1,0 +1,11 @@
+{
+	auto_https off
+}
+
+http://admin.localhost, http://localhost {
+	reverse_proxy app:3000
+}
+
+http://*.localhost {
+	reverse_proxy app:3000
+}

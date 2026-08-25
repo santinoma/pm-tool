@@ -1,0 +1,12 @@
+// Basis-Schema für jede Tenant-Datenbank. Die DB-Grenze IST die Org-Grenze
+// (siehe CAPABILITY-MAP.md), daher kein organization_id-Spaltenmuster.
+// Wird von den folgenden Modulen erweitert: identity-org, projects-tasks, ...
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../src/generated/tenant-client"
+}
+
+datasource db {
+  provider = "postgresql"
+}

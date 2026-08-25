@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../src/generated/platform-client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum TenantStatus {
+  provisioning
+  active
+  failed
+}
+
+model Tenant {
+  id        String       @id @default(uuid())
+  name      String
+  subdomain String       @unique
+  status    TenantStatus @default(provisioning)
+  dbUrl     String
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
