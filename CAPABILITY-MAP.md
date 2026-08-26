@@ -66,15 +66,23 @@ Beide Runden abgeschlossen (12 Produkte). Ergebnis ist vollständig in diese Map
 
 ## Status
 - [x] `tenant-provisioning` — implementiert (Docker Compose, Prisma-Doppelschema, sichere DB-Provisionierung, Subdomain-Routing über `proxy.ts`, Admin-UI)
+- [x] `identity-org` — implementiert (User/Session/Invite/Team-Modelle, bcryptjs, Cookie-Sessions, Owner-Invite bei Provisionierung, Login/Logout, Mitgliederverwaltung mit Rollen-Schutzlogik)
+- [x] `projects-tasks` — implementiert (konfigurierbare Workflows, Tasks mit Cross-Tagging/Abhängigkeiten/Custom Fields, Triage/Liste/Board/Kalender/Gantt, Cmd+K). Gantt-Drag-UX und Cmd+K-Tastenkombination mangels Browser-Zugriff nicht selbst visuell getestet
+- [x] `time-tracking` — implementiert (Timer mit Auto-Stop, manuelle Einträge, optionale Projektebene-Buchung per Tenant-Einstellung, Aggregation)
+- [x] `collaboration` — implementiert (Kommentare mit @Mention-Erkennung, Datei-Anhänge über lokale Disk mit UUID-Pfaden, Wiki-Seiten mit Markdown-Rendering + XSS-Sanitizing via `isomorphic-dompurify`)
+- [x] `budgeting-basic` — implementiert (Soll-/Ist-Stunden und -Betrag pro Projekt, flacher Stundensatz, Rollen-Schutz für Bearbeitung, Ist-Aggregation über direkte + primär-task-gebundene Zeiteinträge)
+- [x] `resource-planning-basic` — implementiert (Wochen-Auslastungsansicht pro Person cross-projekt, basierend auf `estimatedHours` zugewiesener Tasks mit Fälligkeit in der laufenden Woche vs. `weeklyCapacityHours`; Kapazitäts-Bearbeitung nur owner/admin)
+- [x] `notifications` — implementiert (Aktivitäts-Feed pro Projekt, persönliches Postfach mit pro-Projekt-Präferenzen all/mentions/off, `@channel`-Broadcast-Mentions, die `off` respektieren)
+- [x] `reporting-dashboards` — implementiert (Reports für überfällige Tasks und Projekt-Fortschritt, persönliches Dashboard mit festem Widget-Katalog, an/aus + Reihenfolge pro Nutzer)
+- [x] `admin-settings` — implementiert (Org-Währungseinstellung, Mitglieder-Deaktivierung/-Reaktivierung mit Login-Sperre und Schutz des letzten aktiven Owners, Settings-Hub; Rollen-Verwaltung bereits durch bestehende `/members`-Seite abgedeckt)
+- [x] `webhooks` — implementiert (konfigurierbare Endpunkte pro ActivityEventType, HMAC-signierte Zustellung, synchroner Retry mit Backoff `[0,1,3]`s, Delivery-Log; angebunden über den bestehenden `recordActivity()`-Integrationspunkt aus `notifications`)
+- [x] `hill-charts` — implementiert (Hill-Position pro Task, SVG-Hügelkurve pro Projekt mit Drag analog zum Gantt, done/Triage-Tasks ausgeschlossen). Drag-Feel mangels Browser-Zugriff nicht selbst visuell getestet, nur die Persistenz via curl
+- [x] `automatic-check-ins` — implementiert (projekt-gebundene, wiederkehrende Status-Fragen mit daily/weekly-Periodenlogik, Pull-basiert statt echtem Cron, Upsert verhindert Doppel-Antworten pro Periode, Log für alle Antworten)
 - [ ] `identity-org` — Spec
 - [ ] `projects-tasks` — Spec
 - [ ] `time-tracking` — Spec
-- [ ] `collaboration` — Spec
-- [ ] `budgeting-basic` — Spec
 - [ ] `resource-planning-basic` — Spec
 - [ ] `notifications` — Spec
 - [ ] `reporting-dashboards` — Spec
-- [ ] `admin-settings` — Spec
-- [ ] `webhooks` — Spec
 - [ ] `hill-charts` — Spec
 - [ ] `automatic-check-ins` — Spec

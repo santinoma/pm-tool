@@ -25,6 +25,7 @@ services:
       - .env
     environment:
       PLATFORM_DATABASE_URL: postgresql://${POSTGRES_USER:-pmtool}:${POSTGRES_PASSWORD:-pmtool}@postgres:5432/${PLATFORM_DB_NAME:-pmtool_platform}
+      UPLOADS_DIR: /app/uploads
     depends_on:
       postgres:
         condition: service_healthy
@@ -32,6 +33,7 @@ services:
       - .:/app
       - /app/node_modules
       - /app/.next
+      - uploads-data:/app/uploads
     ports:
       - "3000:3000"
 
@@ -47,3 +49,4 @@ services:
 
 volumes:
   postgres-data:
+  uploads-data:
