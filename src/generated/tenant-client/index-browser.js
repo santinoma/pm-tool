@@ -120,9 +120,599 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  passwordHash: 'passwordHash',
+  name: 'name',
+  role: 'role',
+  weeklyCapacityHours: 'weeklyCapacityHours',
+  isActive: 'isActive',
+  avatarUrl: 'avatarUrl',
+  avatarStoragePath: 'avatarStoragePath',
+  avatarMimeType: 'avatarMimeType',
+  internalCostRate: 'internalCostRate',
+  totpSecret: 'totpSecret',
+  totpEnabled: 'totpEnabled',
+  createdAt: 'createdAt',
+  customRoleId: 'customRoleId'
+};
+
+exports.Prisma.CustomRoleScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  permissions: 'permissions',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ProjectRoleOverrideScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  userId: 'userId',
+  customRoleId: 'customRoleId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AbsenceRequestScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  note: 'note',
+  status: 'status',
+  reviewedById: 'reviewedById',
+  reviewedAt: 'reviewedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.InviteScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  token: 'token',
+  role: 'role',
+  grantedProjectIds: 'grantedProjectIds',
+  expiresAt: 'expiresAt',
+  acceptedAt: 'acceptedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ProjectClientAccessScalarFieldEnum = {
+  projectId: 'projectId',
+  userId: 'userId'
+};
+
+exports.Prisma.TeamScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.TeamMemberScalarFieldEnum = {
+  teamId: 'teamId',
+  userId: 'userId'
+};
+
+exports.Prisma.SlackCaptureConfigScalarFieldEnum = {
+  id: 'id',
+  signingSecret: 'signingSecret',
+  defaultProjectId: 'defaultProjectId',
+  enabled: 'enabled',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ProjectScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  budgetHours: 'budgetHours',
+  budgetAmount: 'budgetAmount',
+  hourlyRate: 'hourlyRate',
+  createdAt: 'createdAt',
+  portfolioId: 'portfolioId'
+};
+
+exports.Prisma.BaselineScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  name: 'name',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.BaselineTaskSnapshotScalarFieldEnum = {
+  id: 'id',
+  baselineId: 'baselineId',
+  taskId: 'taskId',
+  taskTitle: 'taskTitle',
+  dueDate: 'dueDate',
+  estimatedHours: 'estimatedHours',
+  statusCategory: 'statusCategory'
+};
+
+exports.Prisma.PortfolioScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.GoalScalarFieldEnum = {
+  id: 'id',
+  portfolioId: 'portfolioId',
+  name: 'name',
+  dueDate: 'dueDate',
+  status: 'status',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CycleScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  name: 'name',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.TransitionRuleScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  fromStatusId: 'fromStatusId',
+  toStatusId: 'toStatusId',
+  requiredFieldKeys: 'requiredFieldKeys',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SharedViewScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  token: 'token',
+  statusCategoryFilter: 'statusCategoryFilter',
+  expiresAt: 'expiresAt',
+  revokedAt: 'revokedAt',
+  createdById: 'createdById',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.WorkflowStatusScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  name: 'name',
+  category: 'category',
+  position: 'position',
+  isDefault: 'isDefault'
+};
+
+exports.Prisma.TaskScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  externalSourceUrl: 'externalSourceUrl',
+  statusId: 'statusId',
+  assigneeId: 'assigneeId',
+  parentTaskId: 'parentTaskId',
+  startDate: 'startDate',
+  dueDate: 'dueDate',
+  estimatedHours: 'estimatedHours',
+  hillPosition: 'hillPosition',
+  inTriage: 'inTriage',
+  cycleId: 'cycleId',
+  cycleAssignedAt: 'cycleAssignedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CommentScalarFieldEnum = {
+  id: 'id',
+  taskId: 'taskId',
+  authorId: 'authorId',
+  body: 'body',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.MentionScalarFieldEnum = {
+  id: 'id',
+  commentId: 'commentId',
+  userId: 'userId'
+};
+
+exports.Prisma.AttachmentScalarFieldEnum = {
+  id: 'id',
+  taskId: 'taskId',
+  uploadedById: 'uploadedById',
+  filename: 'filename',
+  mimeType: 'mimeType',
+  sizeBytes: 'sizeBytes',
+  storagePath: 'storagePath',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.WikiPageScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  title: 'title',
+  content: 'content',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TenantSettingsScalarFieldEnum = {
+  id: 'id',
+  allowProjectLevelTimeEntries: 'allowProjectLevelTimeEntries',
+  currency: 'currency',
+  triageEnabled: 'triageEnabled',
+  timeTrackingMode: 'timeTrackingMode',
+  require2fa: 'require2fa',
+  scimBearerToken: 'scimBearerToken',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PendingLoginScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.TimeEntryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  taskId: 'taskId',
+  projectId: 'projectId',
+  budgetSectionId: 'budgetSectionId',
+  amount: 'amount',
+  description: 'description',
+  startedAt: 'startedAt',
+  endedAt: 'endedAt',
+  durationMinutes: 'durationMinutes',
+  createdAt: 'createdAt',
+  invoiceId: 'invoiceId'
+};
+
+exports.Prisma.TaskProjectScalarFieldEnum = {
+  taskId: 'taskId',
+  projectId: 'projectId',
+  isPrimary: 'isPrimary'
+};
+
+exports.Prisma.TaskDependencyScalarFieldEnum = {
+  id: 'id',
+  blockingTaskId: 'blockingTaskId',
+  blockedTaskId: 'blockedTaskId'
+};
+
+exports.Prisma.TaskLinkScalarFieldEnum = {
+  id: 'id',
+  sourceTaskId: 'sourceTaskId',
+  targetTaskId: 'targetTaskId',
+  createdById: 'createdById',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CustomFieldDefScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  key: 'key',
+  label: 'label',
+  type: 'type',
+  options: 'options'
+};
+
+exports.Prisma.CustomFieldValueScalarFieldEnum = {
+  id: 'id',
+  fieldId: 'fieldId',
+  taskId: 'taskId',
+  value: 'value'
+};
+
+exports.Prisma.ActivityEventScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  actorId: 'actorId',
+  type: 'type',
+  summary: 'summary',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.NotificationPreferenceScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  projectId: 'projectId',
+  level: 'level'
+};
+
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  activityEventId: 'activityEventId',
+  readAt: 'readAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AutomationRuleScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  trigger: 'trigger',
+  conditionStatusCategory: 'conditionStatusCategory',
+  isEnabled: 'isEnabled',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AutomationActionScalarFieldEnum = {
+  id: 'id',
+  ruleId: 'ruleId',
+  type: 'type',
+  targetUserId: 'targetUserId',
+  position: 'position'
+};
+
+exports.Prisma.DashboardWidgetPreferenceScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  widgetType: 'widgetType',
+  enabled: 'enabled',
+  position: 'position'
+};
+
+exports.Prisma.WebhookEndpointScalarFieldEnum = {
+  id: 'id',
+  url: 'url',
+  secret: 'secret',
+  eventTypes: 'eventTypes',
+  enabled: 'enabled',
+  integrationTemplateKey: 'integrationTemplateKey',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ApiKeyScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  tokenHash: 'tokenHash',
+  tokenPrefix: 'tokenPrefix',
+  userId: 'userId',
+  lastUsedAt: 'lastUsedAt',
+  revokedAt: 'revokedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.WebhookDeliveryScalarFieldEnum = {
+  id: 'id',
+  endpointId: 'endpointId',
+  activityEventId: 'activityEventId',
+  attempt: 'attempt',
+  statusCode: 'statusCode',
+  errorMessage: 'errorMessage',
+  success: 'success',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CheckInScheduleScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  question: 'question',
+  recurrence: 'recurrence',
+  dayOfWeek: 'dayOfWeek',
+  enabled: 'enabled',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CheckInResponseScalarFieldEnum = {
+  id: 'id',
+  scheduleId: 'scheduleId',
+  userId: 'userId',
+  periodKey: 'periodKey',
+  answer: 'answer',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BudgetScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  title: 'title',
+  ownerId: 'ownerId',
+  isRetainer: 'isRetainer',
+  recurrenceInterval: 'recurrenceInterval',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BudgetSectionScalarFieldEnum = {
+  id: 'id',
+  budgetId: 'budgetId',
+  name: 'name',
+  budgetedTimeHours: 'budgetedTimeHours',
+  quantity: 'quantity',
+  price: 'price',
+  budgetUsed: 'budgetUsed',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InvoiceScalarFieldEnum = {
+  id: 'id',
+  budgetId: 'budgetId',
+  status: 'status',
+  periodStart: 'periodStart',
+  periodEnd: 'periodEnd',
+  totalAmount: 'totalAmount',
+  createdById: 'createdById',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.InvoiceLineItemScalarFieldEnum = {
+  id: 'id',
+  invoiceId: 'invoiceId',
+  budgetSectionId: 'budgetSectionId',
+  description: 'description',
+  quantityHours: 'quantityHours',
+  rate: 'rate',
+  amount: 'amount'
+};
+
+exports.Prisma.BudgetSectionAssigneeScalarFieldEnum = {
+  sectionId: 'sectionId',
+  userId: 'userId'
+};
+
+exports.Prisma.SortOrder = {
+  asc: 'asc',
+  desc: 'desc'
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+exports.Role = exports.$Enums.Role = {
+  owner: 'owner',
+  admin: 'admin',
+  member: 'member',
+  client: 'client'
+};
+
+exports.AbsenceType = exports.$Enums.AbsenceType = {
+  vacation: 'vacation',
+  sick: 'sick'
+};
+
+exports.AbsenceStatus = exports.$Enums.AbsenceStatus = {
+  pending: 'pending',
+  approved: 'approved',
+  rejected: 'rejected'
+};
+
+exports.StatusCategory = exports.$Enums.StatusCategory = {
+  not_started: 'not_started',
+  started: 'started',
+  done: 'done'
+};
+
+exports.GoalStatus = exports.$Enums.GoalStatus = {
+  on_track: 'on_track',
+  at_risk: 'at_risk',
+  off_track: 'off_track',
+  done: 'done'
+};
+
+exports.TimeTrackingMode = exports.$Enums.TimeTrackingMode = {
+  timer: 'timer',
+  entries: 'entries'
+};
+
+exports.CustomFieldType = exports.$Enums.CustomFieldType = {
+  text: 'text',
+  number: 'number',
+  select: 'select',
+  date: 'date'
+};
+
+exports.ActivityEventType = exports.$Enums.ActivityEventType = {
+  task_created: 'task_created',
+  task_status_changed: 'task_status_changed',
+  comment_added: 'comment_added',
+  attachment_added: 'attachment_added',
+  wiki_page_created: 'wiki_page_created',
+  wiki_page_updated: 'wiki_page_updated'
+};
+
+exports.NotificationLevel = exports.$Enums.NotificationLevel = {
+  all: 'all',
+  mentions: 'mentions',
+  off: 'off'
+};
+
+exports.AutomationTrigger = exports.$Enums.AutomationTrigger = {
+  task_created: 'task_created',
+  task_status_changed: 'task_status_changed'
+};
+
+exports.AutomationActionType = exports.$Enums.AutomationActionType = {
+  assign_user: 'assign_user',
+  notify_user: 'notify_user'
+};
+
+exports.CheckInRecurrence = exports.$Enums.CheckInRecurrence = {
+  daily: 'daily',
+  weekly: 'weekly'
+};
+
+exports.RecurrenceInterval = exports.$Enums.RecurrenceInterval = {
+  weekly: 'weekly',
+  monthly: 'monthly'
+};
+
+exports.InvoiceStatus = exports.$Enums.InvoiceStatus = {
+  draft: 'draft',
+  sent: 'sent',
+  paid: 'paid'
+};
 
 exports.Prisma.ModelName = {
-
+  User: 'User',
+  CustomRole: 'CustomRole',
+  ProjectRoleOverride: 'ProjectRoleOverride',
+  AbsenceRequest: 'AbsenceRequest',
+  Session: 'Session',
+  Invite: 'Invite',
+  ProjectClientAccess: 'ProjectClientAccess',
+  Team: 'Team',
+  TeamMember: 'TeamMember',
+  SlackCaptureConfig: 'SlackCaptureConfig',
+  Project: 'Project',
+  Baseline: 'Baseline',
+  BaselineTaskSnapshot: 'BaselineTaskSnapshot',
+  Portfolio: 'Portfolio',
+  Goal: 'Goal',
+  Cycle: 'Cycle',
+  TransitionRule: 'TransitionRule',
+  SharedView: 'SharedView',
+  WorkflowStatus: 'WorkflowStatus',
+  Task: 'Task',
+  Comment: 'Comment',
+  Mention: 'Mention',
+  Attachment: 'Attachment',
+  WikiPage: 'WikiPage',
+  TenantSettings: 'TenantSettings',
+  PendingLogin: 'PendingLogin',
+  TimeEntry: 'TimeEntry',
+  TaskProject: 'TaskProject',
+  TaskDependency: 'TaskDependency',
+  TaskLink: 'TaskLink',
+  CustomFieldDef: 'CustomFieldDef',
+  CustomFieldValue: 'CustomFieldValue',
+  ActivityEvent: 'ActivityEvent',
+  NotificationPreference: 'NotificationPreference',
+  Notification: 'Notification',
+  AutomationRule: 'AutomationRule',
+  AutomationAction: 'AutomationAction',
+  DashboardWidgetPreference: 'DashboardWidgetPreference',
+  WebhookEndpoint: 'WebhookEndpoint',
+  ApiKey: 'ApiKey',
+  WebhookDelivery: 'WebhookDelivery',
+  CheckInSchedule: 'CheckInSchedule',
+  CheckInResponse: 'CheckInResponse',
+  Budget: 'Budget',
+  BudgetSection: 'BudgetSection',
+  Invoice: 'Invoice',
+  InvoiceLineItem: 'InvoiceLineItem',
+  BudgetSectionAssignee: 'BudgetSectionAssignee'
 };
 
 /**

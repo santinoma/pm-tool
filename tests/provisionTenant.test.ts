@@ -3,6 +3,7 @@ import { Client } from "pg";
 import { platformDb } from "../src/platform/db";
 import { provisionTenant } from "../src/platform/provisionTenant";
 import { getTenantBySubdomain } from "../src/platform/tenantRegistry";
+import { getTenantDbClient } from "../src/tenant/tenantDb";
 
 const createdSubdomains: string[] = [];
 
@@ -42,7 +43,11 @@ describe("provisionTenant", () => {
     const subdomain = `it-${Date.now()}`;
     createdSubdomains.push(subdomain);
 
-    const result = await provisionTenant({ name: "Integrationstest Kunde", subdomain });
+    const result = await provisionTenant({
+      name: "Integrationstest Kunde",
+      subdomain,
+      ownerEmail: "owner@example.com",
+    });
 
     expect(result.status).toBe("active");
 
@@ -53,23 +58,59 @@ describe("provisionTenant", () => {
     expect(record?.status).toBe("active");
   }, 30000);
 
+  it("creates an owner invite in the new tenant database and returns its link", async () => {
+    const subdomain = `it-invite-${Date.now()}`;
+    createdSubdomains.push(subdomain);
+
+    const result = await provisionTenant({
+      name: "Invite Kunde",
+      subdomain,
+      ownerEmail: "owner@example.com",
+    });
+
+    expect(result.inviteUrl).toContain(`${subdomain}.localhost/accept-invite/`);
+
+    const record = await getTenantBySubdomain(subdomain);
+    const tenantDb = getTenantDbClient(record!.dbUrl);
+    const invites = await tenantDb.invite.findMany();
+
+    expect(invites).toHaveLength(1);
+    expect(invites[0].email).toBe("owner@example.com");
+    expect(invites[0].role).toBe("owner");
+  }, 30000);
+
   it("rejects a duplicate subdomain without creating a second database", async () => {
     const subdomain = `it-dup-${Date.now()}`;
     createdSubdomains.push(subdomain);
 
-    await provisionTenant({ name: "Erster Kunde", subdomain });
+    await provisionTenant({ name: "Erster Kunde", subdomain, ownerEmail: "owner@example.com" });
 
-    await expect(provisionTenant({ name: "Zweiter Kunde", subdomain })).rejects.toThrow(
-      /bereits vergeben/,
-    );
+    await expect(
+      provisionTenant({ name: "Zweiter Kunde", subdomain, ownerEmail: "owner2@example.com" }),
+    ).rejects.toThrow(/bereits vergeben/);
   }, 30000);
 
   it("rejects an invalid subdomain before touching the database", async () => {
     await expect(
-      provisionTenant({ name: "Ungültig", subdomain: "NOT_VALID!" }),
+      provisionTenant({
+        name: "Ungültig",
+        subdomain: "NOT_VALID!",
+        ownerEmail: "owner@example.com",
+      }),
     ).rejects.toThrow();
 
     const record = await getTenantBySubdomain("NOT_VALID!");
+    expect(record).toBeNull();
+  });
+
+  it("rejects an invalid owner email before touching the database", async () => {
+    const subdomain = `it-bademail-${Date.now()}`;
+
+    await expect(
+      provisionTenant({ name: "Kunde", subdomain, ownerEmail: "not-an-email" }),
+    ).rejects.toThrow(/E-Mail/);
+
+    const record = await getTenantBySubdomain(subdomain);
     expect(record).toBeNull();
   });
 });

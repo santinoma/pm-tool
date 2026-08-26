@@ -125,6 +125,9 @@ exports.Prisma.TenantScalarFieldEnum = {
   name: 'name',
   subdomain: 'subdomain',
   status: 'status',
+  tier: 'tier',
+  plan: 'plan',
+  addOnFeatures: 'addOnFeatures',
   dbUrl: 'dbUrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -142,7 +145,19 @@ exports.Prisma.QueryMode = {
 exports.TenantStatus = exports.$Enums.TenantStatus = {
   provisioning: 'provisioning',
   active: 'active',
+  disabled: 'disabled',
   failed: 'failed'
+};
+
+exports.TenantTier = exports.$Enums.TenantTier = {
+  shared: 'shared',
+  dedicated: 'dedicated'
+};
+
+exports.TenantPlan = exports.$Enums.TenantPlan = {
+  small: 'small',
+  medium: 'medium',
+  enterprise: 'enterprise'
 };
 
 exports.Prisma.ModelName = {

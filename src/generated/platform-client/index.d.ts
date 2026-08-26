@@ -26,16 +26,42 @@ export namespace $Enums {
   export const TenantStatus: {
   provisioning: 'provisioning',
   active: 'active',
+  disabled: 'disabled',
   failed: 'failed'
 };
 
 export type TenantStatus = (typeof TenantStatus)[keyof typeof TenantStatus]
+
+
+export const TenantTier: {
+  shared: 'shared',
+  dedicated: 'dedicated'
+};
+
+export type TenantTier = (typeof TenantTier)[keyof typeof TenantTier]
+
+
+export const TenantPlan: {
+  small: 'small',
+  medium: 'medium',
+  enterprise: 'enterprise'
+};
+
+export type TenantPlan = (typeof TenantPlan)[keyof typeof TenantPlan]
 
 }
 
 export type TenantStatus = $Enums.TenantStatus
 
 export const TenantStatus: typeof $Enums.TenantStatus
+
+export type TenantTier = $Enums.TenantTier
+
+export const TenantTier: typeof $Enums.TenantTier
+
+export type TenantPlan = $Enums.TenantPlan
+
+export const TenantPlan: typeof $Enums.TenantPlan
 
 /**
  * ##  Prisma Client ʲˢ
@@ -927,6 +953,8 @@ export namespace Prisma {
     name: string | null
     subdomain: string | null
     status: $Enums.TenantStatus | null
+    tier: $Enums.TenantTier | null
+    plan: $Enums.TenantPlan | null
     dbUrl: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -937,6 +965,8 @@ export namespace Prisma {
     name: string | null
     subdomain: string | null
     status: $Enums.TenantStatus | null
+    tier: $Enums.TenantTier | null
+    plan: $Enums.TenantPlan | null
     dbUrl: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -947,6 +977,9 @@ export namespace Prisma {
     name: number
     subdomain: number
     status: number
+    tier: number
+    plan: number
+    addOnFeatures: number
     dbUrl: number
     createdAt: number
     updatedAt: number
@@ -959,6 +992,8 @@ export namespace Prisma {
     name?: true
     subdomain?: true
     status?: true
+    tier?: true
+    plan?: true
     dbUrl?: true
     createdAt?: true
     updatedAt?: true
@@ -969,6 +1004,8 @@ export namespace Prisma {
     name?: true
     subdomain?: true
     status?: true
+    tier?: true
+    plan?: true
     dbUrl?: true
     createdAt?: true
     updatedAt?: true
@@ -979,6 +1016,9 @@ export namespace Prisma {
     name?: true
     subdomain?: true
     status?: true
+    tier?: true
+    plan?: true
+    addOnFeatures?: true
     dbUrl?: true
     createdAt?: true
     updatedAt?: true
@@ -1062,6 +1102,9 @@ export namespace Prisma {
     name: string
     subdomain: string
     status: $Enums.TenantStatus
+    tier: $Enums.TenantTier
+    plan: $Enums.TenantPlan
+    addOnFeatures: string[]
     dbUrl: string
     createdAt: Date
     updatedAt: Date
@@ -1089,6 +1132,9 @@ export namespace Prisma {
     name?: boolean
     subdomain?: boolean
     status?: boolean
+    tier?: boolean
+    plan?: boolean
+    addOnFeatures?: boolean
     dbUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1099,6 +1145,9 @@ export namespace Prisma {
     name?: boolean
     subdomain?: boolean
     status?: boolean
+    tier?: boolean
+    plan?: boolean
+    addOnFeatures?: boolean
     dbUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1109,6 +1158,9 @@ export namespace Prisma {
     name?: boolean
     subdomain?: boolean
     status?: boolean
+    tier?: boolean
+    plan?: boolean
+    addOnFeatures?: boolean
     dbUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1119,12 +1171,15 @@ export namespace Prisma {
     name?: boolean
     subdomain?: boolean
     status?: boolean
+    tier?: boolean
+    plan?: boolean
+    addOnFeatures?: boolean
     dbUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TenantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "subdomain" | "status" | "dbUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
+  export type TenantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "subdomain" | "status" | "tier" | "plan" | "addOnFeatures" | "dbUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
 
   export type $TenantPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Tenant"
@@ -1134,6 +1189,9 @@ export namespace Prisma {
       name: string
       subdomain: string
       status: $Enums.TenantStatus
+      tier: $Enums.TenantTier
+      plan: $Enums.TenantPlan
+      addOnFeatures: string[]
       dbUrl: string
       createdAt: Date
       updatedAt: Date
@@ -1564,6 +1622,9 @@ export namespace Prisma {
     readonly name: FieldRef<"Tenant", 'String'>
     readonly subdomain: FieldRef<"Tenant", 'String'>
     readonly status: FieldRef<"Tenant", 'TenantStatus'>
+    readonly tier: FieldRef<"Tenant", 'TenantTier'>
+    readonly plan: FieldRef<"Tenant", 'TenantPlan'>
+    readonly addOnFeatures: FieldRef<"Tenant", 'String[]'>
     readonly dbUrl: FieldRef<"Tenant", 'String'>
     readonly createdAt: FieldRef<"Tenant", 'DateTime'>
     readonly updatedAt: FieldRef<"Tenant", 'DateTime'>
@@ -1957,6 +2018,9 @@ export namespace Prisma {
     name: 'name',
     subdomain: 'subdomain',
     status: 'status',
+    tier: 'tier',
+    plan: 'plan',
+    addOnFeatures: 'addOnFeatures',
     dbUrl: 'dbUrl',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -2015,6 +2079,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'TenantTier'
+   */
+  export type EnumTenantTierFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TenantTier'>
+    
+
+
+  /**
+   * Reference to a field of type 'TenantTier[]'
+   */
+  export type ListEnumTenantTierFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TenantTier[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'TenantPlan'
+   */
+  export type EnumTenantPlanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TenantPlan'>
+    
+
+
+  /**
+   * Reference to a field of type 'TenantPlan[]'
+   */
+  export type ListEnumTenantPlanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TenantPlan[]'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -2053,6 +2145,9 @@ export namespace Prisma {
     name?: StringFilter<"Tenant"> | string
     subdomain?: StringFilter<"Tenant"> | string
     status?: EnumTenantStatusFilter<"Tenant"> | $Enums.TenantStatus
+    tier?: EnumTenantTierFilter<"Tenant"> | $Enums.TenantTier
+    plan?: EnumTenantPlanFilter<"Tenant"> | $Enums.TenantPlan
+    addOnFeatures?: StringNullableListFilter<"Tenant">
     dbUrl?: StringFilter<"Tenant"> | string
     createdAt?: DateTimeFilter<"Tenant"> | Date | string
     updatedAt?: DateTimeFilter<"Tenant"> | Date | string
@@ -2063,6 +2158,9 @@ export namespace Prisma {
     name?: SortOrder
     subdomain?: SortOrder
     status?: SortOrder
+    tier?: SortOrder
+    plan?: SortOrder
+    addOnFeatures?: SortOrder
     dbUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -2076,6 +2174,9 @@ export namespace Prisma {
     NOT?: TenantWhereInput | TenantWhereInput[]
     name?: StringFilter<"Tenant"> | string
     status?: EnumTenantStatusFilter<"Tenant"> | $Enums.TenantStatus
+    tier?: EnumTenantTierFilter<"Tenant"> | $Enums.TenantTier
+    plan?: EnumTenantPlanFilter<"Tenant"> | $Enums.TenantPlan
+    addOnFeatures?: StringNullableListFilter<"Tenant">
     dbUrl?: StringFilter<"Tenant"> | string
     createdAt?: DateTimeFilter<"Tenant"> | Date | string
     updatedAt?: DateTimeFilter<"Tenant"> | Date | string
@@ -2086,6 +2187,9 @@ export namespace Prisma {
     name?: SortOrder
     subdomain?: SortOrder
     status?: SortOrder
+    tier?: SortOrder
+    plan?: SortOrder
+    addOnFeatures?: SortOrder
     dbUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -2102,6 +2206,9 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Tenant"> | string
     subdomain?: StringWithAggregatesFilter<"Tenant"> | string
     status?: EnumTenantStatusWithAggregatesFilter<"Tenant"> | $Enums.TenantStatus
+    tier?: EnumTenantTierWithAggregatesFilter<"Tenant"> | $Enums.TenantTier
+    plan?: EnumTenantPlanWithAggregatesFilter<"Tenant"> | $Enums.TenantPlan
+    addOnFeatures?: StringNullableListFilter<"Tenant">
     dbUrl?: StringWithAggregatesFilter<"Tenant"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Tenant"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Tenant"> | Date | string
@@ -2112,6 +2219,9 @@ export namespace Prisma {
     name: string
     subdomain: string
     status?: $Enums.TenantStatus
+    tier?: $Enums.TenantTier
+    plan?: $Enums.TenantPlan
+    addOnFeatures?: TenantCreateaddOnFeaturesInput | string[]
     dbUrl: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -2122,6 +2232,9 @@ export namespace Prisma {
     name: string
     subdomain: string
     status?: $Enums.TenantStatus
+    tier?: $Enums.TenantTier
+    plan?: $Enums.TenantPlan
+    addOnFeatures?: TenantCreateaddOnFeaturesInput | string[]
     dbUrl: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -2132,6 +2245,9 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     subdomain?: StringFieldUpdateOperationsInput | string
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    tier?: EnumTenantTierFieldUpdateOperationsInput | $Enums.TenantTier
+    plan?: EnumTenantPlanFieldUpdateOperationsInput | $Enums.TenantPlan
+    addOnFeatures?: TenantUpdateaddOnFeaturesInput | string[]
     dbUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2142,6 +2258,9 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     subdomain?: StringFieldUpdateOperationsInput | string
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    tier?: EnumTenantTierFieldUpdateOperationsInput | $Enums.TenantTier
+    plan?: EnumTenantPlanFieldUpdateOperationsInput | $Enums.TenantPlan
+    addOnFeatures?: TenantUpdateaddOnFeaturesInput | string[]
     dbUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2152,6 +2271,9 @@ export namespace Prisma {
     name: string
     subdomain: string
     status?: $Enums.TenantStatus
+    tier?: $Enums.TenantTier
+    plan?: $Enums.TenantPlan
+    addOnFeatures?: TenantCreateaddOnFeaturesInput | string[]
     dbUrl: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -2162,6 +2284,9 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     subdomain?: StringFieldUpdateOperationsInput | string
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    tier?: EnumTenantTierFieldUpdateOperationsInput | $Enums.TenantTier
+    plan?: EnumTenantPlanFieldUpdateOperationsInput | $Enums.TenantPlan
+    addOnFeatures?: TenantUpdateaddOnFeaturesInput | string[]
     dbUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2172,6 +2297,9 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     subdomain?: StringFieldUpdateOperationsInput | string
     status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    tier?: EnumTenantTierFieldUpdateOperationsInput | $Enums.TenantTier
+    plan?: EnumTenantPlanFieldUpdateOperationsInput | $Enums.TenantPlan
+    addOnFeatures?: TenantUpdateaddOnFeaturesInput | string[]
     dbUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2199,6 +2327,28 @@ export namespace Prisma {
     not?: NestedEnumTenantStatusFilter<$PrismaModel> | $Enums.TenantStatus
   }
 
+  export type EnumTenantTierFilter<$PrismaModel = never> = {
+    equals?: $Enums.TenantTier | EnumTenantTierFieldRefInput<$PrismaModel>
+    in?: $Enums.TenantTier[] | ListEnumTenantTierFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TenantTier[] | ListEnumTenantTierFieldRefInput<$PrismaModel>
+    not?: NestedEnumTenantTierFilter<$PrismaModel> | $Enums.TenantTier
+  }
+
+  export type EnumTenantPlanFilter<$PrismaModel = never> = {
+    equals?: $Enums.TenantPlan | EnumTenantPlanFieldRefInput<$PrismaModel>
+    in?: $Enums.TenantPlan[] | ListEnumTenantPlanFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TenantPlan[] | ListEnumTenantPlanFieldRefInput<$PrismaModel>
+    not?: NestedEnumTenantPlanFilter<$PrismaModel> | $Enums.TenantPlan
+  }
+
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -2215,6 +2365,9 @@ export namespace Prisma {
     name?: SortOrder
     subdomain?: SortOrder
     status?: SortOrder
+    tier?: SortOrder
+    plan?: SortOrder
+    addOnFeatures?: SortOrder
     dbUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -2225,6 +2378,8 @@ export namespace Prisma {
     name?: SortOrder
     subdomain?: SortOrder
     status?: SortOrder
+    tier?: SortOrder
+    plan?: SortOrder
     dbUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -2235,6 +2390,8 @@ export namespace Prisma {
     name?: SortOrder
     subdomain?: SortOrder
     status?: SortOrder
+    tier?: SortOrder
+    plan?: SortOrder
     dbUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -2268,6 +2425,26 @@ export namespace Prisma {
     _max?: NestedEnumTenantStatusFilter<$PrismaModel>
   }
 
+  export type EnumTenantTierWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TenantTier | EnumTenantTierFieldRefInput<$PrismaModel>
+    in?: $Enums.TenantTier[] | ListEnumTenantTierFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TenantTier[] | ListEnumTenantTierFieldRefInput<$PrismaModel>
+    not?: NestedEnumTenantTierWithAggregatesFilter<$PrismaModel> | $Enums.TenantTier
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTenantTierFilter<$PrismaModel>
+    _max?: NestedEnumTenantTierFilter<$PrismaModel>
+  }
+
+  export type EnumTenantPlanWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TenantPlan | EnumTenantPlanFieldRefInput<$PrismaModel>
+    in?: $Enums.TenantPlan[] | ListEnumTenantPlanFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TenantPlan[] | ListEnumTenantPlanFieldRefInput<$PrismaModel>
+    not?: NestedEnumTenantPlanWithAggregatesFilter<$PrismaModel> | $Enums.TenantPlan
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTenantPlanFilter<$PrismaModel>
+    _max?: NestedEnumTenantPlanFilter<$PrismaModel>
+  }
+
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -2282,12 +2459,29 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type TenantCreateaddOnFeaturesInput = {
+    set: string[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
 
   export type EnumTenantStatusFieldUpdateOperationsInput = {
     set?: $Enums.TenantStatus
+  }
+
+  export type EnumTenantTierFieldUpdateOperationsInput = {
+    set?: $Enums.TenantTier
+  }
+
+  export type EnumTenantPlanFieldUpdateOperationsInput = {
+    set?: $Enums.TenantPlan
+  }
+
+  export type TenantUpdateaddOnFeaturesInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -2313,6 +2507,20 @@ export namespace Prisma {
     in?: $Enums.TenantStatus[] | ListEnumTenantStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.TenantStatus[] | ListEnumTenantStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumTenantStatusFilter<$PrismaModel> | $Enums.TenantStatus
+  }
+
+  export type NestedEnumTenantTierFilter<$PrismaModel = never> = {
+    equals?: $Enums.TenantTier | EnumTenantTierFieldRefInput<$PrismaModel>
+    in?: $Enums.TenantTier[] | ListEnumTenantTierFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TenantTier[] | ListEnumTenantTierFieldRefInput<$PrismaModel>
+    not?: NestedEnumTenantTierFilter<$PrismaModel> | $Enums.TenantTier
+  }
+
+  export type NestedEnumTenantPlanFilter<$PrismaModel = never> = {
+    equals?: $Enums.TenantPlan | EnumTenantPlanFieldRefInput<$PrismaModel>
+    in?: $Enums.TenantPlan[] | ListEnumTenantPlanFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TenantPlan[] | ListEnumTenantPlanFieldRefInput<$PrismaModel>
+    not?: NestedEnumTenantPlanFilter<$PrismaModel> | $Enums.TenantPlan
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -2362,6 +2570,26 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTenantStatusFilter<$PrismaModel>
     _max?: NestedEnumTenantStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumTenantTierWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TenantTier | EnumTenantTierFieldRefInput<$PrismaModel>
+    in?: $Enums.TenantTier[] | ListEnumTenantTierFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TenantTier[] | ListEnumTenantTierFieldRefInput<$PrismaModel>
+    not?: NestedEnumTenantTierWithAggregatesFilter<$PrismaModel> | $Enums.TenantTier
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTenantTierFilter<$PrismaModel>
+    _max?: NestedEnumTenantTierFilter<$PrismaModel>
+  }
+
+  export type NestedEnumTenantPlanWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TenantPlan | EnumTenantPlanFieldRefInput<$PrismaModel>
+    in?: $Enums.TenantPlan[] | ListEnumTenantPlanFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TenantPlan[] | ListEnumTenantPlanFieldRefInput<$PrismaModel>
+    not?: NestedEnumTenantPlanWithAggregatesFilter<$PrismaModel> | $Enums.TenantPlan
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTenantPlanFilter<$PrismaModel>
+    _max?: NestedEnumTenantPlanFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {

@@ -1,4 +1,4 @@
-# Capability Map: PM-Tool v1
+# Capability Map: PM-Tool v0.1
 
 Basierend auf Recherche zu Productive.io, OpenProject, Asana, ClickUp, Monday.com, Basecamp, Jira, Wrike, Smartsheet, Notion, Teamwork, Linear. Tech-Stack: Next.js + PostgreSQL + Prisma. Chat/Messaging bewusst nicht in v1.
 
@@ -13,7 +13,7 @@ Die Recherche zeigt einen klaren Gegensatz: Jira/Wrike/Smartsheet sind mächtig,
 - **v1 startet einheitlich** (alle Tenants: eigene DB, gemeinsamer DB-Server, gemeinsame App). Gestufte/dedizierte Infrastruktur für Enterprise-Tenants ist explizit **v2+**
 - **Infrastruktur-Empfehlung (offen, von mir vorgeschlagen):** Self-hosted auf einem VPS (z.B. Hetzner Cloud) mit Docker Compose: ein Postgres-Server-Container (viele Datenbanken drauf), ein Next.js-App-Container, ein Reverse-Proxy (Traefik/Caddy) für automatisches Subdomain-Routing + TLS. Cloud-agnostisch gehalten, damit später ein Wechsel zu AWS/GCP/Hetzner-Managed-DB möglich ist, ohne die Anwendungsarchitektur zu ändern
 
-## v1-Kernmodule (Build-Reihenfolge)
+## v0.1-Kernmodule (Build-Reihenfolge)
 
 | Module id | Verantwortlichkeit | Abhängig von |
 |---|---|---|
@@ -30,12 +30,12 @@ Die Recherche zeigt einen klaren Gegensatz: Jira/Wrike/Smartsheet sind mächtig,
 
 Build order: `tenant-provisioning` → `identity-org` → `projects-tasks` → (`time-tracking`, `collaboration`) → (`budgeting-basic`, `resource-planning-basic`, `notifications`) → `reporting-dashboards` → `admin-settings`
 
-## v1-Extras (bereits vom Menschen ausgewählt)
+## v0.1-Extras (bereits vom Menschen ausgewählt)
 - `webhooks` — Ausgehende Webhooks bei Events (Task erstellt/erledigt etc.)
 - `hill-charts` — Basecamp-Konzept: qualitativer Fortschritt (bergauf/bergab) statt nur %-Fertig
 - `automatic-check-ins` — Wiederkehrende, automatisch gestellte Status-Fragen, Antworten landen als Log
 
-## Spätere Versionen (bewusst nicht in v1)
+## Spätere Versionen (bewusst nicht in v0.1)
 
 | Module id | Warum später |
 |---|---|
@@ -86,3 +86,107 @@ Beide Runden abgeschlossen (12 Produkte). Ergebnis ist vollständig in diese Map
 - [ ] `reporting-dashboards` — Spec
 - [ ] `hill-charts` — Spec
 - [ ] `automatic-check-ins` — Spec
+
+## Capability Map: v0.2
+
+Feature-Bundle vom Menschen angefordert (Projekt-Navigation, Budgets pro
+Projekt mit Sections/Services, zwei Zeiterfassungs-Modi, Abwesenheiten,
+Firmen-Zeitübersicht, Settings-Restrukturierung), plus ein direkt danach
+angefordertes Redesign (Apple-HIG-Look app-weit) und zwei Nachzügler-Features
+(Tenant-Löschung im Platform-Admin, Nav-Dropdowns + Profilbilder).
+
+| Module id | Verantwortlichkeit | Abhängig von |
+|---|---|---|
+| `projects-nav-v2` | Aufteilung "Meine Tasks"/"Projekte" in der Navigation, Task-Anlage direkt im Projekt, Tenant-weiter Triage-Ein/Aus-Schalter | `projects-tasks` |
+| `budgeting-v2` | Mehrere Budgets pro Projekt, Sections/Services mit Personen-Zuordnung, Menge/Preis/Ist/Rest/Nutzung% | `budgeting-basic` |
+| `time-tracking-v2` | Tenant-weite Wahl zwischen Zeituhr und Zeiteintragungen; Zeiteintragungen sind an eine Budget-Section (inkl. Stundensatz) gebunden und erhöhen `budgetUsed` transaktional | `budgeting-v2`, `time-tracking` |
+| `absence-management` | Urlaub/Krankheit beantragen, Admin-Genehmigung, genehmigte Werktage zählen als Soll-Stunden erfüllt | `identity-org` |
+| `company-time-overview` | Wochenübersicht gebuchter Stunden je Mitglied für Admins, Tages-Drilldown im Zeiteintragungs-Modus | `time-tracking-v2`, `absence-management` |
+| `settings-restructure` | Settings-Hub in My Settings/Organization/Users gruppiert; die meisten Unterpunkte sind v0.2 bewusst Platzhalter | `admin-settings` |
+| `apple-design-migration` | Design-System app-weit auf Apple-HIG-Optik umgestellt (Farb-/Radius-/Schatten-Tokens, Top-Nav statt Sidebar) | — |
+| `tenant-deletion` | Tenant im Platform-Admin löschen (DB droppen, Registry-Eintrag entfernen) | `tenant-provisioning` |
+| `nav-dropdowns-profile` | Top-Nav zu Dropdowns verdichtet (Projekte-Hover-Menü, Konto-Dropdown hinter Avatar), Profilbild-Upload/Presets | `apple-design-migration` |
+
+Build order: `projects-nav-v2` → `budgeting-v2` → `time-tracking-v2` → `absence-management` → `company-time-overview` → `settings-restructure` → (`apple-design-migration` → `tenant-deletion` → `nav-dropdowns-profile`, unabhängig von den fachlichen Modulen oben)
+
+### Status
+- [x] `projects-nav-v2` — implementiert, Docker-verifiziert
+- [x] `budgeting-v2` — implementiert, Docker-verifiziert
+- [x] `time-tracking-v2` — implementiert, Docker-verifiziert
+- [x] `absence-management` — implementiert, Docker-verifiziert
+- [x] `company-time-overview` — implementiert, Docker-verifiziert
+- [x] `settings-restructure` — implementiert; **acht Unterseiten sind bewusste Platzhalter** (siehe unten)
+- [x] `apple-design-migration` — implementiert, Docker-verifiziert
+- [x] `tenant-deletion` — implementiert, Docker-verifiziert
+- [x] `nav-dropdowns-profile` — implementiert, Docker-verifiziert (inkl. Bugfix: Dropdown wurde durch `overflow-x` auf dem Nav-Container geclippt)
+
+### Offene Platzhalter aus `settings-restructure`
+Diese acht Seiten zeigen aktuell nur einen Hinweistext ohne echte Funktion.
+Keine ist Teil eines bestehenden Moduls — jede wäre ein eigenständiges
+Mini-Capability, falls gewünscht:
+
+| Seite | Würde bedeuten |
+|---|---|
+| My Settings → Notifications | UI für das bereits bestehende `NotificationPreference`-Modell (aktuell nur API, keine Einstellungsseite) |
+| My Settings → Security | Passwort ändern, aktive Sessions einsehen/beenden |
+| My Settings → Appearance | Theme-Auswahl (aktuell nur System-Dark-Mode via `prefers-color-scheme`) |
+| Organization → Service types | Eigenes Datenmodell für benannte Leistungstypen (aktuell sind Budget-Section-Namen Freitext) |
+| Organization → Recycle bin | Soft-Delete + Wiederherstellung (aktuell werden z. B. Tasks hart gelöscht) |
+| Organization → Workflows | UI zum Bearbeiten der Workflow-Status-Gruppen (Status-Modell existiert bereits pro Projekt, aber keine Verwaltungsseite) |
+| Organization → Automations | No-Code Trigger→Aktion-Engine — deckungsgleich mit `automation-rules` aus den "Späteren Versionen" |
+| Users → Employee fields | Konfigurierbare Personaldaten-Felder pro Tenant |
+
+## Capability Map: v0.2 ("Spätere Versionen" — Build-Reihenfolge freigegeben)
+
+Mit dem Menschen abgestimmte Reihenfolge für die v0.1-"Spätere Versionen"-Liste.
+`cross-tagging` ist bereits in v0.1 umgesetzt (many-to-many Task↔Projekt im
+Datenmodell) und entfällt daher hier. Jedes Modul durchläuft
+Specify → Plan → Tasks → Implement einzeln, in dieser Reihenfolge:
+
+1. `automation-rules` — füllt zugleich den Settings-Platzhalter "Automations"
+2. `workflow-transition-rules`
+3. `invoicing-profitability`
+4. `cycles-sprints` + `cycle-insights`
+5. `retainer-tracking` — baut auf `invoicing-profitability` auf
+6. `client-portal`
+7. `dynamic-shared-views`
+8. `cross-board-relations`
+9. `search-modifiers`
+10. `sso-scim`
+11. `integrations-marketplace`
+12. `chat-messaging`
+13. `tiered-tenant-infra`
+14. `slack-to-issue-capture`
+15. `whiteboards`, `portfolios-goals`, `baseline-diffing`
+
+**Map final freigegeben** — Start mit `automation-rules`.
+
+### Status
+- [x] `automation-rules` — implementiert, Docker-verifiziert (füllt zugleich den Settings-Platzhalter "Automations")
+- [x] `workflow-transition-rules` — implementiert, Docker-verifiziert
+- [x] `invoicing-profitability` — implementiert, Docker-verifiziert
+- [x] `cycles-sprints` + `cycle-insights` — implementiert, Docker-verifiziert
+- [x] `retainer-tracking` — implementiert, Docker-verifiziert
+- [x] `client-portal` — implementiert, Docker-verifiziert
+- [x] `dynamic-shared-views` — implementiert, Docker-verifiziert
+- [x] `cross-board-relations` — implementiert, Docker-verifiziert
+- [x] `search-modifiers` — implementiert, API Docker-verifiziert (UI-Toggle mangels Browser-Zugriff nicht visuell testbar)
+- [x] `sso-scim` — Scope: 2FA + SCIM implementiert, Docker-verifiziert; SSO (OIDC) bewusst nicht gebaut (braucht echten externen IdP zum Testen)
+- [x] `integrations-marketplace` — implementiert, Docker-verifiziert
+- [ ] `chat-messaging`
+- [x] `tiered-tenant-infra` — Mechanik implementiert, Docker-verifiziert (echte Multi-Server-Trennung nicht testbar, nur 1 Postgres-Container vorhanden)
+- [x] `slack-to-issue-capture` — implemented, Docker-verified (2FA-analoge HMAC-Signaturprüfung, echter Slack-Workspace nicht verfügbar — siehe Hinweis in tasks/todo-slack-to-issue-capture.md)
+- [x] `portfolios-goals` — implemented, Docker-verified (Fortschritt live aus Task-Abschlussgrad berechnet)
+- [x] `baseline-diffing` — implemented, Docker-verified (unveränderliche Snapshots, live berechneter Diff)
+
+**v0.2-Roadmap vollständig abgearbeitet** (15/15 Module, `whiteboards` bewusst gestrichen).
+- Gestrichen: `whiteboards` (Nutzerentscheidung — Freihand-Canvas/Echtzeit-Sync in dieser Umgebung nicht sinnvoll umsetzbar/testbar)
+
+## Post-v0.2: Tenant-Lizenzierung
+
+- [x] `tenant-plans-entitlements` — implementiert, Docker-verifiziert. Drei Pläne
+  (Klein/Mittelstand/Enterprise) mit unterschiedlichem Feature-Umfang, plus
+  optionales 2FA/SCIM-Add-on für Klein. Durchsetzung zentral in `proxy.ts`
+  (Nav ausgeblendet + API 403). Tenants sind zusätzlich zum Löschen jetzt auch
+  deaktivierbar (Status `disabled`, Daten bleiben erhalten). Details:
+  `SPEC-tenant-plans-entitlements.md`, `tasks/todo-tenant-plans-entitlements.md`.

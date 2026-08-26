@@ -10,15 +10,30 @@ datasource db {
 enum TenantStatus {
   provisioning
   active
+  disabled
   failed
 }
 
+enum TenantTier {
+  shared
+  dedicated
+}
+
+enum TenantPlan {
+  small
+  medium
+  enterprise
+}
+
 model Tenant {
-  id        String       @id @default(uuid())
-  name      String
-  subdomain String       @unique
-  status    TenantStatus @default(provisioning)
-  dbUrl     String
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
+  id             String       @id @default(uuid())
+  name           String
+  subdomain      String       @unique
+  status         TenantStatus @default(provisioning)
+  tier           TenantTier   @default(shared)
+  plan           TenantPlan   @default(small)
+  addOnFeatures  String[]     @default([])
+  dbUrl          String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 }
