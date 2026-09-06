@@ -51,6 +51,7 @@ import {
 import { Sheet, SheetContent, SheetTitle } from "@/ui/shadcn/components/sheet";
 import { ThemeToggle } from "@/ui/shadcn/components/theme-toggle";
 import { cn } from "@/ui/shadcn/lib/utils";
+import { Logo } from "@/ui/nextelite/Logo";
 import { canManageMembers, type RoleName } from "@/tenant/auth/roleGuard";
 import { t, type Locale } from "@/tenant/i18n/dictionary";
 
@@ -601,8 +602,7 @@ export function AppShellNextElite({
 
   const brand = (
     <Link href="/dashboard" className="flex min-w-0 shrink-0 items-center gap-2.5">
-      <div className="flex size-7 shrink-0 items-center justify-center rounded-md bg-primary text-xs font-bold text-primary-foreground">PM</div>
-      <span className="truncate text-lg font-semibold">PM · Atlas</span>
+      <Logo className="truncate text-lg" />
     </Link>
   );
 
@@ -631,7 +631,7 @@ export function AppShellNextElite({
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbPage>{pageTitle ?? "PM · Atlas"}</BreadcrumbPage>
+                  <BreadcrumbPage>{pageTitle ?? "Ardento"}</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>

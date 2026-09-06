@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Archivo, JetBrains_Mono } from "next/font/google";
+import { Archivo, Boldonse, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 // Next-Elite design foundation (Tailwind + shadcn tokens), imported once here so
 // it's a shared chunk everywhere. Design tokens live on `:root`/`:root.dark` (see
@@ -19,14 +19,20 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
 });
 
+const boldonse = Boldonse({
+  variable: "--font-boldonse",
+  subsets: ["latin"],
+  weight: "400",
+});
+
 export const metadata: Metadata = {
-  title: "PM Tool",
+  title: "Ardento",
   description: "Project management, built for clarity.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="de" className={`${archivo.variable} ${jetbrainsMono.variable}`}>
+    <html lang="de" className={`${archivo.variable} ${jetbrainsMono.variable} ${boldonse.variable}`}>
       <body>
         {/*
           THESIS: The app reads like a native macOS/iPadOS panel, not a generic web

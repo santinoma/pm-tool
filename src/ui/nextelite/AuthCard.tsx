@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/ui/shadcn/components/card";
+import { Logo } from "@/ui/nextelite/Logo";
 
 export function AuthCard({
   title,
@@ -12,13 +13,8 @@ export function AuthCard({
   return (
     <div className="flex min-h-dvh items-center justify-center bg-background px-6 py-12">
       <div className="w-full max-w-sm">
-        <div className="mb-6 flex items-center justify-center gap-2.5 font-bold">
-          <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-primary text-sm font-bold text-primary-foreground">
-            PM
-          </div>
-          <span className="text-lg font-semibold">
-            PM<span className="text-primary">·</span>Atlas
-          </span>
+        <div className="mb-6 flex items-center justify-center">
+          <Logo className="text-xl" />
         </div>
 
         <Card>
