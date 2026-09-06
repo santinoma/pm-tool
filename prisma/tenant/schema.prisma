@@ -18,56 +18,169 @@ enum Role {
   client
 }
 
+enum Locale {
+  de
+  en
+}
+
 model User {
-  id            String       @id @default(uuid())
-  email         String       @unique
-  passwordHash  String? // null, solange die Einladung noch nicht angenommen wurde
-  name          String?
-  role          Role         @default(member)
-  weeklyCapacityHours Float  @default(40)
-  isActive      Boolean      @default(true)
-  avatarUrl         String?
-  avatarStoragePath String?
-  avatarMimeType    String?
-  internalCostRate  Float?
-  totpSecret    String?
-  totpEnabled   Boolean      @default(false)
-  createdAt     DateTime     @default(now())
-  sessions      Session[]
-  teamMembers   TeamMember[]
-  assignedTasks Task[]
-  timeEntries   TimeEntry[]
-  comments      Comment[]
-  mentions      Mention[]
-  attachments   Attachment[]
-  activityEvents ActivityEvent[]
-  notificationPreferences NotificationPreference[]
-  notifications Notification[]
-  dashboardWidgetPreferences DashboardWidgetPreference[]
-  checkInResponses CheckInResponse[]
-  ownedBudgets Budget[] @relation("BudgetOwner")
-  budgetSectionAssignments BudgetSectionAssignee[] @relation("BudgetSectionAssignee")
-  absenceRequests AbsenceRequest[] @relation("AbsenceRequester")
-  reviewedAbsenceRequests AbsenceRequest[] @relation("AbsenceReviewer")
-  createdAutomationRules AutomationRule[]
-  automationActionTargets AutomationAction[]
-  createdInvoices Invoice[]
-  projectClientAccess ProjectClientAccess[]
-  createdSharedViews SharedView[]
-  createdTaskLinks TaskLink[]
-  pendingLogins PendingLogin[]
-  apiKeys ApiKey[]
-  customRole    CustomRole? @relation(fields: [customRoleId], references: [id])
-  customRoleId  String?
-  projectRoleOverrides ProjectRoleOverride[]
+  id                         String                      @id @default(uuid())
+  email                      String                      @unique
+  passwordHash               String? // null, solange die Einladung noch nicht angenommen wurde
+  name                       String?
+  role                       Role                        @default(member)
+  weeklyCapacityHours        Float                       @default(40)
+  isActive                   Boolean                     @default(true)
+  avatarUrl                  String?
+  avatarStoragePath          String?
+  avatarMimeType             String?
+  internalCostRate           Float?
+  totpSecret                 String?
+  totpEnabled                Boolean                     @default(false)
+  locale                     Locale                      @default(de)
+  createdAt                  DateTime                    @default(now())
+  sessions                   Session[]
+  assignedTasks              Task[]
+  timeEntries                TimeEntry[]
+  comments                   Comment[]
+  mentions                   Mention[]
+  attachments                Attachment[]
+  activityEvents             ActivityEvent[]
+  notificationPreferences    NotificationPreference[]
+  notifications              Notification[]
+  dashboards                 Dashboard[]
+  checkInResponses           CheckInResponse[]
+  ownedBudgets               Budget[]                    @relation("BudgetOwner")
+  budgetSectionAssignments   BudgetSectionAssignee[]     @relation("BudgetSectionAssignee")
+  absenceRequests            AbsenceRequest[]            @relation("AbsenceRequester")
+  reviewedAbsenceRequests    AbsenceRequest[]            @relation("AbsenceReviewer")
+  createdAutomationRules     AutomationRule[]
+  automationActionTargets    AutomationAction[]
+  createdInvoices            Invoice[]
+  projectClientAccess        ProjectClientAccess[]
+  createdSharedViews         SharedView[]
+  createdTaskLinks           TaskLink[]
+  pendingLogins              PendingLogin[]
+  apiKeys                    ApiKey[]
+  customRole                 CustomRole?                 @relation(fields: [customRoleId], references: [id])
+  customRoleId               String?
+  projectRoleOverrides       ProjectRoleOverride[]
+  managedProjects            Project[]                   @relation("ProjectManager")
+  projectMemberships         ProjectMember[]
+  taskSubscriptions          TaskSubscriber[]
+  assignedTodos              Todo[]
+  savedViews                 SavedView[]
+  sharedWikiLinks            SharedWikiLink[]
+  manager                    User?                       @relation("ManagerOf", fields: [managerId], references: [id])
+  managerId                  String?
+  directReports              User[]                      @relation("ManagerOf")
+  favorites                  Favorite[]
+  auditLogEntries            AuditLogEntry[]
+  invoicePayments            InvoicePayment[]
+  creditNotes                CreditNote[]
+  savedReports               SavedReport[]
+  approvedTimeEntries        TimeEntry[]                 @relation("TimeEntryApprover")
+  loggedForTimeEntries       TimeEntry[]                 @relation("TimeEntryLoggedFor")
+  timesheetLocks             TimesheetLock[]
+  lockedTimesheets           TimesheetLock[]             @relation("TimesheetLockedBy")
+  holidayCalendar            HolidayCalendar?            @relation(fields: [holidayCalendarId], references: [id])
+  holidayCalendarId          String?
+  resourceBookings           ResourceBooking[]
+  createdResourceBookings    ResourceBooking[]           @relation("ResourceBookingCreator")
+  createdMeetings            Meeting[]
+  createdExpenses            Expense[]
+  createdPurchaseOrders      PurchaseOrder[]
+  approvedExpenses           Expense[]                   @relation("ExpenseApprover")
+  createdWikiPages           WikiPage[]
+  accountOwnedClients        Client[]                    @relation("ClientAccountOwner")
+  ownedDeals                 Deal[]
+}
+
+enum ClientType {
+  customer
+  supplier
+  partner
+  internal
+  recruitment
+}
+
+model Client {
+  id               String          @id @default(uuid())
+  name             String
+  note             String?
+  taxId            String?
+  website          String?
+  billingAddress   String?
+  type             ClientType?
+  accountOwner     User?           @relation("ClientAccountOwner", fields: [accountOwnerId], references: [id])
+  accountOwnerId   String?
+  paymentTermsDays Int?
+  archivedAt       DateTime?
+  parent           Client?         @relation("ClientHierarchy", fields: [parentId], references: [id])
+  parentId         String?
+  children         Client[]        @relation("ClientHierarchy")
+  createdAt        DateTime        @default(now())
+  projects         Project[]
+  contacts         ClientContact[]
+  deals            Deal[]
+
+  @@unique([name])
+}
+
+model ClientContact {
+  id        String   @id @default(uuid())
+  title     String?
+  client    Client   @relation(fields: [clientId], references: [id])
+  clientId  String
+  name      String
+  email     String?
+  phone     String?
+  isPrimary Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+enum DealStage {
+  lead
+  qualified
+  proposal
+  won
+  lost
+}
+
+model Deal {
+  id             String    @id @default(uuid())
+  title          String
+  company        Client    @relation(fields: [companyId], references: [id])
+  companyId      String
+  stage          DealStage @default(lead)
+  owner          User      @relation(fields: [ownerId], references: [id])
+  ownerId        String
+  estimatedValue Float?
+  probability    Int?
+  lostReason     String?
+  project        Project?  @relation(fields: [projectId], references: [id])
+  projectId      String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model ProjectMember {
+  id        String   @id @default(uuid())
+  project   Project  @relation(fields: [projectId], references: [id])
+  projectId String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+
+  @@unique([projectId, userId])
 }
 
 model CustomRole {
-  id          String   @id @default(uuid())
-  name        String
-  permissions String[]
-  createdAt   DateTime @default(now())
-  users       User[]
+  id               String                @id @default(uuid())
+  name             String
+  permissions      String[]
+  createdAt        DateTime              @default(now())
+  users            User[]
   projectOverrides ProjectRoleOverride[]
 
   @@unique([name])
@@ -98,37 +211,61 @@ enum AbsenceStatus {
 }
 
 model AbsenceRequest {
-  id         String        @id @default(uuid())
-  user       User          @relation("AbsenceRequester", fields: [userId], references: [id])
-  userId     String
-  type       AbsenceType
-  startDate  DateTime
-  endDate    DateTime
-  note       String?
-  status     AbsenceStatus @default(pending)
-  reviewedBy User?         @relation("AbsenceReviewer", fields: [reviewedById], references: [id])
+  id           String        @id @default(uuid())
+  user         User          @relation("AbsenceRequester", fields: [userId], references: [id])
+  userId       String
+  type         AbsenceType
+  startDate    DateTime
+  endDate      DateTime
+  note         String?
+  status       AbsenceStatus @default(pending)
+  reviewedBy   User?         @relation("AbsenceReviewer", fields: [reviewedById], references: [id])
   reviewedById String?
-  reviewedAt DateTime?
-  createdAt  DateTime      @default(now())
+  reviewedAt   DateTime?
+  createdAt    DateTime      @default(now())
 }
 
 model Session {
-  id        String   @id @default(uuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  expiresAt DateTime
-  createdAt DateTime @default(now())
+  id         String    @id @default(uuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id])
+  expiresAt  DateTime
+  createdAt  DateTime  @default(now())
+  userAgent  String?
+  lastSeenAt DateTime?
+}
+
+model Favorite {
+  id         String   @id @default(uuid())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  entityType String
+  entityId   String
+  createdAt  DateTime @default(now())
+
+  @@unique([userId, entityType, entityId])
+}
+
+model AuditLogEntry {
+  id         String   @id @default(uuid())
+  actor      User?    @relation(fields: [actorId], references: [id])
+  actorId    String?
+  action     String
+  entityType String
+  entityId   String?
+  summary    String
+  createdAt  DateTime @default(now())
 }
 
 model Invite {
-  id                 String    @id @default(uuid())
-  email              String
-  token              String    @unique
-  role               Role      @default(member)
-  grantedProjectIds  String[]  @default([])
-  expiresAt          DateTime
-  acceptedAt         DateTime?
-  createdAt          DateTime  @default(now())
+  id                String    @id @default(uuid())
+  email             String
+  token             String    @unique
+  role              Role      @default(member)
+  grantedProjectIds String[]  @default([])
+  expiresAt         DateTime
+  acceptedAt        DateTime?
+  createdAt         DateTime  @default(now())
 }
 
 model ProjectClientAccess {
@@ -140,67 +277,95 @@ model ProjectClientAccess {
   @@id([projectId, userId])
 }
 
-model Team {
-  id        String       @id @default(uuid())
-  name      String
-  createdAt DateTime     @default(now())
-  members   TeamMember[]
-}
-
-model TeamMember {
-  team   Team   @relation(fields: [teamId], references: [id])
-  teamId String
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-
-  @@id([teamId, userId])
-}
-
 model SlackCaptureConfig {
-  id              String   @id @default(uuid())
-  signingSecret   String
-  defaultProject  Project  @relation(fields: [defaultProjectId], references: [id])
+  id               String   @id @default(uuid())
+  signingSecret    String
+  defaultProject   Project  @relation(fields: [defaultProjectId], references: [id])
   defaultProjectId String
-  enabled         Boolean  @default(false)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  enabled          Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+enum ProjectType {
+  client
+  internal
 }
 
 model Project {
-  id           String           @id @default(uuid())
-  name         String
-  description  String?
-  budgetHours  Float?
-  budgetAmount Float?
-  hourlyRate   Float?
-  createdAt    DateTime         @default(now())
-  statuses     WorkflowStatus[]
-  taskLinks    TaskProject[]
-  customFields CustomFieldDef[]
-  timeEntries  TimeEntry[]
-  wikiPages    WikiPage[]
-  activityEvents ActivityEvent[]
+  id                      String                   @id @default(uuid())
+  name                    String
+  description             String?
+  budgetHours             Float?
+  budgetAmount            Float?
+  hourlyRate              Float?
+  type                    ProjectType              @default(internal)
+  color                   String                   @default("#5B8DEF")
+  isTemplate              Boolean                  @default(false)
+  enabledModules          String[]                 @default(["tasks"])
+  timeApprovalRequired    Boolean                  @default(false)
+  expenseApprovalRequired Boolean                  @default(false)
+  createdAt               DateTime                 @default(now())
+  statuses                WorkflowStatus[]
+  taskLinks               TaskProject[]
+  customFields            CustomFieldDef[]
+  timeEntries             TimeEntry[]
+  wikiPages               WikiPage[]
+  activityEvents          ActivityEvent[]
   notificationPreferences NotificationPreference[]
-  checkInSchedules CheckInSchedule[]
-  budgets Budget[]
-  transitionRules TransitionRule[]
-  cycles Cycle[]
-  clientAccess ProjectClientAccess[]
-  sharedViews SharedView[]
-  slackCaptureConfigs SlackCaptureConfig[]
-  portfolio   Portfolio? @relation(fields: [portfolioId], references: [id])
-  portfolioId String?
-  baselines   Baseline[]
-  roleOverrides ProjectRoleOverride[]
+  checkInSchedules        CheckInSchedule[]
+  budgets                 Budget[]
+  transitionRules         TransitionRule[]
+  cycles                  Cycle[]
+  clientAccess            ProjectClientAccess[]
+  sharedViews             SharedView[]
+  slackCaptureConfigs     SlackCaptureConfig[]
+  portfolio               Portfolio?               @relation(fields: [portfolioId], references: [id])
+  portfolioId             String?
+  baselines               Baseline[]
+  roleOverrides           ProjectRoleOverride[]
+  client                  Client?                  @relation(fields: [clientId], references: [id])
+  clientId                String?
+  projectManager          User?                    @relation("ProjectManager", fields: [projectManagerId], references: [id])
+  projectManagerId        String?
+  members                 ProjectMember[]
+  taskFolders             TaskFolder[]
+  savedViews              SavedView[]
+  resourceBookings        ResourceBooking[]
+  meetings                Meeting[]
+  expenses                Expense[]
+  purchaseOrders          PurchaseOrder[]
+  deals                   Deal[]
+  dashboardWidgetFilters  DashboardWidget[]
+}
+
+model TaskFolder {
+  id        String          @id @default(uuid())
+  project   Project         @relation(fields: [projectId], references: [id])
+  projectId String
+  name      String
+  position  Int             @default(0)
+  createdAt DateTime        @default(now())
+  lists     TaskListGroup[]
+}
+
+model TaskListGroup {
+  id        String     @id @default(uuid())
+  folder    TaskFolder @relation(fields: [folderId], references: [id])
+  folderId  String
+  name      String
+  position  Int        @default(0)
+  createdAt DateTime   @default(now())
+  tasks     Task[]
 }
 
 model Baseline {
-  id         String               @id @default(uuid())
-  project    Project              @relation(fields: [projectId], references: [id])
-  projectId  String
-  name       String
-  createdAt  DateTime             @default(now())
-  snapshots  BaselineTaskSnapshot[]
+  id        String                 @id @default(uuid())
+  project   Project                @relation(fields: [projectId], references: [id])
+  projectId String
+  name      String
+  createdAt DateTime               @default(now())
+  snapshots BaselineTaskSnapshot[]
 }
 
 model BaselineTaskSnapshot {
@@ -266,16 +431,31 @@ model TransitionRule {
 }
 
 model SharedView {
-  id                     String          @id @default(uuid())
-  project                Project         @relation(fields: [projectId], references: [id])
-  projectId              String
-  token                  String          @unique
-  statusCategoryFilter   StatusCategory?
-  expiresAt              DateTime?
-  revokedAt              DateTime?
-  createdBy              User            @relation(fields: [createdById], references: [id])
-  createdById            String
-  createdAt              DateTime        @default(now())
+  id                   String          @id @default(uuid())
+  project              Project         @relation(fields: [projectId], references: [id])
+  projectId            String
+  token                String          @unique
+  statusCategoryFilter StatusCategory?
+  expiresAt            DateTime?
+  revokedAt            DateTime?
+  createdBy            User            @relation(fields: [createdById], references: [id])
+  createdById          String
+  createdAt            DateTime        @default(now())
+}
+
+model SavedView {
+  id            String   @id @default(uuid())
+  project       Project? @relation(fields: [projectId], references: [id])
+  projectId     String?
+  scope         String
+  name          String
+  viewType      String
+  filterConfig  Json
+  sortConfig    Json?
+  owner         User     @relation(fields: [ownerId], references: [id])
+  ownerId       String
+  sharedWithAll Boolean  @default(false)
+  createdAt     DateTime @default(now())
 }
 
 enum StatusCategory {
@@ -285,51 +465,124 @@ enum StatusCategory {
 }
 
 model WorkflowStatus {
-  id        String         @id @default(uuid())
-  project   Project        @relation(fields: [projectId], references: [id])
-  projectId String
-  name      String
-  category  StatusCategory
-  position  Int
-  isDefault Boolean        @default(false)
-  tasks     Task[]
-  transitionsFrom TransitionRule[] @relation("TransitionFrom")
-  transitionsTo   TransitionRule[] @relation("TransitionTo")
+  id                String             @id @default(uuid())
+  project           Project            @relation(fields: [projectId], references: [id])
+  projectId         String
+  name              String
+  category          StatusCategory
+  position          Int
+  isDefault         Boolean            @default(false)
+  tasks             Task[]
+  transitionsFrom   TransitionRule[]   @relation("TransitionFrom")
+  transitionsTo     TransitionRule[]   @relation("TransitionTo")
+  automationActions AutomationAction[]
 
   @@unique([projectId, name])
 }
 
+enum TaskPriority {
+  no_priority
+  low
+  medium
+  high
+  urgent
+}
+
+enum TaskTShirtSize {
+  XS
+  S
+  M
+  L
+  XL
+}
+
 model Task {
-  id           String             @id @default(uuid())
-  title        String
-  description  String?
-  externalSourceUrl String?
-  status       WorkflowStatus     @relation(fields: [statusId], references: [id])
-  statusId     String
-  assignee     User?              @relation(fields: [assigneeId], references: [id])
-  assigneeId   String?
-  parentTask   Task?              @relation("Subtasks", fields: [parentTaskId], references: [id])
-  parentTaskId String?
-  subtasks     Task[]             @relation("Subtasks")
-  startDate    DateTime?
-  dueDate      DateTime?
-  estimatedHours Float?
-  hillPosition Float?
-  inTriage     Boolean            @default(true)
-  cycle        Cycle?             @relation(fields: [cycleId], references: [id])
-  cycleId      String?
-  cycleAssignedAt DateTime?
-  createdAt    DateTime           @default(now())
-  updatedAt    DateTime           @updatedAt
-  projects     TaskProject[]
-  blocking     TaskDependency[]   @relation("BlockingTask")
-  blockedBy    TaskDependency[]   @relation("BlockedTask")
-  linksAsSource TaskLink[]        @relation("TaskLinkSource")
-  linksAsTarget TaskLink[]        @relation("TaskLinkTarget")
-  customValues CustomFieldValue[]
-  timeEntries  TimeEntry[]
-  comments     Comment[]
-  attachments  Attachment[]
+  id                  String             @id @default(uuid())
+  title               String
+  description         String?
+  externalSourceUrl   String?
+  status              WorkflowStatus     @relation(fields: [statusId], references: [id])
+  statusId            String
+  priority            TaskPriority       @default(no_priority)
+  tShirtSize          TaskTShirtSize?
+  assignee            User?              @relation(fields: [assigneeId], references: [id])
+  assigneeId          String?
+  parentTask          Task?              @relation("Subtasks", fields: [parentTaskId], references: [id])
+  parentTaskId        String?
+  subtasks            Task[]             @relation("Subtasks")
+  startDate           DateTime?
+  dueDate             DateTime?
+  estimatedHours      Float?
+  hillPosition        Float?
+  inTriage            Boolean            @default(true)
+  isKeyTask           Boolean            @default(false)
+  isPrivate           Boolean            @default(false)
+  isTemplate          Boolean            @default(false)
+  taskListGroup       TaskListGroup?     @relation(fields: [taskListGroupId], references: [id])
+  taskListGroupId     String?
+  recurrence          Json?
+  recurrenceParent    Task?              @relation("RecurrenceInstances", fields: [recurrenceParentId], references: [id])
+  recurrenceParentId  String?
+  recurrenceInstances Task[]             @relation("RecurrenceInstances")
+  cycle               Cycle?             @relation(fields: [cycleId], references: [id])
+  cycleId             String?
+  cycleAssignedAt     DateTime?
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  projects            TaskProject[]
+  blocking            TaskDependency[]   @relation("BlockingTask")
+  blockedBy           TaskDependency[]   @relation("BlockedTask")
+  linksAsSource       TaskLink[]         @relation("TaskLinkSource")
+  linksAsTarget       TaskLink[]         @relation("TaskLinkTarget")
+  customValues        CustomFieldValue[]
+  timeEntries         TimeEntry[]
+  comments            Comment[]
+  attachments         Attachment[]
+  tags                TaskTag[]
+  subscribers         TaskSubscriber[]
+  todos               Todo[]
+  activityEvents      ActivityEvent[]
+}
+
+model Tag {
+  id        String    @id @default(uuid())
+  name      String
+  createdAt DateTime  @default(now())
+  tasks     TaskTag[]
+
+  @@unique([name])
+}
+
+model TaskTag {
+  task   Task   @relation(fields: [taskId], references: [id])
+  taskId String
+  tag    Tag    @relation(fields: [tagId], references: [id])
+  tagId  String
+
+  @@id([taskId, tagId])
+}
+
+model TaskSubscriber {
+  id        String   @id @default(uuid())
+  task      Task     @relation(fields: [taskId], references: [id])
+  taskId    String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+
+  @@unique([taskId, userId])
+}
+
+model Todo {
+  id         String   @id @default(uuid())
+  task       Task     @relation(fields: [taskId], references: [id])
+  taskId     String
+  title      String
+  isDone     Boolean  @default(false)
+  assignee   User?    @relation(fields: [assigneeId], references: [id])
+  assigneeId String?
+  position   Int      @default(0)
+  createdAt  DateTime @default(now())
 }
 
 model Comment {
@@ -367,13 +620,18 @@ model Attachment {
 }
 
 model WikiPage {
-  id        String   @id @default(uuid())
-  project   Project  @relation(fields: [projectId], references: [id])
-  projectId String
-  title     String
-  content   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String                     @id @default(uuid())
+  project      Project                    @relation(fields: [projectId], references: [id])
+  projectId    String
+  title        String
+  content      String
+  isTemplate   Boolean                    @default(false)
+  createdBy    User?                      @relation(fields: [createdById], references: [id])
+  createdById  String?
+  createdAt    DateTime                   @default(now())
+  updatedAt    DateTime                   @updatedAt
+  customValues WikiPageCustomFieldValue[]
+  sharedLinks  SharedWikiLink[]
 }
 
 enum TimeTrackingMode {
@@ -389,6 +647,9 @@ model TenantSettings {
   timeTrackingMode             TimeTrackingMode @default(timer)
   require2fa                   Boolean          @default(false)
   scimBearerToken              String?
+  crmEnabled                   Boolean          @default(true)
+  reportsEnabled               Boolean          @default(true)
+  resourcingEnabled            Boolean          @default(true)
   createdAt                    DateTime         @default(now())
   updatedAt                    DateTime         @updatedAt
 }
@@ -401,24 +662,93 @@ model PendingLogin {
   createdAt DateTime @default(now())
 }
 
+enum TimeEntryApprovalStatus {
+  pending
+  approved
+  rejected
+}
+
 model TimeEntry {
-  id              String         @id @default(uuid())
-  user            User           @relation(fields: [userId], references: [id])
+  id              String                  @id @default(uuid())
+  user            User                    @relation(fields: [userId], references: [id])
   userId          String
-  task            Task?          @relation(fields: [taskId], references: [id])
+  task            Task?                   @relation(fields: [taskId], references: [id])
   taskId          String?
-  project         Project?       @relation(fields: [projectId], references: [id])
+  project         Project?                @relation(fields: [projectId], references: [id])
   projectId       String?
-  budgetSection    BudgetSection? @relation(fields: [budgetSectionId], references: [id])
+  budgetSection   BudgetSection?          @relation(fields: [budgetSectionId], references: [id])
   budgetSectionId String?
   amount          Float?
   description     String?
   startedAt       DateTime?
   endedAt         DateTime?
   durationMinutes Int?
-  createdAt       DateTime       @default(now())
-  invoice         Invoice?       @relation(fields: [invoiceId], references: [id])
+  createdAt       DateTime                @default(now())
+  invoice         Invoice?                @relation(fields: [invoiceId], references: [id])
   invoiceId       String?
+  approvalStatus  TimeEntryApprovalStatus @default(pending)
+  approvedBy      User?                   @relation("TimeEntryApprover", fields: [approvedById], references: [id])
+  approvedById    String?
+  approvedAt      DateTime?
+  loggedForUser   User?                   @relation("TimeEntryLoggedFor", fields: [loggedForUserId], references: [id])
+  loggedForUserId String?
+}
+
+model TimesheetLock {
+  id          String   @id @default(uuid())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  periodStart DateTime
+  periodEnd   DateTime
+  lockedBy    User     @relation("TimesheetLockedBy", fields: [lockedById], references: [id])
+  lockedById  String
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, periodStart, periodEnd])
+}
+
+model TimeTrackingPolicy {
+  id            String   @id @default(uuid())
+  maxDailyHours Float?
+  blockWeekends Boolean  @default(false)
+  blockOverlaps Boolean  @default(false)
+  updatedAt     DateTime @updatedAt
+}
+
+model HolidayCalendar {
+  id       String    @id @default(uuid())
+  name     String
+  country  String?
+  holidays Holiday[]
+  users    User[]
+
+  @@unique([name])
+}
+
+model Holiday {
+  id         String          @id @default(uuid())
+  calendar   HolidayCalendar @relation(fields: [calendarId], references: [id])
+  calendarId String
+  date       DateTime
+  name       String
+}
+
+model ResourceBooking {
+  id              String         @id @default(uuid())
+  user            User?          @relation(fields: [userId], references: [id])
+  userId          String?
+  placeholderName String?
+  project         Project        @relation(fields: [projectId], references: [id])
+  projectId       String
+  budgetSection   BudgetSection? @relation(fields: [budgetSectionId], references: [id])
+  budgetSectionId String?
+  startDate       DateTime
+  endDate         DateTime
+  hoursPerDay     Float
+  isTentative     Boolean        @default(false)
+  createdById     String
+  createdBy       User           @relation("ResourceBookingCreator", fields: [createdById], references: [id])
+  createdAt       DateTime       @default(now())
 }
 
 model TaskProject {
@@ -458,18 +788,31 @@ enum CustomFieldType {
   text
   number
   select
+  multi_select
   date
+  person
+  url
+  percent
+}
+
+enum CustomFieldEntityType {
+  task
+  budget
+  wiki_page
 }
 
 model CustomFieldDef {
-  id        String          @id @default(uuid())
-  project   Project         @relation(fields: [projectId], references: [id])
-  projectId String
-  key       String
-  label     String
-  type      CustomFieldType
-  options   String[]
-  values    CustomFieldValue[]
+  id             String                     @id @default(uuid())
+  project        Project                    @relation(fields: [projectId], references: [id])
+  projectId      String
+  entityType     CustomFieldEntityType      @default(task)
+  key            String
+  label          String
+  type           CustomFieldType
+  options        String[]
+  taskValues     CustomFieldValue[]
+  budgetValues   BudgetCustomFieldValue[]
+  wikiPageValues WikiPageCustomFieldValue[]
 
   @@unique([projectId, key])
 }
@@ -485,13 +828,53 @@ model CustomFieldValue {
   @@unique([fieldId, taskId])
 }
 
+model BudgetCustomFieldValue {
+  id       String         @id @default(uuid())
+  field    CustomFieldDef @relation(fields: [fieldId], references: [id])
+  fieldId  String
+  budget   Budget         @relation(fields: [budgetId], references: [id])
+  budgetId String
+  value    String
+
+  @@unique([fieldId, budgetId])
+}
+
+model WikiPageCustomFieldValue {
+  id         String         @id @default(uuid())
+  field      CustomFieldDef @relation(fields: [fieldId], references: [id])
+  fieldId    String
+  wikiPage   WikiPage       @relation(fields: [wikiPageId], references: [id])
+  wikiPageId String
+  value      String
+
+  @@unique([fieldId, wikiPageId])
+}
+
+model SharedWikiLink {
+  id          String    @id @default(uuid())
+  wikiPage    WikiPage  @relation(fields: [wikiPageId], references: [id])
+  wikiPageId  String
+  token       String    @unique
+  revokedAt   DateTime?
+  createdBy   User      @relation(fields: [createdById], references: [id])
+  createdById String
+  createdAt   DateTime  @default(now())
+}
+
 enum ActivityEventType {
   task_created
   task_status_changed
+  task_updated
   comment_added
   attachment_added
   wiki_page_created
   wiki_page_updated
+  budget_created
+  budget_updated
+  budget_section_added
+  budget_section_updated
+  budget_section_removed
+  invoice_created
 }
 
 model ActivityEvent {
@@ -502,6 +885,10 @@ model ActivityEvent {
   actorId       String
   type          ActivityEventType
   summary       String
+  task          Task?             @relation(fields: [taskId], references: [id])
+  taskId        String?
+  budget        Budget?           @relation(fields: [budgetId], references: [id])
+  budgetId      String?
   createdAt     DateTime          @default(now())
   notifications Notification[]
 }
@@ -536,68 +923,120 @@ model Notification {
 enum AutomationTrigger {
   task_created
   task_status_changed
+  task_updated
+  task_commented
+  time_daily
+  time_weekly
 }
 
 enum AutomationActionType {
   assign_user
   notify_user
+  change_status
+  add_comment
+  create_task
+  create_subtask
+  create_todo
+  send_email
 }
 
 model AutomationRule {
-  id                       String              @id @default(uuid())
-  name                     String
-  trigger                  AutomationTrigger
-  conditionStatusCategory  StatusCategory?
-  isEnabled                Boolean             @default(true)
-  createdBy                User                @relation(fields: [createdById], references: [id])
-  createdById              String
-  createdAt                DateTime            @default(now())
-  updatedAt                DateTime            @updatedAt
-  actions                  AutomationAction[]
+  id                      String              @id @default(uuid())
+  name                    String
+  triggers                AutomationTrigger[]
+  conditionStatusCategory StatusCategory?
+  projectIds              String[]            @default([])
+  scheduleTime            String?
+  scheduleWeekday         Int?
+  lastRunPeriodKey        String?
+  isEnabled               Boolean             @default(true)
+  createdBy               User                @relation(fields: [createdById], references: [id])
+  createdById             String
+  createdAt               DateTime            @default(now())
+  updatedAt               DateTime            @updatedAt
+  actions                 AutomationAction[]
 }
 
 model AutomationAction {
-  id           String               @id @default(uuid())
-  rule         AutomationRule       @relation(fields: [ruleId], references: [id])
-  ruleId       String
-  type         AutomationActionType
-  targetUser   User                 @relation(fields: [targetUserId], references: [id])
-  targetUserId String
-  position     Int                  @default(0)
+  id             String               @id @default(uuid())
+  rule           AutomationRule       @relation(fields: [ruleId], references: [id])
+  ruleId         String
+  type           AutomationActionType
+  targetUser     User?                @relation(fields: [targetUserId], references: [id])
+  targetUserId   String?
+  targetStatus   WorkflowStatus?      @relation(fields: [targetStatusId], references: [id])
+  targetStatusId String?
+  commentBody    String?
+  newItemTitle   String?
+  position       Int                  @default(0)
 }
 
-model DashboardWidgetPreference {
-  id         String  @id @default(uuid())
-  user       User    @relation(fields: [userId], references: [id])
-  userId     String
-  widgetType String
-  enabled    Boolean @default(true)
-  position   Int
+model Dashboard {
+  id        String            @id @default(uuid())
+  name      String
+  owner     User              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId   String
+  isDefault Boolean           @default(false)
+  position  Int               @default(0)
+  createdAt DateTime          @default(now())
+  widgets   DashboardWidget[]
 
-  @@unique([userId, widgetType])
+  @@unique([ownerId, name])
+}
+
+model DashboardWidget {
+  id              String    @id @default(uuid())
+  dashboard       Dashboard @relation(fields: [dashboardId], references: [id], onDelete: Cascade)
+  dashboardId     String
+  widgetType      String
+  title           String?
+  enabled         Boolean   @default(true)
+  position        Int
+  span            Int       @default(1)
+  filterProject   Project?  @relation(fields: [filterProjectId], references: [id], onDelete: SetNull)
+  filterProjectId String?
+  createdAt       DateTime  @default(now())
 }
 
 model WebhookEndpoint {
-  id                    String              @id @default(uuid())
-  url                   String
-  secret                String
-  eventTypes            ActivityEventType[]
-  enabled               Boolean             @default(true)
+  id                     String              @id @default(uuid())
+  url                    String
+  secret                 String
+  eventTypes             ActivityEventType[]
+  enabled                Boolean             @default(true)
   integrationTemplateKey String?
-  createdAt             DateTime            @default(now())
-  deliveries            WebhookDelivery[]
+  createdAt              DateTime            @default(now())
+  deliveries             WebhookDelivery[]
+}
+
+model SsoConfig {
+  id         String   @id @default(uuid())
+  provider   String
+  entryPoint String
+  issuer     String
+  cert       String
+  enabled    Boolean  @default(false)
+  enforceSso Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+enum ApiKeyScope {
+  read_only
+  read_write
 }
 
 model ApiKey {
-  id           String    @id @default(uuid())
-  name         String
-  tokenHash    String    @unique
-  tokenPrefix  String
-  user         User      @relation(fields: [userId], references: [id])
-  userId       String
-  lastUsedAt   DateTime?
-  revokedAt    DateTime?
-  createdAt    DateTime  @default(now())
+  id          String      @id @default(uuid())
+  name        String
+  tokenHash   String      @unique
+  tokenPrefix String
+  scope       ApiKeyScope @default(read_write)
+  user        User        @relation(fields: [userId], references: [id])
+  userId      String
+  lastUsedAt  DateTime?
+  revokedAt   DateTime?
+  createdAt   DateTime    @default(now())
 }
 
 model WebhookDelivery {
@@ -649,55 +1088,134 @@ enum RecurrenceInterval {
 }
 
 model Budget {
-  id                 String              @id @default(uuid())
-  project            Project             @relation(fields: [projectId], references: [id])
-  projectId          String
-  title              String
-  owner              User                @relation("BudgetOwner", fields: [ownerId], references: [id])
-  ownerId            String
-  isRetainer         Boolean             @default(false)
-  recurrenceInterval RecurrenceInterval?
-  createdAt          DateTime            @default(now())
-  updatedAt          DateTime            @updatedAt
-  sections           BudgetSection[]
-  invoices           Invoice[]
+  id                      String                   @id @default(uuid())
+  project                 Project                  @relation(fields: [projectId], references: [id])
+  projectId               String
+  title                   String
+  owner                   User                     @relation("BudgetOwner", fields: [ownerId], references: [id])
+  ownerId                 String
+  isRetainer              Boolean                  @default(false)
+  recurrenceInterval      RecurrenceInterval?
+  lastRecurrencePeriodKey String?
+  startDate               DateTime?
+  endDate                 DateTime?
+  color                   String?
+  isScenario              Boolean                  @default(false)
+  scenarioOf              Budget?                  @relation("BudgetScenarios", fields: [scenarioOfId], references: [id])
+  scenarioOfId            String?
+  scenarios               Budget[]                 @relation("BudgetScenarios")
+  isTemplate              Boolean                  @default(false)
+  deliveredAt             DateTime?
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
+  sections                BudgetSection[]
+  invoices                Invoice[]
+  customFieldValues       BudgetCustomFieldValue[]
+  activityEvents          ActivityEvent[]
+  expenses                Expense[]
+}
+
+enum BillingType {
+  fixed
+  time_and_materials
+  non_billable
+  percentage
+}
+
+enum TrackingUnit {
+  hours
+  days
+  piece
+}
+
+model ServiceType {
+  id            String          @id @default(uuid())
+  name          String
+  createdAt     DateTime        @default(now())
+  sections      BudgetSection[]
+  rateCardItems RateCardItem[]
+  expenses      Expense[]
+
+  @@unique([name])
 }
 
 model BudgetSection {
-  id                String                  @id @default(uuid())
-  budget            Budget                  @relation(fields: [budgetId], references: [id])
-  budgetId          String
-  name              String
-  budgetedTimeHours Float?
-  quantity          Float
-  price             Float
-  budgetUsed        Float                   @default(0)
-  createdAt         DateTime                @default(now())
-  updatedAt         DateTime                @updatedAt
-  assignees         BudgetSectionAssignee[]
-  timeEntries       TimeEntry[]
-  lineItems         InvoiceLineItem[]
+  id                      String                  @id @default(uuid())
+  budget                  Budget                  @relation(fields: [budgetId], references: [id])
+  budgetId                String
+  name                    String
+  description             String?
+  budgetedTimeHours       Float?
+  estimatedCost           Float?
+  quantity                Float
+  price                   Float
+  budgetUsed              Float                   @default(0)
+  serviceType             ServiceType?            @relation(fields: [serviceTypeId], references: [id])
+  serviceTypeId           String?
+  billingType             BillingType             @default(time_and_materials)
+  trackingUnit            TrackingUnit            @default(hours)
+  discountPercent         Float?
+  markupPercent           Float?
+  guaranteedMaxPrice      Float?
+  blockOverrun            Boolean                 @default(false)
+  trackTime               Boolean                 @default(true)
+  trackExpenses           Boolean                 @default(false)
+  trackBooking            Boolean                 @default(false)
+  warningThresholdPercent Float?
+  warningNotifiedAt       DateTime?
+  position                Int                     @default(0)
+  createdAt               DateTime                @default(now())
+  updatedAt               DateTime                @updatedAt
+  assignees               BudgetSectionAssignee[]
+  timeEntries             TimeEntry[]
+  lineItems               InvoiceLineItem[]
+  resourceBookings        ResourceBooking[]
+}
+
+model RateCardItem {
+  id            String       @id @default(uuid())
+  name          String
+  serviceType   ServiceType? @relation(fields: [serviceTypeId], references: [id])
+  serviceTypeId String?
+  billingType   BillingType  @default(time_and_materials)
+  trackingUnit  TrackingUnit @default(hours)
+  defaultPrice  Float
+  createdAt     DateTime     @default(now())
 }
 
 enum InvoiceStatus {
   draft
+  finalized
   sent
+  partially_paid
   paid
 }
 
+enum InvoicingMethod {
+  uninvoiced_time_expenses
+  remaining_amount
+  percentage
+}
+
 model Invoice {
-  id          String            @id @default(uuid())
-  budget      Budget            @relation(fields: [budgetId], references: [id])
-  budgetId    String
-  status      InvoiceStatus     @default(draft)
-  periodStart DateTime
-  periodEnd   DateTime
-  totalAmount Float
-  createdBy   User              @relation(fields: [createdById], references: [id])
-  createdById String
-  createdAt   DateTime          @default(now())
-  lineItems   InvoiceLineItem[]
-  timeEntries TimeEntry[]
+  id              String            @id @default(uuid())
+  budget          Budget            @relation(fields: [budgetId], references: [id])
+  budgetId        String
+  status          InvoiceStatus     @default(draft)
+  invoicingMethod InvoicingMethod?
+  taxRatePercent  Float?
+  paidAmount      Float             @default(0)
+  finalizedAt     DateTime?
+  periodStart     DateTime
+  periodEnd       DateTime
+  totalAmount     Float
+  createdBy       User              @relation(fields: [createdById], references: [id])
+  createdById     String
+  createdAt       DateTime          @default(now())
+  lineItems       InvoiceLineItem[]
+  timeEntries     TimeEntry[]
+  payments        InvoicePayment[]
+  creditNotes     CreditNote[]
 }
 
 model InvoiceLineItem {
@@ -710,6 +1228,119 @@ model InvoiceLineItem {
   quantityHours   Float
   rate            Float
   amount          Float
+  taxRatePercent  Float?
+}
+
+model InvoicePayment {
+  id          String   @id @default(uuid())
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id])
+  invoiceId   String
+  amount      Float
+  paidAt      DateTime
+  note        String?
+  createdBy   User     @relation(fields: [createdById], references: [id])
+  createdById String
+  createdAt   DateTime @default(now())
+}
+
+model CreditNote {
+  id          String   @id @default(uuid())
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id])
+  invoiceId   String
+  amount      Float
+  reason      String?
+  createdBy   User     @relation(fields: [createdById], references: [id])
+  createdById String
+  createdAt   DateTime @default(now())
+}
+
+enum PurchaseOrderStatus {
+  draft
+  finalized
+  cancelled
+}
+
+enum PurchaseOrderSentStatus {
+  not_sent
+  sent
+}
+
+enum PurchaseOrderPaymentStatus {
+  not_received
+  partially_received
+  fully_received
+}
+
+enum ExpenseApprovalStatus {
+  pending
+  approved
+  rejected
+}
+
+model Meeting {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  scheduledAt DateTime
+  project     Project? @relation(fields: [projectId], references: [id])
+  projectId   String?
+  createdBy   User     @relation(fields: [createdById], references: [id])
+  createdById String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Expense {
+  id             String                @id @default(uuid())
+  number         Int                   @default(autoincrement())
+  project        Project               @relation(fields: [projectId], references: [id])
+  projectId      String
+  budget         Budget?               @relation(fields: [budgetId], references: [id])
+  budgetId       String?
+  serviceType    ServiceType?          @relation(fields: [serviceTypeId], references: [id])
+  serviceTypeId  String?
+  description    String
+  amount         Float
+  billable       Boolean               @default(true)
+  incurredAt     DateTime
+  approvalStatus ExpenseApprovalStatus @default(pending)
+  approvedBy     User?                 @relation("ExpenseApprover", fields: [approvedById], references: [id])
+  approvedById   String?
+  approvedAt     DateTime?
+  createdBy      User                  @relation(fields: [createdById], references: [id])
+  createdById    String
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
+}
+
+model PurchaseOrder {
+  id            String                     @id @default(uuid())
+  project       Project                    @relation(fields: [projectId], references: [id])
+  projectId     String
+  vendorName    String
+  amount        Float
+  status        PurchaseOrderStatus        @default(draft)
+  sentStatus    PurchaseOrderSentStatus    @default(not_sent)
+  paymentStatus PurchaseOrderPaymentStatus @default(not_received)
+  orderedAt     DateTime
+  createdBy     User                       @relation(fields: [createdById], references: [id])
+  createdById   String
+  createdAt     DateTime                   @default(now())
+  updatedAt     DateTime                   @updatedAt
+}
+
+model SavedReport {
+  id            String   @id @default(uuid())
+  name          String
+  category      String?
+  dataSource    String
+  filterConfig  Json
+  groupByConfig Json?
+  chartType     String?
+  owner         User     @relation(fields: [ownerId], references: [id])
+  ownerId       String
+  projectId     String?
+  createdAt     DateTime @default(now())
 }
 
 model BudgetSectionAssignee {

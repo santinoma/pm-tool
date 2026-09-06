@@ -1,0 +1,13 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '6767:6767'
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+      - PORT=6767
+    restart: unless-stopped

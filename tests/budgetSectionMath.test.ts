@@ -21,4 +21,21 @@ describe("computeSectionTotals", () => {
     const result = computeSectionTotals({ quantity: 0, price: 120, budgetUsed: 0 });
     expect(result.usagePercent).toBe(0);
   });
+
+  it("applies discountPercent to the total instead of ignoring it", () => {
+    const result = computeSectionTotals({ quantity: 40, price: 100, budgetUsed: 0, discountPercent: 10 });
+    expect(result.budgetTotal).toBe(3600);
+  });
+
+  it("applies markupPercent on top of the discounted price", () => {
+    const result = computeSectionTotals({
+      quantity: 10,
+      price: 100,
+      budgetUsed: 0,
+      discountPercent: 10,
+      markupPercent: 20,
+    });
+    // 100 -> 90 (discount) -> 108 (markup) * 10 = 1080
+    expect(result.budgetTotal).toBe(1080);
+  });
 });

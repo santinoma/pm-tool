@@ -3,6 +3,8 @@ import { getTenantContext } from "@/tenant/context";
 import { extractMentionedEmails } from "@/tenant/collaboration/mentions";
 import { hasBroadcastMention } from "@/tenant/notifications/broadcast";
 import { recordActivity } from "@/tenant/notifications/recordActivity";
+import { resolveProjectIdsForTask } from "@/tenant/projectAccess/resolveProjectMembership";
+import { assertAnyProjectAccess } from "@/tenant/projectAccess/assertProjectAccess";
 
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -10,6 +12,12 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
   if (!context?.currentUser) {
     return NextResponse.json({ error: "Nicht angemeldet." }, { status: 401 });
   }
+  const denied = await assertAnyProjectAccess(
+    context.tenantDb,
+    context.currentUser,
+    await resolveProjectIdsForTask(context.tenantDb, id),
+  );
+  if (denied) return denied;
 
   const comments = await context.tenantDb.comment.findMany({
     where: { taskId: id },
@@ -25,6 +33,12 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   if (!context?.currentUser) {
     return NextResponse.json({ error: "Nicht angemeldet." }, { status: 401 });
   }
+  const denied = await assertAnyProjectAccess(
+    context.tenantDb,
+    context.currentUser,
+    await resolveProjectIdsForTask(context.tenantDb, id),
+  );
+  if (denied) return denied;
 
   const body = await request.json().catch(() => null);
   if (!body || typeof body.body !== "string" || body.body.trim().length === 0) {
@@ -62,6 +76,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       summary: `Neuer Kommentar auf „${task?.title}“`,
       mentionedUserIds: matchedUserIds,
       isBroadcast: hasBroadcastMention(body.body),
+      taskId: id,
     });
   }
 

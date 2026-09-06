@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
 import { computeCycleInsights } from "@/tenant/cycles/cycleInsights";
+import { assertSingleProjectAccess } from "@/tenant/projectAccess/assertProjectAccess";
 
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -16,6 +17,8 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
   if (!cycle) {
     return NextResponse.json({ error: "Cycle nicht gefunden." }, { status: 404 });
   }
+  const denied = await assertSingleProjectAccess(context.tenantDb, context.currentUser, cycle.projectId);
+  if (denied) return denied;
 
   const insights = computeCycleInsights(
     cycle.tasks.map((task) => ({

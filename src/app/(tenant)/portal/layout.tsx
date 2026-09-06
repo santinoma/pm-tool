@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getTenantContext } from "@/tenant/context";
-import { PortalShell } from "@/ui/shell/PortalShell";
+import { ThemeProvider } from "@/ui/shadcn/lib/theme-provider";
+import { PortalShellNextElite } from "@/ui/nextelite/PortalShellNextElite";
 
 export default async function PortalLayout({ children }: { children: React.ReactNode }) {
   const context = await getTenantContext();
@@ -9,8 +10,10 @@ export default async function PortalLayout({ children }: { children: React.React
   }
 
   return (
-    <PortalShell currentUser={{ name: context.currentUser.name, email: context.currentUser.email }}>
-      {children}
-    </PortalShell>
+    <ThemeProvider className="min-h-dvh">
+      <PortalShellNextElite currentUser={{ name: context.currentUser.name, email: context.currentUser.email }}>
+        {children}
+      </PortalShellNextElite>
+    </ThemeProvider>
   );
 }

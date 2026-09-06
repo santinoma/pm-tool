@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
 import { canManageMembers } from "@/tenant/auth/roleGuard";
+import { findRolloverSourceCycleId } from "@/tenant/cycles/rollover";
 
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -45,5 +46,22 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   const cycle = await context.tenantDb.cycle.create({
     data: { projectId: id, name: body.name, startDate, endDate },
   });
-  return NextResponse.json({ cycle }, { status: 201 });
+
+  // Rollover: unerledigte Tasks des zuletzt abgelaufenen Cycles wandern automatisch
+  // in den neuen Cycle, statt dass sie manuell umgehängt werden müssen (Roadmap #11).
+  const priorCycles = await context.tenantDb.cycle.findMany({
+    where: { projectId: id, id: { not: cycle.id } },
+    select: { id: true, endDate: true },
+  });
+  const sourceCycleId = findRolloverSourceCycleId(priorCycles, startDate);
+  let rolledOverCount = 0;
+  if (sourceCycleId) {
+    const result = await context.tenantDb.task.updateMany({
+      where: { cycleId: sourceCycleId, status: { category: { not: "done" } } },
+      data: { cycleId: cycle.id, cycleAssignedAt: startDate },
+    });
+    rolledOverCount = result.count;
+  }
+
+  return NextResponse.json({ cycle, rolledOverCount }, { status: 201 });
 }

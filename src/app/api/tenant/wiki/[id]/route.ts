@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
 import { recordActivity } from "@/tenant/notifications/recordActivity";
+import { assertSingleProjectAccess } from "@/tenant/projectAccess/assertProjectAccess";
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -8,6 +9,12 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   if (!context?.currentUser) {
     return NextResponse.json({ error: "Nicht angemeldet." }, { status: 401 });
   }
+  const existing = await context.tenantDb.wikiPage.findUnique({ where: { id }, select: { projectId: true } });
+  if (!existing) {
+    return NextResponse.json({ error: "Seite nicht gefunden." }, { status: 404 });
+  }
+  const denied = await assertSingleProjectAccess(context.tenantDb, context.currentUser, existing.projectId);
+  if (denied) return denied;
 
   const body = await request.json().catch(() => null);
   if (!body) {
@@ -19,6 +26,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     data: {
       title: typeof body.title === "string" ? body.title : undefined,
       content: typeof body.content === "string" ? body.content : undefined,
+      isTemplate: typeof body.isTemplate === "boolean" ? body.isTemplate : undefined,
     },
   });
 
@@ -38,6 +46,12 @@ export async function DELETE(_request: Request, { params }: { params: Promise<{ 
   if (!context?.currentUser) {
     return NextResponse.json({ error: "Nicht angemeldet." }, { status: 401 });
   }
+  const existing = await context.tenantDb.wikiPage.findUnique({ where: { id }, select: { projectId: true } });
+  if (!existing) {
+    return NextResponse.json({ error: "Seite nicht gefunden." }, { status: 404 });
+  }
+  const denied = await assertSingleProjectAccess(context.tenantDb, context.currentUser, existing.projectId);
+  if (denied) return denied;
 
   await context.tenantDb.wikiPage.delete({ where: { id } });
   return NextResponse.json({ ok: true });

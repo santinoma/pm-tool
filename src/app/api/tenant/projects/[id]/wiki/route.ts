@@ -29,7 +29,12 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   }
 
   const page = await context.tenantDb.wikiPage.create({
-    data: { projectId: id, title: body.title, content: typeof body.content === "string" ? body.content : "" },
+    data: {
+      projectId: id,
+      title: body.title,
+      content: typeof body.content === "string" ? body.content : "",
+      createdById: context.currentUser.id,
+    },
   });
 
   await recordActivity(context.tenantDb, {

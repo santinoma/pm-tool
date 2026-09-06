@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
 import { hasEffectivePermission } from "@/tenant/permissions/resolvePermissions";
+import { resolveProjectIdForBudget } from "@/tenant/projectAccess/resolveProjectMembership";
+import { assertSingleProjectAccess } from "@/tenant/projectAccess/assertProjectAccess";
+import { recordActivity } from "@/tenant/notifications/recordActivity";
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -8,6 +11,12 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   if (!context?.currentUser) {
     return NextResponse.json({ error: "Nicht angemeldet." }, { status: 401 });
   }
+  const denied = await assertSingleProjectAccess(
+    context.tenantDb,
+    context.currentUser,
+    await resolveProjectIdForBudget(context.tenantDb, id),
+  );
+  if (denied) return denied;
   const canManageBudgets = await hasEffectivePermission(
     context.tenantDb,
     context.currentUser,
@@ -23,13 +32,32 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     return NextResponse.json({ error: "Ungültige Anfrage." }, { status: 400 });
   }
 
+  const startDate = typeof body.startDate === "string" ? new Date(body.startDate) : undefined;
+  const endDate = typeof body.endDate === "string" ? new Date(body.endDate) : undefined;
+  if ((startDate && Number.isNaN(startDate.getTime())) || (endDate && Number.isNaN(endDate.getTime()))) {
+    return NextResponse.json({ error: "Ungültiges Datum." }, { status: 400 });
+  }
+
   const budget = await context.tenantDb.budget.update({
     where: { id },
     data: {
       title: typeof body.title === "string" ? body.title : undefined,
       ownerId: typeof body.ownerId === "string" ? body.ownerId : undefined,
+      startDate: body.startDate === null ? null : startDate,
+      endDate: body.endDate === null ? null : endDate,
+      color: typeof body.color === "string" ? body.color : body.color === null ? null : undefined,
+      isTemplate: typeof body.isTemplate === "boolean" ? body.isTemplate : undefined,
     },
   });
+
+  await recordActivity(context.tenantDb, {
+    projectId: budget.projectId,
+    actorId: context.currentUser.id,
+    type: "budget_updated",
+    summary: `Budget "${budget.title}" wurde aktualisiert.`,
+    budgetId: budget.id,
+  });
+
   return NextResponse.json({ budget });
 }
 
@@ -39,6 +67,12 @@ export async function DELETE(_request: Request, { params }: { params: Promise<{ 
   if (!context?.currentUser) {
     return NextResponse.json({ error: "Nicht angemeldet." }, { status: 401 });
   }
+  const denied = await assertSingleProjectAccess(
+    context.tenantDb,
+    context.currentUser,
+    await resolveProjectIdForBudget(context.tenantDb, id),
+  );
+  if (denied) return denied;
   const canManageBudgets = await hasEffectivePermission(
     context.tenantDb,
     context.currentUser,

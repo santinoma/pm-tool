@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
 import { canManageMembers } from "@/tenant/auth/roleGuard";
-import { PERMISSION_KEYS } from "@/tenant/permissions/permissionCatalog";
+import { PERMISSION_KEYS, resolveWithDependencies } from "@/tenant/permissions/permissionCatalog";
 
 export async function GET() {
   const context = await getTenantContext();
@@ -24,9 +24,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "name ist erforderlich." }, { status: 400 });
   }
   const validKeys: readonly string[] = PERMISSION_KEYS;
-  const permissions = Array.isArray(body.permissions)
+  const selectedPermissions = Array.isArray(body.permissions)
     ? body.permissions.filter((key: unknown) => typeof key === "string" && validKeys.includes(key))
     : [];
+  const permissions = resolveWithDependencies(selectedPermissions);
 
   const role = await context.tenantDb.customRole.create({
     data: { name: body.name, permissions },

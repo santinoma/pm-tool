@@ -1,0 +1,183 @@
+'use client';
+
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useSyncExternalStore,
+  type PropsWithChildren,
+} from 'react';
+import { flushSync } from 'react-dom';
+
+type Theme = 'light' | 'dark' | 'system';
+
+type ThemeProviderProps = PropsWithChildren<{
+  defaultTheme?: Theme;
+}>;
+
+type ThemeContextValue = {
+  theme: Theme;
+  setTheme: (theme: Theme, options?: { x?: number; y?: number }) => void;
+};
+
+const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
+
+function syncBrowserThemeColor() {
+  const root = document.documentElement;
+  const themeColor =
+    getComputedStyle(root).getPropertyValue('--background').trim() ||
+    (root.classList.contains('dark') ? '#09090b' : '#ffffff');
+
+  const metas = document.querySelectorAll('meta[name="theme-color"]');
+
+  if (metas.length === 0) {
+    const meta = document.createElement('meta');
+    meta.name = 'theme-color';
+    meta.content = themeColor;
+    document.head.appendChild(meta);
+    return;
+  }
+
+  metas.forEach((meta) => {
+    meta.setAttribute('content', themeColor);
+  });
+}
+
+export function setHeaderChromeActive(active: boolean) {
+  if (typeof window === 'undefined') return;
+
+  const root = document.documentElement;
+  const background = getComputedStyle(root)
+    .getPropertyValue('--background')
+    .trim();
+  const card = getComputedStyle(root).getPropertyValue('--card').trim();
+
+  root.style.setProperty('--browser-chrome-top', active ? card : background);
+  root.dataset.headerActive = active ? 'true' : 'false';
+  syncBrowserThemeColor();
+}
+
+function applyTheme(theme: Theme) {
+  const root = document.documentElement;
+  const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+    ? 'dark'
+    : 'light';
+  const resolvedTheme = theme === 'system' ? systemTheme : theme;
+
+  root.classList.remove('light', 'dark');
+  root.classList.add(resolvedTheme);
+  root.style.colorScheme = resolvedTheme;
+
+  document.cookie = `theme=${resolvedTheme}; path=/; max-age=31536000; SameSite=Lax`;
+  setHeaderChromeActive(root.dataset.headerActive === 'true');
+}
+
+function subscribeToThemeStore(onStoreChange: () => void) {
+  if (typeof window === 'undefined') {
+    return () => {};
+  }
+
+  const handleStorage = (event: StorageEvent) => {
+    if (event.key === 'theme') {
+      onStoreChange();
+    }
+  };
+
+  const handleCustomTheme = () => {
+    onStoreChange();
+  };
+
+  window.addEventListener('storage', handleStorage);
+  window.addEventListener('theme-change', handleCustomTheme);
+  return () => {
+    window.removeEventListener('storage', handleStorage);
+    window.removeEventListener('theme-change', handleCustomTheme);
+  };
+}
+
+function getThemeSnapshot(defaultTheme: Theme): Theme {
+  if (typeof window === 'undefined') {
+    return defaultTheme;
+  }
+
+  const storedTheme = window.localStorage.getItem('theme');
+  return storedTheme === 'light' ||
+    storedTheme === 'dark' ||
+    storedTheme === 'system'
+    ? storedTheme
+    : defaultTheme;
+}
+
+export const ThemeProvider = ({
+  children,
+  defaultTheme = 'light',
+}: ThemeProviderProps) => {
+  const theme = useSyncExternalStore(
+    subscribeToThemeStore,
+    () => getThemeSnapshot(defaultTheme),
+    () => defaultTheme,
+  );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = () => {
+      if (getThemeSnapshot(defaultTheme) === 'system') {
+        applyTheme('system');
+      }
+    };
+
+    applyTheme(theme);
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, [defaultTheme, theme]);
+
+  const setTheme = useCallback(
+    (value: Theme, options?: { x?: number; y?: number }) => {
+      const applyThemeChange = () => {
+        window.localStorage.setItem('theme', value);
+        applyTheme(value);
+        window.dispatchEvent(new Event('theme-change'));
+      };
+
+      if (typeof window === 'undefined') {
+        applyThemeChange();
+        return;
+      }
+
+      if (!document.startViewTransition) {
+        applyThemeChange();
+        return;
+      }
+
+      const x = options?.x ?? window.innerWidth / 2;
+      const y = options?.y ?? window.innerHeight / 2;
+      const root = document.documentElement;
+
+      root.style.setProperty('--x', `${x}px`);
+      root.style.setProperty('--y', `${y}px`);
+
+      document.startViewTransition(() => {
+        flushSync(applyThemeChange);
+      });
+    },
+    [],
+  );
+
+  const value = useMemo(() => ({ theme, setTheme }), [theme, setTheme]);
+
+  return (
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+  );
+};
+
+export function useTheme() {
+  const context = useContext(ThemeContext);
+
+  if (!context) {
+    throw new Error('useTheme must be used within ThemeProvider');
+  }
+
+  return context;
+}

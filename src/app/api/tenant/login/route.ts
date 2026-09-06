@@ -6,6 +6,7 @@ import { verifyPassword } from "@/tenant/auth/password";
 import { buildSessionCookie, computeSessionExpiry } from "@/tenant/auth/session";
 import { applySessionCookie } from "@/tenant/auth/applySessionCookie";
 import { computePendingLoginExpiry } from "@/tenant/auth/pendingLogin";
+import { isPasswordLoginAllowed } from "@/tenant/sso/ssoEligibility";
 
 const GENERIC_ERROR = "E-Mail oder Passwort ist falsch.";
 
@@ -34,6 +35,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: GENERIC_ERROR }, { status: 401 });
   }
 
+  const ssoConfig = await tenantDb.ssoConfig.findFirst();
+  if (ssoConfig?.enforceSso && !isPasswordLoginAllowed(user, ssoConfig.enforceSso)) {
+    return NextResponse.json(
+      { error: "Diese Organisation erfordert die Anmeldung über SSO." },
+      { status: 403 },
+    );
+  }
+
   if (user.totpEnabled) {
     const pending = await tenantDb.pendingLogin.create({
       data: { userId: user.id, expiresAt: computePendingLoginExpiry() },
@@ -42,7 +51,15 @@ export async function POST(request: Request) {
   }
 
   const expiresAt = computeSessionExpiry();
-  const session = await tenantDb.session.create({ data: { userId: user.id, expiresAt } });
+  const now = new Date();
+  const session = await tenantDb.session.create({
+    data: {
+      userId: user.id,
+      expiresAt,
+      userAgent: headerList.get("user-agent"),
+      lastSeenAt: now,
+    },
+  });
 
   const response = NextResponse.json({ userId: user.id }, { status: 200 });
   applySessionCookie(response, buildSessionCookie(session.id, expiresAt));

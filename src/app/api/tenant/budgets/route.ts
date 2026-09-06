@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
 import { hasEffectivePermission } from "@/tenant/permissions/resolvePermissions";
+import { assertSingleProjectAccess } from "@/tenant/projectAccess/assertProjectAccess";
+import { recordActivity } from "@/tenant/notifications/recordActivity";
+import { cloneBudgetSections } from "@/tenant/budgeting/cloneBudgetSections";
+import type { BillingType, TrackingUnit } from "@/generated/tenant-client/client.js";
 
 export async function GET(request: Request) {
   const context = await getTenantContext();
@@ -12,6 +16,8 @@ export async function GET(request: Request) {
   if (!projectId) {
     return NextResponse.json({ error: "projectId ist erforderlich." }, { status: 400 });
   }
+  const denied = await assertSingleProjectAccess(context.tenantDb, context.currentUser, projectId);
+  if (denied) return denied;
 
   const budgets = await context.tenantDb.budget.findMany({
     where: { projectId },
@@ -49,6 +55,8 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   }
+  const denied = await assertSingleProjectAccess(context.tenantDb, context.currentUser, body.projectId);
+  if (denied) return denied;
 
   const isRetainer = body.isRetainer === true;
   if (isRetainer && body.recurrenceInterval !== "weekly" && body.recurrenceInterval !== "monthly") {
@@ -58,6 +66,27 @@ export async function POST(request: Request) {
     );
   }
 
+  const startDate = typeof body.startDate === "string" ? new Date(body.startDate) : null;
+  const endDate = typeof body.endDate === "string" ? new Date(body.endDate) : null;
+  if ((startDate && Number.isNaN(startDate.getTime())) || (endDate && Number.isNaN(endDate.getTime()))) {
+    return NextResponse.json({ error: "Ungültiges Datum." }, { status: 400 });
+  }
+  if (startDate && endDate && endDate < startDate) {
+    return NextResponse.json({ error: "endDate muss nach startDate liegen." }, { status: 400 });
+  }
+
+  let templateSections: Awaited<ReturnType<typeof context.tenantDb.budgetSection.findMany>> = [];
+  if (typeof body.templateBudgetId === "string" && body.templateBudgetId.length > 0) {
+    const template = await context.tenantDb.budget.findUnique({
+      where: { id: body.templateBudgetId },
+      include: { sections: true },
+    });
+    if (!template || !template.isTemplate || template.projectId !== body.projectId) {
+      return NextResponse.json({ error: "Ungültige Budget-Vorlage." }, { status: 400 });
+    }
+    templateSections = template.sections;
+  }
+
   const budget = await context.tenantDb.budget.create({
     data: {
       projectId: body.projectId,
@@ -65,8 +94,30 @@ export async function POST(request: Request) {
       ownerId: body.ownerId,
       isRetainer,
       recurrenceInterval: isRetainer ? body.recurrenceInterval : null,
+      startDate,
+      endDate,
+      color: typeof body.color === "string" ? body.color : null,
+      sections:
+        templateSections.length > 0
+          ? {
+              create: cloneBudgetSections(templateSections).map((section) => ({
+                ...section,
+                billingType: section.billingType as BillingType,
+                trackingUnit: section.trackingUnit as TrackingUnit,
+              })),
+            }
+          : undefined,
     },
     include: { owner: true, sections: true },
   });
+
+  await recordActivity(context.tenantDb, {
+    projectId: budget.projectId,
+    actorId: context.currentUser.id,
+    type: "budget_created",
+    summary: `Budget "${budget.title}" wurde angelegt.`,
+    budgetId: budget.id,
+  });
+
   return NextResponse.json({ budget }, { status: 201 });
 }

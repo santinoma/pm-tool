@@ -2,7 +2,34 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { AdminShell } from "@/ui/shell/AdminShell";
+import { Check, Copy } from "lucide-react";
+
+import { AdminShellNextElite } from "@/ui/nextelite/AdminShellNextElite";
+import { Button } from "@/ui/shadcn/components/button";
+import { Input } from "@/ui/shadcn/components/input";
+import { Label } from "@/ui/shadcn/components/label";
+import { ToggleGroup, ToggleGroupItem } from "@/ui/shadcn/components/toggle-group";
+
+function CopyButton({ value }: { value: string }) {
+  const [copied, setCopied] = useState(false);
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {
+      // clipboard API unavailable — no-op, user can still select the text manually
+    }
+  }
+
+  return (
+    <Button type="button" variant="outline" size="sm" onClick={handleCopy}>
+      {copied ? <Check className="text-success" /> : <Copy />}
+      {copied ? "Kopiert" : "Kopieren"}
+    </Button>
+  );
+}
 
 export default function NewTenantPage() {
   const [name, setName] = useState("");
@@ -51,147 +78,141 @@ export default function NewTenantPage() {
 
   if (inviteUrl) {
     return (
-      <AdminShell>
-        <div className="container" style={{ maxWidth: "480px" }}>
-          <h1>Tenant angelegt</h1>
-          <p className="text-muted" style={{ margin: "var(--space-3) 0" }}>
+      <AdminShellNextElite>
+        <div className="max-w-lg py-8">
+          <div className="mb-1.5 text-xs font-semibold tracking-wide text-primary uppercase">Plattform</div>
+          <h1 className="text-2xl font-bold tracking-tight">Tenant angelegt</h1>
+          <p className="mt-2.5 mb-5 text-sm text-muted-foreground">
             Teile diesen Einladungslink mit dem Kunden, um den ersten Zugang einzurichten:
           </p>
-          <div className="card" style={{ wordBreak: "break-all" }}>
-            <code className="coord" style={{ fontSize: "var(--text-sm)" }}>
-              {inviteUrl}
-            </code>
+          <div className="flex items-center gap-3 rounded-lg border bg-card p-4">
+            <code className="flex-1 text-sm break-all text-muted-foreground">{inviteUrl}</code>
+            <CopyButton value={inviteUrl} />
           </div>
-          <Link href="/tenants" className="btn btn-secondary" style={{ marginTop: "var(--space-5)" }}>
-            Zur Tenant-Liste
-          </Link>
+          <Button asChild variant="outline" className="mt-6">
+            <Link href="/tenants">Zur Tenant-Liste</Link>
+          </Button>
         </div>
-      </AdminShell>
+      </AdminShellNextElite>
     );
   }
 
   return (
-    <AdminShell>
-      <div className="container" style={{ maxWidth: "420px" }}>
-        <h1 style={{ marginBottom: "var(--space-6)" }}>Neuer Tenant</h1>
-        <form onSubmit={handleSubmit} className="stack" style={{ gap: "var(--space-5)" }}>
-          <div className="field">
-            <label className="field-label" htmlFor="tenant-name">
-              Name
-            </label>
-            <input
-              id="tenant-name"
-              type="text"
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-              required
-              className="input"
-            />
+    <AdminShellNextElite>
+      <div className="max-w-md py-8">
+        <div className="mb-1.5 text-xs font-semibold tracking-wide text-primary uppercase">Plattform</div>
+        <h1 className="mb-6 text-2xl font-bold tracking-tight">Neuer Tenant</h1>
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5 rounded-lg border bg-card p-6">
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="tenant-name">Name</Label>
+            <Input id="tenant-name" value={name} onChange={(event) => setName(event.target.value)} required />
           </div>
-          <div className="field">
-            <label className="field-label" htmlFor="tenant-subdomain">
-              Subdomain
-            </label>
-            <input
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="tenant-subdomain">Subdomain</Label>
+            <Input
               id="tenant-subdomain"
-              type="text"
               value={subdomain}
               onChange={(event) => setSubdomain(event.target.value.toLowerCase())}
               required
               placeholder="kunde"
-              className="input"
             />
           </div>
-          <div className="field">
-            <label className="field-label" htmlFor="tenant-owner-email">
-              Owner-E-Mail
-            </label>
-            <input
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="tenant-owner-email">Owner-E-Mail</Label>
+            <Input
               id="tenant-owner-email"
               type="email"
               value={ownerEmail}
               onChange={(event) => setOwnerEmail(event.target.value)}
               required
               placeholder="person@kunde.de"
-              className="input"
             />
           </div>
-          <div className="field">
-            <label className="field-label" htmlFor="tenant-plan">
-              Lizenzart
-            </label>
-            <select
-              id="tenant-plan"
-              className="select"
+
+          <div className="flex flex-col gap-2">
+            <Label id="tenant-plan-label">Lizenzart</Label>
+            <ToggleGroup
+              type="single"
+              variant="outline"
               value={plan}
-              onChange={(event) => {
-                const nextPlan = event.target.value as "small" | "medium" | "enterprise";
+              onValueChange={(value) => {
+                if (!value) return;
+                const nextPlan = value as "small" | "medium" | "enterprise";
                 setPlan(nextPlan);
                 if (nextPlan !== "enterprise" && tier === "dedicated") {
                   setTier("shared");
                 }
               }}
+              aria-labelledby="tenant-plan-label"
+              className="w-full"
             >
-              <option value="small">Klein</option>
-              <option value="medium">Mittelstand</option>
-              <option value="enterprise">Enterprise</option>
-            </select>
-            <p className="field-hint">
-              Klein: Kernmodule. Mittelstand: + Budgets/Financials, Cycles, Automations, Client-Portal,
-              2FA/SCIM u. a. Enterprise: + Portfolios, Baseline-Diffing, Slack-Capture, dedizierte
-              Infrastruktur.
+              <ToggleGroupItem value="small">Klein</ToggleGroupItem>
+              <ToggleGroupItem value="medium">Mittelstand</ToggleGroupItem>
+              <ToggleGroupItem value="enterprise">Enterprise</ToggleGroupItem>
+            </ToggleGroup>
+            <p className="text-xs text-muted-foreground">
+              Klein: Kernmodule. Mittelstand: + Budgets/Financials, Cycles, Automations, Client-Portal, 2FA/SCIM u. a.
+              Enterprise: + Portfolios, Baseline-Diffing, Slack-Capture, dedizierte Infrastruktur.
             </p>
           </div>
+
           {plan === "small" && (
-            <label className="row" style={{ gap: "var(--space-3)", fontSize: "var(--text-sm)" }}>
+            <label className="flex items-center gap-2.5 text-sm font-medium text-foreground/80">
               <input
                 type="checkbox"
                 checked={twoFactorAddOn}
                 onChange={(event) => setTwoFactorAddOn(event.target.checked)}
+                className="size-4 accent-primary"
               />
               2FA/SCIM als Zusatzbuchung aktivieren
             </label>
           )}
-          <div className="field">
-            <label className="field-label" htmlFor="tenant-tier">
-              Infrastruktur
-            </label>
-            <select
-              id="tenant-tier"
-              className="select"
+
+          <div className="flex flex-col gap-2">
+            <Label id="tenant-tier-label">Infrastruktur</Label>
+            <ToggleGroup
+              type="single"
+              variant="outline"
               value={tier}
-              disabled={plan !== "enterprise"}
-              onChange={(event) => setTier(event.target.value as "shared" | "dedicated")}
+              onValueChange={(value) => value && setTier(value as "shared" | "dedicated")}
+              aria-labelledby="tenant-tier-label"
+              className="w-full"
             >
-              <option value="shared">Geteilt (Standard)</option>
-              <option value="dedicated" disabled={plan !== "enterprise"}>
-                Dediziert (eigener DB-Server) — nur Enterprise
-              </option>
-            </select>
+              <ToggleGroupItem value="shared">Geteilt (Standard)</ToggleGroupItem>
+              <ToggleGroupItem value="dedicated" disabled={plan !== "enterprise"}>
+                Dediziert
+              </ToggleGroupItem>
+            </ToggleGroup>
+            {plan !== "enterprise" && (
+              <p className="text-xs text-muted-foreground">
+                Dedizierte Infrastruktur (eigener DB-Server) ist nur für Enterprise verfügbar.
+              </p>
+            )}
           </div>
+
           {tier === "dedicated" && (
-            <div className="field">
-              <label className="field-label" htmlFor="tenant-target-connection">
-                Ziel-Connection-String
-              </label>
-              <input
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="tenant-target-connection">Ziel-Connection-String</Label>
+              <Input
                 id="tenant-target-connection"
-                type="text"
                 value={targetConnectionString}
                 onChange={(event) => setTargetConnectionString(event.target.value)}
                 required
                 placeholder="postgresql://user:pass@host:5432/postgres"
-                className="input"
               />
-              <p className="field-hint">Zeigt auf die Admin-Verbindung des dedizierten Servers.</p>
+              <p className="text-xs text-muted-foreground">Zeigt auf die Admin-Verbindung des dedizierten Servers.</p>
             </div>
           )}
-          {error && <p className="field-error">{error}</p>}
-          <button type="submit" disabled={submitting} className="btn btn-primary">
+
+          {error && <p className="text-sm text-destructive">{error}</p>}
+          <Button type="submit" loading={submitting}>
             {submitting ? "Wird angelegt…" : "Tenant anlegen"}
-          </button>
+          </Button>
         </form>
       </div>
-    </AdminShell>
+    </AdminShellNextElite>
   );
 }

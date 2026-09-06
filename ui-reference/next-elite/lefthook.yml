@@ -1,0 +1,21 @@
+pre-commit:
+  parallel: true
+  commands:
+    oxlint:
+      glob: '*.{js,jsx,ts,tsx}'
+      run: npx oxlint --fix {staged_files}
+      stage_fixed: true
+    oxfmt:
+      glob: '*.{js,jsx,ts,tsx,json,css,md,yml,yaml}'
+      run: npx oxfmt --no-error-on-unmatched-pattern {staged_files}
+      stage_fixed: true
+
+commit-msg:
+  commands:
+    commitlint:
+      run: npx commitlint --edit {1}
+
+pre-push:
+  commands:
+    check:
+      run: npm run check

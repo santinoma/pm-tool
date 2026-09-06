@@ -1,54 +1,53 @@
 ---
-name: PM Tool — Field Atlas
-description: A cartographic/gazetteer-inspired design system for an Operate-mode project management SaaS.
+name: PM Tool — Apple HIG
+description: An Apple/macOS Human-Interface-Guidelines-inspired design system for an Operate-mode project management SaaS.
 colors:
-  bg: "#f1f3f4"
+  bg: "#f5f5f7"
   surface: "#ffffff"
-  surface-2: "#e7ebec"
-  border: "#d3d9da"
-  border-strong: "#b7c0c1"
-  text: "#141b1e"
-  text-muted: "#566063"
-  text-faint: "#8a9497"
-  accent: "#0f7a82"
-  accent-strong: "#0b636a"
+  surface-2: "#f0f0f2"
+  border: "rgba(0,0,0,0.1)"
+  border-strong: "rgba(0,0,0,0.18)"
+  text: "#1d1d1f"
+  text-muted: "#6e6e73"
+  text-faint: "#98989d"
+  accent: "#0071e3"
+  accent-strong: "#0060c0"
   accent-contrast: "#ffffff"
-  accent-tint: "#dcefef"
-  warning: "#9a6b13"
-  warning-tint: "#f3e6cc"
-  danger: "#a3352a"
-  danger-tint: "#f4dcd9"
-  success: "#2f7d55"
-  success-tint: "#dcefe4"
+  accent-tint: "rgba(0,113,227,0.12)"
+  warning: "#b3792b"
+  warning-tint: "#fbf0e0"
+  danger: "#d70015"
+  danger-tint: "#fde7e8"
+  success: "#1e8e3e"
+  success-tint: "#e3f5e8"
 typography:
   body:
-    fontFamily: "var(--font-archivo), Archivo, Helvetica Neue, Arial, sans-serif"
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', var(--font-archivo), 'Helvetica Neue', Arial, sans-serif"
     fontSize: "0.9375rem"
     fontWeight: 400
     lineHeight: 1.5
   title:
-    fontFamily: "var(--font-archivo), Archivo, Helvetica Neue, Arial, sans-serif"
-    fontSize: "1.25rem"
     fontWeight: 600
+    fontSize: "1.25rem"
     letterSpacing: "-0.01em"
   headline:
-    fontFamily: "var(--font-archivo), Archivo, Helvetica Neue, Arial, sans-serif"
-    fontSize: "1.875rem"
     fontWeight: 600
+    fontSize: "1.875rem"
     letterSpacing: "-0.01em"
   label:
-    fontFamily: "var(--font-archivo), Archivo, Helvetica Neue, Arial, sans-serif"
     fontSize: "0.75rem"
     fontWeight: 600
-    letterSpacing: "0.04em"
+    letterSpacing: "0.02em"
   mono:
-    fontFamily: "var(--font-jetbrains-mono), JetBrains Mono, SFMono-Regular, Consolas, monospace"
+    fontFamily: "ui-monospace, 'SF Mono', 'SFMono-Regular', Menlo, var(--font-jetbrains-mono), Consolas, monospace"
     fontSize: "0.75rem"
     fontVariation: "tabular-nums"
 rounded:
-  sm: "4px"
-  md: "6px"
-  lg: "10px"
+  xs: "4px"
+  sm: "8px"
+  md: "12px"
+  lg: "18px"
+  pill: "980px"
 spacing:
   1: "0.25rem"
   2: "0.5rem"
@@ -66,181 +65,176 @@ components:
     textColor: "{colors.accent-contrast}"
     rounded: "{rounded.sm}"
     height: "36px"
-    padding: "0 1rem"
-  button-primary-hover:
-    backgroundColor: "{colors.accent-strong}"
   button-secondary:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.text}"
     rounded: "{rounded.sm}"
-    height: "36px"
-  button-ghost:
-    backgroundColor: "transparent"
-    textColor: "{colors.text-muted}"
-    rounded: "{rounded.sm}"
-  button-danger:
-    backgroundColor: "transparent"
-    textColor: "{colors.danger}"
-    rounded: "{rounded.sm}"
-  input:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.text}"
-    rounded: "{rounded.sm}"
-    height: "38px"
-    padding: "0 0.75rem"
+    borderColor: "{colors.border-strong}"
   card:
     backgroundColor: "{colors.surface}"
     rounded: "{rounded.lg}"
+    shadow: "shadow-md"
     padding: "1.5rem"
   widget-card:
     backgroundColor: "{colors.surface}"
-    rounded: "{rounded.md}"
+    rounded: "{rounded.lg}"
+    shadow: "shadow-md"
     padding: "1.25rem"
-  legend-key:
-    backgroundColor: "{colors.surface-2}"
-    textColor: "{colors.text-muted}"
-    rounded: "{rounded.sm}"
-    padding: "0.25rem 0.5rem"
+  topbar:
+    backgroundColor: "rgba(255,255,255,0.82)"
+    backdropFilter: "blur(20px)"
+    height: "52px"
 ---
 
-# Design System: PM Tool — Field Atlas
+# Design System: PM Tool — Apple HIG
 
 ## Overview
 
-**Creative North Star: "Field Atlas"**
+**Creative North Star:** the app should feel like a well-crafted native
+macOS/iPadOS panel — translucent chrome, restrained neutral grays, one
+confident system-blue accent, generous rounded corners — rather than a
+generic SaaS dashboard built from stock web components.
 
-Field Atlas translates a cartographic/gazetteer vocabulary into a restrained Operate-mode UI. The metaphor lives in structure and naming, not in surface decoration: there is no parchment texture, no globe imagery, no literal compass rose. Instead, status reads through one consistent legend-key component (swatch + label) rather than ad hoc colored pills, task and project identifiers render in monospace "grid-coordinate" style, the sidebar functions as a gazetteer index, Cmd+K is framed as the index lookup, and progress renders as a map's graphic scale bar. Dashboard widgets are bordered "map insets" with a small corner-tick marginal-reference mark in two opposite corners — the one deliberately map-derived graphic device the system permits, because the direction contract calls for it explicitly and it does not resemble a decorative flourish added after the fact.
+This is the system actually shipped in `src/app/globals.css` today. It
+supersedes an earlier "Field Atlas" cartographic direction (teal accent,
+graphite/paper neutrals, sidebar-as-gazetteer) that was built first and
+then deliberately replaced app-wide — see git history: `0882648 Build the
+Field Atlas design system...` followed by `943d732 Migrate the Apple-HIG
+design from Dashboard to the whole app`. The Field Atlas doc content that
+previously lived here was stale relative to the code; this file now
+documents ground truth.
 
-Color strategy is deliberately restrained for an Operate-mode tool: cool graphite/charcoal neutrals, chosen specifically to avoid the warm-cream-plus-serif "AI-generated landing page" look. One hydrographic-teal accent carries all primary actions, selection, and links; muted ochre, red, and green are reserved for warning/destructive/success state only, never for decoration. Dark mode is the primary, designed-for mode (built to evoke a chart room at night); light mode is a fully coherent alternative served via `prefers-color-scheme`, not an afterthought.
+**Key characteristics:**
+- Restrained neutral grays (`#f5f5f7` background family) — no cream/parchment, no graphite/charcoal
+- A single system-blue accent (`#0071e3` light / `#2997ff` dark) for all primary action, selection, and links
+- SF Pro system font stack (falls back to the app's Archivo webfont, never the reverse)
+- Translucent, blurred sticky topbar (`backdrop-filter: blur(20px)`) instead of a left sidebar — the tenant app, admin, and portal shells all share this pattern
+- Nav is a pill-shaped segmented control (`--radius-pill: 980px`) inside the topbar, not a list of links
+- Soft ambient shadows on cards/modals/panels (`--shadow-md`), not hairline-only flatness
+- Generous corner radii: 8px on controls, 12px on panels/tables, 18px on cards/modals — nothing sharp-square, nothing fully flat like the earlier direction
 
-The build is disciplined about restraint: no drop shadows beyond two soft ambient values used on exactly two floating/overlay surfaces, no uppercase kickers or eyebrow labels above headings, no glyph icon set (the UI uses text, a monospace "⌘K" hint, and a plain ↑/↓ character where a control needs a symbol). This is a working tool for desk use, not a marketing surface — density and legibility outrank ornament.
-
-**Key Characteristics:**
-- Cool graphite neutrals, dark-mode-primary, no cream/parchment skeuomorphism
-- One teal accent used only for primary action, selection, and links
-- Status expressed exclusively through the legend-key swatch+label pattern
-- Monospace used narrowly: coordinates/IDs, wordmarks, kbd hints, tabular numerals
-- Progress expressed as a graphic scale bar, never a percentage-only readout
-- Nearly flat: hairline borders do the separating work, not shadows
-
-**Coverage — what is authoritative today.** The Field Atlas system now covers the full application, not just the initial slice:
-- Shell: root layout/fonts, `AppShell`, `AdminShell`, `ProjectSubnav` (now rendered once per project via `projects/[id]/layout.tsx`, not per-page), `LegendKey`, `CommandPalette`.
-- Every tenant page (dashboard, projects list/new, task list/board/calendar/gantt/hill-chart/triage/activity/budget/wiki/check-ins/workflow settings, task detail, members, notifications, reports, resource planning, time tracking, settings hub + organization/time-tracking/webhooks) and every platform-admin page (tenants list + new-tenant form) use these tokens and components.
-
-There is no remaining surface still on the old ad hoc inline-style look. Any new page should be built directly against the tokens/components documented here rather than reintroducing inline styles.
+**Coverage.** The Apple-HIG system covers the whole application — tenant
+app shell, admin shell, portal shell, auth pages, command palette, all
+project workspace views (list/board/calendar/gantt/hill-chart/triage),
+task detail, budgets, settings, time tracking, and every feature added in
+subsequent sessions (custom fields, automations, rate cards, scenarios,
+private/key tasks, etc.) — because those were all built against the same
+shared `globals.css` token classes (`.card`, `.btn`, `.field`, `.legend-key`,
+`.board-col`, ...) rather than reintroducing inline styles.
 
 ## Colors
 
-The palette is a cool, low-chroma graphite scale with a single warm-cool accent and three narrow state colors.
-
 ### Primary
-- **Hydrographic Teal** (`#0f7a82` light / `#2fd9c4` dark): the sole accent. Used for primary buttons, focus rings, active nav/tab/subnav indicators, selected board columns, links, and the command-palette active tab. Its tint (`#dcefef` light / `#163330` dark) backs focus rings and active/drag-over states.
+- **System Blue** (`#0071e3` light / `#2997ff` dark): the sole accent — primary buttons, focus rings, active nav pill, selected states, links. Tint (`rgba(0,113,227,0.12)` light) backs focus rings, active board columns, and the command-palette active tab.
 
 ### Neutral
-- **Bg** (`#f1f3f4` light / `#11171a` dark): page background.
-- **Surface** (`#ffffff` light / `#1a2225` dark): cards, panels, topbars, table rows, inputs.
-- **Surface-2** (`#e7ebec` light / `#151c1f` dark): sidebar background, table header, hover rows, legend-key default fill, kbd keys.
-- **Border / Border-strong** (`#d3d9da` / `#b7c0c1` light, `#2a3538` / `#3b4a4d` dark): hairline dividers everywhere; border-strong is reserved for inputs, dashed empty-states, and hover-elevated board cards.
-- **Text / Text-muted / Text-faint** (`#141b1e` / `#566063` / `#8a9497` light): a three-step text scale — primary copy, secondary labels (nav, table headers, field labels), and tertiary metadata (coordinate IDs, hints).
+- **Bg** (`#f5f5f7` light / `#1e1e1e` dark): page background — the classic macOS System Gray 6.
+- **Surface** (`#ffffff` light / `#2c2c2e` dark): cards, panels, tables, inputs.
+- **Surface-2** (`#f0f0f2` light / `#252525` dark): pill-nav track, table headers, hover rows, board columns.
+- **Border / Border-strong**: low-opacity black/white (`rgba(0,0,0,0.1)` / `rgba(0,0,0,0.18)` light) rather than solid grays — the Apple hairline convention.
+- **Text / Text-muted / Text-faint** (`#1d1d1f` / `#6e6e73` / `#98989d` light): primary copy, secondary labels, tertiary metadata.
 
-### State (used only for state, never decoration)
-- **Warning (muted ochre)** (`#9a6b13` light / `#d7a44b` dark) with tint `#f3e6cc` / `#3a2f1a`.
-- **Danger (muted red)** (`#a3352a` light / `#e2685c` dark) with tint `#f4dcd9` / `#3a201d`: destructive actions, overdue/over-budget scale-bar fills, field errors.
-- **Success (muted green)** (`#2f7d55` light / `#4cc38a` dark) with tint `#dcefe4` / `#17332a`: done status.
-
-### Named Rules
-**The Legend, Not a Rainbow Rule.** Status and category state is always expressed through `.legend-key` (swatch + label), never as an ad hoc colored pill or bare colored text. This is the system's core translation of "map legend" into UI.
-
-**The One Accent Rule.** Teal is the only color used for action and selection. Warning/danger/success never appear on interactive chrome (buttons, nav) — they mark data state only.
+### State (state only, never decoration)
+- **Warning** (`#b3792b` light / `#e3ab52` dark)
+- **Danger** (`#d70015` light / `#ff453a` dark) — Apple's system-red
+- **Success** (`#1e8e3e` light / `#32d74b` dark) — Apple's system-green
 
 ## Typography
 
-**Body/UI Font:** Archivo (with Helvetica Neue, Arial, sans-serif fallback)
-**Label/Mono Font:** JetBrains Mono (with SFMono-Regular, Consolas, monospace fallback)
+**Font stack:** `-apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", Archivo, "Helvetica Neue", Arial, sans-serif` — real SF Pro on Apple devices via `-apple-system`/`BlinkMacSystemFont`, falling back to the app's bundled Archivo webfont elsewhere so non-Apple users still see a geometric-neutral face rather than generic Arial.
 
-**Character:** A single grotesque sans (Archivo) carries all prose and UI chrome at a fairly tight, dense size; JetBrains Mono is reserved for anything that reads as "data" — coordinates, wordmarks, keyboard hints, tabular numerals — reinforcing the chart/index metaphor without introducing a second display face.
+**Mono:** `ui-monospace, "SF Mono", "SFMono-Regular", Menlo, JetBrains Mono, Consolas, monospace` — used narrowly for coordinate-style data (durations, tabular numbers, kbd hints).
 
 ### Hierarchy
-- **Title / h1** (600, 1.875rem, -0.01em): page titles ("Dashboard", "Projekte").
-- **Title / h2** (600, 1.5rem, -0.01em): section headers within a page.
-- **Title / h3** (600, 1.25rem, -0.01em): card/widget-level headers.
-- **Body** (400, 0.9375rem, 1.5 line-height): default UI copy, table cells, list items.
-- **Label** (600–700, 0.75rem, 0.02em–0.08em letter-spacing, uppercase): field labels, table headers, widget titles, nav-section headers, board-column headers — always uppercase, always the smallest step in the scale.
-- **Coord/mono** (400, 0.75rem, tabular-nums): task/project identifiers, wordmark marks, `<kbd>` hints, command-palette result-type tags.
-
-### Named Rules
-**The Uppercase Label Rule.** Every structural label (field label, table header, widget title, nav section, board column header) is 0.75rem, 600–700 weight, uppercase, with positive letter-spacing, and colored `text-muted` or `text-faint` — never full `text`. This is the system's only sanctioned use of uppercase; it is never applied to a heading (h1–h3) or as a decorative kicker above one.
+- **h1** (600, 1.875rem, -0.01em letter-spacing): page titles.
+- **h2** (600, 1.5rem): section headers.
+- **h3** (600, 1.25rem): card/widget headers.
+- **Body** (400, 0.9375rem, 1.5 line-height): default UI copy.
+- **Field label** (600, 0.75rem, uppercase, 0.02em tracking, `text-muted`): form field labels, table headers, widget titles.
 
 ## Layout
 
-The shell is a fixed two-column app frame: a 240px sidebar (`--sidebar-width`) acting as the gazetteer index, and a flexible main column with a 56px topbar (`--topbar-height`). The platform-admin surface drops the sidebar for a single topbar-plus-content stack, keeping the same topbar height and wordmark treatment so the two surfaces read as siblings. Content containers cap at 1080px (`.container`) and center with `2rem 1.5rem` padding; the dashboard narrows this further to 920px for its widget grid.
+No sidebar anywhere in the tenant app — navigation lives entirely in a
+sticky, translucent topbar (`--topbar-height: 52px`, `backdrop-filter:
+blur(20px)`) containing the wordmark, a pill-shaped segmented nav
+(`.app-topbar-nav` / `.app-nav-item.is-active`), a search trigger
+(`⌘K`), and account controls. The admin and portal shells mirror the
+same topbar treatment for visual continuity across all three surfaces.
+Content containers cap at 1080px (`.container`) and center with
+`2rem 1.5rem` padding.
 
-Spacing follows a single rem-based scale from 0.25rem to 4rem (`--space-1` … `--space-16`, effectively a 4px base grid). Widget/dashboard cards lay out in a responsive auto-fit grid (`minmax(280px, 1fr)`) with `--space-5` gaps. The board (kanban) view is a horizontally scrolling row of fixed-minimum-width (260px) columns. Tables and lists use hairline row dividers rather than card-per-row treatment.
+Spacing follows the same 4px-based rem scale as before (`--space-1` …
+`--space-16`). Widget grids auto-fit at `minmax(280px, 1fr)`. The board
+(kanban) view scrolls horizontally with fixed-minimum-width columns.
 
 ## Elevation & Depth
 
-The system is nearly flat. Depth is conveyed almost entirely through hairline borders and background-tone steps (`surface` vs `surface-2` vs `bg`), not shadows. Two shadow tokens exist and are used sparingly, reserved for floating/overlay surfaces that need to visually detach from the page: the auth card and the command palette panel. Board cards get a very soft shadow only on hover, as a state response, not an ambient effect.
+Unlike a flat/hairline-only system, Apple HIG depth comes from soft,
+diffuse ambient shadows plus translucency, not borders alone.
 
-### Shadow Vocabulary
-- **shadow-sm** (`0 1px 2px rgba(20,27,30,0.06)` light / `0 1px 2px rgba(0,0,0,0.3)` dark): board-card hover only.
-- **shadow-md** (`0 6px 20px rgba(20,27,30,0.1)` light / `0 12px 32px rgba(0,0,0,0.45)` dark): the auth card and the command-palette panel — the system's only two "lifted" surfaces.
-
-### Named Rules
-**The Flat-By-Default Rule.** Cards, panels, and widgets are flat (border only, no shadow) at rest. Shadow is reserved for genuinely overlaid/floating surfaces (modal-equivalents: auth card, command palette) and for hover state, never for ordinary content cards.
+- **shadow-sm** (`0 1px 2px rgba(0,0,0,0.04)`): subtle, used on hover states.
+- **shadow-md** (`0 6px 20px rgba(0,0,0,0.07)` light / `0 8px 20px rgba(0,0,0,0.5)` dark): cards, widget-cards, modals, the command palette, dropdown panels — most raised surfaces carry this, not just overlays.
+- **Translucent chrome**: topbars use `rgba(surface, 0.82)` + `backdrop-filter: blur(20px)` so content scrolls beneath a frosted-glass bar, the signature macOS "material" effect.
 
 ## Shapes
 
-Three radius steps only: 4px (`--radius-sm`, the default for buttons, inputs, legend-key, board cards), 6px (`--radius-md`, panels, widgets, tables, board columns), and 10px (`--radius-lg`, top-level cards, the auth card, the command-palette panel). Nothing is fully rounded (pill) and nothing is sharp-square; the scale is small and consistent. Borders are hairline (1px) throughout, in `border` for structural dividers and `border-strong` for interactive-surface edges (inputs, hovered board cards, dashed empty-states).
-
-The one recurring non-rectangular form device is the `.widget-card` corner tick: a small (6px) two-sided border mark in the top-left and bottom-right corners, evoking a chart's marginal reference mark. It appears only on dashboard widget cards, never elsewhere.
+Five radius steps: 4px (`--radius-xs`, swatches/small chips), 8px
+(`--radius-sm`, buttons/inputs/board cards), 12px (`--radius-md`,
+panels/tables/calendar), 18px (`--radius-lg`, cards/modals/auth card),
+and a full pill (`--radius-pill: 980px`, the topbar segmented nav and nav
+items) — the pill is the system's signature Apple-native shape, absent
+from the earlier flat/hairline direction entirely.
 
 ## Components
 
 ### Buttons
-- **Shape:** 4px radius, 36px height (28px for `.btn-sm`), horizontal padding at `--space-4`.
-- **Primary:** teal background (`#0f7a82`/`#2fd9c4`), white/dark contrast text, darkens to `accent-strong` on hover.
-- **Secondary:** surface background with a `border-strong` outline; on hover the border and text shift to accent teal (an outline treatment, not a fill swap).
-- **Ghost:** transparent, muted text; on hover fills with `surface-2` and darkens text to full `text`.
-- **Danger:** transparent with a danger-colored outline and text; on hover fills with `danger-tint`. Reserved for destructive actions only.
+36px height (28px `.btn-sm`), 8px radius. Primary: solid system-blue,
+darkens on hover. Secondary: white surface with a `border-strong`
+outline that turns accent-blue on hover. Ghost: transparent, fills
+`surface-2` on hover. Danger: outlined in system-red, fills `danger-tint`
+on hover.
 
-### Legend Key (signature component)
-The system's translation of the map-legend metaphor into a status indicator: an 8px square swatch plus an uppercase-adjacent label, in a bordered pill-corner (4px radius) chip. Five states: default (faint gray), started (teal), done (green), warning (ochre), danger (red). This is the *only* sanctioned way to show status/category color in the product — never a bare colored dot, bare colored text, or an ad hoc pill.
-
-### Scale Bar (signature component)
-Progress renders as a thin (6px), bordered, rounded-end bar with a solid teal fill — "a map's graphic scale" per the direction contract — rather than a numeric-only readout or a rainbow-segmented bar. An `is-over` modifier swaps the fill to danger red when a value exceeds 100% (utilization, budget actuals). Always paired with a label row above it showing the exact value in monospace.
+### Topbar Nav (signature component)
+A translucent, blurred, sticky bar containing a pill-track segmented
+control (`.app-topbar-nav`, `surface-2` background, full pill radius);
+the active nav item gets a white pill (`surface` background) with a soft
+shadow, echoing macOS's segmented-control selection state. This — not a
+sidebar — is the app's primary navigation surface across tenant, admin,
+and portal shells alike.
 
 ### Cards / Containers
-- **Corner Style:** 10px (`.card`, `.auth-card`, `.cmdk-panel`) or 6px (`.panel`, `.widget-card`, `.table-wrap`, `.board-col`).
-- **Background:** `surface` (cards/panels/widgets) or `surface-2` (board columns, sidebar).
-- **Shadow Strategy:** flat by default; see Elevation & Depth.
-- **Border:** 1px `border` on every card/panel/widget/table/board-col.
-- **Internal Padding:** `--space-6` for `.card`, `--space-5` for `.widget-card`, `--space-3` for board columns/cards.
+18px radius (`.card`, `.widget-card`, `.auth-card`, `.modal-panel`,
+`.cmdk-panel`) or 12px (`.panel`, `.table-wrap`, `.board-col`,
+`.calendar-grid`). All carry `shadow-md` at rest — this system does not
+follow a flat-by-default rule; soft elevation is the default state for
+raised content, not just overlays.
 
 ### Inputs / Fields
-- **Style:** 38px height, 4px radius, 1px `border-strong` outline, `surface` background.
-- **Focus:** border shifts to accent teal plus a 3px `accent-tint` glow ring (`box-shadow: 0 0 0 3px var(--accent-tint)`) — no browser default outline.
-- **Error:** field-error text renders in `danger`, sized `--text-sm`, below the field.
-- **Label:** always the uppercase Label style (see Typography), never inline/floating.
+38px height, 8px radius, `border-strong` outline. Focus: border turns
+system-blue plus a 3px `accent-tint` glow ring — no browser default
+outline.
 
-### Navigation
-Sidebar (`.app-sidebar`) groups links under uppercase faint section headers; active items get a `surface` background pill and teal text/weight-600, hover gets the same background without the color shift. The project-workspace sub-nav (`.subnav`) is a horizontal tab strip with a 2px bottom-border indicator in accent teal on the active tab — the same active-indicator language as the command palette's tab strip. Platform-admin uses a single topbar with no sidebar, sharing the monospace wordmark treatment (`PM·Atlas`, with the middot dot in accent teal) with the tenant app shell.
+### Legend Key / Scale Bar
+Both signature status/progress components carry over unchanged in
+behavior from the prior system (swatch+label chip; bordered progress bar
+with a solid accent fill, red when over 100%) — only their color/shape
+values changed to the Apple-HIG tokens above.
 
-### Command Palette (signature component)
-Framed as the "index lookup" for the gazetteer metaphor. A centered overlay panel (10px radius, shadow-md) with a tabbed strip (active tab gets accent-tint background + teal text), a borderless full-width search input, and result rows tagged with a monospace type label (`.cmdk-result-type`) before the result text — mirroring the coordinate/ID mono treatment used elsewhere.
+### Command Palette
+Centered overlay, 18px radius, `shadow-md`, tabbed strip with an
+accent-tint active tab, borderless search input — same structural role
+as before, restyled to the new token set.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** express all status/category state through `.legend-key` (swatch + uppercase-adjacent label), not a bare pill or colored text.
-- **Do** render task/project identifiers and tabular data (hours, percentages, dates) in JetBrains Mono with `tabular-nums`.
-- **Do** keep teal as the only interactive-action color; warning/danger/success are for data state only.
-- **Do** keep cards and panels flat (border only); reserve shadow for the auth card, command palette, and card hover state.
-- **Do** express progress as a `.scale-bar`, with an exact value in a label row above it, not a bare percentage or a segmented rainbow bar.
-- **Do** use the widget-card corner tick only on dashboard/map-inset widgets, not as a general card decoration.
+- **Do** keep navigation in the translucent topbar pill-nav — never reintroduce a left sidebar in the tenant app.
+- **Do** give raised surfaces (cards, panels, modals) `shadow-md` at rest; this system's elevation model is soft-and-translucent, not flat-with-borders.
+- **Do** use the full pill radius (`--radius-pill`) for segmented-control-style nav and nothing else — it should stay a recognizable, singular device.
+- **Do** keep system-blue as the only interactive-action color; warning/danger/success mark data state only.
+- **Do** prefer `-apple-system`/`BlinkMacSystemFont` as the lead font stack entries so real SF Pro renders on Apple devices.
 
 ### Don't:
-- **Don't** add uppercase kicker/eyebrow text above an h1–h3 heading. The system's only uppercase label use is the structural Label role (field labels, table headers, widget titles, nav headers) — never decorative copy stacked above a headline.
-- **Don't** introduce a second display/serif face or warm cream backgrounds; the palette is deliberately cool graphite to avoid the generic "AI landing page" look, even though this is an internal tool where that risk is lower.
-- **Don't** add hard-offset neobrutalist shadows or drop shadows on ordinary content cards; this world's elevation model is flat-with-borders, not lifted.
-- **Don't** use a glyph icon font or icon library; the build uses plain text, `⌘`/`↑`/`↓` characters, and the mono type label pattern instead.
-- **Don't** invent a new accent color for a future feature. Route new state needs through the existing warning/danger/success trio or through `.legend-key`'s variant set before adding a color.
+- **Don't** reintroduce the earlier Field Atlas system's cool-graphite/teal palette, monospace-coordinate-everywhere treatment, or gazetteer sidebar — that direction was deliberately replaced app-wide, not merged with this one.
+- **Don't** flatten cards back to border-only/no-shadow; that reads as the prior system, not this one.
+- **Don't** add square-cornered controls; every interactive element uses at least the 8px radius step.

@@ -1,0 +1,159 @@
+{
+  "appName": "Next Elite",
+  "appType": "Frontend-focused, API-driven Next.js starter with custom UI components, auth layout, dashboard layout, i18n, RBAC, a polished DX and more.",
+  "tagline": "Frontend-focused, API-driven Next.js starter with custom UI components, auth layout, dashboard layout, i18n, RBAC, a polished DX and more.",
+  "title": "Next Elite - An open source production-ready Next.js starter kit",
+  "description": "Front-end-focused Next.js 16.3 + React 19 boilerplate featuring BetterAuth, permission-based RBAC, oxlint/oxfmt linting, type-safe i18n with next-intl, T3 Env, TanStack Query, and Sentry.",
+  "locale": "en_US",
+  "language": "en-US",
+  "domain": "https://nextelite.salmanshahriar.com",
+  "canonicalPath": "/",
+  "applicationCategory": "WebApplication",
+  "audience": "Developers, Businesses, Startups",
+  "keywords": [
+    "nextjs",
+    "nextjs-16",
+    "react-19",
+    "typescript",
+    "tailwindcss",
+    "tailwind-v4",
+    "shadcn-ui",
+    "boilerplate",
+    "nextjs-boilerplate",
+    "nextjs-starter-kit",
+    "saas-starter",
+    "saas-boilerplate",
+    "nextjs-saas-starter",
+    "better-auth",
+    "better-auth-rbac",
+    "rbac",
+    "nextjs-rbac",
+    "i18n",
+    "next-intl",
+    "type-safe-i18n",
+    "nextjs-i18n",
+    "t3-env",
+    "react-hook-form",
+    "tanstack-query",
+    "vitest",
+    "playwright",
+    "oxlint",
+    "oxfmt",
+    "lefthook",
+    "sentry",
+    "frontend-first-boilerplate",
+    "zero-database-starter",
+    "developer-template",
+    "api-driven-boilerplate"
+  ],
+  "features": [
+    "Type-safe i18n with next-intl (6 languages, RTL support)",
+    "Permission-based RBAC with parallel routes",
+    "BetterAuth with Google OAuth and permission-based RBAC",
+    "Type-safe environment variables with @t3-oss/env-nextjs",
+    "TanStack Query for client-side data caching",
+    "Vitest + Playwright testing with renderWithProviders helper",
+    "Oxlint + Oxfmt linting with Lefthook pre-commit hooks",
+    "React Hook Form + Zod validation",
+    "Sentry monitoring for client and server errors",
+    "Full SEO suite (OpenGraph, Twitter Cards, JSON-LD, sitemap, robots)"
+  ],
+  "languages": {
+    "supported": ["en", "bn", "ar", "fr", "es", "zh"],
+    "default": "en",
+    "locales": {
+      "en": {
+        "code": "en",
+        "name": "English",
+        "nativeName": "English",
+        "locale": "en_US",
+        "direction": "ltr"
+      },
+      "bn": {
+        "code": "bn",
+        "name": "Bengali",
+        "nativeName": "বাংলা",
+        "locale": "bn_BD",
+        "direction": "ltr"
+      },
+      "ar": {
+        "code": "ar",
+        "name": "Arabic",
+        "nativeName": "العربية",
+        "locale": "ar_SA",
+        "direction": "rtl"
+      },
+      "fr": {
+        "code": "fr",
+        "name": "French",
+        "nativeName": "Français",
+        "locale": "fr_FR",
+        "direction": "ltr"
+      },
+      "es": {
+        "code": "es",
+        "name": "Spanish",
+        "nativeName": "Español",
+        "locale": "es_ES",
+        "direction": "ltr"
+      },
+      "zh": {
+        "code": "zh",
+        "name": "Chinese",
+        "nativeName": "简体中文",
+        "locale": "zh_CN",
+        "direction": "ltr"
+      }
+    }
+  },
+  "organization": {
+    "name": "Next Elite",
+    "legalName": "Next Elite",
+    "url": "https://nextelite.salmanshahriar.com",
+    "logo": "/logo.svg",
+    "description": "Brief description of your organization or product.",
+    "foundingDate": "2024-01-01",
+    "email": "contact@yourdomain.com",
+    "phone": "+1-234-567-8900",
+    "address": {
+      "street": "123 Main Street",
+      "city": "New York",
+      "region": "NY",
+      "postalCode": "10001",
+      "country": "United States",
+      "countryCode": "US"
+    }
+  },
+  "contact": {
+    "supportEmail": "support@yourdomain.com",
+    "salesEmail": "sales@yourdomain.com",
+    "phoneNumber": "+1-234-567-8900"
+  },
+  "social": {
+    "twitter": "@yourhandle",
+    "github": "https://github.com/salmanshahriar/Next-Elite",
+    "linkedin": "https://linkedin.com/company/yourcompany"
+  },
+  "images": {
+    "og": "/Next-Elite-OG.webp",
+    "logo": "/logo.svg",
+    "ogWidth": 1200,
+    "ogHeight": 630
+  },
+  "icons": {
+    "favicon": "/favicon.ico",
+    "svg": "/icon.svg",
+    "appleTouchIcon": "/logo.svg"
+  },
+  "theme": {
+    "dark": "#09090b",
+    "light": "#ede9fe"
+  },
+  "pricing": {
+    "model": "freemium",
+    "currency": "USD",
+    "minPrice": "0",
+    "maxPrice": "99"
+  },
+  "manifest": "/manifest.webmanifest"
+}

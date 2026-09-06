@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
 import { computeBaselineDiff } from "@/tenant/baselines/computeBaselineDiff";
+import { assertSingleProjectAccess } from "@/tenant/projectAccess/assertProjectAccess";
 
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -16,6 +17,8 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
   if (!baseline) {
     return NextResponse.json({ error: "Baseline nicht gefunden." }, { status: 404 });
   }
+  const denied = await assertSingleProjectAccess(context.tenantDb, context.currentUser, baseline.projectId);
+  if (denied) return denied;
 
   const currentTasks = await context.tenantDb.task.findMany({
     where: { projects: { some: { projectId: baseline.projectId } } },

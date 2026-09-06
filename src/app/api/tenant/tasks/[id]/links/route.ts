@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
 import { resolveLinkedTasks } from "@/tenant/taskLinks/taskLinkView";
+import { resolveProjectIdsForTask } from "@/tenant/projectAccess/resolveProjectMembership";
+import { assertAnyProjectAccess } from "@/tenant/projectAccess/assertProjectAccess";
 
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -8,6 +10,12 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
   if (!context?.currentUser) {
     return NextResponse.json({ error: "Nicht angemeldet." }, { status: 401 });
   }
+  const denied = await assertAnyProjectAccess(
+    context.tenantDb,
+    context.currentUser,
+    await resolveProjectIdsForTask(context.tenantDb, id),
+  );
+  if (denied) return denied;
 
   const links = await context.tenantDb.taskLink.findMany({
     where: { OR: [{ sourceTaskId: id }, { targetTaskId: id }] },
@@ -45,6 +53,12 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   if (!context?.currentUser) {
     return NextResponse.json({ error: "Nicht angemeldet." }, { status: 401 });
   }
+  const denied = await assertAnyProjectAccess(
+    context.tenantDb,
+    context.currentUser,
+    await resolveProjectIdsForTask(context.tenantDb, id),
+  );
+  if (denied) return denied;
 
   const body = await request.json().catch(() => null);
   if (!body || typeof body.targetTaskId !== "string") {

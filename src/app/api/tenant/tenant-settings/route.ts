@@ -23,18 +23,21 @@ export async function PATCH(request: Request) {
   }
 
   const body = await request.json().catch(() => null);
+  const moduleToggleKeys = ["crmEnabled", "reportsEnabled", "resourcingEnabled"] as const;
+  const hasModuleToggle = moduleToggleKeys.some((key) => body?.[key] !== undefined);
   if (
     !body ||
     (body.allowProjectLevelTimeEntries === undefined &&
       body.currency === undefined &&
       body.triageEnabled === undefined &&
       body.timeTrackingMode === undefined &&
-      body.require2fa === undefined)
+      body.require2fa === undefined &&
+      !hasModuleToggle)
   ) {
     return NextResponse.json(
       {
         error:
-          "allowProjectLevelTimeEntries (boolean), currency (string), triageEnabled (boolean), timeTrackingMode ('timer'|'entries') oder require2fa (boolean) ist erforderlich.",
+          "allowProjectLevelTimeEntries (boolean), currency (string), triageEnabled (boolean), timeTrackingMode ('timer'|'entries'), require2fa (boolean) oder ein Modul-Flag (crmEnabled/reportsEnabled/resourcingEnabled, boolean) ist erforderlich.",
       },
       { status: 400 },
     );
@@ -47,6 +50,9 @@ export async function PATCH(request: Request) {
   }
   if (body.require2fa === true && !hasFeature(context.entitledFeatures, "two_factor_scim")) {
     return NextResponse.json({ error: "2FA/SCIM ist im aktuellen Plan nicht enthalten." }, { status: 403 });
+  }
+  if (hasModuleToggle && !canManageMembers(context.currentUser.role)) {
+    return NextResponse.json({ error: "Keine Berechtigung." }, { status: 403 });
   }
 
   const current = await getOrCreateTenantSettings(context.tenantDb);
@@ -62,6 +68,9 @@ export async function PATCH(request: Request) {
       timeTrackingMode:
         typeof body.timeTrackingMode === "string" ? body.timeTrackingMode : undefined,
       require2fa: typeof body.require2fa === "boolean" ? body.require2fa : undefined,
+      crmEnabled: typeof body.crmEnabled === "boolean" ? body.crmEnabled : undefined,
+      reportsEnabled: typeof body.reportsEnabled === "boolean" ? body.reportsEnabled : undefined,
+      resourcingEnabled: typeof body.resourcingEnabled === "boolean" ? body.resourcingEnabled : undefined,
     },
   });
 

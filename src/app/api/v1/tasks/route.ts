@@ -1,11 +1,9 @@
 import { NextResponse } from "next/server";
-import { authenticateApiKey } from "@/tenant/apiKeys/authenticateApiKey";
+import { authenticateApiKey, authFailureResponse, requireWriteScope } from "@/tenant/apiKeys/authenticateApiKey";
 
 export async function GET(request: Request) {
   const auth = await authenticateApiKey(request);
-  if (!auth) {
-    return NextResponse.json({ error: "Nicht autorisiert." }, { status: 401 });
-  }
+  if (!auth.ok) return authFailureResponse(auth);
 
   const projectId = new URL(request.url).searchParams.get("projectId");
   const tasks = await auth.tenantDb.task.findMany({
@@ -27,9 +25,9 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const auth = await authenticateApiKey(request);
-  if (!auth) {
-    return NextResponse.json({ error: "Nicht autorisiert." }, { status: 401 });
-  }
+  if (!auth.ok) return authFailureResponse(auth);
+  const scopeError = requireWriteScope(auth);
+  if (scopeError) return scopeError;
 
   const body = await request.json().catch(() => null);
   if (!body || typeof body.title !== "string" || typeof body.projectId !== "string") {

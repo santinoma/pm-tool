@@ -1,0 +1,98 @@
+'use client';
+
+import LanguageSwitcher from '@/components/shared/language-switcher';
+import { ThemeToggle } from '@/components/shared/theme-toggle';
+import { UserDropdown } from '@/components/shared/user-dropdown';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
+import { Button } from '@/components/ui/button';
+import { useSidebar } from '@/components/ui/sidebar';
+import { useAuth } from '@/features/auth/hooks/auth-provider';
+import { Icon } from '@/components/icons/app-icons';
+import { useTranslations } from 'next-intl';
+import { usePathname } from 'next/navigation';
+import { Fragment } from 'react';
+
+export function Topbar() {
+  const t = useTranslations();
+  const { user } = useAuth();
+  const pathname = usePathname();
+  const { open, toggleSidebar } = useSidebar();
+
+  const segments = pathname.split('/').filter(Boolean);
+
+  const segmentLabels: Record<string, string> = {
+    dashboard: t('navigation.dashboard'),
+    profile: t('navigation.profile'),
+    settings: t.has('navigation.settings')
+      ? t('navigation.settings')
+      : 'Settings',
+  };
+
+  const getSegmentLabel = (segment: string) =>
+    segmentLabels[segment] ??
+    segment.charAt(0).toUpperCase() + segment.slice(1);
+
+  return (
+    <header className="sticky top-0 z-30 hidden h-app-header shrink-0 items-center justify-between border-b border-border/40 bg-muted/70 px-4 sm:px-6 md:flex lg:px-8 dark:border-border/60 dark:bg-background">
+      <div className="flex min-w-0 flex-1 items-center gap-3">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8 text-muted-foreground hover:bg-accent/40 hover:text-foreground"
+          onClick={toggleSidebar}
+          aria-expanded={open}
+          aria-label={open ? 'Collapse sidebar' : 'Expand sidebar'}
+        >
+          <Icon name="sidebarSimple" weight="fill" className="h-4 w-4" />
+        </Button>
+
+        <div className="min-w-0 flex-1">
+          <Breadcrumb>
+            <BreadcrumbList>
+              {segments.length === 0 ? (
+                <BreadcrumbItem>
+                  <BreadcrumbPage>{t('navigation.dashboard')}</BreadcrumbPage>
+                </BreadcrumbItem>
+              ) : (
+                segments.map((segment, index) => {
+                  const isLast = index === segments.length - 1;
+                  const path = `/${segments.slice(0, index + 1).join('/')}`;
+                  const label = getSegmentLabel(segment);
+
+                  return (
+                    <Fragment key={path}>
+                      {index > 0 && <BreadcrumbSeparator />}
+                      <BreadcrumbItem>
+                        {isLast ? (
+                          <BreadcrumbPage>{label}</BreadcrumbPage>
+                        ) : (
+                          <BreadcrumbLink href={path}>{label}</BreadcrumbLink>
+                        )}
+                      </BreadcrumbItem>
+                    </Fragment>
+                  );
+                })
+              )}
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1 border-e border-border/40 pe-3">
+          <ThemeToggle />
+          <LanguageSwitcher />
+        </div>
+
+        {user && <UserDropdown hideEmailOnMobile />}
+      </div>
+    </header>
+  );
+}

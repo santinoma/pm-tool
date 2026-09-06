@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getTenantContext } from "@/tenant/context";
 import { hasProjectAccess } from "@/tenant/portal/portalAccess";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
 
 export const dynamic = "force-dynamic";
 
@@ -26,7 +27,7 @@ export default async function PortalProjectPage({
   const [project, tasks, budgets] = await Promise.all([
     context.tenantDb.project.findUnique({ where: { id: projectId } }),
     context.tenantDb.task.findMany({
-      where: { inTriage: false, projects: { some: { projectId, isPrimary: true } } },
+      where: { inTriage: false, isPrivate: false, projects: { some: { projectId, isPrimary: true } } },
       include: { status: true, assignee: true },
       orderBy: { createdAt: "desc" },
     }),
@@ -45,64 +46,62 @@ export default async function PortalProjectPage({
   );
 
   return (
-    <div className="container">
-      <h1 style={{ marginBottom: "var(--space-6)" }}>{project.name}</h1>
+    <div>
+      <h1 className="mb-6 text-2xl font-bold tracking-tight">{project.name}</h1>
 
-      <h2 style={{ marginBottom: "var(--space-3)" }}>Tasks</h2>
+      <h2 className="mb-3 text-lg font-semibold">Tasks</h2>
       {tasks.length === 0 ? (
-        <p className="text-muted" style={{ marginBottom: "var(--space-8)" }}>
-          Keine Tasks.
-        </p>
+        <p className="mb-8 text-sm text-muted-foreground">Keine Tasks.</p>
       ) : (
-        <div className="table-wrap" style={{ marginBottom: "var(--space-8)" }}>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Task</th>
-                <th>Status</th>
-                <th>Zuständig</th>
-              </tr>
-            </thead>
-            <tbody>
+        <div className="mb-8 overflow-hidden rounded-lg border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Task</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Zuständig</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {tasks.map((task) => (
-                <tr key={task.id}>
-                  <td>{task.title}</td>
-                  <td>{task.status.name}</td>
-                  <td className="text-muted">{task.assignee?.name ?? task.assignee?.email ?? "—"}</td>
-                </tr>
+                <TableRow key={task.id}>
+                  <TableCell>{task.title}</TableCell>
+                  <TableCell>{task.status.name}</TableCell>
+                  <TableCell className="text-muted-foreground">{task.assignee?.name ?? task.assignee?.email ?? "—"}</TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </div>
       )}
 
-      <h2 style={{ marginBottom: "var(--space-3)" }}>Rechnungen</h2>
+      <h2 className="mb-3 text-lg font-semibold">Rechnungen</h2>
       {invoices.length === 0 ? (
-        <p className="text-muted">Keine Rechnungen.</p>
+        <p className="text-sm text-muted-foreground">Keine Rechnungen.</p>
       ) : (
-        <div className="table-wrap">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Budget</th>
-                <th>Zeitraum</th>
-                <th>Status</th>
-                <th className="coord">Betrag</th>
-              </tr>
-            </thead>
-            <tbody>
+        <div className="overflow-hidden rounded-lg border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Budget</TableHead>
+                <TableHead>Zeitraum</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="text-right">Betrag</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {invoices.map((invoice) => (
-                <tr key={invoice.id}>
-                  <td>{invoice.budgetTitle}</td>
-                  <td className="coord">
+                <TableRow key={invoice.id}>
+                  <TableCell>{invoice.budgetTitle}</TableCell>
+                  <TableCell className="font-mono">
                     {invoice.periodStart.toISOString().slice(0, 10)} – {invoice.periodEnd.toISOString().slice(0, 10)}
-                  </td>
-                  <td>{invoice.status === "paid" ? "Bezahlt" : "Versendet"}</td>
-                  <td className="coord">{invoice.totalAmount.toFixed(2)}</td>
-                </tr>
+                  </TableCell>
+                  <TableCell>{invoice.status === "paid" ? "Bezahlt" : "Versendet"}</TableCell>
+                  <TableCell className="text-right font-mono">{invoice.totalAmount.toFixed(2)}</TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </div>
       )}
     </div>

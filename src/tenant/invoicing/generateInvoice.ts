@@ -48,3 +48,65 @@ export function buildInvoiceLineItems(
 
   return { lineItems, totalAmount, timeEntryIds: entries.map((entry) => entry.id) };
 }
+
+export interface SectionForInvoicing {
+  id: string;
+  name: string;
+  quantity: number;
+  price: number;
+}
+
+/**
+ * `remaining_amount`-Methode: pro Sektion ein Posten über
+ * (quantity * price) abzüglich bereits fakturierter Beträge dieser Sektion
+ * (über alle bisherigen Rechnungen des Budgets hinweg).
+ */
+export function buildRemainingAmountLineItems(
+  sections: SectionForInvoicing[],
+  invoicedAmountBySection: Record<string, number>,
+): BuildInvoiceResult {
+  const lineItems: InvoiceLineItemDraft[] = [];
+  let totalAmount = 0;
+  for (const section of sections) {
+    const fullAmount = section.quantity * section.price;
+    const alreadyInvoiced = invoicedAmountBySection[section.id] ?? 0;
+    const remaining = fullAmount - alreadyInvoiced;
+    if (remaining <= 0) continue;
+    lineItems.push({
+      budgetSectionId: section.id,
+      description: section.name,
+      quantityHours: 1,
+      rate: remaining,
+      amount: remaining,
+    });
+    totalAmount += remaining;
+  }
+  return { lineItems, totalAmount, timeEntryIds: [] };
+}
+
+/**
+ * `percentage`-Methode: pro Sektion ein Posten über
+ * (quantity * price) * percentage / 100 — unabhängig davon, was bereits
+ * fakturiert wurde (z.B. für Meilenstein-Abrechnung "50% jetzt").
+ */
+export function buildPercentageLineItems(
+  sections: SectionForInvoicing[],
+  percentage: number,
+): BuildInvoiceResult {
+  const lineItems: InvoiceLineItemDraft[] = [];
+  let totalAmount = 0;
+  for (const section of sections) {
+    const fullAmount = section.quantity * section.price;
+    const amount = (fullAmount * percentage) / 100;
+    if (amount <= 0) continue;
+    lineItems.push({
+      budgetSectionId: section.id,
+      description: section.name,
+      quantityHours: 1,
+      rate: amount,
+      amount,
+    });
+    totalAmount += amount;
+  }
+  return { lineItems, totalAmount, timeEntryIds: [] };
+}

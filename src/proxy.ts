@@ -6,12 +6,14 @@ import { getTenantDbClient } from "./tenant/tenantDb";
 import { SESSION_COOKIE_NAME } from "./tenant/auth/session";
 import { computeEntitledFeatures } from "./tenant/entitlements/features";
 import { resolveMissingFeature } from "./tenant/entitlements/routeGates";
+import { canManageMembers } from "./tenant/auth/roleGuard";
 
 const CLIENT_ALLOWED_PREFIXES = [
   "/portal",
   "/login",
   "/accept-invite",
   "/shared",
+  "/shared-doc",
   "/api/tenant/login",
   "/api/tenant/logout",
   "/api/tenant/invites",
@@ -28,6 +30,27 @@ const TWO_FA_SETUP_ALLOWED_PREFIXES = [
 
 function matchesAnyPrefix(pathname: string, prefixes: string[]): boolean {
   return prefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
+}
+
+const PROJECT_SCOPED_PAGE_PATTERN = /^\/projects\/([^/]+)(\/.*)?$/;
+const PROJECT_SCOPED_API_PATTERN = /^\/api\/tenant\/projects\/([^/]+)(\/.*)?$/;
+
+/**
+ * Extrahiert die Projekt-ID aus Pfaden, die direkt einem Projekt zugeordnet
+ * sind (`/projects/[id]/...`, `/api/tenant/projects/[id]/...`) — deckt damit
+ * praktisch alle Projekt-Unterseiten und die dazugehörigen API-Routen mit
+ * einer einzigen zentralen Prüfung ab. `/projects/new` ist explizit kein
+ * Projekt-Pfad.
+ */
+export function extractProjectScopedId(pathname: string): string | null {
+  if (pathname === "/projects/new" || pathname.startsWith("/projects/new/")) {
+    return null;
+  }
+  const pageMatch = pathname.match(PROJECT_SCOPED_PAGE_PATTERN);
+  if (pageMatch) return pageMatch[1];
+  const apiMatch = pathname.match(PROJECT_SCOPED_API_PATTERN);
+  if (apiMatch) return apiMatch[1];
+  return null;
 }
 
 export function isAllowedForClient(pathname: string): boolean {
@@ -77,6 +100,20 @@ export async function proxy(request: NextRequest) {
         const settings = await tenantDb.tenantSettings.findFirst();
         if (settings?.require2fa) {
           return NextResponse.redirect(new URL("/settings/security", request.url));
+        }
+      }
+      if (session.user.role !== "client" && !canManageMembers(session.user.role)) {
+        const projectId = extractProjectScopedId(pathname);
+        if (projectId) {
+          const membership = await tenantDb.projectMember.findUnique({
+            where: { projectId_userId: { projectId, userId: session.user.id } },
+          });
+          if (!membership) {
+            if (pathname.startsWith("/api/")) {
+              return NextResponse.json({ error: "Kein Zugriff auf dieses Projekt." }, { status: 403 });
+            }
+            return new NextResponse("Not Found", { status: 404 });
+          }
         }
       }
     }

@@ -65,7 +65,14 @@ export async function POST(request: Request, { params }: { params: Promise<{ tok
   }
 
   const expiresAt = computeSessionExpiry();
-  const session = await tenantDb.session.create({ data: { userId: user.id, expiresAt } });
+  const session = await tenantDb.session.create({
+    data: {
+      userId: user.id,
+      expiresAt,
+      userAgent: headerList.get("user-agent"),
+      lastSeenAt: new Date(),
+    },
+  });
 
   const response = NextResponse.json({ userId: user.id }, { status: 200 });
   applySessionCookie(response, buildSessionCookie(session.id, expiresAt));

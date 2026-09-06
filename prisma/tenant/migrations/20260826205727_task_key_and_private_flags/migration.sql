@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Task" ADD COLUMN     "isKeyTask" BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN     "isPrivate" BOOLEAN NOT NULL DEFAULT false;

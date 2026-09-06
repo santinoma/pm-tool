@@ -1,0 +1,14 @@
+.git
+.github
+.next
+node_modules
+coverage
+e2e
+.vscode
+*.log
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+README.md

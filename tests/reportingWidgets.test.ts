@@ -1,28 +1,20 @@
 import { describe, expect, it } from "vitest";
-import { WIDGET_CATALOG, mergeWidgetPreferences } from "../src/tenant/reporting/widgets";
+import { WIDGET_CATALOG, WIDGET_CATALOG_BY_TYPE } from "../src/tenant/reporting/widgets";
 
-describe("mergeWidgetPreferences", () => {
-  it("returns the catalog default order and all-enabled when there are no saved preferences", () => {
-    const result = mergeWidgetPreferences(WIDGET_CATALOG, []);
-    expect(result.every((w) => w.enabled)).toBe(true);
-    expect(result.map((w) => w.type)).toEqual(WIDGET_CATALOG.map((c) => c.type));
+describe("WIDGET_CATALOG", () => {
+  it("has a unique type per entry", () => {
+    const types = WIDGET_CATALOG.map((entry) => entry.type);
+    expect(new Set(types).size).toBe(types.length);
   });
 
-  it("overrides enabled and position for a widget with a saved preference", () => {
-    const result = mergeWidgetPreferences(WIDGET_CATALOG, [
-      { widgetType: "overdue_tasks", enabled: false, position: 99 },
-    ]);
-    const overdue = result.find((w) => w.type === "overdue_tasks")!;
-    expect(overdue.enabled).toBe(false);
-    expect(result[result.length - 1].type).toBe("overdue_tasks");
+  it("is indexed by type in WIDGET_CATALOG_BY_TYPE", () => {
+    for (const entry of WIDGET_CATALOG) {
+      expect(WIDGET_CATALOG_BY_TYPE.get(entry.type)).toEqual(entry);
+    }
   });
 
-  it("leaves unmentioned widgets at their catalog default", () => {
-    const result = mergeWidgetPreferences(WIDGET_CATALOG, [
-      { widgetType: "overdue_tasks", enabled: false, position: 99 },
-    ]);
-    const myTasks = result.find((w) => w.type === "my_tasks")!;
-    expect(myTasks.enabled).toBe(true);
-    expect(myTasks.position).toBe(1);
+  it("only marks widgets with a project-scoped data shape as filterable", () => {
+    const nonFilterable = WIDGET_CATALOG.filter((entry) => !entry.filterable).map((entry) => entry.type);
+    expect(nonFilterable).toEqual(["my_utilization", "out_of_office", "time_spent_monthly", "time_spent_yearly"]);
   });
 });

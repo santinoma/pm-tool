@@ -2,6 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Button } from "@/ui/shadcn/components/button";
+import { Dialog, DialogContent, DialogTitle } from "@/ui/shadcn/components/dialog";
+import { Input } from "@/ui/shadcn/components/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/shadcn/components/tabs";
 
 interface SearchResult {
   type: "project" | "task";
@@ -13,7 +17,7 @@ interface SearchResult {
 export function CommandPalette() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [mode, setMode] = useState<"search" | "new-task">("search");
+  const [mode, setMode] = useState<"search" | "new-task" | "create">("search");
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [newTaskTitle, setNewTaskTitle] = useState("");
@@ -24,9 +28,6 @@ export function CommandPalette() {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
         setOpen((current) => !current);
-      }
-      if (event.key === "Escape") {
-        setOpen(false);
       }
     }
     function handleOpenEvent() {
@@ -42,8 +43,8 @@ export function CommandPalette() {
 
   useEffect(() => {
     if (!open || mode !== "search" || query.trim().length === 0) {
-      setResults([]);
-      return;
+      const timeout = setTimeout(() => setResults([]), 0);
+      return () => clearTimeout(timeout);
     }
     const timeout = setTimeout(async () => {
       const response = await fetch(`/api/tenant/search?q=${encodeURIComponent(query)}`);
@@ -62,6 +63,47 @@ export function CommandPalette() {
       router.push(`/projects/${result.id}/list`);
     } else if (result.projectId) {
       router.push(`/projects/${result.projectId}/list`);
+    }
+  }
+
+  // "Neuer Task" und "Neue Wiki-Seite" brauchen beide einen Projekt-Kontext (Task-Erstellung
+  // läuft immer über ein Projekt, Wiki-Seiten hängen an /projects/[id]/wiki/new). Die Palette
+  // selbst kennt kein "aktuelles" Projekt, daher greifen wir zum naheliegendsten: das zuletzt
+  // angelegte Projekt des Nutzers. Von dort aus öffnet sich der bestehende Erstellungsflow
+  // (Task-Liste mit ?newTask=1 → NewTaskModal öffnet automatisch; bzw. die Wiki-"Neue Seite"-Seite),
+  // statt eine zweite, redundante Erstell-UI in der Palette selbst nachzubauen.
+  async function resolveQuickCreateProjectId(): Promise<string | null> {
+    const response = await fetch("/api/tenant/projects");
+    if (!response.ok) return null;
+    const data = await response.json();
+    return data.projects?.[0]?.id ?? null;
+  }
+
+  async function handleQuickCreateTask() {
+    const projectId = await resolveQuickCreateProjectId();
+    setOpen(false);
+    setMode("search");
+    if (projectId) {
+      router.push(`/projects/${projectId}/list?newTask=1`);
+    } else {
+      router.push("/projects");
+    }
+  }
+
+  function handleQuickCreateProject() {
+    setOpen(false);
+    setMode("search");
+    router.push("/projects/new");
+  }
+
+  async function handleQuickCreateWikiPage() {
+    const projectId = await resolveQuickCreateProjectId();
+    setOpen(false);
+    setMode("search");
+    if (projectId) {
+      router.push(`/projects/${projectId}/wiki/new`);
+    } else {
+      router.push("/projects");
     }
   }
 
@@ -92,95 +134,93 @@ export function CommandPalette() {
     router.refresh();
   }
 
-  if (!open) {
-    return null;
-  }
-
   return (
-    <div className="cmdk-overlay" onClick={() => setOpen(false)}>
-      <div className="cmdk-panel" onClick={(event) => event.stopPropagation()}>
-        <div className="cmdk-tabs">
-          <button
-            type="button"
-            onClick={() => setMode("search")}
-            className={`cmdk-tab${mode === "search" ? " is-active" : ""}`}
-          >
-            Suche
-          </button>
-          <button
-            type="button"
-            onClick={() => setMode("new-task")}
-            className={`cmdk-tab${mode === "new-task" ? " is-active" : ""}`}
-          >
-            Neuer Task
-          </button>
-        </div>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent className="top-[20%] translate-y-0 gap-0 p-0 sm:max-w-lg">
+        <DialogTitle className="sr-only">Befehlspalette</DialogTitle>
+        <Tabs value={mode} onValueChange={(value) => setMode(value as typeof mode)}>
+          <TabsList className="w-full border-b px-2">
+            <TabsTrigger value="search">Suche</TabsTrigger>
+            <TabsTrigger value="new-task">Neuer Task</TabsTrigger>
+            <TabsTrigger value="create">Quick Add</TabsTrigger>
+          </TabsList>
 
-        {mode === "search" ? (
-          <>
-            <div style={{ position: "relative" }}>
-              <input
+          <TabsContent value="search" className="mt-0">
+            <div className="relative">
+              <Input
                 autoFocus
-                type="text"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder='Projekte oder Tasks suchen… (z. B. status:done assignee:me)'
-                className="cmdk-input"
+                className="h-12 rounded-none border-0 border-b px-4 focus-visible:ring-0"
               />
-              <button
+              <Button
                 type="button"
+                variant="ghost"
+                size="sm"
                 onClick={() => setShowAdvancedHelp((current) => !current)}
-                className="btn btn-ghost btn-sm"
-                style={{ position: "absolute", right: "var(--space-3)", top: "50%", transform: "translateY(-50%)" }}
+                className="absolute top-1/2 right-3 -translate-y-1/2"
               >
                 Advanced
-              </button>
+              </Button>
             </div>
             {showAdvancedHelp && (
-              <div className="text-muted" style={{ padding: "var(--space-3) var(--space-4)", fontSize: "var(--text-sm)", borderBottom: "1px solid var(--border)" }}>
+              <div className="border-b px-4 py-3 text-sm text-muted-foreground">
                 <div>
-                  <code className="coord">status:done</code>, <code className="coord">status:started</code>,{" "}
-                  <code className="coord">status:not_started</code>
+                  <code className="font-mono">status:done</code>, <code className="font-mono">status:started</code>,{" "}
+                  <code className="font-mono">status:not_started</code>
                 </div>
                 <div>
-                  <code className="coord">assignee:me</code> oder <code className="coord">assignee:name</code>
+                  <code className="font-mono">assignee:me</code> oder <code className="font-mono">assignee:name</code>
                 </div>
                 <div>
-                  <code className="coord">project:&quot;Projektname&quot;</code>
+                  <code className="font-mono">project:&quot;Projektname&quot;</code>
                 </div>
                 <div>Modifier kombinierbar, restlicher Text filtert den Titel.</div>
               </div>
             )}
-            <ul style={{ listStyle: "none" }}>
+            <ul className="max-h-80 overflow-y-auto">
               {results.map((result) => (
                 <li key={`${result.type}-${result.id}`}>
-                  <button type="button" onClick={() => navigateTo(result)} className="cmdk-result">
-                    <span className="cmdk-result-type">
-                      {result.type === "project" ? "Projekt" : "Task"}
-                    </span>
+                  <button
+                    type="button"
+                    onClick={() => navigateTo(result)}
+                    className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm hover:bg-muted/50"
+                  >
+                    <span className="text-xs text-muted-foreground">{result.type === "project" ? "Projekt" : "Task"}</span>
                     {result.title}
                   </button>
                 </li>
               ))}
             </ul>
-          </>
-        ) : (
-          <form onSubmit={handleCreateTask} style={{ padding: "var(--space-4)" }} className="stack">
-            <input
-              autoFocus
-              type="text"
-              value={newTaskTitle}
-              onChange={(event) => setNewTaskTitle(event.target.value)}
-              placeholder="Titel des neuen Tasks…"
-              required
-              className="input"
-            />
-            <button type="submit" className="btn btn-primary" style={{ marginTop: "var(--space-3)" }}>
-              Anlegen (in Triage des ersten Projekts)
-            </button>
-          </form>
-        )}
-      </div>
-    </div>
+          </TabsContent>
+
+          <TabsContent value="create" className="mt-0 flex flex-col gap-2 p-4">
+            <Button type="button" variant="outline" className="justify-start" onClick={handleQuickCreateTask}>
+              Neuer Task
+            </Button>
+            <Button type="button" variant="outline" className="justify-start" onClick={handleQuickCreateProject}>
+              Neues Projekt
+            </Button>
+            <Button type="button" variant="outline" className="justify-start" onClick={handleQuickCreateWikiPage}>
+              Neue Wiki-Seite
+            </Button>
+          </TabsContent>
+
+          <TabsContent value="new-task" className="mt-0 p-4">
+            <form onSubmit={handleCreateTask} className="flex flex-col gap-3">
+              <Input
+                autoFocus
+                value={newTaskTitle}
+                onChange={(event) => setNewTaskTitle(event.target.value)}
+                placeholder="Titel des neuen Tasks…"
+                required
+              />
+              <Button type="submit">Anlegen (in Triage des ersten Projekts)</Button>
+            </form>
+          </TabsContent>
+        </Tabs>
+      </DialogContent>
+    </Dialog>
   );
 }

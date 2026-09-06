@@ -34,6 +34,96 @@ export const PERMISSION_LABELS: Record<PermissionKey, string> = {
   portfolios_manage: "Portfolios & Goals verwalten",
 };
 
+/**
+ * Kaskadierende Permission-Abhängigkeiten (Productive.io-Parität).
+ *
+ * Für jeden Key: die Menge anderer Keys, die als Voraussetzung gelten müssen,
+ * damit der Key sinnvoll (und sicher) nutzbar ist. Begründung pro Eintrag:
+ *
+ * - members_manage_roles → members_invite: Wer Rollen von Mitgliedern ändern
+ *   darf, muss die Mitgliederliste zuerst sehen/verwalten können (Einladen
+ *   ist die niedrigstschwellige Team-Berechtigung).
+ * - tasks_manage_all → projects_manage: Alle Tasks projektübergreifend zu
+ *   bearbeiten setzt voraus, dass man grundsätzlich Projektzugriff/-verwaltung
+ *   hat — sonst entsteht eine Berechtigung ohne den Kontext, in dem sie greift.
+ * - budgets_manage → projects_manage: Budgets hängen an Projekten; ohne
+ *   Projektverwaltung gibt es keinen sinnvollen Zugriffspfad auf Budgets.
+ * - workflows_manage → projects_manage: Workflow-Übergangsregeln sind
+ *   Projektkonfiguration.
+ * - automations_manage → workflows_manage: Automations reagieren auf/lösen
+ *   Workflow-Status-Übergänge aus — ohne Workflow-Rechte keine sinnvolle
+ *   Automation-Verwaltung. (workflows_manage zieht transitiv projects_manage
+ *   nach sich.)
+ * - integrations_manage → organization_settings_manage: API-Keys/Integrationen
+ *   sind organisationsweite Einstellungen.
+ * - portfolios_manage → projects_manage: Portfolios bündeln Projekte; ohne
+ *   Projektzugriff kein sinnvoller Portfolio-Überblick.
+ *
+ * `members_invite`, `projects_manage` und `organization_settings_manage`
+ * selbst haben keine Voraussetzungen — sie sind die "Basis-Level" pro Gruppe.
+ */
+export const PERMISSION_DEPENDENCIES: Partial<Record<PermissionKey, PermissionKey[]>> = {
+  members_manage_roles: ["members_invite"],
+  tasks_manage_all: ["projects_manage"],
+  budgets_manage: ["projects_manage"],
+  workflows_manage: ["projects_manage"],
+  automations_manage: ["workflows_manage"],
+  integrations_manage: ["organization_settings_manage"],
+  portfolios_manage: ["projects_manage"],
+};
+
+/**
+ * Löst eine explizit ausgewählte Permission-Menge zur vollständigen Menge auf,
+ * inklusive aller transitiven Voraussetzungen (Auto-Enable). Rein funktional,
+ * dedupliziert, Reihenfolge nicht garantiert.
+ */
+export function resolveWithDependencies(selected: PermissionKey[]): PermissionKey[] {
+  const result = new Set<PermissionKey>();
+
+  function visit(key: PermissionKey) {
+    if (result.has(key)) return;
+    result.add(key);
+    const prerequisites = PERMISSION_DEPENDENCIES[key] ?? [];
+    for (const prerequisite of prerequisites) {
+      visit(prerequisite);
+    }
+  }
+
+  for (const key of selected) {
+    visit(key);
+  }
+
+  return Array.from(result);
+}
+
+/**
+ * Ermittelt, welche der aktuell ausgewählten Permissions (direkt oder
+ * transitiv) von `key` abhängen. Wird verwendet, um beim Deaktivieren von
+ * `key` die davon abhängigen Permissions ebenfalls zu deaktivieren
+ * (Cascade-and-inform statt Hard-Block).
+ */
+export function blockingDependents(key: PermissionKey, selected: PermissionKey[]): PermissionKey[] {
+  const selectedSet = new Set(selected);
+  const dependents = new Set<PermissionKey>();
+
+  function dependsOn(candidate: PermissionKey, target: PermissionKey, seen = new Set<PermissionKey>()): boolean {
+    if (seen.has(candidate)) return false;
+    seen.add(candidate);
+    const prerequisites = PERMISSION_DEPENDENCIES[candidate] ?? [];
+    if (prerequisites.includes(target)) return true;
+    return prerequisites.some((prerequisite) => dependsOn(prerequisite, target, seen));
+  }
+
+  for (const candidate of selectedSet) {
+    if (candidate === key) continue;
+    if (dependsOn(candidate, key)) {
+      dependents.add(candidate);
+    }
+  }
+
+  return Array.from(dependents);
+}
+
 export type BaseRoleName = "owner" | "admin" | "member" | "client";
 
 /**

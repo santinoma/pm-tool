@@ -1,0 +1,166 @@
+/* ==========================================================================
+   shadcn/ui design tokens (Next-Elite palette), ported 1:1 from the original
+   Next-Elite template (https://github.com/salmanshahriar/Next-Elite,
+   src/app/styles/tokens.css — vendored at ui-reference/next-elite/ for
+   comparison).
+
+   Bound to `:root`/`:root.dark`, matching the original — NOT to a nested
+   `.se-scope` wrapper. Radix portals (DropdownMenu, Dialog, Popover, Select,
+   Sheet, Tooltip, ...) render into `document.body` by default, outside
+   whatever DOM subtree a wrapper div occupies; scoping tokens to a wrapper
+   left every portaled surface without CSS variables to read (invisible/
+   transparent, and never in dark mode). Now that v1/v2/v3 are fully removed
+   (see NEXTELITE-MIGRATION-CAPABILITY-MAP.md) there's nothing left at `:root`
+   for these to collide with, so promoting them here is safe.
+   ========================================================================== */
+
+:root {
+  /* ========== Color Palette - Light Theme ========== */
+  /* Base Colors */
+  --background: #ffffff;
+  --foreground: oklch(0.145 0 0);
+
+  /* Card Colors */
+  --card: #ffffff;
+  --card-foreground: oklch(0.145 0 0);
+
+  /* Popover Colors */
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+
+  /* Primary Colors */
+  --primary: #5c4beb;
+  --primary-foreground: #ffffff;
+
+  /* Secondary Colors */
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+
+  /* Muted Colors */
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.46 0 0);
+
+  /* Accent Colors */
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+
+  /* Destructive Colors */
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.577 0.245 27.325);
+
+  /* Semantic Colors */
+  --success: oklch(0.52 0.194 149.214);
+  --success-foreground: oklch(0.985 0 0);
+  --warning: oklch(0.769 0.188 70.08);
+  --warning-foreground: oklch(0.205 0 0);
+
+  /* Border & Input Colors */
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+
+  /* Chart Colors */
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+
+  /* Sidebar Colors */
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+
+  /* ========== Spacing & Layout ========== */
+  --app-header-height: 3.8125rem;
+  --radius: 0.625rem;
+  --browser-chrome-top: var(--background);
+  --glow-accent: rgba(118, 99, 255, 0.28);
+  --glow-accent-subtle: rgba(118, 99, 255, 0.14);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  color-scheme: light;
+  background: var(--background);
+  color: var(--foreground);
+
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", "Segoe UI", system-ui,
+    sans-serif;
+}
+
+/* Next-Elite toggles dark mode manually (a `.dark` class on <html>), never
+   via OS preference — see `ThemeProvider`/`ThemeToggle`. */
+:root.dark {
+  /* Base Colors */
+  --background: #09090b;
+  --foreground: #ffffff;
+
+  /* Card Colors */
+  --card: #111113;
+  --card-foreground: #ffffff;
+
+  /* Popover Colors */
+  --popover: #111113;
+  --popover-foreground: #ffffff;
+
+  /* Primary Colors */
+  --primary: #7663ff;
+  --primary-foreground: #ffffff;
+
+  /* Secondary Colors */
+  --secondary: #18181b;
+  --secondary-foreground: #ffffff;
+
+  /* Muted Colors */
+  --muted: #18181b;
+  --muted-foreground: #a1a1aa;
+
+  /* Accent Colors */
+  --accent: #1c1c1f;
+  --accent-foreground: #ffffff;
+
+  /* Destructive Colors */
+  --destructive: oklch(0.62 0.22 25);
+  --destructive-foreground: #ffffff;
+
+  /* Semantic Colors */
+  --success: oklch(0.72 0.17 162);
+  --success-foreground: #ffffff;
+  --warning: oklch(0.8 0.16 70);
+  --warning-foreground: #ffffff;
+
+  /* Border & Input Colors */
+  --border: #27272a;
+  --input: #27272a;
+  --ring: #7663ff;
+
+  /* Chart Colors */
+  --chart-1: oklch(0.68 0.2 275);
+  --chart-2: oklch(0.72 0.17 162);
+  --chart-3: oklch(0.78 0.14 70);
+  --chart-4: oklch(0.65 0.22 303);
+  --chart-5: oklch(0.68 0.2 16);
+
+  /* Sidebar Colors */
+  --sidebar: #09090b;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #7663ff;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #18181b;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #27272a;
+  --sidebar-ring: #7663ff;
+
+  --browser-chrome-top: var(--background);
+  --glow-accent: rgba(118, 99, 255, 0.28);
+  --glow-accent-subtle: rgba(118, 99, 255, 0.14);
+
+  color-scheme: dark;
+}

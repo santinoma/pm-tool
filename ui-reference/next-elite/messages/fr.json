@@ -1,0 +1,169 @@
+{
+  "common": {
+    "appName": "Next Elite",
+    "selectLanguage": "Choisir la langue",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "close": "Fermer",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "submit": "Envoyer",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "reset": "Réinitialiser",
+    "noData": "Aucune donnée disponible",
+    "toggleTheme": "Basculer le thème",
+    "sidebar": "Barre latérale",
+    "toggleSidebar": "Basculer la barre latérale"
+  },
+  "theme": {
+    "light": "Clair",
+    "dark": "Sombre",
+    "system": "Système"
+  },
+  "navigation": {
+    "home": "Accueil",
+    "services": "Services",
+    "contact": "Contact",
+    "language": "Langue",
+    "dashboard": "Tableau de bord",
+    "profile": "Profil",
+    "settings": "Paramètres",
+    "logout": "Déconnexion",
+    "login": "Connexion",
+    "uiComponents": "Composants UI"
+  },
+  "auth": {
+    "login": {
+      "title": "Connexion",
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "emailPlaceholder": "Entrez votre e-mail",
+      "passwordPlaceholder": "Entrez votre mot de passe",
+      "submit": "Se connecter",
+      "forgotPassword": "Mot de passe oublié ?",
+      "noAccount": "Vous n'avez pas de compte ?",
+      "signUp": "S'inscrire",
+      "invalidCredentials": "Identifiants invalides.",
+      "clickToFill": "Cliquez pour remplir les identifiants",
+      "signInWithGoogle": "Se connecter avec Google",
+      "orContinueWith": "Ou continuer avec"
+    },
+    "register": {
+      "title": "Créer un compte",
+      "name": "Nom",
+      "namePlaceholder": "Votre nom",
+      "passwordPlaceholder": "Au moins 8 caractères",
+      "confirmPassword": "Confirmer le mot de passe",
+      "confirmPasswordPlaceholder": "Saisissez à nouveau votre mot de passe",
+      "submit": "Créer un compte",
+      "haveAccount": "Vous avez déjà un compte ?",
+      "signUpFailed": "Échec de l'inscription. Veuillez réessayer."
+    },
+    "logout": {
+      "title": "Déconnexion",
+      "confirm": "Êtes-vous sûr de vouloir vous déconnecter ?"
+    },
+    "passwordReset": {
+      "title": "Réinitialiser le mot de passe",
+      "email": "E-mail",
+      "submit": "Envoyer le lien de réinitialisation",
+      "submitted": "Si un compte existe pour cet e-mail, vous recevrez bientôt un lien de réinitialisation."
+    }
+  },
+  "home": {
+    "features": {
+      "typeSafe": "Moteur multilingue sécurisé par types",
+      "localStorage": "Rétention de la langue à travers les sessions utilisateur",
+      "rtl": "Support RTL natif pour l'arabe",
+      "rbac": "Contrôle d'accès basé sur les rôles avancé",
+      "seo": "SEO programmatique et métadonnées dynamiques",
+      "production": "Architecture SaaS optimisée pour la production",
+      "stack": "Next.js 16, React 19, TypeScript et Tailwind v4",
+      "ui-experience": "Composants shadcn/ui entièrement personnalisables et thématiques",
+      "testing": "Vitest + Playwright avec renderWithProviders",
+      "tooling": "Oxlint + Oxfmt avec hooks pre-commit Lefthook"
+    }
+  },
+  "dashboard": {
+    "admin": {
+      "title": "Tableau de bord Admin",
+      "description": "Surveillez l'activité de la plateforme et gérez votre espace.",
+      "totalUsers": "Total des utilisateurs",
+      "activeSessions": "Sessions actives",
+      "adminUsers": "Utilisateurs Admin",
+      "adminInfo": "Infos Admin",
+      "loggedInAs": "Vous êtes connecté en tant que",
+      "adminOnly": "Cette page est accessible uniquement aux administrateurs."
+    },
+    "user": {
+      "title": "Tableau de bord Utilisateur",
+      "description": "Consultez votre compte et votre activité récente.",
+      "profile": "Profil Utilisateur",
+      "email": "E-mail",
+      "role": "Rôle",
+      "userId": "ID Utilisateur"
+    }
+  },
+  "profile": {
+    "title": "Profil",
+    "description": "Consultez et mettez à jour vos informations personnelles.",
+    "accountInfo": "Informations du compte",
+    "email": "E-mail",
+    "role": "Rôle"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "description": "Gérez les paramètres et préférences de votre espace de travail.",
+    "preferences": "Préférences",
+    "theme": "Thème",
+    "language": "Langue"
+  },
+  "sidebar": {
+    "adminPanel": "Panneau Admin",
+    "userPanel": "Panneau Utilisateur",
+    "admin": "Admin",
+    "user": "Utilisateur",
+    "menu": "Menu",
+    "theme": "Thème",
+    "language": "Langue",
+    "tools": "Outils"
+  },
+  "uiComponents": {
+    "title": "Composants UI",
+    "description": "Parcourez plus de 50 primitives shadcn/ui et composants personnalisés avec variantes, tailles et états interactifs.",
+    "onThisPage": "Sur cette page",
+    "sections": {
+      "actions": "Actions",
+      "actionsDesc": "Boutons, bascules et actions groupées.",
+      "forms": "Formulaires",
+      "formsDesc": "Champs, sélecteurs et aides de formulaire.",
+      "feedback": "Retour",
+      "feedbackDesc": "Alertes, badges, progression et états de chargement.",
+      "dataDisplay": "Affichage des données",
+      "dataDisplayDesc": "Cartes, tableaux, avatars et éléments visuels.",
+      "navigation": "Navigation",
+      "navigationDesc": "Fil d'Ariane, onglets et menus.",
+      "overlays": "Superpositions",
+      "overlaysDesc": "Dialogues, panneaux, popovers et menus.",
+      "layout": "Mise en page",
+      "layoutDesc": "Accordéon, carrousel, calendrier et repliable."
+    }
+  },
+  "errors": {
+    "404": "Page non trouvée",
+    "401": "Non autorisé",
+    "403": "Interdit",
+    "500": "Erreur interne du serveur",
+    "generic": "Une erreur est survenue. Veuillez réessayer.",
+    "unauthorizedDescription": "Vous n'avez pas la permission d'accéder à cette page.",
+    "goToDashboard": "Aller au tableau de bord"
+  }
+}

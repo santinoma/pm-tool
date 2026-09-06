@@ -1,0 +1,169 @@
+{
+  "common": {
+    "appName": "Next Elite",
+    "selectLanguage": "ভাষা নির্বাচন করুন",
+    "loading": "লোড হচ্ছে...",
+    "error": "ত্রুটি",
+    "success": "সফল",
+    "cancel": "বাতিল",
+    "confirm": "নিশ্চিত করুন",
+    "save": "সংরক্ষণ করুন",
+    "delete": "মুছে ফেলুন",
+    "edit": "সম্পাদনা করুন",
+    "close": "বন্ধ করুন",
+    "back": "পিছনে",
+    "next": "পরবর্তী",
+    "previous": "পূর্ববর্তী",
+    "submit": "জমা দিন",
+    "search": "খুঁজুন",
+    "filter": "ফিল্টার",
+    "reset": "রিসেট",
+    "noData": "কোন ডেটা নেই",
+    "toggleTheme": "থিম পরিবর্তন করুন",
+    "sidebar": "সাইডবার",
+    "toggleSidebar": "সাইডবার টগল করুন"
+  },
+  "theme": {
+    "light": "লাইট",
+    "dark": "ডার্ক",
+    "system": "সিস্টেম"
+  },
+  "navigation": {
+    "home": "হোম",
+    "services": "সেবা",
+    "contact": "যোগাযোগ",
+    "language": "ভাষা",
+    "dashboard": "ড্যাশবোর্ড",
+    "profile": "প্রোফাইল",
+    "settings": "সেটিংস",
+    "logout": "লগআউট",
+    "login": "লগইন",
+    "uiComponents": "UI কম্পোনেন্ট"
+  },
+  "auth": {
+    "login": {
+      "title": "লগইন",
+      "email": "ইমেইল",
+      "password": "পাসওয়ার্ড",
+      "emailPlaceholder": "আপনার ইমেইল লিখুন",
+      "passwordPlaceholder": "আপনার পাসওয়ার্ড লিখুন",
+      "submit": "লগইন",
+      "forgotPassword": "পাসওয়ার্ড ভুলে গেছেন?",
+      "noAccount": "অ্যাকাউন্ট নেই?",
+      "signUp": "সাইন আপ করুন",
+      "invalidCredentials": "অবৈধ credentials।",
+      "clickToFill": "ক্রেডেনশিয়াল পূরণ করতে ক্লিক করুন",
+      "signInWithGoogle": "Google দিয়ে সাইন ইন করুন",
+      "orContinueWith": "অথবা দিয়ে চালিয়ে যান"
+    },
+    "register": {
+      "title": "অ্যাকাউন্ট তৈরি করুন",
+      "name": "নাম",
+      "namePlaceholder": "আপনার নাম",
+      "passwordPlaceholder": "কমপক্ষে ৮ অক্ষর",
+      "confirmPassword": "পাসওয়ার্ড নিশ্চিত করুন",
+      "confirmPasswordPlaceholder": "পাসওয়ার্ড পুনরায় লিখুন",
+      "submit": "অ্যাকাউন্ট তৈরি করুন",
+      "haveAccount": "ইতিমধ্যে অ্যাকাউন্ট আছে?",
+      "signUpFailed": "সাইন আপ ব্যর্থ হয়েছে। আবার চেষ্টা করুন।"
+    },
+    "logout": {
+      "title": "লগআউট",
+      "confirm": "আপনি কি নিশ্চিত যে আপনি লগআউট করতে চান?"
+    },
+    "passwordReset": {
+      "title": "পাসওয়ার্ড রিসেট",
+      "email": "ইমেইল",
+      "submit": "রিসেট লিংক পাঠান",
+      "submitted": "এই ইমেইলে কোনো অ্যাকাউন্ট থাকলে, শিগগিরই একটি রিসেট লিংক পাবেন।"
+    }
+  },
+  "dashboard": {
+    "admin": {
+      "title": "অ্যাডমিন ড্যাশবোর্ড",
+      "description": "প্ল্যাটফর্ম কার্যকলাপ পর্যবেক্ষণ করুন এবং ওয়ার্কস্পেস পরিচালনা করুন।",
+      "totalUsers": "মোট ব্যবহারকারী",
+      "activeSessions": "সক্রিয় সেশন",
+      "adminUsers": "অ্যাডমিন ব্যবহারকারী",
+      "adminInfo": "অ্যাডমিন তথ্য",
+      "loggedInAs": "আপনি লগইন করেছেন",
+      "adminOnly": "এই পৃষ্ঠাটি শুধুমাত্র প্রশাসকদের জন্য অ্যাক্সেসযোগ্য।"
+    },
+    "user": {
+      "title": "ব্যবহারকারী ড্যাশবোর্ড",
+      "description": "আপনার অ্যাকাউন্ট ও সাম্প্রতিক কার্যকলাপ দেখুন।",
+      "profile": "ব্যবহারকারী প্রোফাইল",
+      "email": "ইমেইল",
+      "role": "ভূমিকা",
+      "userId": "ব্যবহারকারী ID"
+    }
+  },
+  "home": {
+    "features": {
+      "typeSafe": "টাইপ-সেফ মাল্টি-ল্যাঙ্গুয়েজ ইঞ্জিন",
+      "localStorage": "ইউজার সেশনে ল্যাঙ্গুয়েজ রিটেনশন",
+      "rtl": "আরবির জন্য নেটিভ RTL সাপোর্ট",
+      "rbac": "অ্যাডভান্সড রোল-বেসড অ্যাক্সেস কন্ট্রোল (RBAC)",
+      "seo": "প্রোগ্রাম্যাটিক SEO এবং ডায়নামিক মেটাডেটা",
+      "production": "প্রোডাকশন-অপ্টিমাইজড SaaS আর্কিটেকচার",
+      "stack": "Next.js 16, React 19, TypeScript এবং Tailwind v4",
+      "ui-experience": "সম্পূর্ণ কাস্টমাইজেবল থিমেবল shadcn/ui কম্পোনেন্টস",
+      "testing": "Vitest + Playwright এবং renderWithProviders হেল্পার",
+      "tooling": "Oxlint + Oxfmt এবং Lefthook pre-commit হুক"
+    }
+  },
+  "profile": {
+    "title": "প্রোফাইল",
+    "description": "আপনার ব্যক্তিগত অ্যাকাউন্ট তথ্য দেখুন এবং আপডেট করুন।",
+    "accountInfo": "অ্যাকাউন্ট তথ্য",
+    "email": "ইমেইল",
+    "role": "ভূমিকা"
+  },
+  "settings": {
+    "title": "সেটিংস",
+    "description": "আপনার ওয়ার্কস্পেস সেটিংস এবং পছন্দসমূহ পরিচালনা করুন।",
+    "preferences": "পছন্দসমূহ",
+    "theme": "থিম",
+    "language": "ভাষা"
+  },
+  "sidebar": {
+    "adminPanel": "অ্যাডমিন প্যানেল",
+    "userPanel": "ব্যবহারকারী প্যানেল",
+    "admin": "অ্যাডমিন",
+    "user": "ব্যবহারকারী",
+    "menu": "মেনু",
+    "theme": "থিম",
+    "language": "ভাষা",
+    "tools": "টুলস"
+  },
+  "uiComponents": {
+    "title": "UI কম্পোনেন্ট",
+    "description": "৫০+ shadcn/ui প্রিমিটিভ ও কাস্টম কম্পোনেন্ট ভেরিয়েন্ট, সাইজ এবং ইন্টারঅ্যাক্টিভ স্টেট সহ দেখুন।",
+    "onThisPage": "এই পৃষ্ঠায়",
+    "sections": {
+      "actions": "অ্যাকশন",
+      "actionsDesc": "বাটন, টগল এবং গ্রুপড অ্যাকশন।",
+      "forms": "ফর্ম",
+      "formsDesc": "ইনপুট, সিলেক্ট এবং ফর্ম হেল্পার।",
+      "feedback": "ফিডব্যাক",
+      "feedbackDesc": "অ্যালার্ট, ব্যাজ, প্রোগ্রেস এবং লোডিং স্টেট।",
+      "dataDisplay": "ডেটা ডিসপ্লে",
+      "dataDisplayDesc": "কার্ড, টেবিল, অ্যাভাটার এবং ভিজ্যুয়াল এলিমেন্ট।",
+      "navigation": "নেভিগেশন",
+      "navigationDesc": "ব্রেডক্রাম্ব, ট্যাব এবং মেনু।",
+      "overlays": "ওভারলে",
+      "overlaysDesc": "ডায়ালগ, শীট, পপওভার এবং মেনু।",
+      "layout": "লেআউট",
+      "layoutDesc": "অ্যাকর্ডিয়ন, ক্যারোসেল, ক্যালেন্ডার এবং কল্যাপসিবল।"
+    }
+  },
+  "errors": {
+    "404": "পৃষ্ঠা পাওয়া যায়নি",
+    "401": "অননুমোদিত",
+    "403": "নিষিদ্ধ",
+    "500": "অভ্যন্তরীণ সার্ভার ত্রুটি",
+    "generic": "কিছু ভুল হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।",
+    "unauthorizedDescription": "এই পৃষ্ঠায় প্রবেশের অনুমতি আপনার নেই।",
+    "goToDashboard": "ড্যাশবোর্ডে যান"
+  }
+}

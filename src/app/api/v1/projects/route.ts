@@ -1,11 +1,9 @@
 import { NextResponse } from "next/server";
-import { authenticateApiKey } from "@/tenant/apiKeys/authenticateApiKey";
+import { authenticateApiKey, authFailureResponse } from "@/tenant/apiKeys/authenticateApiKey";
 
 export async function GET(request: Request) {
   const auth = await authenticateApiKey(request);
-  if (!auth) {
-    return NextResponse.json({ error: "Nicht autorisiert." }, { status: 401 });
-  }
+  if (!auth.ok) return authFailureResponse(auth);
 
   const projects = await auth.tenantDb.project.findMany({ orderBy: { name: "asc" } });
   return NextResponse.json({

@@ -19,33 +19,23 @@ export function Avatar({
   size?: number;
 }) {
   if (avatarUrl) {
-    // eslint-disable-next-line @next/next/no-img-element
     return (
+      // eslint-disable-next-line @next/next/no-img-element
       <img
         src={avatarUrl}
         alt={name ?? email}
         width={size}
         height={size}
-        style={{ borderRadius: "50%", objectFit: "cover", flexShrink: 0 }}
+        className="shrink-0 rounded-full object-cover"
+        style={{ width: size, height: size }}
       />
     );
   }
 
   return (
     <span
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: size,
-        height: size,
-        borderRadius: "50%",
-        background: "var(--accent-tint)",
-        color: "var(--accent)",
-        fontSize: size * 0.4,
-        fontWeight: 700,
-        flexShrink: 0,
-      }}
+      className="inline-flex shrink-0 items-center justify-center rounded-full bg-primary/10 font-bold text-primary"
+      style={{ width: size, height: size, fontSize: size * 0.4 }}
     >
       {initialsFor(name, email)}
     </span>

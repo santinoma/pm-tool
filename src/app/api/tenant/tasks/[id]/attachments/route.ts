@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
 import { buildStoragePath, saveUploadedFile } from "@/tenant/collaboration/attachmentStorage";
 import { recordActivity } from "@/tenant/notifications/recordActivity";
+import { resolveProjectIdsForTask } from "@/tenant/projectAccess/resolveProjectMembership";
+import { assertAnyProjectAccess } from "@/tenant/projectAccess/assertProjectAccess";
 
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -9,6 +11,12 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
   if (!context?.currentUser) {
     return NextResponse.json({ error: "Nicht angemeldet." }, { status: 401 });
   }
+  const denied = await assertAnyProjectAccess(
+    context.tenantDb,
+    context.currentUser,
+    await resolveProjectIdsForTask(context.tenantDb, id),
+  );
+  if (denied) return denied;
 
   const attachments = await context.tenantDb.attachment.findMany({
     where: { taskId: id },
@@ -24,6 +32,12 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   if (!context?.currentUser) {
     return NextResponse.json({ error: "Nicht angemeldet." }, { status: 401 });
   }
+  const denied = await assertAnyProjectAccess(
+    context.tenantDb,
+    context.currentUser,
+    await resolveProjectIdsForTask(context.tenantDb, id),
+  );
+  if (denied) return denied;
 
   const formData = await request.formData().catch(() => null);
   const file = formData?.get("file");
@@ -57,6 +71,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       actorId: context.currentUser.id,
       type: "attachment_added",
       summary: `Anhang „${file.name}“ zu „${task?.title}“ hinzugefügt`,
+      taskId: id,
     });
   }
 

@@ -24,6 +24,21 @@ describe("validateCustomFieldValue", () => {
     expect(validateCustomFieldValue("select", "medium", options).valid).toBe(true);
     expect(validateCustomFieldValue("select", "urgent", options).valid).toBe(false);
   });
+
+  it("validates multi_select as a JSON array of known options", () => {
+    const options = ["frontend", "backend", "design"];
+    expect(validateCustomFieldValue("multi_select", JSON.stringify(["frontend", "design"]), options).valid).toBe(
+      true,
+    );
+    expect(validateCustomFieldValue("multi_select", JSON.stringify(["frontend", "ops"]), options).valid).toBe(false);
+    expect(validateCustomFieldValue("multi_select", "not json", options).valid).toBe(false);
+    expect(validateCustomFieldValue("multi_select", JSON.stringify("not an array"), options).valid).toBe(false);
+  });
+
+  it("validates person as a non-empty string", () => {
+    expect(validateCustomFieldValue("person", "user-123").valid).toBe(true);
+    expect(validateCustomFieldValue("person", "").valid).toBe(false);
+  });
 });
 
 describe("parseCustomFieldValue", () => {
@@ -39,5 +54,10 @@ describe("parseCustomFieldValue", () => {
   it("passes text and select through unchanged", () => {
     expect(parseCustomFieldValue("text", "hello")).toBe("hello");
     expect(parseCustomFieldValue("select", "medium")).toBe("medium");
+  });
+
+  it("parses multi_select as a string array", () => {
+    expect(parseCustomFieldValue("multi_select", JSON.stringify(["a", "b"]))).toEqual(["a", "b"]);
+    expect(parseCustomFieldValue("multi_select", "not json")).toEqual([]);
   });
 });

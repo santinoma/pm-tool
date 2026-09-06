@@ -13,6 +13,24 @@ export function isSessionExpired(session: SessionLike, now: Date = new Date()): 
   return session.expiresAt.getTime() < now.getTime();
 }
 
+/** Wie oft `lastSeenAt` frühestens erneut geschrieben wird — siehe `shouldTouchSession`. */
+export const SESSION_TOUCH_INTERVAL_MS = 5 * 60 * 1000;
+
+/**
+ * Entscheidet, ob eine Session-Validierung `lastSeenAt` aktualisieren soll.
+ *
+ * `getTenantContext()` läuft auf JEDEM Request — ein Write bei jedem Aufruf wäre
+ * unnötig teures DB-Rauschen für ein Feld, das nur zur groben Anzeige ("zuletzt
+ * aktiv") gedacht ist. Deshalb wird nur geschrieben, wenn `lastSeenAt` noch nie
+ * gesetzt war oder länger als `SESSION_TOUCH_INTERVAL_MS` zurückliegt.
+ */
+export function shouldTouchSession(lastSeenAt: Date | null, now: Date = new Date()): boolean {
+  if (!lastSeenAt) {
+    return true;
+  }
+  return now.getTime() - lastSeenAt.getTime() > SESSION_TOUCH_INTERVAL_MS;
+}
+
 export interface SessionCookieOptions {
   name: string;
   value: string;

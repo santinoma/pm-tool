@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
 import { parseSearchQuery } from "@/tenant/search/parseSearchQuery";
+import { canManageMembers } from "@/tenant/auth/roleGuard";
+import { privateTaskVisibilityFilter } from "@/tenant/projectAccess/privateTaskFilter";
 
 export interface SearchResult {
   type: "project" | "task";
@@ -19,6 +21,14 @@ export async function GET(request: Request) {
   if (query.length === 0) {
     return NextResponse.json({ results: [] });
   }
+
+  const isPrivileged = canManageMembers(context.currentUser.role);
+  const userId = context.currentUser.id;
+  const taskMembershipFilter = isPrivileged
+    ? {}
+    : { projects: { some: { project: { members: { some: { userId } } } } } };
+  const projectMembershipFilter = isPrivileged ? {} : { members: { some: { userId } } };
+  const privateFilter = privateTaskVisibilityFilter(context.currentUser);
 
   const parsed = parseSearchQuery(query);
 
@@ -48,6 +58,8 @@ export async function GET(request: Request) {
         projects: parsed.project
           ? { some: { isPrimary: true, project: { name: { contains: parsed.project, mode: "insensitive" } } } }
           : undefined,
+        ...taskMembershipFilter,
+        ...privateFilter,
       },
       include: { projects: { where: { isPrimary: true } } },
       take: 20,
@@ -64,11 +76,11 @@ export async function GET(request: Request) {
 
   const [projects, tasks] = await Promise.all([
     context.tenantDb.project.findMany({
-      where: { name: { contains: query, mode: "insensitive" } },
+      where: { name: { contains: query, mode: "insensitive" }, ...projectMembershipFilter },
       take: 10,
     }),
     context.tenantDb.task.findMany({
-      where: { title: { contains: query, mode: "insensitive" } },
+      where: { title: { contains: query, mode: "insensitive" }, ...taskMembershipFilter, ...privateFilter },
       include: { projects: { where: { isPrimary: true } } },
       take: 10,
     }),

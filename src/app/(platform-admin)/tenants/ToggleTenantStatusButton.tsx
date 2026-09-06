@@ -2,12 +2,26 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/ui/shadcn/components/dialog";
+import { Button } from "@/ui/shadcn/components/button";
 
-export function ToggleTenantStatusButton({
+export function ToggleTenantStatusDialog({
+  open,
+  onOpenChange,
   tenantId,
   tenantName,
   status,
 }: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
   tenantId: string;
   tenantName: string;
   status: "active" | "disabled";
@@ -19,13 +33,6 @@ export function ToggleTenantStatusButton({
   const actionLabel = status === "active" ? "Deaktivieren" : "Aktivieren";
 
   async function handleToggle() {
-    if (nextStatus === "disabled") {
-      const confirmed = window.confirm(
-        `Tenant "${tenantName}" wirklich deaktivieren? Der Zugriff wird gesperrt, die Daten bleiben erhalten.`,
-      );
-      if (!confirmed) return;
-    }
-
     setSaving(true);
     setError(null);
     const response = await fetch(`/api/tenants/${tenantId}`, {
@@ -39,15 +46,33 @@ export function ToggleTenantStatusButton({
       setError(body.error ?? "Status konnte nicht geändert werden.");
       return;
     }
+    onOpenChange(false);
     router.refresh();
   }
 
   return (
-    <>
-      <button type="button" onClick={handleToggle} className="btn btn-secondary btn-sm" disabled={saving}>
-        {saving ? "Wird gespeichert…" : actionLabel}
-      </button>
-      {error && <p className="field-error">{error}</p>}
-    </>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Tenant {actionLabel.toLowerCase()}</DialogTitle>
+          <DialogDescription>
+            {nextStatus === "disabled"
+              ? `Tenant „${tenantName}“ wirklich deaktivieren? Der Zugriff wird gesperrt, die Daten bleiben erhalten.`
+              : `Tenant „${tenantName}“ wieder aktivieren?`}
+          </DialogDescription>
+        </DialogHeader>
+        {error && <p className="text-sm text-destructive">{error}</p>}
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="outline" size="sm">
+              Abbrechen
+            </Button>
+          </DialogClose>
+          <Button size="sm" onClick={handleToggle} loading={saving}>
+            {actionLabel}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

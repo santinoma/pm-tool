@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
 import { computeOverdueTasks } from "@/tenant/reporting/overdue";
+import { canManageMembers } from "@/tenant/auth/roleGuard";
 
 export async function GET() {
   const context = await getTenantContext();
@@ -8,8 +9,14 @@ export async function GET() {
     return NextResponse.json({ error: "Nicht angemeldet." }, { status: 401 });
   }
 
+  const isPrivileged = canManageMembers(context.currentUser.role);
   const tasks = await context.tenantDb.task.findMany({
-    where: { inTriage: false },
+    where: {
+      inTriage: false,
+      ...(isPrivileged
+        ? {}
+        : { projects: { some: { project: { members: { some: { userId: context.currentUser.id } } } } } }),
+    },
     include: {
       status: true,
       assignee: true,

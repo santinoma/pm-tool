@@ -1,7 +1,7 @@
 import { cookies, headers } from "next/headers";
 import { getTenantBySubdomain } from "../platform/tenantRegistry";
 import { getTenantDbClient } from "./tenantDb";
-import { SESSION_COOKIE_NAME } from "./auth/session";
+import { SESSION_COOKIE_NAME, shouldTouchSession } from "./auth/session";
 import { computeEntitledFeatures } from "./entitlements/features";
 import type { FeatureKey } from "./entitlements/features";
 import type { PrismaClient, User } from "../generated/tenant-client/client.js";
@@ -40,6 +40,18 @@ export async function resolveTenantContext(
     });
     if (session && session.expiresAt.getTime() > Date.now()) {
       currentUser = session.user;
+
+      // `getTenantContext()` läuft auf jedem Request — `lastSeenAt` hier bei jedem
+      // Aufruf zu schreiben wäre unnötig teuer. `shouldTouchSession` throttelt das
+      // auf höchstens einen Write pro SESSION_TOUCH_INTERVAL_MS (siehe session.ts).
+      if (shouldTouchSession(session.lastSeenAt)) {
+        // Awaited statt "fire and forget": in serverless/Edge-Umgebungen kann die
+        // Funktion beendet werden, sobald die Response geschrieben ist, wodurch ein
+        // nicht-awaiteter Write verloren ginge.
+        await tenantDb.session
+          .update({ where: { id: session.id }, data: { lastSeenAt: new Date() } })
+          .catch(() => undefined);
+      }
     }
   }
 

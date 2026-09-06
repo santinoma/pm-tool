@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
 import { validateCustomFieldValue, type CustomFieldTypeName } from "@/tenant/projects/customFieldValue";
+import { resolveProjectIdsForTask } from "@/tenant/projectAccess/resolveProjectMembership";
+import { assertAnyProjectAccess } from "@/tenant/projectAccess/assertProjectAccess";
 
 export async function PUT(
   request: Request,
@@ -11,6 +13,12 @@ export async function PUT(
   if (!context?.currentUser) {
     return NextResponse.json({ error: "Nicht angemeldet." }, { status: 401 });
   }
+  const denied = await assertAnyProjectAccess(
+    context.tenantDb,
+    context.currentUser,
+    await resolveProjectIdsForTask(context.tenantDb, id),
+  );
+  if (denied) return denied;
 
   const body = await request.json().catch(() => null);
   if (!body || typeof body.value !== "string") {
@@ -29,6 +37,12 @@ export async function PUT(
   );
   if (!validation.valid) {
     return NextResponse.json({ error: validation.reason }, { status: 400 });
+  }
+  if (field.type === "person") {
+    const user = await context.tenantDb.user.findUnique({ where: { id: body.value } });
+    if (!user) {
+      return NextResponse.json({ error: "Nutzer nicht gefunden." }, { status: 400 });
+    }
   }
 
   const value = await context.tenantDb.customFieldValue.upsert({

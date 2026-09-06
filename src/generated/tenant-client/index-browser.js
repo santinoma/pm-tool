@@ -134,8 +134,58 @@ exports.Prisma.UserScalarFieldEnum = {
   internalCostRate: 'internalCostRate',
   totpSecret: 'totpSecret',
   totpEnabled: 'totpEnabled',
+  locale: 'locale',
   createdAt: 'createdAt',
-  customRoleId: 'customRoleId'
+  customRoleId: 'customRoleId',
+  managerId: 'managerId',
+  holidayCalendarId: 'holidayCalendarId'
+};
+
+exports.Prisma.ClientScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  note: 'note',
+  taxId: 'taxId',
+  website: 'website',
+  billingAddress: 'billingAddress',
+  type: 'type',
+  accountOwnerId: 'accountOwnerId',
+  paymentTermsDays: 'paymentTermsDays',
+  archivedAt: 'archivedAt',
+  parentId: 'parentId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ClientContactScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  clientId: 'clientId',
+  name: 'name',
+  email: 'email',
+  phone: 'phone',
+  isPrimary: 'isPrimary',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.DealScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  companyId: 'companyId',
+  stage: 'stage',
+  ownerId: 'ownerId',
+  estimatedValue: 'estimatedValue',
+  probability: 'probability',
+  lostReason: 'lostReason',
+  projectId: 'projectId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ProjectMemberScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  userId: 'userId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.CustomRoleScalarFieldEnum = {
@@ -170,6 +220,26 @@ exports.Prisma.SessionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  userAgent: 'userAgent',
+  lastSeenAt: 'lastSeenAt'
+};
+
+exports.Prisma.FavoriteScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AuditLogEntryScalarFieldEnum = {
+  id: 'id',
+  actorId: 'actorId',
+  action: 'action',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  summary: 'summary',
   createdAt: 'createdAt'
 };
 
@@ -189,17 +259,6 @@ exports.Prisma.ProjectClientAccessScalarFieldEnum = {
   userId: 'userId'
 };
 
-exports.Prisma.TeamScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.TeamMemberScalarFieldEnum = {
-  teamId: 'teamId',
-  userId: 'userId'
-};
-
 exports.Prisma.SlackCaptureConfigScalarFieldEnum = {
   id: 'id',
   signingSecret: 'signingSecret',
@@ -216,8 +275,32 @@ exports.Prisma.ProjectScalarFieldEnum = {
   budgetHours: 'budgetHours',
   budgetAmount: 'budgetAmount',
   hourlyRate: 'hourlyRate',
+  type: 'type',
+  color: 'color',
+  isTemplate: 'isTemplate',
+  enabledModules: 'enabledModules',
+  timeApprovalRequired: 'timeApprovalRequired',
+  expenseApprovalRequired: 'expenseApprovalRequired',
   createdAt: 'createdAt',
-  portfolioId: 'portfolioId'
+  portfolioId: 'portfolioId',
+  clientId: 'clientId',
+  projectManagerId: 'projectManagerId'
+};
+
+exports.Prisma.TaskFolderScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  name: 'name',
+  position: 'position',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.TaskListGroupScalarFieldEnum = {
+  id: 'id',
+  folderId: 'folderId',
+  name: 'name',
+  position: 'position',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.BaselineScalarFieldEnum = {
@@ -282,6 +365,19 @@ exports.Prisma.SharedViewScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.SavedViewScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  scope: 'scope',
+  name: 'name',
+  viewType: 'viewType',
+  filterConfig: 'filterConfig',
+  sortConfig: 'sortConfig',
+  ownerId: 'ownerId',
+  sharedWithAll: 'sharedWithAll',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.WorkflowStatusScalarFieldEnum = {
   id: 'id',
   projectId: 'projectId',
@@ -297,6 +393,8 @@ exports.Prisma.TaskScalarFieldEnum = {
   description: 'description',
   externalSourceUrl: 'externalSourceUrl',
   statusId: 'statusId',
+  priority: 'priority',
+  tShirtSize: 'tShirtSize',
   assigneeId: 'assigneeId',
   parentTaskId: 'parentTaskId',
   startDate: 'startDate',
@@ -304,10 +402,44 @@ exports.Prisma.TaskScalarFieldEnum = {
   estimatedHours: 'estimatedHours',
   hillPosition: 'hillPosition',
   inTriage: 'inTriage',
+  isKeyTask: 'isKeyTask',
+  isPrivate: 'isPrivate',
+  isTemplate: 'isTemplate',
+  taskListGroupId: 'taskListGroupId',
+  recurrence: 'recurrence',
+  recurrenceParentId: 'recurrenceParentId',
   cycleId: 'cycleId',
   cycleAssignedAt: 'cycleAssignedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TagScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.TaskTagScalarFieldEnum = {
+  taskId: 'taskId',
+  tagId: 'tagId'
+};
+
+exports.Prisma.TaskSubscriberScalarFieldEnum = {
+  id: 'id',
+  taskId: 'taskId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.TodoScalarFieldEnum = {
+  id: 'id',
+  taskId: 'taskId',
+  title: 'title',
+  isDone: 'isDone',
+  assigneeId: 'assigneeId',
+  position: 'position',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.CommentScalarFieldEnum = {
@@ -340,6 +472,8 @@ exports.Prisma.WikiPageScalarFieldEnum = {
   projectId: 'projectId',
   title: 'title',
   content: 'content',
+  isTemplate: 'isTemplate',
+  createdById: 'createdById',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -352,6 +486,9 @@ exports.Prisma.TenantSettingsScalarFieldEnum = {
   timeTrackingMode: 'timeTrackingMode',
   require2fa: 'require2fa',
   scimBearerToken: 'scimBearerToken',
+  crmEnabled: 'crmEnabled',
+  reportsEnabled: 'reportsEnabled',
+  resourcingEnabled: 'resourcingEnabled',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -375,7 +512,55 @@ exports.Prisma.TimeEntryScalarFieldEnum = {
   endedAt: 'endedAt',
   durationMinutes: 'durationMinutes',
   createdAt: 'createdAt',
-  invoiceId: 'invoiceId'
+  invoiceId: 'invoiceId',
+  approvalStatus: 'approvalStatus',
+  approvedById: 'approvedById',
+  approvedAt: 'approvedAt',
+  loggedForUserId: 'loggedForUserId'
+};
+
+exports.Prisma.TimesheetLockScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  periodStart: 'periodStart',
+  periodEnd: 'periodEnd',
+  lockedById: 'lockedById',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.TimeTrackingPolicyScalarFieldEnum = {
+  id: 'id',
+  maxDailyHours: 'maxDailyHours',
+  blockWeekends: 'blockWeekends',
+  blockOverlaps: 'blockOverlaps',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.HolidayCalendarScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  country: 'country'
+};
+
+exports.Prisma.HolidayScalarFieldEnum = {
+  id: 'id',
+  calendarId: 'calendarId',
+  date: 'date',
+  name: 'name'
+};
+
+exports.Prisma.ResourceBookingScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  placeholderName: 'placeholderName',
+  projectId: 'projectId',
+  budgetSectionId: 'budgetSectionId',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  hoursPerDay: 'hoursPerDay',
+  isTentative: 'isTentative',
+  createdById: 'createdById',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.TaskProjectScalarFieldEnum = {
@@ -401,6 +586,7 @@ exports.Prisma.TaskLinkScalarFieldEnum = {
 exports.Prisma.CustomFieldDefScalarFieldEnum = {
   id: 'id',
   projectId: 'projectId',
+  entityType: 'entityType',
   key: 'key',
   label: 'label',
   type: 'type',
@@ -414,12 +600,37 @@ exports.Prisma.CustomFieldValueScalarFieldEnum = {
   value: 'value'
 };
 
+exports.Prisma.BudgetCustomFieldValueScalarFieldEnum = {
+  id: 'id',
+  fieldId: 'fieldId',
+  budgetId: 'budgetId',
+  value: 'value'
+};
+
+exports.Prisma.WikiPageCustomFieldValueScalarFieldEnum = {
+  id: 'id',
+  fieldId: 'fieldId',
+  wikiPageId: 'wikiPageId',
+  value: 'value'
+};
+
+exports.Prisma.SharedWikiLinkScalarFieldEnum = {
+  id: 'id',
+  wikiPageId: 'wikiPageId',
+  token: 'token',
+  revokedAt: 'revokedAt',
+  createdById: 'createdById',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.ActivityEventScalarFieldEnum = {
   id: 'id',
   projectId: 'projectId',
   actorId: 'actorId',
   type: 'type',
   summary: 'summary',
+  taskId: 'taskId',
+  budgetId: 'budgetId',
   createdAt: 'createdAt'
 };
 
@@ -441,8 +652,12 @@ exports.Prisma.NotificationScalarFieldEnum = {
 exports.Prisma.AutomationRuleScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  trigger: 'trigger',
+  triggers: 'triggers',
   conditionStatusCategory: 'conditionStatusCategory',
+  projectIds: 'projectIds',
+  scheduleTime: 'scheduleTime',
+  scheduleWeekday: 'scheduleWeekday',
+  lastRunPeriodKey: 'lastRunPeriodKey',
   isEnabled: 'isEnabled',
   createdById: 'createdById',
   createdAt: 'createdAt',
@@ -454,15 +669,31 @@ exports.Prisma.AutomationActionScalarFieldEnum = {
   ruleId: 'ruleId',
   type: 'type',
   targetUserId: 'targetUserId',
+  targetStatusId: 'targetStatusId',
+  commentBody: 'commentBody',
+  newItemTitle: 'newItemTitle',
   position: 'position'
 };
 
-exports.Prisma.DashboardWidgetPreferenceScalarFieldEnum = {
+exports.Prisma.DashboardScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
+  name: 'name',
+  ownerId: 'ownerId',
+  isDefault: 'isDefault',
+  position: 'position',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.DashboardWidgetScalarFieldEnum = {
+  id: 'id',
+  dashboardId: 'dashboardId',
   widgetType: 'widgetType',
+  title: 'title',
   enabled: 'enabled',
-  position: 'position'
+  position: 'position',
+  span: 'span',
+  filterProjectId: 'filterProjectId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.WebhookEndpointScalarFieldEnum = {
@@ -475,11 +706,24 @@ exports.Prisma.WebhookEndpointScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.SsoConfigScalarFieldEnum = {
+  id: 'id',
+  provider: 'provider',
+  entryPoint: 'entryPoint',
+  issuer: 'issuer',
+  cert: 'cert',
+  enabled: 'enabled',
+  enforceSso: 'enforceSso',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ApiKeyScalarFieldEnum = {
   id: 'id',
   name: 'name',
   tokenHash: 'tokenHash',
   tokenPrefix: 'tokenPrefix',
+  scope: 'scope',
   userId: 'userId',
   lastUsedAt: 'lastUsedAt',
   revokedAt: 'revokedAt',
@@ -524,26 +768,69 @@ exports.Prisma.BudgetScalarFieldEnum = {
   ownerId: 'ownerId',
   isRetainer: 'isRetainer',
   recurrenceInterval: 'recurrenceInterval',
+  lastRecurrencePeriodKey: 'lastRecurrencePeriodKey',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  color: 'color',
+  isScenario: 'isScenario',
+  scenarioOfId: 'scenarioOfId',
+  isTemplate: 'isTemplate',
+  deliveredAt: 'deliveredAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ServiceTypeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.BudgetSectionScalarFieldEnum = {
   id: 'id',
   budgetId: 'budgetId',
   name: 'name',
+  description: 'description',
   budgetedTimeHours: 'budgetedTimeHours',
+  estimatedCost: 'estimatedCost',
   quantity: 'quantity',
   price: 'price',
   budgetUsed: 'budgetUsed',
+  serviceTypeId: 'serviceTypeId',
+  billingType: 'billingType',
+  trackingUnit: 'trackingUnit',
+  discountPercent: 'discountPercent',
+  markupPercent: 'markupPercent',
+  guaranteedMaxPrice: 'guaranteedMaxPrice',
+  blockOverrun: 'blockOverrun',
+  trackTime: 'trackTime',
+  trackExpenses: 'trackExpenses',
+  trackBooking: 'trackBooking',
+  warningThresholdPercent: 'warningThresholdPercent',
+  warningNotifiedAt: 'warningNotifiedAt',
+  position: 'position',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RateCardItemScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  serviceTypeId: 'serviceTypeId',
+  billingType: 'billingType',
+  trackingUnit: 'trackingUnit',
+  defaultPrice: 'defaultPrice',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.InvoiceScalarFieldEnum = {
   id: 'id',
   budgetId: 'budgetId',
   status: 'status',
+  invoicingMethod: 'invoicingMethod',
+  taxRatePercent: 'taxRatePercent',
+  paidAmount: 'paidAmount',
+  finalizedAt: 'finalizedAt',
   periodStart: 'periodStart',
   periodEnd: 'periodEnd',
   totalAmount: 'totalAmount',
@@ -558,7 +845,83 @@ exports.Prisma.InvoiceLineItemScalarFieldEnum = {
   description: 'description',
   quantityHours: 'quantityHours',
   rate: 'rate',
-  amount: 'amount'
+  amount: 'amount',
+  taxRatePercent: 'taxRatePercent'
+};
+
+exports.Prisma.InvoicePaymentScalarFieldEnum = {
+  id: 'id',
+  invoiceId: 'invoiceId',
+  amount: 'amount',
+  paidAt: 'paidAt',
+  note: 'note',
+  createdById: 'createdById',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CreditNoteScalarFieldEnum = {
+  id: 'id',
+  invoiceId: 'invoiceId',
+  amount: 'amount',
+  reason: 'reason',
+  createdById: 'createdById',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.MeetingScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  scheduledAt: 'scheduledAt',
+  projectId: 'projectId',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ExpenseScalarFieldEnum = {
+  id: 'id',
+  number: 'number',
+  projectId: 'projectId',
+  budgetId: 'budgetId',
+  serviceTypeId: 'serviceTypeId',
+  description: 'description',
+  amount: 'amount',
+  billable: 'billable',
+  incurredAt: 'incurredAt',
+  approvalStatus: 'approvalStatus',
+  approvedById: 'approvedById',
+  approvedAt: 'approvedAt',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PurchaseOrderScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  vendorName: 'vendorName',
+  amount: 'amount',
+  status: 'status',
+  sentStatus: 'sentStatus',
+  paymentStatus: 'paymentStatus',
+  orderedAt: 'orderedAt',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SavedReportScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  category: 'category',
+  dataSource: 'dataSource',
+  filterConfig: 'filterConfig',
+  groupByConfig: 'groupByConfig',
+  chartType: 'chartType',
+  ownerId: 'ownerId',
+  projectId: 'projectId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.BudgetSectionAssigneeScalarFieldEnum = {
@@ -571,6 +934,15 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -580,11 +952,38 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
 exports.Role = exports.$Enums.Role = {
   owner: 'owner',
   admin: 'admin',
   member: 'member',
   client: 'client'
+};
+
+exports.Locale = exports.$Enums.Locale = {
+  de: 'de',
+  en: 'en'
+};
+
+exports.ClientType = exports.$Enums.ClientType = {
+  customer: 'customer',
+  supplier: 'supplier',
+  partner: 'partner',
+  internal: 'internal',
+  recruitment: 'recruitment'
+};
+
+exports.DealStage = exports.$Enums.DealStage = {
+  lead: 'lead',
+  qualified: 'qualified',
+  proposal: 'proposal',
+  won: 'won',
+  lost: 'lost'
 };
 
 exports.AbsenceType = exports.$Enums.AbsenceType = {
@@ -596,6 +995,11 @@ exports.AbsenceStatus = exports.$Enums.AbsenceStatus = {
   pending: 'pending',
   approved: 'approved',
   rejected: 'rejected'
+};
+
+exports.ProjectType = exports.$Enums.ProjectType = {
+  client: 'client',
+  internal: 'internal'
 };
 
 exports.StatusCategory = exports.$Enums.StatusCategory = {
@@ -611,25 +1015,64 @@ exports.GoalStatus = exports.$Enums.GoalStatus = {
   done: 'done'
 };
 
+exports.TaskPriority = exports.$Enums.TaskPriority = {
+  no_priority: 'no_priority',
+  low: 'low',
+  medium: 'medium',
+  high: 'high',
+  urgent: 'urgent'
+};
+
+exports.TaskTShirtSize = exports.$Enums.TaskTShirtSize = {
+  XS: 'XS',
+  S: 'S',
+  M: 'M',
+  L: 'L',
+  XL: 'XL'
+};
+
 exports.TimeTrackingMode = exports.$Enums.TimeTrackingMode = {
   timer: 'timer',
   entries: 'entries'
+};
+
+exports.TimeEntryApprovalStatus = exports.$Enums.TimeEntryApprovalStatus = {
+  pending: 'pending',
+  approved: 'approved',
+  rejected: 'rejected'
+};
+
+exports.CustomFieldEntityType = exports.$Enums.CustomFieldEntityType = {
+  task: 'task',
+  budget: 'budget',
+  wiki_page: 'wiki_page'
 };
 
 exports.CustomFieldType = exports.$Enums.CustomFieldType = {
   text: 'text',
   number: 'number',
   select: 'select',
-  date: 'date'
+  multi_select: 'multi_select',
+  date: 'date',
+  person: 'person',
+  url: 'url',
+  percent: 'percent'
 };
 
 exports.ActivityEventType = exports.$Enums.ActivityEventType = {
   task_created: 'task_created',
   task_status_changed: 'task_status_changed',
+  task_updated: 'task_updated',
   comment_added: 'comment_added',
   attachment_added: 'attachment_added',
   wiki_page_created: 'wiki_page_created',
-  wiki_page_updated: 'wiki_page_updated'
+  wiki_page_updated: 'wiki_page_updated',
+  budget_created: 'budget_created',
+  budget_updated: 'budget_updated',
+  budget_section_added: 'budget_section_added',
+  budget_section_updated: 'budget_section_updated',
+  budget_section_removed: 'budget_section_removed',
+  invoice_created: 'invoice_created'
 };
 
 exports.NotificationLevel = exports.$Enums.NotificationLevel = {
@@ -640,12 +1083,27 @@ exports.NotificationLevel = exports.$Enums.NotificationLevel = {
 
 exports.AutomationTrigger = exports.$Enums.AutomationTrigger = {
   task_created: 'task_created',
-  task_status_changed: 'task_status_changed'
+  task_status_changed: 'task_status_changed',
+  task_updated: 'task_updated',
+  task_commented: 'task_commented',
+  time_daily: 'time_daily',
+  time_weekly: 'time_weekly'
 };
 
 exports.AutomationActionType = exports.$Enums.AutomationActionType = {
   assign_user: 'assign_user',
-  notify_user: 'notify_user'
+  notify_user: 'notify_user',
+  change_status: 'change_status',
+  add_comment: 'add_comment',
+  create_task: 'create_task',
+  create_subtask: 'create_subtask',
+  create_todo: 'create_todo',
+  send_email: 'send_email'
+};
+
+exports.ApiKeyScope = exports.$Enums.ApiKeyScope = {
+  read_only: 'read_only',
+  read_write: 'read_write'
 };
 
 exports.CheckInRecurrence = exports.$Enums.CheckInRecurrence = {
@@ -658,24 +1116,74 @@ exports.RecurrenceInterval = exports.$Enums.RecurrenceInterval = {
   monthly: 'monthly'
 };
 
+exports.BillingType = exports.$Enums.BillingType = {
+  fixed: 'fixed',
+  time_and_materials: 'time_and_materials',
+  non_billable: 'non_billable',
+  percentage: 'percentage'
+};
+
+exports.TrackingUnit = exports.$Enums.TrackingUnit = {
+  hours: 'hours',
+  days: 'days',
+  piece: 'piece'
+};
+
 exports.InvoiceStatus = exports.$Enums.InvoiceStatus = {
   draft: 'draft',
+  finalized: 'finalized',
   sent: 'sent',
+  partially_paid: 'partially_paid',
   paid: 'paid'
+};
+
+exports.InvoicingMethod = exports.$Enums.InvoicingMethod = {
+  uninvoiced_time_expenses: 'uninvoiced_time_expenses',
+  remaining_amount: 'remaining_amount',
+  percentage: 'percentage'
+};
+
+exports.ExpenseApprovalStatus = exports.$Enums.ExpenseApprovalStatus = {
+  pending: 'pending',
+  approved: 'approved',
+  rejected: 'rejected'
+};
+
+exports.PurchaseOrderStatus = exports.$Enums.PurchaseOrderStatus = {
+  draft: 'draft',
+  finalized: 'finalized',
+  cancelled: 'cancelled'
+};
+
+exports.PurchaseOrderSentStatus = exports.$Enums.PurchaseOrderSentStatus = {
+  not_sent: 'not_sent',
+  sent: 'sent'
+};
+
+exports.PurchaseOrderPaymentStatus = exports.$Enums.PurchaseOrderPaymentStatus = {
+  not_received: 'not_received',
+  partially_received: 'partially_received',
+  fully_received: 'fully_received'
 };
 
 exports.Prisma.ModelName = {
   User: 'User',
+  Client: 'Client',
+  ClientContact: 'ClientContact',
+  Deal: 'Deal',
+  ProjectMember: 'ProjectMember',
   CustomRole: 'CustomRole',
   ProjectRoleOverride: 'ProjectRoleOverride',
   AbsenceRequest: 'AbsenceRequest',
   Session: 'Session',
+  Favorite: 'Favorite',
+  AuditLogEntry: 'AuditLogEntry',
   Invite: 'Invite',
   ProjectClientAccess: 'ProjectClientAccess',
-  Team: 'Team',
-  TeamMember: 'TeamMember',
   SlackCaptureConfig: 'SlackCaptureConfig',
   Project: 'Project',
+  TaskFolder: 'TaskFolder',
+  TaskListGroup: 'TaskListGroup',
   Baseline: 'Baseline',
   BaselineTaskSnapshot: 'BaselineTaskSnapshot',
   Portfolio: 'Portfolio',
@@ -683,8 +1191,13 @@ exports.Prisma.ModelName = {
   Cycle: 'Cycle',
   TransitionRule: 'TransitionRule',
   SharedView: 'SharedView',
+  SavedView: 'SavedView',
   WorkflowStatus: 'WorkflowStatus',
   Task: 'Task',
+  Tag: 'Tag',
+  TaskTag: 'TaskTag',
+  TaskSubscriber: 'TaskSubscriber',
+  Todo: 'Todo',
   Comment: 'Comment',
   Mention: 'Mention',
   Attachment: 'Attachment',
@@ -692,26 +1205,44 @@ exports.Prisma.ModelName = {
   TenantSettings: 'TenantSettings',
   PendingLogin: 'PendingLogin',
   TimeEntry: 'TimeEntry',
+  TimesheetLock: 'TimesheetLock',
+  TimeTrackingPolicy: 'TimeTrackingPolicy',
+  HolidayCalendar: 'HolidayCalendar',
+  Holiday: 'Holiday',
+  ResourceBooking: 'ResourceBooking',
   TaskProject: 'TaskProject',
   TaskDependency: 'TaskDependency',
   TaskLink: 'TaskLink',
   CustomFieldDef: 'CustomFieldDef',
   CustomFieldValue: 'CustomFieldValue',
+  BudgetCustomFieldValue: 'BudgetCustomFieldValue',
+  WikiPageCustomFieldValue: 'WikiPageCustomFieldValue',
+  SharedWikiLink: 'SharedWikiLink',
   ActivityEvent: 'ActivityEvent',
   NotificationPreference: 'NotificationPreference',
   Notification: 'Notification',
   AutomationRule: 'AutomationRule',
   AutomationAction: 'AutomationAction',
-  DashboardWidgetPreference: 'DashboardWidgetPreference',
+  Dashboard: 'Dashboard',
+  DashboardWidget: 'DashboardWidget',
   WebhookEndpoint: 'WebhookEndpoint',
+  SsoConfig: 'SsoConfig',
   ApiKey: 'ApiKey',
   WebhookDelivery: 'WebhookDelivery',
   CheckInSchedule: 'CheckInSchedule',
   CheckInResponse: 'CheckInResponse',
   Budget: 'Budget',
+  ServiceType: 'ServiceType',
   BudgetSection: 'BudgetSection',
+  RateCardItem: 'RateCardItem',
   Invoice: 'Invoice',
   InvoiceLineItem: 'InvoiceLineItem',
+  InvoicePayment: 'InvoicePayment',
+  CreditNote: 'CreditNote',
+  Meeting: 'Meeting',
+  Expense: 'Expense',
+  PurchaseOrder: 'PurchaseOrder',
+  SavedReport: 'SavedReport',
   BudgetSectionAssignee: 'BudgetSectionAssignee'
 };
 

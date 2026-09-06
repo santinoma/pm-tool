@@ -1,0 +1,169 @@
+{
+  "common": {
+    "appName": "Next Elite",
+    "selectLanguage": "选择语言",
+    "loading": "加载中...",
+    "error": "错误",
+    "success": "成功",
+    "cancel": "取消",
+    "confirm": "确认",
+    "save": "保存",
+    "delete": "删除",
+    "edit": "编辑",
+    "close": "关闭",
+    "back": "返回",
+    "next": "下一步",
+    "previous": "上一步",
+    "submit": "提交",
+    "search": "搜索",
+    "filter": "筛选",
+    "reset": "重置",
+    "noData": "暂无数据",
+    "toggleTheme": "切换主题",
+    "sidebar": "侧边栏",
+    "toggleSidebar": "切换侧边栏"
+  },
+  "theme": {
+    "light": "浅色",
+    "dark": "深色",
+    "system": "系统"
+  },
+  "navigation": {
+    "home": "首页",
+    "services": "服务",
+    "contact": "联系我们",
+    "language": "语言",
+    "dashboard": "仪表板",
+    "profile": "个人资料",
+    "settings": "设置",
+    "logout": "退出登录",
+    "login": "登录",
+    "uiComponents": "UI 组件"
+  },
+  "auth": {
+    "login": {
+      "title": "登录",
+      "email": "电子邮件",
+      "password": "密码",
+      "emailPlaceholder": "请输入您的电子邮件",
+      "passwordPlaceholder": "请输入您的密码",
+      "submit": "登录",
+      "forgotPassword": "忘记密码？",
+      "noAccount": "还没有账号？",
+      "signUp": "注册",
+      "invalidCredentials": "凭据无效。",
+      "clickToFill": "点击填充凭据",
+      "signInWithGoogle": "使用 Google 登录",
+      "orContinueWith": "或继续使用"
+    },
+    "register": {
+      "title": "创建账户",
+      "name": "姓名",
+      "namePlaceholder": "您的姓名",
+      "passwordPlaceholder": "至少 8 个字符",
+      "confirmPassword": "确认密码",
+      "confirmPasswordPlaceholder": "再次输入密码",
+      "submit": "创建账户",
+      "haveAccount": "已有账户？",
+      "signUpFailed": "注册失败，请重试。"
+    },
+    "logout": {
+      "title": "退出登录",
+      "confirm": "您确定要退出登录吗？"
+    },
+    "passwordReset": {
+      "title": "重置密码",
+      "email": "电子邮件",
+      "submit": "发送重置链接",
+      "submitted": "如果该邮箱存在账号，您将很快收到重置链接。"
+    }
+  },
+  "home": {
+    "features": {
+      "typeSafe": "类型安全的多语言引擎",
+      "localStorage": "跨会话的语言保留",
+      "rtl": "原生支持阿拉伯语 RTL",
+      "rbac": "高级角色访问控制 (RBAC)",
+      "seo": "程序化 SEO 和动态元数据",
+      "production": "针对生产优化的 SaaS 架构",
+      "stack": "Next.js 16、React 19、TypeScript 和 Tailwind v4",
+      "ui-experience": "完全可定制的 shadcn/ui 组件",
+      "testing": "Vitest + Playwright，含 renderWithProviders 辅助函数",
+      "tooling": "Oxlint + Oxfmt，配合 Lefthook 预提交钩子"
+    }
+  },
+  "dashboard": {
+    "admin": {
+      "title": "管理员仪表板",
+      "description": "监控平台活动并管理工作区。",
+      "totalUsers": "用户总数",
+      "activeSessions": "活跃会话",
+      "adminUsers": "管理员用户",
+      "adminInfo": "管理员信息",
+      "loggedInAs": "当前登录身份为",
+      "adminOnly": "此页面仅限管理员访问。"
+    },
+    "user": {
+      "title": "用户仪表板",
+      "description": "查看您的账户概览和最近活动。",
+      "profile": "用户资料",
+      "email": "电子邮件",
+      "role": "角色",
+      "userId": "用户 ID"
+    }
+  },
+  "profile": {
+    "title": "个人资料",
+    "description": "查看并更新您的个人账户信息。",
+    "accountInfo": "账户信息",
+    "email": "电子邮件",
+    "role": "角色"
+  },
+  "settings": {
+    "title": "设置",
+    "description": "管理您的工作区设置和偏好。",
+    "preferences": "偏好设置",
+    "theme": "主题",
+    "language": "语言"
+  },
+  "sidebar": {
+    "adminPanel": "管理面板",
+    "userPanel": "用户面板",
+    "admin": "管理员",
+    "user": "用户",
+    "menu": "菜单",
+    "theme": "主题",
+    "language": "语言",
+    "tools": "工具"
+  },
+  "uiComponents": {
+    "title": "UI 组件",
+    "description": "浏览 50+ 个 shadcn/ui 基础组件和自定义组件的变体、尺寸和交互状态。",
+    "onThisPage": "本页目录",
+    "sections": {
+      "actions": "操作",
+      "actionsDesc": "按钮、开关和组合操作。",
+      "forms": "表单",
+      "formsDesc": "输入框、选择器和表单辅助组件。",
+      "feedback": "反馈",
+      "feedbackDesc": "警告、徽章、进度和加载状态。",
+      "dataDisplay": "数据展示",
+      "dataDisplayDesc": "卡片、表格、头像和视觉元素。",
+      "navigation": "导航",
+      "navigationDesc": "面包屑、标签页和菜单。",
+      "overlays": "浮层",
+      "overlaysDesc": "对话框、抽屉、弹出框和菜单。",
+      "layout": "布局",
+      "layoutDesc": "手风琴、轮播、日历和可折叠组件。"
+    }
+  },
+  "errors": {
+    "404": "页面未找到",
+    "401": "未授权",
+    "403": "禁止访问",
+    "500": "内部服务器错误",
+    "generic": "出错了，请稍后再试。",
+    "unauthorizedDescription": "您没有权限访问此页面。",
+    "goToDashboard": "前往仪表板"
+  }
+}

@@ -51,6 +51,45 @@ export function aggregateByProject(
   return result;
 }
 
+export interface DatedTimeEntryLike {
+  durationMinutes: number | null;
+  startedAt: Date | null;
+  createdAt: Date;
+}
+
+/**
+ * Summiert Zeiteinträge eines Users nach Periodenschlüssel (z.B. ISO-Woche
+ * "2026-W36" oder Monat "2026-09"), zur Anzeige in den Dashboard-Widgets
+ * "My monthly/yearly time spent". `startedAt` ist bei manuellen Dauer-Einträgen
+ * oft null — dann dient `createdAt` als Ersatzdatum (gleiches Muster wie
+ * `getEntryDate` in `tenant/timeTracking/approval.ts`).
+ */
+export function aggregateByUserPeriod(
+  entries: DatedTimeEntryLike[],
+  periodKey: (date: Date) => string,
+): Record<string, number> {
+  const result: Record<string, number> = {};
+  for (const entry of entries) {
+    if (!entry.durationMinutes) continue;
+    const key = periodKey(entry.startedAt ?? entry.createdAt);
+    result[key] = (result[key] ?? 0) + entry.durationMinutes;
+  }
+  return result;
+}
+
+export function isoWeekKey(date: Date): string {
+  const target = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const dayNumber = (target.getUTCDay() + 6) % 7;
+  target.setUTCDate(target.getUTCDate() - dayNumber + 3);
+  const firstThursday = new Date(Date.UTC(target.getUTCFullYear(), 0, 4));
+  const week = 1 + Math.round(((target.getTime() - firstThursday.getTime()) / 86400000 - 3 + ((firstThursday.getUTCDay() + 6) % 7)) / 7);
+  return `${target.getUTCFullYear()}/W${String(week).padStart(2, "0")}`;
+}
+
+export function monthKey(date: Date): string {
+  return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, "0")}`;
+}
+
 export interface EntryTarget {
   taskId?: string | null;
   projectId?: string | null;

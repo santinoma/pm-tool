@@ -1,0 +1,152 @@
+# Next Elite - An open source production-ready Next.js starter kit
+
+> A production-ready, frontend-first Next.js 16 + React 19 + TypeScript starter kit. API-first with no bundled database, next-intl i18n, Better Auth RBAC, Oxlint/Oxfmt tooling, and a polished developer experience.
+
+---
+
+## 1. Project Metadata & SEO Tags
+
+- **Project Name**: Next Elite (SaaS Boilerplate, Starter Kit, Template)
+- **Framework Stack**: Next.js 16 (App Router), React 19, TypeScript, Node.js 22.12+
+- **UI & CSS**: Tailwind CSS v4, shadcn/ui, Radix UI, CVA components, light/dark theme
+- **Performance**: Optimized for Lighthouse (Performance, Accessibility, Best Practices, SEO)
+- **Primary Category**: Developer Templates / SaaS Starters / Next.js Boilerplates
+- **Keywords**: Next.js 16, React 19, Better Auth, RBAC, next-intl, type-safe i18n, API-first, sitemap, robots, llms.txt, T3 Env, Vitest, Playwright, Oxlint, Oxfmt, Lefthook, Knip, Tailwind v4, SaaS starter, frontend-first boilerplate, zero-database starter
+
+---
+
+## 2. Core Resources
+
+- **GitHub Repository**: [salmanshahriar/Next-Elite](https://github.com/salmanshahriar/Next-Elite)
+- **Live Demo**: [nextelite.salmanshahriar.com](https://nextelite.salmanshahriar.com/)
+- **Agentic browsing**: `/llms.txt` (this file) for AI crawlers and assistants
+- **Health Check**: `GET /api/health` returns `{ "status": "ok" }`
+- **Auth API**: `/api/auth/*` (Better Auth route handlers)
+
+---
+
+## 3. Key Architectural Pillars
+
+### A. API-First & Database-Free
+Connects to any existing backend (REST, GraphQL, or BFF). No local database required. Server routes enforce auth; the client caches live data with TanStack Query.
+
+```
+[User] -> [Server Component] -> [requirePermission() + Better Auth]
+              |
+              +-> Server HTML (next-intl messages from messages/)
+              |
+              +-> [Client] -> [TanStack Query] -> [Your Backend API]
+```
+
+### B. Feature-Based Structure
+Vertical slices under `src/features/`:
+- `auth/` - Better Auth, RBAC, login/register forms, Zod schemas
+- `theme/` - Theme provider with light/dark mode
+- `i18n/` - next-intl config, RTL helpers, language switcher
+- `navigation/` - Header, sidebar, topbar, top loader
+- `site/` - `site.config.json`, SEO helpers, `home-features.ts` (home page copy)
+
+Shared UI lives in `src/components/shared/` and `src/components/ui/`.
+
+---
+
+## 4. Feature Specifications
+
+### Authentication & RBAC
+- **Better Auth**: Email/password and Google OAuth via `/api/auth/*`
+- **Roles**: `admin` and `user`; admin emails via `AUTH_ADMIN_EMAILS` or `NEXT_PUBLIC_AUTH_ADMIN_EMAILS`
+- **Guards**: `requireUser()` and `requirePermission()` on the server
+- **Parallel routing**: `@admin` and `@user` slots share one `/dashboard` URL
+
+### Type-Safe i18n (next-intl)
+- **Six locales**: English, Bengali, Arabic (RTL), French, Spanish, Chinese
+- **Cookie locale**: `NEXT_LOCALE` cookie, no `/en` URL prefixes
+- **Compile-time keys**: Invalid `t("key")` calls fail TypeScript build
+
+### SEO, PWA & Agentic Browsing
+- **Single config**: `src/features/site/site.config.json` drives metadata, sitemap, and manifest
+- **Routes**: `sitemap.ts`, `robots.ts`, `manifest.ts` (`/manifest.webmanifest`)
+- **Rich previews**: Open Graph, Twitter cards, JSON-LD structured data
+- **llms.txt**: This file at `/llms.txt` for AI discovery
+
+### Forms & Validation
+- **Zod** schemas for login, register, and password reset
+- **React Hook Form** with `zodResolver`
+- **InputError** for accessible inline field errors
+
+### Testing & Quality Gates
+- **Vitest** + React Testing Library; `renderWithProviders` helper in `tests/utils/render.tsx`
+- **Playwright** E2E in `e2e/`; CI uses production server (Chromium)
+- **Oxlint + Oxfmt** for lint and format; **Knip** for unused code/deps
+- **Lefthook** pre-commit (oxlint + oxfmt); **Commitlint** on commit messages
+- **`npm run check`**: typecheck, lint, knip, and unit tests in one command
+
+### Observability
+- **Sentry** on client and server
+- **`GET /api/health`** for load balancers and Docker health checks
+
+---
+
+## 5. Quick Start & Setup
+
+### Requirements
+- Node.js 22.12+
+- npm
+
+### Local Installation
+```bash
+git clone https://github.com/salmanshahriar/Next-Elite.git
+cd Next-Elite
+npm install
+cp .env.example .env
+npm run dev
+```
+
+Open `http://localhost:6767` (default dev port).
+
+### Demo Credentials
+When `NEXT_PUBLIC_DEMO_MODE=true`:
+- **User**: `user@test.com` / `12345678`
+- **Admin**: `admin@test.com` / `12345678`
+
+### Docker
+```bash
+docker compose up --build
+# or
+docker build -t next-elite .
+docker run --rm --env-file .env -p 6767:6767 next-elite
+```
+
+---
+
+## 6. Scripts & CI
+
+| Script | Purpose |
+|--------|---------|
+| `npm run dev` | Dev server (port 6767) |
+| `npm run build` | Production build (standalone output) |
+| `npm run start` | Production server (port 6767) |
+| `npm run check` | typecheck + lint + knip + test |
+| `npm run lint` / `lint:fix` | Oxlint + Oxfmt |
+| `npm run test` | Vitest unit/component tests |
+| `npm run e2e` | Playwright end-to-end tests |
+| `npm run playwright:install` | Install Playwright browsers |
+
+**CI workflows** (`.github/workflows/`): `check.yml` on push/PR; `playwright.yml` for E2E.
+
+---
+
+## 7. Public Routes
+
+- `/` - Home (marketing)
+- `/ui-components` - Live component showcase (50+ components)
+- `/login`, `/register`, `/password-reset` - Auth pages
+- `/dashboard` - Role-based dashboard (parallel `@admin` / `@user` slots)
+- `/profile` - User profile
+
+---
+
+## 8. Intended Use Cases
+
+- **Best for**: Multi-role SaaS frontends, multilingual apps (LTR/RTL), apps that consume external APIs
+- **Not ideal for**: Simple brochure sites or apps that need a bundled ORM/database layer

@@ -3,7 +3,18 @@ import { shouldNotify, type PreferenceLevel } from "./fanout";
 import { dispatchWebhooks } from "../webhooks/dispatch";
 import { runAutomations, type AutomationEventType } from "../automations/runAutomations";
 
-const AUTOMATION_EVENT_TYPES = new Set<string>(["task_created", "task_status_changed"]);
+/**
+ * Nicht jeder ActivityEventType hat einen 1:1-benannten Automation-Trigger
+ * (z. B. heißt der Kommentar-Trigger `task_commented`, das Activity-Event
+ * aber `comment_added`) — diese Map löst die Zuordnung explizit auf, statt
+ * per Cast zu hoffen, dass die Strings zufällig übereinstimmen.
+ */
+const AUTOMATION_EVENT_TYPE_MAP: Partial<Record<ActivityEventType, AutomationEventType>> = {
+  task_created: "task_created",
+  task_status_changed: "task_status_changed",
+  task_updated: "task_updated",
+  comment_added: "task_commented",
+};
 
 export interface RecordActivityInput {
   projectId: string;
@@ -14,6 +25,7 @@ export interface RecordActivityInput {
   isBroadcast?: boolean;
   taskId?: string;
   statusCategory?: StatusCategory;
+  budgetId?: string;
 }
 
 export async function recordActivity(
@@ -29,6 +41,8 @@ export async function recordActivity(
       actorId: input.actorId,
       type: input.type,
       summary: input.summary,
+      taskId: input.taskId,
+      budgetId: input.budgetId,
     },
   });
 
@@ -69,11 +83,13 @@ export async function recordActivity(
     createdAt: activityEvent.createdAt,
   });
 
-  if (input.taskId && AUTOMATION_EVENT_TYPES.has(input.type)) {
+  const automationEventType = AUTOMATION_EVENT_TYPE_MAP[input.type];
+  if (input.taskId && automationEventType) {
     await runAutomations(
       tenantDb,
-      { type: input.type as AutomationEventType, taskId: input.taskId, statusCategory: input.statusCategory },
+      { type: automationEventType, taskId: input.taskId, statusCategory: input.statusCategory },
       activityEvent.id,
+      input.actorId,
     );
   }
 }

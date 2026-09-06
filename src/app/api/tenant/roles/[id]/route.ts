@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
 import { canManageMembers } from "@/tenant/auth/roleGuard";
-import { PERMISSION_KEYS } from "@/tenant/permissions/permissionCatalog";
+import { PERMISSION_KEYS, resolveWithDependencies } from "@/tenant/permissions/permissionCatalog";
+import { recordAuditEntry } from "@/tenant/auditLog/recordAuditEntry";
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -16,9 +17,10 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   }
 
   const validKeys: readonly string[] = PERMISSION_KEYS;
-  const permissions = Array.isArray(body.permissions)
+  const selectedPermissions = Array.isArray(body.permissions)
     ? body.permissions.filter((key: unknown) => typeof key === "string" && validKeys.includes(key))
     : undefined;
+  const permissions = selectedPermissions ? resolveWithDependencies(selectedPermissions) : undefined;
 
   const role = await context.tenantDb.customRole.update({
     where: { id },
@@ -27,6 +29,21 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       permissions,
     },
   });
+
+  if (permissions !== undefined) {
+    try {
+      await recordAuditEntry(context.tenantDb, {
+        actorId: context.currentUser.id,
+        action: "custom_role_permissions_changed",
+        entityType: "CustomRole",
+        entityId: role.id,
+        summary: `Berechtigungen der Rolle "${role.name}" geändert: [${role.permissions.join(", ")}]`,
+      });
+    } catch {
+      // Audit-Logging darf die eigentliche Aktion nie blockieren.
+    }
+  }
+
   return NextResponse.json({ role });
 }
 

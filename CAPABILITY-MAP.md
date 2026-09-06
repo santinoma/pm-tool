@@ -78,15 +78,6 @@ Beide Runden abgeschlossen (12 Produkte). Ergebnis ist vollständig in diese Map
 - [x] `webhooks` — implementiert (konfigurierbare Endpunkte pro ActivityEventType, HMAC-signierte Zustellung, synchroner Retry mit Backoff `[0,1,3]`s, Delivery-Log; angebunden über den bestehenden `recordActivity()`-Integrationspunkt aus `notifications`)
 - [x] `hill-charts` — implementiert (Hill-Position pro Task, SVG-Hügelkurve pro Projekt mit Drag analog zum Gantt, done/Triage-Tasks ausgeschlossen). Drag-Feel mangels Browser-Zugriff nicht selbst visuell getestet, nur die Persistenz via curl
 - [x] `automatic-check-ins` — implementiert (projekt-gebundene, wiederkehrende Status-Fragen mit daily/weekly-Periodenlogik, Pull-basiert statt echtem Cron, Upsert verhindert Doppel-Antworten pro Periode, Log für alle Antworten)
-- [ ] `identity-org` — Spec
-- [ ] `projects-tasks` — Spec
-- [ ] `time-tracking` — Spec
-- [ ] `resource-planning-basic` — Spec
-- [ ] `notifications` — Spec
-- [ ] `reporting-dashboards` — Spec
-- [ ] `hill-charts` — Spec
-- [ ] `automatic-check-ins` — Spec
-
 ## Capability Map: v0.2
 
 Feature-Bundle vom Menschen angefordert (Projekt-Navigation, Budgets pro

@@ -1,0 +1,224 @@
+import { redirect } from "next/navigation";
+import { getTenantContext } from "@/tenant/context";
+import { canManageMembers } from "@/tenant/auth/roleGuard";
+import { hasProjectMemberAccess } from "@/tenant/projectAccess/resolveProjectMembership";
+import { AppShellNextElite } from "@/ui/nextelite/AppShellNextElite";
+import { BudgetDetailClient } from "./BudgetDetailClient";
+import { InvoicesClient } from "./InvoicesClient";
+import { RetainerBurnPanel } from "./RetainerBurnPanel";
+import { computeCurrentPeriod } from "@/tenant/retainer/period";
+import { computeSectionBurn } from "@/tenant/retainer/burn";
+
+export const dynamic = "force-dynamic";
+
+export default async function BudgetDetailPage({
+  params,
+}: {
+  params: Promise<{ projectId: string; budgetId: string }>;
+}) {
+  const { projectId, budgetId } = await params;
+  const context = await getTenantContext();
+  if (!context?.currentUser) {
+    redirect("/login");
+  }
+  if (!(await hasProjectMemberAccess(context.tenantDb, context.currentUser, projectId))) {
+    redirect("/financials");
+  }
+
+  const [budget, users, invoices, serviceTypes, rateCardItems, customFieldDefs, scenarios, feedEvents, timeEntries] =
+    await Promise.all([
+      context.tenantDb.budget.findUnique({
+        where: { id: budgetId },
+        include: {
+          owner: true,
+          scenarioOf: { select: { id: true, title: true } },
+          sections: {
+            include: { assignees: { include: { user: true } }, serviceType: true },
+            orderBy: { position: "asc" },
+          },
+          customFieldValues: { include: { field: true } },
+        },
+      }),
+      context.tenantDb.user.findMany({ orderBy: { email: "asc" } }),
+      context.tenantDb.invoice.findMany({
+        where: { budgetId },
+        include: { lineItems: true, payments: true, creditNotes: true },
+        orderBy: { createdAt: "desc" },
+      }),
+      context.tenantDb.serviceType.findMany({ orderBy: { name: "asc" } }),
+      context.tenantDb.rateCardItem.findMany({ include: { serviceType: true }, orderBy: { name: "asc" } }),
+      context.tenantDb.customFieldDef.findMany({ where: { projectId, entityType: "budget" } }),
+      context.tenantDb.budget.findMany({
+        where: { scenarioOfId: budgetId },
+        include: { owner: true, sections: true },
+        orderBy: { createdAt: "desc" },
+      }),
+      context.tenantDb.activityEvent.findMany({
+        where: { budgetId },
+        include: { actor: true },
+        orderBy: { createdAt: "desc" },
+      }),
+      context.tenantDb.timeEntry.findMany({
+        where: { budgetSection: { budgetId } },
+        include: { user: true, budgetSection: true },
+        orderBy: { createdAt: "desc" },
+      }),
+    ]);
+
+  if (!budget || budget.projectId !== projectId) {
+    redirect(`/financials/${projectId}`);
+  }
+
+  let retainerBurn = null;
+  if (budget.isRetainer && budget.recurrenceInterval) {
+    const period = computeCurrentPeriod(budget.recurrenceInterval, new Date());
+    const sectionIds = budget.sections.map((section) => section.id);
+    const entries = await context.tenantDb.timeEntry.findMany({
+      where: {
+        budgetSectionId: { in: sectionIds },
+        startedAt: { gte: period.start, lte: period.end },
+        durationMinutes: { not: null },
+      },
+      select: { budgetSectionId: true, durationMinutes: true },
+    });
+    retainerBurn = {
+      periodStart: period.start.toISOString().slice(0, 10),
+      periodEnd: period.end.toISOString().slice(0, 10),
+      interval: budget.recurrenceInterval,
+      burn: computeSectionBurn(
+        budget.sections.map((section) => ({ id: section.id, name: section.name, quantity: section.quantity })),
+        entries.map((entry) => ({
+          budgetSectionId: entry.budgetSectionId!,
+          durationMinutes: entry.durationMinutes!,
+        })),
+      ),
+    };
+  }
+
+  const canManage = canManageMembers(context.currentUser.role);
+
+  return (
+    <AppShellNextElite
+      currentUser={{ name: context.currentUser.name, email: context.currentUser.email, avatarUrl: context.currentUser.avatarUrl, role: context.currentUser.role, locale: context.currentUser.locale }}
+      entitledFeatures={Array.from(context.entitledFeatures)}
+      pageTitle={budget.title}
+    >
+      <BudgetDetailClient
+        projectId={projectId}
+        canManage={canManage}
+        budget={{
+          id: budget.id,
+          title: budget.title,
+          ownerLabel: budget.owner.name ?? budget.owner.email,
+          ownerId: budget.ownerId,
+          startDate: budget.startDate ? budget.startDate.toISOString().slice(0, 10) : null,
+          endDate: budget.endDate ? budget.endDate.toISOString().slice(0, 10) : null,
+          color: budget.color,
+          isScenario: budget.isScenario,
+          isTemplate: budget.isTemplate,
+          scenarioOf: budget.scenarioOf,
+          deliveredAt: budget.deliveredAt ? budget.deliveredAt.toISOString() : null,
+        }}
+        sections={budget.sections.map((section) => ({
+          id: section.id,
+          name: section.name,
+          description: section.description,
+          budgetedTimeHours: section.budgetedTimeHours,
+          estimatedCost: section.estimatedCost,
+          quantity: section.quantity,
+          price: section.price,
+          budgetUsed: section.budgetUsed,
+          serviceTypeId: section.serviceTypeId,
+          billingType: section.billingType,
+          trackingUnit: section.trackingUnit,
+          discountPercent: section.discountPercent,
+          markupPercent: section.markupPercent,
+          guaranteedMaxPrice: section.guaranteedMaxPrice,
+          warningThresholdPercent: section.warningThresholdPercent,
+          blockOverrun: section.blockOverrun,
+          trackTime: section.trackTime,
+          trackExpenses: section.trackExpenses,
+          trackBooking: section.trackBooking,
+          position: section.position,
+          assigneeIds: section.assignees.map((a) => a.userId),
+          assigneeLabels: section.assignees.map((a) => a.user.name ?? a.user.email),
+        }))}
+        users={users.map((u) => ({ id: u.id, label: u.name ?? u.email }))}
+        serviceTypes={serviceTypes.map((type) => ({ id: type.id, name: type.name }))}
+        rateCardItems={rateCardItems.map((item) => ({
+          id: item.id,
+          name: item.name,
+          serviceTypeId: item.serviceTypeId,
+          billingType: item.billingType,
+          trackingUnit: item.trackingUnit,
+          defaultPrice: item.defaultPrice,
+        }))}
+        customFieldDefs={customFieldDefs.map((field) => ({
+          id: field.id,
+          key: field.key,
+          label: field.label,
+          type: field.type,
+          options: field.options,
+        }))}
+        customFieldValues={budget.customFieldValues.map((value) => ({ fieldId: value.fieldId, value: value.value }))}
+        scenarios={scenarios.map((scenario) => ({
+          id: scenario.id,
+          title: scenario.title,
+          ownerLabel: scenario.owner.name ?? scenario.owner.email,
+          sectionCount: scenario.sections.length,
+        }))}
+        feedEvents={feedEvents.map((event) => ({
+          id: event.id,
+          type: event.type,
+          summary: event.summary,
+          actorLabel: event.actor.name ?? event.actor.email,
+          createdAt: event.createdAt.toISOString(),
+        }))}
+        timeEntries={timeEntries.map((entry) => ({
+          id: entry.id,
+          userLabel: entry.user.name ?? entry.user.email,
+          sectionName: entry.budgetSection?.name ?? "—",
+          description: entry.description,
+          durationMinutes: entry.durationMinutes,
+          amount: entry.amount,
+          createdAt: entry.createdAt.toISOString(),
+        }))}
+        invoicesTab={
+          <InvoicesClient
+            budgetId={budget.id}
+            canManage={canManage}
+            invoices={invoices.map((invoice) => ({
+              id: invoice.id,
+              status: invoice.status,
+              invoicingMethod: invoice.invoicingMethod,
+              periodStart: invoice.periodStart.toISOString().slice(0, 10),
+              periodEnd: invoice.periodEnd.toISOString().slice(0, 10),
+              totalAmount: invoice.totalAmount,
+              paidAmount: invoice.paidAmount,
+              finalizedAt: invoice.finalizedAt ? invoice.finalizedAt.toISOString() : null,
+              lineItems: invoice.lineItems.map((item) => ({
+                description: item.description,
+                quantityHours: item.quantityHours,
+                rate: item.rate,
+                amount: item.amount,
+                taxRatePercent: item.taxRatePercent,
+              })),
+              payments: invoice.payments.map((payment) => ({
+                id: payment.id,
+                amount: payment.amount,
+                paidAt: payment.paidAt.toISOString().slice(0, 10),
+                note: payment.note,
+              })),
+              creditNotes: invoice.creditNotes.map((note) => ({
+                id: note.id,
+                amount: note.amount,
+                reason: note.reason,
+              })),
+            }))}
+          />
+        }
+        retainerBurnTab={retainerBurn && <RetainerBurnPanel {...retainerBurn} />}
+      />
+    </AppShellNextElite>
+  );
+}

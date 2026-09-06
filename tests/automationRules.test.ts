@@ -44,7 +44,7 @@ describe("automation rules execution (via recordActivity)", () => {
     await tenantDb.automationRule.create({
       data: {
         name: "Auto-assign new tasks",
-        trigger: "task_created",
+        triggers: ["task_created"],
         createdById: ownerId,
         actions: { create: [{ type: "assign_user", targetUserId: assigneeId, position: 0 }] },
       },
@@ -71,7 +71,7 @@ describe("automation rules execution (via recordActivity)", () => {
     await tenantDb.automationRule.create({
       data: {
         name: "Notify on done",
-        trigger: "task_status_changed",
+        triggers: ["task_status_changed"],
         conditionStatusCategory: "done",
         createdById: ownerId,
         actions: { create: [{ type: "notify_user", targetUserId: assigneeId, position: 0 }] },
@@ -113,7 +113,7 @@ describe("automation rules execution (via recordActivity)", () => {
     await tenantDb.automationRule.create({
       data: {
         name: "Disabled rule",
-        trigger: "task_created",
+        triggers: ["task_created"],
         isEnabled: false,
         createdById: ownerId,
         actions: { create: [{ type: "assign_user", targetUserId: assigneeId, position: 0 }] },

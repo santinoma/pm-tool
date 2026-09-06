@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
 import { canManageMembers } from "@/tenant/auth/roleGuard";
+import { getEntryDate, findCoveringLock } from "@/tenant/timeTracking/approval";
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -15,6 +16,11 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   }
   if (existing.userId !== context.currentUser.id && !canManageMembers(context.currentUser.role)) {
     return NextResponse.json({ error: "Keine Berechtigung." }, { status: 403 });
+  }
+
+  const locks = await context.tenantDb.timesheetLock.findMany({ where: { userId: existing.userId } });
+  if (findCoveringLock(getEntryDate(existing), locks)) {
+    return NextResponse.json({ error: "Zeiterfassungsperiode ist gesperrt." }, { status: 409 });
   }
 
   const body = await request.json().catch(() => null);
@@ -63,6 +69,11 @@ export async function DELETE(_request: Request, { params }: { params: Promise<{ 
   }
   if (existing.userId !== context.currentUser.id && !canManageMembers(context.currentUser.role)) {
     return NextResponse.json({ error: "Keine Berechtigung." }, { status: 403 });
+  }
+
+  const locks = await context.tenantDb.timesheetLock.findMany({ where: { userId: existing.userId } });
+  if (findCoveringLock(getEntryDate(existing), locks)) {
+    return NextResponse.json({ error: "Zeiterfassungsperiode ist gesperrt." }, { status: 409 });
   }
 
   await context.tenantDb.timeEntry.delete({ where: { id } });

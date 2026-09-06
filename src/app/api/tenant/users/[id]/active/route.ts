@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
 import { canManageMembers, wouldDeactivateLastOwner } from "@/tenant/auth/roleGuard";
+import { recordAuditEntry } from "@/tenant/auditLog/recordAuditEntry";
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -34,6 +35,18 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     where: { id },
     data: { isActive: body.isActive },
   });
+
+  try {
+    await recordAuditEntry(context.tenantDb, {
+      actorId: context.currentUser.id,
+      action: body.isActive ? "user_activated" : "user_deactivated",
+      entityType: "User",
+      entityId: user.id,
+      summary: `${user.email} ${body.isActive ? "aktiviert" : "deaktiviert"}`,
+    });
+  } catch {
+    // Audit-Logging darf die eigentliche Aktion nie blockieren.
+  }
 
   return NextResponse.json({ user: { id: user.id, isActive: user.isActive } });
 }

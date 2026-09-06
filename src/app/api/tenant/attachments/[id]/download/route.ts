@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
 import { readUploadedFile } from "@/tenant/collaboration/attachmentStorage";
+import { resolveProjectIdsForTask } from "@/tenant/projectAccess/resolveProjectMembership";
+import { assertAnyProjectAccess } from "@/tenant/projectAccess/assertProjectAccess";
 
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -13,6 +15,12 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
   if (!attachment) {
     return NextResponse.json({ error: "Anhang nicht gefunden." }, { status: 404 });
   }
+  const denied = await assertAnyProjectAccess(
+    context.tenantDb,
+    context.currentUser,
+    await resolveProjectIdsForTask(context.tenantDb, attachment.taskId),
+  );
+  if (denied) return denied;
 
   const fileBuffer = await readUploadedFile(attachment.storagePath).catch(() => null);
   if (!fileBuffer) {

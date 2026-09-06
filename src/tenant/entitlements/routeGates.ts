@@ -15,6 +15,12 @@ const ROUTE_GATES: RouteGate[] = [
   { pattern: /^\/api\/tenant\/invoices(\/.*)?$/, feature: "budgets_financials" },
   { pattern: /^\/api\/tenant\/users\/[^/]+\/cost-rate$/, feature: "budgets_financials" },
   { pattern: /^\/api\/tenant\/financials(\/.*)?$/, feature: "budgets_financials" },
+  { pattern: /^\/expenses(\/.*)?$/, feature: "budgets_financials" },
+  { pattern: /^\/invoices(\/.*)?$/, feature: "budgets_financials" },
+  { pattern: /^\/purchase-orders(\/.*)?$/, feature: "budgets_financials" },
+  { pattern: /^\/payments(\/.*)?$/, feature: "budgets_financials" },
+  { pattern: /^\/api\/tenant\/expenses(\/.*)?$/, feature: "budgets_financials" },
+  { pattern: /^\/api\/tenant\/purchase-orders(\/.*)?$/, feature: "budgets_financials" },
 
   // cycles_sprints
   { pattern: /^\/projects\/[^/]+\/cycles(\/.*)?$/, feature: "cycles_sprints" },

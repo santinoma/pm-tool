@@ -6,7 +6,8 @@ import { getTenantDbClient } from "../src/tenant/tenantDb";
 import { defaultWorkflowStatuses } from "../src/tenant/projects/workflow";
 import { computeOverdueTasks } from "../src/tenant/reporting/overdue";
 import { computeProgress } from "../src/tenant/reporting/progress";
-import { WIDGET_CATALOG, mergeWidgetPreferences } from "../src/tenant/reporting/widgets";
+import { WIDGET_CATALOG } from "../src/tenant/reporting/widgets";
+import { getOrCreateDashboards } from "../src/tenant/reporting/dashboards";
 import type { Tenant } from "../src/platform/tenantRegistry";
 
 let tenant: Tenant;
@@ -91,26 +92,30 @@ describe("reporting aggregation (data layer, mirrors the report route logic)", (
   });
 });
 
-describe("dashboard widget preferences", () => {
-  it("returns catalog defaults with no saved preferences", async () => {
+describe("dashboards", () => {
+  it("creates a default dashboard pre-populated with the widget catalog on first access", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
-    const saved = await tenantDb.dashboardWidgetPreference.findMany({ where: { userId } });
-    const widgets = mergeWidgetPreferences(WIDGET_CATALOG, saved);
-    expect(widgets).toHaveLength(WIDGET_CATALOG.length);
-    expect(widgets.every((w) => w.enabled)).toBe(true);
+    const context = { tenantDb } as Parameters<typeof getOrCreateDashboards>[0];
+    const dashboards = await getOrCreateDashboards(context, userId);
+    expect(dashboards).toHaveLength(1);
+    expect(dashboards[0].isDefault).toBe(true);
+    expect(dashboards[0].widgets).toHaveLength(WIDGET_CATALOG.length);
+    expect(dashboards[0].widgets.every((w) => w.enabled)).toBe(true);
   });
 
-  it("persists a preference update and reflects it on the next read", async () => {
+  it("returns the same dashboards on a later call instead of creating duplicates", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
-    await tenantDb.dashboardWidgetPreference.upsert({
-      where: { userId_widgetType: { userId, widgetType: "overdue_tasks" } },
-      create: { userId, widgetType: "overdue_tasks", enabled: false, position: 0 },
-      update: { enabled: false },
+    const context = { tenantDb } as Parameters<typeof getOrCreateDashboards>[0];
+    const first = await getOrCreateDashboards(context, userId);
+    await tenantDb.dashboardWidget.update({
+      where: { id: first[0].widgets.find((w) => w.widgetType === "overdue_tasks")!.id },
+      data: { enabled: false },
     });
 
-    const saved = await tenantDb.dashboardWidgetPreference.findMany({ where: { userId } });
-    const widgets = mergeWidgetPreferences(WIDGET_CATALOG, saved);
-    const overdueWidget = widgets.find((w) => w.type === "overdue_tasks")!;
+    const second = await getOrCreateDashboards(context, userId);
+    expect(second).toHaveLength(1);
+    expect(second[0].id).toBe(first[0].id);
+    const overdueWidget = second[0].widgets.find((w) => w.widgetType === "overdue_tasks")!;
     expect(overdueWidget.enabled).toBe(false);
   });
 });

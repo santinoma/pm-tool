@@ -1,0 +1,55 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-pmtool}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set a strong POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${PLATFORM_DB_NAME:-pmtool_platform}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-pmtool}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    # No host port published — only the app container talks to Postgres.
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      PLATFORM_DATABASE_URL: postgresql://${POSTGRES_USER:-pmtool}:${POSTGRES_PASSWORD}@postgres:5432/${PLATFORM_DB_NAME:-pmtool_platform}
+      UPLOADS_DIR: /app/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - uploads-data:/app/uploads
+    # No host port published — only Caddy talks to the app.
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    env_file:
+      - .env
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile.prod:/etc/caddy/Caddyfile
+      - caddy-data:/data
+      - caddy-config:/config
+
+volumes:
+  postgres-data:
+  uploads-data:
+  caddy-data:
+  caddy-config:

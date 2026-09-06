@@ -1,0 +1,169 @@
+{
+  "common": {
+    "appName": "Next Elite",
+    "selectLanguage": "Select Language",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "search": "Search",
+    "filter": "Filter",
+    "reset": "Reset",
+    "noData": "No data available",
+    "toggleTheme": "Toggle theme",
+    "sidebar": "Sidebar",
+    "toggleSidebar": "Toggle Sidebar"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "navigation": {
+    "home": "Home",
+    "services": "Services",
+    "contact": "Contact",
+    "language": "Language",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Logout",
+    "login": "Login",
+    "uiComponents": "UI Components"
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "email": "Email",
+      "password": "Password",
+      "emailPlaceholder": "Enter your email",
+      "passwordPlaceholder": "Enter your password",
+      "submit": "Login",
+      "forgotPassword": "Forgot password?",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up",
+      "invalidCredentials": "Invalid credentials.",
+      "clickToFill": "Click to fill in the credentials",
+      "signInWithGoogle": "Sign in with Google",
+      "orContinueWith": "Or continue with"
+    },
+    "register": {
+      "title": "Create an account",
+      "name": "Name",
+      "namePlaceholder": "Your name",
+      "passwordPlaceholder": "At least 8 characters",
+      "confirmPassword": "Confirm password",
+      "confirmPasswordPlaceholder": "Re-enter your password",
+      "submit": "Create account",
+      "haveAccount": "Already have an account?",
+      "signUpFailed": "Sign up failed. Please try again."
+    },
+    "logout": {
+      "title": "Logout",
+      "confirm": "Are you sure you want to logout?"
+    },
+    "passwordReset": {
+      "title": "Reset password",
+      "email": "Email",
+      "submit": "Send reset link",
+      "submitted": "If an account exists for that email, you’ll receive a reset link shortly."
+    }
+  },
+  "home": {
+    "features": {
+      "typeSafe": "Type-Safe Multi-Language Engine",
+      "localStorage": "Locale retention across user sessions",
+      "rtl": "Native RTL support for Arabic",
+      "rbac": "Advanced Role-Based Access Control",
+      "seo": "Programmatic SEO & Dynamic Metadata",
+      "production": "Production-optimized SaaS architecture",
+      "stack": "Next.js 16, React 19, TypeScript & Tailwind v4",
+      "ui-experience": "shadcn/ui + custom components with a live showcase",
+      "testing": "Vitest + Playwright with renderWithProviders helper",
+      "tooling": "Oxlint + Oxfmt with Lefthook pre-commit hooks"
+    }
+  },
+  "dashboard": {
+    "admin": {
+      "title": "Admin Dashboard",
+      "description": "Monitor platform activity and manage your workspace.",
+      "totalUsers": "Total Users",
+      "activeSessions": "Active Sessions",
+      "adminUsers": "Admin Users",
+      "adminInfo": "Admin Info",
+      "loggedInAs": "You are logged in as",
+      "adminOnly": "This page is only accessible to administrators."
+    },
+    "user": {
+      "title": "User Dashboard",
+      "description": "View your account overview and recent activity.",
+      "profile": "User Profile",
+      "email": "Email",
+      "role": "Role",
+      "userId": "User ID"
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "description": "View and update your personal account information.",
+    "accountInfo": "Account Information",
+    "email": "Email",
+    "role": "Role"
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "Manage your workspace settings and preferences.",
+    "preferences": "Preferences",
+    "theme": "Theme",
+    "language": "Language"
+  },
+  "sidebar": {
+    "adminPanel": "Admin Panel",
+    "userPanel": "User Panel",
+    "admin": "Admin",
+    "user": "User",
+    "menu": "Menu",
+    "theme": "Theme",
+    "language": "Language",
+    "tools": "Tools"
+  },
+  "uiComponents": {
+    "title": "UI Components",
+    "description": "Browse 50+ shadcn/ui primitives and custom components with variants, sizes, and interactive states.",
+    "onThisPage": "On this page",
+    "sections": {
+      "actions": "Actions",
+      "actionsDesc": "Buttons, toggles, and grouped actions.",
+      "forms": "Forms",
+      "formsDesc": "Inputs, selects, and form helpers.",
+      "feedback": "Feedback",
+      "feedbackDesc": "Alerts, toasts, badges, progress, and loading states.",
+      "dataDisplay": "Data Display",
+      "dataDisplayDesc": "Cards, tables, avatars, and visual elements.",
+      "navigation": "Navigation",
+      "navigationDesc": "Breadcrumbs, tabs, and menus.",
+      "overlays": "Overlays",
+      "overlaysDesc": "Dialogs, sheets, popovers, and menus.",
+      "layout": "Layout",
+      "layoutDesc": "Accordion, carousel, calendar, and collapsible."
+    }
+  },
+  "errors": {
+    "404": "Page not found",
+    "401": "Unauthorized",
+    "403": "Forbidden",
+    "500": "Internal server error",
+    "generic": "Something went wrong. Please try again.",
+    "unauthorizedDescription": "You do not have permission to access this page.",
+    "goToDashboard": "Go to Dashboard"
+  }
+}

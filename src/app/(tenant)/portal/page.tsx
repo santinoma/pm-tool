@@ -16,15 +16,15 @@ export default async function PortalHomePage() {
   });
 
   return (
-    <div className="container">
-      <h1 style={{ marginBottom: "var(--space-6)" }}>Ihre Projekte</h1>
+    <div>
+      <h1 className="mb-6 text-2xl font-bold tracking-tight">Ihre Projekte</h1>
       {access.length === 0 ? (
-        <p className="text-muted">Ihnen wurde noch kein Projekt freigegeben.</p>
+        <p className="text-sm text-muted-foreground">Ihnen wurde noch kein Projekt freigegeben.</p>
       ) : (
-        <ul className="list-plain">
+        <ul className="flex flex-col gap-2">
           {access.map((entry) => (
             <li key={entry.projectId}>
-              <Link href={`/portal/${entry.projectId}`} style={{ fontWeight: 600 }}>
+              <Link href={`/portal/${entry.projectId}`} className="text-sm font-semibold text-primary hover:underline">
                 {entry.project.name}
               </Link>
             </li>

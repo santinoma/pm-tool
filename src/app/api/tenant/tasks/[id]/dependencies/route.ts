@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
 import { detectDependencyCycle } from "@/tenant/projects/workflow";
+import { resolveProjectIdsForTask } from "@/tenant/projectAccess/resolveProjectMembership";
+import { assertAnyProjectAccess } from "@/tenant/projectAccess/assertProjectAccess";
 
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -8,6 +10,12 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
   if (!context?.currentUser) {
     return NextResponse.json({ error: "Nicht angemeldet." }, { status: 401 });
   }
+  const denied = await assertAnyProjectAccess(
+    context.tenantDb,
+    context.currentUser,
+    await resolveProjectIdsForTask(context.tenantDb, id),
+  );
+  if (denied) return denied;
 
   const [blocking, blockedBy] = await Promise.all([
     context.tenantDb.taskDependency.findMany({
@@ -29,6 +37,12 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   if (!context?.currentUser) {
     return NextResponse.json({ error: "Nicht angemeldet." }, { status: 401 });
   }
+  const denied = await assertAnyProjectAccess(
+    context.tenantDb,
+    context.currentUser,
+    await resolveProjectIdsForTask(context.tenantDb, id),
+  );
+  if (denied) return denied;
 
   const body = await request.json().catch(() => null);
   if (!body || typeof body.blockedTaskId !== "string") {

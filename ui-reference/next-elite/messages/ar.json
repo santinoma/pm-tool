@@ -1,0 +1,169 @@
+{
+  "common": {
+    "appName": "Next Elite",
+    "selectLanguage": "اختر اللغة",
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "نجح",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "save": "حفظ",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "close": "إغلاق",
+    "back": "رجوع",
+    "next": "التالي",
+    "previous": "السابق",
+    "submit": "إرسال",
+    "search": "بحث",
+    "filter": "تصفية",
+    "reset": "إعادة تعيين",
+    "noData": "لا توجد بيانات",
+    "toggleTheme": "تبديل المظهر",
+    "sidebar": "الشريط الجانبي",
+    "toggleSidebar": "تبديل الشريط الجانبي"
+  },
+  "theme": {
+    "light": "فاتح",
+    "dark": "داكن",
+    "system": "النظام"
+  },
+  "navigation": {
+    "home": "الرئيسية",
+    "services": "الخدمات",
+    "contact": "اتصل بنا",
+    "language": "اللغة",
+    "dashboard": "لوحة التحكم",
+    "profile": "الملف الشخصي",
+    "settings": "الإعدادات",
+    "logout": "تسجيل الخروج",
+    "login": "تسجيل الدخول",
+    "uiComponents": "مكونات الواجهة"
+  },
+  "auth": {
+    "login": {
+      "title": "تسجيل الدخول",
+      "email": "البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "emailPlaceholder": "أدخل بريدك الإلكتروني",
+      "passwordPlaceholder": "أدخل كلمة المرور",
+      "submit": "تسجيل الدخول",
+      "forgotPassword": "نسيت كلمة المرور؟",
+      "noAccount": "ليس لديك حساب؟",
+      "signUp": "سجل الآن",
+      "invalidCredentials": "بيانات اعتماد غير صحيحة.",
+      "clickToFill": "انقر لملء بيانات الاعتماد",
+      "signInWithGoogle": "تسجيل الدخول باستخدام Google",
+      "orContinueWith": "أو تابع باستخدام"
+    },
+    "register": {
+      "title": "إنشاء حساب",
+      "name": "الاسم",
+      "namePlaceholder": "اسمك",
+      "passwordPlaceholder": "8 أحرف على الأقل",
+      "confirmPassword": "تأكيد كلمة المرور",
+      "confirmPasswordPlaceholder": "أعد إدخال كلمة المرور",
+      "submit": "إنشاء حساب",
+      "haveAccount": "لديك حساب بالفعل؟",
+      "signUpFailed": "فشل التسجيل. حاول مرة أخرى."
+    },
+    "logout": {
+      "title": "تسجيل الخروج",
+      "confirm": "هل أنت متأكد أنك تريد تسجيل الخروج؟"
+    },
+    "passwordReset": {
+      "title": "إعادة تعيين كلمة المرور",
+      "email": "البريد الإلكتروني",
+      "submit": "إرسال رابط إعادة التعيين",
+      "submitted": "إذا كان هناك حساب لهذا البريد، ستتلقى رابط إعادة التعيين قريبًا."
+    }
+  },
+  "dashboard": {
+    "admin": {
+      "title": "لوحة تحكم المسؤول",
+      "description": "راقب نشاط المنصة وأدر مساحة العمل.",
+      "totalUsers": "إجمالي المستخدمين",
+      "activeSessions": "الجلسات النشطة",
+      "adminUsers": "مستخدمي المسؤول",
+      "adminInfo": "معلومات المسؤول",
+      "loggedInAs": "أنت مسجل الدخول ك",
+      "adminOnly": "هذه الصفحة متاحة فقط للمسؤولين."
+    },
+    "user": {
+      "title": "لوحة تحكم المستخدم",
+      "description": "اعرض نظرة عامة على حسابك ونشاطك الأخير.",
+      "profile": "الملف الشخصي للمستخدم",
+      "email": "البريد الإلكتروني",
+      "role": "الدور",
+      "userId": "معرف المستخدم"
+    }
+  },
+  "home": {
+    "features": {
+      "typeSafe": "محرك لغات آمن النوع i18n",
+      "localStorage": "الاحتفاظ باللغة عبر جلسات المستخدم",
+      "rtl": "دعم RTL أصيل للغة العربية",
+      "rbac": "تحكم متقدم في الوصول القائم على الأدوار (RBAC)",
+      "seo": "سيو برمجي وبيانات وصفية ديناميكية",
+      "production": "بنية SaaS محسنة للإنتاج",
+      "stack": "Next.js 16 و React 19 و TypeScript و Tailwind v4",
+      "ui-experience": "مكونات shadcn/ui قابلة للتخصيص",
+      "testing": "Vitest + Playwright مع renderWithProviders",
+      "tooling": "Oxlint + Oxfmt مع خطافات Lefthook pre-commit"
+    }
+  },
+  "profile": {
+    "title": "الملف الشخصي",
+    "description": "عرض وتحديث معلومات حسابك الشخصية.",
+    "accountInfo": "معلومات الحساب",
+    "email": "البريد الإلكتروني",
+    "role": "الدور"
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "description": "إدارة إعدادات مساحة العمل والتفضيلات الخاصة بك.",
+    "preferences": "التفضيلات",
+    "theme": "المظهر",
+    "language": "اللغة"
+  },
+  "sidebar": {
+    "adminPanel": "لوحة المسؤول",
+    "userPanel": "لوحة المستخدم",
+    "admin": "مسؤول",
+    "user": "مستخدم",
+    "menu": "القائمة",
+    "theme": "المظهر",
+    "language": "اللغة",
+    "tools": "الأدوات"
+  },
+  "uiComponents": {
+    "title": "مكونات الواجهة",
+    "description": "تصفح أكثر من 50 مكونًا من shadcn/ui والمكونات المخصصة مع المتغيرات والأحجام والحالات التفاعلية.",
+    "onThisPage": "في هذه الصفحة",
+    "sections": {
+      "actions": "الإجراءات",
+      "actionsDesc": "الأزرار والمفاتيح والإجراءات المجمعة.",
+      "forms": "النماذج",
+      "formsDesc": "حقول الإدخال والقوائم ومساعدات النماذج.",
+      "feedback": "التعليقات",
+      "feedbackDesc": "التنبيهات والشارات والتقدم وحالات التحميل.",
+      "dataDisplay": "عرض البيانات",
+      "dataDisplayDesc": "البطاقات والجداول والصور الرمزية والعناصر المرئية.",
+      "navigation": "التنقل",
+      "navigationDesc": "مسارات التنقل والتبويبات والقوائم.",
+      "overlays": "الطبقات",
+      "overlaysDesc": "الحوارات والألواح والنوافذ المنبثقة والقوائم.",
+      "layout": "التخطيط",
+      "layoutDesc": "الأكورديون والعرض الدوار والتقويم والعناصر القابلة للطي."
+    }
+  },
+  "errors": {
+    "404": "الصفحة غير موجودة",
+    "401": "غير مصرح",
+    "403": "محظور",
+    "500": "خطأ في الخادم الداخلي",
+    "generic": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+    "unauthorizedDescription": "ليس لديك إذن للوصول إلى هذه الصفحة.",
+    "goToDashboard": "الذهاب إلى لوحة التحكم"
+  }
+}
