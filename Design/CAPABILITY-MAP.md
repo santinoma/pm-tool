@@ -166,7 +166,7 @@ Specify → Plan → Tasks → Implement einzeln, in dieser Reihenfolge:
 - [x] `integrations-marketplace` — implementiert, Docker-verifiziert
 - [ ] `chat-messaging`
 - [x] `tiered-tenant-infra` — Mechanik implementiert, Docker-verifiziert (echte Multi-Server-Trennung nicht testbar, nur 1 Postgres-Container vorhanden)
-- [x] `slack-to-issue-capture` — implemented, Docker-verified (2FA-analoge HMAC-Signaturprüfung, echter Slack-Workspace nicht verfügbar — siehe Hinweis in tasks/todo-slack-to-issue-capture.md)
+- [x] `slack-to-issue-capture` — implemented, Docker-verified (2FA-analoge HMAC-Signaturprüfung, echter Slack-Workspace nicht verfügbar — siehe Hinweis in Design/tasks/todo-slack-to-issue-capture.md)
 - [x] `portfolios-goals` — implemented, Docker-verified (Fortschritt live aus Task-Abschlussgrad berechnet)
 - [x] `baseline-diffing` — implemented, Docker-verified (unveränderliche Snapshots, live berechneter Diff)
 
@@ -180,7 +180,7 @@ Specify → Plan → Tasks → Implement einzeln, in dieser Reihenfolge:
   optionales 2FA/SCIM-Add-on für Klein. Durchsetzung zentral in `proxy.ts`
   (Nav ausgeblendet + API 403). Tenants sind zusätzlich zum Löschen jetzt auch
   deaktivierbar (Status `disabled`, Daten bleiben erhalten). Details:
-  `SPEC-tenant-plans-entitlements.md`, `tasks/todo-tenant-plans-entitlements.md`.
+  `Design/specs/SPEC-tenant-plans-entitlements.md`, `Design/tasks/todo-tenant-plans-entitlements.md`.
 
 ## Post-v0.2: Projects-Cleanup (mit dem Menschen abgestimmt)
 

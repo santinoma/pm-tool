@@ -7,7 +7,7 @@ export interface UserRoleInfo {
 
 /**
  * Prüft, ob eine Rollenänderung den letzten Owner eines Tenants entfernen würde.
- * Ein Tenant ohne Owner darf nie entstehen (siehe SPEC-identity-org.md Boundaries).
+ * Ein Tenant ohne Owner darf nie entstehen (siehe Design/specs/SPEC-identity-org.md Boundaries).
  */
 export function wouldRemoveLastOwner(
   users: UserRoleInfo[],

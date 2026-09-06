@@ -33,7 +33,7 @@ export class OffboardValidationError extends Error {
 /**
  * Core "Offboard user" logic, factored out of the route handler so it is directly
  * testable (see tests/offboarding.test.ts) without going through Next.js request
- * plumbing. Ownership scope and decisions (see also SPEC/CAPABILITY-MAP notes for the
+ * plumbing. Ownership scope and decisions (see also Design/specs and Design/CAPABILITY-MAP.md notes for the
  * offboarding-workflow gap):
  *
  * REASSIGNED-OR-NULLED (active ownership/access, in scope):

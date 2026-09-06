@@ -6,7 +6,7 @@ import "./globals.css";
 // tokens.css) — not scoped to a wrapper div — so they also reach Radix portals
 // (dropdown/dialog/popover/select/sheet/tooltip), which render into
 // `document.body`. `ThemeProvider` toggles the `.dark` class on <html>; see
-// NEXTELITE-MIGRATION-CAPABILITY-MAP.md.
+// Design/NEXTELITE-MIGRATION-CAPABILITY-MAP.md.
 import "@/ui/shadcn/tailwind.css";
 
 const archivo = Archivo({
@@ -47,7 +47,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           FORM: Apple-HIG direction — migrated app-wide from the original Field Atlas
           system (see git history, "Migrate the Apple-HIG design ... to the whole app").
           FINISH: unreviewed and undocumented is unfinished; this build ends with
-          the finish review, the verdict, and DESIGN.md.
+          the finish review, the verdict, and Design/DESIGN.md.
         */}
         {children}
       </body>
