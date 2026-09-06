@@ -7,10 +7,20 @@ export interface ModuleCatalogEntry {
   locked?: boolean;
   /** Nur wählbar, wenn der Tenant-Plan dieses Feature entitled. */
   requiresFeature?: string;
+  /**
+   * Aufräum-Entscheidung (Projects-Cleanup): im Alltag aktuell nicht gebraucht.
+   * Bleibt voll funktionsfähig für Projekte, die es schon nutzen (siehe
+   * computeEffectiveModules-Selbstheilung), verschwindet aber aus der
+   * Auswahl beim Anlegen neuer Projekte, bis es wieder priorisiert wird.
+   */
+  pausedFromPicker?: boolean;
 }
 
 export const MODULE_CATALOG: ModuleCatalogEntry[] = [
   { key: "tasks", label: "Tasks", group: "Project management", real: true, locked: true },
+  { key: "calendar", label: "Kalender", group: "Project management", real: true },
+  { key: "gantt", label: "Gantt", group: "Project management", real: true },
+  { key: "hill_chart", label: "Hill Chart", group: "Project management", real: true },
   { key: "wiki", label: "Docs", group: "Project management", real: true },
   { key: "forms", label: "Forms", group: "Project management", real: false },
   { key: "meetings", label: "Meetings", group: "Project management", real: false },
@@ -18,9 +28,9 @@ export const MODULE_CATALOG: ModuleCatalogEntry[] = [
   { key: "deals", label: "Deals", group: "Financials", real: false },
   { key: "expenses", label: "Expenses", group: "Financials", real: false },
   { key: "time", label: "Time", group: "Financials", real: true },
-  { key: "cycles", label: "Cycles", group: "More", real: true, requiresFeature: "cycles_sprints" },
-  { key: "baselines", label: "Baselines", group: "More", real: true, requiresFeature: "baseline_diffing" },
-  { key: "check_ins", label: "Check-ins", group: "More", real: true },
+  { key: "cycles", label: "Cycles", group: "More", real: true, requiresFeature: "cycles_sprints", pausedFromPicker: true },
+  { key: "baselines", label: "Baselines", group: "More", real: true, requiresFeature: "baseline_diffing", pausedFromPicker: true },
+  { key: "check_ins", label: "Check-ins", group: "More", real: true, pausedFromPicker: true },
   { key: "dashboard", label: "Dashboard", group: "More", real: false },
   { key: "resource_planning", label: "Resource planning", group: "More", real: false },
   { key: "reports", label: "Reports", group: "More", real: false },
@@ -47,6 +57,12 @@ export interface ProjectDataFlags {
   hasCycles: boolean;
   hasBaselines: boolean;
   hasCheckIns: boolean;
+  /** Mind. ein Task im Projekt hat ein Fälligkeitsdatum gesetzt. */
+  hasCalendarSchedule: boolean;
+  /** Mind. ein Task im Projekt hat ein Startdatum gesetzt. */
+  hasGanttSchedule: boolean;
+  /** Mind. ein Task im Projekt hat eine Hill-Chart-Position gesetzt. */
+  hasHillChartPosition: boolean;
 }
 
 /**
@@ -54,7 +70,10 @@ export interface ProjectDataFlags {
  * Projekt bereits echte Daten hat. Verhindert, dass Projekte, die vor dieser
  * Funktion angelegt wurden (und daher nur `enabledModules: ["tasks"]` haben),
  * plötzlich ihre existierenden Wiki-Seiten/Budgets/Cycles/Baselines/Check-ins
- * verstecken — selbstheilend, ohne Backfill-Migration nötig.
+ * verstecken — selbstheilend, ohne Backfill-Migration nötig. Gilt seit dem
+ * Projects-Cleanup auch für Kalender/Gantt/Hill-Chart, die davor für jedes
+ * Projekt fix sichtbar waren: ein Projekt, das bereits Start-Termine bzw.
+ * Hill-Chart-Positionen gesetzt hat, behält den passenden Tab.
  */
 export function computeEffectiveModules(storedModules: string[], dataFlags: ProjectDataFlags): Set<string> {
   const effective = new Set(storedModules);
@@ -63,6 +82,9 @@ export function computeEffectiveModules(storedModules: string[], dataFlags: Proj
   if (dataFlags.hasCycles) effective.add("cycles");
   if (dataFlags.hasBaselines) effective.add("baselines");
   if (dataFlags.hasCheckIns) effective.add("check_ins");
+  if (dataFlags.hasCalendarSchedule) effective.add("calendar");
+  if (dataFlags.hasGanttSchedule) effective.add("gantt");
+  if (dataFlags.hasHillChartPosition) effective.add("hill_chart");
   effective.add("tasks");
   return effective;
 }

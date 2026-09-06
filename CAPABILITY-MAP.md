@@ -181,3 +181,34 @@ Specify → Plan → Tasks → Implement einzeln, in dieser Reihenfolge:
   (Nav ausgeblendet + API 403). Tenants sind zusätzlich zum Löschen jetzt auch
   deaktivierbar (Status `disabled`, Daten bleiben erhalten). Details:
   `SPEC-tenant-plans-entitlements.md`, `tasks/todo-tenant-plans-entitlements.md`.
+
+## Post-v0.2: Projects-Cleanup (mit dem Menschen abgestimmt)
+
+Das Projekt-Subnav war auf 14 Tabs angewachsen. Kern sind nur noch **Liste**,
+**Board** und **Tasks** selbst — alles andere ist jetzt ein Modul (`moduleCatalog.ts`),
+das pro Projekt an-/abschaltbar ist und für neue Projekte standardmäßig aus bleibt:
+
+- **Kalender, Gantt, Hill Chart** — vorher fix für jedes Projekt sichtbar, jetzt
+  Module wie Cycles/Baselines. Bestehende Projekte verlieren nichts: die
+  Selbstheilung in `computeEffectiveModules` hält den Tab sichtbar, sobald
+  Tasks bereits Start-/Fälligkeitsdatum bzw. eine Hill-Chart-Position tragen.
+- **Cycles, Baselines, Check-ins** — Rückmeldung: aktuell keins davon im
+  Alltag gebraucht. Bleiben voll funktionsfähig für Projekte, die sie schon
+  nutzen, verschwinden aber (`pausedFromPicker`) aus der Modul-Auswahl beim
+  Anlegen neuer Projekte. **Bewusst nur pausiert, nicht entfernt** — bei
+  Bedarf jederzeit reaktivierbar, indem `pausedFromPicker` in
+  `src/tenant/projects/moduleCatalog.ts` entfernt wird.
+- **"Triage" → "Erfassung"** — reine Label-Änderung (Tab, Seiten-Titel,
+  Settings-Toggle, Command-Palette); interner Feldname `triageEnabled`/
+  `inTriage` und der URL-Pfad `/triage` bleiben unverändert.
+- **Noch offen / bewusst nicht angefasst**: Budget & Rechnungen, Docs/Wiki,
+  Time, Activity — laut Rückmeldung weiterhin gebraucht, keine Änderung.
+
+### Nächster Schritt: globale Feature-Verwaltung statt Einzel-Umbau je Feature
+Aktuell gibt es zwei getrennte Stellschrauben: `ModulesSettingsClient`
+(organisationsweit: CRM/Reports/Resourcing, hart codiert je Feature) und
+`enabledModules` pro Projekt (`moduleCatalog.ts`). Empfehlung für die nächste
+Iteration: ein **einziger, katalogbasierter** Admin-Bereich, der global
+UND pro Projekt aus derselben Modul-Liste speist, statt für jedes neue Feature
+wieder eine eigene UI-Komponente + eigenes Tenant-Settings-Feld zu bauen (siehe
+Roadmap-Artefakt, Abschnitt „Globale Feature-Verwaltung 2.0").

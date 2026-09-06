@@ -89,7 +89,7 @@ export function OrganizationSettingsClient({
 
       <Label className="mb-8 flex items-center gap-3 font-normal">
         <Checkbox checked={triage} disabled={saving} onCheckedChange={(v) => handleTriageChange(v === true)} />
-        Neue Tasks zuerst in die Triage stellen, statt sie direkt ins Projekt zu übernehmen
+        Neue Tasks zuerst in die Erfassung stellen, statt sie direkt ins Projekt zu übernehmen
       </Label>
 
       <h2 className="mb-3 text-lg font-semibold">Sicherheit</h2>

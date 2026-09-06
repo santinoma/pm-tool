@@ -1,7 +1,16 @@
 import { describe, expect, it } from "vitest";
 import { sanitizeEnabledModules, computeEffectiveModules } from "../src/tenant/projects/moduleCatalog";
 
-const NO_DATA = { hasWiki: false, hasBudgets: false, hasCycles: false, hasBaselines: false, hasCheckIns: false };
+const NO_DATA = {
+  hasWiki: false,
+  hasBudgets: false,
+  hasCycles: false,
+  hasBaselines: false,
+  hasCheckIns: false,
+  hasCalendarSchedule: false,
+  hasGanttSchedule: false,
+  hasHillChartPosition: false,
+};
 
 describe("sanitizeEnabledModules", () => {
   it("always includes tasks even if not selected", () => {
@@ -34,5 +43,18 @@ describe("computeEffectiveModules", () => {
 
   it("always includes tasks regardless of storage", () => {
     expect(computeEffectiveModules([], NO_DATA).has("tasks")).toBe(true);
+  });
+
+  it("keeps calendar/gantt/hill-chart visible once tasks carry the underlying data", () => {
+    // Simulates a project created before these became optional modules.
+    const effective = computeEffectiveModules(["tasks"], {
+      ...NO_DATA,
+      hasCalendarSchedule: true,
+      hasGanttSchedule: true,
+      hasHillChartPosition: true,
+    });
+    expect(effective.has("calendar")).toBe(true);
+    expect(effective.has("gantt")).toBe(true);
+    expect(effective.has("hill_chart")).toBe(true);
   });
 });

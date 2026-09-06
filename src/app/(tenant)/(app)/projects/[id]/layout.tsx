@@ -20,7 +20,7 @@ export default async function ProjectLayout({
     redirect("/login");
   }
 
-  const [project, settings, wikiCount, budgetCount, cycleCount, baselineCount, checkInCount] = await Promise.all([
+  const [project, settings, wikiCount, budgetCount, cycleCount, baselineCount, checkInCount, calendarTaskCount, ganttTaskCount, hillChartTaskCount] = await Promise.all([
     context.tenantDb.project.findUnique({ where: { id } }),
     getOrCreateTenantSettings(context.tenantDb),
     context.tenantDb.wikiPage.count({ where: { projectId: id } }),
@@ -28,6 +28,9 @@ export default async function ProjectLayout({
     context.tenantDb.cycle.count({ where: { projectId: id } }),
     context.tenantDb.baseline.count({ where: { projectId: id } }),
     context.tenantDb.checkInSchedule.count({ where: { projectId: id } }),
+    context.tenantDb.task.count({ where: { projects: { some: { projectId: id } }, dueDate: { not: null } } }),
+    context.tenantDb.task.count({ where: { projects: { some: { projectId: id } }, startDate: { not: null } } }),
+    context.tenantDb.task.count({ where: { projects: { some: { projectId: id } }, hillPosition: { not: null } } }),
   ]);
   if (!project) {
     redirect("/projects");
@@ -40,6 +43,9 @@ export default async function ProjectLayout({
       hasCycles: cycleCount > 0,
       hasBaselines: baselineCount > 0,
       hasCheckIns: checkInCount > 0,
+      hasCalendarSchedule: calendarTaskCount > 0,
+      hasGanttSchedule: ganttTaskCount > 0,
+      hasHillChartPosition: hillChartTaskCount > 0,
     }),
   );
 

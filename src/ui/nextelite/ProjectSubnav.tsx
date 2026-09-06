@@ -13,13 +13,18 @@ import { cn } from "@/ui/shadcn/lib/utils";
 // (siehe hill-chart/page.tsx, Baseline-Modell, check-ins/page.tsx + 2 API-Routen) —
 // ihre Entfernung wäre ein Funktionsverlust, keine reine Aufräumarbeit, und bleibt
 // eine bewusste Produktentscheidung statt eines automatischen Cleanups.
+//
+// Projects-Cleanup: Kalender/Gantt/Hill-Chart sind jetzt Module wie Cycles/
+// Baselines (per Projekt an-/abschaltbar, siehe moduleCatalog.ts), Kern bleiben
+// nur Liste, Board und Tasks selbst. "Triage" heißt für Nutzer jetzt "Erfassung"
+// (der interne Name/URL-Pfad `triage` bleibt unverändert, nur das Label ändert sich).
 const TABS = [
   { segment: "list", label: "Liste" },
   { segment: "board", label: "Board" },
-  { segment: "calendar", label: "Kalender" },
-  { segment: "gantt", label: "Gantt" },
-  { segment: "hill-chart", label: "Hill Chart" },
-  { segment: "triage", label: "Triage" },
+  { segment: "calendar", label: "Kalender", module: "calendar" },
+  { segment: "gantt", label: "Gantt", module: "gantt" },
+  { segment: "hill-chart", label: "Hill Chart", module: "hill_chart" },
+  { segment: "triage", label: "Erfassung" },
   { segment: "cycles", label: "Cycles", feature: "cycles_sprints", module: "cycles" },
   { segment: "baselines", label: "Baselines", feature: "baseline_diffing", module: "baselines" },
   { segment: "budget", label: "Budget", feature: "budgets_financials", module: "budgets" },

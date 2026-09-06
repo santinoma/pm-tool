@@ -95,7 +95,7 @@ export function NewProjectClient({
   const [memberSearch, setMemberSearch] = useState("");
 
   const visibleModules = MODULE_CATALOG.filter(
-    (entry) => !entry.requiresFeature || entitledFeatures.includes(entry.requiresFeature),
+    (entry) => !entry.pausedFromPicker && (!entry.requiresFeature || entitledFeatures.includes(entry.requiresFeature)),
   );
   const grouped = ["Project management", "Financials", "More"] as const;
 

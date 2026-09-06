@@ -140,7 +140,7 @@ const STRINGS = {
   "settings.appearance.desc": { de: "Passe das Erscheinungsbild deines Workspaces an.", en: "Customize the appearance of your workspace." },
 
   "settings.orgGeneral.title": { de: "Allgemein", en: "General" },
-  "settings.orgGeneral.desc": { de: "Währung, Triage und weitere Grundeinstellungen.", en: "Currency, triage, and other basic settings." },
+  "settings.orgGeneral.desc": { de: "Währung, Erfassung und weitere Grundeinstellungen.", en: "Currency, intake, and other basic settings." },
   "settings.clients.title": { de: "Kunden", en: "Clients" },
   "settings.clients.desc": { de: "Firmen verwalten, für die Projekte angelegt werden.", en: "Manage the companies you create projects for." },
   "settings.timeTracking.title": { de: "Zeiterfassung", en: "Time tracking" },

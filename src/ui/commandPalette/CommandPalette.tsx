@@ -216,7 +216,7 @@ export function CommandPalette() {
                 placeholder="Titel des neuen Tasks…"
                 required
               />
-              <Button type="submit">Anlegen (in Triage des ersten Projekts)</Button>
+              <Button type="submit">Anlegen (in Erfassung des ersten Projekts)</Button>
             </form>
           </TabsContent>
         </Tabs>

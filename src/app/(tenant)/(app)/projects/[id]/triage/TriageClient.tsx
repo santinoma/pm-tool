@@ -61,7 +61,7 @@ export function TriageClient({
 
   return (
     <div className="mx-auto max-w-xl pb-10">
-      <h1 className="mb-1 text-2xl font-bold tracking-tight">Triage</h1>
+      <h1 className="mb-1 text-2xl font-bold tracking-tight">Erfassung</h1>
       <p className="mb-5 text-sm text-muted-foreground">Neue Tasks sichten, bevor sie ins Board wandern.</p>
       {error && <p className="mb-4 text-sm text-destructive">{error}</p>}
 
@@ -80,7 +80,7 @@ export function TriageClient({
 
       {tasks.length === 0 ? (
         <div className="rounded-lg border py-14 text-center">
-          <h3 className="font-semibold">Keine Tasks in der Triage</h3>
+          <h3 className="font-semibold">Keine Tasks in der Erfassung</h3>
         </div>
       ) : (
         <ul className="flex flex-col gap-1">
