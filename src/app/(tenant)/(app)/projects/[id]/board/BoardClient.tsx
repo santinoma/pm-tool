@@ -3,10 +3,12 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Plus } from "lucide-react";
+import { Download, Plus, Zap } from "lucide-react";
 import { LegendKey } from "@/ui/components/LegendKey";
 import { NewTaskModal, type NewTaskModalUserOption, type NewTaskModalCustomField, type NewTaskModalTaskOption } from "@/ui/components/NewTaskModal";
 
+import { Avatar, AvatarFallback } from "@/ui/shadcn/components/avatar";
+import { Badge } from "@/ui/shadcn/components/badge";
 import { Button } from "@/ui/shadcn/components/button";
 import { cn } from "@/ui/shadcn/lib/utils";
 
@@ -16,11 +18,22 @@ interface BoardStatus {
   category: string;
 }
 
+const PRIORITY_LABELS: Record<string, string> = {
+  no_priority: "",
+  low: "Niedrig",
+  medium: "Mittel",
+  high: "High",
+  urgent: "Dringend",
+};
+
 interface BoardTask {
   id: string;
   title: string;
   statusId: string;
   assignee: string | null;
+  priority: string;
+  tShirtSize: string | null;
+  estimatedHours: number | null;
 }
 
 export function BoardClient({
@@ -64,12 +77,26 @@ export function BoardClient({
 
   return (
     <div>
-      <div className="flex items-center justify-between px-4 pb-4 md:px-6">
+      <div className="flex flex-wrap items-center justify-between gap-3 px-4 pb-4 md:px-6">
         <h1 className="text-2xl font-bold tracking-tight">Board</h1>
-        <Button onClick={() => setCreating(true)}>
-          <Plus className="size-4" />
-          Neuer Task
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" asChild>
+            <Link href="/settings/organization/automations">
+              <Zap className="size-4" />
+              Automate
+            </Link>
+          </Button>
+          <Button variant="outline" size="sm" asChild>
+            <a href={`/api/tenant/exports/csv?source=task-list&projectId=${encodeURIComponent(projectId)}`}>
+              <Download className="size-4" />
+              Export
+            </a>
+          </Button>
+          <Button size="sm" onClick={() => setCreating(true)}>
+            <Plus className="size-4" />
+            Task
+          </Button>
+        </div>
       </div>
       {creating && (
         <NewTaskModal
@@ -111,7 +138,9 @@ export function BoardClient({
           >
             <div className="mb-3 flex items-center justify-between px-1">
               <LegendKey label={status.name} category={status.category} />
-              <span className="text-xs text-muted-foreground">{localTasks.filter((t) => t.statusId === status.id).length}</span>
+              <Badge variant="secondary" className="rounded-full">
+                {localTasks.filter((t) => t.statusId === status.id).length}
+              </Badge>
             </div>
             <div className="flex flex-col gap-2">
               {localTasks
@@ -123,12 +152,39 @@ export function BoardClient({
                     onDragStart={(event) => {
                       event.dataTransfer.setData("text/task-id", task.id);
                     }}
-                    className="cursor-grab rounded-md border bg-card p-3 text-sm shadow-xs transition-shadow hover:shadow-md"
+                    className="flex cursor-grab flex-col gap-2 rounded-md border bg-card p-3 text-sm shadow-xs transition-shadow hover:shadow-md"
                   >
-                    <Link href={`/projects/${projectId}/tasks/${task.id}`} className="hover:text-primary">
+                    <Link href={`/projects/${projectId}/tasks/${task.id}`} className="font-medium hover:text-primary">
                       {task.title}
                     </Link>
-                    {task.assignee && <div className="mt-1 text-xs text-muted-foreground">{task.assignee}</div>}
+                    {/* Reference card anatomy: Titel, ID, Estimate, Typ/Priority-Tags, Assignee-Avatar. */}
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      {task.priority !== "no_priority" && (
+                        <Badge variant="outline" className="font-mono text-[10px] uppercase">
+                          {PRIORITY_LABELS[task.priority] ?? task.priority}
+                        </Badge>
+                      )}
+                      {task.tShirtSize && (
+                        <Badge variant="outline" className="font-mono text-[10px]">
+                          {task.tShirtSize}
+                        </Badge>
+                      )}
+                    </div>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-mono text-[10px] text-muted-foreground/70">#T-{task.id.slice(0, 8).toUpperCase()}</span>
+                      <div className="flex items-center gap-2">
+                        {task.estimatedHours != null && (
+                          <span className="font-mono text-xs tabular-nums text-muted-foreground">{task.estimatedHours}h</span>
+                        )}
+                        {task.assignee && (
+                          <Avatar className="size-5">
+                            <AvatarFallback className="bg-primary/15 text-[10px] font-semibold text-primary">
+                              {task.assignee.slice(0, 1).toUpperCase()}
+                            </AvatarFallback>
+                          </Avatar>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 ))}
             </div>

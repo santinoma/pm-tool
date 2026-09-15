@@ -43,6 +43,9 @@ export default async function BoardPage({ params }: { params: Promise<{ id: stri
         title: task.title,
         statusId: task.statusId,
         assignee: task.assignee?.name ?? task.assignee?.email ?? null,
+        priority: task.priority,
+        tShirtSize: task.tShirtSize,
+        estimatedHours: task.estimatedHours,
       }))}
       users={users.map((user) => ({ id: user.id, label: user.name ?? user.email }))}
       customFields={customFields.map((field) => ({
