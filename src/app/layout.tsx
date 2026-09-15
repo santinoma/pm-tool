@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Archivo, JetBrains_Mono } from "next/font/google";
+import { Archivo, JetBrains_Mono, Lora } from "next/font/google";
 import "./globals.css";
 // Next-Elite design foundation (Tailwind + shadcn tokens), imported once here so
 // it's a shared chunk everywhere. Design tokens live on `:root`/`:root.dark` (see
@@ -19,6 +19,14 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
 });
 
+// Display serif for H1/H2 — the "asbrucon Productive" reference's typography
+// token table calls for a serif display face (vs. system-sans body, mono
+// data/labels); see DESIGN.md.
+const lora = Lora({
+  variable: "--font-lora",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   title: "PM Tool",
   description: "Project management, built for clarity.",
@@ -26,7 +34,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="de" className={`${archivo.variable} ${jetbrainsMono.variable}`}>
+    <html lang="de" className={`${archivo.variable} ${jetbrainsMono.variable} ${lora.variable}`}>
       <body>
         {/*
           THESIS: The app reads like a native macOS/iPadOS panel, not a generic web

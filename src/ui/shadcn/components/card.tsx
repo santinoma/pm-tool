@@ -11,7 +11,8 @@ function Card({ className, flat = false, ...props }: CardProps) {
     <div
       data-slot="card"
       className={cn(
-        "flex flex-col rounded-md py-6 text-foreground",
+        // Reference "Masse" token: 14px card radius.
+        "flex flex-col rounded-lg py-6 text-foreground",
         flat
           ? "border border-border bg-card"
           : "relative isolate overflow-hidden border border-border/40 bg-background shadow-sm dark:border-border/60 dark:bg-card",
