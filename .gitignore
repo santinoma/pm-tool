@@ -1,0 +1,33 @@
+# Local environment config (DB URLs, secrets) — machine/session-specific,
+# never shared. docker-compose.yml already documents which vars it expects.
+.env
+.env.*
+!.env.example
+
+# Next.js build output — regenerated on every build, not source.
+.next/
+node_modules/.cache/
+
+# Platform-specific native binaries for optional dependencies (swc,
+# lightningcss, sharp, @rolldown, prisma engines, ...). node_modules itself
+# is intentionally committed in this repo for portability across sandboxed
+# sessions without network access, but it should only carry the binaries the
+# maintainer's machine actually produced (currently darwin-arm64) — adding
+# every other platform's multi-hundred-MB native builds here would bloat the
+# repo indefinitely. A session running on a different platform installs its
+# own copies locally (untracked) instead.
+node_modules/@emnapi/
+node_modules/@img/
+node_modules/@napi-rs/
+node_modules/@next/swc-linux-x64-gnu/
+node_modules/@next/swc-linux-x64-musl/
+node_modules/@next/swc-win32-*/
+node_modules/@prisma/engines/schema-engine-*
+node_modules/@rolldown/binding-*/
+node_modules/@tailwindcss/*/node_modules/lightningcss-*/
+node_modules/@tailwindcss/oxide-*/
+node_modules/@tybys/
+node_modules/@unrs/resolver-binding-*/
+node_modules/lightningcss-*/
+node_modules/lightningcss/node_modules/
+node_modules/next/next-swc-fallback/
