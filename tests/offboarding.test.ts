@@ -27,17 +27,17 @@ beforeEach(async () => {
   successor = await tenantDb.user.create({ data: { email: "successor@example.com", role: "member" } });
 
   const project = await tenantDb.project.create({
-    data: { name: "Project A", projectManagerId: departing.id },
+    data: { name: "Project A", projectManager: { connect: { id: departing.id } }, workflow: { create: { name: "Test Workflow" } } },
   });
   projectId = project.id;
   await tenantDb.projectMember.create({ data: { projectId, userId: departing.id } });
 
   const todoStatus = await tenantDb.workflowStatus.create({
-    data: { projectId, name: "Todo", category: "not_started", position: 0, isDefault: true },
+    data: { workflowId: project.workflowId, name: "Todo", category: "not_started", position: 0, isDefault: true },
   });
   statusId = todoStatus.id;
   const doneStatus = await tenantDb.workflowStatus.create({
-    data: { projectId, name: "Done", category: "done", position: 1 },
+    data: { workflowId: project.workflowId, name: "Done", category: "done", position: 1 },
   });
   doneStatusId = doneStatus.id;
 });

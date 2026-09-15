@@ -21,7 +21,7 @@ afterEach(async () => {
 describe("custom fields — entity scoping and new types", () => {
   it("defines a budget-scoped custom field, separate from task-scoped ones", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
-    const project = await tenantDb.project.create({ data: { name: "Alpha", statuses: { create: defaultWorkflowStatuses() } } });
+    const project = await tenantDb.project.create({ data: { name: "Alpha", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } } });
 
     const taskField = await tenantDb.customFieldDef.create({
       data: { projectId: project.id, entityType: "task", key: "severity", label: "Severity", type: "select", options: ["low", "high"] },
@@ -39,7 +39,7 @@ describe("custom fields — entity scoping and new types", () => {
 
   it("sets a multi_select value on a budget via BudgetCustomFieldValue", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
-    const project = await tenantDb.project.create({ data: { name: "Alpha" } });
+    const project = await tenantDb.project.create({ data: { name: "Alpha", workflow: { create: { name: "Test Workflow" } } } });
     const owner = await tenantDb.user.create({ data: { email: "own@example.com", role: "owner" } });
     const budget = await tenantDb.budget.create({ data: { projectId: project.id, title: "Q3", ownerId: owner.id } });
     const field = await tenantDb.customFieldDef.create({
@@ -57,13 +57,13 @@ describe("custom fields — entity scoping and new types", () => {
 
   it("sets a person-type value on a task", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
-    const project = await tenantDb.project.create({ data: { name: "Alpha", statuses: { create: defaultWorkflowStatuses() } }, include: { statuses: true } });
+    const project = await tenantDb.project.create({ data: { name: "Alpha", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } }, include: { workflow: { include: { statuses: true } } } });
     const reviewer = await tenantDb.user.create({ data: { email: "reviewer@example.com", role: "member" } });
     const field = await tenantDb.customFieldDef.create({
       data: { projectId: project.id, entityType: "task", key: "reviewer", label: "Reviewer", type: "person", options: [] },
     });
     const task = await tenantDb.task.create({
-      data: { title: "T1", statusId: project.statuses[0].id, projects: { create: { projectId: project.id } } },
+      data: { title: "T1", statusId: project.workflow.statuses[0].id, projects: { create: { projectId: project.id } } },
     });
 
     const value = await tenantDb.customFieldValue.upsert({
@@ -79,7 +79,7 @@ describe("custom fields — entity scoping and new types", () => {
 describe("budgets — service extension fields", () => {
   it("creates a budget with start/end date, color, and a service with billing/tracking/pricing fields", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
-    const project = await tenantDb.project.create({ data: { name: "Alpha" } });
+    const project = await tenantDb.project.create({ data: { name: "Alpha", workflow: { create: { name: "Test Workflow" } } } });
     const owner = await tenantDb.user.create({ data: { email: "own2@example.com", role: "owner" } });
     const serviceType = await tenantDb.serviceType.create({ data: { name: "Programming" } });
 

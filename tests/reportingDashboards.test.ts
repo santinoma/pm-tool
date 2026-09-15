@@ -24,12 +24,12 @@ beforeEach(async () => {
   userId = user.id;
 
   const project = await tenantDb.project.create({
-    data: { name: "Reporting Project", statuses: { create: defaultWorkflowStatuses() } },
-    include: { statuses: true },
+    data: { name: "Reporting Project", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
+    include: { workflow: { include: { statuses: true } } },
   });
   projectId = project.id;
-  const doneStatus = project.statuses.find((s) => s.category === "done")!;
-  const notStartedStatus = project.statuses.find((s) => s.category === "not_started")!;
+  const doneStatus = project.workflow.statuses.find((s) => s.category === "done")!;
+  const notStartedStatus = project.workflow.statuses.find((s) => s.category === "not_started")!;
 
   await tenantDb.task.create({
     data: {

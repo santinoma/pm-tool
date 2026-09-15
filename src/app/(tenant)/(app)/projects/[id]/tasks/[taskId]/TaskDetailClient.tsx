@@ -16,6 +16,7 @@ import { Input } from "@/ui/shadcn/components/input";
 import { Label } from "@/ui/shadcn/components/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/shadcn/components/tabs";
+import { TaskLinksPanel } from "./TaskLinksPanel";
 import { Textarea } from "@/ui/shadcn/components/textarea";
 
 interface SubtaskRow {
@@ -188,6 +189,7 @@ export function TaskDetailClient({
   taskLists = [],
   isFavorite = false,
   currentUserId,
+  linkedTasks = [],
 }: {
   projectId: string;
   task: TaskDetail;
@@ -197,6 +199,7 @@ export function TaskDetailClient({
   taskLists?: { id: string; label: string }[];
   isFavorite?: boolean;
   currentUserId: string;
+  linkedTasks?: React.ComponentProps<typeof TaskLinksPanel>["links"];
 }) {
   const router = useRouter();
   const [commentBody, setCommentBody] = useState("");
@@ -579,6 +582,7 @@ export function TaskDetailClient({
                 Attachments{task.attachments.length > 0 ? ` (${task.attachments.length})` : ""}
               </TabsTrigger>
               <TabsTrigger value="dependencies">Dependencies</TabsTrigger>
+              <TabsTrigger value="links">Links{linkedTasks.length > 0 ? ` (${linkedTasks.length})` : ""}</TabsTrigger>
               <TabsTrigger value="subtasks">Subtasks{task.subtasks.length > 0 ? ` (${task.subtasks.length})` : ""}</TabsTrigger>
               <TabsTrigger value="todos">To-dos{task.todos.length > 0 ? ` (${task.todos.length})` : ""}</TabsTrigger>
             </TabsList>
@@ -643,6 +647,10 @@ export function TaskDetailClient({
                 )}
                 <DependencyAddControl taskId={task.id} ownId={task.id} mode="blockedBy" />
               </div>
+            </TabsContent>
+
+            <TabsContent value="links" className="pt-4">
+              <TaskLinksPanel taskId={task.id} links={linkedTasks} className="" />
             </TabsContent>
 
             <TabsContent value="subtasks" className="pt-4">

@@ -22,10 +22,10 @@ describe("task dependencies", () => {
   it("creates a blocking/blocked relationship between two tasks", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
     const project = await tenantDb.project.create({
-      data: { name: "Deps Project", statuses: { create: defaultWorkflowStatuses() } },
-      include: { statuses: true },
+      data: { name: "Deps Project", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
+      include: { workflow: { include: { statuses: true } } },
     });
-    const statusId = project.statuses[0].id;
+    const statusId = project.workflow.statuses[0].id;
 
     const taskA = await tenantDb.task.create({
       data: { title: "A", statusId, projects: { create: { projectId: project.id } } },
@@ -46,10 +46,10 @@ describe("task dependencies", () => {
   it("real cycle check against a database-backed edge set matches the pure function", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
     const project = await tenantDb.project.create({
-      data: { name: "Cycle Project", statuses: { create: defaultWorkflowStatuses() } },
-      include: { statuses: true },
+      data: { name: "Cycle Project", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
+      include: { workflow: { include: { statuses: true } } },
     });
-    const statusId = project.statuses[0].id;
+    const statusId = project.workflow.statuses[0].id;
 
     const taskA = await tenantDb.task.create({
       data: { title: "A", statusId, projects: { create: { projectId: project.id } } },

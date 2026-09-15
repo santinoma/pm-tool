@@ -24,7 +24,15 @@ interface SearchResult {
   projectName: string;
 }
 
-export function TaskLinksPanel({ taskId, links }: { taskId: string; links: LinkedTaskRow[] }) {
+export function TaskLinksPanel({
+  taskId,
+  links,
+  className = "mx-auto max-w-2xl pb-10",
+}: {
+  taskId: string;
+  links: LinkedTaskRow[];
+  className?: string;
+}) {
   const router = useRouter();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -68,9 +76,7 @@ export function TaskLinksPanel({ taskId, links }: { taskId: string; links: Linke
   }
 
   return (
-    <div className="mx-auto max-w-2xl pb-10">
-      <h2 className="mb-3 text-lg font-semibold">Verlinkte Tasks</h2>
-
+    <div className={className}>
       {links.length === 0 ? (
         <p className="mb-4 text-sm text-muted-foreground">Noch keine verlinkten Tasks.</p>
       ) : (

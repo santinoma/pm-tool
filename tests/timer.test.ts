@@ -22,13 +22,13 @@ beforeEach(async () => {
   userId = user.id;
 
   const project = await tenantDb.project.create({
-    data: { name: "Timer Project", statuses: { create: defaultWorkflowStatuses() } },
-    include: { statuses: true },
+    data: { name: "Timer Project", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
+    include: { workflow: { include: { statuses: true } } },
   });
   const task = await tenantDb.task.create({
     data: {
       title: "Task 1",
-      statusId: project.statuses[0].id,
+      statusId: project.workflow.statuses[0].id,
       projects: { create: { projectId: project.id } },
     },
   });
@@ -36,7 +36,7 @@ beforeEach(async () => {
   const secondTask = await tenantDb.task.create({
     data: {
       title: "Task 2",
-      statusId: project.statuses[0].id,
+      statusId: project.workflow.statuses[0].id,
       projects: { create: { projectId: project.id } },
     },
   });

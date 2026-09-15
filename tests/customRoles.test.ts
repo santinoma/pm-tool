@@ -54,7 +54,7 @@ describe("Custom roles and permission resolution (data layer)", () => {
     const member = await tenantDb.user.create({
       data: { email: "m3@example.com", role: "member", customRoleId: tenantWideRole.id },
     });
-    const project = await tenantDb.project.create({ data: { name: "Delegated" } });
+    const project = await tenantDb.project.create({ data: { name: "Delegated", workflow: { create: { name: "Test Workflow" } } } });
     await tenantDb.projectRoleOverride.create({
       data: { projectId: project.id, userId: member.id, customRoleId: projectAdminRole.id },
     });

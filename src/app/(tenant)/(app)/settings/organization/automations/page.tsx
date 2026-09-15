@@ -28,7 +28,7 @@ export default async function AutomationsSettingsPage() {
       orderBy: { createdAt: "desc" },
     }),
     context.tenantDb.user.findMany({ where: { isActive: true }, orderBy: { createdAt: "asc" } }),
-    context.tenantDb.workflowStatus.findMany({ include: { project: true }, orderBy: { name: "asc" } }),
+    context.tenantDb.workflowStatus.findMany({ include: { workflow: true }, orderBy: { name: "asc" } }),
     context.tenantDb.project.findMany({ orderBy: { name: "asc" } }),
   ]);
 
@@ -41,7 +41,7 @@ export default async function AutomationsSettingsPage() {
       <AutomationsClient
         canManage={canManageMembers(context.currentUser.role)}
         users={users.map((user) => ({ id: user.id, label: user.name ?? user.email }))}
-        statuses={statuses.map((status) => ({ id: status.id, label: `${status.project.name}: ${status.name}` }))}
+        statuses={statuses.map((status) => ({ id: status.id, label: `${status.workflow.name}: ${status.name}` }))}
         projects={projects.map((project) => ({ id: project.id, label: project.name }))}
         rules={rules.map((rule) => ({
           id: rule.id,

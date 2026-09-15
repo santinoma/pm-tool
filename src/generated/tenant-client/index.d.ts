@@ -139,6 +139,11 @@ export type SharedView = $Result.DefaultSelection<Prisma.$SharedViewPayload>
  */
 export type SavedView = $Result.DefaultSelection<Prisma.$SavedViewPayload>
 /**
+ * Model Workflow
+ * 
+ */
+export type Workflow = $Result.DefaultSelection<Prisma.$WorkflowPayload>
+/**
  * Model WorkflowStatus
  * 
  */
@@ -1194,6 +1199,16 @@ export class PrismaClient<
   get savedView(): Prisma.SavedViewDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.workflow`: Exposes CRUD operations for the **Workflow** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Workflows
+    * const workflows = await prisma.workflow.findMany()
+    * ```
+    */
+  get workflow(): Prisma.WorkflowDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.workflowStatus`: Exposes CRUD operations for the **WorkflowStatus** model.
     * Example usage:
     * ```ts
@@ -2184,6 +2199,7 @@ export namespace Prisma {
     TransitionRule: 'TransitionRule',
     SharedView: 'SharedView',
     SavedView: 'SavedView',
+    Workflow: 'Workflow',
     WorkflowStatus: 'WorkflowStatus',
     Task: 'Task',
     Tag: 'Tag',
@@ -2251,7 +2267,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "client" | "clientContact" | "deal" | "projectMember" | "customRole" | "projectRoleOverride" | "absenceRequest" | "session" | "favorite" | "auditLogEntry" | "invite" | "projectClientAccess" | "slackCaptureConfig" | "project" | "taskFolder" | "taskListGroup" | "baseline" | "baselineTaskSnapshot" | "portfolio" | "goal" | "cycle" | "transitionRule" | "sharedView" | "savedView" | "workflowStatus" | "task" | "tag" | "taskTag" | "taskSubscriber" | "todo" | "comment" | "mention" | "attachment" | "wikiPage" | "tenantSettings" | "pendingLogin" | "timeEntry" | "timesheetLock" | "timeTrackingPolicy" | "holidayCalendar" | "holiday" | "resourceBooking" | "taskProject" | "taskDependency" | "taskLink" | "customFieldDef" | "customFieldValue" | "budgetCustomFieldValue" | "wikiPageCustomFieldValue" | "sharedWikiLink" | "activityEvent" | "notificationPreference" | "notification" | "automationRule" | "automationAction" | "dashboard" | "dashboardWidget" | "webhookEndpoint" | "ssoConfig" | "apiKey" | "webhookDelivery" | "checkInSchedule" | "checkInResponse" | "budget" | "serviceType" | "budgetSection" | "rateCardItem" | "invoice" | "invoiceLineItem" | "invoicePayment" | "creditNote" | "meeting" | "expense" | "purchaseOrder" | "savedReport" | "budgetSectionAssignee"
+      modelProps: "user" | "client" | "clientContact" | "deal" | "projectMember" | "customRole" | "projectRoleOverride" | "absenceRequest" | "session" | "favorite" | "auditLogEntry" | "invite" | "projectClientAccess" | "slackCaptureConfig" | "project" | "taskFolder" | "taskListGroup" | "baseline" | "baselineTaskSnapshot" | "portfolio" | "goal" | "cycle" | "transitionRule" | "sharedView" | "savedView" | "workflow" | "workflowStatus" | "task" | "tag" | "taskTag" | "taskSubscriber" | "todo" | "comment" | "mention" | "attachment" | "wikiPage" | "tenantSettings" | "pendingLogin" | "timeEntry" | "timesheetLock" | "timeTrackingPolicy" | "holidayCalendar" | "holiday" | "resourceBooking" | "taskProject" | "taskDependency" | "taskLink" | "customFieldDef" | "customFieldValue" | "budgetCustomFieldValue" | "wikiPageCustomFieldValue" | "sharedWikiLink" | "activityEvent" | "notificationPreference" | "notification" | "automationRule" | "automationAction" | "dashboard" | "dashboardWidget" | "webhookEndpoint" | "ssoConfig" | "apiKey" | "webhookDelivery" | "checkInSchedule" | "checkInResponse" | "budget" | "serviceType" | "budgetSection" | "rateCardItem" | "invoice" | "invoiceLineItem" | "invoicePayment" | "creditNote" | "meeting" | "expense" | "purchaseOrder" | "savedReport" | "budgetSectionAssignee"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4102,6 +4118,80 @@ export namespace Prisma {
           count: {
             args: Prisma.SavedViewCountArgs<ExtArgs>
             result: $Utils.Optional<SavedViewCountAggregateOutputType> | number
+          }
+        }
+      }
+      Workflow: {
+        payload: Prisma.$WorkflowPayload<ExtArgs>
+        fields: Prisma.WorkflowFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WorkflowFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkflowPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WorkflowFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkflowPayload>
+          }
+          findFirst: {
+            args: Prisma.WorkflowFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkflowPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WorkflowFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkflowPayload>
+          }
+          findMany: {
+            args: Prisma.WorkflowFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkflowPayload>[]
+          }
+          create: {
+            args: Prisma.WorkflowCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkflowPayload>
+          }
+          createMany: {
+            args: Prisma.WorkflowCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WorkflowCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkflowPayload>[]
+          }
+          delete: {
+            args: Prisma.WorkflowDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkflowPayload>
+          }
+          update: {
+            args: Prisma.WorkflowUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkflowPayload>
+          }
+          deleteMany: {
+            args: Prisma.WorkflowDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WorkflowUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WorkflowUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkflowPayload>[]
+          }
+          upsert: {
+            args: Prisma.WorkflowUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkflowPayload>
+          }
+          aggregate: {
+            args: Prisma.WorkflowAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWorkflow>
+          }
+          groupBy: {
+            args: Prisma.WorkflowGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WorkflowGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WorkflowCountArgs<ExtArgs>
+            result: $Utils.Optional<WorkflowCountAggregateOutputType> | number
           }
         }
       }
@@ -8101,6 +8191,7 @@ export namespace Prisma {
     transitionRule?: TransitionRuleOmit
     sharedView?: SharedViewOmit
     savedView?: SavedViewOmit
+    workflow?: WorkflowOmit
     workflowStatus?: WorkflowStatusOmit
     task?: TaskOmit
     tag?: TagOmit
@@ -8794,7 +8885,6 @@ export namespace Prisma {
    */
 
   export type ProjectCountOutputType = {
-    statuses: number
     taskLinks: number
     customFields: number
     timeEntries: number
@@ -8822,7 +8912,6 @@ export namespace Prisma {
   }
 
   export type ProjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    statuses?: boolean | ProjectCountOutputTypeCountStatusesArgs
     taskLinks?: boolean | ProjectCountOutputTypeCountTaskLinksArgs
     customFields?: boolean | ProjectCountOutputTypeCountCustomFieldsArgs
     timeEntries?: boolean | ProjectCountOutputTypeCountTimeEntriesArgs
@@ -8858,13 +8947,6 @@ export namespace Prisma {
      * Select specific fields to fetch from the ProjectCountOutputType
      */
     select?: ProjectCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * ProjectCountOutputType without action
-   */
-  export type ProjectCountOutputTypeCountStatusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: WorkflowStatusWhereInput
   }
 
   /**
@@ -9197,6 +9279,46 @@ export namespace Prisma {
    */
   export type CycleCountOutputTypeCountTasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TaskWhereInput
+  }
+
+
+  /**
+   * Count Type WorkflowCountOutputType
+   */
+
+  export type WorkflowCountOutputType = {
+    statuses: number
+    projects: number
+  }
+
+  export type WorkflowCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    statuses?: boolean | WorkflowCountOutputTypeCountStatusesArgs
+    projects?: boolean | WorkflowCountOutputTypeCountProjectsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * WorkflowCountOutputType without action
+   */
+  export type WorkflowCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkflowCountOutputType
+     */
+    select?: WorkflowCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * WorkflowCountOutputType without action
+   */
+  export type WorkflowCountOutputTypeCountStatusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkflowStatusWhereInput
+  }
+
+  /**
+   * WorkflowCountOutputType without action
+   */
+  export type WorkflowCountOutputTypeCountProjectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectWhereInput
   }
 
 
@@ -27192,6 +27314,7 @@ export namespace Prisma {
     timeApprovalRequired: boolean | null
     expenseApprovalRequired: boolean | null
     createdAt: Date | null
+    workflowId: string | null
     portfolioId: string | null
     clientId: string | null
     projectManagerId: string | null
@@ -27210,6 +27333,7 @@ export namespace Prisma {
     timeApprovalRequired: boolean | null
     expenseApprovalRequired: boolean | null
     createdAt: Date | null
+    workflowId: string | null
     portfolioId: string | null
     clientId: string | null
     projectManagerId: string | null
@@ -27229,6 +27353,7 @@ export namespace Prisma {
     timeApprovalRequired: number
     expenseApprovalRequired: number
     createdAt: number
+    workflowId: number
     portfolioId: number
     clientId: number
     projectManagerId: number
@@ -27261,6 +27386,7 @@ export namespace Prisma {
     timeApprovalRequired?: true
     expenseApprovalRequired?: true
     createdAt?: true
+    workflowId?: true
     portfolioId?: true
     clientId?: true
     projectManagerId?: true
@@ -27279,6 +27405,7 @@ export namespace Prisma {
     timeApprovalRequired?: true
     expenseApprovalRequired?: true
     createdAt?: true
+    workflowId?: true
     portfolioId?: true
     clientId?: true
     projectManagerId?: true
@@ -27298,6 +27425,7 @@ export namespace Prisma {
     timeApprovalRequired?: true
     expenseApprovalRequired?: true
     createdAt?: true
+    workflowId?: true
     portfolioId?: true
     clientId?: true
     projectManagerId?: true
@@ -27404,6 +27532,7 @@ export namespace Prisma {
     timeApprovalRequired: boolean
     expenseApprovalRequired: boolean
     createdAt: Date
+    workflowId: string
     portfolioId: string | null
     clientId: string | null
     projectManagerId: string | null
@@ -27442,10 +27571,11 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: boolean
+    workflowId?: boolean
     portfolioId?: boolean
     clientId?: boolean
     projectManagerId?: boolean
-    statuses?: boolean | Project$statusesArgs<ExtArgs>
+    workflow?: boolean | WorkflowDefaultArgs<ExtArgs>
     taskLinks?: boolean | Project$taskLinksArgs<ExtArgs>
     customFields?: boolean | Project$customFieldsArgs<ExtArgs>
     timeEntries?: boolean | Project$timeEntriesArgs<ExtArgs>
@@ -27490,9 +27620,11 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: boolean
+    workflowId?: boolean
     portfolioId?: boolean
     clientId?: boolean
     projectManagerId?: boolean
+    workflow?: boolean | WorkflowDefaultArgs<ExtArgs>
     portfolio?: boolean | Project$portfolioArgs<ExtArgs>
     client?: boolean | Project$clientArgs<ExtArgs>
     projectManager?: boolean | Project$projectManagerArgs<ExtArgs>
@@ -27512,9 +27644,11 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: boolean
+    workflowId?: boolean
     portfolioId?: boolean
     clientId?: boolean
     projectManagerId?: boolean
+    workflow?: boolean | WorkflowDefaultArgs<ExtArgs>
     portfolio?: boolean | Project$portfolioArgs<ExtArgs>
     client?: boolean | Project$clientArgs<ExtArgs>
     projectManager?: boolean | Project$projectManagerArgs<ExtArgs>
@@ -27534,14 +27668,15 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: boolean
+    workflowId?: boolean
     portfolioId?: boolean
     clientId?: boolean
     projectManagerId?: boolean
   }
 
-  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "budgetHours" | "budgetAmount" | "hourlyRate" | "type" | "color" | "isTemplate" | "enabledModules" | "timeApprovalRequired" | "expenseApprovalRequired" | "createdAt" | "portfolioId" | "clientId" | "projectManagerId", ExtArgs["result"]["project"]>
+  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "budgetHours" | "budgetAmount" | "hourlyRate" | "type" | "color" | "isTemplate" | "enabledModules" | "timeApprovalRequired" | "expenseApprovalRequired" | "createdAt" | "workflowId" | "portfolioId" | "clientId" | "projectManagerId", ExtArgs["result"]["project"]>
   export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    statuses?: boolean | Project$statusesArgs<ExtArgs>
+    workflow?: boolean | WorkflowDefaultArgs<ExtArgs>
     taskLinks?: boolean | Project$taskLinksArgs<ExtArgs>
     customFields?: boolean | Project$customFieldsArgs<ExtArgs>
     timeEntries?: boolean | Project$timeEntriesArgs<ExtArgs>
@@ -27572,11 +27707,13 @@ export namespace Prisma {
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workflow?: boolean | WorkflowDefaultArgs<ExtArgs>
     portfolio?: boolean | Project$portfolioArgs<ExtArgs>
     client?: boolean | Project$clientArgs<ExtArgs>
     projectManager?: boolean | Project$projectManagerArgs<ExtArgs>
   }
   export type ProjectIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workflow?: boolean | WorkflowDefaultArgs<ExtArgs>
     portfolio?: boolean | Project$portfolioArgs<ExtArgs>
     client?: boolean | Project$clientArgs<ExtArgs>
     projectManager?: boolean | Project$projectManagerArgs<ExtArgs>
@@ -27585,7 +27722,7 @@ export namespace Prisma {
   export type $ProjectPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Project"
     objects: {
-      statuses: Prisma.$WorkflowStatusPayload<ExtArgs>[]
+      workflow: Prisma.$WorkflowPayload<ExtArgs>
       taskLinks: Prisma.$TaskProjectPayload<ExtArgs>[]
       customFields: Prisma.$CustomFieldDefPayload<ExtArgs>[]
       timeEntries: Prisma.$TimeEntryPayload<ExtArgs>[]
@@ -27628,6 +27765,7 @@ export namespace Prisma {
       timeApprovalRequired: boolean
       expenseApprovalRequired: boolean
       createdAt: Date
+      workflowId: string
       portfolioId: string | null
       clientId: string | null
       projectManagerId: string | null
@@ -28025,7 +28163,7 @@ export namespace Prisma {
    */
   export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    statuses<T extends Project$statusesArgs<ExtArgs> = {}>(args?: Subset<T, Project$statusesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkflowStatusPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    workflow<T extends WorkflowDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WorkflowDefaultArgs<ExtArgs>>): Prisma__WorkflowClient<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     taskLinks<T extends Project$taskLinksArgs<ExtArgs> = {}>(args?: Subset<T, Project$taskLinksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     customFields<T extends Project$customFieldsArgs<ExtArgs> = {}>(args?: Subset<T, Project$customFieldsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldDefPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     timeEntries<T extends Project$timeEntriesArgs<ExtArgs> = {}>(args?: Subset<T, Project$timeEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -28095,6 +28233,7 @@ export namespace Prisma {
     readonly timeApprovalRequired: FieldRef<"Project", 'Boolean'>
     readonly expenseApprovalRequired: FieldRef<"Project", 'Boolean'>
     readonly createdAt: FieldRef<"Project", 'DateTime'>
+    readonly workflowId: FieldRef<"Project", 'String'>
     readonly portfolioId: FieldRef<"Project", 'String'>
     readonly clientId: FieldRef<"Project", 'String'>
     readonly projectManagerId: FieldRef<"Project", 'String'>
@@ -28496,30 +28635,6 @@ export namespace Prisma {
      * Limit how many Projects to delete.
      */
     limit?: number
-  }
-
-  /**
-   * Project.statuses
-   */
-  export type Project$statusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkflowStatus
-     */
-    select?: WorkflowStatusSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkflowStatus
-     */
-    omit?: WorkflowStatusOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkflowStatusInclude<ExtArgs> | null
-    where?: WorkflowStatusWhereInput
-    orderBy?: WorkflowStatusOrderByWithRelationInput | WorkflowStatusOrderByWithRelationInput[]
-    cursor?: WorkflowStatusWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: WorkflowStatusScalarFieldEnum | WorkflowStatusScalarFieldEnum[]
   }
 
   /**
@@ -40268,6 +40383,1096 @@ export namespace Prisma {
 
 
   /**
+   * Model Workflow
+   */
+
+  export type AggregateWorkflow = {
+    _count: WorkflowCountAggregateOutputType | null
+    _min: WorkflowMinAggregateOutputType | null
+    _max: WorkflowMaxAggregateOutputType | null
+  }
+
+  export type WorkflowMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    archived: boolean | null
+    createdAt: Date | null
+  }
+
+  export type WorkflowMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    archived: boolean | null
+    createdAt: Date | null
+  }
+
+  export type WorkflowCountAggregateOutputType = {
+    id: number
+    name: number
+    archived: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type WorkflowMinAggregateInputType = {
+    id?: true
+    name?: true
+    archived?: true
+    createdAt?: true
+  }
+
+  export type WorkflowMaxAggregateInputType = {
+    id?: true
+    name?: true
+    archived?: true
+    createdAt?: true
+  }
+
+  export type WorkflowCountAggregateInputType = {
+    id?: true
+    name?: true
+    archived?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type WorkflowAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Workflow to aggregate.
+     */
+    where?: WorkflowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Workflows to fetch.
+     */
+    orderBy?: WorkflowOrderByWithRelationInput | WorkflowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WorkflowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Workflows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Workflows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Workflows
+    **/
+    _count?: true | WorkflowCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WorkflowMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WorkflowMaxAggregateInputType
+  }
+
+  export type GetWorkflowAggregateType<T extends WorkflowAggregateArgs> = {
+        [P in keyof T & keyof AggregateWorkflow]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWorkflow[P]>
+      : GetScalarType<T[P], AggregateWorkflow[P]>
+  }
+
+
+
+
+  export type WorkflowGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkflowWhereInput
+    orderBy?: WorkflowOrderByWithAggregationInput | WorkflowOrderByWithAggregationInput[]
+    by: WorkflowScalarFieldEnum[] | WorkflowScalarFieldEnum
+    having?: WorkflowScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WorkflowCountAggregateInputType | true
+    _min?: WorkflowMinAggregateInputType
+    _max?: WorkflowMaxAggregateInputType
+  }
+
+  export type WorkflowGroupByOutputType = {
+    id: string
+    name: string
+    archived: boolean
+    createdAt: Date
+    _count: WorkflowCountAggregateOutputType | null
+    _min: WorkflowMinAggregateOutputType | null
+    _max: WorkflowMaxAggregateOutputType | null
+  }
+
+  type GetWorkflowGroupByPayload<T extends WorkflowGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WorkflowGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WorkflowGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WorkflowGroupByOutputType[P]>
+            : GetScalarType<T[P], WorkflowGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WorkflowSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    archived?: boolean
+    createdAt?: boolean
+    statuses?: boolean | Workflow$statusesArgs<ExtArgs>
+    projects?: boolean | Workflow$projectsArgs<ExtArgs>
+    _count?: boolean | WorkflowCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["workflow"]>
+
+  export type WorkflowSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    archived?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["workflow"]>
+
+  export type WorkflowSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    archived?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["workflow"]>
+
+  export type WorkflowSelectScalar = {
+    id?: boolean
+    name?: boolean
+    archived?: boolean
+    createdAt?: boolean
+  }
+
+  export type WorkflowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "archived" | "createdAt", ExtArgs["result"]["workflow"]>
+  export type WorkflowInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    statuses?: boolean | Workflow$statusesArgs<ExtArgs>
+    projects?: boolean | Workflow$projectsArgs<ExtArgs>
+    _count?: boolean | WorkflowCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type WorkflowIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type WorkflowIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $WorkflowPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Workflow"
+    objects: {
+      statuses: Prisma.$WorkflowStatusPayload<ExtArgs>[]
+      projects: Prisma.$ProjectPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      archived: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["workflow"]>
+    composites: {}
+  }
+
+  type WorkflowGetPayload<S extends boolean | null | undefined | WorkflowDefaultArgs> = $Result.GetResult<Prisma.$WorkflowPayload, S>
+
+  type WorkflowCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WorkflowFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WorkflowCountAggregateInputType | true
+    }
+
+  export interface WorkflowDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Workflow'], meta: { name: 'Workflow' } }
+    /**
+     * Find zero or one Workflow that matches the filter.
+     * @param {WorkflowFindUniqueArgs} args - Arguments to find a Workflow
+     * @example
+     * // Get one Workflow
+     * const workflow = await prisma.workflow.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WorkflowFindUniqueArgs>(args: SelectSubset<T, WorkflowFindUniqueArgs<ExtArgs>>): Prisma__WorkflowClient<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Workflow that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WorkflowFindUniqueOrThrowArgs} args - Arguments to find a Workflow
+     * @example
+     * // Get one Workflow
+     * const workflow = await prisma.workflow.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WorkflowFindUniqueOrThrowArgs>(args: SelectSubset<T, WorkflowFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WorkflowClient<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Workflow that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkflowFindFirstArgs} args - Arguments to find a Workflow
+     * @example
+     * // Get one Workflow
+     * const workflow = await prisma.workflow.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WorkflowFindFirstArgs>(args?: SelectSubset<T, WorkflowFindFirstArgs<ExtArgs>>): Prisma__WorkflowClient<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Workflow that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkflowFindFirstOrThrowArgs} args - Arguments to find a Workflow
+     * @example
+     * // Get one Workflow
+     * const workflow = await prisma.workflow.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WorkflowFindFirstOrThrowArgs>(args?: SelectSubset<T, WorkflowFindFirstOrThrowArgs<ExtArgs>>): Prisma__WorkflowClient<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Workflows that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkflowFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Workflows
+     * const workflows = await prisma.workflow.findMany()
+     * 
+     * // Get first 10 Workflows
+     * const workflows = await prisma.workflow.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const workflowWithIdOnly = await prisma.workflow.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WorkflowFindManyArgs>(args?: SelectSubset<T, WorkflowFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Workflow.
+     * @param {WorkflowCreateArgs} args - Arguments to create a Workflow.
+     * @example
+     * // Create one Workflow
+     * const Workflow = await prisma.workflow.create({
+     *   data: {
+     *     // ... data to create a Workflow
+     *   }
+     * })
+     * 
+     */
+    create<T extends WorkflowCreateArgs>(args: SelectSubset<T, WorkflowCreateArgs<ExtArgs>>): Prisma__WorkflowClient<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Workflows.
+     * @param {WorkflowCreateManyArgs} args - Arguments to create many Workflows.
+     * @example
+     * // Create many Workflows
+     * const workflow = await prisma.workflow.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WorkflowCreateManyArgs>(args?: SelectSubset<T, WorkflowCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Workflows and returns the data saved in the database.
+     * @param {WorkflowCreateManyAndReturnArgs} args - Arguments to create many Workflows.
+     * @example
+     * // Create many Workflows
+     * const workflow = await prisma.workflow.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Workflows and only return the `id`
+     * const workflowWithIdOnly = await prisma.workflow.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WorkflowCreateManyAndReturnArgs>(args?: SelectSubset<T, WorkflowCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Workflow.
+     * @param {WorkflowDeleteArgs} args - Arguments to delete one Workflow.
+     * @example
+     * // Delete one Workflow
+     * const Workflow = await prisma.workflow.delete({
+     *   where: {
+     *     // ... filter to delete one Workflow
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WorkflowDeleteArgs>(args: SelectSubset<T, WorkflowDeleteArgs<ExtArgs>>): Prisma__WorkflowClient<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Workflow.
+     * @param {WorkflowUpdateArgs} args - Arguments to update one Workflow.
+     * @example
+     * // Update one Workflow
+     * const workflow = await prisma.workflow.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WorkflowUpdateArgs>(args: SelectSubset<T, WorkflowUpdateArgs<ExtArgs>>): Prisma__WorkflowClient<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Workflows.
+     * @param {WorkflowDeleteManyArgs} args - Arguments to filter Workflows to delete.
+     * @example
+     * // Delete a few Workflows
+     * const { count } = await prisma.workflow.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WorkflowDeleteManyArgs>(args?: SelectSubset<T, WorkflowDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Workflows.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkflowUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Workflows
+     * const workflow = await prisma.workflow.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WorkflowUpdateManyArgs>(args: SelectSubset<T, WorkflowUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Workflows and returns the data updated in the database.
+     * @param {WorkflowUpdateManyAndReturnArgs} args - Arguments to update many Workflows.
+     * @example
+     * // Update many Workflows
+     * const workflow = await prisma.workflow.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Workflows and only return the `id`
+     * const workflowWithIdOnly = await prisma.workflow.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WorkflowUpdateManyAndReturnArgs>(args: SelectSubset<T, WorkflowUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Workflow.
+     * @param {WorkflowUpsertArgs} args - Arguments to update or create a Workflow.
+     * @example
+     * // Update or create a Workflow
+     * const workflow = await prisma.workflow.upsert({
+     *   create: {
+     *     // ... data to create a Workflow
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Workflow we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WorkflowUpsertArgs>(args: SelectSubset<T, WorkflowUpsertArgs<ExtArgs>>): Prisma__WorkflowClient<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Workflows.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkflowCountArgs} args - Arguments to filter Workflows to count.
+     * @example
+     * // Count the number of Workflows
+     * const count = await prisma.workflow.count({
+     *   where: {
+     *     // ... the filter for the Workflows we want to count
+     *   }
+     * })
+    **/
+    count<T extends WorkflowCountArgs>(
+      args?: Subset<T, WorkflowCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WorkflowCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Workflow.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkflowAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WorkflowAggregateArgs>(args: Subset<T, WorkflowAggregateArgs>): Prisma.PrismaPromise<GetWorkflowAggregateType<T>>
+
+    /**
+     * Group by Workflow.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkflowGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WorkflowGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WorkflowGroupByArgs['orderBy'] }
+        : { orderBy?: WorkflowGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WorkflowGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWorkflowGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Workflow model
+   */
+  readonly fields: WorkflowFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Workflow.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WorkflowClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    statuses<T extends Workflow$statusesArgs<ExtArgs> = {}>(args?: Subset<T, Workflow$statusesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkflowStatusPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    projects<T extends Workflow$projectsArgs<ExtArgs> = {}>(args?: Subset<T, Workflow$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Workflow model
+   */
+  interface WorkflowFieldRefs {
+    readonly id: FieldRef<"Workflow", 'String'>
+    readonly name: FieldRef<"Workflow", 'String'>
+    readonly archived: FieldRef<"Workflow", 'Boolean'>
+    readonly createdAt: FieldRef<"Workflow", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Workflow findUnique
+   */
+  export type WorkflowFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workflow
+     */
+    select?: WorkflowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workflow
+     */
+    omit?: WorkflowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkflowInclude<ExtArgs> | null
+    /**
+     * Filter, which Workflow to fetch.
+     */
+    where: WorkflowWhereUniqueInput
+  }
+
+  /**
+   * Workflow findUniqueOrThrow
+   */
+  export type WorkflowFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workflow
+     */
+    select?: WorkflowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workflow
+     */
+    omit?: WorkflowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkflowInclude<ExtArgs> | null
+    /**
+     * Filter, which Workflow to fetch.
+     */
+    where: WorkflowWhereUniqueInput
+  }
+
+  /**
+   * Workflow findFirst
+   */
+  export type WorkflowFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workflow
+     */
+    select?: WorkflowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workflow
+     */
+    omit?: WorkflowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkflowInclude<ExtArgs> | null
+    /**
+     * Filter, which Workflow to fetch.
+     */
+    where?: WorkflowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Workflows to fetch.
+     */
+    orderBy?: WorkflowOrderByWithRelationInput | WorkflowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Workflows.
+     */
+    cursor?: WorkflowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Workflows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Workflows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Workflows.
+     */
+    distinct?: WorkflowScalarFieldEnum | WorkflowScalarFieldEnum[]
+  }
+
+  /**
+   * Workflow findFirstOrThrow
+   */
+  export type WorkflowFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workflow
+     */
+    select?: WorkflowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workflow
+     */
+    omit?: WorkflowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkflowInclude<ExtArgs> | null
+    /**
+     * Filter, which Workflow to fetch.
+     */
+    where?: WorkflowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Workflows to fetch.
+     */
+    orderBy?: WorkflowOrderByWithRelationInput | WorkflowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Workflows.
+     */
+    cursor?: WorkflowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Workflows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Workflows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Workflows.
+     */
+    distinct?: WorkflowScalarFieldEnum | WorkflowScalarFieldEnum[]
+  }
+
+  /**
+   * Workflow findMany
+   */
+  export type WorkflowFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workflow
+     */
+    select?: WorkflowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workflow
+     */
+    omit?: WorkflowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkflowInclude<ExtArgs> | null
+    /**
+     * Filter, which Workflows to fetch.
+     */
+    where?: WorkflowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Workflows to fetch.
+     */
+    orderBy?: WorkflowOrderByWithRelationInput | WorkflowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Workflows.
+     */
+    cursor?: WorkflowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Workflows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Workflows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Workflows.
+     */
+    distinct?: WorkflowScalarFieldEnum | WorkflowScalarFieldEnum[]
+  }
+
+  /**
+   * Workflow create
+   */
+  export type WorkflowCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workflow
+     */
+    select?: WorkflowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workflow
+     */
+    omit?: WorkflowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkflowInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Workflow.
+     */
+    data: XOR<WorkflowCreateInput, WorkflowUncheckedCreateInput>
+  }
+
+  /**
+   * Workflow createMany
+   */
+  export type WorkflowCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Workflows.
+     */
+    data: WorkflowCreateManyInput | WorkflowCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Workflow createManyAndReturn
+   */
+  export type WorkflowCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workflow
+     */
+    select?: WorkflowSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workflow
+     */
+    omit?: WorkflowOmit<ExtArgs> | null
+    /**
+     * The data used to create many Workflows.
+     */
+    data: WorkflowCreateManyInput | WorkflowCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Workflow update
+   */
+  export type WorkflowUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workflow
+     */
+    select?: WorkflowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workflow
+     */
+    omit?: WorkflowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkflowInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Workflow.
+     */
+    data: XOR<WorkflowUpdateInput, WorkflowUncheckedUpdateInput>
+    /**
+     * Choose, which Workflow to update.
+     */
+    where: WorkflowWhereUniqueInput
+  }
+
+  /**
+   * Workflow updateMany
+   */
+  export type WorkflowUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Workflows.
+     */
+    data: XOR<WorkflowUpdateManyMutationInput, WorkflowUncheckedUpdateManyInput>
+    /**
+     * Filter which Workflows to update
+     */
+    where?: WorkflowWhereInput
+    /**
+     * Limit how many Workflows to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Workflow updateManyAndReturn
+   */
+  export type WorkflowUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workflow
+     */
+    select?: WorkflowSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workflow
+     */
+    omit?: WorkflowOmit<ExtArgs> | null
+    /**
+     * The data used to update Workflows.
+     */
+    data: XOR<WorkflowUpdateManyMutationInput, WorkflowUncheckedUpdateManyInput>
+    /**
+     * Filter which Workflows to update
+     */
+    where?: WorkflowWhereInput
+    /**
+     * Limit how many Workflows to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Workflow upsert
+   */
+  export type WorkflowUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workflow
+     */
+    select?: WorkflowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workflow
+     */
+    omit?: WorkflowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkflowInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Workflow to update in case it exists.
+     */
+    where: WorkflowWhereUniqueInput
+    /**
+     * In case the Workflow found by the `where` argument doesn't exist, create a new Workflow with this data.
+     */
+    create: XOR<WorkflowCreateInput, WorkflowUncheckedCreateInput>
+    /**
+     * In case the Workflow was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WorkflowUpdateInput, WorkflowUncheckedUpdateInput>
+  }
+
+  /**
+   * Workflow delete
+   */
+  export type WorkflowDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workflow
+     */
+    select?: WorkflowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workflow
+     */
+    omit?: WorkflowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkflowInclude<ExtArgs> | null
+    /**
+     * Filter which Workflow to delete.
+     */
+    where: WorkflowWhereUniqueInput
+  }
+
+  /**
+   * Workflow deleteMany
+   */
+  export type WorkflowDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Workflows to delete
+     */
+    where?: WorkflowWhereInput
+    /**
+     * Limit how many Workflows to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Workflow.statuses
+   */
+  export type Workflow$statusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkflowStatus
+     */
+    select?: WorkflowStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkflowStatus
+     */
+    omit?: WorkflowStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkflowStatusInclude<ExtArgs> | null
+    where?: WorkflowStatusWhereInput
+    orderBy?: WorkflowStatusOrderByWithRelationInput | WorkflowStatusOrderByWithRelationInput[]
+    cursor?: WorkflowStatusWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WorkflowStatusScalarFieldEnum | WorkflowStatusScalarFieldEnum[]
+  }
+
+  /**
+   * Workflow.projects
+   */
+  export type Workflow$projectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Project
+     */
+    select?: ProjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Project
+     */
+    omit?: ProjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
+    where?: ProjectWhereInput
+    orderBy?: ProjectOrderByWithRelationInput | ProjectOrderByWithRelationInput[]
+    cursor?: ProjectWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProjectScalarFieldEnum | ProjectScalarFieldEnum[]
+  }
+
+  /**
+   * Workflow without action
+   */
+  export type WorkflowDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workflow
+     */
+    select?: WorkflowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workflow
+     */
+    omit?: WorkflowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkflowInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model WorkflowStatus
    */
 
@@ -40289,7 +41494,7 @@ export namespace Prisma {
 
   export type WorkflowStatusMinAggregateOutputType = {
     id: string | null
-    projectId: string | null
+    workflowId: string | null
     name: string | null
     category: $Enums.StatusCategory | null
     position: number | null
@@ -40298,7 +41503,7 @@ export namespace Prisma {
 
   export type WorkflowStatusMaxAggregateOutputType = {
     id: string | null
-    projectId: string | null
+    workflowId: string | null
     name: string | null
     category: $Enums.StatusCategory | null
     position: number | null
@@ -40307,7 +41512,7 @@ export namespace Prisma {
 
   export type WorkflowStatusCountAggregateOutputType = {
     id: number
-    projectId: number
+    workflowId: number
     name: number
     category: number
     position: number
@@ -40326,7 +41531,7 @@ export namespace Prisma {
 
   export type WorkflowStatusMinAggregateInputType = {
     id?: true
-    projectId?: true
+    workflowId?: true
     name?: true
     category?: true
     position?: true
@@ -40335,7 +41540,7 @@ export namespace Prisma {
 
   export type WorkflowStatusMaxAggregateInputType = {
     id?: true
-    projectId?: true
+    workflowId?: true
     name?: true
     category?: true
     position?: true
@@ -40344,7 +41549,7 @@ export namespace Prisma {
 
   export type WorkflowStatusCountAggregateInputType = {
     id?: true
-    projectId?: true
+    workflowId?: true
     name?: true
     category?: true
     position?: true
@@ -40440,7 +41645,7 @@ export namespace Prisma {
 
   export type WorkflowStatusGroupByOutputType = {
     id: string
-    projectId: string
+    workflowId: string
     name: string
     category: $Enums.StatusCategory
     position: number
@@ -40468,12 +41673,12 @@ export namespace Prisma {
 
   export type WorkflowStatusSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    projectId?: boolean
+    workflowId?: boolean
     name?: boolean
     category?: boolean
     position?: boolean
     isDefault?: boolean
-    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    workflow?: boolean | WorkflowDefaultArgs<ExtArgs>
     tasks?: boolean | WorkflowStatus$tasksArgs<ExtArgs>
     transitionsFrom?: boolean | WorkflowStatus$transitionsFromArgs<ExtArgs>
     transitionsTo?: boolean | WorkflowStatus$transitionsToArgs<ExtArgs>
@@ -40483,36 +41688,36 @@ export namespace Prisma {
 
   export type WorkflowStatusSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    projectId?: boolean
+    workflowId?: boolean
     name?: boolean
     category?: boolean
     position?: boolean
     isDefault?: boolean
-    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    workflow?: boolean | WorkflowDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["workflowStatus"]>
 
   export type WorkflowStatusSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    projectId?: boolean
+    workflowId?: boolean
     name?: boolean
     category?: boolean
     position?: boolean
     isDefault?: boolean
-    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    workflow?: boolean | WorkflowDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["workflowStatus"]>
 
   export type WorkflowStatusSelectScalar = {
     id?: boolean
-    projectId?: boolean
+    workflowId?: boolean
     name?: boolean
     category?: boolean
     position?: boolean
     isDefault?: boolean
   }
 
-  export type WorkflowStatusOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "projectId" | "name" | "category" | "position" | "isDefault", ExtArgs["result"]["workflowStatus"]>
+  export type WorkflowStatusOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "workflowId" | "name" | "category" | "position" | "isDefault", ExtArgs["result"]["workflowStatus"]>
   export type WorkflowStatusInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    workflow?: boolean | WorkflowDefaultArgs<ExtArgs>
     tasks?: boolean | WorkflowStatus$tasksArgs<ExtArgs>
     transitionsFrom?: boolean | WorkflowStatus$transitionsFromArgs<ExtArgs>
     transitionsTo?: boolean | WorkflowStatus$transitionsToArgs<ExtArgs>
@@ -40520,16 +41725,16 @@ export namespace Prisma {
     _count?: boolean | WorkflowStatusCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type WorkflowStatusIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    workflow?: boolean | WorkflowDefaultArgs<ExtArgs>
   }
   export type WorkflowStatusIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    workflow?: boolean | WorkflowDefaultArgs<ExtArgs>
   }
 
   export type $WorkflowStatusPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "WorkflowStatus"
     objects: {
-      project: Prisma.$ProjectPayload<ExtArgs>
+      workflow: Prisma.$WorkflowPayload<ExtArgs>
       tasks: Prisma.$TaskPayload<ExtArgs>[]
       transitionsFrom: Prisma.$TransitionRulePayload<ExtArgs>[]
       transitionsTo: Prisma.$TransitionRulePayload<ExtArgs>[]
@@ -40537,7 +41742,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      projectId: string
+      workflowId: string
       name: string
       category: $Enums.StatusCategory
       position: number
@@ -40936,7 +42141,7 @@ export namespace Prisma {
    */
   export interface Prisma__WorkflowStatusClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    project<T extends ProjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectDefaultArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    workflow<T extends WorkflowDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WorkflowDefaultArgs<ExtArgs>>): Prisma__WorkflowClient<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     tasks<T extends WorkflowStatus$tasksArgs<ExtArgs> = {}>(args?: Subset<T, WorkflowStatus$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     transitionsFrom<T extends WorkflowStatus$transitionsFromArgs<ExtArgs> = {}>(args?: Subset<T, WorkflowStatus$transitionsFromArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransitionRulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     transitionsTo<T extends WorkflowStatus$transitionsToArgs<ExtArgs> = {}>(args?: Subset<T, WorkflowStatus$transitionsToArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransitionRulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -40971,7 +42176,7 @@ export namespace Prisma {
    */
   interface WorkflowStatusFieldRefs {
     readonly id: FieldRef<"WorkflowStatus", 'String'>
-    readonly projectId: FieldRef<"WorkflowStatus", 'String'>
+    readonly workflowId: FieldRef<"WorkflowStatus", 'String'>
     readonly name: FieldRef<"WorkflowStatus", 'String'>
     readonly category: FieldRef<"WorkflowStatus", 'StatusCategory'>
     readonly position: FieldRef<"WorkflowStatus", 'Int'>
@@ -100403,6 +101608,7 @@ export namespace Prisma {
     timeApprovalRequired: 'timeApprovalRequired',
     expenseApprovalRequired: 'expenseApprovalRequired',
     createdAt: 'createdAt',
+    workflowId: 'workflowId',
     portfolioId: 'portfolioId',
     clientId: 'clientId',
     projectManagerId: 'projectManagerId'
@@ -100532,9 +101738,19 @@ export namespace Prisma {
   export type SavedViewScalarFieldEnum = (typeof SavedViewScalarFieldEnum)[keyof typeof SavedViewScalarFieldEnum]
 
 
+  export const WorkflowScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    archived: 'archived',
+    createdAt: 'createdAt'
+  };
+
+  export type WorkflowScalarFieldEnum = (typeof WorkflowScalarFieldEnum)[keyof typeof WorkflowScalarFieldEnum]
+
+
   export const WorkflowStatusScalarFieldEnum: {
     id: 'id',
-    projectId: 'projectId',
+    workflowId: 'workflowId',
     name: 'name',
     category: 'category',
     position: 'position',
@@ -102959,10 +104175,11 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFilter<"Project"> | boolean
     expenseApprovalRequired?: BoolFilter<"Project"> | boolean
     createdAt?: DateTimeFilter<"Project"> | Date | string
+    workflowId?: StringFilter<"Project"> | string
     portfolioId?: StringNullableFilter<"Project"> | string | null
     clientId?: StringNullableFilter<"Project"> | string | null
     projectManagerId?: StringNullableFilter<"Project"> | string | null
-    statuses?: WorkflowStatusListRelationFilter
+    workflow?: XOR<WorkflowScalarRelationFilter, WorkflowWhereInput>
     taskLinks?: TaskProjectListRelationFilter
     customFields?: CustomFieldDefListRelationFilter
     timeEntries?: TimeEntryListRelationFilter
@@ -103006,10 +104223,11 @@ export namespace Prisma {
     timeApprovalRequired?: SortOrder
     expenseApprovalRequired?: SortOrder
     createdAt?: SortOrder
+    workflowId?: SortOrder
     portfolioId?: SortOrderInput | SortOrder
     clientId?: SortOrderInput | SortOrder
     projectManagerId?: SortOrderInput | SortOrder
-    statuses?: WorkflowStatusOrderByRelationAggregateInput
+    workflow?: WorkflowOrderByWithRelationInput
     taskLinks?: TaskProjectOrderByRelationAggregateInput
     customFields?: CustomFieldDefOrderByRelationAggregateInput
     timeEntries?: TimeEntryOrderByRelationAggregateInput
@@ -103056,10 +104274,11 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFilter<"Project"> | boolean
     expenseApprovalRequired?: BoolFilter<"Project"> | boolean
     createdAt?: DateTimeFilter<"Project"> | Date | string
+    workflowId?: StringFilter<"Project"> | string
     portfolioId?: StringNullableFilter<"Project"> | string | null
     clientId?: StringNullableFilter<"Project"> | string | null
     projectManagerId?: StringNullableFilter<"Project"> | string | null
-    statuses?: WorkflowStatusListRelationFilter
+    workflow?: XOR<WorkflowScalarRelationFilter, WorkflowWhereInput>
     taskLinks?: TaskProjectListRelationFilter
     customFields?: CustomFieldDefListRelationFilter
     timeEntries?: TimeEntryListRelationFilter
@@ -103103,6 +104322,7 @@ export namespace Prisma {
     timeApprovalRequired?: SortOrder
     expenseApprovalRequired?: SortOrder
     createdAt?: SortOrder
+    workflowId?: SortOrder
     portfolioId?: SortOrderInput | SortOrder
     clientId?: SortOrderInput | SortOrder
     projectManagerId?: SortOrderInput | SortOrder
@@ -103130,6 +104350,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolWithAggregatesFilter<"Project"> | boolean
     expenseApprovalRequired?: BoolWithAggregatesFilter<"Project"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
+    workflowId?: StringWithAggregatesFilter<"Project"> | string
     portfolioId?: StringNullableWithAggregatesFilter<"Project"> | string | null
     clientId?: StringNullableWithAggregatesFilter<"Project"> | string | null
     projectManagerId?: StringNullableWithAggregatesFilter<"Project"> | string | null
@@ -103774,17 +104995,70 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"SavedView"> | Date | string
   }
 
+  export type WorkflowWhereInput = {
+    AND?: WorkflowWhereInput | WorkflowWhereInput[]
+    OR?: WorkflowWhereInput[]
+    NOT?: WorkflowWhereInput | WorkflowWhereInput[]
+    id?: StringFilter<"Workflow"> | string
+    name?: StringFilter<"Workflow"> | string
+    archived?: BoolFilter<"Workflow"> | boolean
+    createdAt?: DateTimeFilter<"Workflow"> | Date | string
+    statuses?: WorkflowStatusListRelationFilter
+    projects?: ProjectListRelationFilter
+  }
+
+  export type WorkflowOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+    statuses?: WorkflowStatusOrderByRelationAggregateInput
+    projects?: ProjectOrderByRelationAggregateInput
+  }
+
+  export type WorkflowWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: WorkflowWhereInput | WorkflowWhereInput[]
+    OR?: WorkflowWhereInput[]
+    NOT?: WorkflowWhereInput | WorkflowWhereInput[]
+    name?: StringFilter<"Workflow"> | string
+    archived?: BoolFilter<"Workflow"> | boolean
+    createdAt?: DateTimeFilter<"Workflow"> | Date | string
+    statuses?: WorkflowStatusListRelationFilter
+    projects?: ProjectListRelationFilter
+  }, "id">
+
+  export type WorkflowOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+    _count?: WorkflowCountOrderByAggregateInput
+    _max?: WorkflowMaxOrderByAggregateInput
+    _min?: WorkflowMinOrderByAggregateInput
+  }
+
+  export type WorkflowScalarWhereWithAggregatesInput = {
+    AND?: WorkflowScalarWhereWithAggregatesInput | WorkflowScalarWhereWithAggregatesInput[]
+    OR?: WorkflowScalarWhereWithAggregatesInput[]
+    NOT?: WorkflowScalarWhereWithAggregatesInput | WorkflowScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Workflow"> | string
+    name?: StringWithAggregatesFilter<"Workflow"> | string
+    archived?: BoolWithAggregatesFilter<"Workflow"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Workflow"> | Date | string
+  }
+
   export type WorkflowStatusWhereInput = {
     AND?: WorkflowStatusWhereInput | WorkflowStatusWhereInput[]
     OR?: WorkflowStatusWhereInput[]
     NOT?: WorkflowStatusWhereInput | WorkflowStatusWhereInput[]
     id?: StringFilter<"WorkflowStatus"> | string
-    projectId?: StringFilter<"WorkflowStatus"> | string
+    workflowId?: StringFilter<"WorkflowStatus"> | string
     name?: StringFilter<"WorkflowStatus"> | string
     category?: EnumStatusCategoryFilter<"WorkflowStatus"> | $Enums.StatusCategory
     position?: IntFilter<"WorkflowStatus"> | number
     isDefault?: BoolFilter<"WorkflowStatus"> | boolean
-    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
+    workflow?: XOR<WorkflowScalarRelationFilter, WorkflowWhereInput>
     tasks?: TaskListRelationFilter
     transitionsFrom?: TransitionRuleListRelationFilter
     transitionsTo?: TransitionRuleListRelationFilter
@@ -103793,12 +105067,12 @@ export namespace Prisma {
 
   export type WorkflowStatusOrderByWithRelationInput = {
     id?: SortOrder
-    projectId?: SortOrder
+    workflowId?: SortOrder
     name?: SortOrder
     category?: SortOrder
     position?: SortOrder
     isDefault?: SortOrder
-    project?: ProjectOrderByWithRelationInput
+    workflow?: WorkflowOrderByWithRelationInput
     tasks?: TaskOrderByRelationAggregateInput
     transitionsFrom?: TransitionRuleOrderByRelationAggregateInput
     transitionsTo?: TransitionRuleOrderByRelationAggregateInput
@@ -103807,25 +105081,25 @@ export namespace Prisma {
 
   export type WorkflowStatusWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    projectId_name?: WorkflowStatusProjectIdNameCompoundUniqueInput
+    workflowId_name?: WorkflowStatusWorkflowIdNameCompoundUniqueInput
     AND?: WorkflowStatusWhereInput | WorkflowStatusWhereInput[]
     OR?: WorkflowStatusWhereInput[]
     NOT?: WorkflowStatusWhereInput | WorkflowStatusWhereInput[]
-    projectId?: StringFilter<"WorkflowStatus"> | string
+    workflowId?: StringFilter<"WorkflowStatus"> | string
     name?: StringFilter<"WorkflowStatus"> | string
     category?: EnumStatusCategoryFilter<"WorkflowStatus"> | $Enums.StatusCategory
     position?: IntFilter<"WorkflowStatus"> | number
     isDefault?: BoolFilter<"WorkflowStatus"> | boolean
-    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
+    workflow?: XOR<WorkflowScalarRelationFilter, WorkflowWhereInput>
     tasks?: TaskListRelationFilter
     transitionsFrom?: TransitionRuleListRelationFilter
     transitionsTo?: TransitionRuleListRelationFilter
     automationActions?: AutomationActionListRelationFilter
-  }, "id" | "projectId_name">
+  }, "id" | "workflowId_name">
 
   export type WorkflowStatusOrderByWithAggregationInput = {
     id?: SortOrder
-    projectId?: SortOrder
+    workflowId?: SortOrder
     name?: SortOrder
     category?: SortOrder
     position?: SortOrder
@@ -103842,7 +105116,7 @@ export namespace Prisma {
     OR?: WorkflowStatusScalarWhereWithAggregatesInput[]
     NOT?: WorkflowStatusScalarWhereWithAggregatesInput | WorkflowStatusScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"WorkflowStatus"> | string
-    projectId?: StringWithAggregatesFilter<"WorkflowStatus"> | string
+    workflowId?: StringWithAggregatesFilter<"WorkflowStatus"> | string
     name?: StringWithAggregatesFilter<"WorkflowStatus"> | string
     category?: EnumStatusCategoryWithAggregatesFilter<"WorkflowStatus"> | $Enums.StatusCategory
     position?: IntWithAggregatesFilter<"WorkflowStatus"> | number
@@ -108909,7 +110183,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -108953,10 +110227,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -108997,7 +110271,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -109041,10 +110315,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -109085,6 +110359,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
@@ -109120,6 +110395,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -109773,13 +111049,70 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type WorkflowCreateInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+    statuses?: WorkflowStatusCreateNestedManyWithoutWorkflowInput
+    projects?: ProjectCreateNestedManyWithoutWorkflowInput
+  }
+
+  export type WorkflowUncheckedCreateInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutWorkflowInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutWorkflowInput
+  }
+
+  export type WorkflowUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    statuses?: WorkflowStatusUpdateManyWithoutWorkflowNestedInput
+    projects?: ProjectUpdateManyWithoutWorkflowNestedInput
+  }
+
+  export type WorkflowUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    statuses?: WorkflowStatusUncheckedUpdateManyWithoutWorkflowNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutWorkflowNestedInput
+  }
+
+  export type WorkflowCreateManyInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+  }
+
+  export type WorkflowUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkflowUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type WorkflowStatusCreateInput = {
     id?: string
     name: string
     category: $Enums.StatusCategory
     position: number
     isDefault?: boolean
-    project: ProjectCreateNestedOneWithoutStatusesInput
+    workflow: WorkflowCreateNestedOneWithoutStatusesInput
     tasks?: TaskCreateNestedManyWithoutStatusInput
     transitionsFrom?: TransitionRuleCreateNestedManyWithoutFromStatusInput
     transitionsTo?: TransitionRuleCreateNestedManyWithoutToStatusInput
@@ -109788,7 +111121,7 @@ export namespace Prisma {
 
   export type WorkflowStatusUncheckedCreateInput = {
     id?: string
-    projectId: string
+    workflowId: string
     name: string
     category: $Enums.StatusCategory
     position: number
@@ -109805,7 +111138,7 @@ export namespace Prisma {
     category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
     position?: IntFieldUpdateOperationsInput | number
     isDefault?: BoolFieldUpdateOperationsInput | boolean
-    project?: ProjectUpdateOneRequiredWithoutStatusesNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutStatusesNestedInput
     tasks?: TaskUpdateManyWithoutStatusNestedInput
     transitionsFrom?: TransitionRuleUpdateManyWithoutFromStatusNestedInput
     transitionsTo?: TransitionRuleUpdateManyWithoutToStatusNestedInput
@@ -109814,7 +111147,7 @@ export namespace Prisma {
 
   export type WorkflowStatusUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    projectId?: StringFieldUpdateOperationsInput | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
     position?: IntFieldUpdateOperationsInput | number
@@ -109827,7 +111160,7 @@ export namespace Prisma {
 
   export type WorkflowStatusCreateManyInput = {
     id?: string
-    projectId: string
+    workflowId: string
     name: string
     category: $Enums.StatusCategory
     position: number
@@ -109844,7 +111177,7 @@ export namespace Prisma {
 
   export type WorkflowStatusUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    projectId?: StringFieldUpdateOperationsInput | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
     position?: IntFieldUpdateOperationsInput | number
@@ -115047,10 +116380,9 @@ export namespace Prisma {
     not?: NestedEnumProjectTypeFilter<$PrismaModel> | $Enums.ProjectType
   }
 
-  export type WorkflowStatusListRelationFilter = {
-    every?: WorkflowStatusWhereInput
-    some?: WorkflowStatusWhereInput
-    none?: WorkflowStatusWhereInput
+  export type WorkflowScalarRelationFilter = {
+    is?: WorkflowWhereInput
+    isNot?: WorkflowWhereInput
   }
 
   export type TaskProjectListRelationFilter = {
@@ -115112,10 +116444,6 @@ export namespace Prisma {
     none?: DashboardWidgetWhereInput
   }
 
-  export type WorkflowStatusOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type TaskProjectOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -115166,6 +116494,7 @@ export namespace Prisma {
     timeApprovalRequired?: SortOrder
     expenseApprovalRequired?: SortOrder
     createdAt?: SortOrder
+    workflowId?: SortOrder
     portfolioId?: SortOrder
     clientId?: SortOrder
     projectManagerId?: SortOrder
@@ -115190,6 +116519,7 @@ export namespace Prisma {
     timeApprovalRequired?: SortOrder
     expenseApprovalRequired?: SortOrder
     createdAt?: SortOrder
+    workflowId?: SortOrder
     portfolioId?: SortOrder
     clientId?: SortOrder
     projectManagerId?: SortOrder
@@ -115208,6 +116538,7 @@ export namespace Prisma {
     timeApprovalRequired?: SortOrder
     expenseApprovalRequired?: SortOrder
     createdAt?: SortOrder
+    workflowId?: SortOrder
     portfolioId?: SortOrder
     clientId?: SortOrder
     projectManagerId?: SortOrder
@@ -115756,14 +117087,45 @@ export namespace Prisma {
     _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
-  export type WorkflowStatusProjectIdNameCompoundUniqueInput = {
-    projectId: string
+  export type WorkflowStatusListRelationFilter = {
+    every?: WorkflowStatusWhereInput
+    some?: WorkflowStatusWhereInput
+    none?: WorkflowStatusWhereInput
+  }
+
+  export type WorkflowStatusOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WorkflowCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type WorkflowMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type WorkflowMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type WorkflowStatusWorkflowIdNameCompoundUniqueInput = {
+    workflowId: string
     name: string
   }
 
   export type WorkflowStatusCountOrderByAggregateInput = {
     id?: SortOrder
-    projectId?: SortOrder
+    workflowId?: SortOrder
     name?: SortOrder
     category?: SortOrder
     position?: SortOrder
@@ -115776,7 +117138,7 @@ export namespace Prisma {
 
   export type WorkflowStatusMaxOrderByAggregateInput = {
     id?: SortOrder
-    projectId?: SortOrder
+    workflowId?: SortOrder
     name?: SortOrder
     category?: SortOrder
     position?: SortOrder
@@ -115785,7 +117147,7 @@ export namespace Prisma {
 
   export type WorkflowStatusMinOrderByAggregateInput = {
     id?: SortOrder
-    projectId?: SortOrder
+    workflowId?: SortOrder
     name?: SortOrder
     category?: SortOrder
     position?: SortOrder
@@ -120973,11 +122335,10 @@ export namespace Prisma {
     set: string[]
   }
 
-  export type WorkflowStatusCreateNestedManyWithoutProjectInput = {
-    create?: XOR<WorkflowStatusCreateWithoutProjectInput, WorkflowStatusUncheckedCreateWithoutProjectInput> | WorkflowStatusCreateWithoutProjectInput[] | WorkflowStatusUncheckedCreateWithoutProjectInput[]
-    connectOrCreate?: WorkflowStatusCreateOrConnectWithoutProjectInput | WorkflowStatusCreateOrConnectWithoutProjectInput[]
-    createMany?: WorkflowStatusCreateManyProjectInputEnvelope
-    connect?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
+  export type WorkflowCreateNestedOneWithoutProjectsInput = {
+    create?: XOR<WorkflowCreateWithoutProjectsInput, WorkflowUncheckedCreateWithoutProjectsInput>
+    connectOrCreate?: WorkflowCreateOrConnectWithoutProjectsInput
+    connect?: WorkflowWhereUniqueInput
   }
 
   export type TaskProjectCreateNestedManyWithoutProjectInput = {
@@ -121166,13 +122527,6 @@ export namespace Prisma {
     connect?: DashboardWidgetWhereUniqueInput | DashboardWidgetWhereUniqueInput[]
   }
 
-  export type WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput = {
-    create?: XOR<WorkflowStatusCreateWithoutProjectInput, WorkflowStatusUncheckedCreateWithoutProjectInput> | WorkflowStatusCreateWithoutProjectInput[] | WorkflowStatusUncheckedCreateWithoutProjectInput[]
-    connectOrCreate?: WorkflowStatusCreateOrConnectWithoutProjectInput | WorkflowStatusCreateOrConnectWithoutProjectInput[]
-    createMany?: WorkflowStatusCreateManyProjectInputEnvelope
-    connect?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
-  }
-
   export type TaskProjectUncheckedCreateNestedManyWithoutProjectInput = {
     create?: XOR<TaskProjectCreateWithoutProjectInput, TaskProjectUncheckedCreateWithoutProjectInput> | TaskProjectCreateWithoutProjectInput[] | TaskProjectUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: TaskProjectCreateOrConnectWithoutProjectInput | TaskProjectCreateOrConnectWithoutProjectInput[]
@@ -121350,18 +122704,12 @@ export namespace Prisma {
     push?: string | string[]
   }
 
-  export type WorkflowStatusUpdateManyWithoutProjectNestedInput = {
-    create?: XOR<WorkflowStatusCreateWithoutProjectInput, WorkflowStatusUncheckedCreateWithoutProjectInput> | WorkflowStatusCreateWithoutProjectInput[] | WorkflowStatusUncheckedCreateWithoutProjectInput[]
-    connectOrCreate?: WorkflowStatusCreateOrConnectWithoutProjectInput | WorkflowStatusCreateOrConnectWithoutProjectInput[]
-    upsert?: WorkflowStatusUpsertWithWhereUniqueWithoutProjectInput | WorkflowStatusUpsertWithWhereUniqueWithoutProjectInput[]
-    createMany?: WorkflowStatusCreateManyProjectInputEnvelope
-    set?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
-    disconnect?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
-    delete?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
-    connect?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
-    update?: WorkflowStatusUpdateWithWhereUniqueWithoutProjectInput | WorkflowStatusUpdateWithWhereUniqueWithoutProjectInput[]
-    updateMany?: WorkflowStatusUpdateManyWithWhereWithoutProjectInput | WorkflowStatusUpdateManyWithWhereWithoutProjectInput[]
-    deleteMany?: WorkflowStatusScalarWhereInput | WorkflowStatusScalarWhereInput[]
+  export type WorkflowUpdateOneRequiredWithoutProjectsNestedInput = {
+    create?: XOR<WorkflowCreateWithoutProjectsInput, WorkflowUncheckedCreateWithoutProjectsInput>
+    connectOrCreate?: WorkflowCreateOrConnectWithoutProjectsInput
+    upsert?: WorkflowUpsertWithoutProjectsInput
+    connect?: WorkflowWhereUniqueInput
+    update?: XOR<XOR<WorkflowUpdateToOneWithWhereWithoutProjectsInput, WorkflowUpdateWithoutProjectsInput>, WorkflowUncheckedUpdateWithoutProjectsInput>
   }
 
   export type TaskProjectUpdateManyWithoutProjectNestedInput = {
@@ -121728,20 +123076,6 @@ export namespace Prisma {
     update?: DashboardWidgetUpdateWithWhereUniqueWithoutFilterProjectInput | DashboardWidgetUpdateWithWhereUniqueWithoutFilterProjectInput[]
     updateMany?: DashboardWidgetUpdateManyWithWhereWithoutFilterProjectInput | DashboardWidgetUpdateManyWithWhereWithoutFilterProjectInput[]
     deleteMany?: DashboardWidgetScalarWhereInput | DashboardWidgetScalarWhereInput[]
-  }
-
-  export type WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput = {
-    create?: XOR<WorkflowStatusCreateWithoutProjectInput, WorkflowStatusUncheckedCreateWithoutProjectInput> | WorkflowStatusCreateWithoutProjectInput[] | WorkflowStatusUncheckedCreateWithoutProjectInput[]
-    connectOrCreate?: WorkflowStatusCreateOrConnectWithoutProjectInput | WorkflowStatusCreateOrConnectWithoutProjectInput[]
-    upsert?: WorkflowStatusUpsertWithWhereUniqueWithoutProjectInput | WorkflowStatusUpsertWithWhereUniqueWithoutProjectInput[]
-    createMany?: WorkflowStatusCreateManyProjectInputEnvelope
-    set?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
-    disconnect?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
-    delete?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
-    connect?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
-    update?: WorkflowStatusUpdateWithWhereUniqueWithoutProjectInput | WorkflowStatusUpdateWithWhereUniqueWithoutProjectInput[]
-    updateMany?: WorkflowStatusUpdateManyWithWhereWithoutProjectInput | WorkflowStatusUpdateManyWithWhereWithoutProjectInput[]
-    deleteMany?: WorkflowStatusScalarWhereInput | WorkflowStatusScalarWhereInput[]
   }
 
   export type TaskProjectUncheckedUpdateManyWithoutProjectNestedInput = {
@@ -122547,10 +123881,94 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSavedViewsInput, UserUpdateWithoutSavedViewsInput>, UserUncheckedUpdateWithoutSavedViewsInput>
   }
 
-  export type ProjectCreateNestedOneWithoutStatusesInput = {
-    create?: XOR<ProjectCreateWithoutStatusesInput, ProjectUncheckedCreateWithoutStatusesInput>
-    connectOrCreate?: ProjectCreateOrConnectWithoutStatusesInput
-    connect?: ProjectWhereUniqueInput
+  export type WorkflowStatusCreateNestedManyWithoutWorkflowInput = {
+    create?: XOR<WorkflowStatusCreateWithoutWorkflowInput, WorkflowStatusUncheckedCreateWithoutWorkflowInput> | WorkflowStatusCreateWithoutWorkflowInput[] | WorkflowStatusUncheckedCreateWithoutWorkflowInput[]
+    connectOrCreate?: WorkflowStatusCreateOrConnectWithoutWorkflowInput | WorkflowStatusCreateOrConnectWithoutWorkflowInput[]
+    createMany?: WorkflowStatusCreateManyWorkflowInputEnvelope
+    connect?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
+  }
+
+  export type ProjectCreateNestedManyWithoutWorkflowInput = {
+    create?: XOR<ProjectCreateWithoutWorkflowInput, ProjectUncheckedCreateWithoutWorkflowInput> | ProjectCreateWithoutWorkflowInput[] | ProjectUncheckedCreateWithoutWorkflowInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutWorkflowInput | ProjectCreateOrConnectWithoutWorkflowInput[]
+    createMany?: ProjectCreateManyWorkflowInputEnvelope
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+  }
+
+  export type WorkflowStatusUncheckedCreateNestedManyWithoutWorkflowInput = {
+    create?: XOR<WorkflowStatusCreateWithoutWorkflowInput, WorkflowStatusUncheckedCreateWithoutWorkflowInput> | WorkflowStatusCreateWithoutWorkflowInput[] | WorkflowStatusUncheckedCreateWithoutWorkflowInput[]
+    connectOrCreate?: WorkflowStatusCreateOrConnectWithoutWorkflowInput | WorkflowStatusCreateOrConnectWithoutWorkflowInput[]
+    createMany?: WorkflowStatusCreateManyWorkflowInputEnvelope
+    connect?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
+  }
+
+  export type ProjectUncheckedCreateNestedManyWithoutWorkflowInput = {
+    create?: XOR<ProjectCreateWithoutWorkflowInput, ProjectUncheckedCreateWithoutWorkflowInput> | ProjectCreateWithoutWorkflowInput[] | ProjectUncheckedCreateWithoutWorkflowInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutWorkflowInput | ProjectCreateOrConnectWithoutWorkflowInput[]
+    createMany?: ProjectCreateManyWorkflowInputEnvelope
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+  }
+
+  export type WorkflowStatusUpdateManyWithoutWorkflowNestedInput = {
+    create?: XOR<WorkflowStatusCreateWithoutWorkflowInput, WorkflowStatusUncheckedCreateWithoutWorkflowInput> | WorkflowStatusCreateWithoutWorkflowInput[] | WorkflowStatusUncheckedCreateWithoutWorkflowInput[]
+    connectOrCreate?: WorkflowStatusCreateOrConnectWithoutWorkflowInput | WorkflowStatusCreateOrConnectWithoutWorkflowInput[]
+    upsert?: WorkflowStatusUpsertWithWhereUniqueWithoutWorkflowInput | WorkflowStatusUpsertWithWhereUniqueWithoutWorkflowInput[]
+    createMany?: WorkflowStatusCreateManyWorkflowInputEnvelope
+    set?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
+    disconnect?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
+    delete?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
+    connect?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
+    update?: WorkflowStatusUpdateWithWhereUniqueWithoutWorkflowInput | WorkflowStatusUpdateWithWhereUniqueWithoutWorkflowInput[]
+    updateMany?: WorkflowStatusUpdateManyWithWhereWithoutWorkflowInput | WorkflowStatusUpdateManyWithWhereWithoutWorkflowInput[]
+    deleteMany?: WorkflowStatusScalarWhereInput | WorkflowStatusScalarWhereInput[]
+  }
+
+  export type ProjectUpdateManyWithoutWorkflowNestedInput = {
+    create?: XOR<ProjectCreateWithoutWorkflowInput, ProjectUncheckedCreateWithoutWorkflowInput> | ProjectCreateWithoutWorkflowInput[] | ProjectUncheckedCreateWithoutWorkflowInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutWorkflowInput | ProjectCreateOrConnectWithoutWorkflowInput[]
+    upsert?: ProjectUpsertWithWhereUniqueWithoutWorkflowInput | ProjectUpsertWithWhereUniqueWithoutWorkflowInput[]
+    createMany?: ProjectCreateManyWorkflowInputEnvelope
+    set?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    disconnect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    delete?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    update?: ProjectUpdateWithWhereUniqueWithoutWorkflowInput | ProjectUpdateWithWhereUniqueWithoutWorkflowInput[]
+    updateMany?: ProjectUpdateManyWithWhereWithoutWorkflowInput | ProjectUpdateManyWithWhereWithoutWorkflowInput[]
+    deleteMany?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
+  }
+
+  export type WorkflowStatusUncheckedUpdateManyWithoutWorkflowNestedInput = {
+    create?: XOR<WorkflowStatusCreateWithoutWorkflowInput, WorkflowStatusUncheckedCreateWithoutWorkflowInput> | WorkflowStatusCreateWithoutWorkflowInput[] | WorkflowStatusUncheckedCreateWithoutWorkflowInput[]
+    connectOrCreate?: WorkflowStatusCreateOrConnectWithoutWorkflowInput | WorkflowStatusCreateOrConnectWithoutWorkflowInput[]
+    upsert?: WorkflowStatusUpsertWithWhereUniqueWithoutWorkflowInput | WorkflowStatusUpsertWithWhereUniqueWithoutWorkflowInput[]
+    createMany?: WorkflowStatusCreateManyWorkflowInputEnvelope
+    set?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
+    disconnect?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
+    delete?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
+    connect?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
+    update?: WorkflowStatusUpdateWithWhereUniqueWithoutWorkflowInput | WorkflowStatusUpdateWithWhereUniqueWithoutWorkflowInput[]
+    updateMany?: WorkflowStatusUpdateManyWithWhereWithoutWorkflowInput | WorkflowStatusUpdateManyWithWhereWithoutWorkflowInput[]
+    deleteMany?: WorkflowStatusScalarWhereInput | WorkflowStatusScalarWhereInput[]
+  }
+
+  export type ProjectUncheckedUpdateManyWithoutWorkflowNestedInput = {
+    create?: XOR<ProjectCreateWithoutWorkflowInput, ProjectUncheckedCreateWithoutWorkflowInput> | ProjectCreateWithoutWorkflowInput[] | ProjectUncheckedCreateWithoutWorkflowInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutWorkflowInput | ProjectCreateOrConnectWithoutWorkflowInput[]
+    upsert?: ProjectUpsertWithWhereUniqueWithoutWorkflowInput | ProjectUpsertWithWhereUniqueWithoutWorkflowInput[]
+    createMany?: ProjectCreateManyWorkflowInputEnvelope
+    set?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    disconnect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    delete?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    update?: ProjectUpdateWithWhereUniqueWithoutWorkflowInput | ProjectUpdateWithWhereUniqueWithoutWorkflowInput[]
+    updateMany?: ProjectUpdateManyWithWhereWithoutWorkflowInput | ProjectUpdateManyWithWhereWithoutWorkflowInput[]
+    deleteMany?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
+  }
+
+  export type WorkflowCreateNestedOneWithoutStatusesInput = {
+    create?: XOR<WorkflowCreateWithoutStatusesInput, WorkflowUncheckedCreateWithoutStatusesInput>
+    connectOrCreate?: WorkflowCreateOrConnectWithoutStatusesInput
+    connect?: WorkflowWhereUniqueInput
   }
 
   export type TaskCreateNestedManyWithoutStatusInput = {
@@ -122609,12 +124027,12 @@ export namespace Prisma {
     connect?: AutomationActionWhereUniqueInput | AutomationActionWhereUniqueInput[]
   }
 
-  export type ProjectUpdateOneRequiredWithoutStatusesNestedInput = {
-    create?: XOR<ProjectCreateWithoutStatusesInput, ProjectUncheckedCreateWithoutStatusesInput>
-    connectOrCreate?: ProjectCreateOrConnectWithoutStatusesInput
-    upsert?: ProjectUpsertWithoutStatusesInput
-    connect?: ProjectWhereUniqueInput
-    update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutStatusesInput, ProjectUpdateWithoutStatusesInput>, ProjectUncheckedUpdateWithoutStatusesInput>
+  export type WorkflowUpdateOneRequiredWithoutStatusesNestedInput = {
+    create?: XOR<WorkflowCreateWithoutStatusesInput, WorkflowUncheckedCreateWithoutStatusesInput>
+    connectOrCreate?: WorkflowCreateOrConnectWithoutStatusesInput
+    upsert?: WorkflowUpsertWithoutStatusesInput
+    connect?: WorkflowWhereUniqueInput
+    update?: XOR<XOR<WorkflowUpdateToOneWithWhereWithoutStatusesInput, WorkflowUpdateWithoutStatusesInput>, WorkflowUncheckedUpdateWithoutStatusesInput>
   }
 
   export type TaskUpdateManyWithoutStatusNestedInput = {
@@ -127799,7 +129217,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -127842,9 +129260,9 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -129717,6 +131135,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFilter<"Project"> | boolean
     expenseApprovalRequired?: BoolFilter<"Project"> | boolean
     createdAt?: DateTimeFilter<"Project"> | Date | string
+    workflowId?: StringFilter<"Project"> | string
     portfolioId?: StringNullableFilter<"Project"> | string | null
     clientId?: StringNullableFilter<"Project"> | string | null
     projectManagerId?: StringNullableFilter<"Project"> | string | null
@@ -130804,7 +132223,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -130847,9 +132266,9 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -131512,7 +132931,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -131555,10 +132974,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -131810,7 +133229,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -131853,10 +133272,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -131896,7 +133315,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -131939,10 +133358,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -132141,7 +133560,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -132184,10 +133603,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -132580,7 +133999,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -132623,10 +134042,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -132846,7 +134265,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -132889,10 +134308,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -134568,7 +135987,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -134611,10 +136030,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -134813,7 +136232,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -134856,10 +136275,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -135048,7 +136467,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -135091,10 +136510,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -135150,7 +136569,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -135193,10 +136612,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -135222,38 +136641,25 @@ export namespace Prisma {
     dashboardWidgetFilters?: DashboardWidgetUncheckedUpdateManyWithoutFilterProjectNestedInput
   }
 
-  export type WorkflowStatusCreateWithoutProjectInput = {
+  export type WorkflowCreateWithoutProjectsInput = {
     id?: string
     name: string
-    category: $Enums.StatusCategory
-    position: number
-    isDefault?: boolean
-    tasks?: TaskCreateNestedManyWithoutStatusInput
-    transitionsFrom?: TransitionRuleCreateNestedManyWithoutFromStatusInput
-    transitionsTo?: TransitionRuleCreateNestedManyWithoutToStatusInput
-    automationActions?: AutomationActionCreateNestedManyWithoutTargetStatusInput
+    archived?: boolean
+    createdAt?: Date | string
+    statuses?: WorkflowStatusCreateNestedManyWithoutWorkflowInput
   }
 
-  export type WorkflowStatusUncheckedCreateWithoutProjectInput = {
+  export type WorkflowUncheckedCreateWithoutProjectsInput = {
     id?: string
     name: string
-    category: $Enums.StatusCategory
-    position: number
-    isDefault?: boolean
-    tasks?: TaskUncheckedCreateNestedManyWithoutStatusInput
-    transitionsFrom?: TransitionRuleUncheckedCreateNestedManyWithoutFromStatusInput
-    transitionsTo?: TransitionRuleUncheckedCreateNestedManyWithoutToStatusInput
-    automationActions?: AutomationActionUncheckedCreateNestedManyWithoutTargetStatusInput
+    archived?: boolean
+    createdAt?: Date | string
+    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutWorkflowInput
   }
 
-  export type WorkflowStatusCreateOrConnectWithoutProjectInput = {
-    where: WorkflowStatusWhereUniqueInput
-    create: XOR<WorkflowStatusCreateWithoutProjectInput, WorkflowStatusUncheckedCreateWithoutProjectInput>
-  }
-
-  export type WorkflowStatusCreateManyProjectInputEnvelope = {
-    data: WorkflowStatusCreateManyProjectInput | WorkflowStatusCreateManyProjectInput[]
-    skipDuplicates?: boolean
+  export type WorkflowCreateOrConnectWithoutProjectsInput = {
+    where: WorkflowWhereUniqueInput
+    create: XOR<WorkflowCreateWithoutProjectsInput, WorkflowUncheckedCreateWithoutProjectsInput>
   }
 
   export type TaskProjectCreateWithoutProjectInput = {
@@ -136209,32 +137615,31 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type WorkflowStatusUpsertWithWhereUniqueWithoutProjectInput = {
-    where: WorkflowStatusWhereUniqueInput
-    update: XOR<WorkflowStatusUpdateWithoutProjectInput, WorkflowStatusUncheckedUpdateWithoutProjectInput>
-    create: XOR<WorkflowStatusCreateWithoutProjectInput, WorkflowStatusUncheckedCreateWithoutProjectInput>
+  export type WorkflowUpsertWithoutProjectsInput = {
+    update: XOR<WorkflowUpdateWithoutProjectsInput, WorkflowUncheckedUpdateWithoutProjectsInput>
+    create: XOR<WorkflowCreateWithoutProjectsInput, WorkflowUncheckedCreateWithoutProjectsInput>
+    where?: WorkflowWhereInput
   }
 
-  export type WorkflowStatusUpdateWithWhereUniqueWithoutProjectInput = {
-    where: WorkflowStatusWhereUniqueInput
-    data: XOR<WorkflowStatusUpdateWithoutProjectInput, WorkflowStatusUncheckedUpdateWithoutProjectInput>
+  export type WorkflowUpdateToOneWithWhereWithoutProjectsInput = {
+    where?: WorkflowWhereInput
+    data: XOR<WorkflowUpdateWithoutProjectsInput, WorkflowUncheckedUpdateWithoutProjectsInput>
   }
 
-  export type WorkflowStatusUpdateManyWithWhereWithoutProjectInput = {
-    where: WorkflowStatusScalarWhereInput
-    data: XOR<WorkflowStatusUpdateManyMutationInput, WorkflowStatusUncheckedUpdateManyWithoutProjectInput>
+  export type WorkflowUpdateWithoutProjectsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    statuses?: WorkflowStatusUpdateManyWithoutWorkflowNestedInput
   }
 
-  export type WorkflowStatusScalarWhereInput = {
-    AND?: WorkflowStatusScalarWhereInput | WorkflowStatusScalarWhereInput[]
-    OR?: WorkflowStatusScalarWhereInput[]
-    NOT?: WorkflowStatusScalarWhereInput | WorkflowStatusScalarWhereInput[]
-    id?: StringFilter<"WorkflowStatus"> | string
-    projectId?: StringFilter<"WorkflowStatus"> | string
-    name?: StringFilter<"WorkflowStatus"> | string
-    category?: EnumStatusCategoryFilter<"WorkflowStatus"> | $Enums.StatusCategory
-    position?: IntFilter<"WorkflowStatus"> | number
-    isDefault?: BoolFilter<"WorkflowStatus"> | boolean
+  export type WorkflowUncheckedUpdateWithoutProjectsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    statuses?: WorkflowStatusUncheckedUpdateManyWithoutWorkflowNestedInput
   }
 
   export type TaskProjectUpsertWithWhereUniqueWithoutProjectInput = {
@@ -136965,7 +138370,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -137008,10 +138413,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -137093,7 +138498,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -137136,10 +138541,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -137364,7 +138769,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -137407,10 +138812,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -137494,7 +138899,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -137537,10 +138942,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -137653,7 +139058,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -137696,9 +139101,9 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -137867,7 +139272,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -137910,10 +139315,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -138063,7 +139468,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -138106,10 +139511,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -138165,7 +139570,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -138208,10 +139613,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -138248,7 +139653,7 @@ export namespace Prisma {
     category: $Enums.StatusCategory
     position: number
     isDefault?: boolean
-    project: ProjectCreateNestedOneWithoutStatusesInput
+    workflow: WorkflowCreateNestedOneWithoutStatusesInput
     tasks?: TaskCreateNestedManyWithoutStatusInput
     transitionsTo?: TransitionRuleCreateNestedManyWithoutToStatusInput
     automationActions?: AutomationActionCreateNestedManyWithoutTargetStatusInput
@@ -138256,7 +139661,7 @@ export namespace Prisma {
 
   export type WorkflowStatusUncheckedCreateWithoutTransitionsFromInput = {
     id?: string
-    projectId: string
+    workflowId: string
     name: string
     category: $Enums.StatusCategory
     position: number
@@ -138277,7 +139682,7 @@ export namespace Prisma {
     category: $Enums.StatusCategory
     position: number
     isDefault?: boolean
-    project: ProjectCreateNestedOneWithoutStatusesInput
+    workflow: WorkflowCreateNestedOneWithoutStatusesInput
     tasks?: TaskCreateNestedManyWithoutStatusInput
     transitionsFrom?: TransitionRuleCreateNestedManyWithoutFromStatusInput
     automationActions?: AutomationActionCreateNestedManyWithoutTargetStatusInput
@@ -138285,7 +139690,7 @@ export namespace Prisma {
 
   export type WorkflowStatusUncheckedCreateWithoutTransitionsToInput = {
     id?: string
-    projectId: string
+    workflowId: string
     name: string
     category: $Enums.StatusCategory
     position: number
@@ -138325,7 +139730,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -138368,10 +139773,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -138414,7 +139819,7 @@ export namespace Prisma {
     category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
     position?: IntFieldUpdateOperationsInput | number
     isDefault?: BoolFieldUpdateOperationsInput | boolean
-    project?: ProjectUpdateOneRequiredWithoutStatusesNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutStatusesNestedInput
     tasks?: TaskUpdateManyWithoutStatusNestedInput
     transitionsTo?: TransitionRuleUpdateManyWithoutToStatusNestedInput
     automationActions?: AutomationActionUpdateManyWithoutTargetStatusNestedInput
@@ -138422,7 +139827,7 @@ export namespace Prisma {
 
   export type WorkflowStatusUncheckedUpdateWithoutTransitionsFromInput = {
     id?: StringFieldUpdateOperationsInput | string
-    projectId?: StringFieldUpdateOperationsInput | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
     position?: IntFieldUpdateOperationsInput | number
@@ -138449,7 +139854,7 @@ export namespace Prisma {
     category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
     position?: IntFieldUpdateOperationsInput | number
     isDefault?: BoolFieldUpdateOperationsInput | boolean
-    project?: ProjectUpdateOneRequiredWithoutStatusesNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutStatusesNestedInput
     tasks?: TaskUpdateManyWithoutStatusNestedInput
     transitionsFrom?: TransitionRuleUpdateManyWithoutFromStatusNestedInput
     automationActions?: AutomationActionUpdateManyWithoutTargetStatusNestedInput
@@ -138457,7 +139862,7 @@ export namespace Prisma {
 
   export type WorkflowStatusUncheckedUpdateWithoutTransitionsToInput = {
     id?: StringFieldUpdateOperationsInput | string
-    projectId?: StringFieldUpdateOperationsInput | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
     position?: IntFieldUpdateOperationsInput | number
@@ -138481,7 +139886,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -138524,10 +139929,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -138726,7 +140131,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -138769,10 +140174,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -138961,7 +140366,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -139004,10 +140409,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -139206,7 +140611,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -139249,10 +140654,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -139427,7 +140832,41 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
-  export type ProjectCreateWithoutStatusesInput = {
+  export type WorkflowStatusCreateWithoutWorkflowInput = {
+    id?: string
+    name: string
+    category: $Enums.StatusCategory
+    position: number
+    isDefault?: boolean
+    tasks?: TaskCreateNestedManyWithoutStatusInput
+    transitionsFrom?: TransitionRuleCreateNestedManyWithoutFromStatusInput
+    transitionsTo?: TransitionRuleCreateNestedManyWithoutToStatusInput
+    automationActions?: AutomationActionCreateNestedManyWithoutTargetStatusInput
+  }
+
+  export type WorkflowStatusUncheckedCreateWithoutWorkflowInput = {
+    id?: string
+    name: string
+    category: $Enums.StatusCategory
+    position: number
+    isDefault?: boolean
+    tasks?: TaskUncheckedCreateNestedManyWithoutStatusInput
+    transitionsFrom?: TransitionRuleUncheckedCreateNestedManyWithoutFromStatusInput
+    transitionsTo?: TransitionRuleUncheckedCreateNestedManyWithoutToStatusInput
+    automationActions?: AutomationActionUncheckedCreateNestedManyWithoutTargetStatusInput
+  }
+
+  export type WorkflowStatusCreateOrConnectWithoutWorkflowInput = {
+    where: WorkflowStatusWhereUniqueInput
+    create: XOR<WorkflowStatusCreateWithoutWorkflowInput, WorkflowStatusUncheckedCreateWithoutWorkflowInput>
+  }
+
+  export type WorkflowStatusCreateManyWorkflowInputEnvelope = {
+    data: WorkflowStatusCreateManyWorkflowInput | WorkflowStatusCreateManyWorkflowInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ProjectCreateWithoutWorkflowInput = {
     id?: string
     name: string
     description?: string | null
@@ -139470,7 +140909,7 @@ export namespace Prisma {
     dashboardWidgetFilters?: DashboardWidgetCreateNestedManyWithoutFilterProjectInput
   }
 
-  export type ProjectUncheckedCreateWithoutStatusesInput = {
+  export type ProjectUncheckedCreateWithoutWorkflowInput = {
     id?: string
     name: string
     description?: string | null
@@ -139513,9 +140952,79 @@ export namespace Prisma {
     dashboardWidgetFilters?: DashboardWidgetUncheckedCreateNestedManyWithoutFilterProjectInput
   }
 
-  export type ProjectCreateOrConnectWithoutStatusesInput = {
+  export type ProjectCreateOrConnectWithoutWorkflowInput = {
     where: ProjectWhereUniqueInput
-    create: XOR<ProjectCreateWithoutStatusesInput, ProjectUncheckedCreateWithoutStatusesInput>
+    create: XOR<ProjectCreateWithoutWorkflowInput, ProjectUncheckedCreateWithoutWorkflowInput>
+  }
+
+  export type ProjectCreateManyWorkflowInputEnvelope = {
+    data: ProjectCreateManyWorkflowInput | ProjectCreateManyWorkflowInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type WorkflowStatusUpsertWithWhereUniqueWithoutWorkflowInput = {
+    where: WorkflowStatusWhereUniqueInput
+    update: XOR<WorkflowStatusUpdateWithoutWorkflowInput, WorkflowStatusUncheckedUpdateWithoutWorkflowInput>
+    create: XOR<WorkflowStatusCreateWithoutWorkflowInput, WorkflowStatusUncheckedCreateWithoutWorkflowInput>
+  }
+
+  export type WorkflowStatusUpdateWithWhereUniqueWithoutWorkflowInput = {
+    where: WorkflowStatusWhereUniqueInput
+    data: XOR<WorkflowStatusUpdateWithoutWorkflowInput, WorkflowStatusUncheckedUpdateWithoutWorkflowInput>
+  }
+
+  export type WorkflowStatusUpdateManyWithWhereWithoutWorkflowInput = {
+    where: WorkflowStatusScalarWhereInput
+    data: XOR<WorkflowStatusUpdateManyMutationInput, WorkflowStatusUncheckedUpdateManyWithoutWorkflowInput>
+  }
+
+  export type WorkflowStatusScalarWhereInput = {
+    AND?: WorkflowStatusScalarWhereInput | WorkflowStatusScalarWhereInput[]
+    OR?: WorkflowStatusScalarWhereInput[]
+    NOT?: WorkflowStatusScalarWhereInput | WorkflowStatusScalarWhereInput[]
+    id?: StringFilter<"WorkflowStatus"> | string
+    workflowId?: StringFilter<"WorkflowStatus"> | string
+    name?: StringFilter<"WorkflowStatus"> | string
+    category?: EnumStatusCategoryFilter<"WorkflowStatus"> | $Enums.StatusCategory
+    position?: IntFilter<"WorkflowStatus"> | number
+    isDefault?: BoolFilter<"WorkflowStatus"> | boolean
+  }
+
+  export type ProjectUpsertWithWhereUniqueWithoutWorkflowInput = {
+    where: ProjectWhereUniqueInput
+    update: XOR<ProjectUpdateWithoutWorkflowInput, ProjectUncheckedUpdateWithoutWorkflowInput>
+    create: XOR<ProjectCreateWithoutWorkflowInput, ProjectUncheckedCreateWithoutWorkflowInput>
+  }
+
+  export type ProjectUpdateWithWhereUniqueWithoutWorkflowInput = {
+    where: ProjectWhereUniqueInput
+    data: XOR<ProjectUpdateWithoutWorkflowInput, ProjectUncheckedUpdateWithoutWorkflowInput>
+  }
+
+  export type ProjectUpdateManyWithWhereWithoutWorkflowInput = {
+    where: ProjectScalarWhereInput
+    data: XOR<ProjectUpdateManyMutationInput, ProjectUncheckedUpdateManyWithoutWorkflowInput>
+  }
+
+  export type WorkflowCreateWithoutStatusesInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+    projects?: ProjectCreateNestedManyWithoutWorkflowInput
+  }
+
+  export type WorkflowUncheckedCreateWithoutStatusesInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+    projects?: ProjectUncheckedCreateNestedManyWithoutWorkflowInput
+  }
+
+  export type WorkflowCreateOrConnectWithoutStatusesInput = {
+    where: WorkflowWhereUniqueInput
+    create: XOR<WorkflowCreateWithoutStatusesInput, WorkflowUncheckedCreateWithoutStatusesInput>
   }
 
   export type TaskCreateWithoutStatusInput = {
@@ -139694,101 +141203,31 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ProjectUpsertWithoutStatusesInput = {
-    update: XOR<ProjectUpdateWithoutStatusesInput, ProjectUncheckedUpdateWithoutStatusesInput>
-    create: XOR<ProjectCreateWithoutStatusesInput, ProjectUncheckedCreateWithoutStatusesInput>
-    where?: ProjectWhereInput
+  export type WorkflowUpsertWithoutStatusesInput = {
+    update: XOR<WorkflowUpdateWithoutStatusesInput, WorkflowUncheckedUpdateWithoutStatusesInput>
+    create: XOR<WorkflowCreateWithoutStatusesInput, WorkflowUncheckedCreateWithoutStatusesInput>
+    where?: WorkflowWhereInput
   }
 
-  export type ProjectUpdateToOneWithWhereWithoutStatusesInput = {
-    where?: ProjectWhereInput
-    data: XOR<ProjectUpdateWithoutStatusesInput, ProjectUncheckedUpdateWithoutStatusesInput>
+  export type WorkflowUpdateToOneWithWhereWithoutStatusesInput = {
+    where?: WorkflowWhereInput
+    data: XOR<WorkflowUpdateWithoutStatusesInput, WorkflowUncheckedUpdateWithoutStatusesInput>
   }
 
-  export type ProjectUpdateWithoutStatusesInput = {
+  export type WorkflowUpdateWithoutStatusesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    budgetHours?: NullableFloatFieldUpdateOperationsInput | number | null
-    budgetAmount?: NullableFloatFieldUpdateOperationsInput | number | null
-    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
-    type?: EnumProjectTypeFieldUpdateOperationsInput | $Enums.ProjectType
-    color?: StringFieldUpdateOperationsInput | string
-    isTemplate?: BoolFieldUpdateOperationsInput | boolean
-    enabledModules?: ProjectUpdateenabledModulesInput | string[]
-    timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
-    expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
-    customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
-    timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
-    wikiPages?: WikiPageUpdateManyWithoutProjectNestedInput
-    activityEvents?: ActivityEventUpdateManyWithoutProjectNestedInput
-    notificationPreferences?: NotificationPreferenceUpdateManyWithoutProjectNestedInput
-    checkInSchedules?: CheckInScheduleUpdateManyWithoutProjectNestedInput
-    budgets?: BudgetUpdateManyWithoutProjectNestedInput
-    transitionRules?: TransitionRuleUpdateManyWithoutProjectNestedInput
-    cycles?: CycleUpdateManyWithoutProjectNestedInput
-    clientAccess?: ProjectClientAccessUpdateManyWithoutProjectNestedInput
-    sharedViews?: SharedViewUpdateManyWithoutProjectNestedInput
-    slackCaptureConfigs?: SlackCaptureConfigUpdateManyWithoutDefaultProjectNestedInput
-    portfolio?: PortfolioUpdateOneWithoutProjectsNestedInput
-    baselines?: BaselineUpdateManyWithoutProjectNestedInput
-    roleOverrides?: ProjectRoleOverrideUpdateManyWithoutProjectNestedInput
-    client?: ClientUpdateOneWithoutProjectsNestedInput
-    projectManager?: UserUpdateOneWithoutManagedProjectsNestedInput
-    members?: ProjectMemberUpdateManyWithoutProjectNestedInput
-    taskFolders?: TaskFolderUpdateManyWithoutProjectNestedInput
-    savedViews?: SavedViewUpdateManyWithoutProjectNestedInput
-    resourceBookings?: ResourceBookingUpdateManyWithoutProjectNestedInput
-    meetings?: MeetingUpdateManyWithoutProjectNestedInput
-    expenses?: ExpenseUpdateManyWithoutProjectNestedInput
-    purchaseOrders?: PurchaseOrderUpdateManyWithoutProjectNestedInput
-    deals?: DealUpdateManyWithoutProjectNestedInput
-    dashboardWidgetFilters?: DashboardWidgetUpdateManyWithoutFilterProjectNestedInput
+    projects?: ProjectUpdateManyWithoutWorkflowNestedInput
   }
 
-  export type ProjectUncheckedUpdateWithoutStatusesInput = {
+  export type WorkflowUncheckedUpdateWithoutStatusesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    budgetHours?: NullableFloatFieldUpdateOperationsInput | number | null
-    budgetAmount?: NullableFloatFieldUpdateOperationsInput | number | null
-    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
-    type?: EnumProjectTypeFieldUpdateOperationsInput | $Enums.ProjectType
-    color?: StringFieldUpdateOperationsInput | string
-    isTemplate?: BoolFieldUpdateOperationsInput | boolean
-    enabledModules?: ProjectUpdateenabledModulesInput | string[]
-    timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
-    expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
-    clientId?: NullableStringFieldUpdateOperationsInput | string | null
-    projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
-    customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
-    timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
-    wikiPages?: WikiPageUncheckedUpdateManyWithoutProjectNestedInput
-    activityEvents?: ActivityEventUncheckedUpdateManyWithoutProjectNestedInput
-    notificationPreferences?: NotificationPreferenceUncheckedUpdateManyWithoutProjectNestedInput
-    checkInSchedules?: CheckInScheduleUncheckedUpdateManyWithoutProjectNestedInput
-    budgets?: BudgetUncheckedUpdateManyWithoutProjectNestedInput
-    transitionRules?: TransitionRuleUncheckedUpdateManyWithoutProjectNestedInput
-    cycles?: CycleUncheckedUpdateManyWithoutProjectNestedInput
-    clientAccess?: ProjectClientAccessUncheckedUpdateManyWithoutProjectNestedInput
-    sharedViews?: SharedViewUncheckedUpdateManyWithoutProjectNestedInput
-    slackCaptureConfigs?: SlackCaptureConfigUncheckedUpdateManyWithoutDefaultProjectNestedInput
-    baselines?: BaselineUncheckedUpdateManyWithoutProjectNestedInput
-    roleOverrides?: ProjectRoleOverrideUncheckedUpdateManyWithoutProjectNestedInput
-    members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
-    taskFolders?: TaskFolderUncheckedUpdateManyWithoutProjectNestedInput
-    savedViews?: SavedViewUncheckedUpdateManyWithoutProjectNestedInput
-    resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutProjectNestedInput
-    meetings?: MeetingUncheckedUpdateManyWithoutProjectNestedInput
-    expenses?: ExpenseUncheckedUpdateManyWithoutProjectNestedInput
-    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutProjectNestedInput
-    deals?: DealUncheckedUpdateManyWithoutProjectNestedInput
-    dashboardWidgetFilters?: DashboardWidgetUncheckedUpdateManyWithoutFilterProjectNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutWorkflowNestedInput
   }
 
   export type TaskUpsertWithWhereUniqueWithoutStatusInput = {
@@ -139861,7 +141300,7 @@ export namespace Prisma {
     category: $Enums.StatusCategory
     position: number
     isDefault?: boolean
-    project: ProjectCreateNestedOneWithoutStatusesInput
+    workflow: WorkflowCreateNestedOneWithoutStatusesInput
     transitionsFrom?: TransitionRuleCreateNestedManyWithoutFromStatusInput
     transitionsTo?: TransitionRuleCreateNestedManyWithoutToStatusInput
     automationActions?: AutomationActionCreateNestedManyWithoutTargetStatusInput
@@ -139869,7 +141308,7 @@ export namespace Prisma {
 
   export type WorkflowStatusUncheckedCreateWithoutTasksInput = {
     id?: string
-    projectId: string
+    workflowId: string
     name: string
     category: $Enums.StatusCategory
     position: number
@@ -140786,7 +142225,7 @@ export namespace Prisma {
     category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
     position?: IntFieldUpdateOperationsInput | number
     isDefault?: BoolFieldUpdateOperationsInput | boolean
-    project?: ProjectUpdateOneRequiredWithoutStatusesNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutStatusesNestedInput
     transitionsFrom?: TransitionRuleUpdateManyWithoutFromStatusNestedInput
     transitionsTo?: TransitionRuleUpdateManyWithoutToStatusNestedInput
     automationActions?: AutomationActionUpdateManyWithoutTargetStatusNestedInput
@@ -140794,7 +142233,7 @@ export namespace Prisma {
 
   export type WorkflowStatusUncheckedUpdateWithoutTasksInput = {
     id?: StringFieldUpdateOperationsInput | string
-    projectId?: StringFieldUpdateOperationsInput | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
     position?: IntFieldUpdateOperationsInput | number
@@ -144018,7 +145457,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -144061,10 +145500,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -144311,7 +145750,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -144354,10 +145793,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -145112,7 +146551,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     wikiPages?: WikiPageCreateNestedManyWithoutProjectInput
@@ -145155,10 +146594,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     wikiPages?: WikiPageUncheckedCreateNestedManyWithoutProjectInput
@@ -145850,7 +147289,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     wikiPages?: WikiPageUpdateManyWithoutProjectNestedInput
@@ -145893,10 +147332,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     wikiPages?: WikiPageUncheckedUpdateManyWithoutProjectNestedInput
@@ -147335,7 +148774,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -147378,10 +148817,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -147794,7 +149233,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -147837,10 +149276,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -148189,7 +149628,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
     wikiPages?: WikiPageCreateNestedManyWithoutProjectInput
@@ -148232,10 +149671,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
     wikiPages?: WikiPageUncheckedCreateNestedManyWithoutProjectInput
@@ -148386,7 +149825,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
     wikiPages?: WikiPageUpdateManyWithoutProjectNestedInput
@@ -148429,10 +149868,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
     wikiPages?: WikiPageUncheckedUpdateManyWithoutProjectNestedInput
@@ -149500,7 +150939,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
     wikiPages?: WikiPageCreateNestedManyWithoutProjectInput
@@ -149543,10 +150982,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
     wikiPages?: WikiPageUncheckedCreateNestedManyWithoutProjectInput
@@ -149668,7 +151107,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
     wikiPages?: WikiPageUpdateManyWithoutProjectNestedInput
@@ -149711,10 +151150,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
     wikiPages?: WikiPageUncheckedUpdateManyWithoutProjectNestedInput
@@ -150720,7 +152159,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -150763,10 +152202,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -151131,7 +152570,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -151174,10 +152613,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -151679,7 +153118,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -151722,10 +153161,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -151930,7 +153369,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -151973,10 +153412,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -152876,7 +154315,7 @@ export namespace Prisma {
     category: $Enums.StatusCategory
     position: number
     isDefault?: boolean
-    project: ProjectCreateNestedOneWithoutStatusesInput
+    workflow: WorkflowCreateNestedOneWithoutStatusesInput
     tasks?: TaskCreateNestedManyWithoutStatusInput
     transitionsFrom?: TransitionRuleCreateNestedManyWithoutFromStatusInput
     transitionsTo?: TransitionRuleCreateNestedManyWithoutToStatusInput
@@ -152884,7 +154323,7 @@ export namespace Prisma {
 
   export type WorkflowStatusUncheckedCreateWithoutAutomationActionsInput = {
     id?: string
-    projectId: string
+    workflowId: string
     name: string
     category: $Enums.StatusCategory
     position: number
@@ -153106,7 +154545,7 @@ export namespace Prisma {
     category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
     position?: IntFieldUpdateOperationsInput | number
     isDefault?: BoolFieldUpdateOperationsInput | boolean
-    project?: ProjectUpdateOneRequiredWithoutStatusesNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutStatusesNestedInput
     tasks?: TaskUpdateManyWithoutStatusNestedInput
     transitionsFrom?: TransitionRuleUpdateManyWithoutFromStatusNestedInput
     transitionsTo?: TransitionRuleUpdateManyWithoutToStatusNestedInput
@@ -153114,7 +154553,7 @@ export namespace Prisma {
 
   export type WorkflowStatusUncheckedUpdateWithoutAutomationActionsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    projectId?: StringFieldUpdateOperationsInput | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
     position?: IntFieldUpdateOperationsInput | number
@@ -153501,7 +154940,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -153544,10 +154983,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -153632,7 +155071,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -153675,10 +155114,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -154126,7 +155565,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -154169,10 +155608,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -154256,7 +155695,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -154299,10 +155738,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -154706,7 +156145,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -154749,10 +156188,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -155276,7 +156715,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -155319,10 +156758,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -157897,7 +159336,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -157940,10 +159379,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -158142,7 +159581,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -158185,10 +159624,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -158377,7 +159816,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -158420,10 +159859,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -158839,7 +160278,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -158882,10 +160321,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -159309,7 +160748,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -159352,10 +160791,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -159554,7 +160993,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -159597,10 +161036,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -160753,6 +162192,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
   }
@@ -161839,7 +163279,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -161882,9 +163322,9 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -161925,6 +163365,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -162901,6 +164342,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     projectManagerId?: string | null
   }
@@ -162992,7 +164434,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -163035,9 +164477,9 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -163078,6 +164520,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -163357,14 +164800,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type WorkflowStatusCreateManyProjectInput = {
-    id?: string
-    name: string
-    category: $Enums.StatusCategory
-    position: number
-    isDefault?: boolean
-  }
-
   export type TaskProjectCreateManyProjectInput = {
     taskId: string
     isPrimary?: boolean
@@ -163601,38 +165036,6 @@ export namespace Prisma {
     position: number
     span?: number
     createdAt?: Date | string
-  }
-
-  export type WorkflowStatusUpdateWithoutProjectInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
-    position?: IntFieldUpdateOperationsInput | number
-    isDefault?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TaskUpdateManyWithoutStatusNestedInput
-    transitionsFrom?: TransitionRuleUpdateManyWithoutFromStatusNestedInput
-    transitionsTo?: TransitionRuleUpdateManyWithoutToStatusNestedInput
-    automationActions?: AutomationActionUpdateManyWithoutTargetStatusNestedInput
-  }
-
-  export type WorkflowStatusUncheckedUpdateWithoutProjectInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
-    position?: IntFieldUpdateOperationsInput | number
-    isDefault?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TaskUncheckedUpdateManyWithoutStatusNestedInput
-    transitionsFrom?: TransitionRuleUncheckedUpdateManyWithoutFromStatusNestedInput
-    transitionsTo?: TransitionRuleUncheckedUpdateManyWithoutToStatusNestedInput
-    automationActions?: AutomationActionUncheckedUpdateManyWithoutTargetStatusNestedInput
-  }
-
-  export type WorkflowStatusUncheckedUpdateManyWithoutProjectInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
-    position?: IntFieldUpdateOperationsInput | number
-    isDefault?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type TaskProjectUpdateWithoutProjectInput = {
@@ -164599,6 +166002,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     clientId?: string | null
     projectManagerId?: string | null
   }
@@ -164625,7 +166029,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -164668,9 +166072,9 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -164711,6 +166115,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -164875,6 +166280,170 @@ export namespace Prisma {
     cycleAssignedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkflowStatusCreateManyWorkflowInput = {
+    id?: string
+    name: string
+    category: $Enums.StatusCategory
+    position: number
+    isDefault?: boolean
+  }
+
+  export type ProjectCreateManyWorkflowInput = {
+    id?: string
+    name: string
+    description?: string | null
+    budgetHours?: number | null
+    budgetAmount?: number | null
+    hourlyRate?: number | null
+    type?: $Enums.ProjectType
+    color?: string
+    isTemplate?: boolean
+    enabledModules?: ProjectCreateenabledModulesInput | string[]
+    timeApprovalRequired?: boolean
+    expenseApprovalRequired?: boolean
+    createdAt?: Date | string
+    portfolioId?: string | null
+    clientId?: string | null
+    projectManagerId?: string | null
+  }
+
+  export type WorkflowStatusUpdateWithoutWorkflowInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
+    position?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    tasks?: TaskUpdateManyWithoutStatusNestedInput
+    transitionsFrom?: TransitionRuleUpdateManyWithoutFromStatusNestedInput
+    transitionsTo?: TransitionRuleUpdateManyWithoutToStatusNestedInput
+    automationActions?: AutomationActionUpdateManyWithoutTargetStatusNestedInput
+  }
+
+  export type WorkflowStatusUncheckedUpdateWithoutWorkflowInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
+    position?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    tasks?: TaskUncheckedUpdateManyWithoutStatusNestedInput
+    transitionsFrom?: TransitionRuleUncheckedUpdateManyWithoutFromStatusNestedInput
+    transitionsTo?: TransitionRuleUncheckedUpdateManyWithoutToStatusNestedInput
+    automationActions?: AutomationActionUncheckedUpdateManyWithoutTargetStatusNestedInput
+  }
+
+  export type WorkflowStatusUncheckedUpdateManyWithoutWorkflowInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
+    position?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type ProjectUpdateWithoutWorkflowInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetHours?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    type?: EnumProjectTypeFieldUpdateOperationsInput | $Enums.ProjectType
+    color?: StringFieldUpdateOperationsInput | string
+    isTemplate?: BoolFieldUpdateOperationsInput | boolean
+    enabledModules?: ProjectUpdateenabledModulesInput | string[]
+    timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
+    expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
+    customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
+    wikiPages?: WikiPageUpdateManyWithoutProjectNestedInput
+    activityEvents?: ActivityEventUpdateManyWithoutProjectNestedInput
+    notificationPreferences?: NotificationPreferenceUpdateManyWithoutProjectNestedInput
+    checkInSchedules?: CheckInScheduleUpdateManyWithoutProjectNestedInput
+    budgets?: BudgetUpdateManyWithoutProjectNestedInput
+    transitionRules?: TransitionRuleUpdateManyWithoutProjectNestedInput
+    cycles?: CycleUpdateManyWithoutProjectNestedInput
+    clientAccess?: ProjectClientAccessUpdateManyWithoutProjectNestedInput
+    sharedViews?: SharedViewUpdateManyWithoutProjectNestedInput
+    slackCaptureConfigs?: SlackCaptureConfigUpdateManyWithoutDefaultProjectNestedInput
+    portfolio?: PortfolioUpdateOneWithoutProjectsNestedInput
+    baselines?: BaselineUpdateManyWithoutProjectNestedInput
+    roleOverrides?: ProjectRoleOverrideUpdateManyWithoutProjectNestedInput
+    client?: ClientUpdateOneWithoutProjectsNestedInput
+    projectManager?: UserUpdateOneWithoutManagedProjectsNestedInput
+    members?: ProjectMemberUpdateManyWithoutProjectNestedInput
+    taskFolders?: TaskFolderUpdateManyWithoutProjectNestedInput
+    savedViews?: SavedViewUpdateManyWithoutProjectNestedInput
+    resourceBookings?: ResourceBookingUpdateManyWithoutProjectNestedInput
+    meetings?: MeetingUpdateManyWithoutProjectNestedInput
+    expenses?: ExpenseUpdateManyWithoutProjectNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutProjectNestedInput
+    deals?: DealUpdateManyWithoutProjectNestedInput
+    dashboardWidgetFilters?: DashboardWidgetUpdateManyWithoutFilterProjectNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutWorkflowInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetHours?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    type?: EnumProjectTypeFieldUpdateOperationsInput | $Enums.ProjectType
+    color?: StringFieldUpdateOperationsInput | string
+    isTemplate?: BoolFieldUpdateOperationsInput | boolean
+    enabledModules?: ProjectUpdateenabledModulesInput | string[]
+    timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
+    expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
+    taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
+    customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
+    wikiPages?: WikiPageUncheckedUpdateManyWithoutProjectNestedInput
+    activityEvents?: ActivityEventUncheckedUpdateManyWithoutProjectNestedInput
+    notificationPreferences?: NotificationPreferenceUncheckedUpdateManyWithoutProjectNestedInput
+    checkInSchedules?: CheckInScheduleUncheckedUpdateManyWithoutProjectNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutProjectNestedInput
+    transitionRules?: TransitionRuleUncheckedUpdateManyWithoutProjectNestedInput
+    cycles?: CycleUncheckedUpdateManyWithoutProjectNestedInput
+    clientAccess?: ProjectClientAccessUncheckedUpdateManyWithoutProjectNestedInput
+    sharedViews?: SharedViewUncheckedUpdateManyWithoutProjectNestedInput
+    slackCaptureConfigs?: SlackCaptureConfigUncheckedUpdateManyWithoutDefaultProjectNestedInput
+    baselines?: BaselineUncheckedUpdateManyWithoutProjectNestedInput
+    roleOverrides?: ProjectRoleOverrideUncheckedUpdateManyWithoutProjectNestedInput
+    members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
+    taskFolders?: TaskFolderUncheckedUpdateManyWithoutProjectNestedInput
+    savedViews?: SavedViewUncheckedUpdateManyWithoutProjectNestedInput
+    resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutProjectNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutProjectNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutProjectNestedInput
+    deals?: DealUncheckedUpdateManyWithoutProjectNestedInput
+    dashboardWidgetFilters?: DashboardWidgetUncheckedUpdateManyWithoutFilterProjectNestedInput
+  }
+
+  export type ProjectUncheckedUpdateManyWithoutWorkflowInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetHours?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    type?: EnumProjectTypeFieldUpdateOperationsInput | $Enums.ProjectType
+    color?: StringFieldUpdateOperationsInput | string
+    isTemplate?: BoolFieldUpdateOperationsInput | boolean
+    enabledModules?: ProjectUpdateenabledModulesInput | string[]
+    timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
+    expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TaskCreateManyStatusInput = {

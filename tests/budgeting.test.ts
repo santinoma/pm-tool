@@ -26,16 +26,16 @@ beforeEach(async () => {
       name: "Budgeted Project",
       budgetHours: 10,
       hourlyRate: 50,
-      statuses: { create: defaultWorkflowStatuses() },
+      workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } },
     },
-    include: { statuses: true },
+    include: { workflow: { include: { statuses: true } } },
   });
   projectId = project.id;
 
   const task = await tenantDb.task.create({
     data: {
       title: "Task",
-      statusId: project.statuses[0].id,
+      statusId: project.workflow.statuses[0].id,
       projects: { create: { projectId, isPrimary: true } },
     },
   });

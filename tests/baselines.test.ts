@@ -22,9 +22,9 @@ describe("Baselines (data layer, mirrors /api/tenant/projects/[id]/baselines)", 
   it("snapshots current tasks and later diffs against a shifted due date", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
 
-    const project = await tenantDb.project.create({ data: { name: "Roadmap" } });
+    const project = await tenantDb.project.create({ data: { name: "Roadmap", workflow: { create: { name: "Test Workflow" } } } });
     const status = await tenantDb.workflowStatus.create({
-      data: { projectId: project.id, name: "Todo", category: "not_started", position: 0, isDefault: true },
+      data: { workflowId: project.workflowId, name: "Todo", category: "not_started", position: 0, isDefault: true },
     });
     const task = await tenantDb.task.create({
       data: {

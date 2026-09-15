@@ -23,13 +23,13 @@ beforeEach(async () => {
   const uploader = await tenantDb.user.create({ data: { email: "up@example.com", role: "member" } });
   uploaderId = uploader.id;
   const project = await tenantDb.project.create({
-    data: { name: "Attach Project", statuses: { create: defaultWorkflowStatuses() } },
-    include: { statuses: true },
+    data: { name: "Attach Project", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
+    include: { workflow: { include: { statuses: true } } },
   });
   const task = await tenantDb.task.create({
     data: {
       title: "Task",
-      statusId: project.statuses[0].id,
+      statusId: project.workflow.statuses[0].id,
       projects: { create: { projectId: project.id } },
     },
   });

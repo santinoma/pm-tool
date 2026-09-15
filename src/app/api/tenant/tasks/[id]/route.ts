@@ -52,7 +52,7 @@ async function createNextRecurringInstance(
   const rootTaskId = completedTask.recurrenceParentId ?? completedTask.id;
 
   const [defaultStatus, subtasks, todos] = await Promise.all([
-    tenantDb.workflowStatus.findFirst({ where: { projectId, isDefault: true } }),
+    tenantDb.workflowStatus.findFirst({ where: { workflow: { projects: { some: { id: projectId } } }, isDefault: true } }),
     tenantDb.task.findMany({ where: { parentTaskId: completedTask.id }, select: { title: true } }),
     tenantDb.todo.findMany({ where: { taskId: completedTask.id }, select: { title: true } }),
   ]);

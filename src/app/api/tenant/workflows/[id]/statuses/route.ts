@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
+import { canManageMembers } from "@/tenant/auth/roleGuard";
 
 const VALID_CATEGORIES = ["not_started", "started", "done"];
 
@@ -11,7 +12,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
   }
 
   const statuses = await context.tenantDb.workflowStatus.findMany({
-    where: { workflow: { projects: { some: { id } } } },
+    where: { workflowId: id },
     orderBy: { position: "asc" },
   });
   return NextResponse.json({ statuses });
@@ -23,6 +24,9 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   if (!context?.currentUser) {
     return NextResponse.json({ error: "Nicht angemeldet." }, { status: 401 });
   }
+  if (!canManageMembers(context.currentUser.role)) {
+    return NextResponse.json({ error: "Keine Berechtigung." }, { status: 403 });
+  }
 
   const body = await request.json().catch(() => null);
   if (
@@ -31,24 +35,14 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     body.name.trim().length === 0 ||
     !VALID_CATEGORIES.includes(body.category)
   ) {
-    return NextResponse.json(
-      { error: "Name und eine gültige Kategorie sind erforderlich." },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: "Name und eine gültige Kategorie sind erforderlich." }, { status: 400 });
   }
 
-  const project = await context.tenantDb.project.findUnique({ where: { id }, select: { workflowId: true } });
-  if (!project) {
-    return NextResponse.json({ error: "Projekt nicht gefunden." }, { status: 404 });
-  }
-
-  // Reference "Creating and Managing Workflows": this Workflow may be shared by
-  // several projects, so a new status here becomes visible on all of them.
-  const existing = await context.tenantDb.workflowStatus.findMany({ where: { workflowId: project.workflowId } });
+  const existing = await context.tenantDb.workflowStatus.findMany({ where: { workflowId: id } });
   const nextPosition = existing.length > 0 ? Math.max(...existing.map((s) => s.position)) + 1 : 0;
 
   const status = await context.tenantDb.workflowStatus.create({
-    data: { workflowId: project.workflowId, name: body.name, category: body.category, position: nextPosition },
+    data: { workflowId: id, name: body.name, category: body.category, position: nextPosition },
   });
   return NextResponse.json({ status }, { status: 201 });
 }

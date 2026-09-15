@@ -22,7 +22,7 @@ describe("search (data layer, mirrors the /api/tenant/search route)", () => {
   it("finds projects by a case-insensitive substring match", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
     await tenantDb.project.create({
-      data: { name: "Website Relaunch", statuses: { create: defaultWorkflowStatuses() } },
+      data: { name: "Website Relaunch", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
     });
 
     const results = await tenantDb.project.findMany({
@@ -34,13 +34,13 @@ describe("search (data layer, mirrors the /api/tenant/search route)", () => {
   it("finds tasks by a case-insensitive substring match", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
     const project = await tenantDb.project.create({
-      data: { name: "Project", statuses: { create: defaultWorkflowStatuses() } },
-      include: { statuses: true },
+      data: { name: "Project", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
+      include: { workflow: { include: { statuses: true } } },
     });
     await tenantDb.task.create({
       data: {
         title: "Fix login bug",
-        statusId: project.statuses[0].id,
+        statusId: project.workflow.statuses[0].id,
         projects: { create: { projectId: project.id } },
       },
     });

@@ -23,12 +23,12 @@ describe("project creation (data layer)", () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
 
     const project = await tenantDb.project.create({
-      data: { name: "Website Relaunch", statuses: { create: defaultWorkflowStatuses() } },
-      include: { statuses: true },
+      data: { name: "Website Relaunch", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
+      include: { workflow: { include: { statuses: true } } },
     });
 
-    expect(project.statuses).toHaveLength(3);
-    const defaultStatus = project.statuses.find((s) => s.isDefault);
+    expect(project.workflow.statuses).toHaveLength(3);
+    const defaultStatus = project.workflow.statuses.find((s) => s.isDefault);
     expect(defaultStatus?.name).toBe("Todo");
     expect(defaultStatus?.category).toBe("not_started");
   });
@@ -36,10 +36,10 @@ describe("project creation (data layer)", () => {
   it("lists projects for the tenant", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
     await tenantDb.project.create({
-      data: { name: "Projekt A", statuses: { create: defaultWorkflowStatuses() } },
+      data: { name: "Projekt A", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
     });
     await tenantDb.project.create({
-      data: { name: "Projekt B", statuses: { create: defaultWorkflowStatuses() } },
+      data: { name: "Projekt B", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
     });
 
     const projects = await tenantDb.project.findMany();

@@ -56,10 +56,12 @@ export async function POST(request: Request) {
 
   const [requestedStatus, defaultStatus, settings] = await Promise.all([
     typeof body.statusId === "string"
-      ? context.tenantDb.workflowStatus.findFirst({ where: { id: body.statusId, projectId: body.projectId } })
+      ? context.tenantDb.workflowStatus.findFirst({
+          where: { id: body.statusId, workflow: { projects: { some: { id: body.projectId } } } },
+        })
       : Promise.resolve(null),
     context.tenantDb.workflowStatus.findFirst({
-      where: { projectId: body.projectId, isDefault: true },
+      where: { workflow: { projects: { some: { id: body.projectId } } }, isDefault: true },
     }),
     getOrCreateTenantSettings(context.tenantDb),
   ]);

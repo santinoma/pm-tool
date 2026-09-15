@@ -22,17 +22,17 @@ describe("task cross-tagging", () => {
   it("links one task to a second project without duplicating the task", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
     const projectA = await tenantDb.project.create({
-      data: { name: "A", statuses: { create: defaultWorkflowStatuses() } },
-      include: { statuses: true },
+      data: { name: "A", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
+      include: { workflow: { include: { statuses: true } } },
     });
     const projectB = await tenantDb.project.create({
-      data: { name: "B", statuses: { create: defaultWorkflowStatuses() } },
+      data: { name: "B", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
     });
 
     const task = await tenantDb.task.create({
       data: {
         title: "Shared task",
-        statusId: projectA.statuses[0].id,
+        statusId: projectA.workflow.statuses[0].id,
         projects: { create: { projectId: projectA.id, isPrimary: true } },
       },
     });
@@ -59,13 +59,13 @@ describe("task cross-tagging", () => {
   it("rejects linking a task to a project it is already linked to", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
     const project = await tenantDb.project.create({
-      data: { name: "Solo", statuses: { create: defaultWorkflowStatuses() } },
-      include: { statuses: true },
+      data: { name: "Solo", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
+      include: { workflow: { include: { statuses: true } } },
     });
     const task = await tenantDb.task.create({
       data: {
         title: "Task",
-        statusId: project.statuses[0].id,
+        statusId: project.workflow.statuses[0].id,
         projects: { create: { projectId: project.id } },
       },
     });

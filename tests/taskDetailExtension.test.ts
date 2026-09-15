@@ -19,10 +19,10 @@ beforeEach(async () => {
   const tenantDb = getTenantDbClient(tenant.dbUrl);
   const user = await tenantDb.user.create({ data: { email: "user@example.com", role: "member" } });
   userId = user.id;
-  const project = await tenantDb.project.create({ data: { name: "Project" } });
+  const project = await tenantDb.project.create({ data: { name: "Project", workflow: { create: { name: "Test Workflow" } } } });
   projectId = project.id;
   const status = await tenantDb.workflowStatus.create({
-    data: { projectId, name: "Todo", category: "not_started", position: 0, isDefault: true },
+    data: { workflowId: project.workflowId, name: "Todo", category: "not_started", position: 0, isDefault: true },
   });
   statusId = status.id;
   const task = await tenantDb.task.create({

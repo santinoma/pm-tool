@@ -1,3 +1,5 @@
+import type { PrismaClient, Workflow } from "@/generated/tenant-client/client.js";
+
 export type StatusCategoryName = "not_started" | "started" | "done";
 
 export interface DefaultWorkflowStatus {
@@ -13,6 +15,20 @@ export function defaultWorkflowStatuses(): DefaultWorkflowStatus[] {
     { name: "In Progress", category: "started", position: 1, isDefault: false },
     { name: "Done", category: "done", position: 2, isDefault: false },
   ];
+}
+
+// Reference "Creating and Managing Workflows": every tenant has one shared "Default
+// workflow" that new projects use unless a template or an explicit workflow is
+// chosen — the whole point of centralizing workflows is that most projects reuse
+// the same one rather than each getting an isolated copy.
+export async function getOrCreateDefaultWorkflow(tenantDb: PrismaClient): Promise<Workflow> {
+  const existing = await tenantDb.workflow.findFirst({ where: { name: "Default", archived: false } });
+  if (existing) {
+    return existing;
+  }
+  return tenantDb.workflow.create({
+    data: { name: "Default", statuses: { create: defaultWorkflowStatuses() } },
+  });
 }
 
 export interface DependencyEdge {

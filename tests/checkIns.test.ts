@@ -22,7 +22,7 @@ beforeEach(async () => {
   userId = user.id;
 
   const project = await tenantDb.project.create({
-    data: { name: "Check-ins Project", statuses: { create: defaultWorkflowStatuses() } },
+    data: { name: "Check-ins Project", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
   });
   projectId = project.id;
 });

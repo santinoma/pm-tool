@@ -306,7 +306,8 @@ model Project {
   timeApprovalRequired    Boolean                  @default(false)
   expenseApprovalRequired Boolean                  @default(false)
   createdAt               DateTime                 @default(now())
-  statuses                WorkflowStatus[]
+  workflow                Workflow                 @relation(fields: [workflowId], references: [id])
+  workflowId              String
   taskLinks               TaskProject[]
   customFields            CustomFieldDef[]
   timeEntries             TimeEntry[]
@@ -464,10 +465,24 @@ enum StatusCategory {
   done
 }
 
+// Reference "Creating and Managing Workflows": a Workflow is an organization-wide,
+// reusable set of task statuses (grouped into not_started/started/done stages) —
+// several projects can point at the same Workflow, and editing it (e.g. moving a
+// status between stages) affects every project using it. Archiving frees up the
+// plan's workflow slot without deleting a Workflow still referenced by a project.
+model Workflow {
+  id        String           @id @default(uuid())
+  name      String
+  archived  Boolean          @default(false)
+  createdAt DateTime         @default(now())
+  statuses  WorkflowStatus[]
+  projects  Project[]
+}
+
 model WorkflowStatus {
   id                String             @id @default(uuid())
-  project           Project            @relation(fields: [projectId], references: [id])
-  projectId         String
+  workflow          Workflow           @relation(fields: [workflowId], references: [id])
+  workflowId        String
   name              String
   category          StatusCategory
   position          Int
@@ -477,7 +492,7 @@ model WorkflowStatus {
   transitionsTo     TransitionRule[]   @relation("TransitionTo")
   automationActions AutomationAction[]
 
-  @@unique([projectId, name])
+  @@unique([workflowId, name])
 }
 
 enum TaskPriority {

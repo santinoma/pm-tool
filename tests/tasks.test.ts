@@ -22,10 +22,10 @@ describe("task creation (data layer)", () => {
   it("creates a task in triage with the project's default status", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
     const project = await tenantDb.project.create({
-      data: { name: "Task Project", statuses: { create: defaultWorkflowStatuses() } },
-      include: { statuses: true },
+      data: { name: "Task Project", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
+      include: { workflow: { include: { statuses: true } } },
     });
-    const defaultStatus = project.statuses.find((s) => s.isDefault)!;
+    const defaultStatus = project.workflow.statuses.find((s) => s.isDefault)!;
 
     const task = await tenantDb.task.create({
       data: {
@@ -46,11 +46,11 @@ describe("task creation (data layer)", () => {
   it("moves a task out of triage and updates its status", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
     const project = await tenantDb.project.create({
-      data: { name: "Triage Project", statuses: { create: defaultWorkflowStatuses() } },
-      include: { statuses: true },
+      data: { name: "Triage Project", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
+      include: { workflow: { include: { statuses: true } } },
     });
-    const defaultStatus = project.statuses.find((s) => s.isDefault)!;
-    const startedStatus = project.statuses.find((s) => s.category === "started")!;
+    const defaultStatus = project.workflow.statuses.find((s) => s.isDefault)!;
+    const startedStatus = project.workflow.statuses.find((s) => s.category === "started")!;
 
     const task = await tenantDb.task.create({
       data: {
@@ -72,25 +72,25 @@ describe("task creation (data layer)", () => {
   it("filters tasks by project via the TaskProject relation", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
     const projectA = await tenantDb.project.create({
-      data: { name: "A", statuses: { create: defaultWorkflowStatuses() } },
-      include: { statuses: true },
+      data: { name: "A", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
+      include: { workflow: { include: { statuses: true } } },
     });
     const projectB = await tenantDb.project.create({
-      data: { name: "B", statuses: { create: defaultWorkflowStatuses() } },
-      include: { statuses: true },
+      data: { name: "B", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
+      include: { workflow: { include: { statuses: true } } },
     });
 
     await tenantDb.task.create({
       data: {
         title: "Task in A",
-        statusId: projectA.statuses[0].id,
+        statusId: projectA.workflow.statuses[0].id,
         projects: { create: { projectId: projectA.id } },
       },
     });
     await tenantDb.task.create({
       data: {
         title: "Task in B",
-        statusId: projectB.statuses[0].id,
+        statusId: projectB.workflow.statuses[0].id,
         projects: { create: { projectId: projectB.id } },
       },
     });

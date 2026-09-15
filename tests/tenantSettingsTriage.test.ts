@@ -19,11 +19,11 @@ beforeEach(async () => {
 
   const tenantDb = getTenantDbClient(tenant.dbUrl);
   const project = await tenantDb.project.create({
-    data: { name: "Project", statuses: { create: defaultWorkflowStatuses() } },
-    include: { statuses: true },
+    data: { name: "Project", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
+    include: { workflow: { include: { statuses: true } } },
   });
   projectId = project.id;
-  defaultStatusId = project.statuses.find((s) => s.isDefault)!.id;
+  defaultStatusId = project.workflow.statuses.find((s) => s.isDefault)!.id;
 });
 
 afterEach(async () => {

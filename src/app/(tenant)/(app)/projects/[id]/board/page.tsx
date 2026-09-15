@@ -14,7 +14,7 @@ export default async function BoardPage({ params }: { params: Promise<{ id: stri
 
   const [statuses, tasks, users, customFields, templates] = await Promise.all([
     context.tenantDb.workflowStatus.findMany({
-      where: { projectId: id },
+      where: { workflow: { projects: { some: { id } } } },
       orderBy: { position: "asc" },
     }),
     context.tenantDb.task.findMany({

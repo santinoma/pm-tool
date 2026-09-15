@@ -27,13 +27,13 @@ describe("Portfolios and Goals (data layer, mirrors /api/tenant/portfolios)", ()
       data: { portfolioId: portfolio.id, name: "Ship v2", status: "on_track" },
     });
 
-    const projectA = await tenantDb.project.create({ data: { name: "A", portfolioId: portfolio.id } });
-    const projectB = await tenantDb.project.create({ data: { name: "B", portfolioId: portfolio.id } });
+    const projectA = await tenantDb.project.create({ data: { name: "A", portfolio: { connect: { id: portfolio.id } }, workflow: { create: { name: "Test Workflow" } } } });
+    const projectB = await tenantDb.project.create({ data: { name: "B", portfolio: { connect: { id: portfolio.id } }, workflow: { create: { name: "Test Workflow" } } } });
     const statusDone = await tenantDb.workflowStatus.create({
-      data: { projectId: projectA.id, name: "Done", category: "done", position: 1, isDefault: false },
+      data: { workflowId: projectA.workflowId, name: "Done", category: "done", position: 1, isDefault: false },
     });
     const statusTodo = await tenantDb.workflowStatus.create({
-      data: { projectId: projectA.id, name: "Todo", category: "not_started", position: 0, isDefault: true },
+      data: { workflowId: projectA.workflowId, name: "Todo", category: "not_started", position: 0, isDefault: true },
     });
 
     await tenantDb.task.create({

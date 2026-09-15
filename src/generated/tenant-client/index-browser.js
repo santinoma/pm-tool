@@ -282,6 +282,7 @@ exports.Prisma.ProjectScalarFieldEnum = {
   timeApprovalRequired: 'timeApprovalRequired',
   expenseApprovalRequired: 'expenseApprovalRequired',
   createdAt: 'createdAt',
+  workflowId: 'workflowId',
   portfolioId: 'portfolioId',
   clientId: 'clientId',
   projectManagerId: 'projectManagerId'
@@ -378,9 +379,16 @@ exports.Prisma.SavedViewScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.WorkflowScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  archived: 'archived',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.WorkflowStatusScalarFieldEnum = {
   id: 'id',
-  projectId: 'projectId',
+  workflowId: 'workflowId',
   name: 'name',
   category: 'category',
   position: 'position',
@@ -1193,6 +1201,7 @@ exports.Prisma.ModelName = {
   TransitionRule: 'TransitionRule',
   SharedView: 'SharedView',
   SavedView: 'SavedView',
+  Workflow: 'Workflow',
   WorkflowStatus: 'WorkflowStatus',
   Task: 'Task',
   Tag: 'Tag',

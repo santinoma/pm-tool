@@ -36,7 +36,10 @@ export async function loadTaskDetail(context: TenantContext, projectId: string, 
         },
       },
     }),
-    context.tenantDb.workflowStatus.findMany({ where: { projectId }, orderBy: { position: "asc" } }),
+    context.tenantDb.workflowStatus.findMany({
+      where: { workflow: { projects: { some: { id: projectId } } } },
+      orderBy: { position: "asc" },
+    }),
     context.tenantDb.user.findMany(),
     context.tenantDb.taskFolder.findMany({
       where: { projectId },

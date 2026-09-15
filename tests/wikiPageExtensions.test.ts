@@ -20,7 +20,7 @@ beforeEach(async () => {
   const tenantDb = getTenantDbClient(tenant.dbUrl);
   const user = await tenantDb.user.create({ data: { email: "user@example.com", role: "admin" } });
   userId = user.id;
-  const project = await tenantDb.project.create({ data: { name: "Project" } });
+  const project = await tenantDb.project.create({ data: { name: "Project", workflow: { create: { name: "Test Workflow" } } } });
   projectId = project.id;
   const page = await tenantDb.wikiPage.create({
     data: { projectId, title: "Onboarding", content: "Welcome" },

@@ -22,25 +22,25 @@ beforeEach(async () => {
   const tenantDb = getTenantDbClient(tenant.dbUrl);
   member = await tenantDb.user.create({ data: { email: "member@example.com", role: "member" } });
 
-  const project = await tenantDb.project.create({ data: { name: "Project A" } });
+  const project = await tenantDb.project.create({ data: { name: "Project A", workflow: { create: { name: "Test Workflow" } } } });
   projectId = project.id;
   await tenantDb.projectMember.create({ data: { projectId, userId: member.id } });
 
-  const otherProject = await tenantDb.project.create({ data: { name: "Project B" } });
+  const otherProject = await tenantDb.project.create({ data: { name: "Project B", workflow: { create: { name: "Test Workflow" } } } });
   otherProjectId = otherProject.id;
   // member is intentionally NOT a member of otherProject
 
   const todoStatus = await tenantDb.workflowStatus.create({
-    data: { projectId, name: "Todo", category: "not_started", position: 0, isDefault: true },
+    data: { workflowId: project.workflowId, name: "Todo", category: "not_started", position: 0, isDefault: true },
   });
   statusId = todoStatus.id;
   const doneStatus = await tenantDb.workflowStatus.create({
-    data: { projectId, name: "Done", category: "done", position: 1 },
+    data: { workflowId: project.workflowId, name: "Done", category: "done", position: 1 },
   });
   doneStatusId = doneStatus.id;
 
   await tenantDb.workflowStatus.create({
-    data: { projectId: otherProjectId, name: "Todo", category: "not_started", position: 0, isDefault: true },
+    data: { workflowId: otherProject.workflowId, name: "Todo", category: "not_started", position: 0, isDefault: true },
   });
 });
 
@@ -78,7 +78,7 @@ describe("bulk task edit — PATCH", () => {
       data: { title: "Accessible", statusId, projects: { create: { projectId, isPrimary: true } } },
     });
     const inaccessibleStatus = await tenantDb.workflowStatus.findFirstOrThrow({
-      where: { projectId: otherProjectId },
+      where: { workflow: { projects: { some: { id: otherProjectId } } } },
     });
     const inaccessible = await tenantDb.task.create({
       data: {

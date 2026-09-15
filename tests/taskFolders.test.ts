@@ -15,10 +15,10 @@ beforeEach(async () => {
   tenant = (await getTenantBySubdomain(subdomain))!;
 
   const tenantDb = getTenantDbClient(tenant.dbUrl);
-  const project = await tenantDb.project.create({ data: { name: "Project" } });
+  const project = await tenantDb.project.create({ data: { name: "Project", workflow: { create: { name: "Test Workflow" } } } });
   projectId = project.id;
   const status = await tenantDb.workflowStatus.create({
-    data: { projectId, name: "Todo", category: "not_started", position: 0, isDefault: true },
+    data: { workflowId: project.workflowId, name: "Todo", category: "not_started", position: 0, isDefault: true },
   });
   statusId = status.id;
 });

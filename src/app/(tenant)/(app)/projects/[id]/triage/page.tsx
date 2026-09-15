@@ -22,7 +22,7 @@ export default async function TriagePage({ params }: { params: Promise<{ id: str
     orderBy: { createdAt: "asc" },
   });
   const defaultStatus = await context.tenantDb.workflowStatus.findFirst({
-    where: { projectId: id, isDefault: true },
+    where: { workflow: { projects: { some: { id } } }, isDefault: true },
   });
 
   return (

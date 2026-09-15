@@ -49,12 +49,16 @@ export function WorkflowEditorClient({
   statuses,
   customFields,
   transitionRules,
+  workflowName,
+  sharedProjectCount,
 }: {
   projectId: string;
   canManage: boolean;
   statuses: StatusRow[];
   customFields: CustomFieldRow[];
   transitionRules: TransitionRuleRow[];
+  workflowName: string;
+  sharedProjectCount: number;
 }) {
   const router = useRouter();
   const [newName, setNewName] = useState("");
@@ -163,7 +167,17 @@ export function WorkflowEditorClient({
 
   return (
     <div className="mx-auto max-w-2xl pb-10">
-      <h1 className="mb-6 text-2xl font-bold tracking-tight">Status-Workflow</h1>
+      <h1 className="mb-1 text-2xl font-bold tracking-tight">Status-Workflow</h1>
+      <p className="mb-6 text-sm text-muted-foreground">
+        {/* Reference "Creating and Managing Workflows": "Moving workflow statuses ...
+            will immediately affect all tasks in projects that use this workflow." */}
+        {sharedProjectCount > 1
+          ? `„${workflowName}“ — geteilt mit ${sharedProjectCount - 1} weiteren Projekt(en). Änderungen hier wirken sich auf alle an.`
+          : `„${workflowName}“ — nur von diesem Projekt verwendet.`}{" "}
+        <a href="/settings/organization/workflows" className="underline hover:text-foreground">
+          Alle Workflows verwalten
+        </a>
+      </p>
       {error && <p className="mb-4 text-sm text-destructive">{error}</p>}
 
       <div className="mb-8 flex flex-col gap-5">
