@@ -1,8 +1,11 @@
 /* ==========================================================================
-   shadcn/ui design tokens (Next-Elite palette), ported 1:1 from the original
-   Next-Elite template (https://github.com/salmanshahriar/Next-Elite,
-   src/app/styles/tokens.css — vendored at ui-reference/next-elite/ for
-   comparison).
+   shadcn/ui design tokens. Originally ported 1:1 from the Next-Elite template
+   (https://github.com/salmanshahriar/Next-Elite, src/app/styles/tokens.css —
+   vendored at ui-reference/next-elite/ for comparison); the color/radius
+   VALUES below have since been re-tuned to the "asbrucon Productive
+   Entwickler-Referenz" hub & design-system spec (§06 Design-Tokens) — see
+   DESIGN.md. Structure (variable names, dark-mode toggle, portal-safe
+   `:root` binding) is unchanged from the original template.
 
    Bound to `:root`/`:root.dark`, matching the original — NOT to a nested
    `.se-scope` wrapper. Radix portals (DropdownMenu, Dialog, Popover, Select,
@@ -16,48 +19,52 @@
 
 :root {
   /* ========== Color Palette - Light Theme ========== */
-  /* Base Colors */
+  /* Base Colors — reference "Ink" (#1B1826) on white */
   --background: #ffffff;
-  --foreground: oklch(0.145 0 0);
+  --foreground: #1b1826;
 
   /* Card Colors */
   --card: #ffffff;
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: #1b1826;
 
   /* Popover Colors */
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
+  --popover: #ffffff;
+  --popover-foreground: #1b1826;
 
-  /* Primary Colors */
-  --primary: #5c4beb;
+  /* Primary Colors — reference "Accent" */
+  --primary: #6c58e0;
   --primary-foreground: #ffffff;
 
   /* Secondary Colors */
   --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
+  --secondary-foreground: #1b1826;
 
-  /* Muted Colors */
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.46 0 0);
+  /* Muted Colors — reference "Muted" (#6E6880) */
+  --muted: #f4f2fa;
+  --muted-foreground: #6e6880;
 
   /* Accent Colors */
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --accent: #f4f2fa;
+  --accent-foreground: #1b1826;
 
-  /* Destructive Colors */
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
+  /* Destructive Colors — reference "Crit" */
+  --destructive: #d2564a;
+  --destructive-foreground: #ffffff;
 
-  /* Semantic Colors */
-  --success: oklch(0.52 0.194 149.214);
-  --success-foreground: oklch(0.985 0 0);
-  --warning: oklch(0.769 0.188 70.08);
-  --warning-foreground: oklch(0.205 0 0);
+  /* Semantic Colors — reference "OK" / "Warn", RAG kept separate from --primary (brand accent) */
+  --success: #2c9e77;
+  --success-foreground: #ffffff;
+  --warning: #c98421;
+  --warning-foreground: #ffffff;
 
-  /* Border & Input Colors */
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  /* Info / Billable — reference "Info/Bill" (used alongside RAG, e.g. billable-time chips, informational badges) */
+  --info: #3e86c9;
+  --info-foreground: #ffffff;
+
+  /* Border & Input Colors — reference "Border" (#E7E3F0) */
+  --border: #e7e3f0;
+  --input: #e7e3f0;
+  --ring: #6c58e0;
 
   /* Chart Colors */
   --chart-1: oklch(0.646 0.222 41.116);
@@ -78,21 +85,29 @@
 
   /* ========== Spacing & Layout ========== */
   --app-header-height: 3.8125rem;
-  --radius: 0.625rem;
+  /* Reference "Masse" radius scale: 14px cards/panels, 9px controls, 6px chips. */
+  --radius: 0.5625rem; /* 9px */
   --browser-chrome-top: var(--background);
-  --glow-accent: rgba(118, 99, 255, 0.28);
-  --glow-accent-subtle: rgba(118, 99, 255, 0.14);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --glow-accent: rgba(108, 88, 224, 0.28);
+  --glow-accent-subtle: rgba(108, 88, 224, 0.14);
+  --radius-sm: 0.375rem; /* 6px — chips */
+  --radius-md: 0.5625rem; /* 9px — controls/panels */
+  --radius-lg: 0.875rem; /* 14px — cards/modals */
+  --radius-xl: 0.875rem; /* 14px */
 
   color-scheme: light;
   background: var(--background);
   color: var(--foreground);
 
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", "Segoe UI", system-ui,
-    sans-serif;
+  /* Reference typography tokens: Body/UI = system-sans (falls back to the
+     bundled Archivo webfont); Display = serif (applied to h1/h2 in
+     globals.css); Data/Labels = mono (applied to table headers/property
+     labels). `--font-lora`/`--font-jetbrains-mono` are next/font/google CSS
+     vars set on <html> in layout.tsx. */
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", var(--font-archivo), "Segoe UI",
+    system-ui, sans-serif;
+  --font-display: var(--font-lora), Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 
 /* Next-Elite toggles dark mode manually (a `.dark` class on <html>), never
@@ -100,46 +115,50 @@
 :root.dark {
   /* Base Colors */
   --background: #09090b;
-  --foreground: #ffffff;
+  --foreground: #f3f1fa;
 
   /* Card Colors */
   --card: #111113;
-  --card-foreground: #ffffff;
+  --card-foreground: #f3f1fa;
 
   /* Popover Colors */
   --popover: #111113;
-  --popover-foreground: #ffffff;
+  --popover-foreground: #f3f1fa;
 
-  /* Primary Colors */
-  --primary: #7663ff;
+  /* Primary Colors — brightened Accent for dark-surface contrast */
+  --primary: #8a78ef;
   --primary-foreground: #ffffff;
 
   /* Secondary Colors */
   --secondary: #18181b;
-  --secondary-foreground: #ffffff;
+  --secondary-foreground: #f3f1fa;
 
   /* Muted Colors */
   --muted: #18181b;
-  --muted-foreground: #a1a1aa;
+  --muted-foreground: #a39cb8;
 
   /* Accent Colors */
   --accent: #1c1c1f;
-  --accent-foreground: #ffffff;
+  --accent-foreground: #f3f1fa;
 
-  /* Destructive Colors */
-  --destructive: oklch(0.62 0.22 25);
+  /* Destructive Colors — brightened Crit */
+  --destructive: #e17568;
   --destructive-foreground: #ffffff;
 
-  /* Semantic Colors */
-  --success: oklch(0.72 0.17 162);
+  /* Semantic Colors — brightened OK / Warn */
+  --success: #3dbe8e;
   --success-foreground: #ffffff;
-  --warning: oklch(0.8 0.16 70);
-  --warning-foreground: #ffffff;
+  --warning: #e0a44a;
+  --warning-foreground: #09090b;
+
+  /* Info / Billable — brightened Info/Bill */
+  --info: #63a6de;
+  --info-foreground: #09090b;
 
   /* Border & Input Colors */
-  --border: #27272a;
-  --input: #27272a;
-  --ring: #7663ff;
+  --border: #29242f;
+  --input: #29242f;
+  --ring: #8a78ef;
 
   /* Chart Colors */
   --chart-1: oklch(0.68 0.2 275);
@@ -151,16 +170,16 @@
   /* Sidebar Colors */
   --sidebar: #09090b;
   --sidebar-foreground: #ffffff;
-  --sidebar-primary: #7663ff;
+  --sidebar-primary: #8a78ef;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #18181b;
   --sidebar-accent-foreground: #ffffff;
   --sidebar-border: #27272a;
-  --sidebar-ring: #7663ff;
+  --sidebar-ring: #8a78ef;
 
   --browser-chrome-top: var(--background);
-  --glow-accent: rgba(118, 99, 255, 0.28);
-  --glow-accent-subtle: rgba(118, 99, 255, 0.14);
+  --glow-accent: rgba(138, 120, 239, 0.28);
+  --glow-accent-subtle: rgba(138, 120, 239, 0.14);
 
   color-scheme: dark;
 }

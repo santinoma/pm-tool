@@ -5,7 +5,8 @@ import * as React from "react";
 import { cn } from "@/ui/shadcn/lib/utils";
 
 const badgeVariants = cva(
-  "inline-flex items-center justify-center rounded border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden",
+  // Reference "Masse" token: 6px chip radius.
+  "inline-flex items-center justify-center rounded-sm border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden",
   {
     variants: {
       variant: {
@@ -17,12 +18,14 @@ const badgeVariants = cva(
           "border-transparent bg-warning text-white [a&]:hover:bg-warning/90 focus-visible:ring-warning/20 dark:focus-visible:ring-warning/40 dark:bg-warning/60",
         destructive:
           "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+        info: "border-transparent bg-info text-info-foreground [a&]:hover:bg-info/90 focus-visible:ring-info/20 dark:focus-visible:ring-info/40 dark:bg-info/60",
         outline: "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
         successSubtle: "border border-transparent text-primary bg-primary/20",
         primaryOutline: "border border-primary rounded-full text-primary bg-primary/10",
         successOutline: "border border-success rounded-full text-success bg-success/10",
         warningOutline: "border border-warning rounded-full text-warning bg-warning/10",
         destructiveOutline: "border border-destructive rounded-full text-destructive bg-destructive/10",
+        infoOutline: "border border-info rounded-full text-info bg-info/10",
       },
     },
     defaultVariants: {
