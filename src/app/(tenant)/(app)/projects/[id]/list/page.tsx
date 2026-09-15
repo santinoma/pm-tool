@@ -24,7 +24,7 @@ export default async function ListPage({ params }: { params: Promise<{ id: strin
         ],
       },
       include: { status: true, assignee: true },
-      orderBy: { createdAt: "desc" },
+      orderBy: { position: "asc" },
     }),
     canManage
       ? context.tenantDb.sharedView.findMany({ where: { projectId: id }, orderBy: { createdAt: "desc" } })

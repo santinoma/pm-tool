@@ -10,6 +10,7 @@ import {
   type TaskFieldState,
 } from "@/tenant/workflow/transitionValidation";
 import { computeNextDueDate, type RecurrenceConfig } from "@/tenant/recurrence/computeNextOccurrence";
+import { nextAppendPosition } from "@/tenant/tasks/position";
 import type { PrismaClient } from "@/generated/tenant-client/client.js";
 
 const RECURRENCE_FREQUENCIES = new Set(["daily", "weekly", "monthly", "yearly"]);
@@ -170,6 +171,16 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   const effectiveCycleId: string | null | undefined = body.cycleId === null ? null : body.cycleId ?? undefined;
   const cycleActuallyChanged = cycleChanging && previousTask?.cycleId !== effectiveCycleId;
 
+  // Reference "prioritize tasks inside a task list": an explicit `position` (fractional
+  // drop-between-neighbors value) wins; a bare status change with no position appends
+  // the task to the end of the destination column, matching a drop with no reorder.
+  let resolvedPosition: number | undefined;
+  if (typeof body.position === "number") {
+    resolvedPosition = body.position;
+  } else if (statusChanging && previousTask && previousTask.statusId !== body.statusId) {
+    resolvedPosition = await nextAppendPosition(context.tenantDb, body.statusId);
+  }
+
   if (previousTask && previousTask.statusId !== body.statusId) {
     const primaryProjectId = previousTask.projects[0]?.projectId;
     if (primaryProjectId) {
@@ -217,6 +228,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       title: typeof body.title === "string" ? body.title : undefined,
       description: typeof body.description === "string" ? body.description : undefined,
       statusId: typeof body.statusId === "string" ? body.statusId : undefined,
+      position: resolvedPosition,
       assigneeId: body.assigneeId === null ? null : body.assigneeId ?? undefined,
       startDate: body.startDate ? new Date(body.startDate) : body.startDate === null ? null : undefined,
       dueDate: body.dueDate ? new Date(body.dueDate) : body.dueDate === null ? null : undefined,

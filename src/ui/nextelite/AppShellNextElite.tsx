@@ -763,7 +763,7 @@ export function AppShellNextElite({
               className="hidden text-muted-foreground md:inline-flex"
               asChild
             >
-              <Link href="/time" aria-label={t(locale, "nav.approvals")} title={t(locale, "nav.approvals")}>
+              <Link href="/approvals" aria-label={t(locale, "nav.approvals")} title={t(locale, "nav.approvals")}>
                 <CheckCircle2 className="size-4" />
               </Link>
             </Button>

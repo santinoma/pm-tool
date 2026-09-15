@@ -393,6 +393,7 @@ exports.Prisma.TaskScalarFieldEnum = {
   description: 'description',
   externalSourceUrl: 'externalSourceUrl',
   statusId: 'statusId',
+  position: 'position',
   priority: 'priority',
   tShirtSize: 'tShirtSize',
   assigneeId: 'assigneeId',

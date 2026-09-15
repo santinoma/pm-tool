@@ -503,6 +503,10 @@ model Task {
   externalSourceUrl   String?
   status              WorkflowStatus     @relation(fields: [statusId], references: [id])
   statusId            String
+  // Reference "prioritize tasks inside a task list" (drag reorder within a status
+  // column/list, persisted and shared between Board and List). Fractional so a drop
+  // between two neighbors only ever rewrites the moved task's row.
+  position            Float              @default(0)
   priority            TaskPriority       @default(no_priority)
   tShirtSize          TaskTShirtSize?
   assignee            User?              @relation(fields: [assigneeId], references: [id])

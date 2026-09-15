@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback } from "@/ui/shadcn/components/avatar";
 import { Badge } from "@/ui/shadcn/components/badge";
 import { Button } from "@/ui/shadcn/components/button";
 import { cn } from "@/ui/shadcn/lib/utils";
+import { positionBetween } from "@/tenant/tasks/position";
 
 interface BoardStatus {
   id: string;
@@ -30,6 +31,7 @@ interface BoardTask {
   id: string;
   title: string;
   statusId: string;
+  position: number;
   assignee: string | null;
   priority: string;
   tShirtSize: string | null;
@@ -60,19 +62,34 @@ export function BoardClient({
     [tasks],
   );
 
-  async function moveTask(taskId: string, statusId: string) {
+  async function moveTask(taskId: string, statusId: string, position?: number) {
     setLocalTasks((current) =>
-      current.map((task) => (task.id === taskId ? { ...task, statusId } : task)),
+      current.map((task) =>
+        task.id === taskId ? { ...task, statusId, ...(position !== undefined ? { position } : {}) } : task,
+      ),
     );
 
     const response = await fetch(`/api/tenant/tasks/${taskId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ statusId }),
+      body: JSON.stringify({ statusId, ...(position !== undefined ? { position } : {}) }),
     });
     if (!response.ok) {
       router.refresh();
     }
+  }
+
+  // Reference "prioritize tasks inside a task list": dropping a card above/below
+  // another one reorders it there instead of just appending to the column.
+  function moveTaskBefore(taskId: string, statusId: string, columnTasks: BoardTask[], beforeIndex: number) {
+    const draggedIndex = columnTasks.findIndex((t) => t.id === taskId);
+    // Removing the dragged task (when it's already in this column) shifts every
+    // index after it down by one, so the target slot needs the same correction.
+    const adjustedBeforeIndex = draggedIndex !== -1 && draggedIndex < beforeIndex ? beforeIndex - 1 : beforeIndex;
+    const others = columnTasks.filter((t) => t.id !== taskId);
+    const before = others[adjustedBeforeIndex - 1]?.position;
+    const after = others[adjustedBeforeIndex]?.position;
+    void moveTask(taskId, statusId, positionBetween(before, after));
   }
 
   return (
@@ -145,12 +162,28 @@ export function BoardClient({
             <div className="flex flex-col gap-2">
               {localTasks
                 .filter((task) => task.statusId === status.id)
-                .map((task) => (
+                .sort((a, b) => a.position - b.position)
+                .map((task, index, columnTasks) => (
                   <div
                     key={task.id}
                     draggable
                     onDragStart={(event) => {
                       event.dataTransfer.setData("text/task-id", task.id);
+                    }}
+                    onDragOver={(event) => {
+                      event.preventDefault();
+                      event.stopPropagation();
+                      setDragOverStatusId(status.id);
+                    }}
+                    onDrop={(event) => {
+                      event.preventDefault();
+                      event.stopPropagation();
+                      const taskId = event.dataTransfer.getData("text/task-id");
+                      setDragOverStatusId(null);
+                      if (!taskId || taskId === task.id) return;
+                      const rect = event.currentTarget.getBoundingClientRect();
+                      const droppedAfter = event.clientY > rect.top + rect.height / 2;
+                      moveTaskBefore(taskId, status.id, columnTasks, droppedAfter ? index + 1 : index);
                     }}
                     className="flex cursor-grab flex-col gap-2 rounded-md border bg-card p-3 text-sm shadow-xs transition-shadow hover:shadow-md"
                   >

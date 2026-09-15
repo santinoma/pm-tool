@@ -41504,11 +41504,13 @@ export namespace Prisma {
   }
 
   export type TaskAvgAggregateOutputType = {
+    position: number | null
     estimatedHours: number | null
     hillPosition: number | null
   }
 
   export type TaskSumAggregateOutputType = {
+    position: number | null
     estimatedHours: number | null
     hillPosition: number | null
   }
@@ -41519,6 +41521,7 @@ export namespace Prisma {
     description: string | null
     externalSourceUrl: string | null
     statusId: string | null
+    position: number | null
     priority: $Enums.TaskPriority | null
     tShirtSize: $Enums.TaskTShirtSize | null
     assigneeId: string | null
@@ -41545,6 +41548,7 @@ export namespace Prisma {
     description: string | null
     externalSourceUrl: string | null
     statusId: string | null
+    position: number | null
     priority: $Enums.TaskPriority | null
     tShirtSize: $Enums.TaskTShirtSize | null
     assigneeId: string | null
@@ -41571,6 +41575,7 @@ export namespace Prisma {
     description: number
     externalSourceUrl: number
     statusId: number
+    position: number
     priority: number
     tShirtSize: number
     assigneeId: number
@@ -41595,11 +41600,13 @@ export namespace Prisma {
 
 
   export type TaskAvgAggregateInputType = {
+    position?: true
     estimatedHours?: true
     hillPosition?: true
   }
 
   export type TaskSumAggregateInputType = {
+    position?: true
     estimatedHours?: true
     hillPosition?: true
   }
@@ -41610,6 +41617,7 @@ export namespace Prisma {
     description?: true
     externalSourceUrl?: true
     statusId?: true
+    position?: true
     priority?: true
     tShirtSize?: true
     assigneeId?: true
@@ -41636,6 +41644,7 @@ export namespace Prisma {
     description?: true
     externalSourceUrl?: true
     statusId?: true
+    position?: true
     priority?: true
     tShirtSize?: true
     assigneeId?: true
@@ -41662,6 +41671,7 @@ export namespace Prisma {
     description?: true
     externalSourceUrl?: true
     statusId?: true
+    position?: true
     priority?: true
     tShirtSize?: true
     assigneeId?: true
@@ -41776,6 +41786,7 @@ export namespace Prisma {
     description: string | null
     externalSourceUrl: string | null
     statusId: string
+    position: number
     priority: $Enums.TaskPriority
     tShirtSize: $Enums.TaskTShirtSize | null
     assigneeId: string | null
@@ -41822,6 +41833,7 @@ export namespace Prisma {
     description?: boolean
     externalSourceUrl?: boolean
     statusId?: boolean
+    position?: boolean
     priority?: boolean
     tShirtSize?: boolean
     assigneeId?: boolean
@@ -41871,6 +41883,7 @@ export namespace Prisma {
     description?: boolean
     externalSourceUrl?: boolean
     statusId?: boolean
+    position?: boolean
     priority?: boolean
     tShirtSize?: boolean
     assigneeId?: boolean
@@ -41904,6 +41917,7 @@ export namespace Prisma {
     description?: boolean
     externalSourceUrl?: boolean
     statusId?: boolean
+    position?: boolean
     priority?: boolean
     tShirtSize?: boolean
     assigneeId?: boolean
@@ -41937,6 +41951,7 @@ export namespace Prisma {
     description?: boolean
     externalSourceUrl?: boolean
     statusId?: boolean
+    position?: boolean
     priority?: boolean
     tShirtSize?: boolean
     assigneeId?: boolean
@@ -41958,7 +41973,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "externalSourceUrl" | "statusId" | "priority" | "tShirtSize" | "assigneeId" | "parentTaskId" | "startDate" | "dueDate" | "estimatedHours" | "hillPosition" | "inTriage" | "isKeyTask" | "isPrivate" | "isTemplate" | "taskListGroupId" | "recurrence" | "recurrenceParentId" | "cycleId" | "cycleAssignedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["task"]>
+  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "externalSourceUrl" | "statusId" | "position" | "priority" | "tShirtSize" | "assigneeId" | "parentTaskId" | "startDate" | "dueDate" | "estimatedHours" | "hillPosition" | "inTriage" | "isKeyTask" | "isPrivate" | "isTemplate" | "taskListGroupId" | "recurrence" | "recurrenceParentId" | "cycleId" | "cycleAssignedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["task"]>
   export type TaskInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     status?: boolean | WorkflowStatusDefaultArgs<ExtArgs>
     assignee?: boolean | Task$assigneeArgs<ExtArgs>
@@ -42031,6 +42046,7 @@ export namespace Prisma {
       description: string | null
       externalSourceUrl: string | null
       statusId: string
+      position: number
       priority: $Enums.TaskPriority
       tShirtSize: $Enums.TaskTShirtSize | null
       assigneeId: string | null
@@ -42499,6 +42515,7 @@ export namespace Prisma {
     readonly description: FieldRef<"Task", 'String'>
     readonly externalSourceUrl: FieldRef<"Task", 'String'>
     readonly statusId: FieldRef<"Task", 'String'>
+    readonly position: FieldRef<"Task", 'Float'>
     readonly priority: FieldRef<"Task", 'TaskPriority'>
     readonly tShirtSize: FieldRef<"Task", 'TaskTShirtSize'>
     readonly assigneeId: FieldRef<"Task", 'String'>
@@ -100533,6 +100550,7 @@ export namespace Prisma {
     description: 'description',
     externalSourceUrl: 'externalSourceUrl',
     statusId: 'statusId',
+    position: 'position',
     priority: 'priority',
     tShirtSize: 'tShirtSize',
     assigneeId: 'assigneeId',
@@ -103840,6 +103858,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Task"> | string | null
     externalSourceUrl?: StringNullableFilter<"Task"> | string | null
     statusId?: StringFilter<"Task"> | string
+    position?: FloatFilter<"Task"> | number
     priority?: EnumTaskPriorityFilter<"Task"> | $Enums.TaskPriority
     tShirtSize?: EnumTaskTShirtSizeNullableFilter<"Task"> | $Enums.TaskTShirtSize | null
     assigneeId?: StringNullableFilter<"Task"> | string | null
@@ -103888,6 +103907,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     externalSourceUrl?: SortOrderInput | SortOrder
     statusId?: SortOrder
+    position?: SortOrder
     priority?: SortOrder
     tShirtSize?: SortOrderInput | SortOrder
     assigneeId?: SortOrderInput | SortOrder
@@ -103939,6 +103959,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Task"> | string | null
     externalSourceUrl?: StringNullableFilter<"Task"> | string | null
     statusId?: StringFilter<"Task"> | string
+    position?: FloatFilter<"Task"> | number
     priority?: EnumTaskPriorityFilter<"Task"> | $Enums.TaskPriority
     tShirtSize?: EnumTaskTShirtSizeNullableFilter<"Task"> | $Enums.TaskTShirtSize | null
     assigneeId?: StringNullableFilter<"Task"> | string | null
@@ -103987,6 +104008,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     externalSourceUrl?: SortOrderInput | SortOrder
     statusId?: SortOrder
+    position?: SortOrder
     priority?: SortOrder
     tShirtSize?: SortOrderInput | SortOrder
     assigneeId?: SortOrderInput | SortOrder
@@ -104022,6 +104044,7 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"Task"> | string | null
     externalSourceUrl?: StringNullableWithAggregatesFilter<"Task"> | string | null
     statusId?: StringWithAggregatesFilter<"Task"> | string
+    position?: FloatWithAggregatesFilter<"Task"> | number
     priority?: EnumTaskPriorityWithAggregatesFilter<"Task"> | $Enums.TaskPriority
     tShirtSize?: EnumTaskTShirtSizeNullableWithAggregatesFilter<"Task"> | $Enums.TaskTShirtSize | null
     assigneeId?: StringNullableWithAggregatesFilter<"Task"> | string | null
@@ -109833,6 +109856,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -109876,6 +109900,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -109917,6 +109942,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -109960,6 +109986,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -110002,6 +110029,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -110028,6 +110056,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -110050,6 +110079,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -115831,6 +115861,7 @@ export namespace Prisma {
     description?: SortOrder
     externalSourceUrl?: SortOrder
     statusId?: SortOrder
+    position?: SortOrder
     priority?: SortOrder
     tShirtSize?: SortOrder
     assigneeId?: SortOrder
@@ -115853,6 +115884,7 @@ export namespace Prisma {
   }
 
   export type TaskAvgOrderByAggregateInput = {
+    position?: SortOrder
     estimatedHours?: SortOrder
     hillPosition?: SortOrder
   }
@@ -115863,6 +115895,7 @@ export namespace Prisma {
     description?: SortOrder
     externalSourceUrl?: SortOrder
     statusId?: SortOrder
+    position?: SortOrder
     priority?: SortOrder
     tShirtSize?: SortOrder
     assigneeId?: SortOrder
@@ -115889,6 +115922,7 @@ export namespace Prisma {
     description?: SortOrder
     externalSourceUrl?: SortOrder
     statusId?: SortOrder
+    position?: SortOrder
     priority?: SortOrder
     tShirtSize?: SortOrder
     assigneeId?: SortOrder
@@ -115910,6 +115944,7 @@ export namespace Prisma {
   }
 
   export type TaskSumOrderByAggregateInput = {
+    position?: SortOrder
     estimatedHours?: SortOrder
     hillPosition?: SortOrder
   }
@@ -126974,6 +127009,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -127016,6 +127052,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     parentTaskId?: string | null
@@ -128965,6 +129002,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Task"> | string | null
     externalSourceUrl?: StringNullableFilter<"Task"> | string | null
     statusId?: StringFilter<"Task"> | string
+    position?: FloatFilter<"Task"> | number
     priority?: EnumTaskPriorityFilter<"Task"> | $Enums.TaskPriority
     tShirtSize?: EnumTaskTShirtSizeNullableFilter<"Task"> | $Enums.TaskTShirtSize | null
     assigneeId?: StringNullableFilter<"Task"> | string | null
@@ -137180,6 +137218,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -137222,6 +137261,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -137909,6 +137949,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -137951,6 +137992,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -139481,6 +139523,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -139522,6 +139565,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -139988,6 +140032,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -140030,6 +140075,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -140075,6 +140121,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -140117,6 +140164,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -140188,6 +140236,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -140230,6 +140279,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -140275,6 +140325,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -140317,6 +140368,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -140917,6 +140969,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -140959,6 +141012,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -141053,6 +141107,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -141095,6 +141150,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -141449,6 +141505,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -141491,6 +141548,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -141564,6 +141622,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -141606,6 +141665,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -141669,6 +141729,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -141711,6 +141772,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -141910,6 +141972,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -141952,6 +142015,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -142141,6 +142205,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -142183,6 +142248,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -142382,6 +142448,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -142424,6 +142491,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -142613,6 +142681,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -142655,6 +142724,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -142874,6 +142944,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -142916,6 +142987,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -143461,6 +143533,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -143503,6 +143576,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -143702,6 +143776,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -143744,6 +143819,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -144938,6 +145014,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -144980,6 +145057,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -145668,6 +145746,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -145710,6 +145789,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -148011,6 +148091,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -148053,6 +148134,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -148200,6 +148282,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -148242,6 +148325,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -148379,6 +148463,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -148421,6 +148506,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -148466,6 +148552,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -148508,6 +148595,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -148564,6 +148652,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -148606,6 +148695,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -148657,6 +148747,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -148699,6 +148790,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -148739,6 +148831,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -148781,6 +148874,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -148826,6 +148920,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -148868,6 +148963,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -149067,6 +149163,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -149109,6 +149206,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -149160,6 +149258,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -149202,6 +149301,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -149732,6 +149832,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -149774,6 +149875,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -149865,6 +149967,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -149907,6 +150010,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -150841,6 +150945,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -150883,6 +150988,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -151262,6 +151368,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -151304,6 +151411,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -160401,6 +160509,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     parentTaskId?: string | null
@@ -160955,6 +161064,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -160997,6 +161107,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     parentTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -161038,6 +161149,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     parentTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -164305,6 +164417,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -164330,6 +164443,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -164372,6 +164486,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -164413,6 +164528,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -164629,6 +164745,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -164654,6 +164771,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -164696,6 +164814,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -164737,6 +164856,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -164762,6 +164882,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -164814,6 +164935,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -164855,6 +164977,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -164896,6 +165019,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -165001,6 +165125,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -165027,6 +165152,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -165151,6 +165277,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -165193,6 +165320,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -165234,6 +165362,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -165259,6 +165388,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -165301,6 +165431,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -165342,6 +165473,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
