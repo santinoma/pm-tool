@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 
 import { Badge } from "@/ui/shadcn/components/badge";
+import { Progress } from "@/ui/shadcn/components/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
 import { cn } from "@/ui/shadcn/lib/utils";
 
@@ -48,8 +49,22 @@ function ApprovalToggle({ projectId, field, value }: { projectId: string; field:
   );
 }
 
+function currencyFormat(value: number): string {
+  return new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(value);
+}
+
 export function FinancialsClient({ budgets }: { budgets: BudgetRow[] }) {
   const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set());
+
+  // Reference §03 "Kopf-Totale": aggregate summary over every visible budget —
+  // portfolio-at-a-glance, shown as a stat row above the table.
+  const totals = useMemo(() => {
+    const revenue = budgets.reduce((sum, b) => sum + b.revenue, 0);
+    const usedTimeHours = budgets.reduce((sum, b) => sum + b.usedTimeHours, 0);
+    const budgetedTimeHours = budgets.reduce((sum, b) => sum + b.budgetedTimeHours, 0);
+    const avgInvoicedPercent = budgets.length > 0 ? budgets.reduce((sum, b) => sum + b.invoicedPercent, 0) / budgets.length : 0;
+    return { revenue, usedTimeHours, budgetedTimeHours, avgInvoicedPercent };
+  }, [budgets]);
 
   function toggleGroup(key: string) {
     setCollapsedGroups((current) => {
@@ -85,7 +100,28 @@ export function FinancialsClient({ budgets }: { budgets: BudgetRow[] }) {
           <h3 className="font-semibold">Noch keine Budgets</h3>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-lg border">
+        <>
+          <div className="mb-5 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            <div className="rounded-lg border p-4">
+              <div className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">Invoiced</div>
+              <div className="mt-1 font-mono text-xl tabular-nums">{totals.avgInvoicedPercent.toFixed(0)}%</div>
+            </div>
+            <div className="rounded-lg border p-4">
+              <div className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">Revenue</div>
+              <div className="mt-1 font-mono text-xl tabular-nums">{currencyFormat(totals.revenue)}</div>
+            </div>
+            <div className="rounded-lg border p-4">
+              <div className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">Budgeted time</div>
+              <div className="mt-1 font-mono text-xl tabular-nums">
+                {totals.usedTimeHours.toFixed(0)} / {totals.budgetedTimeHours.toFixed(0)} h
+              </div>
+            </div>
+            <div className="rounded-lg border p-4">
+              <div className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">Budgets</div>
+              <div className="mt-1 font-mono text-xl tabular-nums">{budgets.length}</div>
+            </div>
+          </div>
+          <div className="overflow-hidden rounded-lg border">
           <Table>
             <TableHeader>
               <TableRow>
@@ -131,10 +167,28 @@ export function FinancialsClient({ budgets }: { budgets: BudgetRow[] }) {
                           <TableCell>
                             <ApprovalToggle projectId={budget.projectId} field="expenseApprovalRequired" value={budget.expenseApprovalRequired} />
                           </TableCell>
-                          <TableCell className="text-muted-foreground">{budget.invoicedPercent}%</TableCell>
-                          <TableCell className="text-muted-foreground">{budget.revenue.toFixed(2)}</TableCell>
-                          <TableCell className="text-muted-foreground">
-                            {budget.usedTimeHours.toFixed(2)}h / {budget.budgetedTimeHours.toFixed(2)}h
+                          <TableCell className="w-32">
+                            <div className="flex items-center gap-2">
+                              <Progress
+                                value={Math.min(budget.invoicedPercent, 100)}
+                                variant={budget.invoicedPercent > 100 ? "destructive" : "success"}
+                                className="h-1.5"
+                              />
+                              <span className="font-mono text-xs tabular-nums text-muted-foreground">{budget.invoicedPercent}%</span>
+                            </div>
+                          </TableCell>
+                          <TableCell className="font-mono tabular-nums text-muted-foreground">{currencyFormat(budget.revenue)}</TableCell>
+                          <TableCell className="w-40">
+                            <div className="flex items-center gap-2">
+                              <Progress
+                                value={budget.budgetedTimeHours > 0 ? Math.min((budget.usedTimeHours / budget.budgetedTimeHours) * 100, 100) : 0}
+                                variant={budget.usedTimeHours > budget.budgetedTimeHours ? "destructive" : "success"}
+                                className="h-1.5"
+                              />
+                              <span className="font-mono text-xs tabular-nums whitespace-nowrap text-muted-foreground">
+                                {budget.usedTimeHours.toFixed(0)}/{budget.budgetedTimeHours.toFixed(0)}h
+                              </span>
+                            </div>
                           </TableCell>
                         </TableRow>
                       ))}
@@ -143,7 +197,8 @@ export function FinancialsClient({ budgets }: { budgets: BudgetRow[] }) {
               })}
             </TableBody>
           </Table>
-        </div>
+          </div>
+        </>
       )}
     </div>
   );
