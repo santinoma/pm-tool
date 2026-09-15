@@ -3,11 +3,12 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Paperclip, Plus, X } from "lucide-react";
+import { Check, Eye, EyeOff, Link2, Maximize2, Paperclip, Play, Plus, Square, X } from "lucide-react";
 import { FavoriteButton } from "@/ui/components/FavoriteButton";
 import { CustomFieldInput, CustomFieldValueDisplay, type CustomFieldInputType } from "@/ui/components/CustomFieldInput";
 
 import { Badge } from "@/ui/shadcn/components/badge";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/ui/shadcn/components/breadcrumb";
 import { Button } from "@/ui/shadcn/components/button";
 import { Card, CardContent } from "@/ui/shadcn/components/card";
 import { Checkbox } from "@/ui/shadcn/components/checkbox";
@@ -186,6 +187,7 @@ export function TaskDetailClient({
   customFieldDefs = [],
   taskLists = [],
   isFavorite = false,
+  currentUserId,
 }: {
   projectId: string;
   task: TaskDetail;
@@ -194,10 +196,15 @@ export function TaskDetailClient({
   customFieldDefs?: { id: string; type: CustomFieldInputType; options: string[] }[];
   taskLists?: { id: string; label: string }[];
   isFavorite?: boolean;
+  currentUserId: string;
 }) {
   const router = useRouter();
   const [commentBody, setCommentBody] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [runningTimerTaskId, setRunningTimerTaskId] = useState<string | null>(null);
+  const [timerBusy, setTimerBusy] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
+  const isWatching = task.subscribers.some((subscriber) => subscriber.userId === currentUserId);
   const [uploading, setUploading] = useState(false);
   const [editingDescription, setEditingDescription] = useState(false);
   const [descriptionDraft, setDescriptionDraft] = useState(task.description ?? "");
@@ -213,6 +220,61 @@ export function TaskDetailClient({
   );
   const [timeDescription, setTimeDescription] = useState("");
   const [timeMinutes, setTimeMinutes] = useState("");
+
+  // Reference action bar (§05 Task-Detail): "Timer ▶ … läuft unabhängig vom
+  // Screen" — reuses the same global timer endpoints the App-Chrome widget
+  // uses, so starting it here and stopping it from the header (or vice
+  // versa) stay in sync via the shared TimeEntry row.
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/tenant/timer")
+      .then((response) => (response.ok ? response.json() : { entry: null }))
+      .then((data) => {
+        if (!cancelled) setRunningTimerTaskId(data.entry?.taskId ?? null);
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, [task.id]);
+
+  async function handleToggleTimer() {
+    setTimerBusy(true);
+    try {
+      if (runningTimerTaskId === task.id) {
+        await fetch("/api/tenant/timer/stop", { method: "POST" });
+        setRunningTimerTaskId(null);
+      } else {
+        await fetch("/api/tenant/timer/start", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ taskId: task.id, projectId }),
+        });
+        setRunningTimerTaskId(task.id);
+      }
+    } finally {
+      setTimerBusy(false);
+    }
+  }
+
+  async function handleToggleWatch() {
+    if (isWatching) {
+      await fetch(`/api/tenant/tasks/${task.id}/subscribers/${currentUserId}`, { method: "DELETE" });
+    } else {
+      await fetch(`/api/tenant/tasks/${task.id}/subscribers`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: currentUserId }),
+      });
+    }
+    router.refresh();
+  }
+
+  async function handleCopyLink() {
+    await navigator.clipboard.writeText(window.location.href);
+    setLinkCopied(true);
+    setTimeout(() => setLinkCopied(false), 1500);
+  }
 
   async function updateTask(data: Record<string, unknown>) {
     await fetch(`/api/tenant/tasks/${task.id}`, {
@@ -397,8 +459,73 @@ export function TaskDetailClient({
 
   const customFieldDefById = new Map(customFieldDefs.map((def) => [def.id, def]));
 
+  const taskListLabel = taskLists.find((list) => list.id === task.taskListGroupId)?.label;
+  const shortRef = `#T-${task.id.slice(0, 8).toUpperCase()}`;
+  const isTimerRunningHere = runningTimerTaskId === task.id;
+
   return (
     <div className="mx-auto max-w-5xl pb-10">
+      {/* Reference "Aktionsleiste" (§05 Task-Detail): Timer ▶, Beobachten, Link,
+          Favorit, Vollbild, Schließen. "Sperren"/"…" omitted — no locking
+          feature exists in this app, and there are no further bulk actions
+          to hide behind a menu yet. */}
+      <div className="mb-3 flex items-center justify-between gap-2">
+        <Breadcrumb>
+          <BreadcrumbList>
+            {taskListLabel && (
+              <>
+                <BreadcrumbItem>{taskListLabel}</BreadcrumbItem>
+                <BreadcrumbSeparator />
+              </>
+            )}
+            <BreadcrumbItem>
+              <BreadcrumbPage className="font-mono text-xs">{shortRef}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+
+        <div className="flex items-center gap-1">
+          <Button
+            type="button"
+            variant={isTimerRunningHere ? "outlineDestructive" : "ghost"}
+            size="sm"
+            disabled={timerBusy}
+            onClick={handleToggleTimer}
+            title={isTimerRunningHere ? "Timer stoppen" : "Timer für diesen Task starten"}
+          >
+            {isTimerRunningHere ? <Square className="size-3.5 fill-current" /> : <Play className="size-4" />}
+            {isTimerRunningHere ? "Stop" : "Timer"}
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-sm"
+            onClick={handleToggleWatch}
+            aria-pressed={isWatching}
+            title={isWatching ? "Nicht mehr beobachten" : "Beobachten"}
+            className={isWatching ? "text-primary" : "text-muted-foreground"}
+          >
+            {isWatching ? <Eye className="size-4" /> : <EyeOff className="size-4" />}
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-sm"
+            onClick={handleCopyLink}
+            title={linkCopied ? "Link kopiert!" : "Link kopieren"}
+            className="text-muted-foreground"
+          >
+            {linkCopied ? <Check className="size-4 text-success" /> : <Link2 className="size-4" />}
+          </Button>
+          <FavoriteButton entityType="task" entityId={task.id} initialFavorited={isFavorite} />
+          <Button type="button" variant="ghost" size="icon-sm" className="text-muted-foreground" asChild>
+            <a href={`/projects/${projectId}/tasks/${task.id}`} title="Vollbild öffnen">
+              <Maximize2 className="size-4" />
+            </a>
+          </Button>
+        </div>
+      </div>
+
       {task.parentTask && (
         <p className="mb-2 text-xs text-muted-foreground">
           Subtask von{" "}
@@ -443,9 +570,39 @@ export function TaskDetailClient({
             </div>
           )}
 
-          <Card className="mb-6">
-            <CardContent className="flex flex-col gap-3">
-              <h3 className="text-sm font-semibold">Dependencies</h3>
+          {error && <p className="mb-4 text-sm text-destructive">{error}</p>}
+
+          {/* Reference "Objekt-Subtabs": Attachments · Dependencies · Subtasks · To-dos */}
+          <Tabs defaultValue="attachments" className="mb-8">
+            <TabsList>
+              <TabsTrigger value="attachments">
+                Attachments{task.attachments.length > 0 ? ` (${task.attachments.length})` : ""}
+              </TabsTrigger>
+              <TabsTrigger value="dependencies">Dependencies</TabsTrigger>
+              <TabsTrigger value="subtasks">Subtasks{task.subtasks.length > 0 ? ` (${task.subtasks.length})` : ""}</TabsTrigger>
+              <TabsTrigger value="todos">To-dos{task.todos.length > 0 ? ` (${task.todos.length})` : ""}</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="attachments" className="pt-4">
+              {task.attachments.length > 0 && (
+                <ul className="mb-3 flex flex-col gap-1.5">
+                  {task.attachments.map((attachment) => (
+                    <li key={attachment.id} className="flex items-center justify-between gap-3 text-sm">
+                      <a href={`/api/tenant/attachments/${attachment.id}/download`} className="flex items-center gap-1.5 font-semibold hover:text-primary">
+                        <Paperclip className="size-3.5 text-muted-foreground" />
+                        {attachment.filename}
+                      </a>
+                      <span className="text-xs text-muted-foreground">
+                        {Math.round(attachment.sizeBytes / 1024)} KB · {attachment.uploadedBy}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <input type="file" onChange={handleFileUpload} disabled={uploading} className="text-sm" />
+            </TabsContent>
+
+            <TabsContent value="dependencies" className="flex flex-col gap-4 pt-4">
               <div>
                 <p className="mb-1 text-xs font-semibold text-muted-foreground uppercase">Blockiert</p>
                 {task.blocking.length === 0 ? (
@@ -486,103 +643,80 @@ export function TaskDetailClient({
                 )}
                 <DependencyAddControl taskId={task.id} ownId={task.id} mode="blockedBy" />
               </div>
-            </CardContent>
-          </Card>
+            </TabsContent>
 
-          {error && <p className="mb-4 text-sm text-destructive">{error}</p>}
+            <TabsContent value="subtasks" className="pt-4">
+              {task.subtasks.length > 0 && (
+                <ul className="mb-3 flex flex-col gap-1">
+                  {task.subtasks.map((sub) => (
+                    <li key={sub.id} className="flex items-center justify-between gap-3 border-b py-1.5 text-sm last:border-0">
+                      <Link href={`/projects/${projectId}/tasks/${sub.id}`} className="hover:text-primary hover:underline">
+                        {sub.title}
+                      </Link>
+                      <span className="text-xs text-muted-foreground">
+                        {sub.statusName}
+                        {sub.assigneeLabel ? ` · ${sub.assigneeLabel}` : ""}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <form onSubmit={handleAddSubtask} className="flex gap-2">
+                <Input placeholder="Neuer Subtask…" value={newSubtaskTitle} onChange={(event) => setNewSubtaskTitle(event.target.value)} className="flex-1" />
+                <Button type="submit" variant="outline" size="sm">
+                  Hinzufügen
+                </Button>
+              </form>
+            </TabsContent>
 
-          {/* Attachments */}
-          <h2 className="mb-3 text-lg font-semibold">
-            Anhänge{task.attachments.length > 0 ? ` (${task.attachments.length})` : ""}
-          </h2>
-          {task.attachments.length > 0 && (
-            <ul className="mb-3 flex flex-col gap-1.5">
-              {task.attachments.map((attachment) => (
-                <li key={attachment.id} className="flex items-center justify-between gap-3 text-sm">
-                  <a href={`/api/tenant/attachments/${attachment.id}/download`} className="flex items-center gap-1.5 font-semibold hover:text-primary">
-                    <Paperclip className="size-3.5 text-muted-foreground" />
-                    {attachment.filename}
-                  </a>
-                  <span className="text-xs text-muted-foreground">
-                    {Math.round(attachment.sizeBytes / 1024)} KB · {attachment.uploadedBy}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
-          <input type="file" onChange={handleFileUpload} disabled={uploading} className="mb-6 text-sm" />
-
-          {/* Subtasks */}
-          <h2 className="mb-3 text-lg font-semibold">Subtasks</h2>
-          {task.subtasks.length > 0 && (
-            <ul className="mb-3 flex flex-col gap-1">
-              {task.subtasks.map((sub) => (
-                <li key={sub.id} className="flex items-center justify-between gap-3 border-b py-1.5 text-sm last:border-0">
-                  <Link href={`/projects/${projectId}/tasks/${sub.id}`} className="hover:text-primary hover:underline">
-                    {sub.title}
-                  </Link>
-                  <span className="text-xs text-muted-foreground">
-                    {sub.statusName}
-                    {sub.assigneeLabel ? ` · ${sub.assigneeLabel}` : ""}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
-          <form onSubmit={handleAddSubtask} className="mb-6 flex gap-2">
-            <Input placeholder="Neuer Subtask…" value={newSubtaskTitle} onChange={(event) => setNewSubtaskTitle(event.target.value)} className="flex-1" />
-            <Button type="submit" variant="outline" size="sm">
-              Hinzufügen
-            </Button>
-          </form>
-
-          {/* To-dos */}
-          <h2 className="mb-3 text-lg font-semibold">To-dos</h2>
-          {task.todos.length > 0 && (
-            <ul className="mb-3 flex flex-col gap-1.5">
-              {task.todos.map((todo) => (
-                <li key={todo.id} className="flex items-center justify-between gap-2 text-sm">
-                  <label className="flex items-center gap-2">
-                    <Checkbox checked={todo.isDone} onCheckedChange={(checked) => handleToggleTodo(todo.id, checked === true)} />
-                    <span className={todo.isDone ? "line-through" : ""}>{todo.title}</span>
-                  </label>
-                  <div className="flex items-center gap-2">
-                    <Select defaultValue={todo.assigneeId ?? "__none__"} onValueChange={(value) => handleTodoAssigneeChange(todo.id, value)}>
-                      <SelectTrigger className="h-8 w-36 text-xs"><SelectValue /></SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="__none__">— niemand —</SelectItem>
-                        {users.map((user) => (
-                          <SelectItem key={user.id} value={user.id}>
-                            {user.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <Button variant="ghost" size="sm" onClick={() => handleDeleteTodo(todo.id)}>
-                      Löschen
-                    </Button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
-          <form onSubmit={handleAddTodo} className="mb-6 flex gap-2">
-            <Input placeholder="Neues To-do…" value={newTodoTitle} onChange={(event) => setNewTodoTitle(event.target.value)} className="flex-1" />
-            <Select value={newTodoAssigneeId} onValueChange={setNewTodoAssigneeId}>
-              <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="__none__">— niemand —</SelectItem>
-                {users.map((user) => (
-                  <SelectItem key={user.id} value={user.id}>
-                    {user.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Button type="submit" variant="outline" size="sm">
-              Hinzufügen
-            </Button>
-          </form>
+            <TabsContent value="todos" className="pt-4">
+              {task.todos.length > 0 && (
+                <ul className="mb-3 flex flex-col gap-1.5">
+                  {task.todos.map((todo) => (
+                    <li key={todo.id} className="flex items-center justify-between gap-2 text-sm">
+                      <label className="flex items-center gap-2">
+                        <Checkbox checked={todo.isDone} onCheckedChange={(checked) => handleToggleTodo(todo.id, checked === true)} />
+                        <span className={todo.isDone ? "line-through" : ""}>{todo.title}</span>
+                      </label>
+                      <div className="flex items-center gap-2">
+                        <Select defaultValue={todo.assigneeId ?? "__none__"} onValueChange={(value) => handleTodoAssigneeChange(todo.id, value)}>
+                          <SelectTrigger className="h-8 w-36 text-xs"><SelectValue /></SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="__none__">— niemand —</SelectItem>
+                            {users.map((user) => (
+                              <SelectItem key={user.id} value={user.id}>
+                                {user.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <Button variant="ghost" size="sm" onClick={() => handleDeleteTodo(todo.id)}>
+                          Löschen
+                        </Button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <form onSubmit={handleAddTodo} className="flex gap-2">
+                <Input placeholder="Neues To-do…" value={newTodoTitle} onChange={(event) => setNewTodoTitle(event.target.value)} className="flex-1" />
+                <Select value={newTodoAssigneeId} onValueChange={setNewTodoAssigneeId}>
+                  <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="__none__">— niemand —</SelectItem>
+                    {users.map((user) => (
+                      <SelectItem key={user.id} value={user.id}>
+                        {user.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Button type="submit" variant="outline" size="sm">
+                  Hinzufügen
+                </Button>
+              </form>
+            </TabsContent>
+          </Tabs>
 
           {/* Feed / Time tabs */}
           <Tabs defaultValue="feed" className="mt-8">
@@ -772,7 +906,6 @@ export function TaskDetailClient({
             </div>
 
             <div className="flex flex-wrap items-center gap-4">
-              <FavoriteButton entityType="task" entityId={task.id} initialFavorited={isFavorite} size="md" />
               <label className="flex items-center gap-2 text-sm">
                 <Checkbox defaultChecked={task.isKeyTask} onCheckedChange={(checked) => updateTask({ isKeyTask: checked === true })} />
                 Key Task

@@ -33,6 +33,7 @@ export default async function TaskDetailModal({
         customFieldDefs={data.customFieldDefs}
         taskLists={data.taskLists}
         isFavorite={data.isFavorite}
+        currentUserId={context.currentUser.id}
       />
       <TaskLinksPanel taskId={taskId} links={data.linkedTasks} />
     </TaskSlideOver>

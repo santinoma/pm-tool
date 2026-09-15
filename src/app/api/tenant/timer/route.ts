@@ -27,6 +27,7 @@ export async function GET() {
       id: runningEntry.id,
       startedAt: runningEntry.startedAt.toISOString(),
       label: runningEntry.task?.title ?? runningEntry.project?.name ?? "—",
+      taskId: runningEntry.taskId,
     },
   });
 }
