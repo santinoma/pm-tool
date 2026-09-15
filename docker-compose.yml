@@ -44,11 +44,26 @@ services:
     ports:
       - "3000:3000"
 
+  # Web UI to browse/query the Postgres data (both the platform DB and every
+  # per-tenant DB, since they all live in the same `postgres` container) —
+  # reachable at http://db.localhost once Caddy is up. Dev-only: never added
+  # to docker-compose.prod.yml — a DB admin UI has no business being exposed
+  # on a production host.
+  adminer:
+    image: adminer:4-standalone
+    restart: unless-stopped
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+
   caddy:
     image: caddy:2-alpine
     restart: unless-stopped
     depends_on:
       - app
+      - adminer
     ports:
       # Overridable — some hosts already have something else bound to 80 (e.g. a system
       # nginx/apache), which otherwise makes `docker compose up` fail outright. Set
