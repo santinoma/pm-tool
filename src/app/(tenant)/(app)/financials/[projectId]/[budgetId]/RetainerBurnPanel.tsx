@@ -38,7 +38,7 @@ export function RetainerBurnPanel({
                 {row.usedHours.toFixed(1)}h / {row.periodQuantityHours.toFixed(1)}h ({row.usagePercent.toFixed(0)}%)
               </span>
             </div>
-            <Progress value={Math.min(100, row.usagePercent)} variant={row.usagePercent > 100 ? "destructive" : "default"} />
+            <Progress value={Math.min(100, row.usagePercent)} variant={row.usagePercent > 100 ? "destructive" : "success"} />
             <p className="mt-2 text-sm text-muted-foreground">Verbleibend: {row.remainingHours.toFixed(1)}h</p>
           </div>
         ))}

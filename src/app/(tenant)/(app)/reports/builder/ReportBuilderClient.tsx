@@ -28,7 +28,11 @@ const CHART_TYPE_LABELS: Record<ChartType, string> = {
   pie: "Kreisdiagramm",
 };
 
-const CHART_COLORS = ["#6366f1", "#22c55e", "#f59e0b", "#ef4444", "#06b6d4", "#a855f7", "#ec4899", "#84cc16"];
+// Reference §05: "Konsistente Farb-/Legenden-Sprache über alle Widgets
+// (dieselbe Palette wie Inline-Donuts der Listen)" — reuses the design
+// system's Accent/RAG/Info tokens (see --chart-1..5 in tokens.css) instead
+// of an unrelated hardcoded rainbow palette.
+const CHART_COLORS = ["var(--chart-1)", "var(--chart-2)", "var(--chart-3)", "var(--chart-4)", "var(--chart-5)"];
 
 const DATA_SOURCE_LABELS: Record<ReportDataSource, string> = {
   tasks: "Tasks",
@@ -338,7 +342,7 @@ export function ReportBuilderClient({
 
       <h2 className="mb-3 text-lg font-semibold">Vorlagen</h2>
       <p className="mb-4 text-sm text-muted-foreground">
-        Vorlage wählen, um Datenquelle, Filter, Gruppierung und Diagramm vorauszufüllen — danach mit „Bericht ausführen"
+        Vorlage wählen, um Datenquelle, Filter, Gruppierung und Diagramm vorauszufüllen — danach mit „Bericht ausführen&rdquo;
         starten oder anpassen.
       </p>
       <div className="mb-8 flex flex-col gap-5">
@@ -519,7 +523,7 @@ export function ReportBuilderClient({
                           <XAxis dataKey="name" tick={{ fill: "var(--muted-foreground)", fontSize: 12 }} />
                           <YAxis allowDecimals={false} tick={{ fill: "var(--muted-foreground)", fontSize: 12 }} />
                           <Tooltip />
-                          <Bar dataKey="count" fill="#6366f1" radius={[4, 4, 0, 0]} />
+                          <Bar dataKey="count" fill="var(--primary)" radius={[4, 4, 0, 0]} />
                         </BarChart>
                       ) : chartType === "line" ? (
                         <LineChart data={chartData}>
@@ -527,7 +531,7 @@ export function ReportBuilderClient({
                           <XAxis dataKey="name" tick={{ fill: "var(--muted-foreground)", fontSize: 12 }} />
                           <YAxis allowDecimals={false} tick={{ fill: "var(--muted-foreground)", fontSize: 12 }} />
                           <Tooltip />
-                          <Line type="monotone" dataKey="count" stroke="#6366f1" strokeWidth={2} />
+                          <Line type="monotone" dataKey="count" stroke="var(--primary)" strokeWidth={2} />
                         </LineChart>
                       ) : (
                         <PieChart>

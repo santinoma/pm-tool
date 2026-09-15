@@ -81,7 +81,7 @@ export function BudgetClient({
                 {actualHours.toFixed(1)}h{budget.budgetHours !== null ? ` / ${budget.budgetHours}h` : ""}
               </span>
             </div>
-            {hoursPercent !== null && <Progress value={Math.min(100, hoursPercent)} variant={hoursPercent > 100 ? "destructive" : "default"} />}
+            {hoursPercent !== null && <Progress value={Math.min(100, hoursPercent)} variant={hoursPercent > 100 ? "destructive" : "success"} />}
           </div>
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center justify-between text-sm">
@@ -91,7 +91,7 @@ export function BudgetClient({
                 {budget.budgetAmount !== null ? ` / ${formatAmount(budget.budgetAmount, currency)}` : ""}
               </span>
             </div>
-            {amountPercent !== null && <Progress value={Math.min(100, amountPercent)} variant={amountPercent > 100 ? "destructive" : "default"} />}
+            {amountPercent !== null && <Progress value={Math.min(100, amountPercent)} variant={amountPercent > 100 ? "destructive" : "success"} />}
           </div>
         </CardContent>
       </Card>

@@ -181,7 +181,7 @@ function ProgressRowItem({ label, sub, percent }: { label: React.ReactNode; sub:
         <span className="min-w-0 truncate">{label}</span>
         <span className="shrink-0 text-muted-foreground">{sub}</span>
       </div>
-      <Progress value={Math.min(100, percent)} variant={percent > 100 ? "destructive" : "default"} />
+      <Progress value={Math.min(100, percent)} variant={percent > 100 ? "destructive" : "success"} />
     </div>
   );
 }
@@ -439,7 +439,7 @@ export function DashboardClient({
                       <TableCell className="text-right text-muted-foreground">
                         {remaining !== null ? `${remaining.toFixed(unit ? 1 : 2)}${unit}` : "—"}
                       </TableCell>
-                      <TableCell>{percent !== null && <Progress value={Math.min(100, percent)} variant={percent > 100 ? "destructive" : "default"} />}</TableCell>
+                      <TableCell>{percent !== null && <Progress value={Math.min(100, percent)} variant={percent > 100 ? "destructive" : "success"} />}</TableCell>
                     </TableRow>
                   );
                 })}

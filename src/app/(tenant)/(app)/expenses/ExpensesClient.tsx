@@ -206,8 +206,8 @@ export function ExpensesClient({
                 <TableHead>Service type</TableHead>
                 <TableHead>Person</TableHead>
                 <TableHead>Client</TableHead>
-                <TableHead>Billable</TableHead>
-                <TableHead>Net expense cost</TableHead>
+                <TableHead className="text-right">Billable</TableHead>
+                <TableHead className="text-right">Net expense cost</TableHead>
                 <TableHead>Approval status</TableHead>
                 <TableHead>Approved by</TableHead>
                 {canApprove && <TableHead></TableHead>}
@@ -253,8 +253,8 @@ export function ExpensesClient({
                               <TableCell className="text-muted-foreground">{expense.serviceTypeName ?? "—"}</TableCell>
                               <TableCell className="text-muted-foreground">{expense.personName}</TableCell>
                               <TableCell className="text-muted-foreground">{expense.clientName ?? "—"}</TableCell>
-                              <TableCell className="text-muted-foreground">{expense.billable ? expense.amount.toFixed(2) : "0.00"}</TableCell>
-                              <TableCell className="text-muted-foreground">{expense.amount.toFixed(2)}</TableCell>
+                              <TableCell className="text-right font-mono tabular-nums text-muted-foreground">{expense.billable ? expense.amount.toFixed(2) : "0.00"}</TableCell>
+                              <TableCell className="text-right font-mono tabular-nums text-muted-foreground">{expense.amount.toFixed(2)}</TableCell>
                               <TableCell>
                                 <Badge variant={APPROVAL_BADGE_VARIANT[expense.approvalStatus]}>{APPROVAL_LABEL[expense.approvalStatus]}</Badge>
                               </TableCell>
