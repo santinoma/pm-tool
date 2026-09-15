@@ -30,7 +30,14 @@ export function CommandPalette() {
         setOpen((current) => !current);
       }
     }
-    function handleOpenEvent() {
+    // The global "Quick add" chrome button dispatches this with `detail: "create"`
+    // to land directly on the Quick-Add tab instead of Search (reference: distinct
+    // "+" vs "search" icons in the global action bar).
+    function handleOpenEvent(event: Event) {
+      const requestedMode = (event as CustomEvent<string>).detail;
+      if (requestedMode === "create" || requestedMode === "new-task" || requestedMode === "search") {
+        setMode(requestedMode);
+      }
       setOpen(true);
     }
     window.addEventListener("keydown", handleKeyDown);

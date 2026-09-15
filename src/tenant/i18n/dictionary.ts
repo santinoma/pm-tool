@@ -34,6 +34,15 @@ const STRINGS = {
   "nav.reportsProgress": { de: "Fortschritt", en: "Progress" },
   "nav.reportsBuilder": { de: "Berichte erstellen", en: "Create report" },
   "nav.nothingRecent": { de: "Nichts Aktuelles.", en: "Nothing recent." },
+  // Nav — global action bar (reference: Quick add / Timer / Email Inbox / Approvals / Search / Help / Account)
+  "nav.quickAdd": { de: "Schnell hinzufügen", en: "Quick add" },
+  "nav.timer": { de: "Timer", en: "Timer" },
+  "nav.startTimer": { de: "Timer starten", en: "Start timer" },
+  "nav.stopTimer": { de: "Timer stoppen", en: "Stop timer" },
+  "nav.emailInbox": { de: "E-Mail-Postfach", en: "Email inbox" },
+  "nav.emailInboxComingSoon": { de: "E-Mail-Postfach — bald verfügbar", en: "Email inbox — coming soon" },
+  "nav.approvals": { de: "Freigaben", en: "Approvals" },
+  "nav.help": { de: "Hilfe", en: "Help" },
 
   // Nav — Projektmanagement sub-items + recent panels
   "nav.tasks": { de: "Tasks", en: "Tasks" },

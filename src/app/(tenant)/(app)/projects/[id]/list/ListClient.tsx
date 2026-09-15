@@ -3,17 +3,32 @@
 import { Fragment, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ChevronDown, Download, Lock, Plus, Sparkles, Upload } from "lucide-react";
+import { ChevronDown, Download, Filter, Lock, Plus, Rows3, Search, Sparkles, Upload, Zap } from "lucide-react";
 import { LegendKey } from "@/ui/components/LegendKey";
 import { NewTaskModal, type NewTaskModalStatusOption, type NewTaskModalUserOption, type NewTaskModalCustomField, type NewTaskModalTaskOption } from "@/ui/components/NewTaskModal";
 import { CsvImportModal } from "@/ui/components/CsvImportModal";
 import { SavedViewsBar, type SavedViewRecord } from "@/ui/components/SavedViewsBar";
 import { resolveViewFilters } from "@/tenant/savedViews/resolveViewFilters";
 
+import { Badge } from "@/ui/shadcn/components/badge";
 import { Button } from "@/ui/shadcn/components/button";
+import { Checkbox } from "@/ui/shadcn/components/checkbox";
+import { Input } from "@/ui/shadcn/components/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/ui/shadcn/components/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
 import { cn } from "@/ui/shadcn/lib/utils";
+
+// Reference "universelles Listen-Muster" (§03): Sicht ▾ · Layout ▾ · Fields ·
+// Filters · Group · Sort · Automate · Export ⤓ · 🔍 · Primäraktion. "Layout"
+// isn't a dropdown here — List/Board/Calendar/Gantt already exist as the
+// project's own tab-strip (ProjectSubnav), which is the same underlying
+// pattern (same data, switchable form).
+const ALL_COLUMNS = [
+  { key: "assignee", label: "Assignee" },
+  { key: "dueDate", label: "Fälligkeit" },
+] as const;
+type ColumnKey = (typeof ALL_COLUMNS)[number]["key"];
 
 interface ListTask {
   id: string;
@@ -64,6 +79,8 @@ export function ListClient({
   const [statusFilter, setStatusFilter] = useState<string>("");
   const [groupBy, setGroupBy] = useState<GroupKey>("status");
   const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set());
+  const [titleQuery, setTitleQuery] = useState("");
+  const [visibleColumns, setVisibleColumns] = useState<Record<ColumnKey, boolean>>({ assignee: true, dueDate: true });
   // Quick Add (Cmd+K → "Neuer Task") navigiert hierher mit ?newTask=1, statt eine
   // zweite Task-Erstell-UI in der Command Palette nachzubauen — das öffnet direkt
   // den bestehenden NewTaskModal-Flow. Lazy initializer statt Effekt+setState,
@@ -90,13 +107,19 @@ export function ListClient({
   );
 
   const visibleTasks = useMemo(() => {
-    const filtered = statusFilter ? tasks.filter((t) => t.status === statusFilter) : tasks;
+    let filtered = statusFilter ? tasks.filter((t) => t.status === statusFilter) : tasks;
+    const query = titleQuery.trim().toLowerCase();
+    if (query.length > 0) {
+      filtered = filtered.filter((t) => t.title.toLowerCase().includes(query));
+    }
     return [...filtered].sort((a, b) => {
       const aValue = a[sortKey] ?? "";
       const bValue = b[sortKey] ?? "";
       return aValue.localeCompare(bValue);
     });
-  }, [tasks, sortKey, statusFilter]);
+  }, [tasks, sortKey, statusFilter, titleQuery]);
+
+  const activeFilterCount = statusFilter ? 1 : 0;
 
   // Order groups the same way the project's workflow does (statusOptions is
   // already sorted by position), falling back to first-seen order for any
@@ -258,51 +281,111 @@ export function ListClient({
         />
       </div>
       <div className="mb-5 flex flex-wrap items-center justify-end gap-2">
+        <div className="relative mr-auto max-w-64 grow">
+          <Search className="pointer-events-none absolute top-1/2 left-2.5 size-3.5 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            value={titleQuery}
+            onChange={(event) => setTitleQuery(event.target.value)}
+            placeholder="Titel durchsuchen…"
+            className="h-9 pl-8"
+          />
+        </div>
+
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="outline" size="sm">
+              <Rows3 className="size-4" />
+              Fields {Object.values(visibleColumns).filter(Boolean).length}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent align="end" className="w-52">
+            <div className="mb-1.5 text-xs font-semibold tracking-wide text-muted-foreground uppercase">Sichtbare Felder</div>
+            <div className="flex flex-col gap-2">
+              {ALL_COLUMNS.map((column) => (
+                <label key={column.key} className="flex items-center gap-2 text-sm">
+                  <Checkbox
+                    checked={visibleColumns[column.key]}
+                    onCheckedChange={(checked) =>
+                      setVisibleColumns((current) => ({ ...current, [column.key]: checked === true }))
+                    }
+                  />
+                  {column.label}
+                </label>
+              ))}
+            </div>
+          </PopoverContent>
+        </Popover>
+
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="outline" size="sm">
+              <Filter className="size-4" />
+              Filters
+              {activeFilterCount > 0 && (
+                <Badge variant="primaryOutline" className="ml-0.5 px-1.5 py-0">
+                  {activeFilterCount}
+                </Badge>
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent align="end" className="w-56">
+            <div className="mb-1.5 text-xs font-semibold tracking-wide text-muted-foreground uppercase">Status</div>
+            <Select value={statusFilter || "__all__"} onValueChange={(value) => setStatusFilter(value === "__all__" ? "" : value)}>
+              <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="__all__">Alle Status</SelectItem>
+                {statuses.map((status) => (
+                  <SelectItem key={status} value={status}>
+                    {status}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </PopoverContent>
+        </Popover>
+
         <Select value={groupBy} onValueChange={(value) => setGroupBy(value as GroupKey)}>
-          <SelectTrigger className="w-44"><SelectValue /></SelectTrigger>
+          <SelectTrigger className="w-40 h-9"><SelectValue /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="status">Gruppieren: Status</SelectItem>
-            <SelectItem value="list">Gruppieren: Liste</SelectItem>
-            <SelectItem value="none">Gruppieren: Kein</SelectItem>
+            <SelectItem value="status">Group: Status</SelectItem>
+            <SelectItem value="list">Group: Liste</SelectItem>
+            <SelectItem value="none">Group: Kein</SelectItem>
           </SelectContent>
         </Select>
         <Select value={sortKey} onValueChange={(value) => setSortKey(value as SortKey)}>
-          <SelectTrigger className="w-48"><SelectValue /></SelectTrigger>
+          <SelectTrigger className="w-40 h-9"><SelectValue /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="title">Sortieren: Titel</SelectItem>
-            <SelectItem value="status">Sortieren: Status</SelectItem>
-            <SelectItem value="assignee">Sortieren: Assignee</SelectItem>
-            <SelectItem value="dueDate">Sortieren: Fälligkeit</SelectItem>
+            <SelectItem value="title">Sort: Titel</SelectItem>
+            <SelectItem value="status">Sort: Status</SelectItem>
+            <SelectItem value="assignee">Sort: Assignee</SelectItem>
+            <SelectItem value="dueDate">Sort: Fälligkeit</SelectItem>
           </SelectContent>
         </Select>
-        <Select value={statusFilter || "__all__"} onValueChange={(value) => setStatusFilter(value === "__all__" ? "" : value)}>
-          <SelectTrigger className="w-48"><SelectValue /></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="__all__">Filter: Alle Status</SelectItem>
-            {statuses.map((status) => (
-              <SelectItem key={status} value={status}>
-                Filter: {status}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <Button variant="outline" asChild>
+
+        <Button variant="outline" size="sm" asChild>
+          <Link href="/settings/organization/automations">
+            <Zap className="size-4" />
+            Automate
+          </Link>
+        </Button>
+
+        <Button variant="outline" size="sm" asChild>
           <a
             href={`/api/tenant/exports/csv?source=task-list&projectId=${encodeURIComponent(projectId)}${
               statusFilter ? `&statusFilter=${encodeURIComponent(statusFilter)}` : ""
             }`}
           >
             <Download className="size-4" />
-            Exportieren (CSV)
+            Export
           </a>
         </Button>
-        <Button onClick={() => setCreating((current) => !current)}>
-          <Plus className="size-4" />
-          Neuer Task
-        </Button>
-        <Button variant="outline" onClick={() => setImportingCsv(true)}>
+        <Button variant="outline" size="sm" onClick={() => setImportingCsv(true)}>
           <Upload className="size-4" />
           CSV importieren
+        </Button>
+        <Button size="sm" onClick={() => setCreating((current) => !current)}>
+          <Plus className="size-4" />
+          Task
         </Button>
       </div>
 
@@ -405,8 +488,8 @@ export function ListClient({
                 <TableHead className="w-10"></TableHead>
                 <TableHead>Titel</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead>Assignee</TableHead>
-                <TableHead>Fälligkeit</TableHead>
+                {visibleColumns.assignee && <TableHead>Assignee</TableHead>}
+                {visibleColumns.dueDate && <TableHead>Fälligkeit</TableHead>}
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -426,7 +509,7 @@ export function ListClient({
                             className="size-4 accent-primary"
                           />
                         </TableCell>
-                        <TableCell colSpan={4} className="p-0">
+                        <TableCell colSpan={2 + Object.values(visibleColumns).filter(Boolean).length} className="p-0">
                           <button
                             type="button"
                             onClick={() => toggleGroup(group.key)}
@@ -461,10 +544,14 @@ export function ListClient({
                           <TableCell>
                             <LegendKey label={task.status} category={task.statusCategory} />
                           </TableCell>
-                          <TableCell className="text-muted-foreground">{task.assignee ?? "—"}</TableCell>
-                          <TableCell className="text-muted-foreground">
-                            {task.dueDate ? new Date(task.dueDate).toLocaleDateString("de-DE") : "—"}
-                          </TableCell>
+                          {visibleColumns.assignee && (
+                            <TableCell className="text-muted-foreground">{task.assignee ?? "—"}</TableCell>
+                          )}
+                          {visibleColumns.dueDate && (
+                            <TableCell className="text-muted-foreground">
+                              {task.dueDate ? new Date(task.dueDate).toLocaleDateString("de-DE") : "—"}
+                            </TableCell>
+                          )}
                         </TableRow>
                       ))}
                   </Fragment>
