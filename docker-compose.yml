@@ -21,8 +21,12 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     restart: unless-stopped
+    # `.env` is optional — copy `.env.example` to `.env` to override defaults
+    # (BASE_DOMAIN, POSTGRES_*, CADDY_HTTP_PORT, ...). `required: false` means
+    # `docker compose up` still works on a fresh checkout with no `.env` at all.
     env_file:
-      - .env
+      - path: .env
+        required: false
     environment:
       PLATFORM_DATABASE_URL: postgresql://${POSTGRES_USER:-pmtool}:${POSTGRES_PASSWORD:-pmtool}@postgres:5432/${PLATFORM_DB_NAME:-pmtool_platform}
       UPLOADS_DIR: /app/uploads
