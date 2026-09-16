@@ -2,7 +2,9 @@ import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
 import { assertSingleProjectAccess } from "@/tenant/projectAccess/assertProjectAccess";
 
-const VALID_SCOPES = ["project", "my_tasks", "budgets"];
+const PROJECT_SCOPES = ["project", "budgets"];
+const PRIVATE_SCOPES = ["my_tasks", "time_entries"];
+const VALID_SCOPES = [...PROJECT_SCOPES, ...PRIVATE_SCOPES];
 
 export async function GET(request: Request) {
   const context = await getTenantContext();
@@ -14,7 +16,7 @@ export async function GET(request: Request) {
   const projectId = searchParams.get("projectId");
   const scope = searchParams.get("scope") ?? (projectId ? "project" : null);
 
-  if (scope === "project" || scope === "budgets") {
+  if (scope && PROJECT_SCOPES.includes(scope)) {
     if (!projectId) {
       return NextResponse.json({ error: "projectId ist erforderlich." }, { status: 400 });
     }
@@ -32,15 +34,15 @@ export async function GET(request: Request) {
     return NextResponse.json({ views });
   }
 
-  if (scope === "my_tasks") {
+  if (scope && PRIVATE_SCOPES.includes(scope)) {
     const views = await context.tenantDb.savedView.findMany({
-      where: { scope: "my_tasks", ownerId: context.currentUser.id },
+      where: { scope, ownerId: context.currentUser.id },
       orderBy: { createdAt: "desc" },
     });
     return NextResponse.json({ views });
   }
 
-  return NextResponse.json({ error: "scope ('project'|'budgets'|'my_tasks') ist erforderlich." }, { status: 400 });
+  return NextResponse.json({ error: `scope muss eine von ${VALID_SCOPES.join(", ")} sein.` }, { status: 400 });
 }
 
 export async function POST(request: Request) {
@@ -65,7 +67,7 @@ export async function POST(request: Request) {
   };
 
   if (!scope || !VALID_SCOPES.includes(scope)) {
-    return NextResponse.json({ error: "scope ('project'|'budgets'|'my_tasks') ist erforderlich." }, { status: 400 });
+    return NextResponse.json({ error: `scope muss eine von ${VALID_SCOPES.join(", ")} sein.` }, { status: 400 });
   }
   if (!name || typeof name !== "string" || !name.trim()) {
     return NextResponse.json({ error: "name ist erforderlich." }, { status: 400 });
@@ -77,16 +79,16 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "filterConfig ist erforderlich." }, { status: 400 });
   }
 
-  if (scope === "my_tasks") {
+  if (PRIVATE_SCOPES.includes(scope)) {
     if (sharedWithAll === true) {
       return NextResponse.json(
-        { error: "Freigabe für alle ist für 'Meine Tasks'-Views nicht möglich." },
+        { error: "Freigabe für alle ist für private Views (Meine Tasks/Meine Zeit) nicht möglich." },
         { status: 400 },
       );
     }
     const view = await context.tenantDb.savedView.create({
       data: {
-        scope: "my_tasks",
+        scope,
         projectId: null,
         name: name.trim(),
         viewType,

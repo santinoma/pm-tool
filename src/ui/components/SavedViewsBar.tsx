@@ -33,7 +33,7 @@ export function SavedViewsBar({
   getCurrentConfig,
   onApply,
 }: {
-  scope: "project" | "budgets" | "my_tasks";
+  scope: "project" | "budgets" | "my_tasks" | "time_entries";
   projectId?: string;
   initialViews: SavedViewRecord[];
   currentUserId: string;
@@ -51,11 +51,9 @@ export function SavedViewsBar({
 
   async function refreshViews() {
     const params = new URLSearchParams();
+    params.set("scope", scope);
     if (isProjectScoped) {
-      params.set("scope", scope);
       params.set("projectId", projectId);
-    } else {
-      params.set("scope", "my_tasks");
     }
     const response = await fetch(`/api/tenant/saved-views?${params.toString()}`);
     if (response.ok) {

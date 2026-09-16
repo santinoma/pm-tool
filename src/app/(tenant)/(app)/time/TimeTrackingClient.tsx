@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle2 } from "lucide-react";
 
@@ -12,6 +12,12 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/shadcn/components/tabs";
 import { TimesheetMatrixClient } from "./TimesheetMatrixClient";
+import { SavedViewsBar, type SavedViewRecord } from "@/ui/components/SavedViewsBar";
+import { FilterBuilderPopover, type FilterFieldOption } from "@/ui/components/FilterBuilderPopover";
+import { evaluateFilterNode, resolveDynamicPlaceholders, parseFilterConfig, type FilterGroup } from "@/tenant/views/filterEngine";
+
+const EMPTY_FILTER_GROUP: FilterGroup = { logic: "AND", rules: [] };
+type EntrySortKey = "date" | "durationMinutes" | "label";
 
 interface ProjectOption {
   id: string;
@@ -86,6 +92,8 @@ export function TimeTrackingClient({
   projects,
   entries,
   users,
+  savedViews = [],
+  currentUserId,
 }: {
   allowProjectLevelTimeEntries: boolean;
   submissionEnabled: boolean;
@@ -94,8 +102,12 @@ export function TimeTrackingClient({
   projects: ProjectOption[];
   entries: EntryRow[];
   users: UserOption[];
+  savedViews?: SavedViewRecord[];
+  currentUserId: string;
 }) {
   const router = useRouter();
+  const [filterGroup, setFilterGroup] = useState<FilterGroup>(EMPTY_FILTER_GROUP);
+  const [entrySortKey, setEntrySortKey] = useState<EntrySortKey>("date");
   const [elapsed, setElapsed] = useState(runningEntry ? formatElapsed(runningEntry.startedAt) : "");
   const [selectedTarget, setSelectedTarget] = useState("__none__");
   const [manualDuration, setManualDuration] = useState("");
@@ -120,6 +132,55 @@ export function TimeTrackingClient({
   const thisWeekEntries = entries.filter((entry) => entry.date >= weekStart && entry.date <= weekEnd);
   const draftCount = thisWeekEntries.filter((entry) => !entry.submitted).length;
   const unsubmittableCount = thisWeekEntries.filter((entry) => entry.submitted && entry.approvalStatus !== "approved").length;
+
+  const entryFilterFields: FilterFieldOption[] = useMemo(
+    () => [
+      { value: "projectId", label: "Projekt", type: "select", options: projects.map((p) => ({ value: p.id, label: p.name })) },
+      {
+        value: "approvalStatus",
+        label: "Status",
+        type: "select",
+        options: [
+          { value: "pending", label: "Ausstehend" },
+          { value: "approved", label: "Freigegeben" },
+          { value: "rejected", label: "Abgelehnt" },
+        ],
+      },
+      { value: "submitted", label: "Eingereicht", type: "boolean" },
+    ],
+    [projects],
+  );
+
+  function getEntryFieldValue(entry: EntryRow, field: string): unknown {
+    switch (field) {
+      case "projectId":
+        return entry.projectId;
+      case "approvalStatus":
+        return entry.approvalStatus;
+      case "submitted":
+        return entry.submitted;
+      default:
+        return undefined;
+    }
+  }
+
+  const visibleEntries = useMemo(() => {
+    const filtered = entries.filter((entry) => evaluateFilterNode(filterGroup, (field) => getEntryFieldValue(entry, field)));
+    return [...filtered].sort((a, b) => {
+      if (entrySortKey === "durationMinutes") return b.durationMinutes - a.durationMinutes;
+      if (entrySortKey === "date") return b.date.localeCompare(a.date);
+      return a.label.localeCompare(b.label);
+    });
+  }, [entries, filterGroup, entrySortKey]);
+
+  function applySavedView(view: SavedViewRecord) {
+    const parsedGroup = parseFilterConfig(view.filterConfig);
+    setFilterGroup(resolveDynamicPlaceholders(parsedGroup, currentUserId) as FilterGroup);
+    const sortConfig = view.sortConfig ?? {};
+    if (typeof sortConfig.entrySortKey === "string") {
+      setEntrySortKey(sortConfig.entrySortKey as EntrySortKey);
+    }
+  }
 
   useEffect(() => {
     if (!runningEntry) return;
@@ -377,7 +438,32 @@ export function TimeTrackingClient({
         </>
       )}
 
-      <h2 className="mb-3 text-lg font-semibold">Meine letzten Einträge</h2>
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-lg font-semibold">Meine letzten Einträge</h2>
+        <div className="flex flex-wrap items-center gap-2">
+          <SavedViewsBar
+            scope="time_entries"
+            initialViews={savedViews}
+            currentUserId={currentUserId}
+            allowSharing={false}
+            getCurrentConfig={() => ({
+              viewType: "time_entries",
+              filterConfig: filterGroup as unknown as Record<string, unknown>,
+              sortConfig: { entrySortKey },
+            })}
+            onApply={applySavedView}
+          />
+          <FilterBuilderPopover fields={entryFilterFields} value={filterGroup} onChange={setFilterGroup} />
+          <Select value={entrySortKey} onValueChange={(value) => setEntrySortKey(value as EntrySortKey)}>
+            <SelectTrigger className="h-9 w-40"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="date">Sort: Datum</SelectItem>
+              <SelectItem value="durationMinutes">Sort: Dauer</SelectItem>
+              <SelectItem value="label">Sort: Task/Projekt</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
       <div className="overflow-hidden rounded-lg border">
         <Table>
           <TableHeader>
@@ -390,7 +476,7 @@ export function TimeTrackingClient({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {entries.map((entry) => {
+            {visibleEntries.map((entry) => {
               const needsChanges = !entry.submitted && entry.approvalStatus === "rejected";
               return (
                 <TableRow key={entry.id}>

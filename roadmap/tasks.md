@@ -49,7 +49,14 @@ Task weitermachen — nicht die ganze Phase anhalten.
       scope-Literal-Vergleich auf `projectId`-Anwesenheit), Filter/Sort in
       `ProjectBudgetsClient.tsx` (Owner/Titel-Filter, Sort: Titel/Owner/
       Budget Total)
-- [ ] T205 `SavedView` auf Zeit-Ansichten ausweiten
+- [x] T205 `SavedView` auf Zeit-Ansichten ausweiten — neuer privater Scope
+      "time_entries" (wie "my_tasks", kein Sharing) für "Meine letzten
+      Einträge" auf der /time-Seite; Filter (Projekt/Status/Eingereicht)
+      + Sort (Datum/Dauer/Task); `saved-views/route.ts` und
+      `SavedViewsBar.tsx` von den hartkodierten scope-Strings "project"/
+      "my_tasks" auf generische PROJECT_SCOPES/PRIVATE_SCOPES-Listen
+      umgestellt (Company Time/Absence/Timesheet-Matrix haben keine
+      filterbare Zeilenliste — dort bleibt nichts zu erweitern)
 - [ ] T206 Table-Layout als neuer Ansichtstyp
 - [ ] T207 Workload-Layout als neuer Ansichtstyp
 - [ ] T208 Sortierrichtung (auf/absteigend) ergänzen
