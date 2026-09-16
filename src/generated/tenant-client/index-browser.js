@@ -699,6 +699,13 @@ exports.Prisma.WikiPageCustomFieldValueScalarFieldEnum = {
   value: 'value'
 };
 
+exports.Prisma.UserCustomFieldValueScalarFieldEnum = {
+  id: 'id',
+  fieldId: 'fieldId',
+  userId: 'userId',
+  value: 'value'
+};
+
 exports.Prisma.SharedWikiLinkScalarFieldEnum = {
   id: 'id',
   wikiPageId: 'wikiPageId',
@@ -1181,7 +1188,8 @@ exports.ApprovalDecisionStatus = exports.$Enums.ApprovalDecisionStatus = {
 exports.CustomFieldEntityType = exports.$Enums.CustomFieldEntityType = {
   task: 'task',
   budget: 'budget',
-  wiki_page: 'wiki_page'
+  wiki_page: 'wiki_page',
+  user: 'user'
 };
 
 exports.CustomFieldType = exports.$Enums.CustomFieldType = {
@@ -1367,6 +1375,7 @@ exports.Prisma.ModelName = {
   CustomFieldValue: 'CustomFieldValue',
   BudgetCustomFieldValue: 'BudgetCustomFieldValue',
   WikiPageCustomFieldValue: 'WikiPageCustomFieldValue',
+  UserCustomFieldValue: 'UserCustomFieldValue',
   SharedWikiLink: 'SharedWikiLink',
   ActivityEvent: 'ActivityEvent',
   NotificationPreference: 'NotificationPreference',

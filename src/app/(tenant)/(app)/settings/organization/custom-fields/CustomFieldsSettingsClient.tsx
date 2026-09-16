@@ -40,6 +40,7 @@ const ENTITY_TYPE_LABELS: Record<string, string> = {
   task: "Tasks",
   budget: "Budgets",
   wiki_page: "Docs",
+  user: "Mitglieder",
 };
 
 const OPTIONS_REQUIRED_TYPES = ["select", "multi_select"];

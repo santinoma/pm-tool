@@ -43,8 +43,16 @@ Task weitermachen — nicht die ganze Phase anhalten.
 - [x] T212 `TenantSettings`: Fiscal Year
 - [x] T213 Notifications-Settings-Seite mit echter Funktion
 - [x] T214 Appearance-Settings-Seite mit echter Funktion
-- [ ] T215 Recycle-Bin-Seite mit echter Funktion
-- [ ] T216 Employee-Fields-Seite mit echter Funktion
+- [ ] T215 Recycle-Bin-Seite mit echter Funktion — ZURÜCKGESTELLT: erfordert
+      Soft-Delete (`deletedAt`) auf Task (und ggf. weiteren Entitäten) plus
+      Anpassung an **38 Query-Stellen** quer durchs Produkt (Liste/Board/
+      Tabelle/Gantt/Timeline/My Tasks/Triage/Cycles/Suche/Reports …), die alle
+      `deletedAt: null` respektieren müssten. Zu große, nicht in einem
+      Durchgang sicher verifizierbare Änderung für autonome Umsetzung ohne
+      Review-Checkpoint — braucht eigenen, kleinteiligen Anlauf (z. B. erst
+      Task-Löschung auf Soft-Delete umstellen und alle 38 Stellen einzeln
+      nachziehen, bevor die Recycle-Bin-UI selbst kommt).
+- [x] T216 Employee-Fields-Seite mit echter Funktion
 
 ### Custom Fields — Required/Sensitive + Auto-Attach
 - [ ] T220 `CustomFieldDef.required` + serverseitige Erzwingung

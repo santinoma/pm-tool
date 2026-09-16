@@ -96,6 +96,7 @@ model User {
   ownedDeals                 Deal[]
   approvalPolicyApprovals    ApprovalPolicyApprover[]    @relation("ApprovalPolicySpecificApprover")
   timeEntryApproverDecisions TimeEntryApproverDecision[] @relation("TimeEntryApproverDecisionApprover")
+  customFieldValues          UserCustomFieldValue[]
 }
 
 enum ClientType {
@@ -963,6 +964,7 @@ enum CustomFieldEntityType {
   task
   budget
   wiki_page
+  user
 }
 
 model CustomFieldDef {
@@ -978,6 +980,7 @@ model CustomFieldDef {
   taskValues         CustomFieldValue[]
   budgetValues       BudgetCustomFieldValue[]
   wikiPageValues     WikiPageCustomFieldValue[]
+  userValues         UserCustomFieldValue[]
   projectAttachments ProjectCustomField[]
 
   @@unique([projectId, key])
@@ -1029,6 +1032,20 @@ model WikiPageCustomFieldValue {
   value      String
 
   @@unique([fieldId, wikiPageId])
+}
+
+// Productive.io "Employee Fields" — org-wide, always library=true, never
+// project-scoped (Users aren't attached to a single project), so no
+// ProjectCustomField-style attachment step applies here.
+model UserCustomFieldValue {
+  id      String         @id @default(uuid())
+  field   CustomFieldDef @relation(fields: [fieldId], references: [id])
+  fieldId String
+  user    User           @relation(fields: [userId], references: [id])
+  userId  String
+  value   String
+
+  @@unique([fieldId, userId])
 }
 
 model SharedWikiLink {

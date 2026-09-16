@@ -3,7 +3,7 @@ import { getTenantContext } from "@/tenant/context";
 import { canManageMembers } from "@/tenant/auth/roleGuard";
 
 const VALID_TYPES = ["text", "number", "select", "multi_select", "date", "person", "url", "percent"];
-const VALID_ENTITY_TYPES = ["task", "budget", "wiki_page"];
+const VALID_ENTITY_TYPES = ["task", "budget", "wiki_page", "user"];
 const OPTIONS_REQUIRED_TYPES = ["select", "multi_select"];
 
 export async function GET() {
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "key, label und ein gültiger type sind erforderlich." }, { status: 400 });
   }
   if (body.entityType !== undefined && !VALID_ENTITY_TYPES.includes(body.entityType)) {
-    return NextResponse.json({ error: "entityType muss 'task', 'budget' oder 'wiki_page' sein." }, { status: 400 });
+    return NextResponse.json({ error: "entityType muss 'task', 'budget', 'wiki_page' oder 'user' sein." }, { status: 400 });
   }
   if (OPTIONS_REQUIRED_TYPES.includes(body.type) && (!Array.isArray(body.options) || body.options.length === 0)) {
     return NextResponse.json({ error: "select/multi_select-Felder benötigen mindestens eine Option." }, { status: 400 });

@@ -304,6 +304,11 @@ export type BudgetCustomFieldValue = $Result.DefaultSelection<Prisma.$BudgetCust
  */
 export type WikiPageCustomFieldValue = $Result.DefaultSelection<Prisma.$WikiPageCustomFieldValuePayload>
 /**
+ * Model UserCustomFieldValue
+ * 
+ */
+export type UserCustomFieldValue = $Result.DefaultSelection<Prisma.$UserCustomFieldValuePayload>
+/**
  * Model SharedWikiLink
  * 
  */
@@ -647,7 +652,8 @@ export type CustomFieldType = (typeof CustomFieldType)[keyof typeof CustomFieldT
 export const CustomFieldEntityType: {
   task: 'task',
   budget: 'budget',
-  wiki_page: 'wiki_page'
+  wiki_page: 'wiki_page',
+  user: 'user'
 };
 
 export type CustomFieldEntityType = (typeof CustomFieldEntityType)[keyof typeof CustomFieldEntityType]
@@ -1669,6 +1675,16 @@ export class PrismaClient<
   get wikiPageCustomFieldValue(): Prisma.WikiPageCustomFieldValueDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.userCustomFieldValue`: Exposes CRUD operations for the **UserCustomFieldValue** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserCustomFieldValues
+    * const userCustomFieldValues = await prisma.userCustomFieldValue.findMany()
+    * ```
+    */
+  get userCustomFieldValue(): Prisma.UserCustomFieldValueDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.sharedWikiLink`: Exposes CRUD operations for the **SharedWikiLink** model.
     * Example usage:
     * ```ts
@@ -2452,6 +2468,7 @@ export namespace Prisma {
     CustomFieldValue: 'CustomFieldValue',
     BudgetCustomFieldValue: 'BudgetCustomFieldValue',
     WikiPageCustomFieldValue: 'WikiPageCustomFieldValue',
+    UserCustomFieldValue: 'UserCustomFieldValue',
     SharedWikiLink: 'SharedWikiLink',
     ActivityEvent: 'ActivityEvent',
     NotificationPreference: 'NotificationPreference',
@@ -2495,7 +2512,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "client" | "clientContact" | "pipeline" | "dealStatus" | "lostReason" | "deal" | "projectMember" | "customRole" | "projectRoleOverride" | "absenceRequest" | "session" | "favorite" | "auditLogEntry" | "invite" | "projectClientAccess" | "slackCaptureConfig" | "project" | "taskFolder" | "taskListGroup" | "baseline" | "baselineTaskSnapshot" | "portfolio" | "goal" | "cycle" | "transitionRule" | "sharedView" | "savedView" | "workflow" | "workflowStatus" | "task" | "tag" | "taskTag" | "taskSubscriber" | "todo" | "comment" | "mention" | "attachment" | "wikiPage" | "tenantSettings" | "pendingLogin" | "timeEntry" | "approvalPolicy" | "approvalPolicyApprover" | "timeEntryApproverDecision" | "timesheetLock" | "timeTrackingPolicy" | "holidayCalendar" | "holiday" | "resourceBooking" | "taskProject" | "taskDependency" | "taskLink" | "customFieldDef" | "projectCustomField" | "customFieldValue" | "budgetCustomFieldValue" | "wikiPageCustomFieldValue" | "sharedWikiLink" | "activityEvent" | "notificationPreference" | "notification" | "automationRule" | "automationAction" | "dashboard" | "dashboardWidget" | "webhookEndpoint" | "ssoConfig" | "apiKey" | "webhookDelivery" | "checkInSchedule" | "checkInResponse" | "budget" | "serviceType" | "budgetSection" | "rateCard" | "rateCardItem" | "invoice" | "invoiceLineItem" | "invoicePayment" | "creditNote" | "meeting" | "expense" | "purchaseOrder" | "savedReport" | "budgetSectionAssignee"
+      modelProps: "user" | "client" | "clientContact" | "pipeline" | "dealStatus" | "lostReason" | "deal" | "projectMember" | "customRole" | "projectRoleOverride" | "absenceRequest" | "session" | "favorite" | "auditLogEntry" | "invite" | "projectClientAccess" | "slackCaptureConfig" | "project" | "taskFolder" | "taskListGroup" | "baseline" | "baselineTaskSnapshot" | "portfolio" | "goal" | "cycle" | "transitionRule" | "sharedView" | "savedView" | "workflow" | "workflowStatus" | "task" | "tag" | "taskTag" | "taskSubscriber" | "todo" | "comment" | "mention" | "attachment" | "wikiPage" | "tenantSettings" | "pendingLogin" | "timeEntry" | "approvalPolicy" | "approvalPolicyApprover" | "timeEntryApproverDecision" | "timesheetLock" | "timeTrackingPolicy" | "holidayCalendar" | "holiday" | "resourceBooking" | "taskProject" | "taskDependency" | "taskLink" | "customFieldDef" | "projectCustomField" | "customFieldValue" | "budgetCustomFieldValue" | "wikiPageCustomFieldValue" | "userCustomFieldValue" | "sharedWikiLink" | "activityEvent" | "notificationPreference" | "notification" | "automationRule" | "automationAction" | "dashboard" | "dashboardWidget" | "webhookEndpoint" | "ssoConfig" | "apiKey" | "webhookDelivery" | "checkInSchedule" | "checkInResponse" | "budget" | "serviceType" | "budgetSection" | "rateCard" | "rateCardItem" | "invoice" | "invoiceLineItem" | "invoicePayment" | "creditNote" | "meeting" | "expense" | "purchaseOrder" | "savedReport" | "budgetSectionAssignee"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -6791,6 +6808,80 @@ export namespace Prisma {
           }
         }
       }
+      UserCustomFieldValue: {
+        payload: Prisma.$UserCustomFieldValuePayload<ExtArgs>
+        fields: Prisma.UserCustomFieldValueFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserCustomFieldValueFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCustomFieldValuePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserCustomFieldValueFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCustomFieldValuePayload>
+          }
+          findFirst: {
+            args: Prisma.UserCustomFieldValueFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCustomFieldValuePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserCustomFieldValueFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCustomFieldValuePayload>
+          }
+          findMany: {
+            args: Prisma.UserCustomFieldValueFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCustomFieldValuePayload>[]
+          }
+          create: {
+            args: Prisma.UserCustomFieldValueCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCustomFieldValuePayload>
+          }
+          createMany: {
+            args: Prisma.UserCustomFieldValueCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserCustomFieldValueCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCustomFieldValuePayload>[]
+          }
+          delete: {
+            args: Prisma.UserCustomFieldValueDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCustomFieldValuePayload>
+          }
+          update: {
+            args: Prisma.UserCustomFieldValueUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCustomFieldValuePayload>
+          }
+          deleteMany: {
+            args: Prisma.UserCustomFieldValueDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserCustomFieldValueUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserCustomFieldValueUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCustomFieldValuePayload>[]
+          }
+          upsert: {
+            args: Prisma.UserCustomFieldValueUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserCustomFieldValuePayload>
+          }
+          aggregate: {
+            args: Prisma.UserCustomFieldValueAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserCustomFieldValue>
+          }
+          groupBy: {
+            args: Prisma.UserCustomFieldValueGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserCustomFieldValueGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserCustomFieldValueCountArgs<ExtArgs>
+            result: $Utils.Optional<UserCustomFieldValueCountAggregateOutputType> | number
+          }
+        }
+      }
       SharedWikiLink: {
         payload: Prisma.$SharedWikiLinkPayload<ExtArgs>
         fields: Prisma.SharedWikiLinkFieldRefs
@@ -9044,6 +9135,7 @@ export namespace Prisma {
     customFieldValue?: CustomFieldValueOmit
     budgetCustomFieldValue?: BudgetCustomFieldValueOmit
     wikiPageCustomFieldValue?: WikiPageCustomFieldValueOmit
+    userCustomFieldValue?: UserCustomFieldValueOmit
     sharedWikiLink?: SharedWikiLinkOmit
     activityEvent?: ActivityEventOmit
     notificationPreference?: NotificationPreferenceOmit
@@ -9203,6 +9295,7 @@ export namespace Prisma {
     ownedDeals: number
     approvalPolicyApprovals: number
     timeEntryApproverDecisions: number
+    customFieldValues: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9257,6 +9350,7 @@ export namespace Prisma {
     ownedDeals?: boolean | UserCountOutputTypeCountOwnedDealsArgs
     approvalPolicyApprovals?: boolean | UserCountOutputTypeCountApprovalPolicyApprovalsArgs
     timeEntryApproverDecisions?: boolean | UserCountOutputTypeCountTimeEntryApproverDecisionsArgs
+    customFieldValues?: boolean | UserCountOutputTypeCountCustomFieldValuesArgs
   }
 
   // Custom InputTypes
@@ -9625,6 +9719,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountTimeEntryApproverDecisionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TimeEntryApproverDecisionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCustomFieldValuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserCustomFieldValueWhereInput
   }
 
 
@@ -10715,6 +10816,7 @@ export namespace Prisma {
     taskValues: number
     budgetValues: number
     wikiPageValues: number
+    userValues: number
     projectAttachments: number
   }
 
@@ -10722,6 +10824,7 @@ export namespace Prisma {
     taskValues?: boolean | CustomFieldDefCountOutputTypeCountTaskValuesArgs
     budgetValues?: boolean | CustomFieldDefCountOutputTypeCountBudgetValuesArgs
     wikiPageValues?: boolean | CustomFieldDefCountOutputTypeCountWikiPageValuesArgs
+    userValues?: boolean | CustomFieldDefCountOutputTypeCountUserValuesArgs
     projectAttachments?: boolean | CustomFieldDefCountOutputTypeCountProjectAttachmentsArgs
   }
 
@@ -10755,6 +10858,13 @@ export namespace Prisma {
    */
   export type CustomFieldDefCountOutputTypeCountWikiPageValuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: WikiPageCustomFieldValueWhereInput
+  }
+
+  /**
+   * CustomFieldDefCountOutputType without action
+   */
+  export type CustomFieldDefCountOutputTypeCountUserValuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserCustomFieldValueWhereInput
   }
 
   /**
@@ -11596,6 +11706,7 @@ export namespace Prisma {
     ownedDeals?: boolean | User$ownedDealsArgs<ExtArgs>
     approvalPolicyApprovals?: boolean | User$approvalPolicyApprovalsArgs<ExtArgs>
     timeEntryApproverDecisions?: boolean | User$timeEntryApproverDecisionsArgs<ExtArgs>
+    customFieldValues?: boolean | User$customFieldValuesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -11724,6 +11835,7 @@ export namespace Prisma {
     ownedDeals?: boolean | User$ownedDealsArgs<ExtArgs>
     approvalPolicyApprovals?: boolean | User$approvalPolicyApprovalsArgs<ExtArgs>
     timeEntryApproverDecisions?: boolean | User$timeEntryApproverDecisionsArgs<ExtArgs>
+    customFieldValues?: boolean | User$customFieldValuesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11794,6 +11906,7 @@ export namespace Prisma {
       ownedDeals: Prisma.$DealPayload<ExtArgs>[]
       approvalPolicyApprovals: Prisma.$ApprovalPolicyApproverPayload<ExtArgs>[]
       timeEntryApproverDecisions: Prisma.$TimeEntryApproverDecisionPayload<ExtArgs>[]
+      customFieldValues: Prisma.$UserCustomFieldValuePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -12262,6 +12375,7 @@ export namespace Prisma {
     ownedDeals<T extends User$ownedDealsArgs<ExtArgs> = {}>(args?: Subset<T, User$ownedDealsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     approvalPolicyApprovals<T extends User$approvalPolicyApprovalsArgs<ExtArgs> = {}>(args?: Subset<T, User$approvalPolicyApprovalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApprovalPolicyApproverPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     timeEntryApproverDecisions<T extends User$timeEntryApproverDecisionsArgs<ExtArgs> = {}>(args?: Subset<T, User$timeEntryApproverDecisionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeEntryApproverDecisionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    customFieldValues<T extends User$customFieldValuesArgs<ExtArgs> = {}>(args?: Subset<T, User$customFieldValuesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserCustomFieldValuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13988,6 +14102,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TimeEntryApproverDecisionScalarFieldEnum | TimeEntryApproverDecisionScalarFieldEnum[]
+  }
+
+  /**
+   * User.customFieldValues
+   */
+  export type User$customFieldValuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCustomFieldValue
+     */
+    select?: UserCustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCustomFieldValue
+     */
+    omit?: UserCustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCustomFieldValueInclude<ExtArgs> | null
+    where?: UserCustomFieldValueWhereInput
+    orderBy?: UserCustomFieldValueOrderByWithRelationInput | UserCustomFieldValueOrderByWithRelationInput[]
+    cursor?: UserCustomFieldValueWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserCustomFieldValueScalarFieldEnum | UserCustomFieldValueScalarFieldEnum[]
   }
 
   /**
@@ -73898,6 +74036,7 @@ export namespace Prisma {
     taskValues?: boolean | CustomFieldDef$taskValuesArgs<ExtArgs>
     budgetValues?: boolean | CustomFieldDef$budgetValuesArgs<ExtArgs>
     wikiPageValues?: boolean | CustomFieldDef$wikiPageValuesArgs<ExtArgs>
+    userValues?: boolean | CustomFieldDef$userValuesArgs<ExtArgs>
     projectAttachments?: boolean | CustomFieldDef$projectAttachmentsArgs<ExtArgs>
     _count?: boolean | CustomFieldDefCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["customFieldDef"]>
@@ -73943,6 +74082,7 @@ export namespace Prisma {
     taskValues?: boolean | CustomFieldDef$taskValuesArgs<ExtArgs>
     budgetValues?: boolean | CustomFieldDef$budgetValuesArgs<ExtArgs>
     wikiPageValues?: boolean | CustomFieldDef$wikiPageValuesArgs<ExtArgs>
+    userValues?: boolean | CustomFieldDef$userValuesArgs<ExtArgs>
     projectAttachments?: boolean | CustomFieldDef$projectAttachmentsArgs<ExtArgs>
     _count?: boolean | CustomFieldDefCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -73960,6 +74100,7 @@ export namespace Prisma {
       taskValues: Prisma.$CustomFieldValuePayload<ExtArgs>[]
       budgetValues: Prisma.$BudgetCustomFieldValuePayload<ExtArgs>[]
       wikiPageValues: Prisma.$WikiPageCustomFieldValuePayload<ExtArgs>[]
+      userValues: Prisma.$UserCustomFieldValuePayload<ExtArgs>[]
       projectAttachments: Prisma.$ProjectCustomFieldPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -74369,6 +74510,7 @@ export namespace Prisma {
     taskValues<T extends CustomFieldDef$taskValuesArgs<ExtArgs> = {}>(args?: Subset<T, CustomFieldDef$taskValuesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldValuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     budgetValues<T extends CustomFieldDef$budgetValuesArgs<ExtArgs> = {}>(args?: Subset<T, CustomFieldDef$budgetValuesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BudgetCustomFieldValuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     wikiPageValues<T extends CustomFieldDef$wikiPageValuesArgs<ExtArgs> = {}>(args?: Subset<T, CustomFieldDef$wikiPageValuesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WikiPageCustomFieldValuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    userValues<T extends CustomFieldDef$userValuesArgs<ExtArgs> = {}>(args?: Subset<T, CustomFieldDef$userValuesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserCustomFieldValuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     projectAttachments<T extends CustomFieldDef$projectAttachmentsArgs<ExtArgs> = {}>(args?: Subset<T, CustomFieldDef$projectAttachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectCustomFieldPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -74896,6 +75038,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: WikiPageCustomFieldValueScalarFieldEnum | WikiPageCustomFieldValueScalarFieldEnum[]
+  }
+
+  /**
+   * CustomFieldDef.userValues
+   */
+  export type CustomFieldDef$userValuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCustomFieldValue
+     */
+    select?: UserCustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCustomFieldValue
+     */
+    omit?: UserCustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCustomFieldValueInclude<ExtArgs> | null
+    where?: UserCustomFieldValueWhereInput
+    orderBy?: UserCustomFieldValueOrderByWithRelationInput | UserCustomFieldValueOrderByWithRelationInput[]
+    cursor?: UserCustomFieldValueWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserCustomFieldValueScalarFieldEnum | UserCustomFieldValueScalarFieldEnum[]
   }
 
   /**
@@ -79170,6 +79336,1064 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: WikiPageCustomFieldValueInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserCustomFieldValue
+   */
+
+  export type AggregateUserCustomFieldValue = {
+    _count: UserCustomFieldValueCountAggregateOutputType | null
+    _min: UserCustomFieldValueMinAggregateOutputType | null
+    _max: UserCustomFieldValueMaxAggregateOutputType | null
+  }
+
+  export type UserCustomFieldValueMinAggregateOutputType = {
+    id: string | null
+    fieldId: string | null
+    userId: string | null
+    value: string | null
+  }
+
+  export type UserCustomFieldValueMaxAggregateOutputType = {
+    id: string | null
+    fieldId: string | null
+    userId: string | null
+    value: string | null
+  }
+
+  export type UserCustomFieldValueCountAggregateOutputType = {
+    id: number
+    fieldId: number
+    userId: number
+    value: number
+    _all: number
+  }
+
+
+  export type UserCustomFieldValueMinAggregateInputType = {
+    id?: true
+    fieldId?: true
+    userId?: true
+    value?: true
+  }
+
+  export type UserCustomFieldValueMaxAggregateInputType = {
+    id?: true
+    fieldId?: true
+    userId?: true
+    value?: true
+  }
+
+  export type UserCustomFieldValueCountAggregateInputType = {
+    id?: true
+    fieldId?: true
+    userId?: true
+    value?: true
+    _all?: true
+  }
+
+  export type UserCustomFieldValueAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserCustomFieldValue to aggregate.
+     */
+    where?: UserCustomFieldValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserCustomFieldValues to fetch.
+     */
+    orderBy?: UserCustomFieldValueOrderByWithRelationInput | UserCustomFieldValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserCustomFieldValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserCustomFieldValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserCustomFieldValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserCustomFieldValues
+    **/
+    _count?: true | UserCustomFieldValueCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserCustomFieldValueMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserCustomFieldValueMaxAggregateInputType
+  }
+
+  export type GetUserCustomFieldValueAggregateType<T extends UserCustomFieldValueAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserCustomFieldValue]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserCustomFieldValue[P]>
+      : GetScalarType<T[P], AggregateUserCustomFieldValue[P]>
+  }
+
+
+
+
+  export type UserCustomFieldValueGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserCustomFieldValueWhereInput
+    orderBy?: UserCustomFieldValueOrderByWithAggregationInput | UserCustomFieldValueOrderByWithAggregationInput[]
+    by: UserCustomFieldValueScalarFieldEnum[] | UserCustomFieldValueScalarFieldEnum
+    having?: UserCustomFieldValueScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserCustomFieldValueCountAggregateInputType | true
+    _min?: UserCustomFieldValueMinAggregateInputType
+    _max?: UserCustomFieldValueMaxAggregateInputType
+  }
+
+  export type UserCustomFieldValueGroupByOutputType = {
+    id: string
+    fieldId: string
+    userId: string
+    value: string
+    _count: UserCustomFieldValueCountAggregateOutputType | null
+    _min: UserCustomFieldValueMinAggregateOutputType | null
+    _max: UserCustomFieldValueMaxAggregateOutputType | null
+  }
+
+  type GetUserCustomFieldValueGroupByPayload<T extends UserCustomFieldValueGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserCustomFieldValueGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserCustomFieldValueGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserCustomFieldValueGroupByOutputType[P]>
+            : GetScalarType<T[P], UserCustomFieldValueGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserCustomFieldValueSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fieldId?: boolean
+    userId?: boolean
+    value?: boolean
+    field?: boolean | CustomFieldDefDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userCustomFieldValue"]>
+
+  export type UserCustomFieldValueSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fieldId?: boolean
+    userId?: boolean
+    value?: boolean
+    field?: boolean | CustomFieldDefDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userCustomFieldValue"]>
+
+  export type UserCustomFieldValueSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fieldId?: boolean
+    userId?: boolean
+    value?: boolean
+    field?: boolean | CustomFieldDefDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userCustomFieldValue"]>
+
+  export type UserCustomFieldValueSelectScalar = {
+    id?: boolean
+    fieldId?: boolean
+    userId?: boolean
+    value?: boolean
+  }
+
+  export type UserCustomFieldValueOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fieldId" | "userId" | "value", ExtArgs["result"]["userCustomFieldValue"]>
+  export type UserCustomFieldValueInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    field?: boolean | CustomFieldDefDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserCustomFieldValueIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    field?: boolean | CustomFieldDefDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserCustomFieldValueIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    field?: boolean | CustomFieldDefDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $UserCustomFieldValuePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserCustomFieldValue"
+    objects: {
+      field: Prisma.$CustomFieldDefPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      fieldId: string
+      userId: string
+      value: string
+    }, ExtArgs["result"]["userCustomFieldValue"]>
+    composites: {}
+  }
+
+  type UserCustomFieldValueGetPayload<S extends boolean | null | undefined | UserCustomFieldValueDefaultArgs> = $Result.GetResult<Prisma.$UserCustomFieldValuePayload, S>
+
+  type UserCustomFieldValueCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserCustomFieldValueFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserCustomFieldValueCountAggregateInputType | true
+    }
+
+  export interface UserCustomFieldValueDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserCustomFieldValue'], meta: { name: 'UserCustomFieldValue' } }
+    /**
+     * Find zero or one UserCustomFieldValue that matches the filter.
+     * @param {UserCustomFieldValueFindUniqueArgs} args - Arguments to find a UserCustomFieldValue
+     * @example
+     * // Get one UserCustomFieldValue
+     * const userCustomFieldValue = await prisma.userCustomFieldValue.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserCustomFieldValueFindUniqueArgs>(args: SelectSubset<T, UserCustomFieldValueFindUniqueArgs<ExtArgs>>): Prisma__UserCustomFieldValueClient<$Result.GetResult<Prisma.$UserCustomFieldValuePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserCustomFieldValue that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserCustomFieldValueFindUniqueOrThrowArgs} args - Arguments to find a UserCustomFieldValue
+     * @example
+     * // Get one UserCustomFieldValue
+     * const userCustomFieldValue = await prisma.userCustomFieldValue.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserCustomFieldValueFindUniqueOrThrowArgs>(args: SelectSubset<T, UserCustomFieldValueFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserCustomFieldValueClient<$Result.GetResult<Prisma.$UserCustomFieldValuePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserCustomFieldValue that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCustomFieldValueFindFirstArgs} args - Arguments to find a UserCustomFieldValue
+     * @example
+     * // Get one UserCustomFieldValue
+     * const userCustomFieldValue = await prisma.userCustomFieldValue.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserCustomFieldValueFindFirstArgs>(args?: SelectSubset<T, UserCustomFieldValueFindFirstArgs<ExtArgs>>): Prisma__UserCustomFieldValueClient<$Result.GetResult<Prisma.$UserCustomFieldValuePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserCustomFieldValue that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCustomFieldValueFindFirstOrThrowArgs} args - Arguments to find a UserCustomFieldValue
+     * @example
+     * // Get one UserCustomFieldValue
+     * const userCustomFieldValue = await prisma.userCustomFieldValue.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserCustomFieldValueFindFirstOrThrowArgs>(args?: SelectSubset<T, UserCustomFieldValueFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserCustomFieldValueClient<$Result.GetResult<Prisma.$UserCustomFieldValuePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserCustomFieldValues that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCustomFieldValueFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserCustomFieldValues
+     * const userCustomFieldValues = await prisma.userCustomFieldValue.findMany()
+     * 
+     * // Get first 10 UserCustomFieldValues
+     * const userCustomFieldValues = await prisma.userCustomFieldValue.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userCustomFieldValueWithIdOnly = await prisma.userCustomFieldValue.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserCustomFieldValueFindManyArgs>(args?: SelectSubset<T, UserCustomFieldValueFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserCustomFieldValuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserCustomFieldValue.
+     * @param {UserCustomFieldValueCreateArgs} args - Arguments to create a UserCustomFieldValue.
+     * @example
+     * // Create one UserCustomFieldValue
+     * const UserCustomFieldValue = await prisma.userCustomFieldValue.create({
+     *   data: {
+     *     // ... data to create a UserCustomFieldValue
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserCustomFieldValueCreateArgs>(args: SelectSubset<T, UserCustomFieldValueCreateArgs<ExtArgs>>): Prisma__UserCustomFieldValueClient<$Result.GetResult<Prisma.$UserCustomFieldValuePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserCustomFieldValues.
+     * @param {UserCustomFieldValueCreateManyArgs} args - Arguments to create many UserCustomFieldValues.
+     * @example
+     * // Create many UserCustomFieldValues
+     * const userCustomFieldValue = await prisma.userCustomFieldValue.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserCustomFieldValueCreateManyArgs>(args?: SelectSubset<T, UserCustomFieldValueCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserCustomFieldValues and returns the data saved in the database.
+     * @param {UserCustomFieldValueCreateManyAndReturnArgs} args - Arguments to create many UserCustomFieldValues.
+     * @example
+     * // Create many UserCustomFieldValues
+     * const userCustomFieldValue = await prisma.userCustomFieldValue.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserCustomFieldValues and only return the `id`
+     * const userCustomFieldValueWithIdOnly = await prisma.userCustomFieldValue.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserCustomFieldValueCreateManyAndReturnArgs>(args?: SelectSubset<T, UserCustomFieldValueCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserCustomFieldValuePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserCustomFieldValue.
+     * @param {UserCustomFieldValueDeleteArgs} args - Arguments to delete one UserCustomFieldValue.
+     * @example
+     * // Delete one UserCustomFieldValue
+     * const UserCustomFieldValue = await prisma.userCustomFieldValue.delete({
+     *   where: {
+     *     // ... filter to delete one UserCustomFieldValue
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserCustomFieldValueDeleteArgs>(args: SelectSubset<T, UserCustomFieldValueDeleteArgs<ExtArgs>>): Prisma__UserCustomFieldValueClient<$Result.GetResult<Prisma.$UserCustomFieldValuePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserCustomFieldValue.
+     * @param {UserCustomFieldValueUpdateArgs} args - Arguments to update one UserCustomFieldValue.
+     * @example
+     * // Update one UserCustomFieldValue
+     * const userCustomFieldValue = await prisma.userCustomFieldValue.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserCustomFieldValueUpdateArgs>(args: SelectSubset<T, UserCustomFieldValueUpdateArgs<ExtArgs>>): Prisma__UserCustomFieldValueClient<$Result.GetResult<Prisma.$UserCustomFieldValuePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserCustomFieldValues.
+     * @param {UserCustomFieldValueDeleteManyArgs} args - Arguments to filter UserCustomFieldValues to delete.
+     * @example
+     * // Delete a few UserCustomFieldValues
+     * const { count } = await prisma.userCustomFieldValue.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserCustomFieldValueDeleteManyArgs>(args?: SelectSubset<T, UserCustomFieldValueDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserCustomFieldValues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCustomFieldValueUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserCustomFieldValues
+     * const userCustomFieldValue = await prisma.userCustomFieldValue.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserCustomFieldValueUpdateManyArgs>(args: SelectSubset<T, UserCustomFieldValueUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserCustomFieldValues and returns the data updated in the database.
+     * @param {UserCustomFieldValueUpdateManyAndReturnArgs} args - Arguments to update many UserCustomFieldValues.
+     * @example
+     * // Update many UserCustomFieldValues
+     * const userCustomFieldValue = await prisma.userCustomFieldValue.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserCustomFieldValues and only return the `id`
+     * const userCustomFieldValueWithIdOnly = await prisma.userCustomFieldValue.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserCustomFieldValueUpdateManyAndReturnArgs>(args: SelectSubset<T, UserCustomFieldValueUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserCustomFieldValuePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserCustomFieldValue.
+     * @param {UserCustomFieldValueUpsertArgs} args - Arguments to update or create a UserCustomFieldValue.
+     * @example
+     * // Update or create a UserCustomFieldValue
+     * const userCustomFieldValue = await prisma.userCustomFieldValue.upsert({
+     *   create: {
+     *     // ... data to create a UserCustomFieldValue
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserCustomFieldValue we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserCustomFieldValueUpsertArgs>(args: SelectSubset<T, UserCustomFieldValueUpsertArgs<ExtArgs>>): Prisma__UserCustomFieldValueClient<$Result.GetResult<Prisma.$UserCustomFieldValuePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserCustomFieldValues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCustomFieldValueCountArgs} args - Arguments to filter UserCustomFieldValues to count.
+     * @example
+     * // Count the number of UserCustomFieldValues
+     * const count = await prisma.userCustomFieldValue.count({
+     *   where: {
+     *     // ... the filter for the UserCustomFieldValues we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserCustomFieldValueCountArgs>(
+      args?: Subset<T, UserCustomFieldValueCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserCustomFieldValueCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserCustomFieldValue.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCustomFieldValueAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserCustomFieldValueAggregateArgs>(args: Subset<T, UserCustomFieldValueAggregateArgs>): Prisma.PrismaPromise<GetUserCustomFieldValueAggregateType<T>>
+
+    /**
+     * Group by UserCustomFieldValue.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserCustomFieldValueGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserCustomFieldValueGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserCustomFieldValueGroupByArgs['orderBy'] }
+        : { orderBy?: UserCustomFieldValueGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserCustomFieldValueGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserCustomFieldValueGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserCustomFieldValue model
+   */
+  readonly fields: UserCustomFieldValueFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserCustomFieldValue.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserCustomFieldValueClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    field<T extends CustomFieldDefDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomFieldDefDefaultArgs<ExtArgs>>): Prisma__CustomFieldDefClient<$Result.GetResult<Prisma.$CustomFieldDefPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserCustomFieldValue model
+   */
+  interface UserCustomFieldValueFieldRefs {
+    readonly id: FieldRef<"UserCustomFieldValue", 'String'>
+    readonly fieldId: FieldRef<"UserCustomFieldValue", 'String'>
+    readonly userId: FieldRef<"UserCustomFieldValue", 'String'>
+    readonly value: FieldRef<"UserCustomFieldValue", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserCustomFieldValue findUnique
+   */
+  export type UserCustomFieldValueFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCustomFieldValue
+     */
+    select?: UserCustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCustomFieldValue
+     */
+    omit?: UserCustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCustomFieldValueInclude<ExtArgs> | null
+    /**
+     * Filter, which UserCustomFieldValue to fetch.
+     */
+    where: UserCustomFieldValueWhereUniqueInput
+  }
+
+  /**
+   * UserCustomFieldValue findUniqueOrThrow
+   */
+  export type UserCustomFieldValueFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCustomFieldValue
+     */
+    select?: UserCustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCustomFieldValue
+     */
+    omit?: UserCustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCustomFieldValueInclude<ExtArgs> | null
+    /**
+     * Filter, which UserCustomFieldValue to fetch.
+     */
+    where: UserCustomFieldValueWhereUniqueInput
+  }
+
+  /**
+   * UserCustomFieldValue findFirst
+   */
+  export type UserCustomFieldValueFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCustomFieldValue
+     */
+    select?: UserCustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCustomFieldValue
+     */
+    omit?: UserCustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCustomFieldValueInclude<ExtArgs> | null
+    /**
+     * Filter, which UserCustomFieldValue to fetch.
+     */
+    where?: UserCustomFieldValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserCustomFieldValues to fetch.
+     */
+    orderBy?: UserCustomFieldValueOrderByWithRelationInput | UserCustomFieldValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserCustomFieldValues.
+     */
+    cursor?: UserCustomFieldValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserCustomFieldValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserCustomFieldValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserCustomFieldValues.
+     */
+    distinct?: UserCustomFieldValueScalarFieldEnum | UserCustomFieldValueScalarFieldEnum[]
+  }
+
+  /**
+   * UserCustomFieldValue findFirstOrThrow
+   */
+  export type UserCustomFieldValueFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCustomFieldValue
+     */
+    select?: UserCustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCustomFieldValue
+     */
+    omit?: UserCustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCustomFieldValueInclude<ExtArgs> | null
+    /**
+     * Filter, which UserCustomFieldValue to fetch.
+     */
+    where?: UserCustomFieldValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserCustomFieldValues to fetch.
+     */
+    orderBy?: UserCustomFieldValueOrderByWithRelationInput | UserCustomFieldValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserCustomFieldValues.
+     */
+    cursor?: UserCustomFieldValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserCustomFieldValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserCustomFieldValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserCustomFieldValues.
+     */
+    distinct?: UserCustomFieldValueScalarFieldEnum | UserCustomFieldValueScalarFieldEnum[]
+  }
+
+  /**
+   * UserCustomFieldValue findMany
+   */
+  export type UserCustomFieldValueFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCustomFieldValue
+     */
+    select?: UserCustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCustomFieldValue
+     */
+    omit?: UserCustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCustomFieldValueInclude<ExtArgs> | null
+    /**
+     * Filter, which UserCustomFieldValues to fetch.
+     */
+    where?: UserCustomFieldValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserCustomFieldValues to fetch.
+     */
+    orderBy?: UserCustomFieldValueOrderByWithRelationInput | UserCustomFieldValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserCustomFieldValues.
+     */
+    cursor?: UserCustomFieldValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserCustomFieldValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserCustomFieldValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserCustomFieldValues.
+     */
+    distinct?: UserCustomFieldValueScalarFieldEnum | UserCustomFieldValueScalarFieldEnum[]
+  }
+
+  /**
+   * UserCustomFieldValue create
+   */
+  export type UserCustomFieldValueCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCustomFieldValue
+     */
+    select?: UserCustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCustomFieldValue
+     */
+    omit?: UserCustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCustomFieldValueInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserCustomFieldValue.
+     */
+    data: XOR<UserCustomFieldValueCreateInput, UserCustomFieldValueUncheckedCreateInput>
+  }
+
+  /**
+   * UserCustomFieldValue createMany
+   */
+  export type UserCustomFieldValueCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserCustomFieldValues.
+     */
+    data: UserCustomFieldValueCreateManyInput | UserCustomFieldValueCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserCustomFieldValue createManyAndReturn
+   */
+  export type UserCustomFieldValueCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCustomFieldValue
+     */
+    select?: UserCustomFieldValueSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCustomFieldValue
+     */
+    omit?: UserCustomFieldValueOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserCustomFieldValues.
+     */
+    data: UserCustomFieldValueCreateManyInput | UserCustomFieldValueCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCustomFieldValueIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserCustomFieldValue update
+   */
+  export type UserCustomFieldValueUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCustomFieldValue
+     */
+    select?: UserCustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCustomFieldValue
+     */
+    omit?: UserCustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCustomFieldValueInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserCustomFieldValue.
+     */
+    data: XOR<UserCustomFieldValueUpdateInput, UserCustomFieldValueUncheckedUpdateInput>
+    /**
+     * Choose, which UserCustomFieldValue to update.
+     */
+    where: UserCustomFieldValueWhereUniqueInput
+  }
+
+  /**
+   * UserCustomFieldValue updateMany
+   */
+  export type UserCustomFieldValueUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserCustomFieldValues.
+     */
+    data: XOR<UserCustomFieldValueUpdateManyMutationInput, UserCustomFieldValueUncheckedUpdateManyInput>
+    /**
+     * Filter which UserCustomFieldValues to update
+     */
+    where?: UserCustomFieldValueWhereInput
+    /**
+     * Limit how many UserCustomFieldValues to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserCustomFieldValue updateManyAndReturn
+   */
+  export type UserCustomFieldValueUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCustomFieldValue
+     */
+    select?: UserCustomFieldValueSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCustomFieldValue
+     */
+    omit?: UserCustomFieldValueOmit<ExtArgs> | null
+    /**
+     * The data used to update UserCustomFieldValues.
+     */
+    data: XOR<UserCustomFieldValueUpdateManyMutationInput, UserCustomFieldValueUncheckedUpdateManyInput>
+    /**
+     * Filter which UserCustomFieldValues to update
+     */
+    where?: UserCustomFieldValueWhereInput
+    /**
+     * Limit how many UserCustomFieldValues to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCustomFieldValueIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserCustomFieldValue upsert
+   */
+  export type UserCustomFieldValueUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCustomFieldValue
+     */
+    select?: UserCustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCustomFieldValue
+     */
+    omit?: UserCustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCustomFieldValueInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserCustomFieldValue to update in case it exists.
+     */
+    where: UserCustomFieldValueWhereUniqueInput
+    /**
+     * In case the UserCustomFieldValue found by the `where` argument doesn't exist, create a new UserCustomFieldValue with this data.
+     */
+    create: XOR<UserCustomFieldValueCreateInput, UserCustomFieldValueUncheckedCreateInput>
+    /**
+     * In case the UserCustomFieldValue was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserCustomFieldValueUpdateInput, UserCustomFieldValueUncheckedUpdateInput>
+  }
+
+  /**
+   * UserCustomFieldValue delete
+   */
+  export type UserCustomFieldValueDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCustomFieldValue
+     */
+    select?: UserCustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCustomFieldValue
+     */
+    omit?: UserCustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCustomFieldValueInclude<ExtArgs> | null
+    /**
+     * Filter which UserCustomFieldValue to delete.
+     */
+    where: UserCustomFieldValueWhereUniqueInput
+  }
+
+  /**
+   * UserCustomFieldValue deleteMany
+   */
+  export type UserCustomFieldValueDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserCustomFieldValues to delete
+     */
+    where?: UserCustomFieldValueWhereInput
+    /**
+     * Limit how many UserCustomFieldValues to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserCustomFieldValue without action
+   */
+  export type UserCustomFieldValueDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCustomFieldValue
+     */
+    select?: UserCustomFieldValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserCustomFieldValue
+     */
+    omit?: UserCustomFieldValueOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserCustomFieldValueInclude<ExtArgs> | null
   }
 
 
@@ -112753,6 +113977,16 @@ export namespace Prisma {
   export type WikiPageCustomFieldValueScalarFieldEnum = (typeof WikiPageCustomFieldValueScalarFieldEnum)[keyof typeof WikiPageCustomFieldValueScalarFieldEnum]
 
 
+  export const UserCustomFieldValueScalarFieldEnum: {
+    id: 'id',
+    fieldId: 'fieldId',
+    userId: 'userId',
+    value: 'value'
+  };
+
+  export type UserCustomFieldValueScalarFieldEnum = (typeof UserCustomFieldValueScalarFieldEnum)[keyof typeof UserCustomFieldValueScalarFieldEnum]
+
+
   export const SharedWikiLinkScalarFieldEnum: {
     id: 'id',
     wikiPageId: 'wikiPageId',
@@ -113906,6 +115140,7 @@ export namespace Prisma {
     ownedDeals?: DealListRelationFilter
     approvalPolicyApprovals?: ApprovalPolicyApproverListRelationFilter
     timeEntryApproverDecisions?: TimeEntryApproverDecisionListRelationFilter
+    customFieldValues?: UserCustomFieldValueListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -113981,6 +115216,7 @@ export namespace Prisma {
     ownedDeals?: DealOrderByRelationAggregateInput
     approvalPolicyApprovals?: ApprovalPolicyApproverOrderByRelationAggregateInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionOrderByRelationAggregateInput
+    customFieldValues?: UserCustomFieldValueOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -114059,6 +115295,7 @@ export namespace Prisma {
     ownedDeals?: DealListRelationFilter
     approvalPolicyApprovals?: ApprovalPolicyApproverListRelationFilter
     timeEntryApproverDecisions?: TimeEntryApproverDecisionListRelationFilter
+    customFieldValues?: UserCustomFieldValueListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -117862,6 +119099,7 @@ export namespace Prisma {
     taskValues?: CustomFieldValueListRelationFilter
     budgetValues?: BudgetCustomFieldValueListRelationFilter
     wikiPageValues?: WikiPageCustomFieldValueListRelationFilter
+    userValues?: UserCustomFieldValueListRelationFilter
     projectAttachments?: ProjectCustomFieldListRelationFilter
   }
 
@@ -117878,6 +119116,7 @@ export namespace Prisma {
     taskValues?: CustomFieldValueOrderByRelationAggregateInput
     budgetValues?: BudgetCustomFieldValueOrderByRelationAggregateInput
     wikiPageValues?: WikiPageCustomFieldValueOrderByRelationAggregateInput
+    userValues?: UserCustomFieldValueOrderByRelationAggregateInput
     projectAttachments?: ProjectCustomFieldOrderByRelationAggregateInput
   }
 
@@ -117898,6 +119137,7 @@ export namespace Prisma {
     taskValues?: CustomFieldValueListRelationFilter
     budgetValues?: BudgetCustomFieldValueListRelationFilter
     wikiPageValues?: WikiPageCustomFieldValueListRelationFilter
+    userValues?: UserCustomFieldValueListRelationFilter
     projectAttachments?: ProjectCustomFieldListRelationFilter
   }, "id" | "projectId_key">
 
@@ -118143,6 +119383,60 @@ export namespace Prisma {
     fieldId?: StringWithAggregatesFilter<"WikiPageCustomFieldValue"> | string
     wikiPageId?: StringWithAggregatesFilter<"WikiPageCustomFieldValue"> | string
     value?: StringWithAggregatesFilter<"WikiPageCustomFieldValue"> | string
+  }
+
+  export type UserCustomFieldValueWhereInput = {
+    AND?: UserCustomFieldValueWhereInput | UserCustomFieldValueWhereInput[]
+    OR?: UserCustomFieldValueWhereInput[]
+    NOT?: UserCustomFieldValueWhereInput | UserCustomFieldValueWhereInput[]
+    id?: StringFilter<"UserCustomFieldValue"> | string
+    fieldId?: StringFilter<"UserCustomFieldValue"> | string
+    userId?: StringFilter<"UserCustomFieldValue"> | string
+    value?: StringFilter<"UserCustomFieldValue"> | string
+    field?: XOR<CustomFieldDefScalarRelationFilter, CustomFieldDefWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type UserCustomFieldValueOrderByWithRelationInput = {
+    id?: SortOrder
+    fieldId?: SortOrder
+    userId?: SortOrder
+    value?: SortOrder
+    field?: CustomFieldDefOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type UserCustomFieldValueWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    fieldId_userId?: UserCustomFieldValueFieldIdUserIdCompoundUniqueInput
+    AND?: UserCustomFieldValueWhereInput | UserCustomFieldValueWhereInput[]
+    OR?: UserCustomFieldValueWhereInput[]
+    NOT?: UserCustomFieldValueWhereInput | UserCustomFieldValueWhereInput[]
+    fieldId?: StringFilter<"UserCustomFieldValue"> | string
+    userId?: StringFilter<"UserCustomFieldValue"> | string
+    value?: StringFilter<"UserCustomFieldValue"> | string
+    field?: XOR<CustomFieldDefScalarRelationFilter, CustomFieldDefWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "fieldId_userId">
+
+  export type UserCustomFieldValueOrderByWithAggregationInput = {
+    id?: SortOrder
+    fieldId?: SortOrder
+    userId?: SortOrder
+    value?: SortOrder
+    _count?: UserCustomFieldValueCountOrderByAggregateInput
+    _max?: UserCustomFieldValueMaxOrderByAggregateInput
+    _min?: UserCustomFieldValueMinOrderByAggregateInput
+  }
+
+  export type UserCustomFieldValueScalarWhereWithAggregatesInput = {
+    AND?: UserCustomFieldValueScalarWhereWithAggregatesInput | UserCustomFieldValueScalarWhereWithAggregatesInput[]
+    OR?: UserCustomFieldValueScalarWhereWithAggregatesInput[]
+    NOT?: UserCustomFieldValueScalarWhereWithAggregatesInput | UserCustomFieldValueScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserCustomFieldValue"> | string
+    fieldId?: StringWithAggregatesFilter<"UserCustomFieldValue"> | string
+    userId?: StringWithAggregatesFilter<"UserCustomFieldValue"> | string
+    value?: StringWithAggregatesFilter<"UserCustomFieldValue"> | string
   }
 
   export type SharedWikiLinkWhereInput = {
@@ -120457,6 +121751,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -120529,6 +121824,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -120601,6 +121897,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -120673,6 +121970,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -124580,6 +125878,7 @@ export namespace Prisma {
     taskValues?: CustomFieldValueCreateNestedManyWithoutFieldInput
     budgetValues?: BudgetCustomFieldValueCreateNestedManyWithoutFieldInput
     wikiPageValues?: WikiPageCustomFieldValueCreateNestedManyWithoutFieldInput
+    userValues?: UserCustomFieldValueCreateNestedManyWithoutFieldInput
     projectAttachments?: ProjectCustomFieldCreateNestedManyWithoutFieldInput
   }
 
@@ -124595,6 +125894,7 @@ export namespace Prisma {
     taskValues?: CustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     budgetValues?: BudgetCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     wikiPageValues?: WikiPageCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
+    userValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     projectAttachments?: ProjectCustomFieldUncheckedCreateNestedManyWithoutFieldInput
   }
 
@@ -124610,6 +125910,7 @@ export namespace Prisma {
     taskValues?: CustomFieldValueUpdateManyWithoutFieldNestedInput
     budgetValues?: BudgetCustomFieldValueUpdateManyWithoutFieldNestedInput
     wikiPageValues?: WikiPageCustomFieldValueUpdateManyWithoutFieldNestedInput
+    userValues?: UserCustomFieldValueUpdateManyWithoutFieldNestedInput
     projectAttachments?: ProjectCustomFieldUpdateManyWithoutFieldNestedInput
   }
 
@@ -124625,6 +125926,7 @@ export namespace Prisma {
     taskValues?: CustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     budgetValues?: BudgetCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     wikiPageValues?: WikiPageCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
+    userValues?: UserCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     projectAttachments?: ProjectCustomFieldUncheckedUpdateManyWithoutFieldNestedInput
   }
 
@@ -124845,6 +126147,53 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fieldId?: StringFieldUpdateOperationsInput | string
     wikiPageId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserCustomFieldValueCreateInput = {
+    id?: string
+    value: string
+    field: CustomFieldDefCreateNestedOneWithoutUserValuesInput
+    user: UserCreateNestedOneWithoutCustomFieldValuesInput
+  }
+
+  export type UserCustomFieldValueUncheckedCreateInput = {
+    id?: string
+    fieldId: string
+    userId: string
+    value: string
+  }
+
+  export type UserCustomFieldValueUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    field?: CustomFieldDefUpdateOneRequiredWithoutUserValuesNestedInput
+    user?: UserUpdateOneRequiredWithoutCustomFieldValuesNestedInput
+  }
+
+  export type UserCustomFieldValueUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fieldId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserCustomFieldValueCreateManyInput = {
+    id?: string
+    fieldId: string
+    userId: string
+    value: string
+  }
+
+  export type UserCustomFieldValueUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserCustomFieldValueUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fieldId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     value?: StringFieldUpdateOperationsInput | string
   }
 
@@ -127559,6 +128908,12 @@ export namespace Prisma {
     none?: TimeEntryApproverDecisionWhereInput
   }
 
+  export type UserCustomFieldValueListRelationFilter = {
+    every?: UserCustomFieldValueWhereInput
+    some?: UserCustomFieldValueWhereInput
+    none?: UserCustomFieldValueWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -127741,6 +129096,10 @@ export namespace Prisma {
   }
 
   export type TimeEntryApproverDecisionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserCustomFieldValueOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -130755,6 +132114,32 @@ export namespace Prisma {
     value?: SortOrder
   }
 
+  export type UserCustomFieldValueFieldIdUserIdCompoundUniqueInput = {
+    fieldId: string
+    userId: string
+  }
+
+  export type UserCustomFieldValueCountOrderByAggregateInput = {
+    id?: SortOrder
+    fieldId?: SortOrder
+    userId?: SortOrder
+    value?: SortOrder
+  }
+
+  export type UserCustomFieldValueMaxOrderByAggregateInput = {
+    id?: SortOrder
+    fieldId?: SortOrder
+    userId?: SortOrder
+    value?: SortOrder
+  }
+
+  export type UserCustomFieldValueMinOrderByAggregateInput = {
+    id?: SortOrder
+    fieldId?: SortOrder
+    userId?: SortOrder
+    value?: SortOrder
+  }
+
   export type SharedWikiLinkCountOrderByAggregateInput = {
     id?: SortOrder
     wikiPageId?: SortOrder
@@ -132642,6 +134027,13 @@ export namespace Prisma {
     connect?: TimeEntryApproverDecisionWhereUniqueInput | TimeEntryApproverDecisionWhereUniqueInput[]
   }
 
+  export type UserCustomFieldValueCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserCustomFieldValueCreateWithoutUserInput, UserCustomFieldValueUncheckedCreateWithoutUserInput> | UserCustomFieldValueCreateWithoutUserInput[] | UserCustomFieldValueUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserCustomFieldValueCreateOrConnectWithoutUserInput | UserCustomFieldValueCreateOrConnectWithoutUserInput[]
+    createMany?: UserCustomFieldValueCreateManyUserInputEnvelope
+    connect?: UserCustomFieldValueWhereUniqueInput | UserCustomFieldValueWhereUniqueInput[]
+  }
+
   export type SessionUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -132997,6 +134389,13 @@ export namespace Prisma {
     connectOrCreate?: TimeEntryApproverDecisionCreateOrConnectWithoutApproverInput | TimeEntryApproverDecisionCreateOrConnectWithoutApproverInput[]
     createMany?: TimeEntryApproverDecisionCreateManyApproverInputEnvelope
     connect?: TimeEntryApproverDecisionWhereUniqueInput | TimeEntryApproverDecisionWhereUniqueInput[]
+  }
+
+  export type UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserCustomFieldValueCreateWithoutUserInput, UserCustomFieldValueUncheckedCreateWithoutUserInput> | UserCustomFieldValueCreateWithoutUserInput[] | UserCustomFieldValueUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserCustomFieldValueCreateOrConnectWithoutUserInput | UserCustomFieldValueCreateOrConnectWithoutUserInput[]
+    createMany?: UserCustomFieldValueCreateManyUserInputEnvelope
+    connect?: UserCustomFieldValueWhereUniqueInput | UserCustomFieldValueWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -133783,6 +135182,20 @@ export namespace Prisma {
     deleteMany?: TimeEntryApproverDecisionScalarWhereInput | TimeEntryApproverDecisionScalarWhereInput[]
   }
 
+  export type UserCustomFieldValueUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserCustomFieldValueCreateWithoutUserInput, UserCustomFieldValueUncheckedCreateWithoutUserInput> | UserCustomFieldValueCreateWithoutUserInput[] | UserCustomFieldValueUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserCustomFieldValueCreateOrConnectWithoutUserInput | UserCustomFieldValueCreateOrConnectWithoutUserInput[]
+    upsert?: UserCustomFieldValueUpsertWithWhereUniqueWithoutUserInput | UserCustomFieldValueUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserCustomFieldValueCreateManyUserInputEnvelope
+    set?: UserCustomFieldValueWhereUniqueInput | UserCustomFieldValueWhereUniqueInput[]
+    disconnect?: UserCustomFieldValueWhereUniqueInput | UserCustomFieldValueWhereUniqueInput[]
+    delete?: UserCustomFieldValueWhereUniqueInput | UserCustomFieldValueWhereUniqueInput[]
+    connect?: UserCustomFieldValueWhereUniqueInput | UserCustomFieldValueWhereUniqueInput[]
+    update?: UserCustomFieldValueUpdateWithWhereUniqueWithoutUserInput | UserCustomFieldValueUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserCustomFieldValueUpdateManyWithWhereWithoutUserInput | UserCustomFieldValueUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserCustomFieldValueScalarWhereInput | UserCustomFieldValueScalarWhereInput[]
+  }
+
   export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -134495,6 +135908,20 @@ export namespace Prisma {
     update?: TimeEntryApproverDecisionUpdateWithWhereUniqueWithoutApproverInput | TimeEntryApproverDecisionUpdateWithWhereUniqueWithoutApproverInput[]
     updateMany?: TimeEntryApproverDecisionUpdateManyWithWhereWithoutApproverInput | TimeEntryApproverDecisionUpdateManyWithWhereWithoutApproverInput[]
     deleteMany?: TimeEntryApproverDecisionScalarWhereInput | TimeEntryApproverDecisionScalarWhereInput[]
+  }
+
+  export type UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserCustomFieldValueCreateWithoutUserInput, UserCustomFieldValueUncheckedCreateWithoutUserInput> | UserCustomFieldValueCreateWithoutUserInput[] | UserCustomFieldValueUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserCustomFieldValueCreateOrConnectWithoutUserInput | UserCustomFieldValueCreateOrConnectWithoutUserInput[]
+    upsert?: UserCustomFieldValueUpsertWithWhereUniqueWithoutUserInput | UserCustomFieldValueUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserCustomFieldValueCreateManyUserInputEnvelope
+    set?: UserCustomFieldValueWhereUniqueInput | UserCustomFieldValueWhereUniqueInput[]
+    disconnect?: UserCustomFieldValueWhereUniqueInput | UserCustomFieldValueWhereUniqueInput[]
+    delete?: UserCustomFieldValueWhereUniqueInput | UserCustomFieldValueWhereUniqueInput[]
+    connect?: UserCustomFieldValueWhereUniqueInput | UserCustomFieldValueWhereUniqueInput[]
+    update?: UserCustomFieldValueUpdateWithWhereUniqueWithoutUserInput | UserCustomFieldValueUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserCustomFieldValueUpdateManyWithWhereWithoutUserInput | UserCustomFieldValueUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserCustomFieldValueScalarWhereInput | UserCustomFieldValueScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutAccountOwnedClientsInput = {
@@ -138909,6 +140336,13 @@ export namespace Prisma {
     connect?: WikiPageCustomFieldValueWhereUniqueInput | WikiPageCustomFieldValueWhereUniqueInput[]
   }
 
+  export type UserCustomFieldValueCreateNestedManyWithoutFieldInput = {
+    create?: XOR<UserCustomFieldValueCreateWithoutFieldInput, UserCustomFieldValueUncheckedCreateWithoutFieldInput> | UserCustomFieldValueCreateWithoutFieldInput[] | UserCustomFieldValueUncheckedCreateWithoutFieldInput[]
+    connectOrCreate?: UserCustomFieldValueCreateOrConnectWithoutFieldInput | UserCustomFieldValueCreateOrConnectWithoutFieldInput[]
+    createMany?: UserCustomFieldValueCreateManyFieldInputEnvelope
+    connect?: UserCustomFieldValueWhereUniqueInput | UserCustomFieldValueWhereUniqueInput[]
+  }
+
   export type ProjectCustomFieldCreateNestedManyWithoutFieldInput = {
     create?: XOR<ProjectCustomFieldCreateWithoutFieldInput, ProjectCustomFieldUncheckedCreateWithoutFieldInput> | ProjectCustomFieldCreateWithoutFieldInput[] | ProjectCustomFieldUncheckedCreateWithoutFieldInput[]
     connectOrCreate?: ProjectCustomFieldCreateOrConnectWithoutFieldInput | ProjectCustomFieldCreateOrConnectWithoutFieldInput[]
@@ -138935,6 +140369,13 @@ export namespace Prisma {
     connectOrCreate?: WikiPageCustomFieldValueCreateOrConnectWithoutFieldInput | WikiPageCustomFieldValueCreateOrConnectWithoutFieldInput[]
     createMany?: WikiPageCustomFieldValueCreateManyFieldInputEnvelope
     connect?: WikiPageCustomFieldValueWhereUniqueInput | WikiPageCustomFieldValueWhereUniqueInput[]
+  }
+
+  export type UserCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput = {
+    create?: XOR<UserCustomFieldValueCreateWithoutFieldInput, UserCustomFieldValueUncheckedCreateWithoutFieldInput> | UserCustomFieldValueCreateWithoutFieldInput[] | UserCustomFieldValueUncheckedCreateWithoutFieldInput[]
+    connectOrCreate?: UserCustomFieldValueCreateOrConnectWithoutFieldInput | UserCustomFieldValueCreateOrConnectWithoutFieldInput[]
+    createMany?: UserCustomFieldValueCreateManyFieldInputEnvelope
+    connect?: UserCustomFieldValueWhereUniqueInput | UserCustomFieldValueWhereUniqueInput[]
   }
 
   export type ProjectCustomFieldUncheckedCreateNestedManyWithoutFieldInput = {
@@ -139009,6 +140450,20 @@ export namespace Prisma {
     deleteMany?: WikiPageCustomFieldValueScalarWhereInput | WikiPageCustomFieldValueScalarWhereInput[]
   }
 
+  export type UserCustomFieldValueUpdateManyWithoutFieldNestedInput = {
+    create?: XOR<UserCustomFieldValueCreateWithoutFieldInput, UserCustomFieldValueUncheckedCreateWithoutFieldInput> | UserCustomFieldValueCreateWithoutFieldInput[] | UserCustomFieldValueUncheckedCreateWithoutFieldInput[]
+    connectOrCreate?: UserCustomFieldValueCreateOrConnectWithoutFieldInput | UserCustomFieldValueCreateOrConnectWithoutFieldInput[]
+    upsert?: UserCustomFieldValueUpsertWithWhereUniqueWithoutFieldInput | UserCustomFieldValueUpsertWithWhereUniqueWithoutFieldInput[]
+    createMany?: UserCustomFieldValueCreateManyFieldInputEnvelope
+    set?: UserCustomFieldValueWhereUniqueInput | UserCustomFieldValueWhereUniqueInput[]
+    disconnect?: UserCustomFieldValueWhereUniqueInput | UserCustomFieldValueWhereUniqueInput[]
+    delete?: UserCustomFieldValueWhereUniqueInput | UserCustomFieldValueWhereUniqueInput[]
+    connect?: UserCustomFieldValueWhereUniqueInput | UserCustomFieldValueWhereUniqueInput[]
+    update?: UserCustomFieldValueUpdateWithWhereUniqueWithoutFieldInput | UserCustomFieldValueUpdateWithWhereUniqueWithoutFieldInput[]
+    updateMany?: UserCustomFieldValueUpdateManyWithWhereWithoutFieldInput | UserCustomFieldValueUpdateManyWithWhereWithoutFieldInput[]
+    deleteMany?: UserCustomFieldValueScalarWhereInput | UserCustomFieldValueScalarWhereInput[]
+  }
+
   export type ProjectCustomFieldUpdateManyWithoutFieldNestedInput = {
     create?: XOR<ProjectCustomFieldCreateWithoutFieldInput, ProjectCustomFieldUncheckedCreateWithoutFieldInput> | ProjectCustomFieldCreateWithoutFieldInput[] | ProjectCustomFieldUncheckedCreateWithoutFieldInput[]
     connectOrCreate?: ProjectCustomFieldCreateOrConnectWithoutFieldInput | ProjectCustomFieldCreateOrConnectWithoutFieldInput[]
@@ -139063,6 +140518,20 @@ export namespace Prisma {
     update?: WikiPageCustomFieldValueUpdateWithWhereUniqueWithoutFieldInput | WikiPageCustomFieldValueUpdateWithWhereUniqueWithoutFieldInput[]
     updateMany?: WikiPageCustomFieldValueUpdateManyWithWhereWithoutFieldInput | WikiPageCustomFieldValueUpdateManyWithWhereWithoutFieldInput[]
     deleteMany?: WikiPageCustomFieldValueScalarWhereInput | WikiPageCustomFieldValueScalarWhereInput[]
+  }
+
+  export type UserCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput = {
+    create?: XOR<UserCustomFieldValueCreateWithoutFieldInput, UserCustomFieldValueUncheckedCreateWithoutFieldInput> | UserCustomFieldValueCreateWithoutFieldInput[] | UserCustomFieldValueUncheckedCreateWithoutFieldInput[]
+    connectOrCreate?: UserCustomFieldValueCreateOrConnectWithoutFieldInput | UserCustomFieldValueCreateOrConnectWithoutFieldInput[]
+    upsert?: UserCustomFieldValueUpsertWithWhereUniqueWithoutFieldInput | UserCustomFieldValueUpsertWithWhereUniqueWithoutFieldInput[]
+    createMany?: UserCustomFieldValueCreateManyFieldInputEnvelope
+    set?: UserCustomFieldValueWhereUniqueInput | UserCustomFieldValueWhereUniqueInput[]
+    disconnect?: UserCustomFieldValueWhereUniqueInput | UserCustomFieldValueWhereUniqueInput[]
+    delete?: UserCustomFieldValueWhereUniqueInput | UserCustomFieldValueWhereUniqueInput[]
+    connect?: UserCustomFieldValueWhereUniqueInput | UserCustomFieldValueWhereUniqueInput[]
+    update?: UserCustomFieldValueUpdateWithWhereUniqueWithoutFieldInput | UserCustomFieldValueUpdateWithWhereUniqueWithoutFieldInput[]
+    updateMany?: UserCustomFieldValueUpdateManyWithWhereWithoutFieldInput | UserCustomFieldValueUpdateManyWithWhereWithoutFieldInput[]
+    deleteMany?: UserCustomFieldValueScalarWhereInput | UserCustomFieldValueScalarWhereInput[]
   }
 
   export type ProjectCustomFieldUncheckedUpdateManyWithoutFieldNestedInput = {
@@ -139189,6 +140658,34 @@ export namespace Prisma {
     upsert?: WikiPageUpsertWithoutCustomValuesInput
     connect?: WikiPageWhereUniqueInput
     update?: XOR<XOR<WikiPageUpdateToOneWithWhereWithoutCustomValuesInput, WikiPageUpdateWithoutCustomValuesInput>, WikiPageUncheckedUpdateWithoutCustomValuesInput>
+  }
+
+  export type CustomFieldDefCreateNestedOneWithoutUserValuesInput = {
+    create?: XOR<CustomFieldDefCreateWithoutUserValuesInput, CustomFieldDefUncheckedCreateWithoutUserValuesInput>
+    connectOrCreate?: CustomFieldDefCreateOrConnectWithoutUserValuesInput
+    connect?: CustomFieldDefWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutCustomFieldValuesInput = {
+    create?: XOR<UserCreateWithoutCustomFieldValuesInput, UserUncheckedCreateWithoutCustomFieldValuesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCustomFieldValuesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CustomFieldDefUpdateOneRequiredWithoutUserValuesNestedInput = {
+    create?: XOR<CustomFieldDefCreateWithoutUserValuesInput, CustomFieldDefUncheckedCreateWithoutUserValuesInput>
+    connectOrCreate?: CustomFieldDefCreateOrConnectWithoutUserValuesInput
+    upsert?: CustomFieldDefUpsertWithoutUserValuesInput
+    connect?: CustomFieldDefWhereUniqueInput
+    update?: XOR<XOR<CustomFieldDefUpdateToOneWithWhereWithoutUserValuesInput, CustomFieldDefUpdateWithoutUserValuesInput>, CustomFieldDefUncheckedUpdateWithoutUserValuesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutCustomFieldValuesNestedInput = {
+    create?: XOR<UserCreateWithoutCustomFieldValuesInput, UserUncheckedCreateWithoutCustomFieldValuesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCustomFieldValuesInput
+    upsert?: UserUpsertWithoutCustomFieldValuesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCustomFieldValuesInput, UserUpdateWithoutCustomFieldValuesInput>, UserUncheckedUpdateWithoutCustomFieldValuesInput>
   }
 
   export type WikiPageCreateNestedOneWithoutSharedLinksInput = {
@@ -143145,6 +144642,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDirectReportsInput = {
@@ -143216,6 +144714,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDirectReportsInput = {
@@ -143292,6 +144791,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutManagerInput = {
@@ -143363,6 +144863,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutManagerInput = {
@@ -144091,6 +145592,28 @@ export namespace Prisma {
 
   export type TimeEntryApproverDecisionCreateManyApproverInputEnvelope = {
     data: TimeEntryApproverDecisionCreateManyApproverInput | TimeEntryApproverDecisionCreateManyApproverInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserCustomFieldValueCreateWithoutUserInput = {
+    id?: string
+    value: string
+    field: CustomFieldDefCreateNestedOneWithoutUserValuesInput
+  }
+
+  export type UserCustomFieldValueUncheckedCreateWithoutUserInput = {
+    id?: string
+    fieldId: string
+    value: string
+  }
+
+  export type UserCustomFieldValueCreateOrConnectWithoutUserInput = {
+    where: UserCustomFieldValueWhereUniqueInput
+    create: XOR<UserCustomFieldValueCreateWithoutUserInput, UserCustomFieldValueUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserCustomFieldValueCreateManyUserInputEnvelope = {
+    data: UserCustomFieldValueCreateManyUserInput | UserCustomFieldValueCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -145092,6 +146615,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDirectReportsInput = {
@@ -145163,6 +146687,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithWhereUniqueWithoutManagerInput = {
@@ -145770,6 +147295,32 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"TimeEntryApproverDecision"> | Date | string
   }
 
+  export type UserCustomFieldValueUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserCustomFieldValueWhereUniqueInput
+    update: XOR<UserCustomFieldValueUpdateWithoutUserInput, UserCustomFieldValueUncheckedUpdateWithoutUserInput>
+    create: XOR<UserCustomFieldValueCreateWithoutUserInput, UserCustomFieldValueUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserCustomFieldValueUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserCustomFieldValueWhereUniqueInput
+    data: XOR<UserCustomFieldValueUpdateWithoutUserInput, UserCustomFieldValueUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserCustomFieldValueUpdateManyWithWhereWithoutUserInput = {
+    where: UserCustomFieldValueScalarWhereInput
+    data: XOR<UserCustomFieldValueUpdateManyMutationInput, UserCustomFieldValueUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserCustomFieldValueScalarWhereInput = {
+    AND?: UserCustomFieldValueScalarWhereInput | UserCustomFieldValueScalarWhereInput[]
+    OR?: UserCustomFieldValueScalarWhereInput[]
+    NOT?: UserCustomFieldValueScalarWhereInput | UserCustomFieldValueScalarWhereInput[]
+    id?: StringFilter<"UserCustomFieldValue"> | string
+    fieldId?: StringFilter<"UserCustomFieldValue"> | string
+    userId?: StringFilter<"UserCustomFieldValue"> | string
+    value?: StringFilter<"UserCustomFieldValue"> | string
+  }
+
   export type UserCreateWithoutAccountOwnedClientsInput = {
     id?: string
     email: string
@@ -145839,6 +147390,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountOwnedClientsInput = {
@@ -145910,6 +147462,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountOwnedClientsInput = {
@@ -146280,6 +147833,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountOwnedClientsInput = {
@@ -146351,6 +147905,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ClientUpsertWithoutChildrenInput = {
@@ -146957,6 +148512,7 @@ export namespace Prisma {
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutOwnedDealsInput = {
@@ -147028,6 +148584,7 @@ export namespace Prisma {
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutOwnedDealsInput = {
@@ -147311,6 +148868,7 @@ export namespace Prisma {
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOwnedDealsInput = {
@@ -147382,6 +148940,7 @@ export namespace Prisma {
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LostReasonUpsertWithoutDealsInput = {
@@ -147670,6 +149229,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectMembershipsInput = {
@@ -147741,6 +149301,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectMembershipsInput = {
@@ -147927,6 +149488,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectMembershipsInput = {
@@ -147998,6 +149560,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCustomRoleInput = {
@@ -148069,6 +149632,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCustomRoleInput = {
@@ -148140,6 +149704,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCustomRoleInput = {
@@ -148370,6 +149935,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectRoleOverridesInput = {
@@ -148441,6 +150007,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectRoleOverridesInput = {
@@ -148648,6 +150215,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectRoleOverridesInput = {
@@ -148719,6 +150287,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CustomRoleUpsertWithoutProjectOverridesInput = {
@@ -148817,6 +150386,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAbsenceRequestsInput = {
@@ -148888,6 +150458,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAbsenceRequestsInput = {
@@ -148964,6 +150535,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReviewedAbsenceRequestsInput = {
@@ -149035,6 +150607,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReviewedAbsenceRequestsInput = {
@@ -149122,6 +150695,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAbsenceRequestsInput = {
@@ -149193,6 +150767,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutReviewedAbsenceRequestsInput = {
@@ -149275,6 +150850,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewedAbsenceRequestsInput = {
@@ -149346,6 +150922,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -149417,6 +150994,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -149488,6 +151066,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -149575,6 +151154,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -149646,6 +151226,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutFavoritesInput = {
@@ -149717,6 +151298,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFavoritesInput = {
@@ -149788,6 +151370,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFavoritesInput = {
@@ -149875,6 +151458,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFavoritesInput = {
@@ -149946,6 +151530,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAuditLogEntriesInput = {
@@ -150017,6 +151602,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAuditLogEntriesInput = {
@@ -150088,6 +151674,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAuditLogEntriesInput = {
@@ -150175,6 +151762,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAuditLogEntriesInput = {
@@ -150246,6 +151834,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProjectCreateWithoutClientAccessInput = {
@@ -150410,6 +151999,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectClientAccessInput = {
@@ -150481,6 +152071,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectClientAccessInput = {
@@ -150667,6 +152258,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectClientAccessInput = {
@@ -150738,6 +152330,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProjectCreateWithoutSlackCaptureConfigsInput = {
@@ -150984,6 +152577,7 @@ export namespace Prisma {
     taskValues?: CustomFieldValueCreateNestedManyWithoutFieldInput
     budgetValues?: BudgetCustomFieldValueCreateNestedManyWithoutFieldInput
     wikiPageValues?: WikiPageCustomFieldValueCreateNestedManyWithoutFieldInput
+    userValues?: UserCustomFieldValueCreateNestedManyWithoutFieldInput
     projectAttachments?: ProjectCustomFieldCreateNestedManyWithoutFieldInput
   }
 
@@ -150998,6 +152592,7 @@ export namespace Prisma {
     taskValues?: CustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     budgetValues?: BudgetCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     wikiPageValues?: WikiPageCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
+    userValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     projectAttachments?: ProjectCustomFieldUncheckedCreateNestedManyWithoutFieldInput
   }
 
@@ -151550,6 +153145,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutManagedProjectsInput = {
@@ -151621,6 +153217,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutManagedProjectsInput = {
@@ -152457,6 +154054,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutManagedProjectsInput = {
@@ -152528,6 +154126,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProjectMemberUpsertWithWhereUniqueWithoutProjectInput = {
@@ -154422,6 +156021,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedSharedViewsInput = {
@@ -154493,6 +156093,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedSharedViewsInput = {
@@ -154679,6 +156280,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedSharedViewsInput = {
@@ -154750,6 +156352,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProjectCreateWithoutSavedViewsInput = {
@@ -154914,6 +156517,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSavedViewsInput = {
@@ -154985,6 +156589,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSavedViewsInput = {
@@ -155171,6 +156776,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSavedViewsInput = {
@@ -155242,6 +156848,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type WorkflowStatusCreateWithoutWorkflowInput = {
@@ -155806,6 +157413,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAssignedTasksInput = {
@@ -155877,6 +157485,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAssignedTasksInput = {
@@ -156747,6 +158356,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssignedTasksInput = {
@@ -156818,6 +158428,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TaskUpsertWithoutSubtasksInput = {
@@ -157749,6 +159360,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTaskSubscriptionsInput = {
@@ -157820,6 +159432,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTaskSubscriptionsInput = {
@@ -158002,6 +159615,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTaskSubscriptionsInput = {
@@ -158073,6 +159687,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TaskCreateWithoutTodosInput = {
@@ -158233,6 +159848,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAssignedTodosInput = {
@@ -158304,6 +159920,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAssignedTodosInput = {
@@ -158486,6 +160103,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssignedTodosInput = {
@@ -158557,6 +160175,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TaskCreateWithoutCommentsInput = {
@@ -158717,6 +160336,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommentsInput = {
@@ -158788,6 +160408,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommentsInput = {
@@ -158990,6 +160611,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -159061,6 +160683,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MentionUpsertWithWhereUniqueWithoutCommentInput = {
@@ -159169,6 +160792,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMentionsInput = {
@@ -159240,6 +160864,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMentionsInput = {
@@ -159354,6 +160979,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMentionsInput = {
@@ -159425,6 +161051,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TaskCreateWithoutAttachmentsInput = {
@@ -159585,6 +161212,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAttachmentsInput = {
@@ -159656,6 +161284,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAttachmentsInput = {
@@ -159838,6 +161467,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAttachmentsInput = {
@@ -159909,6 +161539,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProjectCreateWithoutWikiPagesInput = {
@@ -160073,6 +161704,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedWikiPagesInput = {
@@ -160144,6 +161776,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedWikiPagesInput = {
@@ -160378,6 +162011,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedWikiPagesInput = {
@@ -160449,6 +162083,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type WikiPageCustomFieldValueUpsertWithWhereUniqueWithoutWikiPageInput = {
@@ -160562,6 +162197,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPendingLoginsInput = {
@@ -160633,6 +162269,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPendingLoginsInput = {
@@ -160720,6 +162357,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPendingLoginsInput = {
@@ -160791,6 +162429,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutTimeEntriesInput = {
@@ -160862,6 +162501,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTimeEntriesInput = {
@@ -160933,6 +162573,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTimeEntriesInput = {
@@ -161301,6 +162942,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutApprovedTimeEntriesInput = {
@@ -161372,6 +163014,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutApprovedTimeEntriesInput = {
@@ -161448,6 +163091,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLoggedForTimeEntriesInput = {
@@ -161519,6 +163163,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLoggedForTimeEntriesInput = {
@@ -161632,6 +163277,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimeEntriesInput = {
@@ -161703,6 +163349,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TaskUpsertWithoutTimeEntriesInput = {
@@ -162101,6 +163748,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutApprovedTimeEntriesInput = {
@@ -162172,6 +163820,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutLoggedForTimeEntriesInput = {
@@ -162254,6 +163903,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLoggedForTimeEntriesInput = {
@@ -162325,6 +163975,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TimeEntryApproverDecisionUpsertWithWhereUniqueWithoutTimeEntryInput = {
@@ -162557,6 +164208,7 @@ export namespace Prisma {
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutApprovalPolicyApprovalsInput = {
@@ -162628,6 +164280,7 @@ export namespace Prisma {
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutApprovalPolicyApprovalsInput = {
@@ -162750,6 +164403,7 @@ export namespace Prisma {
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutApprovalPolicyApprovalsInput = {
@@ -162821,6 +164475,7 @@ export namespace Prisma {
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TimeEntryCreateWithoutApproverDecisionsInput = {
@@ -162939,6 +164594,7 @@ export namespace Prisma {
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTimeEntryApproverDecisionsInput = {
@@ -163010,6 +164666,7 @@ export namespace Prisma {
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTimeEntryApproverDecisionsInput = {
@@ -163150,6 +164807,7 @@ export namespace Prisma {
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimeEntryApproverDecisionsInput = {
@@ -163221,6 +164879,7 @@ export namespace Prisma {
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutTimesheetLocksInput = {
@@ -163292,6 +164951,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTimesheetLocksInput = {
@@ -163363,6 +165023,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTimesheetLocksInput = {
@@ -163439,6 +165100,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLockedTimesheetsInput = {
@@ -163510,6 +165172,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLockedTimesheetsInput = {
@@ -163597,6 +165260,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimesheetLocksInput = {
@@ -163668,6 +165332,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutLockedTimesheetsInput = {
@@ -163750,6 +165415,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLockedTimesheetsInput = {
@@ -163821,6 +165487,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type HolidayCreateWithoutCalendarInput = {
@@ -163914,6 +165581,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHolidayCalendarInput = {
@@ -163985,6 +165653,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHolidayCalendarInput = {
@@ -164152,6 +165821,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutResourceBookingsInput = {
@@ -164223,6 +165893,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutResourceBookingsInput = {
@@ -164459,6 +166130,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedResourceBookingsInput = {
@@ -164530,6 +166202,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedResourceBookingsInput = {
@@ -164617,6 +166290,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutResourceBookingsInput = {
@@ -164688,6 +166362,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProjectUpsertWithoutResourceBookingsInput = {
@@ -164942,6 +166617,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedResourceBookingsInput = {
@@ -165013,6 +166689,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TaskCreateWithoutProjectsInput = {
@@ -166006,6 +167683,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedTaskLinksInput = {
@@ -166077,6 +167755,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedTaskLinksInput = {
@@ -166354,6 +168033,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedTaskLinksInput = {
@@ -166425,6 +168105,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProjectCreateWithoutCustomFieldsInput = {
@@ -166583,6 +168264,28 @@ export namespace Prisma {
 
   export type WikiPageCustomFieldValueCreateManyFieldInputEnvelope = {
     data: WikiPageCustomFieldValueCreateManyFieldInput | WikiPageCustomFieldValueCreateManyFieldInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserCustomFieldValueCreateWithoutFieldInput = {
+    id?: string
+    value: string
+    user: UserCreateNestedOneWithoutCustomFieldValuesInput
+  }
+
+  export type UserCustomFieldValueUncheckedCreateWithoutFieldInput = {
+    id?: string
+    userId: string
+    value: string
+  }
+
+  export type UserCustomFieldValueCreateOrConnectWithoutFieldInput = {
+    where: UserCustomFieldValueWhereUniqueInput
+    create: XOR<UserCustomFieldValueCreateWithoutFieldInput, UserCustomFieldValueUncheckedCreateWithoutFieldInput>
+  }
+
+  export type UserCustomFieldValueCreateManyFieldInputEnvelope = {
+    data: UserCustomFieldValueCreateManyFieldInput | UserCustomFieldValueCreateManyFieldInput[]
     skipDuplicates?: boolean
   }
 
@@ -166765,6 +168468,22 @@ export namespace Prisma {
     data: XOR<WikiPageCustomFieldValueUpdateManyMutationInput, WikiPageCustomFieldValueUncheckedUpdateManyWithoutFieldInput>
   }
 
+  export type UserCustomFieldValueUpsertWithWhereUniqueWithoutFieldInput = {
+    where: UserCustomFieldValueWhereUniqueInput
+    update: XOR<UserCustomFieldValueUpdateWithoutFieldInput, UserCustomFieldValueUncheckedUpdateWithoutFieldInput>
+    create: XOR<UserCustomFieldValueCreateWithoutFieldInput, UserCustomFieldValueUncheckedCreateWithoutFieldInput>
+  }
+
+  export type UserCustomFieldValueUpdateWithWhereUniqueWithoutFieldInput = {
+    where: UserCustomFieldValueWhereUniqueInput
+    data: XOR<UserCustomFieldValueUpdateWithoutFieldInput, UserCustomFieldValueUncheckedUpdateWithoutFieldInput>
+  }
+
+  export type UserCustomFieldValueUpdateManyWithWhereWithoutFieldInput = {
+    where: UserCustomFieldValueScalarWhereInput
+    data: XOR<UserCustomFieldValueUpdateManyMutationInput, UserCustomFieldValueUncheckedUpdateManyWithoutFieldInput>
+  }
+
   export type ProjectCustomFieldUpsertWithWhereUniqueWithoutFieldInput = {
     where: ProjectCustomFieldWhereUniqueInput
     update: XOR<ProjectCustomFieldUpdateWithoutFieldInput, ProjectCustomFieldUncheckedUpdateWithoutFieldInput>
@@ -166886,6 +168605,7 @@ export namespace Prisma {
     taskValues?: CustomFieldValueCreateNestedManyWithoutFieldInput
     budgetValues?: BudgetCustomFieldValueCreateNestedManyWithoutFieldInput
     wikiPageValues?: WikiPageCustomFieldValueCreateNestedManyWithoutFieldInput
+    userValues?: UserCustomFieldValueCreateNestedManyWithoutFieldInput
   }
 
   export type CustomFieldDefUncheckedCreateWithoutProjectAttachmentsInput = {
@@ -166900,6 +168620,7 @@ export namespace Prisma {
     taskValues?: CustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     budgetValues?: BudgetCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     wikiPageValues?: WikiPageCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
+    userValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
   }
 
   export type CustomFieldDefCreateOrConnectWithoutProjectAttachmentsInput = {
@@ -167029,6 +168750,7 @@ export namespace Prisma {
     taskValues?: CustomFieldValueUpdateManyWithoutFieldNestedInput
     budgetValues?: BudgetCustomFieldValueUpdateManyWithoutFieldNestedInput
     wikiPageValues?: WikiPageCustomFieldValueUpdateManyWithoutFieldNestedInput
+    userValues?: UserCustomFieldValueUpdateManyWithoutFieldNestedInput
   }
 
   export type CustomFieldDefUncheckedUpdateWithoutProjectAttachmentsInput = {
@@ -167043,6 +168765,7 @@ export namespace Prisma {
     taskValues?: CustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     budgetValues?: BudgetCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     wikiPageValues?: WikiPageCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
+    userValues?: UserCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
   }
 
   export type CustomFieldDefCreateWithoutTaskValuesInput = {
@@ -167056,6 +168779,7 @@ export namespace Prisma {
     project?: ProjectCreateNestedOneWithoutCustomFieldsInput
     budgetValues?: BudgetCustomFieldValueCreateNestedManyWithoutFieldInput
     wikiPageValues?: WikiPageCustomFieldValueCreateNestedManyWithoutFieldInput
+    userValues?: UserCustomFieldValueCreateNestedManyWithoutFieldInput
     projectAttachments?: ProjectCustomFieldCreateNestedManyWithoutFieldInput
   }
 
@@ -167070,6 +168794,7 @@ export namespace Prisma {
     options?: CustomFieldDefCreateoptionsInput | string[]
     budgetValues?: BudgetCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     wikiPageValues?: WikiPageCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
+    userValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     projectAttachments?: ProjectCustomFieldUncheckedCreateNestedManyWithoutFieldInput
   }
 
@@ -167189,6 +168914,7 @@ export namespace Prisma {
     project?: ProjectUpdateOneWithoutCustomFieldsNestedInput
     budgetValues?: BudgetCustomFieldValueUpdateManyWithoutFieldNestedInput
     wikiPageValues?: WikiPageCustomFieldValueUpdateManyWithoutFieldNestedInput
+    userValues?: UserCustomFieldValueUpdateManyWithoutFieldNestedInput
     projectAttachments?: ProjectCustomFieldUpdateManyWithoutFieldNestedInput
   }
 
@@ -167203,6 +168929,7 @@ export namespace Prisma {
     options?: CustomFieldDefUpdateoptionsInput | string[]
     budgetValues?: BudgetCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     wikiPageValues?: WikiPageCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
+    userValues?: UserCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     projectAttachments?: ProjectCustomFieldUncheckedUpdateManyWithoutFieldNestedInput
   }
 
@@ -167312,6 +169039,7 @@ export namespace Prisma {
     project?: ProjectCreateNestedOneWithoutCustomFieldsInput
     taskValues?: CustomFieldValueCreateNestedManyWithoutFieldInput
     wikiPageValues?: WikiPageCustomFieldValueCreateNestedManyWithoutFieldInput
+    userValues?: UserCustomFieldValueCreateNestedManyWithoutFieldInput
     projectAttachments?: ProjectCustomFieldCreateNestedManyWithoutFieldInput
   }
 
@@ -167326,6 +169054,7 @@ export namespace Prisma {
     options?: CustomFieldDefCreateoptionsInput | string[]
     taskValues?: CustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     wikiPageValues?: WikiPageCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
+    userValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     projectAttachments?: ProjectCustomFieldUncheckedCreateNestedManyWithoutFieldInput
   }
 
@@ -167411,6 +169140,7 @@ export namespace Prisma {
     project?: ProjectUpdateOneWithoutCustomFieldsNestedInput
     taskValues?: CustomFieldValueUpdateManyWithoutFieldNestedInput
     wikiPageValues?: WikiPageCustomFieldValueUpdateManyWithoutFieldNestedInput
+    userValues?: UserCustomFieldValueUpdateManyWithoutFieldNestedInput
     projectAttachments?: ProjectCustomFieldUpdateManyWithoutFieldNestedInput
   }
 
@@ -167425,6 +169155,7 @@ export namespace Prisma {
     options?: CustomFieldDefUpdateoptionsInput | string[]
     taskValues?: CustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     wikiPageValues?: WikiPageCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
+    userValues?: UserCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     projectAttachments?: ProjectCustomFieldUncheckedUpdateManyWithoutFieldNestedInput
   }
 
@@ -167500,6 +169231,7 @@ export namespace Prisma {
     project?: ProjectCreateNestedOneWithoutCustomFieldsInput
     taskValues?: CustomFieldValueCreateNestedManyWithoutFieldInput
     budgetValues?: BudgetCustomFieldValueCreateNestedManyWithoutFieldInput
+    userValues?: UserCustomFieldValueCreateNestedManyWithoutFieldInput
     projectAttachments?: ProjectCustomFieldCreateNestedManyWithoutFieldInput
   }
 
@@ -167514,6 +169246,7 @@ export namespace Prisma {
     options?: CustomFieldDefCreateoptionsInput | string[]
     taskValues?: CustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     budgetValues?: BudgetCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
+    userValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     projectAttachments?: ProjectCustomFieldUncheckedCreateNestedManyWithoutFieldInput
   }
 
@@ -167573,6 +169306,7 @@ export namespace Prisma {
     project?: ProjectUpdateOneWithoutCustomFieldsNestedInput
     taskValues?: CustomFieldValueUpdateManyWithoutFieldNestedInput
     budgetValues?: BudgetCustomFieldValueUpdateManyWithoutFieldNestedInput
+    userValues?: UserCustomFieldValueUpdateManyWithoutFieldNestedInput
     projectAttachments?: ProjectCustomFieldUpdateManyWithoutFieldNestedInput
   }
 
@@ -167587,6 +169321,7 @@ export namespace Prisma {
     options?: CustomFieldDefUpdateoptionsInput | string[]
     taskValues?: CustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     budgetValues?: BudgetCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
+    userValues?: UserCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     projectAttachments?: ProjectCustomFieldUncheckedUpdateManyWithoutFieldNestedInput
   }
 
@@ -167623,6 +169358,386 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sharedLinks?: SharedWikiLinkUncheckedUpdateManyWithoutWikiPageNestedInput
+  }
+
+  export type CustomFieldDefCreateWithoutUserValuesInput = {
+    id?: string
+    library?: boolean
+    entityType?: $Enums.CustomFieldEntityType
+    key: string
+    label: string
+    type: $Enums.CustomFieldType
+    options?: CustomFieldDefCreateoptionsInput | string[]
+    project?: ProjectCreateNestedOneWithoutCustomFieldsInput
+    taskValues?: CustomFieldValueCreateNestedManyWithoutFieldInput
+    budgetValues?: BudgetCustomFieldValueCreateNestedManyWithoutFieldInput
+    wikiPageValues?: WikiPageCustomFieldValueCreateNestedManyWithoutFieldInput
+    projectAttachments?: ProjectCustomFieldCreateNestedManyWithoutFieldInput
+  }
+
+  export type CustomFieldDefUncheckedCreateWithoutUserValuesInput = {
+    id?: string
+    projectId?: string | null
+    library?: boolean
+    entityType?: $Enums.CustomFieldEntityType
+    key: string
+    label: string
+    type: $Enums.CustomFieldType
+    options?: CustomFieldDefCreateoptionsInput | string[]
+    taskValues?: CustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
+    budgetValues?: BudgetCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
+    wikiPageValues?: WikiPageCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
+    projectAttachments?: ProjectCustomFieldUncheckedCreateNestedManyWithoutFieldInput
+  }
+
+  export type CustomFieldDefCreateOrConnectWithoutUserValuesInput = {
+    where: CustomFieldDefWhereUniqueInput
+    create: XOR<CustomFieldDefCreateWithoutUserValuesInput, CustomFieldDefUncheckedCreateWithoutUserValuesInput>
+  }
+
+  export type UserCreateWithoutCustomFieldValuesInput = {
+    id?: string
+    email: string
+    passwordHash?: string | null
+    name?: string | null
+    role?: $Enums.Role
+    weeklyCapacityHours?: number
+    isActive?: boolean
+    avatarUrl?: string | null
+    avatarStoragePath?: string | null
+    avatarMimeType?: string | null
+    internalCostRate?: number | null
+    totpSecret?: string | null
+    totpEnabled?: boolean
+    locale?: $Enums.Locale
+    createdAt?: Date | string
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    assignedTasks?: TaskCreateNestedManyWithoutAssigneeInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    mentions?: MentionCreateNestedManyWithoutUserInput
+    attachments?: AttachmentCreateNestedManyWithoutUploadedByInput
+    activityEvents?: ActivityEventCreateNestedManyWithoutActorInput
+    notificationPreferences?: NotificationPreferenceCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    dashboards?: DashboardCreateNestedManyWithoutOwnerInput
+    checkInResponses?: CheckInResponseCreateNestedManyWithoutUserInput
+    ownedBudgets?: BudgetCreateNestedManyWithoutOwnerInput
+    budgetSectionAssignments?: BudgetSectionAssigneeCreateNestedManyWithoutUserInput
+    absenceRequests?: AbsenceRequestCreateNestedManyWithoutUserInput
+    reviewedAbsenceRequests?: AbsenceRequestCreateNestedManyWithoutReviewedByInput
+    createdAutomationRules?: AutomationRuleCreateNestedManyWithoutCreatedByInput
+    automationActionTargets?: AutomationActionCreateNestedManyWithoutTargetUserInput
+    createdInvoices?: InvoiceCreateNestedManyWithoutCreatedByInput
+    projectClientAccess?: ProjectClientAccessCreateNestedManyWithoutUserInput
+    createdSharedViews?: SharedViewCreateNestedManyWithoutCreatedByInput
+    createdTaskLinks?: TaskLinkCreateNestedManyWithoutCreatedByInput
+    pendingLogins?: PendingLoginCreateNestedManyWithoutUserInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
+    customRole?: CustomRoleCreateNestedOneWithoutUsersInput
+    projectRoleOverrides?: ProjectRoleOverrideCreateNestedManyWithoutUserInput
+    managedProjects?: ProjectCreateNestedManyWithoutProjectManagerInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    taskSubscriptions?: TaskSubscriberCreateNestedManyWithoutUserInput
+    assignedTodos?: TodoCreateNestedManyWithoutAssigneeInput
+    savedViews?: SavedViewCreateNestedManyWithoutOwnerInput
+    sharedWikiLinks?: SharedWikiLinkCreateNestedManyWithoutCreatedByInput
+    manager?: UserCreateNestedOneWithoutDirectReportsInput
+    directReports?: UserCreateNestedManyWithoutManagerInput
+    favorites?: FavoriteCreateNestedManyWithoutUserInput
+    auditLogEntries?: AuditLogEntryCreateNestedManyWithoutActorInput
+    invoicePayments?: InvoicePaymentCreateNestedManyWithoutCreatedByInput
+    creditNotes?: CreditNoteCreateNestedManyWithoutCreatedByInput
+    savedReports?: SavedReportCreateNestedManyWithoutOwnerInput
+    approvedTimeEntries?: TimeEntryCreateNestedManyWithoutApprovedByInput
+    loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
+    timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
+    lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
+    resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
+    createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
+    createdMeetings?: MeetingCreateNestedManyWithoutCreatedByInput
+    createdExpenses?: ExpenseCreateNestedManyWithoutCreatedByInput
+    createdPurchaseOrders?: PurchaseOrderCreateNestedManyWithoutCreatedByInput
+    approvedExpenses?: ExpenseCreateNestedManyWithoutApprovedByInput
+    createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
+    accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
+    ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+  }
+
+  export type UserUncheckedCreateWithoutCustomFieldValuesInput = {
+    id?: string
+    email: string
+    passwordHash?: string | null
+    name?: string | null
+    role?: $Enums.Role
+    weeklyCapacityHours?: number
+    isActive?: boolean
+    avatarUrl?: string | null
+    avatarStoragePath?: string | null
+    avatarMimeType?: string | null
+    internalCostRate?: number | null
+    totpSecret?: string | null
+    totpEnabled?: boolean
+    locale?: $Enums.Locale
+    createdAt?: Date | string
+    customRoleId?: string | null
+    managerId?: string | null
+    holidayCalendarId?: string | null
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    mentions?: MentionUncheckedCreateNestedManyWithoutUserInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutUploadedByInput
+    activityEvents?: ActivityEventUncheckedCreateNestedManyWithoutActorInput
+    notificationPreferences?: NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    dashboards?: DashboardUncheckedCreateNestedManyWithoutOwnerInput
+    checkInResponses?: CheckInResponseUncheckedCreateNestedManyWithoutUserInput
+    ownedBudgets?: BudgetUncheckedCreateNestedManyWithoutOwnerInput
+    budgetSectionAssignments?: BudgetSectionAssigneeUncheckedCreateNestedManyWithoutUserInput
+    absenceRequests?: AbsenceRequestUncheckedCreateNestedManyWithoutUserInput
+    reviewedAbsenceRequests?: AbsenceRequestUncheckedCreateNestedManyWithoutReviewedByInput
+    createdAutomationRules?: AutomationRuleUncheckedCreateNestedManyWithoutCreatedByInput
+    automationActionTargets?: AutomationActionUncheckedCreateNestedManyWithoutTargetUserInput
+    createdInvoices?: InvoiceUncheckedCreateNestedManyWithoutCreatedByInput
+    projectClientAccess?: ProjectClientAccessUncheckedCreateNestedManyWithoutUserInput
+    createdSharedViews?: SharedViewUncheckedCreateNestedManyWithoutCreatedByInput
+    createdTaskLinks?: TaskLinkUncheckedCreateNestedManyWithoutCreatedByInput
+    pendingLogins?: PendingLoginUncheckedCreateNestedManyWithoutUserInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
+    projectRoleOverrides?: ProjectRoleOverrideUncheckedCreateNestedManyWithoutUserInput
+    managedProjects?: ProjectUncheckedCreateNestedManyWithoutProjectManagerInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    taskSubscriptions?: TaskSubscriberUncheckedCreateNestedManyWithoutUserInput
+    assignedTodos?: TodoUncheckedCreateNestedManyWithoutAssigneeInput
+    savedViews?: SavedViewUncheckedCreateNestedManyWithoutOwnerInput
+    sharedWikiLinks?: SharedWikiLinkUncheckedCreateNestedManyWithoutCreatedByInput
+    directReports?: UserUncheckedCreateNestedManyWithoutManagerInput
+    favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
+    auditLogEntries?: AuditLogEntryUncheckedCreateNestedManyWithoutActorInput
+    invoicePayments?: InvoicePaymentUncheckedCreateNestedManyWithoutCreatedByInput
+    creditNotes?: CreditNoteUncheckedCreateNestedManyWithoutCreatedByInput
+    savedReports?: SavedReportUncheckedCreateNestedManyWithoutOwnerInput
+    approvedTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutApprovedByInput
+    loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
+    timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
+    lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
+    createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
+    createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
+    createdExpenses?: ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
+    createdPurchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutCreatedByInput
+    approvedExpenses?: ExpenseUncheckedCreateNestedManyWithoutApprovedByInput
+    createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
+    accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
+    ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+  }
+
+  export type UserCreateOrConnectWithoutCustomFieldValuesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCustomFieldValuesInput, UserUncheckedCreateWithoutCustomFieldValuesInput>
+  }
+
+  export type CustomFieldDefUpsertWithoutUserValuesInput = {
+    update: XOR<CustomFieldDefUpdateWithoutUserValuesInput, CustomFieldDefUncheckedUpdateWithoutUserValuesInput>
+    create: XOR<CustomFieldDefCreateWithoutUserValuesInput, CustomFieldDefUncheckedCreateWithoutUserValuesInput>
+    where?: CustomFieldDefWhereInput
+  }
+
+  export type CustomFieldDefUpdateToOneWithWhereWithoutUserValuesInput = {
+    where?: CustomFieldDefWhereInput
+    data: XOR<CustomFieldDefUpdateWithoutUserValuesInput, CustomFieldDefUncheckedUpdateWithoutUserValuesInput>
+  }
+
+  export type CustomFieldDefUpdateWithoutUserValuesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    library?: BoolFieldUpdateOperationsInput | boolean
+    entityType?: EnumCustomFieldEntityTypeFieldUpdateOperationsInput | $Enums.CustomFieldEntityType
+    key?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
+    options?: CustomFieldDefUpdateoptionsInput | string[]
+    project?: ProjectUpdateOneWithoutCustomFieldsNestedInput
+    taskValues?: CustomFieldValueUpdateManyWithoutFieldNestedInput
+    budgetValues?: BudgetCustomFieldValueUpdateManyWithoutFieldNestedInput
+    wikiPageValues?: WikiPageCustomFieldValueUpdateManyWithoutFieldNestedInput
+    projectAttachments?: ProjectCustomFieldUpdateManyWithoutFieldNestedInput
+  }
+
+  export type CustomFieldDefUncheckedUpdateWithoutUserValuesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    library?: BoolFieldUpdateOperationsInput | boolean
+    entityType?: EnumCustomFieldEntityTypeFieldUpdateOperationsInput | $Enums.CustomFieldEntityType
+    key?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
+    options?: CustomFieldDefUpdateoptionsInput | string[]
+    taskValues?: CustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
+    budgetValues?: BudgetCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
+    wikiPageValues?: WikiPageCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
+    projectAttachments?: ProjectCustomFieldUncheckedUpdateManyWithoutFieldNestedInput
+  }
+
+  export type UserUpsertWithoutCustomFieldValuesInput = {
+    update: XOR<UserUpdateWithoutCustomFieldValuesInput, UserUncheckedUpdateWithoutCustomFieldValuesInput>
+    create: XOR<UserCreateWithoutCustomFieldValuesInput, UserUncheckedCreateWithoutCustomFieldValuesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCustomFieldValuesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCustomFieldValuesInput, UserUncheckedUpdateWithoutCustomFieldValuesInput>
+  }
+
+  export type UserUpdateWithoutCustomFieldValuesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarStoragePath?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarMimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    internalCostRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    totpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    locale?: EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    assignedTasks?: TaskUpdateManyWithoutAssigneeNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    mentions?: MentionUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUpdateManyWithoutUploadedByNestedInput
+    activityEvents?: ActivityEventUpdateManyWithoutActorNestedInput
+    notificationPreferences?: NotificationPreferenceUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    dashboards?: DashboardUpdateManyWithoutOwnerNestedInput
+    checkInResponses?: CheckInResponseUpdateManyWithoutUserNestedInput
+    ownedBudgets?: BudgetUpdateManyWithoutOwnerNestedInput
+    budgetSectionAssignments?: BudgetSectionAssigneeUpdateManyWithoutUserNestedInput
+    absenceRequests?: AbsenceRequestUpdateManyWithoutUserNestedInput
+    reviewedAbsenceRequests?: AbsenceRequestUpdateManyWithoutReviewedByNestedInput
+    createdAutomationRules?: AutomationRuleUpdateManyWithoutCreatedByNestedInput
+    automationActionTargets?: AutomationActionUpdateManyWithoutTargetUserNestedInput
+    createdInvoices?: InvoiceUpdateManyWithoutCreatedByNestedInput
+    projectClientAccess?: ProjectClientAccessUpdateManyWithoutUserNestedInput
+    createdSharedViews?: SharedViewUpdateManyWithoutCreatedByNestedInput
+    createdTaskLinks?: TaskLinkUpdateManyWithoutCreatedByNestedInput
+    pendingLogins?: PendingLoginUpdateManyWithoutUserNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
+    customRole?: CustomRoleUpdateOneWithoutUsersNestedInput
+    projectRoleOverrides?: ProjectRoleOverrideUpdateManyWithoutUserNestedInput
+    managedProjects?: ProjectUpdateManyWithoutProjectManagerNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    taskSubscriptions?: TaskSubscriberUpdateManyWithoutUserNestedInput
+    assignedTodos?: TodoUpdateManyWithoutAssigneeNestedInput
+    savedViews?: SavedViewUpdateManyWithoutOwnerNestedInput
+    sharedWikiLinks?: SharedWikiLinkUpdateManyWithoutCreatedByNestedInput
+    manager?: UserUpdateOneWithoutDirectReportsNestedInput
+    directReports?: UserUpdateManyWithoutManagerNestedInput
+    favorites?: FavoriteUpdateManyWithoutUserNestedInput
+    auditLogEntries?: AuditLogEntryUpdateManyWithoutActorNestedInput
+    invoicePayments?: InvoicePaymentUpdateManyWithoutCreatedByNestedInput
+    creditNotes?: CreditNoteUpdateManyWithoutCreatedByNestedInput
+    savedReports?: SavedReportUpdateManyWithoutOwnerNestedInput
+    approvedTimeEntries?: TimeEntryUpdateManyWithoutApprovedByNestedInput
+    loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
+    timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
+    lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
+    resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
+    createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
+    createdMeetings?: MeetingUpdateManyWithoutCreatedByNestedInput
+    createdExpenses?: ExpenseUpdateManyWithoutCreatedByNestedInput
+    createdPurchaseOrders?: PurchaseOrderUpdateManyWithoutCreatedByNestedInput
+    approvedExpenses?: ExpenseUpdateManyWithoutApprovedByNestedInput
+    createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
+    accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
+    ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCustomFieldValuesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarStoragePath?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarMimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    internalCostRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    totpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    locale?: EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customRoleId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    holidayCalendarId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    assignedTasks?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    mentions?: MentionUncheckedUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput
+    activityEvents?: ActivityEventUncheckedUpdateManyWithoutActorNestedInput
+    notificationPreferences?: NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    dashboards?: DashboardUncheckedUpdateManyWithoutOwnerNestedInput
+    checkInResponses?: CheckInResponseUncheckedUpdateManyWithoutUserNestedInput
+    ownedBudgets?: BudgetUncheckedUpdateManyWithoutOwnerNestedInput
+    budgetSectionAssignments?: BudgetSectionAssigneeUncheckedUpdateManyWithoutUserNestedInput
+    absenceRequests?: AbsenceRequestUncheckedUpdateManyWithoutUserNestedInput
+    reviewedAbsenceRequests?: AbsenceRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+    createdAutomationRules?: AutomationRuleUncheckedUpdateManyWithoutCreatedByNestedInput
+    automationActionTargets?: AutomationActionUncheckedUpdateManyWithoutTargetUserNestedInput
+    createdInvoices?: InvoiceUncheckedUpdateManyWithoutCreatedByNestedInput
+    projectClientAccess?: ProjectClientAccessUncheckedUpdateManyWithoutUserNestedInput
+    createdSharedViews?: SharedViewUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdTaskLinks?: TaskLinkUncheckedUpdateManyWithoutCreatedByNestedInput
+    pendingLogins?: PendingLoginUncheckedUpdateManyWithoutUserNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
+    projectRoleOverrides?: ProjectRoleOverrideUncheckedUpdateManyWithoutUserNestedInput
+    managedProjects?: ProjectUncheckedUpdateManyWithoutProjectManagerNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    taskSubscriptions?: TaskSubscriberUncheckedUpdateManyWithoutUserNestedInput
+    assignedTodos?: TodoUncheckedUpdateManyWithoutAssigneeNestedInput
+    savedViews?: SavedViewUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedWikiLinks?: SharedWikiLinkUncheckedUpdateManyWithoutCreatedByNestedInput
+    directReports?: UserUncheckedUpdateManyWithoutManagerNestedInput
+    favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
+    auditLogEntries?: AuditLogEntryUncheckedUpdateManyWithoutActorNestedInput
+    invoicePayments?: InvoicePaymentUncheckedUpdateManyWithoutCreatedByNestedInput
+    creditNotes?: CreditNoteUncheckedUpdateManyWithoutCreatedByNestedInput
+    savedReports?: SavedReportUncheckedUpdateManyWithoutOwnerNestedInput
+    approvedTimeEntries?: TimeEntryUncheckedUpdateManyWithoutApprovedByNestedInput
+    loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
+    timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
+    lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
+    createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdExpenses?: ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdPurchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutCreatedByNestedInput
+    approvedExpenses?: ExpenseUncheckedUpdateManyWithoutApprovedByNestedInput
+    createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
+    accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
+    ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type WikiPageCreateWithoutSharedLinksInput = {
@@ -167723,6 +169838,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSharedWikiLinksInput = {
@@ -167794,6 +169910,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSharedWikiLinksInput = {
@@ -167916,6 +170033,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSharedWikiLinksInput = {
@@ -167987,6 +170105,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProjectCreateWithoutActivityEventsInput = {
@@ -168151,6 +170270,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutActivityEventsInput = {
@@ -168222,6 +170342,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutActivityEventsInput = {
@@ -168576,6 +170697,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutActivityEventsInput = {
@@ -168647,6 +170769,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TaskUpsertWithoutActivityEventsInput = {
@@ -168890,6 +171013,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotificationPreferencesInput = {
@@ -168961,6 +171085,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotificationPreferencesInput = {
@@ -169141,6 +171266,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationPreferencesInput = {
@@ -169212,6 +171338,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProjectUpsertWithoutNotificationPreferencesInput = {
@@ -169382,6 +171509,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -169453,6 +171581,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -169567,6 +171696,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -169638,6 +171768,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ActivityEventUpsertWithoutNotificationsInput = {
@@ -169742,6 +171873,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedAutomationRulesInput = {
@@ -169813,6 +171945,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedAutomationRulesInput = {
@@ -169930,6 +172063,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedAutomationRulesInput = {
@@ -170001,6 +172135,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AutomationActionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -170123,6 +172258,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAutomationActionTargetsInput = {
@@ -170194,6 +172330,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAutomationActionTargetsInput = {
@@ -170351,6 +172488,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAutomationActionTargetsInput = {
@@ -170422,6 +172560,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type WorkflowStatusUpsertWithoutAutomationActionsInput = {
@@ -170528,6 +172667,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDashboardsInput = {
@@ -170599,6 +172739,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDashboardsInput = {
@@ -170718,6 +172859,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDashboardsInput = {
@@ -170789,6 +172931,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type DashboardWidgetUpsertWithWhereUniqueWithoutDashboardInput = {
@@ -171180,6 +173323,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutApiKeysInput = {
@@ -171251,6 +173395,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutApiKeysInput = {
@@ -171338,6 +173483,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutApiKeysInput = {
@@ -171409,6 +173555,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type WebhookEndpointCreateWithoutDeliveriesInput = {
@@ -171797,6 +173944,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCheckInResponsesInput = {
@@ -171868,6 +174016,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCheckInResponsesInput = {
@@ -171986,6 +174135,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCheckInResponsesInput = {
@@ -172057,6 +174207,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProjectCreateWithoutBudgetsInput = {
@@ -172221,6 +174372,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutOwnedBudgetsInput = {
@@ -172292,6 +174444,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutOwnedBudgetsInput = {
@@ -172844,6 +174997,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOwnedBudgetsInput = {
@@ -172915,6 +175069,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BudgetUpsertWithoutScenariosInput = {
@@ -174091,6 +176246,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedInvoicesInput = {
@@ -174162,6 +176318,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedInvoicesInput = {
@@ -174496,6 +176653,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedInvoicesInput = {
@@ -174567,6 +176725,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type InvoiceLineItemUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -175085,6 +177244,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutInvoicePaymentsInput = {
@@ -175156,6 +177316,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutInvoicePaymentsInput = {
@@ -175292,6 +177453,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInvoicePaymentsInput = {
@@ -175363,6 +177525,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type InvoiceCreateWithoutCreditNotesInput = {
@@ -175477,6 +177640,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreditNotesInput = {
@@ -175548,6 +177712,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreditNotesInput = {
@@ -175684,6 +177849,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreditNotesInput = {
@@ -175755,6 +177921,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProjectCreateWithoutMeetingsInput = {
@@ -175919,6 +178086,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedMeetingsInput = {
@@ -175990,6 +178158,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedMeetingsInput = {
@@ -176176,6 +178345,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedMeetingsInput = {
@@ -176247,6 +178417,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProjectCreateWithoutExpensesInput = {
@@ -176487,6 +178658,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutApprovedExpensesInput = {
@@ -176558,6 +178730,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutApprovedExpensesInput = {
@@ -176634,6 +178807,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedExpensesInput = {
@@ -176705,6 +178879,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedExpensesInput = {
@@ -177054,6 +179229,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutApprovedExpensesInput = {
@@ -177125,6 +179301,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutCreatedExpensesInput = {
@@ -177207,6 +179384,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedExpensesInput = {
@@ -177278,6 +179456,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type InvoiceUpsertWithoutExpensesInput = {
@@ -177507,6 +179686,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedPurchaseOrdersInput = {
@@ -177578,6 +179758,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedPurchaseOrdersInput = {
@@ -177764,6 +179945,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedPurchaseOrdersInput = {
@@ -177835,6 +180017,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSavedReportsInput = {
@@ -177906,6 +180089,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSavedReportsInput = {
@@ -177977,6 +180161,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSavedReportsInput = {
@@ -178064,6 +180249,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSavedReportsInput = {
@@ -178135,6 +180321,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type BudgetSectionCreateWithoutAssigneesInput = {
@@ -178273,6 +180460,7 @@ export namespace Prisma {
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBudgetSectionAssignmentsInput = {
@@ -178344,6 +180532,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBudgetSectionAssignmentsInput = {
@@ -178504,6 +180693,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBudgetSectionAssignmentsInput = {
@@ -178575,6 +180765,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SessionCreateManyUserInput = {
@@ -179141,6 +181332,12 @@ export namespace Prisma {
     status?: $Enums.ApprovalDecisionStatus
     decidedAt?: Date | string | null
     createdAt?: Date | string
+  }
+
+  export type UserCustomFieldValueCreateManyUserInput = {
+    id?: string
+    fieldId: string
+    value: string
   }
 
   export type SessionUpdateWithoutUserInput = {
@@ -180245,6 +182442,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutManagerInput = {
@@ -180316,6 +182514,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutManagerInput = {
@@ -181077,6 +183276,24 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UserCustomFieldValueUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    field?: CustomFieldDefUpdateOneRequiredWithoutUserValuesNestedInput
+  }
+
+  export type UserCustomFieldValueUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fieldId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserCustomFieldValueUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fieldId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+  }
+
   export type ClientCreateManyParentInput = {
     id?: string
     name: string
@@ -181649,6 +183866,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCustomRoleInput = {
@@ -181720,6 +183938,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCustomRoleInput = {
@@ -182039,6 +184258,7 @@ export namespace Prisma {
     taskValues?: CustomFieldValueUpdateManyWithoutFieldNestedInput
     budgetValues?: BudgetCustomFieldValueUpdateManyWithoutFieldNestedInput
     wikiPageValues?: WikiPageCustomFieldValueUpdateManyWithoutFieldNestedInput
+    userValues?: UserCustomFieldValueUpdateManyWithoutFieldNestedInput
     projectAttachments?: ProjectCustomFieldUpdateManyWithoutFieldNestedInput
   }
 
@@ -182053,6 +184273,7 @@ export namespace Prisma {
     taskValues?: CustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     budgetValues?: BudgetCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     wikiPageValues?: WikiPageCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
+    userValues?: UserCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     projectAttachments?: ProjectCustomFieldUncheckedUpdateManyWithoutFieldNestedInput
   }
 
@@ -184748,6 +186969,7 @@ export namespace Prisma {
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHolidayCalendarInput = {
@@ -184819,6 +187041,7 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
     approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
     timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutHolidayCalendarInput = {
@@ -184856,6 +187079,12 @@ export namespace Prisma {
   export type WikiPageCustomFieldValueCreateManyFieldInput = {
     id?: string
     wikiPageId: string
+    value: string
+  }
+
+  export type UserCustomFieldValueCreateManyFieldInput = {
+    id?: string
+    userId: string
     value: string
   }
 
@@ -184916,6 +187145,24 @@ export namespace Prisma {
   export type WikiPageCustomFieldValueUncheckedUpdateManyWithoutFieldInput = {
     id?: StringFieldUpdateOperationsInput | string
     wikiPageId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserCustomFieldValueUpdateWithoutFieldInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    user?: UserUpdateOneRequiredWithoutCustomFieldValuesNestedInput
+  }
+
+  export type UserCustomFieldValueUncheckedUpdateWithoutFieldInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserCustomFieldValueUncheckedUpdateManyWithoutFieldInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     value?: StringFieldUpdateOperationsInput | string
   }
 
