@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
-import { getEntryDate, findCoveringLock } from "@/tenant/timeTracking/approval";
+import { getEntryDate, findCoveringLock, resolveTimeEntryProjectId } from "@/tenant/timeTracking/approval";
 import { recordApprovalDecision } from "@/tenant/timeTracking/approvalPolicy";
+import { recordActivity } from "@/tenant/notifications/recordActivity";
 
 // "Requesting Changes to Time Entries": rejecting an entry sends it back to
 // the submitter as a Draft (submittedAt cleared) with the approver's reason
@@ -40,5 +41,21 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     where: { id },
     data: { rejectionReason: reason, submittedAt: null },
   });
+
+  // Let the submitter know their entry needs changes and must go back
+  // through approval — otherwise a rejection is silent and easy to miss.
+  const projectId = await resolveTimeEntryProjectId(context.tenantDb, existing);
+  if (projectId) {
+    await recordActivity(context.tenantDb, {
+      projectId,
+      actorId: context.currentUser.id,
+      type: "time_entry_rejected",
+      summary: reason
+        ? `Änderung an einem Zeiteintrag angefordert: ${reason}`
+        : "Änderung an einem Zeiteintrag angefordert.",
+      mentionedUserIds: [existing.userId],
+    });
+  }
+
   return NextResponse.json({ entry });
 }

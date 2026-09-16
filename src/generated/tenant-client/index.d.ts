@@ -641,7 +641,8 @@ export const ActivityEventType: {
   budget_section_added: 'budget_section_added',
   budget_section_updated: 'budget_section_updated',
   budget_section_removed: 'budget_section_removed',
-  invoice_created: 'invoice_created'
+  invoice_created: 'invoice_created',
+  time_entry_rejected: 'time_entry_rejected'
 };
 
 export type ActivityEventType = (typeof ActivityEventType)[keyof typeof ActivityEventType]

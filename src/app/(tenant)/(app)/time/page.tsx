@@ -24,7 +24,7 @@ export default async function TimePage() {
       }),
       context.tenantDb.timeEntry.findMany({
         where: { userId, budgetSectionId: { not: null } },
-        include: { budgetSection: true },
+        include: { budgetSection: true, approvedBy: { select: { name: true, email: true } } },
         orderBy: { startedAt: "desc" },
         take: 200,
       }),
@@ -45,6 +45,8 @@ export default async function TimePage() {
             startedAt: entry.startedAt!.toISOString(),
             endedAt: entry.endedAt!.toISOString(),
             description: entry.description,
+            approvalStatus: entry.approvalStatus,
+            approvedByLabel: entry.approvedBy ? (entry.approvedBy.name ?? entry.approvedBy.email) : null,
           }))}
       />
     );
@@ -59,7 +61,7 @@ export default async function TimePage() {
     }),
     context.tenantDb.timeEntry.findMany({
       where: { userId, durationMinutes: { not: null } },
-      include: { task: true, project: true },
+      include: { task: true, project: true, approvedBy: { select: { name: true, email: true } } },
       orderBy: { createdAt: "desc" },
       take: 20,
     }),
@@ -99,6 +101,7 @@ export default async function TimePage() {
         durationMinutes: entry.durationMinutes ?? 0,
         description: entry.description,
         approvalStatus: entry.approvalStatus,
+        approvedByLabel: entry.approvedBy ? (entry.approvedBy.name ?? entry.approvedBy.email) : null,
         submitted: entry.submittedAt !== null,
         rejectionReason: entry.rejectionReason,
         locked: isDateLocked(getEntryDate(entry), myLocks),

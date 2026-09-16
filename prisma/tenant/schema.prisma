@@ -1028,6 +1028,7 @@ enum ActivityEventType {
   budget_section_updated
   budget_section_removed
   invoice_created
+  time_entry_rejected
 }
 
 model ActivityEvent {
