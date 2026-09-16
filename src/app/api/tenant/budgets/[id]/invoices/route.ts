@@ -3,8 +3,10 @@ import { getTenantContext } from "@/tenant/context";
 import { canManageMembers } from "@/tenant/auth/roleGuard";
 import {
   buildInvoiceLineItems,
+  buildExpenseLineItems,
   buildPercentageLineItems,
   buildRemainingAmountLineItems,
+  type BuildInvoiceResult,
 } from "@/tenant/invoicing/generateInvoice";
 import { resolveProjectIdForBudget } from "@/tenant/projectAccess/resolveProjectMembership";
 import { assertSingleProjectAccess } from "@/tenant/projectAccess/assertProjectAccess";
@@ -74,25 +76,36 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   const sections = await context.tenantDb.budgetSection.findMany({ where: { budgetId: id } });
   const sectionIds = sections.map((section) => section.id);
 
-  let draft: { lineItems: { budgetSectionId: string; description: string; quantityHours: number; rate: number; amount: number }[]; totalAmount: number; timeEntryIds: string[] };
+  let draft: BuildInvoiceResult;
 
   if (invoicingMethod === "uninvoiced_time_expenses") {
-    const entries = await context.tenantDb.timeEntry.findMany({
-      where: {
-        budgetSectionId: { in: sectionIds },
-        invoiceId: null,
-        startedAt: { gte: periodStart, lte: periodEnd },
-        durationMinutes: { not: null },
-        amount: { not: null },
-      },
-    });
+    const [entries, expenses] = await Promise.all([
+      context.tenantDb.timeEntry.findMany({
+        where: {
+          budgetSectionId: { in: sectionIds },
+          invoiceId: null,
+          startedAt: { gte: periodStart, lte: periodEnd },
+          durationMinutes: { not: null },
+          amount: { not: null },
+        },
+      }),
+      context.tenantDb.expense.findMany({
+        where: {
+          budgetId: id,
+          invoiceId: null,
+          approvalStatus: "approved",
+          billable: true,
+          incurredAt: { gte: periodStart, lte: periodEnd },
+        },
+      }),
+    ]);
 
-    if (entries.length === 0) {
-      return NextResponse.json({ error: "Keine abrechenbaren Zeiteinträge im gewählten Zeitraum." }, { status: 400 });
+    if (entries.length === 0 && expenses.length === 0) {
+      return NextResponse.json({ error: "Keine abrechenbaren Zeiteinträge oder Spesen im gewählten Zeitraum." }, { status: 400 });
     }
 
     const sectionNames = Object.fromEntries(sections.map((section) => [section.id, section.name]));
-    draft = buildInvoiceLineItems(
+    const timeDraft = buildInvoiceLineItems(
       entries.map((entry) => ({
         id: entry.id,
         budgetSectionId: entry.budgetSectionId!,
@@ -101,6 +114,15 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       })),
       sectionNames,
     );
+    const expenseDraft = buildExpenseLineItems(
+      expenses.map((expense) => ({ id: expense.id, description: expense.description, amount: expense.amount })),
+    );
+    draft = {
+      lineItems: [...timeDraft.lineItems, ...expenseDraft.lineItems],
+      totalAmount: timeDraft.totalAmount + expenseDraft.totalAmount,
+      timeEntryIds: timeDraft.timeEntryIds,
+      expenseIds: expenseDraft.expenseIds,
+    };
   } else {
     const priorLineItems = await context.tenantDb.invoiceLineItem.groupBy({
       by: ["budgetSectionId"],
@@ -138,6 +160,12 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     if (draft.timeEntryIds.length > 0) {
       await tx.timeEntry.updateMany({
         where: { id: { in: draft.timeEntryIds } },
+        data: { invoiceId: created.id },
+      });
+    }
+    if (draft.expenseIds.length > 0) {
+      await tx.expense.updateMany({
+        where: { id: { in: draft.expenseIds } },
         data: { invoiceId: created.id },
       });
     }

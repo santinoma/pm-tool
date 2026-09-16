@@ -929,6 +929,7 @@ exports.Prisma.InvoiceLineItemScalarFieldEnum = {
   id: 'id',
   invoiceId: 'invoiceId',
   budgetSectionId: 'budgetSectionId',
+  expenseId: 'expenseId',
   description: 'description',
   quantityHours: 'quantityHours',
   rate: 'rate',
@@ -981,7 +982,8 @@ exports.Prisma.ExpenseScalarFieldEnum = {
   approvedAt: 'approvedAt',
   createdById: 'createdById',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  invoiceId: 'invoiceId'
 };
 
 exports.Prisma.PurchaseOrderScalarFieldEnum = {

@@ -1388,16 +1388,20 @@ model Invoice {
   createdAt       DateTime          @default(now())
   lineItems       InvoiceLineItem[]
   timeEntries     TimeEntry[]
+  expenses        Expense[]
   payments        InvoicePayment[]
   creditNotes     CreditNote[]
 }
 
 model InvoiceLineItem {
-  id              String        @id @default(uuid())
-  invoice         Invoice       @relation(fields: [invoiceId], references: [id])
+  id              String         @id @default(uuid())
+  invoice         Invoice        @relation(fields: [invoiceId], references: [id])
   invoiceId       String
-  budgetSection   BudgetSection @relation(fields: [budgetSectionId], references: [id])
-  budgetSectionId String
+  budgetSection   BudgetSection? @relation(fields: [budgetSectionId], references: [id])
+  /// Null for expense-based line items — Expense has no per-section FK in this schema.
+  budgetSectionId String?
+  expense         Expense?       @relation(fields: [expenseId], references: [id])
+  expenseId       String?
   description     String
   quantityHours   Float
   rate            Float
@@ -1485,6 +1489,9 @@ model Expense {
   createdById    String
   createdAt      DateTime              @default(now())
   updatedAt      DateTime              @updatedAt
+  invoice        Invoice?              @relation(fields: [invoiceId], references: [id])
+  invoiceId      String?
+  lineItems      InvoiceLineItem[]
 }
 
 model PurchaseOrder {
