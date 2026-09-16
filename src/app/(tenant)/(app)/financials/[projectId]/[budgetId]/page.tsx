@@ -135,6 +135,7 @@ export default async function BudgetDetailPage({
           serviceTypeId: section.serviceTypeId,
           billingType: section.billingType,
           trackingUnit: section.trackingUnit,
+          recognitionMethod: section.recognitionMethod,
           discountPercent: section.discountPercent,
           markupPercent: section.markupPercent,
           guaranteedMaxPrice: section.guaranteedMaxPrice,

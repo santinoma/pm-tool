@@ -30,6 +30,7 @@ interface Section {
   serviceTypeId: string | null;
   billingType: string;
   trackingUnit: string;
+  recognitionMethod: string;
   discountPercent: number | null;
   markupPercent: number | null;
   guaranteedMaxPrice: number | null;
@@ -113,6 +114,11 @@ const TRACKING_UNIT_LABELS: Record<string, string> = {
   piece: "Stück",
 };
 
+const RECOGNITION_METHOD_LABELS: Record<string, string> = {
+  immediate: "Sofort (bei Rechnung)",
+  straight_line: "Linear über Budget-Zeitraum",
+};
+
 const ACTIVITY_TYPE_LABELS: Record<string, string> = {
   budget_created: "Budget angelegt",
   budget_updated: "Budget aktualisiert",
@@ -145,6 +151,7 @@ function SectionEditRow({
   const [serviceTypeId, setServiceTypeId] = useState(section.serviceTypeId ?? "__none__");
   const [billingType, setBillingType] = useState(section.billingType);
   const [trackingUnit, setTrackingUnit] = useState(section.trackingUnit);
+  const [recognitionMethod, setRecognitionMethod] = useState(section.recognitionMethod);
   const [discountPercent, setDiscountPercent] = useState(section.discountPercent?.toString() ?? "");
   const [markupPercent, setMarkupPercent] = useState(section.markupPercent?.toString() ?? "");
   const [guaranteedMaxPrice, setGuaranteedMaxPrice] = useState(section.guaranteedMaxPrice?.toString() ?? "");
@@ -176,6 +183,7 @@ function SectionEditRow({
         serviceTypeId: serviceTypeId === "__none__" ? null : serviceTypeId,
         billingType,
         trackingUnit,
+        recognitionMethod,
         discountPercent: discountPercent.trim() === "" ? null : Number(discountPercent),
         markupPercent: markupPercent.trim() === "" ? null : Number(markupPercent),
         guaranteedMaxPrice: guaranteedMaxPrice.trim() === "" ? null : Number(guaranteedMaxPrice),
@@ -228,6 +236,18 @@ function SectionEditRow({
                 ))}
               </SelectContent>
             </Select>
+            {billingType === "fixed" && (
+              <Select value={recognitionMethod} onValueChange={setRecognitionMethod}>
+                <SelectTrigger className="w-56"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {Object.entries(RECOGNITION_METHOD_LABELS).map(([value, label]) => (
+                    <SelectItem key={value} value={value}>
+                      {label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
           </div>
           <Input value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Beschreibung (optional)" />
           <div className="flex flex-wrap gap-2">
@@ -338,6 +358,9 @@ function SectionRow({
         <div className="flex flex-wrap items-center gap-2">
           <span className="font-semibold">{section.name}</span>
           <Badge variant="outline">{BILLING_TYPE_LABELS[section.billingType] ?? section.billingType}</Badge>
+          {section.billingType === "fixed" && section.recognitionMethod === "straight_line" && (
+            <Badge variant="outline">Linear anerkannt</Badge>
+          )}
         </div>
         {section.description && <div className="mt-0.5 text-xs text-muted-foreground">{section.description}</div>}
         <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">

@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getTenantContext } from "@/tenant/context";
 import { canManageMembers } from "@/tenant/auth/roleGuard";
 import { AppShellNextElite } from "@/ui/nextelite/AppShellNextElite";
+import { computeRecognizedRevenue } from "@/tenant/financials/revenueRecognition";
 import { FinancialsClient } from "./FinancialsClient";
 
 export const dynamic = "force-dynamic";
@@ -24,7 +25,7 @@ export default async function FinancialsPage() {
     orderBy: { updatedAt: "desc" },
     include: {
       project: { select: { id: true, name: true, type: true, projectManager: { select: { name: true, email: true } } } },
-      sections: { select: { id: true, budgetedTimeHours: true, price: true, quantity: true } },
+      sections: { select: { id: true, budgetedTimeHours: true, price: true, quantity: true, recognitionMethod: true } },
     },
   });
 
@@ -32,7 +33,7 @@ export default async function FinancialsPage() {
   // row into Node and reducing over them — the previous approach didn't scale with tenant size.
   const budgetIds = budgets.map((b) => b.id);
   const sectionIds = budgets.flatMap((b) => b.sections.map((s) => s.id));
-  const [revenueByBudget, minutesBySection] = await Promise.all([
+  const [revenueByBudget, minutesBySection, lineItemsBySection] = await Promise.all([
     budgetIds.length > 0
       ? context.tenantDb.invoice.groupBy({
           by: ["budgetId"],
@@ -47,16 +48,34 @@ export default async function FinancialsPage() {
           _sum: { durationMinutes: true },
         })
       : [],
+    sectionIds.length > 0
+      ? context.tenantDb.invoiceLineItem.groupBy({
+          by: ["budgetSectionId"],
+          where: { budgetSectionId: { in: sectionIds }, invoice: { status: { not: "draft" } } },
+          _sum: { amount: true },
+        })
+      : [],
   ]);
   const revenueByBudgetId = new Map(revenueByBudget.map((r) => [r.budgetId, r._sum.totalAmount ?? 0]));
   const minutesBySectionId = new Map(minutesBySection.map((r) => [r.budgetSectionId!, r._sum.durationMinutes ?? 0]));
+  const invoicedAmountBySectionId = new Map(lineItemsBySection.map((r) => [r.budgetSectionId, r._sum.amount ?? 0]));
 
+  const now = new Date();
   const rows = budgets.map((budget) => {
     const revenue = revenueByBudgetId.get(budget.id) ?? 0;
     const budgetedAmount = budget.sections.reduce((sum, section) => sum + section.price * section.quantity, 0);
     const invoicedPercent = budgetedAmount > 0 ? Math.round((revenue / budgetedAmount) * 100) : 0;
     const budgetedTimeHours = budget.sections.reduce((sum, section) => sum + (section.budgetedTimeHours ?? 0), 0);
     const usedTimeHours = budget.sections.reduce((sum, section) => sum + (minutesBySectionId.get(section.id) ?? 0), 0) / 60;
+    const recognizedRevenue = computeRecognizedRevenue(
+      budget.sections.map((section) => ({
+        recognitionMethod: section.recognitionMethod,
+        totalAmount: section.price * section.quantity,
+        invoicedAmount: invoicedAmountBySectionId.get(section.id) ?? 0,
+      })),
+      { startDate: budget.startDate, endDate: budget.endDate },
+      now,
+    );
 
     return {
       id: budget.id,
@@ -69,6 +88,7 @@ export default async function FinancialsPage() {
       expenseApprovalRequired: false,
       invoicedPercent,
       revenue,
+      recognizedRevenue,
       budgetedTimeHours,
       usedTimeHours,
     };

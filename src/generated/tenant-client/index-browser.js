@@ -844,6 +844,7 @@ exports.Prisma.BudgetSectionScalarFieldEnum = {
   serviceTypeId: 'serviceTypeId',
   billingType: 'billingType',
   trackingUnit: 'trackingUnit',
+  recognitionMethod: 'recognitionMethod',
   discountPercent: 'discountPercent',
   markupPercent: 'markupPercent',
   guaranteedMaxPrice: 'guaranteedMaxPrice',
@@ -1179,6 +1180,11 @@ exports.TrackingUnit = exports.$Enums.TrackingUnit = {
   hours: 'hours',
   days: 'days',
   piece: 'piece'
+};
+
+exports.RevenueRecognitionMethod = exports.$Enums.RevenueRecognitionMethod = {
+  immediate: 'immediate',
+  straight_line: 'straight_line'
 };
 
 exports.InvoiceStatus = exports.$Enums.InvoiceStatus = {

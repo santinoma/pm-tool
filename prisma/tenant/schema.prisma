@@ -1206,6 +1206,11 @@ enum TrackingUnit {
   piece
 }
 
+enum RevenueRecognitionMethod {
+  immediate
+  straight_line
+}
+
 model ServiceType {
   id            String          @id @default(uuid())
   name          String
@@ -1232,6 +1237,7 @@ model BudgetSection {
   serviceTypeId           String?
   billingType             BillingType             @default(time_and_materials)
   trackingUnit            TrackingUnit            @default(hours)
+  recognitionMethod       RevenueRecognitionMethod @default(immediate)
   discountPercent         Float?
   markupPercent           Float?
   guaranteedMaxPrice      Float?

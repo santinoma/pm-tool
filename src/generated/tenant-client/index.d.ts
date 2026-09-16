@@ -674,6 +674,14 @@ export const TrackingUnit: {
 export type TrackingUnit = (typeof TrackingUnit)[keyof typeof TrackingUnit]
 
 
+export const RevenueRecognitionMethod: {
+  immediate: 'immediate',
+  straight_line: 'straight_line'
+};
+
+export type RevenueRecognitionMethod = (typeof RevenueRecognitionMethod)[keyof typeof RevenueRecognitionMethod]
+
+
 export const InvoiceStatus: {
   draft: 'draft',
   finalized: 'finalized',
@@ -825,6 +833,10 @@ export const BillingType: typeof $Enums.BillingType
 export type TrackingUnit = $Enums.TrackingUnit
 
 export const TrackingUnit: typeof $Enums.TrackingUnit
+
+export type RevenueRecognitionMethod = $Enums.RevenueRecognitionMethod
+
+export const RevenueRecognitionMethod: typeof $Enums.RevenueRecognitionMethod
 
 export type InvoiceStatus = $Enums.InvoiceStatus
 
@@ -93417,6 +93429,7 @@ export namespace Prisma {
     serviceTypeId: string | null
     billingType: $Enums.BillingType | null
     trackingUnit: $Enums.TrackingUnit | null
+    recognitionMethod: $Enums.RevenueRecognitionMethod | null
     discountPercent: number | null
     markupPercent: number | null
     guaranteedMaxPrice: number | null
@@ -93444,6 +93457,7 @@ export namespace Prisma {
     serviceTypeId: string | null
     billingType: $Enums.BillingType | null
     trackingUnit: $Enums.TrackingUnit | null
+    recognitionMethod: $Enums.RevenueRecognitionMethod | null
     discountPercent: number | null
     markupPercent: number | null
     guaranteedMaxPrice: number | null
@@ -93471,6 +93485,7 @@ export namespace Prisma {
     serviceTypeId: number
     billingType: number
     trackingUnit: number
+    recognitionMethod: number
     discountPercent: number
     markupPercent: number
     guaranteedMaxPrice: number
@@ -93526,6 +93541,7 @@ export namespace Prisma {
     serviceTypeId?: true
     billingType?: true
     trackingUnit?: true
+    recognitionMethod?: true
     discountPercent?: true
     markupPercent?: true
     guaranteedMaxPrice?: true
@@ -93553,6 +93569,7 @@ export namespace Prisma {
     serviceTypeId?: true
     billingType?: true
     trackingUnit?: true
+    recognitionMethod?: true
     discountPercent?: true
     markupPercent?: true
     guaranteedMaxPrice?: true
@@ -93580,6 +93597,7 @@ export namespace Prisma {
     serviceTypeId?: true
     billingType?: true
     trackingUnit?: true
+    recognitionMethod?: true
     discountPercent?: true
     markupPercent?: true
     guaranteedMaxPrice?: true
@@ -93694,6 +93712,7 @@ export namespace Prisma {
     serviceTypeId: string | null
     billingType: $Enums.BillingType
     trackingUnit: $Enums.TrackingUnit
+    recognitionMethod: $Enums.RevenueRecognitionMethod
     discountPercent: number | null
     markupPercent: number | null
     guaranteedMaxPrice: number | null
@@ -93740,6 +93759,7 @@ export namespace Prisma {
     serviceTypeId?: boolean
     billingType?: boolean
     trackingUnit?: boolean
+    recognitionMethod?: boolean
     discountPercent?: boolean
     markupPercent?: boolean
     guaranteedMaxPrice?: boolean
@@ -93774,6 +93794,7 @@ export namespace Prisma {
     serviceTypeId?: boolean
     billingType?: boolean
     trackingUnit?: boolean
+    recognitionMethod?: boolean
     discountPercent?: boolean
     markupPercent?: boolean
     guaranteedMaxPrice?: boolean
@@ -93803,6 +93824,7 @@ export namespace Prisma {
     serviceTypeId?: boolean
     billingType?: boolean
     trackingUnit?: boolean
+    recognitionMethod?: boolean
     discountPercent?: boolean
     markupPercent?: boolean
     guaranteedMaxPrice?: boolean
@@ -93832,6 +93854,7 @@ export namespace Prisma {
     serviceTypeId?: boolean
     billingType?: boolean
     trackingUnit?: boolean
+    recognitionMethod?: boolean
     discountPercent?: boolean
     markupPercent?: boolean
     guaranteedMaxPrice?: boolean
@@ -93846,7 +93869,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type BudgetSectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "budgetId" | "name" | "description" | "budgetedTimeHours" | "estimatedCost" | "quantity" | "price" | "budgetUsed" | "serviceTypeId" | "billingType" | "trackingUnit" | "discountPercent" | "markupPercent" | "guaranteedMaxPrice" | "blockOverrun" | "trackTime" | "trackExpenses" | "trackBooking" | "warningThresholdPercent" | "warningNotifiedAt" | "position" | "createdAt" | "updatedAt", ExtArgs["result"]["budgetSection"]>
+  export type BudgetSectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "budgetId" | "name" | "description" | "budgetedTimeHours" | "estimatedCost" | "quantity" | "price" | "budgetUsed" | "serviceTypeId" | "billingType" | "trackingUnit" | "recognitionMethod" | "discountPercent" | "markupPercent" | "guaranteedMaxPrice" | "blockOverrun" | "trackTime" | "trackExpenses" | "trackBooking" | "warningThresholdPercent" | "warningNotifiedAt" | "position" | "createdAt" | "updatedAt", ExtArgs["result"]["budgetSection"]>
   export type BudgetSectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     budget?: boolean | BudgetDefaultArgs<ExtArgs>
     serviceType?: boolean | BudgetSection$serviceTypeArgs<ExtArgs>
@@ -93888,6 +93911,7 @@ export namespace Prisma {
       serviceTypeId: string | null
       billingType: $Enums.BillingType
       trackingUnit: $Enums.TrackingUnit
+      recognitionMethod: $Enums.RevenueRecognitionMethod
       discountPercent: number | null
       markupPercent: number | null
       guaranteedMaxPrice: number | null
@@ -94341,6 +94365,7 @@ export namespace Prisma {
     readonly serviceTypeId: FieldRef<"BudgetSection", 'String'>
     readonly billingType: FieldRef<"BudgetSection", 'BillingType'>
     readonly trackingUnit: FieldRef<"BudgetSection", 'TrackingUnit'>
+    readonly recognitionMethod: FieldRef<"BudgetSection", 'RevenueRecognitionMethod'>
     readonly discountPercent: FieldRef<"BudgetSection", 'Float'>
     readonly markupPercent: FieldRef<"BudgetSection", 'Float'>
     readonly guaranteedMaxPrice: FieldRef<"BudgetSection", 'Float'>
@@ -108620,6 +108645,7 @@ export namespace Prisma {
     serviceTypeId: 'serviceTypeId',
     billingType: 'billingType',
     trackingUnit: 'trackingUnit',
+    recognitionMethod: 'recognitionMethod',
     discountPercent: 'discountPercent',
     markupPercent: 'markupPercent',
     guaranteedMaxPrice: 'guaranteedMaxPrice',
@@ -109258,6 +109284,20 @@ export namespace Prisma {
    * Reference to a field of type 'TrackingUnit[]'
    */
   export type ListEnumTrackingUnitFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TrackingUnit[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'RevenueRecognitionMethod'
+   */
+  export type EnumRevenueRecognitionMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RevenueRecognitionMethod'>
+    
+
+
+  /**
+   * Reference to a field of type 'RevenueRecognitionMethod[]'
+   */
+  export type ListEnumRevenueRecognitionMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RevenueRecognitionMethod[]'>
     
 
 
@@ -114597,6 +114637,7 @@ export namespace Prisma {
     serviceTypeId?: StringNullableFilter<"BudgetSection"> | string | null
     billingType?: EnumBillingTypeFilter<"BudgetSection"> | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFilter<"BudgetSection"> | $Enums.TrackingUnit
+    recognitionMethod?: EnumRevenueRecognitionMethodFilter<"BudgetSection"> | $Enums.RevenueRecognitionMethod
     discountPercent?: FloatNullableFilter<"BudgetSection"> | number | null
     markupPercent?: FloatNullableFilter<"BudgetSection"> | number | null
     guaranteedMaxPrice?: FloatNullableFilter<"BudgetSection"> | number | null
@@ -114630,6 +114671,7 @@ export namespace Prisma {
     serviceTypeId?: SortOrderInput | SortOrder
     billingType?: SortOrder
     trackingUnit?: SortOrder
+    recognitionMethod?: SortOrder
     discountPercent?: SortOrderInput | SortOrder
     markupPercent?: SortOrderInput | SortOrder
     guaranteedMaxPrice?: SortOrderInput | SortOrder
@@ -114666,6 +114708,7 @@ export namespace Prisma {
     serviceTypeId?: StringNullableFilter<"BudgetSection"> | string | null
     billingType?: EnumBillingTypeFilter<"BudgetSection"> | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFilter<"BudgetSection"> | $Enums.TrackingUnit
+    recognitionMethod?: EnumRevenueRecognitionMethodFilter<"BudgetSection"> | $Enums.RevenueRecognitionMethod
     discountPercent?: FloatNullableFilter<"BudgetSection"> | number | null
     markupPercent?: FloatNullableFilter<"BudgetSection"> | number | null
     guaranteedMaxPrice?: FloatNullableFilter<"BudgetSection"> | number | null
@@ -114699,6 +114742,7 @@ export namespace Prisma {
     serviceTypeId?: SortOrderInput | SortOrder
     billingType?: SortOrder
     trackingUnit?: SortOrder
+    recognitionMethod?: SortOrder
     discountPercent?: SortOrderInput | SortOrder
     markupPercent?: SortOrderInput | SortOrder
     guaranteedMaxPrice?: SortOrderInput | SortOrder
@@ -114734,6 +114778,7 @@ export namespace Prisma {
     serviceTypeId?: StringNullableWithAggregatesFilter<"BudgetSection"> | string | null
     billingType?: EnumBillingTypeWithAggregatesFilter<"BudgetSection"> | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitWithAggregatesFilter<"BudgetSection"> | $Enums.TrackingUnit
+    recognitionMethod?: EnumRevenueRecognitionMethodWithAggregatesFilter<"BudgetSection"> | $Enums.RevenueRecognitionMethod
     discountPercent?: FloatNullableWithAggregatesFilter<"BudgetSection"> | number | null
     markupPercent?: FloatNullableWithAggregatesFilter<"BudgetSection"> | number | null
     guaranteedMaxPrice?: FloatNullableWithAggregatesFilter<"BudgetSection"> | number | null
@@ -121015,6 +121060,7 @@ export namespace Prisma {
     budgetUsed?: number
     billingType?: $Enums.BillingType
     trackingUnit?: $Enums.TrackingUnit
+    recognitionMethod?: $Enums.RevenueRecognitionMethod
     discountPercent?: number | null
     markupPercent?: number | null
     guaranteedMaxPrice?: number | null
@@ -121048,6 +121094,7 @@ export namespace Prisma {
     serviceTypeId?: string | null
     billingType?: $Enums.BillingType
     trackingUnit?: $Enums.TrackingUnit
+    recognitionMethod?: $Enums.RevenueRecognitionMethod
     discountPercent?: number | null
     markupPercent?: number | null
     guaranteedMaxPrice?: number | null
@@ -121077,6 +121124,7 @@ export namespace Prisma {
     budgetUsed?: FloatFieldUpdateOperationsInput | number
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
+    recognitionMethod?: EnumRevenueRecognitionMethodFieldUpdateOperationsInput | $Enums.RevenueRecognitionMethod
     discountPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     markupPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     guaranteedMaxPrice?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -121110,6 +121158,7 @@ export namespace Prisma {
     serviceTypeId?: NullableStringFieldUpdateOperationsInput | string | null
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
+    recognitionMethod?: EnumRevenueRecognitionMethodFieldUpdateOperationsInput | $Enums.RevenueRecognitionMethod
     discountPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     markupPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     guaranteedMaxPrice?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -121141,6 +121190,7 @@ export namespace Prisma {
     serviceTypeId?: string | null
     billingType?: $Enums.BillingType
     trackingUnit?: $Enums.TrackingUnit
+    recognitionMethod?: $Enums.RevenueRecognitionMethod
     discountPercent?: number | null
     markupPercent?: number | null
     guaranteedMaxPrice?: number | null
@@ -121166,6 +121216,7 @@ export namespace Prisma {
     budgetUsed?: FloatFieldUpdateOperationsInput | number
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
+    recognitionMethod?: EnumRevenueRecognitionMethodFieldUpdateOperationsInput | $Enums.RevenueRecognitionMethod
     discountPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     markupPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     guaranteedMaxPrice?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -121193,6 +121244,7 @@ export namespace Prisma {
     serviceTypeId?: NullableStringFieldUpdateOperationsInput | string | null
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
+    recognitionMethod?: EnumRevenueRecognitionMethodFieldUpdateOperationsInput | $Enums.RevenueRecognitionMethod
     discountPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     markupPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     guaranteedMaxPrice?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -126119,6 +126171,13 @@ export namespace Prisma {
     not?: NestedEnumTrackingUnitFilter<$PrismaModel> | $Enums.TrackingUnit
   }
 
+  export type EnumRevenueRecognitionMethodFilter<$PrismaModel = never> = {
+    equals?: $Enums.RevenueRecognitionMethod | EnumRevenueRecognitionMethodFieldRefInput<$PrismaModel>
+    in?: $Enums.RevenueRecognitionMethod[] | ListEnumRevenueRecognitionMethodFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RevenueRecognitionMethod[] | ListEnumRevenueRecognitionMethodFieldRefInput<$PrismaModel>
+    not?: NestedEnumRevenueRecognitionMethodFilter<$PrismaModel> | $Enums.RevenueRecognitionMethod
+  }
+
   export type ServiceTypeNullableScalarRelationFilter = {
     is?: ServiceTypeWhereInput | null
     isNot?: ServiceTypeWhereInput | null
@@ -126147,6 +126206,7 @@ export namespace Prisma {
     serviceTypeId?: SortOrder
     billingType?: SortOrder
     trackingUnit?: SortOrder
+    recognitionMethod?: SortOrder
     discountPercent?: SortOrder
     markupPercent?: SortOrder
     guaranteedMaxPrice?: SortOrder
@@ -126187,6 +126247,7 @@ export namespace Prisma {
     serviceTypeId?: SortOrder
     billingType?: SortOrder
     trackingUnit?: SortOrder
+    recognitionMethod?: SortOrder
     discountPercent?: SortOrder
     markupPercent?: SortOrder
     guaranteedMaxPrice?: SortOrder
@@ -126214,6 +126275,7 @@ export namespace Prisma {
     serviceTypeId?: SortOrder
     billingType?: SortOrder
     trackingUnit?: SortOrder
+    recognitionMethod?: SortOrder
     discountPercent?: SortOrder
     markupPercent?: SortOrder
     guaranteedMaxPrice?: SortOrder
@@ -126259,6 +126321,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTrackingUnitFilter<$PrismaModel>
     _max?: NestedEnumTrackingUnitFilter<$PrismaModel>
+  }
+
+  export type EnumRevenueRecognitionMethodWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RevenueRecognitionMethod | EnumRevenueRecognitionMethodFieldRefInput<$PrismaModel>
+    in?: $Enums.RevenueRecognitionMethod[] | ListEnumRevenueRecognitionMethodFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RevenueRecognitionMethod[] | ListEnumRevenueRecognitionMethodFieldRefInput<$PrismaModel>
+    not?: NestedEnumRevenueRecognitionMethodWithAggregatesFilter<$PrismaModel> | $Enums.RevenueRecognitionMethod
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRevenueRecognitionMethodFilter<$PrismaModel>
+    _max?: NestedEnumRevenueRecognitionMethodFilter<$PrismaModel>
   }
 
   export type RateCardCountOrderByAggregateInput = {
@@ -134518,6 +134590,10 @@ export namespace Prisma {
     set?: $Enums.TrackingUnit
   }
 
+  export type EnumRevenueRecognitionMethodFieldUpdateOperationsInput = {
+    set?: $Enums.RevenueRecognitionMethod
+  }
+
   export type BudgetUpdateOneRequiredWithoutSectionsNestedInput = {
     create?: XOR<BudgetCreateWithoutSectionsInput, BudgetUncheckedCreateWithoutSectionsInput>
     connectOrCreate?: BudgetCreateOrConnectWithoutSectionsInput
@@ -135883,6 +135959,13 @@ export namespace Prisma {
     not?: NestedEnumTrackingUnitFilter<$PrismaModel> | $Enums.TrackingUnit
   }
 
+  export type NestedEnumRevenueRecognitionMethodFilter<$PrismaModel = never> = {
+    equals?: $Enums.RevenueRecognitionMethod | EnumRevenueRecognitionMethodFieldRefInput<$PrismaModel>
+    in?: $Enums.RevenueRecognitionMethod[] | ListEnumRevenueRecognitionMethodFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RevenueRecognitionMethod[] | ListEnumRevenueRecognitionMethodFieldRefInput<$PrismaModel>
+    not?: NestedEnumRevenueRecognitionMethodFilter<$PrismaModel> | $Enums.RevenueRecognitionMethod
+  }
+
   export type NestedEnumBillingTypeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.BillingType | EnumBillingTypeFieldRefInput<$PrismaModel>
     in?: $Enums.BillingType[] | ListEnumBillingTypeFieldRefInput<$PrismaModel>
@@ -135901,6 +135984,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTrackingUnitFilter<$PrismaModel>
     _max?: NestedEnumTrackingUnitFilter<$PrismaModel>
+  }
+
+  export type NestedEnumRevenueRecognitionMethodWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RevenueRecognitionMethod | EnumRevenueRecognitionMethodFieldRefInput<$PrismaModel>
+    in?: $Enums.RevenueRecognitionMethod[] | ListEnumRevenueRecognitionMethodFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RevenueRecognitionMethod[] | ListEnumRevenueRecognitionMethodFieldRefInput<$PrismaModel>
+    not?: NestedEnumRevenueRecognitionMethodWithAggregatesFilter<$PrismaModel> | $Enums.RevenueRecognitionMethod
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRevenueRecognitionMethodFilter<$PrismaModel>
+    _max?: NestedEnumRevenueRecognitionMethodFilter<$PrismaModel>
   }
 
   export type NestedEnumInvoiceStatusFilter<$PrismaModel = never> = {
@@ -154775,6 +154868,7 @@ export namespace Prisma {
     budgetUsed?: number
     billingType?: $Enums.BillingType
     trackingUnit?: $Enums.TrackingUnit
+    recognitionMethod?: $Enums.RevenueRecognitionMethod
     discountPercent?: number | null
     markupPercent?: number | null
     guaranteedMaxPrice?: number | null
@@ -154807,6 +154901,7 @@ export namespace Prisma {
     serviceTypeId?: string | null
     billingType?: $Enums.BillingType
     trackingUnit?: $Enums.TrackingUnit
+    recognitionMethod?: $Enums.RevenueRecognitionMethod
     discountPercent?: number | null
     markupPercent?: number | null
     guaranteedMaxPrice?: number | null
@@ -155521,6 +155616,7 @@ export namespace Prisma {
     budgetUsed?: FloatFieldUpdateOperationsInput | number
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
+    recognitionMethod?: EnumRevenueRecognitionMethodFieldUpdateOperationsInput | $Enums.RevenueRecognitionMethod
     discountPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     markupPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     guaranteedMaxPrice?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -155553,6 +155649,7 @@ export namespace Prisma {
     serviceTypeId?: NullableStringFieldUpdateOperationsInput | string | null
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
+    recognitionMethod?: EnumRevenueRecognitionMethodFieldUpdateOperationsInput | $Enums.RevenueRecognitionMethod
     discountPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     markupPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     guaranteedMaxPrice?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -157002,6 +157099,7 @@ export namespace Prisma {
     budgetUsed?: number
     billingType?: $Enums.BillingType
     trackingUnit?: $Enums.TrackingUnit
+    recognitionMethod?: $Enums.RevenueRecognitionMethod
     discountPercent?: number | null
     markupPercent?: number | null
     guaranteedMaxPrice?: number | null
@@ -157034,6 +157132,7 @@ export namespace Prisma {
     serviceTypeId?: string | null
     billingType?: $Enums.BillingType
     trackingUnit?: $Enums.TrackingUnit
+    recognitionMethod?: $Enums.RevenueRecognitionMethod
     discountPercent?: number | null
     markupPercent?: number | null
     guaranteedMaxPrice?: number | null
@@ -157469,6 +157568,7 @@ export namespace Prisma {
     budgetUsed?: FloatFieldUpdateOperationsInput | number
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
+    recognitionMethod?: EnumRevenueRecognitionMethodFieldUpdateOperationsInput | $Enums.RevenueRecognitionMethod
     discountPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     markupPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     guaranteedMaxPrice?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -157501,6 +157601,7 @@ export namespace Prisma {
     serviceTypeId?: NullableStringFieldUpdateOperationsInput | string | null
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
+    recognitionMethod?: EnumRevenueRecognitionMethodFieldUpdateOperationsInput | $Enums.RevenueRecognitionMethod
     discountPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     markupPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     guaranteedMaxPrice?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -164981,6 +165082,7 @@ export namespace Prisma {
     budgetUsed?: number
     billingType?: $Enums.BillingType
     trackingUnit?: $Enums.TrackingUnit
+    recognitionMethod?: $Enums.RevenueRecognitionMethod
     discountPercent?: number | null
     markupPercent?: number | null
     guaranteedMaxPrice?: number | null
@@ -165012,6 +165114,7 @@ export namespace Prisma {
     serviceTypeId?: string | null
     billingType?: $Enums.BillingType
     trackingUnit?: $Enums.TrackingUnit
+    recognitionMethod?: $Enums.RevenueRecognitionMethod
     discountPercent?: number | null
     markupPercent?: number | null
     guaranteedMaxPrice?: number | null
@@ -165539,6 +165642,7 @@ export namespace Prisma {
     serviceTypeId?: StringNullableFilter<"BudgetSection"> | string | null
     billingType?: EnumBillingTypeFilter<"BudgetSection"> | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFilter<"BudgetSection"> | $Enums.TrackingUnit
+    recognitionMethod?: EnumRevenueRecognitionMethodFilter<"BudgetSection"> | $Enums.RevenueRecognitionMethod
     discountPercent?: FloatNullableFilter<"BudgetSection"> | number | null
     markupPercent?: FloatNullableFilter<"BudgetSection"> | number | null
     guaranteedMaxPrice?: FloatNullableFilter<"BudgetSection"> | number | null
@@ -165628,6 +165732,7 @@ export namespace Prisma {
     budgetUsed?: number
     billingType?: $Enums.BillingType
     trackingUnit?: $Enums.TrackingUnit
+    recognitionMethod?: $Enums.RevenueRecognitionMethod
     discountPercent?: number | null
     markupPercent?: number | null
     guaranteedMaxPrice?: number | null
@@ -165659,6 +165764,7 @@ export namespace Prisma {
     budgetUsed?: number
     billingType?: $Enums.BillingType
     trackingUnit?: $Enums.TrackingUnit
+    recognitionMethod?: $Enums.RevenueRecognitionMethod
     discountPercent?: number | null
     markupPercent?: number | null
     guaranteedMaxPrice?: number | null
@@ -167079,6 +167185,7 @@ export namespace Prisma {
     budgetUsed?: number
     billingType?: $Enums.BillingType
     trackingUnit?: $Enums.TrackingUnit
+    recognitionMethod?: $Enums.RevenueRecognitionMethod
     discountPercent?: number | null
     markupPercent?: number | null
     guaranteedMaxPrice?: number | null
@@ -167111,6 +167218,7 @@ export namespace Prisma {
     serviceTypeId?: string | null
     billingType?: $Enums.BillingType
     trackingUnit?: $Enums.TrackingUnit
+    recognitionMethod?: $Enums.RevenueRecognitionMethod
     discountPercent?: number | null
     markupPercent?: number | null
     guaranteedMaxPrice?: number | null
@@ -167202,6 +167310,7 @@ export namespace Prisma {
     budgetUsed?: FloatFieldUpdateOperationsInput | number
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
+    recognitionMethod?: EnumRevenueRecognitionMethodFieldUpdateOperationsInput | $Enums.RevenueRecognitionMethod
     discountPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     markupPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     guaranteedMaxPrice?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -167234,6 +167343,7 @@ export namespace Prisma {
     serviceTypeId?: NullableStringFieldUpdateOperationsInput | string | null
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
+    recognitionMethod?: EnumRevenueRecognitionMethodFieldUpdateOperationsInput | $Enums.RevenueRecognitionMethod
     discountPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     markupPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     guaranteedMaxPrice?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -170218,6 +170328,7 @@ export namespace Prisma {
     budgetUsed?: number
     billingType?: $Enums.BillingType
     trackingUnit?: $Enums.TrackingUnit
+    recognitionMethod?: $Enums.RevenueRecognitionMethod
     discountPercent?: number | null
     markupPercent?: number | null
     guaranteedMaxPrice?: number | null
@@ -170250,6 +170361,7 @@ export namespace Prisma {
     serviceTypeId?: string | null
     billingType?: $Enums.BillingType
     trackingUnit?: $Enums.TrackingUnit
+    recognitionMethod?: $Enums.RevenueRecognitionMethod
     discountPercent?: number | null
     markupPercent?: number | null
     guaranteedMaxPrice?: number | null
@@ -170437,6 +170549,7 @@ export namespace Prisma {
     budgetUsed?: FloatFieldUpdateOperationsInput | number
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
+    recognitionMethod?: EnumRevenueRecognitionMethodFieldUpdateOperationsInput | $Enums.RevenueRecognitionMethod
     discountPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     markupPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     guaranteedMaxPrice?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -170469,6 +170582,7 @@ export namespace Prisma {
     serviceTypeId?: NullableStringFieldUpdateOperationsInput | string | null
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
+    recognitionMethod?: EnumRevenueRecognitionMethodFieldUpdateOperationsInput | $Enums.RevenueRecognitionMethod
     discountPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     markupPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     guaranteedMaxPrice?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -176935,6 +177049,7 @@ export namespace Prisma {
     serviceTypeId?: string | null
     billingType?: $Enums.BillingType
     trackingUnit?: $Enums.TrackingUnit
+    recognitionMethod?: $Enums.RevenueRecognitionMethod
     discountPercent?: number | null
     markupPercent?: number | null
     guaranteedMaxPrice?: number | null
@@ -177073,6 +177188,7 @@ export namespace Prisma {
     budgetUsed?: FloatFieldUpdateOperationsInput | number
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
+    recognitionMethod?: EnumRevenueRecognitionMethodFieldUpdateOperationsInput | $Enums.RevenueRecognitionMethod
     discountPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     markupPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     guaranteedMaxPrice?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -177104,6 +177220,7 @@ export namespace Prisma {
     serviceTypeId?: NullableStringFieldUpdateOperationsInput | string | null
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
+    recognitionMethod?: EnumRevenueRecognitionMethodFieldUpdateOperationsInput | $Enums.RevenueRecognitionMethod
     discountPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     markupPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     guaranteedMaxPrice?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -177134,6 +177251,7 @@ export namespace Prisma {
     serviceTypeId?: NullableStringFieldUpdateOperationsInput | string | null
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
+    recognitionMethod?: EnumRevenueRecognitionMethodFieldUpdateOperationsInput | $Enums.RevenueRecognitionMethod
     discountPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     markupPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     guaranteedMaxPrice?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -177311,6 +177429,7 @@ export namespace Prisma {
     budgetUsed?: number
     billingType?: $Enums.BillingType
     trackingUnit?: $Enums.TrackingUnit
+    recognitionMethod?: $Enums.RevenueRecognitionMethod
     discountPercent?: number | null
     markupPercent?: number | null
     guaranteedMaxPrice?: number | null
@@ -177363,6 +177482,7 @@ export namespace Prisma {
     budgetUsed?: FloatFieldUpdateOperationsInput | number
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
+    recognitionMethod?: EnumRevenueRecognitionMethodFieldUpdateOperationsInput | $Enums.RevenueRecognitionMethod
     discountPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     markupPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     guaranteedMaxPrice?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -177394,6 +177514,7 @@ export namespace Prisma {
     budgetUsed?: FloatFieldUpdateOperationsInput | number
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
+    recognitionMethod?: EnumRevenueRecognitionMethodFieldUpdateOperationsInput | $Enums.RevenueRecognitionMethod
     discountPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     markupPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     guaranteedMaxPrice?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -177424,6 +177545,7 @@ export namespace Prisma {
     budgetUsed?: FloatFieldUpdateOperationsInput | number
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
+    recognitionMethod?: EnumRevenueRecognitionMethodFieldUpdateOperationsInput | $Enums.RevenueRecognitionMethod
     discountPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     markupPercent?: NullableFloatFieldUpdateOperationsInput | number | null
     guaranteedMaxPrice?: NullableFloatFieldUpdateOperationsInput | number | null

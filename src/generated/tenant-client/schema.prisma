@@ -1206,6 +1206,11 @@ enum TrackingUnit {
   piece
 }
 
+enum RevenueRecognitionMethod {
+  immediate
+  straight_line
+}
+
 model ServiceType {
   id            String          @id @default(uuid())
   name          String
@@ -1218,8 +1223,8 @@ model ServiceType {
 }
 
 model BudgetSection {
-  id                      String                  @id @default(uuid())
-  budget                  Budget                  @relation(fields: [budgetId], references: [id])
+  id                      String                   @id @default(uuid())
+  budget                  Budget                   @relation(fields: [budgetId], references: [id])
   budgetId                String
   name                    String
   description             String?
@@ -1227,23 +1232,24 @@ model BudgetSection {
   estimatedCost           Float?
   quantity                Float
   price                   Float
-  budgetUsed              Float                   @default(0)
-  serviceType             ServiceType?            @relation(fields: [serviceTypeId], references: [id])
+  budgetUsed              Float                    @default(0)
+  serviceType             ServiceType?             @relation(fields: [serviceTypeId], references: [id])
   serviceTypeId           String?
-  billingType             BillingType             @default(time_and_materials)
-  trackingUnit            TrackingUnit            @default(hours)
+  billingType             BillingType              @default(time_and_materials)
+  trackingUnit            TrackingUnit             @default(hours)
+  recognitionMethod       RevenueRecognitionMethod @default(immediate)
   discountPercent         Float?
   markupPercent           Float?
   guaranteedMaxPrice      Float?
-  blockOverrun            Boolean                 @default(false)
-  trackTime               Boolean                 @default(true)
-  trackExpenses           Boolean                 @default(false)
-  trackBooking            Boolean                 @default(false)
+  blockOverrun            Boolean                  @default(false)
+  trackTime               Boolean                  @default(true)
+  trackExpenses           Boolean                  @default(false)
+  trackBooking            Boolean                  @default(false)
   warningThresholdPercent Float?
   warningNotifiedAt       DateTime?
-  position                Int                     @default(0)
-  createdAt               DateTime                @default(now())
-  updatedAt               DateTime                @updatedAt
+  position                Int                      @default(0)
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
   assignees               BudgetSectionAssignee[]
   timeEntries             TimeEntry[]
   lineItems               InvoiceLineItem[]

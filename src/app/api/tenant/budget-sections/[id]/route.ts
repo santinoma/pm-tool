@@ -43,11 +43,15 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
 
   const VALID_BILLING_TYPES = ["fixed", "time_and_materials", "non_billable", "percentage"];
   const VALID_TRACKING_UNITS = ["hours", "days", "piece"];
+  const VALID_RECOGNITION_METHODS = ["immediate", "straight_line"];
   if (body.billingType !== undefined && !VALID_BILLING_TYPES.includes(body.billingType)) {
     return NextResponse.json({ error: "Ungültiger billingType." }, { status: 400 });
   }
   if (body.trackingUnit !== undefined && !VALID_TRACKING_UNITS.includes(body.trackingUnit)) {
     return NextResponse.json({ error: "Ungültiger trackingUnit." }, { status: 400 });
+  }
+  if (body.recognitionMethod !== undefined && !VALID_RECOGNITION_METHODS.includes(body.recognitionMethod)) {
+    return NextResponse.json({ error: "Ungültiger recognitionMethod." }, { status: 400 });
   }
 
   const section = await context.tenantDb.budgetSection.update({
@@ -71,6 +75,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
         typeof body.serviceTypeId === "string" ? body.serviceTypeId : body.serviceTypeId === null ? null : undefined,
       billingType: body.billingType ?? undefined,
       trackingUnit: body.trackingUnit ?? undefined,
+      recognitionMethod: body.recognitionMethod ?? undefined,
       discountPercent:
         typeof body.discountPercent === "number" ? body.discountPercent : body.discountPercent === null ? null : undefined,
       markupPercent:
