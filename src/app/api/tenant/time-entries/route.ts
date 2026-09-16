@@ -5,7 +5,7 @@ import { getOrCreateTimeTrackingPolicy } from "@/tenant/timeTracking/policy";
 import { validateAgainstPolicy } from "@/tenant/timeTracking/policyValidation";
 import { computeDurationMinutes, validateEntryTarget } from "@/tenant/timeTracking/duration";
 import { computeEntryCost } from "@/tenant/timeTracking/entryCost";
-import { computeEffectiveUnitPrice, isOverrunBlocked } from "@/tenant/budgeting/servicePricing";
+import { computeEffectiveUnitPrice, isOverrunBlocked, resolveBaseRate } from "@/tenant/budgeting/servicePricing";
 import { canManageMembers } from "@/tenant/auth/roleGuard";
 import { resolveProjectIdsForTask } from "@/tenant/projectAccess/resolveProjectMembership";
 import { assertSingleProjectAccess, assertAnyProjectAccess } from "@/tenant/projectAccess/assertProjectAccess";
@@ -231,7 +231,9 @@ export async function handleSectionEntry(
   }
 
   const durationMinutes = computeDurationMinutes(startedAt, endedAt);
-  const effectiveRate = computeEffectiveUnitPrice(section.price, section.discountPercent, section.markupPercent);
+  const assigneeHourlyRate = section.assignees.find((a) => a.userId === userId)?.hourlyRate ?? null;
+  const baseRate = resolveBaseRate(section.budget.billableRateStrategy, section.price, assigneeHourlyRate, section.budget.billableRate);
+  const effectiveRate = computeEffectiveUnitPrice(baseRate, section.discountPercent, section.markupPercent);
   const amount = computeEntryCost(durationMinutes, effectiveRate);
 
   if (isOverrunBlocked(section.budgetUsed, amount, section.guaranteedMaxPrice, section.blockOverrun)) {

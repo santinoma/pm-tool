@@ -871,6 +871,8 @@ exports.Prisma.BudgetScalarFieldEnum = {
   scenarioOfId: 'scenarioOfId',
   isTemplate: 'isTemplate',
   deliveredAt: 'deliveredAt',
+  billableRateStrategy: 'billableRateStrategy',
+  billableRate: 'billableRate',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   approvalPolicyId: 'approvalPolicyId'
@@ -1034,7 +1036,8 @@ exports.Prisma.SavedReportScalarFieldEnum = {
 
 exports.Prisma.BudgetSectionAssigneeScalarFieldEnum = {
   sectionId: 'sectionId',
-  userId: 'userId'
+  userId: 'userId',
+  hourlyRate: 'hourlyRate'
 };
 
 exports.Prisma.SortOrder = {
@@ -1262,6 +1265,13 @@ exports.CheckInRecurrence = exports.$Enums.CheckInRecurrence = {
 exports.RecurrenceInterval = exports.$Enums.RecurrenceInterval = {
   weekly: 'weekly',
   monthly: 'monthly'
+};
+
+exports.BillableRateStrategy = exports.$Enums.BillableRateStrategy = {
+  person: 'person',
+  service: 'service',
+  single: 'single',
+  no_rate: 'no_rate'
 };
 
 exports.BillingType = exports.$Enums.BillingType = {

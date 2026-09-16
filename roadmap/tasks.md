@@ -147,10 +147,25 @@ Task weitermachen — nicht die ganze Phase anhalten.
       Status-Übergang), final als eigenständiges Feature ohne Productive-
       Entsprechung gekennzeichnet, siehe `EIGENENTWICKLUNGEN.md`
 - [ ] T309 Budgets: Deliverables
-- [ ] T310 Budgets: Percentage-Billing-Berechnung
+- [x] T310 Budgets: Percentage-Billing-Berechnung — bereits vorhanden
+      (`buildPercentageLineItems` in `generateInvoice.ts`, verdrahtet über
+      `budgets/[id]/invoices/route.ts` als Invoicing-Methode "percentage").
+      Im Audit übersehen/vor dieser Session entstanden. Kein neuer Code nötig.
 - [ ] T311 Budgets: Budget-Template-Center
 - [ ] T312 Budgets: Financial Month Closing
-- [ ] T313 Budgets: Billable-Rate-Strategie (Person/Service/Single/No Rate)
+- [x] T313 Budgets: Billable-Rate-Strategie (Person/Service/Single/No Rate) —
+      `Budget.billableRateStrategy` (Enum) + `Budget.billableRate` (für
+      "single") + `BudgetSectionAssignee.hourlyRate` (für "person");
+      `resolveBaseRate()` zentralisiert die Satz-Auflösung, ersetzt die
+      bisherige feste Kopplung an `BudgetSection.price` in der
+      Zeiterfassungs-Route. UI: Strategie-Auswahl in den Budget-
+      Einstellungen, Satz-Eingabe pro Assignee (nur bei "person" sichtbar)
+      in Service-Anlage/-Bearbeitung. Kein Umbau der Sections/People-
+      Tabellenlayouts auf Productives exaktes Spaltenschema (separate
+      "People"- vs. "Services"-Tabelle je Strategie) — der Satz wird
+      funktional korrekt aufgelöst und bedienbar gemacht, die pixelgenaue
+      Tabellenumschaltung wäre ein rein kosmetischer Zusatzaufwand ohne
+      neue Funktionalität.
 - [ ] T314 User Management: Teams/Departments-Modell
 - [ ] T315 User Management: Employee-vs-Contractor-Unterscheidung
 - [ ] T316 User Management: Kostensatz-Historie

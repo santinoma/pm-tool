@@ -136,6 +136,8 @@ export default async function BudgetDetailPage({
           scenarioOf: budget.scenarioOf,
           deliveredAt: budget.deliveredAt ? budget.deliveredAt.toISOString() : null,
           approvalPolicyId: budget.approvalPolicyId,
+          billableRateStrategy: budget.billableRateStrategy,
+          billableRate: budget.billableRate,
         }}
         approvalPolicies={approvalPolicies.map((policy) => ({ id: policy.id, name: policy.name }))}
         sections={budget.sections.map((section) => ({
@@ -162,6 +164,7 @@ export default async function BudgetDetailPage({
           position: section.position,
           assigneeIds: section.assignees.map((a) => a.userId),
           assigneeLabels: section.assignees.map((a) => a.user.name ?? a.user.email),
+          assigneeRates: Object.fromEntries(section.assignees.map((a) => [a.userId, a.hourlyRate])),
         }))}
         users={users.map((u) => ({ id: u.id, label: u.name ?? u.email }))}
         serviceTypes={serviceTypes.map((type) => ({ id: type.id, name: type.name }))}

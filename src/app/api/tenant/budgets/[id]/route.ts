@@ -4,6 +4,9 @@ import { hasEffectivePermission } from "@/tenant/permissions/resolvePermissions"
 import { resolveProjectIdForBudget } from "@/tenant/projectAccess/resolveProjectMembership";
 import { assertSingleProjectAccess } from "@/tenant/projectAccess/assertProjectAccess";
 import { recordActivity } from "@/tenant/notifications/recordActivity";
+import type { BillableRateStrategy } from "@/generated/tenant-client/client.js";
+
+const VALID_BILLABLE_RATE_STRATEGIES = ["person", "service", "single", "no_rate"];
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -38,6 +41,10 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     return NextResponse.json({ error: "Ungültiges Datum." }, { status: 400 });
   }
 
+  if (body.billableRateStrategy !== undefined && !VALID_BILLABLE_RATE_STRATEGIES.includes(body.billableRateStrategy)) {
+    return NextResponse.json({ error: "Ungültige billableRateStrategy." }, { status: 400 });
+  }
+
   const budget = await context.tenantDb.budget.update({
     where: { id },
     data: {
@@ -47,6 +54,9 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       endDate: body.endDate === null ? null : endDate,
       color: typeof body.color === "string" ? body.color : body.color === null ? null : undefined,
       isTemplate: typeof body.isTemplate === "boolean" ? body.isTemplate : undefined,
+      billableRateStrategy: (body.billableRateStrategy as BillableRateStrategy) ?? undefined,
+      billableRate:
+        typeof body.billableRate === "number" ? body.billableRate : body.billableRate === null ? null : undefined,
       approvalPolicyId:
         typeof body.approvalPolicyId === "string" ? body.approvalPolicyId : body.approvalPolicyId === null ? null : undefined,
     },

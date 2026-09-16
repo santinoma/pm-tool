@@ -1321,6 +1321,16 @@ model Budget {
   scenarios               Budget[]                 @relation("BudgetScenarios")
   isTemplate              Boolean                  @default(false)
   deliveredAt             DateTime?
+  /// Productive "Billable Rate"-Einstellung: bestimmt, welcher Satz für
+  /// Zeiterfassung in diesem Budget herangezogen wird — "service" (Standard,
+  /// bisheriges Verhalten) nimmt `BudgetSection.price`, "person" den
+  /// individuellen `BudgetSectionAssignee.hourlyRate` der buchenden Person
+  /// (Fallback auf `price`, falls für die Person kein Satz gepflegt ist),
+  /// "single" den einen `billableRate` für das gesamte Budget, "no_rate"
+  /// liefert 0 (Zeit bleibt erfassbar, wird aber nicht automatisch bewertet).
+  billableRateStrategy    BillableRateStrategy     @default(service)
+  /// Nur relevant bei billableRateStrategy = "single".
+  billableRate            Float?
   createdAt               DateTime                 @default(now())
   updatedAt               DateTime                 @updatedAt
   sections                BudgetSection[]
@@ -1330,6 +1340,13 @@ model Budget {
   expenses                Expense[]
   approvalPolicy          ApprovalPolicy?          @relation(fields: [approvalPolicyId], references: [id])
   approvalPolicyId        String?
+}
+
+enum BillableRateStrategy {
+  person
+  service
+  single
+  no_rate
 }
 
 enum BillingType {
@@ -1586,10 +1603,14 @@ model SavedReport {
 }
 
 model BudgetSectionAssignee {
-  section   BudgetSection @relation(fields: [sectionId], references: [id])
-  sectionId String
-  user      User          @relation("BudgetSectionAssignee", fields: [userId], references: [id])
-  userId    String
+  section    BudgetSection @relation(fields: [sectionId], references: [id])
+  sectionId  String
+  user       User          @relation("BudgetSectionAssignee", fields: [userId], references: [id])
+  userId     String
+  /// Nur relevant, wenn das übergeordnete Budget billableRateStrategy =
+  /// "person" verwendet — individueller Stundensatz dieser Person in dieser
+  /// Section. Ohne Wert fällt die Zeiterfassung auf `BudgetSection.price` zurück.
+  hourlyRate Float?
 
   @@id([sectionId, userId])
 }

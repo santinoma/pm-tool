@@ -738,6 +738,16 @@ export const RecurrenceInterval: {
 export type RecurrenceInterval = (typeof RecurrenceInterval)[keyof typeof RecurrenceInterval]
 
 
+export const BillableRateStrategy: {
+  person: 'person',
+  service: 'service',
+  single: 'single',
+  no_rate: 'no_rate'
+};
+
+export type BillableRateStrategy = (typeof BillableRateStrategy)[keyof typeof BillableRateStrategy]
+
+
 export const BillingType: {
   fixed: 'fixed',
   time_and_materials: 'time_and_materials',
@@ -936,6 +946,10 @@ export const CheckInRecurrence: typeof $Enums.CheckInRecurrence
 export type RecurrenceInterval = $Enums.RecurrenceInterval
 
 export const RecurrenceInterval: typeof $Enums.RecurrenceInterval
+
+export type BillableRateStrategy = $Enums.BillableRateStrategy
+
+export const BillableRateStrategy: typeof $Enums.BillableRateStrategy
 
 export type BillingType = $Enums.BillingType
 
@@ -96240,8 +96254,18 @@ export namespace Prisma {
 
   export type AggregateBudget = {
     _count: BudgetCountAggregateOutputType | null
+    _avg: BudgetAvgAggregateOutputType | null
+    _sum: BudgetSumAggregateOutputType | null
     _min: BudgetMinAggregateOutputType | null
     _max: BudgetMaxAggregateOutputType | null
+  }
+
+  export type BudgetAvgAggregateOutputType = {
+    billableRate: number | null
+  }
+
+  export type BudgetSumAggregateOutputType = {
+    billableRate: number | null
   }
 
   export type BudgetMinAggregateOutputType = {
@@ -96259,6 +96283,8 @@ export namespace Prisma {
     scenarioOfId: string | null
     isTemplate: boolean | null
     deliveredAt: Date | null
+    billableRateStrategy: $Enums.BillableRateStrategy | null
+    billableRate: number | null
     createdAt: Date | null
     updatedAt: Date | null
     approvalPolicyId: string | null
@@ -96279,6 +96305,8 @@ export namespace Prisma {
     scenarioOfId: string | null
     isTemplate: boolean | null
     deliveredAt: Date | null
+    billableRateStrategy: $Enums.BillableRateStrategy | null
+    billableRate: number | null
     createdAt: Date | null
     updatedAt: Date | null
     approvalPolicyId: string | null
@@ -96299,12 +96327,22 @@ export namespace Prisma {
     scenarioOfId: number
     isTemplate: number
     deliveredAt: number
+    billableRateStrategy: number
+    billableRate: number
     createdAt: number
     updatedAt: number
     approvalPolicyId: number
     _all: number
   }
 
+
+  export type BudgetAvgAggregateInputType = {
+    billableRate?: true
+  }
+
+  export type BudgetSumAggregateInputType = {
+    billableRate?: true
+  }
 
   export type BudgetMinAggregateInputType = {
     id?: true
@@ -96321,6 +96359,8 @@ export namespace Prisma {
     scenarioOfId?: true
     isTemplate?: true
     deliveredAt?: true
+    billableRateStrategy?: true
+    billableRate?: true
     createdAt?: true
     updatedAt?: true
     approvalPolicyId?: true
@@ -96341,6 +96381,8 @@ export namespace Prisma {
     scenarioOfId?: true
     isTemplate?: true
     deliveredAt?: true
+    billableRateStrategy?: true
+    billableRate?: true
     createdAt?: true
     updatedAt?: true
     approvalPolicyId?: true
@@ -96361,6 +96403,8 @@ export namespace Prisma {
     scenarioOfId?: true
     isTemplate?: true
     deliveredAt?: true
+    billableRateStrategy?: true
+    billableRate?: true
     createdAt?: true
     updatedAt?: true
     approvalPolicyId?: true
@@ -96405,6 +96449,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: BudgetAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BudgetSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: BudgetMinAggregateInputType
@@ -96435,6 +96491,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: BudgetCountAggregateInputType | true
+    _avg?: BudgetAvgAggregateInputType
+    _sum?: BudgetSumAggregateInputType
     _min?: BudgetMinAggregateInputType
     _max?: BudgetMaxAggregateInputType
   }
@@ -96454,10 +96512,14 @@ export namespace Prisma {
     scenarioOfId: string | null
     isTemplate: boolean
     deliveredAt: Date | null
+    billableRateStrategy: $Enums.BillableRateStrategy
+    billableRate: number | null
     createdAt: Date
     updatedAt: Date
     approvalPolicyId: string | null
     _count: BudgetCountAggregateOutputType | null
+    _avg: BudgetAvgAggregateOutputType | null
+    _sum: BudgetSumAggregateOutputType | null
     _min: BudgetMinAggregateOutputType | null
     _max: BudgetMaxAggregateOutputType | null
   }
@@ -96491,6 +96553,8 @@ export namespace Prisma {
     scenarioOfId?: boolean
     isTemplate?: boolean
     deliveredAt?: boolean
+    billableRateStrategy?: boolean
+    billableRate?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     approvalPolicyId?: boolean
@@ -96522,6 +96586,8 @@ export namespace Prisma {
     scenarioOfId?: boolean
     isTemplate?: boolean
     deliveredAt?: boolean
+    billableRateStrategy?: boolean
+    billableRate?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     approvalPolicyId?: boolean
@@ -96546,6 +96612,8 @@ export namespace Prisma {
     scenarioOfId?: boolean
     isTemplate?: boolean
     deliveredAt?: boolean
+    billableRateStrategy?: boolean
+    billableRate?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     approvalPolicyId?: boolean
@@ -96570,12 +96638,14 @@ export namespace Prisma {
     scenarioOfId?: boolean
     isTemplate?: boolean
     deliveredAt?: boolean
+    billableRateStrategy?: boolean
+    billableRate?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     approvalPolicyId?: boolean
   }
 
-  export type BudgetOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "projectId" | "title" | "ownerId" | "isRetainer" | "recurrenceInterval" | "lastRecurrencePeriodKey" | "startDate" | "endDate" | "color" | "isScenario" | "scenarioOfId" | "isTemplate" | "deliveredAt" | "createdAt" | "updatedAt" | "approvalPolicyId", ExtArgs["result"]["budget"]>
+  export type BudgetOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "projectId" | "title" | "ownerId" | "isRetainer" | "recurrenceInterval" | "lastRecurrencePeriodKey" | "startDate" | "endDate" | "color" | "isScenario" | "scenarioOfId" | "isTemplate" | "deliveredAt" | "billableRateStrategy" | "billableRate" | "createdAt" | "updatedAt" | "approvalPolicyId", ExtArgs["result"]["budget"]>
   export type BudgetInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     project?: boolean | ProjectDefaultArgs<ExtArgs>
     owner?: boolean | UserDefaultArgs<ExtArgs>
@@ -96631,6 +96701,20 @@ export namespace Prisma {
       scenarioOfId: string | null
       isTemplate: boolean
       deliveredAt: Date | null
+      /**
+       * Productive "Billable Rate"-Einstellung: bestimmt, welcher Satz für
+       * Zeiterfassung in diesem Budget herangezogen wird — "service" (Standard,
+       * bisheriges Verhalten) nimmt `BudgetSection.price`, "person" den
+       * individuellen `BudgetSectionAssignee.hourlyRate` der buchenden Person
+       * (Fallback auf `price`, falls für die Person kein Satz gepflegt ist),
+       * "single" den einen `billableRate` für das gesamte Budget, "no_rate"
+       * liefert 0 (Zeit bleibt erfassbar, wird aber nicht automatisch bewertet).
+       */
+      billableRateStrategy: $Enums.BillableRateStrategy
+      /**
+       * Nur relevant bei billableRateStrategy = "single".
+       */
+      billableRate: number | null
       createdAt: Date
       updatedAt: Date
       approvalPolicyId: string | null
@@ -97081,6 +97165,8 @@ export namespace Prisma {
     readonly scenarioOfId: FieldRef<"Budget", 'String'>
     readonly isTemplate: FieldRef<"Budget", 'Boolean'>
     readonly deliveredAt: FieldRef<"Budget", 'DateTime'>
+    readonly billableRateStrategy: FieldRef<"Budget", 'BillableRateStrategy'>
+    readonly billableRate: FieldRef<"Budget", 'Float'>
     readonly createdAt: FieldRef<"Budget", 'DateTime'>
     readonly updatedAt: FieldRef<"Budget", 'DateTime'>
     readonly approvalPolicyId: FieldRef<"Budget", 'String'>
@@ -112240,40 +112326,64 @@ export namespace Prisma {
 
   export type AggregateBudgetSectionAssignee = {
     _count: BudgetSectionAssigneeCountAggregateOutputType | null
+    _avg: BudgetSectionAssigneeAvgAggregateOutputType | null
+    _sum: BudgetSectionAssigneeSumAggregateOutputType | null
     _min: BudgetSectionAssigneeMinAggregateOutputType | null
     _max: BudgetSectionAssigneeMaxAggregateOutputType | null
+  }
+
+  export type BudgetSectionAssigneeAvgAggregateOutputType = {
+    hourlyRate: number | null
+  }
+
+  export type BudgetSectionAssigneeSumAggregateOutputType = {
+    hourlyRate: number | null
   }
 
   export type BudgetSectionAssigneeMinAggregateOutputType = {
     sectionId: string | null
     userId: string | null
+    hourlyRate: number | null
   }
 
   export type BudgetSectionAssigneeMaxAggregateOutputType = {
     sectionId: string | null
     userId: string | null
+    hourlyRate: number | null
   }
 
   export type BudgetSectionAssigneeCountAggregateOutputType = {
     sectionId: number
     userId: number
+    hourlyRate: number
     _all: number
   }
 
 
+  export type BudgetSectionAssigneeAvgAggregateInputType = {
+    hourlyRate?: true
+  }
+
+  export type BudgetSectionAssigneeSumAggregateInputType = {
+    hourlyRate?: true
+  }
+
   export type BudgetSectionAssigneeMinAggregateInputType = {
     sectionId?: true
     userId?: true
+    hourlyRate?: true
   }
 
   export type BudgetSectionAssigneeMaxAggregateInputType = {
     sectionId?: true
     userId?: true
+    hourlyRate?: true
   }
 
   export type BudgetSectionAssigneeCountAggregateInputType = {
     sectionId?: true
     userId?: true
+    hourlyRate?: true
     _all?: true
   }
 
@@ -112315,6 +112425,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: BudgetSectionAssigneeAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BudgetSectionAssigneeSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: BudgetSectionAssigneeMinAggregateInputType
@@ -112345,6 +112467,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: BudgetSectionAssigneeCountAggregateInputType | true
+    _avg?: BudgetSectionAssigneeAvgAggregateInputType
+    _sum?: BudgetSectionAssigneeSumAggregateInputType
     _min?: BudgetSectionAssigneeMinAggregateInputType
     _max?: BudgetSectionAssigneeMaxAggregateInputType
   }
@@ -112352,7 +112476,10 @@ export namespace Prisma {
   export type BudgetSectionAssigneeGroupByOutputType = {
     sectionId: string
     userId: string
+    hourlyRate: number | null
     _count: BudgetSectionAssigneeCountAggregateOutputType | null
+    _avg: BudgetSectionAssigneeAvgAggregateOutputType | null
+    _sum: BudgetSectionAssigneeSumAggregateOutputType | null
     _min: BudgetSectionAssigneeMinAggregateOutputType | null
     _max: BudgetSectionAssigneeMaxAggregateOutputType | null
   }
@@ -112374,6 +112501,7 @@ export namespace Prisma {
   export type BudgetSectionAssigneeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     sectionId?: boolean
     userId?: boolean
+    hourlyRate?: boolean
     section?: boolean | BudgetSectionDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["budgetSectionAssignee"]>
@@ -112381,6 +112509,7 @@ export namespace Prisma {
   export type BudgetSectionAssigneeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     sectionId?: boolean
     userId?: boolean
+    hourlyRate?: boolean
     section?: boolean | BudgetSectionDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["budgetSectionAssignee"]>
@@ -112388,6 +112517,7 @@ export namespace Prisma {
   export type BudgetSectionAssigneeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     sectionId?: boolean
     userId?: boolean
+    hourlyRate?: boolean
     section?: boolean | BudgetSectionDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["budgetSectionAssignee"]>
@@ -112395,9 +112525,10 @@ export namespace Prisma {
   export type BudgetSectionAssigneeSelectScalar = {
     sectionId?: boolean
     userId?: boolean
+    hourlyRate?: boolean
   }
 
-  export type BudgetSectionAssigneeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"sectionId" | "userId", ExtArgs["result"]["budgetSectionAssignee"]>
+  export type BudgetSectionAssigneeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"sectionId" | "userId" | "hourlyRate", ExtArgs["result"]["budgetSectionAssignee"]>
   export type BudgetSectionAssigneeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     section?: boolean | BudgetSectionDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -112420,6 +112551,12 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       sectionId: string
       userId: string
+      /**
+       * Nur relevant, wenn das übergeordnete Budget billableRateStrategy =
+       * "person" verwendet — individueller Stundensatz dieser Person in dieser
+       * Section. Ohne Wert fällt die Zeiterfassung auf `BudgetSection.price` zurück.
+       */
+      hourlyRate: number | null
     }, ExtArgs["result"]["budgetSectionAssignee"]>
     composites: {}
   }
@@ -112847,6 +112984,7 @@ export namespace Prisma {
   interface BudgetSectionAssigneeFieldRefs {
     readonly sectionId: FieldRef<"BudgetSectionAssignee", 'String'>
     readonly userId: FieldRef<"BudgetSectionAssignee", 'String'>
+    readonly hourlyRate: FieldRef<"BudgetSectionAssignee", 'Float'>
   }
     
 
@@ -114250,6 +114388,8 @@ export namespace Prisma {
     scenarioOfId: 'scenarioOfId',
     isTemplate: 'isTemplate',
     deliveredAt: 'deliveredAt',
+    billableRateStrategy: 'billableRateStrategy',
+    billableRate: 'billableRate',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     approvalPolicyId: 'approvalPolicyId'
@@ -114452,7 +114592,8 @@ export namespace Prisma {
 
   export const BudgetSectionAssigneeScalarFieldEnum: {
     sectionId: 'sectionId',
-    userId: 'userId'
+    userId: 'userId',
+    hourlyRate: 'hourlyRate'
   };
 
   export type BudgetSectionAssigneeScalarFieldEnum = (typeof BudgetSectionAssigneeScalarFieldEnum)[keyof typeof BudgetSectionAssigneeScalarFieldEnum]
@@ -114991,6 +115132,20 @@ export namespace Prisma {
    * Reference to a field of type 'RecurrenceInterval[]'
    */
   export type ListEnumRecurrenceIntervalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RecurrenceInterval[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'BillableRateStrategy'
+   */
+  export type EnumBillableRateStrategyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BillableRateStrategy'>
+    
+
+
+  /**
+   * Reference to a field of type 'BillableRateStrategy[]'
+   */
+  export type ListEnumBillableRateStrategyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BillableRateStrategy[]'>
     
 
 
@@ -120530,6 +120685,8 @@ export namespace Prisma {
     scenarioOfId?: StringNullableFilter<"Budget"> | string | null
     isTemplate?: BoolFilter<"Budget"> | boolean
     deliveredAt?: DateTimeNullableFilter<"Budget"> | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFilter<"Budget"> | $Enums.BillableRateStrategy
+    billableRate?: FloatNullableFilter<"Budget"> | number | null
     createdAt?: DateTimeFilter<"Budget"> | Date | string
     updatedAt?: DateTimeFilter<"Budget"> | Date | string
     approvalPolicyId?: StringNullableFilter<"Budget"> | string | null
@@ -120560,6 +120717,8 @@ export namespace Prisma {
     scenarioOfId?: SortOrderInput | SortOrder
     isTemplate?: SortOrder
     deliveredAt?: SortOrderInput | SortOrder
+    billableRateStrategy?: SortOrder
+    billableRate?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     approvalPolicyId?: SortOrderInput | SortOrder
@@ -120593,6 +120752,8 @@ export namespace Prisma {
     scenarioOfId?: StringNullableFilter<"Budget"> | string | null
     isTemplate?: BoolFilter<"Budget"> | boolean
     deliveredAt?: DateTimeNullableFilter<"Budget"> | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFilter<"Budget"> | $Enums.BillableRateStrategy
+    billableRate?: FloatNullableFilter<"Budget"> | number | null
     createdAt?: DateTimeFilter<"Budget"> | Date | string
     updatedAt?: DateTimeFilter<"Budget"> | Date | string
     approvalPolicyId?: StringNullableFilter<"Budget"> | string | null
@@ -120623,12 +120784,16 @@ export namespace Prisma {
     scenarioOfId?: SortOrderInput | SortOrder
     isTemplate?: SortOrder
     deliveredAt?: SortOrderInput | SortOrder
+    billableRateStrategy?: SortOrder
+    billableRate?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     approvalPolicyId?: SortOrderInput | SortOrder
     _count?: BudgetCountOrderByAggregateInput
+    _avg?: BudgetAvgOrderByAggregateInput
     _max?: BudgetMaxOrderByAggregateInput
     _min?: BudgetMinOrderByAggregateInput
+    _sum?: BudgetSumOrderByAggregateInput
   }
 
   export type BudgetScalarWhereWithAggregatesInput = {
@@ -120649,6 +120814,8 @@ export namespace Prisma {
     scenarioOfId?: StringNullableWithAggregatesFilter<"Budget"> | string | null
     isTemplate?: BoolWithAggregatesFilter<"Budget"> | boolean
     deliveredAt?: DateTimeNullableWithAggregatesFilter<"Budget"> | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyWithAggregatesFilter<"Budget"> | $Enums.BillableRateStrategy
+    billableRate?: FloatNullableWithAggregatesFilter<"Budget"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"Budget"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Budget"> | Date | string
     approvalPolicyId?: StringNullableWithAggregatesFilter<"Budget"> | string | null
@@ -121717,6 +121884,7 @@ export namespace Prisma {
     NOT?: BudgetSectionAssigneeWhereInput | BudgetSectionAssigneeWhereInput[]
     sectionId?: StringFilter<"BudgetSectionAssignee"> | string
     userId?: StringFilter<"BudgetSectionAssignee"> | string
+    hourlyRate?: FloatNullableFilter<"BudgetSectionAssignee"> | number | null
     section?: XOR<BudgetSectionScalarRelationFilter, BudgetSectionWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
@@ -121724,6 +121892,7 @@ export namespace Prisma {
   export type BudgetSectionAssigneeOrderByWithRelationInput = {
     sectionId?: SortOrder
     userId?: SortOrder
+    hourlyRate?: SortOrderInput | SortOrder
     section?: BudgetSectionOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
   }
@@ -121735,6 +121904,7 @@ export namespace Prisma {
     NOT?: BudgetSectionAssigneeWhereInput | BudgetSectionAssigneeWhereInput[]
     sectionId?: StringFilter<"BudgetSectionAssignee"> | string
     userId?: StringFilter<"BudgetSectionAssignee"> | string
+    hourlyRate?: FloatNullableFilter<"BudgetSectionAssignee"> | number | null
     section?: XOR<BudgetSectionScalarRelationFilter, BudgetSectionWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "sectionId_userId">
@@ -121742,9 +121912,12 @@ export namespace Prisma {
   export type BudgetSectionAssigneeOrderByWithAggregationInput = {
     sectionId?: SortOrder
     userId?: SortOrder
+    hourlyRate?: SortOrderInput | SortOrder
     _count?: BudgetSectionAssigneeCountOrderByAggregateInput
+    _avg?: BudgetSectionAssigneeAvgOrderByAggregateInput
     _max?: BudgetSectionAssigneeMaxOrderByAggregateInput
     _min?: BudgetSectionAssigneeMinOrderByAggregateInput
+    _sum?: BudgetSectionAssigneeSumOrderByAggregateInput
   }
 
   export type BudgetSectionAssigneeScalarWhereWithAggregatesInput = {
@@ -121753,6 +121926,7 @@ export namespace Prisma {
     NOT?: BudgetSectionAssigneeScalarWhereWithAggregatesInput | BudgetSectionAssigneeScalarWhereWithAggregatesInput[]
     sectionId?: StringWithAggregatesFilter<"BudgetSectionAssignee"> | string
     userId?: StringWithAggregatesFilter<"BudgetSectionAssignee"> | string
+    hourlyRate?: FloatNullableWithAggregatesFilter<"BudgetSectionAssignee"> | number | null
   }
 
   export type UserCreateInput = {
@@ -127331,6 +127505,8 @@ export namespace Prisma {
     isScenario?: boolean
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     project: ProjectCreateNestedOneWithoutBudgetsInput
@@ -127360,6 +127536,8 @@ export namespace Prisma {
     scenarioOfId?: string | null
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     approvalPolicyId?: string | null
@@ -127383,6 +127561,8 @@ export namespace Prisma {
     isScenario?: BoolFieldUpdateOperationsInput | boolean
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: ProjectUpdateOneRequiredWithoutBudgetsNestedInput
@@ -127412,6 +127592,8 @@ export namespace Prisma {
     scenarioOfId?: NullableStringFieldUpdateOperationsInput | string | null
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -127438,6 +127620,8 @@ export namespace Prisma {
     scenarioOfId?: string | null
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     approvalPolicyId?: string | null
@@ -127455,6 +127639,8 @@ export namespace Prisma {
     isScenario?: BoolFieldUpdateOperationsInput | boolean
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -127474,6 +127660,8 @@ export namespace Prisma {
     scenarioOfId?: NullableStringFieldUpdateOperationsInput | string | null
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -128603,6 +128791,7 @@ export namespace Prisma {
   }
 
   export type BudgetSectionAssigneeCreateInput = {
+    hourlyRate?: number | null
     section: BudgetSectionCreateNestedOneWithoutAssigneesInput
     user: UserCreateNestedOneWithoutBudgetSectionAssignmentsInput
   }
@@ -128610,9 +128799,11 @@ export namespace Prisma {
   export type BudgetSectionAssigneeUncheckedCreateInput = {
     sectionId: string
     userId: string
+    hourlyRate?: number | null
   }
 
   export type BudgetSectionAssigneeUpdateInput = {
+    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
     section?: BudgetSectionUpdateOneRequiredWithoutAssigneesNestedInput
     user?: UserUpdateOneRequiredWithoutBudgetSectionAssignmentsNestedInput
   }
@@ -128620,20 +128811,23 @@ export namespace Prisma {
   export type BudgetSectionAssigneeUncheckedUpdateInput = {
     sectionId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type BudgetSectionAssigneeCreateManyInput = {
     sectionId: string
     userId: string
+    hourlyRate?: number | null
   }
 
   export type BudgetSectionAssigneeUpdateManyMutationInput = {
-
+    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type BudgetSectionAssigneeUncheckedUpdateManyInput = {
     sectionId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -132893,6 +133087,13 @@ export namespace Prisma {
     not?: NestedEnumRecurrenceIntervalNullableFilter<$PrismaModel> | $Enums.RecurrenceInterval | null
   }
 
+  export type EnumBillableRateStrategyFilter<$PrismaModel = never> = {
+    equals?: $Enums.BillableRateStrategy | EnumBillableRateStrategyFieldRefInput<$PrismaModel>
+    in?: $Enums.BillableRateStrategy[] | ListEnumBillableRateStrategyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BillableRateStrategy[] | ListEnumBillableRateStrategyFieldRefInput<$PrismaModel>
+    not?: NestedEnumBillableRateStrategyFilter<$PrismaModel> | $Enums.BillableRateStrategy
+  }
+
   export type BudgetSectionListRelationFilter = {
     every?: BudgetSectionWhereInput
     some?: BudgetSectionWhereInput
@@ -132923,9 +133124,15 @@ export namespace Prisma {
     scenarioOfId?: SortOrder
     isTemplate?: SortOrder
     deliveredAt?: SortOrder
+    billableRateStrategy?: SortOrder
+    billableRate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     approvalPolicyId?: SortOrder
+  }
+
+  export type BudgetAvgOrderByAggregateInput = {
+    billableRate?: SortOrder
   }
 
   export type BudgetMaxOrderByAggregateInput = {
@@ -132943,6 +133150,8 @@ export namespace Prisma {
     scenarioOfId?: SortOrder
     isTemplate?: SortOrder
     deliveredAt?: SortOrder
+    billableRateStrategy?: SortOrder
+    billableRate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     approvalPolicyId?: SortOrder
@@ -132963,9 +133172,15 @@ export namespace Prisma {
     scenarioOfId?: SortOrder
     isTemplate?: SortOrder
     deliveredAt?: SortOrder
+    billableRateStrategy?: SortOrder
+    billableRate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     approvalPolicyId?: SortOrder
+  }
+
+  export type BudgetSumOrderByAggregateInput = {
+    billableRate?: SortOrder
   }
 
   export type EnumRecurrenceIntervalNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -132976,6 +133191,16 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumRecurrenceIntervalNullableFilter<$PrismaModel>
     _max?: NestedEnumRecurrenceIntervalNullableFilter<$PrismaModel>
+  }
+
+  export type EnumBillableRateStrategyWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BillableRateStrategy | EnumBillableRateStrategyFieldRefInput<$PrismaModel>
+    in?: $Enums.BillableRateStrategy[] | ListEnumBillableRateStrategyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BillableRateStrategy[] | ListEnumBillableRateStrategyFieldRefInput<$PrismaModel>
+    not?: NestedEnumBillableRateStrategyWithAggregatesFilter<$PrismaModel> | $Enums.BillableRateStrategy
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBillableRateStrategyFilter<$PrismaModel>
+    _max?: NestedEnumBillableRateStrategyFilter<$PrismaModel>
   }
 
   export type RateCardItemListRelationFilter = {
@@ -133742,16 +133967,27 @@ export namespace Prisma {
   export type BudgetSectionAssigneeCountOrderByAggregateInput = {
     sectionId?: SortOrder
     userId?: SortOrder
+    hourlyRate?: SortOrder
+  }
+
+  export type BudgetSectionAssigneeAvgOrderByAggregateInput = {
+    hourlyRate?: SortOrder
   }
 
   export type BudgetSectionAssigneeMaxOrderByAggregateInput = {
     sectionId?: SortOrder
     userId?: SortOrder
+    hourlyRate?: SortOrder
   }
 
   export type BudgetSectionAssigneeMinOrderByAggregateInput = {
     sectionId?: SortOrder
     userId?: SortOrder
+    hourlyRate?: SortOrder
+  }
+
+  export type BudgetSectionAssigneeSumOrderByAggregateInput = {
+    hourlyRate?: SortOrder
   }
 
   export type SessionCreateNestedManyWithoutUserInput = {
@@ -141477,6 +141713,10 @@ export namespace Prisma {
     set?: $Enums.RecurrenceInterval | null
   }
 
+  export type EnumBillableRateStrategyFieldUpdateOperationsInput = {
+    set?: $Enums.BillableRateStrategy
+  }
+
   export type ProjectUpdateOneRequiredWithoutBudgetsNestedInput = {
     create?: XOR<ProjectCreateWithoutBudgetsInput, ProjectUncheckedCreateWithoutBudgetsInput>
     connectOrCreate?: ProjectCreateOrConnectWithoutBudgetsInput
@@ -143465,6 +143705,13 @@ export namespace Prisma {
     not?: NestedEnumRecurrenceIntervalNullableFilter<$PrismaModel> | $Enums.RecurrenceInterval | null
   }
 
+  export type NestedEnumBillableRateStrategyFilter<$PrismaModel = never> = {
+    equals?: $Enums.BillableRateStrategy | EnumBillableRateStrategyFieldRefInput<$PrismaModel>
+    in?: $Enums.BillableRateStrategy[] | ListEnumBillableRateStrategyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BillableRateStrategy[] | ListEnumBillableRateStrategyFieldRefInput<$PrismaModel>
+    not?: NestedEnumBillableRateStrategyFilter<$PrismaModel> | $Enums.BillableRateStrategy
+  }
+
   export type NestedEnumRecurrenceIntervalNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.RecurrenceInterval | EnumRecurrenceIntervalFieldRefInput<$PrismaModel> | null
     in?: $Enums.RecurrenceInterval[] | ListEnumRecurrenceIntervalFieldRefInput<$PrismaModel> | null
@@ -143473,6 +143720,16 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumRecurrenceIntervalNullableFilter<$PrismaModel>
     _max?: NestedEnumRecurrenceIntervalNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumBillableRateStrategyWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BillableRateStrategy | EnumBillableRateStrategyFieldRefInput<$PrismaModel>
+    in?: $Enums.BillableRateStrategy[] | ListEnumBillableRateStrategyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BillableRateStrategy[] | ListEnumBillableRateStrategyFieldRefInput<$PrismaModel>
+    not?: NestedEnumBillableRateStrategyWithAggregatesFilter<$PrismaModel> | $Enums.BillableRateStrategy
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBillableRateStrategyFilter<$PrismaModel>
+    _max?: NestedEnumBillableRateStrategyFilter<$PrismaModel>
   }
 
   export type NestedEnumBillingTypeFilter<$PrismaModel = never> = {
@@ -144022,6 +144279,8 @@ export namespace Prisma {
     isScenario?: boolean
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     project: ProjectCreateNestedOneWithoutBudgetsInput
@@ -144049,6 +144308,8 @@ export namespace Prisma {
     scenarioOfId?: string | null
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     approvalPolicyId?: string | null
@@ -144071,11 +144332,13 @@ export namespace Prisma {
   }
 
   export type BudgetSectionAssigneeCreateWithoutUserInput = {
+    hourlyRate?: number | null
     section: BudgetSectionCreateNestedOneWithoutAssigneesInput
   }
 
   export type BudgetSectionAssigneeUncheckedCreateWithoutUserInput = {
     sectionId: string
+    hourlyRate?: number | null
   }
 
   export type BudgetSectionAssigneeCreateOrConnectWithoutUserInput = {
@@ -146090,6 +146353,8 @@ export namespace Prisma {
     scenarioOfId?: StringNullableFilter<"Budget"> | string | null
     isTemplate?: BoolFilter<"Budget"> | boolean
     deliveredAt?: DateTimeNullableFilter<"Budget"> | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFilter<"Budget"> | $Enums.BillableRateStrategy
+    billableRate?: FloatNullableFilter<"Budget"> | number | null
     createdAt?: DateTimeFilter<"Budget"> | Date | string
     updatedAt?: DateTimeFilter<"Budget"> | Date | string
     approvalPolicyId?: StringNullableFilter<"Budget"> | string | null
@@ -146117,6 +146382,7 @@ export namespace Prisma {
     NOT?: BudgetSectionAssigneeScalarWhereInput | BudgetSectionAssigneeScalarWhereInput[]
     sectionId?: StringFilter<"BudgetSectionAssignee"> | string
     userId?: StringFilter<"BudgetSectionAssignee"> | string
+    hourlyRate?: FloatNullableFilter<"BudgetSectionAssignee"> | number | null
   }
 
   export type AbsenceRequestUpsertWithWhereUniqueWithoutUserInput = {
@@ -152896,6 +153162,8 @@ export namespace Prisma {
     isScenario?: boolean
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     owner: UserCreateNestedOneWithoutOwnedBudgetsInput
@@ -152923,6 +153191,8 @@ export namespace Prisma {
     scenarioOfId?: string | null
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     approvalPolicyId?: string | null
@@ -164141,6 +164411,8 @@ export namespace Prisma {
     isScenario?: boolean
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     project: ProjectCreateNestedOneWithoutBudgetsInput
@@ -164169,6 +164441,8 @@ export namespace Prisma {
     scenarioOfId?: string | null
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     scenarios?: BudgetUncheckedCreateNestedManyWithoutScenarioOfInput
@@ -169216,6 +169490,8 @@ export namespace Prisma {
     isScenario?: boolean
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     project: ProjectCreateNestedOneWithoutBudgetsInput
@@ -169244,6 +169520,8 @@ export namespace Prisma {
     scenarioOfId?: string | null
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     approvalPolicyId?: string | null
@@ -169329,6 +169607,8 @@ export namespace Prisma {
     isScenario?: BoolFieldUpdateOperationsInput | boolean
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: ProjectUpdateOneRequiredWithoutBudgetsNestedInput
@@ -169357,6 +169637,8 @@ export namespace Prisma {
     scenarioOfId?: NullableStringFieldUpdateOperationsInput | string | null
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -170622,6 +170904,8 @@ export namespace Prisma {
     isScenario?: boolean
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     project: ProjectCreateNestedOneWithoutBudgetsInput
@@ -170650,6 +170934,8 @@ export namespace Prisma {
     scenarioOfId?: string | null
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     approvalPolicyId?: string | null
@@ -171061,6 +171347,8 @@ export namespace Prisma {
     isScenario?: BoolFieldUpdateOperationsInput | boolean
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: ProjectUpdateOneRequiredWithoutBudgetsNestedInput
@@ -171089,6 +171377,8 @@ export namespace Prisma {
     scenarioOfId?: NullableStringFieldUpdateOperationsInput | string | null
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -174635,6 +174925,8 @@ export namespace Prisma {
     isScenario?: boolean
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     project: ProjectCreateNestedOneWithoutBudgetsInput
@@ -174663,6 +174955,8 @@ export namespace Prisma {
     scenarioOfId?: string | null
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     approvalPolicyId?: string | null
@@ -174690,6 +174984,8 @@ export namespace Prisma {
     isScenario?: boolean
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     project: ProjectCreateNestedOneWithoutBudgetsInput
@@ -174717,6 +175013,8 @@ export namespace Prisma {
     isScenario?: boolean
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     approvalPolicyId?: string | null
@@ -175266,6 +175564,8 @@ export namespace Prisma {
     isScenario?: BoolFieldUpdateOperationsInput | boolean
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: ProjectUpdateOneRequiredWithoutBudgetsNestedInput
@@ -175294,6 +175594,8 @@ export namespace Prisma {
     scenarioOfId?: NullableStringFieldUpdateOperationsInput | string | null
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -175690,6 +175992,8 @@ export namespace Prisma {
     isScenario?: boolean
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     project: ProjectCreateNestedOneWithoutBudgetsInput
@@ -175718,6 +176022,8 @@ export namespace Prisma {
     scenarioOfId?: string | null
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     approvalPolicyId?: string | null
@@ -175755,11 +176061,13 @@ export namespace Prisma {
   }
 
   export type BudgetSectionAssigneeCreateWithoutSectionInput = {
+    hourlyRate?: number | null
     user: UserCreateNestedOneWithoutBudgetSectionAssignmentsInput
   }
 
   export type BudgetSectionAssigneeUncheckedCreateWithoutSectionInput = {
     userId: string
+    hourlyRate?: number | null
   }
 
   export type BudgetSectionAssigneeCreateOrConnectWithoutSectionInput = {
@@ -175915,6 +176223,8 @@ export namespace Prisma {
     isScenario?: BoolFieldUpdateOperationsInput | boolean
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: ProjectUpdateOneRequiredWithoutBudgetsNestedInput
@@ -175943,6 +176253,8 @@ export namespace Prisma {
     scenarioOfId?: NullableStringFieldUpdateOperationsInput | string | null
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -176305,6 +176617,8 @@ export namespace Prisma {
     isScenario?: boolean
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     project: ProjectCreateNestedOneWithoutBudgetsInput
@@ -176333,6 +176647,8 @@ export namespace Prisma {
     scenarioOfId?: string | null
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     approvalPolicyId?: string | null
@@ -176706,6 +177022,8 @@ export namespace Prisma {
     isScenario?: BoolFieldUpdateOperationsInput | boolean
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: ProjectUpdateOneRequiredWithoutBudgetsNestedInput
@@ -176734,6 +177052,8 @@ export namespace Prisma {
     scenarioOfId?: NullableStringFieldUpdateOperationsInput | string | null
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -178696,6 +179016,8 @@ export namespace Prisma {
     isScenario?: boolean
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     project: ProjectCreateNestedOneWithoutBudgetsInput
@@ -178724,6 +179046,8 @@ export namespace Prisma {
     scenarioOfId?: string | null
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     approvalPolicyId?: string | null
@@ -179255,6 +179579,8 @@ export namespace Prisma {
     isScenario?: BoolFieldUpdateOperationsInput | boolean
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: ProjectUpdateOneRequiredWithoutBudgetsNestedInput
@@ -179283,6 +179609,8 @@ export namespace Prisma {
     scenarioOfId?: NullableStringFieldUpdateOperationsInput | string | null
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -181070,6 +181398,8 @@ export namespace Prisma {
     scenarioOfId?: string | null
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     approvalPolicyId?: string | null
@@ -181077,6 +181407,7 @@ export namespace Prisma {
 
   export type BudgetSectionAssigneeCreateManyUserInput = {
     sectionId: string
+    hourlyRate?: number | null
   }
 
   export type AbsenceRequestCreateManyUserInput = {
@@ -181912,6 +182243,8 @@ export namespace Prisma {
     isScenario?: BoolFieldUpdateOperationsInput | boolean
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: ProjectUpdateOneRequiredWithoutBudgetsNestedInput
@@ -181939,6 +182272,8 @@ export namespace Prisma {
     scenarioOfId?: NullableStringFieldUpdateOperationsInput | string | null
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -181964,21 +182299,26 @@ export namespace Prisma {
     scenarioOfId?: NullableStringFieldUpdateOperationsInput | string | null
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type BudgetSectionAssigneeUpdateWithoutUserInput = {
+    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
     section?: BudgetSectionUpdateOneRequiredWithoutAssigneesNestedInput
   }
 
   export type BudgetSectionAssigneeUncheckedUpdateWithoutUserInput = {
     sectionId?: StringFieldUpdateOperationsInput | string
+    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type BudgetSectionAssigneeUncheckedUpdateManyWithoutUserInput = {
     sectionId?: StringFieldUpdateOperationsInput | string
+    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type AbsenceRequestUpdateWithoutUserInput = {
@@ -184240,6 +184580,8 @@ export namespace Prisma {
     scenarioOfId?: string | null
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     approvalPolicyId?: string | null
@@ -184657,6 +184999,8 @@ export namespace Prisma {
     isScenario?: BoolFieldUpdateOperationsInput | boolean
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutOwnedBudgetsNestedInput
@@ -184684,6 +185028,8 @@ export namespace Prisma {
     scenarioOfId?: NullableStringFieldUpdateOperationsInput | string | null
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -184709,6 +185055,8 @@ export namespace Prisma {
     scenarioOfId?: NullableStringFieldUpdateOperationsInput | string | null
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -186945,6 +187293,8 @@ export namespace Prisma {
     scenarioOfId?: string | null
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -186982,6 +187332,8 @@ export namespace Prisma {
     isScenario?: BoolFieldUpdateOperationsInput | boolean
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: ProjectUpdateOneRequiredWithoutBudgetsNestedInput
@@ -187010,6 +187362,8 @@ export namespace Prisma {
     scenarioOfId?: NullableStringFieldUpdateOperationsInput | string | null
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     scenarios?: BudgetUncheckedUpdateManyWithoutScenarioOfNestedInput
@@ -187035,6 +187389,8 @@ export namespace Prisma {
     scenarioOfId?: NullableStringFieldUpdateOperationsInput | string | null
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -187569,6 +187925,8 @@ export namespace Prisma {
     isScenario?: boolean
     isTemplate?: boolean
     deliveredAt?: Date | string | null
+    billableRateStrategy?: $Enums.BillableRateStrategy
+    billableRate?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     approvalPolicyId?: string | null
@@ -187661,6 +188019,8 @@ export namespace Prisma {
     isScenario?: BoolFieldUpdateOperationsInput | boolean
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: ProjectUpdateOneRequiredWithoutBudgetsNestedInput
@@ -187688,6 +188048,8 @@ export namespace Prisma {
     isScenario?: BoolFieldUpdateOperationsInput | boolean
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -187713,6 +188075,8 @@ export namespace Prisma {
     isScenario?: BoolFieldUpdateOperationsInput | boolean
     isTemplate?: BoolFieldUpdateOperationsInput | boolean
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    billableRateStrategy?: EnumBillableRateStrategyFieldUpdateOperationsInput | $Enums.BillableRateStrategy
+    billableRate?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -188197,6 +188561,7 @@ export namespace Prisma {
 
   export type BudgetSectionAssigneeCreateManySectionInput = {
     userId: string
+    hourlyRate?: number | null
   }
 
   export type TimeEntryCreateManyBudgetSectionInput = {
@@ -188244,15 +188609,18 @@ export namespace Prisma {
   }
 
   export type BudgetSectionAssigneeUpdateWithoutSectionInput = {
+    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
     user?: UserUpdateOneRequiredWithoutBudgetSectionAssignmentsNestedInput
   }
 
   export type BudgetSectionAssigneeUncheckedUpdateWithoutSectionInput = {
     userId?: StringFieldUpdateOperationsInput | string
+    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type BudgetSectionAssigneeUncheckedUpdateManyWithoutSectionInput = {
     userId?: StringFieldUpdateOperationsInput | string
+    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type TimeEntryUpdateWithoutBudgetSectionInput = {
