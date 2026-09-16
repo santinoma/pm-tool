@@ -41,6 +41,13 @@ dann die übrigen.
 
 ## Phase 2 — Große Lücken
 
+Ausführungsreihenfolge innerhalb der Phase (angepasst 16.09.2026, autonome Umsetzung):
+zuerst die gut abgegrenzten, additiven Punkte (Settings-Felder, Custom-Fields-Flags,
+Sitzplatz-Limit) — dort ist die richtige Lösung eindeutig und risikoarm. Der generische
+Filter-Builder (Punkt 1) ist dagegen eine echte UI/UX-Design-Entscheidung mit großer
+Oberfläche (neues Datenmodell, mehrere Consumer-Screens) — wird zuletzt in dieser Phase
+angegangen, mit kleineren, einzeln verifizierbaren Schritten statt eines großen Wurfs.
+
 1. **Views, Layouts & Filters (Neubau)**:
    - Generischer Filter-Builder mit AND/OR-Gruppen und Operatoren (=, ≠, >, <, enthält,
      ist leer …), ersetzt die bisherigen Einzel-Dropdown-Filter.
