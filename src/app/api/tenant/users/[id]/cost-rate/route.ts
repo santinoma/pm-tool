@@ -8,13 +8,13 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   if (!context?.currentUser) {
     return NextResponse.json({ error: "Nicht angemeldet." }, { status: 401 });
   }
-  const canManageBudgets = await hasEffectivePermission(
+  const canManageCostRates = await hasEffectivePermission(
     context.tenantDb,
     context.currentUser,
     context.entitledFeatures,
-    "budgets_manage",
+    "cost_rates_manage",
   );
-  if (!canManageBudgets) {
+  if (!canManageCostRates) {
     return NextResponse.json({ error: "Keine Berechtigung." }, { status: 403 });
   }
 

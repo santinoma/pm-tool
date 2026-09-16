@@ -982,8 +982,9 @@ model CustomFieldDef {
   /// erstellung selbst — Custom-Field-Werte werden in dieser Codebase immer
   /// erst nach der Erstellung über einen eigenen Aufruf gesetzt, nicht inline.
   required           Boolean                    @default(false)
-  /// Werte eines sensiblen Felds werden beim Laden nur an Personen mit
-  /// `canManageMembers` ausgeliefert (siehe getEffectiveCustomFields-Aufrufer).
+  /// Werte eines sensiblen Felds werden beim Laden nur an Personen mit der
+  /// Berechtigung `employee_fields_sensitive_view` ausgeliefert (siehe
+  /// getEffectiveCustomFields-Aufrufer).
   sensitive          Boolean                    @default(false)
   /// Nur für Library-Felder (library=true) relevant: wird bei jedem neuen
   /// Projekt automatisch per ProjectCustomField angehängt, statt manuell

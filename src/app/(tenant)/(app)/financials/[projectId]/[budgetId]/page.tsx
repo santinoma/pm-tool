@@ -10,6 +10,7 @@ import { computeCurrentPeriod } from "@/tenant/retainer/period";
 import { computeSectionBurn } from "@/tenant/retainer/burn";
 import { getEffectiveRateCardItems } from "@/tenant/financials/rateCards";
 import { getEffectiveCustomFields } from "@/tenant/customFields/library";
+import { hasEffectivePermission } from "@/tenant/permissions/resolvePermissions";
 
 export const dynamic = "force-dynamic";
 
@@ -101,9 +102,16 @@ export default async function BudgetDetailPage({
   }
 
   const canManage = canManageMembers(context.currentUser.role);
-  // Sensible Felder werden nur an Personen mit Verwaltungsrechten ausgeliefert —
-  // sie fehlen für alle anderen komplett, statt nur verschleiert angezeigt zu werden.
-  const visibleCustomFieldDefs = customFieldDefs.filter((field) => !field.sensitive || canManage);
+  const canViewSensitiveFields = await hasEffectivePermission(
+    context.tenantDb,
+    context.currentUser,
+    context.entitledFeatures,
+    "employee_fields_sensitive_view",
+  );
+  // Sensible Felder werden nur an Personen mit der entsprechenden Berechtigung
+  // ausgeliefert — sie fehlen für alle anderen komplett, statt nur verschleiert
+  // angezeigt zu werden.
+  const visibleCustomFieldDefs = customFieldDefs.filter((field) => !field.sensitive || canViewSensitiveFields);
   const visibleFieldIds = new Set(visibleCustomFieldDefs.map((field) => field.id));
 
   return (

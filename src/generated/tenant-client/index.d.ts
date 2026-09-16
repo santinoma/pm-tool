@@ -74153,8 +74153,9 @@ export namespace Prisma {
        */
       required: boolean
       /**
-       * Werte eines sensiblen Felds werden beim Laden nur an Personen mit
-       * `canManageMembers` ausgeliefert (siehe getEffectiveCustomFields-Aufrufer).
+       * Werte eines sensiblen Felds werden beim Laden nur an Personen mit der
+       * Berechtigung `employee_fields_sensitive_view` ausgeliefert (siehe
+       * getEffectiveCustomFields-Aufrufer).
        */
       sensitive: boolean
       /**

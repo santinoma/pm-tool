@@ -1,8 +1,8 @@
 import { canViewPrivateTask } from "@/tenant/projectAccess/privateTaskFilter";
-import { canManageMembers } from "@/tenant/auth/roleGuard";
 import { resolveLinkedTasks } from "@/tenant/taskLinks/taskLinkView";
 import { getEffectiveCustomFields } from "@/tenant/customFields/library";
 import { getOrCreateSystemTaskFields } from "@/tenant/customFields/systemTaskFields";
+import { hasEffectivePermission } from "@/tenant/permissions/resolvePermissions";
 import type { getTenantContext } from "@/tenant/context";
 
 type TenantContext = NonNullable<Awaited<ReturnType<typeof getTenantContext>>>;
@@ -12,6 +12,13 @@ export async function loadTaskDetail(context: TenantContext, projectId: string, 
   if (!currentUser) {
     return { notFound: true as const };
   }
+
+  const canViewSensitiveFields = await hasEffectivePermission(
+    context.tenantDb,
+    currentUser,
+    context.entitledFeatures,
+    "employee_fields_sensitive_view",
+  );
 
   await getOrCreateSystemTaskFields(context.tenantDb);
 
@@ -128,7 +135,7 @@ export async function loadTaskDetail(context: TenantContext, projectId: string, 
       // Verwaltungsrechten ausgeliefert — sie fehlen für alle anderen komplett,
       // statt nur verschleiert angezeigt zu werden.
       customValues: task.customValues
-        .filter((v) => !v.field.sensitive || canManageMembers(currentUser.role))
+        .filter((v) => !v.field.sensitive || canViewSensitiveFields)
         .map((v) => ({
           fieldId: v.fieldId,
           label: v.field.label,

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
-import { canManageMembers } from "@/tenant/auth/roleGuard";
+import { hasEffectivePermission } from "@/tenant/permissions/resolvePermissions";
 import { resolveProjectIdForInvoice } from "@/tenant/projectAccess/resolveProjectMembership";
 import { assertSingleProjectAccess } from "@/tenant/projectAccess/assertProjectAccess";
 
@@ -36,7 +36,13 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     await resolveProjectIdForInvoice(context.tenantDb, id),
   );
   if (denied) return denied;
-  if (!canManageMembers(context.currentUser.role)) {
+  const canManageInvoicing = await hasEffectivePermission(
+    context.tenantDb,
+    context.currentUser,
+    context.entitledFeatures,
+    "invoicing_manage",
+  );
+  if (!canManageInvoicing) {
     return NextResponse.json({ error: "Keine Berechtigung." }, { status: 403 });
   }
 

@@ -107,10 +107,25 @@ Task weitermachen — nicht die ganze Phase anhalten.
 
 ## Phase 3 — Bestehendes verbreitern
 
-- [ ] T301 Permission-Katalog: Invoicing-Rechte ergänzen
-- [ ] T302 Permission-Katalog: Kostensatz-Rechte ergänzen
-- [ ] T303 Permission-Katalog: Employee-Field-Sensitivität ergänzen
-- [ ] T304 Permission-Katalog: Manager- vs. Profitability-Manager-Trennung
+- [x] T301 Permission-Katalog: Invoicing-Rechte ergänzen — neues
+      `invoicing_manage`, ersetzt das hartkodierte `canManageMembers` in
+      allen 4 Rechnungs-Routen (Invoice erstellen/PATCH, Credit Notes,
+      Payments)
+- [x] T302 Permission-Katalog: Kostensatz-Rechte ergänzen — neues
+      `cost_rates_manage`, ersetzt `budgets_manage` in der
+      Kostensatz-PATCH-Route. Breitere View-Gating von Profitabilitäts-
+      Anzeigen quer durchs Produkt (Marge/Kosten-Badges o. Ä.) bewusst
+      nicht Teil dieser Änderung — das wäre ein eigener, größerer Audit,
+      kein einzelner Berechtigungs-Fix.
+- [x] T303 Permission-Katalog: Employee-Field-Sensitivität ergänzen — neues
+      `employee_fields_sensitive_view`, ersetzt `canManageMembers` in allen
+      drei Sensitive-Field-Filterstellen aus T221 (Task-Detail, Budget-
+      Detail, Wiki-Page)
+- [x] T304 Permission-Katalog: Manager- vs. Profitability-Manager-Trennung —
+      `invoicing_manage` und `cost_rates_manage` sind unabhängig voneinander
+      vergebbar (beide hängen nur von `budgets_manage` ab, nicht
+      voneinander) — genau das bildet die Trennung ab, siehe Tests in
+      `customRoles.test.ts`
 - [ ] T305 Automations: weitere Objekttypen (Budget, Deal, Invoice)
 - [ ] T306 Automations: echtes Attribut/Vergleichsoperator-Bedingungssystem
 - [ ] T307 Automations: echter Scheduler statt Pull-on-Page-Load
