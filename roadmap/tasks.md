@@ -32,8 +32,12 @@ Task weitermachen — nicht die ganze Phase anhalten.
       `__ME__`-Auflösung über verschachtelte Gruppen hinweg). UI-Anbindung an
       ListClient.tsx/MyTasksClient.tsx folgt in T202 — der Evaluator ersetzt
       noch nichts Bestehendes, `resolveViewFilters.ts` bleibt vorerst aktiv.
-- [ ] T202 Filter-Builder — UI-Komponente, ersetzt Einzel-Dropdown-Filter in
-      ListClient.tsx / MyTasksClient.tsx
+- [x] T202 Filter-Builder — UI-Komponente, ersetzt Einzel-Dropdown-Filter in
+      ListClient.tsx / MyTasksClient.tsx (`FilterBuilderPopover`, V1 als eine
+      flache AND/OR-Gruppe — Nesting ist im Evaluator (T201) bereits möglich,
+      UI dafür bewusst zurückgestellt, bis mehr Felder das rechtfertigen).
+      Alte `{statusFilter}`-SavedViews werden über `parseFilterConfig`
+      rückwärtskompatibel gelesen.
 - [ ] T203 Spaltenkonfiguration (hinzufügen/entfernen/umsortieren)
 - [ ] T204 `SavedView` auf Budgets ausweiten
 - [ ] T205 `SavedView` auf Zeit-Ansichten ausweiten

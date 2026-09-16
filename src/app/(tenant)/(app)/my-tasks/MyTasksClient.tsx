@@ -6,12 +6,15 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { LegendKey } from "@/ui/components/LegendKey";
 import { buildMonthGrid, getUtcDateKey } from "@/tenant/projects/dateUtils";
 import { SavedViewsBar, type SavedViewRecord } from "@/ui/components/SavedViewsBar";
-import { resolveViewFilters } from "@/tenant/savedViews/resolveViewFilters";
+import { FilterBuilderPopover, type FilterFieldOption } from "@/ui/components/FilterBuilderPopover";
+import { evaluateFilterNode, resolveDynamicPlaceholders, parseFilterConfig, type FilterGroup } from "@/tenant/views/filterEngine";
 
 import { Button } from "@/ui/shadcn/components/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
 import { cn } from "@/ui/shadcn/lib/utils";
+
+const EMPTY_FILTER_GROUP: FilterGroup = { logic: "AND", rules: [] };
 
 interface MyTask {
   id: string;
@@ -45,18 +48,28 @@ export function MyTasksClient({
 }) {
   const [view, setView] = useState<ViewMode>("list");
   const [sortKey, setSortKey] = useState<SortKey>("dueDate");
-  const [statusFilter, setStatusFilter] = useState<string>("");
+  const [filterGroup, setFilterGroup] = useState<FilterGroup>(EMPTY_FILTER_GROUP);
 
   const statuses = useMemo(() => Array.from(new Set(tasks.map((t) => t.status))), [tasks]);
+  const filterFields: FilterFieldOption[] = useMemo(
+    () => [
+      { value: "status", label: "Status", type: "select", options: statuses.map((s) => ({ value: s, label: s })) },
+      {
+        value: "projectName",
+        label: "Projekt",
+        type: "select",
+        options: Array.from(new Set(tasks.map((t) => t.projectName))).map((name) => ({ value: name, label: name })),
+      },
+    ],
+    [statuses, tasks],
+  );
 
   function applySavedView(savedView: SavedViewRecord) {
     if (savedView.viewType === "list" || savedView.viewType === "board" || savedView.viewType === "calendar") {
       setView(savedView.viewType);
     }
-    const resolvedFilters = resolveViewFilters(savedView.filterConfig, currentUserId);
-    if (typeof resolvedFilters.statusFilter === "string") {
-      setStatusFilter(resolvedFilters.statusFilter);
-    }
+    const parsedGroup = parseFilterConfig(savedView.filterConfig);
+    setFilterGroup(resolveDynamicPlaceholders(parsedGroup, currentUserId) as FilterGroup);
     const sortConfig = savedView.sortConfig ?? {};
     if (typeof sortConfig.sortKey === "string") {
       setSortKey(sortConfig.sortKey as SortKey);
@@ -64,13 +77,15 @@ export function MyTasksClient({
   }
 
   const visibleTasks = useMemo(() => {
-    const filtered = statusFilter ? tasks.filter((t) => t.status === statusFilter) : tasks;
+    const filtered = tasks.filter((t) =>
+      evaluateFilterNode(filterGroup, (field) => (field === "status" ? t.status : field === "projectName" ? t.projectName : undefined)),
+    );
     return [...filtered].sort((a, b) => {
       const aValue = a[sortKey] ?? "";
       const bValue = b[sortKey] ?? "";
       return aValue.localeCompare(bValue);
     });
-  }, [tasks, sortKey, statusFilter]);
+  }, [tasks, sortKey, filterGroup]);
 
   return (
     <div className="pb-10">
@@ -106,17 +121,7 @@ export function MyTasksClient({
                   <SelectItem value="dueDate">Sortieren: Fälligkeit</SelectItem>
                 </SelectContent>
               </Select>
-              <Select value={statusFilter || "__all__"} onValueChange={(value) => setStatusFilter(value === "__all__" ? "" : value)}>
-                <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="__all__">Alle Status</SelectItem>
-                  {statuses.map((status) => (
-                    <SelectItem key={status} value={status}>
-                      {status}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <FilterBuilderPopover fields={filterFields} value={filterGroup} onChange={setFilterGroup} />
             </>
           )}
         </div>
@@ -130,7 +135,7 @@ export function MyTasksClient({
           allowSharing={false}
           getCurrentConfig={() => ({
             viewType: view,
-            filterConfig: { statusFilter },
+            filterConfig: filterGroup as unknown as Record<string, unknown>,
             sortConfig: { sortKey },
           })}
           onApply={applySavedView}

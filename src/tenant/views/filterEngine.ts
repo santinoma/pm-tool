@@ -84,6 +84,24 @@ export function evaluateFilterNode(node: FilterNode, getFieldValue: (field: stri
   return evaluateCondition(node, getFieldValue);
 }
 
+const EMPTY_FILTER_GROUP: FilterGroup = { logic: "AND", rules: [] };
+
+/**
+ * Reads a SavedView's persisted `filterConfig` (a plain JSON blob) as a FilterGroup.
+ * Also accepts the older, pre-filter-builder flat shape (`{statusFilter: "..."}`, still
+ * possibly stored on views saved before this module existed) by converting it into an
+ * equivalent single-condition group, so old saved views keep working unmigrated.
+ */
+export function parseFilterConfig(filterConfig: Record<string, unknown>): FilterGroup {
+  if (filterConfig.logic === "AND" || filterConfig.logic === "OR") {
+    return filterConfig as unknown as FilterGroup;
+  }
+  if (typeof filterConfig.statusFilter === "string" && filterConfig.statusFilter.length > 0) {
+    return { logic: "AND", rules: [{ field: "status", operator: "equals", value: filterConfig.statusFilter }] };
+  }
+  return EMPTY_FILTER_GROUP;
+}
+
 /**
  * "Dynamic Me filter" (see the older flat resolveViewFilters.ts): a saved,
  * shared view's condition value may be the literal string "__ME__" instead of

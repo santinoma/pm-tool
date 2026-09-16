@@ -3,6 +3,7 @@ import {
   evaluateCondition,
   evaluateFilterNode,
   isFilterGroup,
+  parseFilterConfig,
   resolveDynamicPlaceholders,
   type FilterGroup,
 } from "../src/tenant/views/filterEngine";
@@ -124,6 +125,25 @@ describe("filterEngine: isFilterGroup", () => {
   it("distinguishes conditions from groups", () => {
     expect(isFilterGroup({ field: "status", operator: "equals", value: "x" })).toBe(false);
     expect(isFilterGroup({ logic: "AND", rules: [] })).toBe(true);
+  });
+});
+
+describe("filterEngine: parseFilterConfig", () => {
+  it("passes a current-shape FilterGroup through unchanged", () => {
+    const group: FilterGroup = { logic: "OR", rules: [{ field: "status", operator: "equals", value: "done" }] };
+    expect(parseFilterConfig(group as unknown as Record<string, unknown>)).toEqual(group);
+  });
+
+  it("converts a legacy flat {statusFilter} shape into an equivalent single-condition group", () => {
+    expect(parseFilterConfig({ statusFilter: "In Progress" })).toEqual({
+      logic: "AND",
+      rules: [{ field: "status", operator: "equals", value: "In Progress" }],
+    });
+  });
+
+  it("returns an empty AND group for an empty or unrecognized config", () => {
+    expect(parseFilterConfig({})).toEqual({ logic: "AND", rules: [] });
+    expect(parseFilterConfig({ statusFilter: "" })).toEqual({ logic: "AND", rules: [] });
   });
 });
 
