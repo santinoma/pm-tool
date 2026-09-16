@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, ChevronRight, Umbrella } from "lucide-react";
-import type { UserWeekSummary, DaySummary } from "@/tenant/companyTime/weekSummary";
+import type { UserWeekSummary, DaySummary, TimesheetStatus } from "@/tenant/companyTime/weekSummary";
 
+import { Badge } from "@/ui/shadcn/components/badge";
 import { Button } from "@/ui/shadcn/components/button";
 import { Card } from "@/ui/shadcn/components/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/ui/shadcn/components/dialog";
@@ -12,6 +13,18 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { cn } from "@/ui/shadcn/lib/utils";
 
 const DAY_LABELS = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
+
+const TIMESHEET_STATUS_LABEL: Record<TimesheetStatus, string> = {
+  not_submitted: "Nicht eingereicht",
+  partially_submitted: "Teilweise eingereicht",
+  submitted: "Eingereicht",
+};
+
+const TIMESHEET_STATUS_VARIANT: Record<TimesheetStatus, "destructiveOutline" | "warningOutline" | "successOutline"> = {
+  not_submitted: "destructiveOutline",
+  partially_submitted: "warningOutline",
+  submitted: "successOutline",
+};
 
 function formatDayLabel(date: string, index: number): string {
   const [, month, day] = date.split("-");
@@ -59,6 +72,7 @@ export function CompanyTimeClient({
           <TableHeader>
             <TableRow>
               <TableHead>Person</TableHead>
+              <TableHead>Timesheet-Status</TableHead>
               {weekDates.map((date, index) => (
                 <TableHead key={date} className="text-center">
                   {formatDayLabel(date, index)}
@@ -71,6 +85,9 @@ export function CompanyTimeClient({
             {summary.map((row) => (
               <TableRow key={row.userId}>
                 <TableCell>{row.userLabel}</TableCell>
+                <TableCell>
+                  <Badge variant={TIMESHEET_STATUS_VARIANT[row.timesheetStatus]}>{TIMESHEET_STATUS_LABEL[row.timesheetStatus]}</Badge>
+                </TableCell>
                 {row.days.map((day) => (
                   <TableCell
                     key={day.date}

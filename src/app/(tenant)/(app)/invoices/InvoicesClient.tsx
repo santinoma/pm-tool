@@ -60,8 +60,15 @@ export function InvoicesClient({ invoices }: { invoices: InvoiceRow[] }) {
 
   return (
     <div className="py-6">
-      <h1 className="mb-1 text-2xl font-bold tracking-tight">Rechnungen</h1>
-      <p className="mb-6 text-sm text-muted-foreground">Alle Rechnungen projektübergreifend.</p>
+      <div className="mb-1 flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-2xl font-bold tracking-tight">Rechnungen</h1>
+        <Link href="/financials" className="text-sm text-primary hover:underline">
+          Neue Rechnung im Budget erstellen →
+        </Link>
+      </div>
+      <p className="mb-6 text-sm text-muted-foreground">
+        Alle Rechnungen projektübergreifend. Rechnungen werden innerhalb eines Budgets erstellt.
+      </p>
 
       <div className="mb-4 flex flex-wrap gap-3">
         <Input
@@ -83,8 +90,13 @@ export function InvoicesClient({ invoices }: { invoices: InvoiceRow[] }) {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="rounded-lg border py-14 text-center">
+        <div className="flex flex-col items-center gap-2 rounded-lg border py-14 text-center">
           <h3 className="font-semibold">{query ? "Keine Treffer" : "Noch keine Rechnungen"}</h3>
+          {!query && (
+            <Link href="/financials" className="text-sm text-primary hover:underline">
+              Zu Financials, um ein Budget mit Rechnung anzulegen →
+            </Link>
+          )}
         </div>
       ) : (
         <div className="overflow-hidden rounded-lg border">

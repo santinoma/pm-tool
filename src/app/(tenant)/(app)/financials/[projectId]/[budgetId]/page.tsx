@@ -9,6 +9,7 @@ import { RetainerBurnPanel } from "./RetainerBurnPanel";
 import { computeCurrentPeriod } from "@/tenant/retainer/period";
 import { computeSectionBurn } from "@/tenant/retainer/burn";
 import { getEffectiveRateCardItems } from "@/tenant/financials/rateCards";
+import { getEffectiveCustomFields } from "@/tenant/customFields/library";
 
 export const dynamic = "force-dynamic";
 
@@ -50,7 +51,7 @@ export default async function BudgetDetailPage({
       }),
       context.tenantDb.serviceType.findMany({ orderBy: { name: "asc" } }),
       getEffectiveRateCardItems(context.tenantDb, project?.clientId ?? null),
-      context.tenantDb.customFieldDef.findMany({ where: { projectId, entityType: "budget" } }),
+      getEffectiveCustomFields(context.tenantDb, projectId, "budget"),
       context.tenantDb.budget.findMany({
         where: { scenarioOfId: budgetId },
         include: { owner: true, sections: true },

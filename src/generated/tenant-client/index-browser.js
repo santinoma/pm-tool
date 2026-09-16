@@ -552,7 +552,8 @@ exports.Prisma.TimeEntryScalarFieldEnum = {
   approvalStatus: 'approvalStatus',
   approvedById: 'approvedById',
   approvedAt: 'approvedAt',
-  loggedForUserId: 'loggedForUserId'
+  loggedForUserId: 'loggedForUserId',
+  submittedAt: 'submittedAt'
 };
 
 exports.Prisma.TimesheetLockScalarFieldEnum = {
@@ -622,11 +623,19 @@ exports.Prisma.TaskLinkScalarFieldEnum = {
 exports.Prisma.CustomFieldDefScalarFieldEnum = {
   id: 'id',
   projectId: 'projectId',
+  library: 'library',
   entityType: 'entityType',
   key: 'key',
   label: 'label',
   type: 'type',
   options: 'options'
+};
+
+exports.Prisma.ProjectCustomFieldScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  fieldId: 'fieldId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.CustomFieldValueScalarFieldEnum = {
@@ -1261,6 +1270,7 @@ exports.Prisma.ModelName = {
   TaskDependency: 'TaskDependency',
   TaskLink: 'TaskLink',
   CustomFieldDef: 'CustomFieldDef',
+  ProjectCustomField: 'ProjectCustomField',
   CustomFieldValue: 'CustomFieldValue',
   BudgetCustomFieldValue: 'BudgetCustomFieldValue',
   WikiPageCustomFieldValue: 'WikiPageCustomFieldValue',

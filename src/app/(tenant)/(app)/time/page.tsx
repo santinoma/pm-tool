@@ -69,7 +69,7 @@ export default async function TimePage() {
     context.tenantDb.timesheetLock.findMany({ where: { userId } }),
     isPrivileged
       ? context.tenantDb.timeEntry.findMany({
-          where: { approvalStatus: "pending" },
+          where: { approvalStatus: "pending", submittedAt: { not: null } },
           include: { user: true, task: true, project: true },
           orderBy: { createdAt: "desc" },
           take: 50,
@@ -106,6 +106,7 @@ export default async function TimePage() {
         durationMinutes: entry.durationMinutes ?? 0,
         description: entry.description,
         approvalStatus: entry.approvalStatus,
+        submitted: entry.submittedAt !== null,
         locked: isDateLocked(getEntryDate(entry), myLocks),
         date: getEntryDate(entry).toISOString(),
         taskId: entry.taskId,

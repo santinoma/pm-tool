@@ -1,3 +1,7 @@
+import { computeTimesheetStatus, type TimesheetStatus } from "@/tenant/timeTracking/submission";
+
+export type { TimesheetStatus };
+
 export interface WeekSummaryUser {
   id: string;
   name: string | null;
@@ -12,6 +16,7 @@ export interface WeekSummaryEntry {
   serviceLabel: string | null;
   timeRange: string | null; // e.g. "08:15–08:30", null for pure-duration timer entries
   description: string | null;
+  submitted: boolean;
 }
 
 export interface WeekSummaryAbsence {
@@ -32,6 +37,7 @@ export interface UserWeekSummary {
   userLabel: string;
   days: DaySummary[];
   totalHours: number;
+  timesheetStatus: TimesheetStatus;
 }
 
 function round2(value: number): number {
@@ -59,11 +65,17 @@ export function buildWeekSummary(
       return { date, hours, isAbsence, entries: dayEntries };
     });
 
+    const timesheetStatus = computeTimesheetStatus(
+      userEntries.length,
+      userEntries.filter((entry) => entry.submitted).length,
+    );
+
     return {
       userId: user.id,
       userLabel: user.name ?? user.email,
       days,
       totalHours: round2(totalHours),
+      timesheetStatus,
     };
   });
 }

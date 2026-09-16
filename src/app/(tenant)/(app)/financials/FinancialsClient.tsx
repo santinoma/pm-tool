@@ -2,12 +2,19 @@
 
 import { Fragment, useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 
 import { Badge } from "@/ui/shadcn/components/badge";
 import { Progress } from "@/ui/shadcn/components/progress";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
 import { cn } from "@/ui/shadcn/lib/utils";
+
+interface ProjectOption {
+  id: string;
+  name: string;
+}
 
 interface BudgetRow {
   id: string;
@@ -53,7 +60,35 @@ function currencyFormat(value: number): string {
   return new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(value);
 }
 
-export function FinancialsClient({ budgets }: { budgets: BudgetRow[] }) {
+// Budgets are created per-project (see /financials/[projectId]), so "New Budget"
+// here is really "pick a project" — the only route into that project-scoped page.
+function NewBudgetPicker({ projects }: { projects: ProjectOption[] }) {
+  const router = useRouter();
+  const [projectId, setProjectId] = useState("");
+
+  return (
+    <Select
+      value={projectId}
+      onValueChange={(value) => {
+        setProjectId(value);
+        router.push(`/financials/${value}`);
+      }}
+    >
+      <SelectTrigger className="w-56">
+        <SelectValue placeholder="Neues Budget: Projekt wählen…" />
+      </SelectTrigger>
+      <SelectContent>
+        {projects.map((project) => (
+          <SelectItem key={project.id} value={project.id}>
+            {project.name}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+}
+
+export function FinancialsClient({ budgets, projects }: { budgets: BudgetRow[]; projects: ProjectOption[] }) {
   const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set());
 
   // Reference §03 "Kopf-Totale": aggregate summary over every visible budget —
@@ -92,12 +127,21 @@ export function FinancialsClient({ budgets }: { budgets: BudgetRow[] }) {
 
   return (
     <div className="pb-10">
-      <h1 className="mb-1 text-2xl font-bold tracking-tight">Financials</h1>
+      <div className="mb-1 flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-2xl font-bold tracking-tight">Financials</h1>
+        {projects.length > 0 && <NewBudgetPicker projects={projects} />}
+      </div>
       <p className="mb-6 text-sm text-muted-foreground">Alle Budgets, gruppiert nach Projekttyp.</p>
 
       {budgets.length === 0 ? (
-        <div className="rounded-lg border py-14 text-center">
+        <div className="flex flex-col items-center gap-3 rounded-lg border py-14 text-center">
           <h3 className="font-semibold">Noch keine Budgets</h3>
+          {projects.length > 0 && (
+            <>
+              <p className="text-sm text-muted-foreground">Wähle ein Projekt, um dessen erstes Budget anzulegen.</p>
+              <NewBudgetPicker projects={projects} />
+            </>
+          )}
         </div>
       ) : (
         <>

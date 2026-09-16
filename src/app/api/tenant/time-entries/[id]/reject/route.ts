@@ -21,6 +21,10 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     return NextResponse.json({ error: "Zeiteintrag nicht gefunden." }, { status: 404 });
   }
 
+  if (existing.submittedAt === null) {
+    return NextResponse.json({ error: "Eintrag wurde noch nicht eingereicht." }, { status: 409 });
+  }
+
   const locks = await context.tenantDb.timesheetLock.findMany({ where: { userId: existing.userId } });
   if (findCoveringLock(getEntryDate(existing), locks)) {
     return NextResponse.json({ error: "Zeiterfassungsperiode ist gesperrt." }, { status: 409 });

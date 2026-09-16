@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getTenantContext } from "@/tenant/context";
 import { privateTaskVisibilityFilter } from "@/tenant/projectAccess/privateTaskFilter";
+import { getEffectiveCustomFields } from "@/tenant/customFields/library";
 import { BoardClient } from "./BoardClient";
 
 export const dynamic = "force-dynamic";
@@ -28,7 +29,7 @@ export default async function BoardPage({ params }: { params: Promise<{ id: stri
       orderBy: { position: "asc" },
     }),
     context.tenantDb.user.findMany({ where: { isActive: true }, orderBy: { createdAt: "asc" } }),
-    context.tenantDb.customFieldDef.findMany({ where: { projectId: id, entityType: "task" } }),
+    getEffectiveCustomFields(context.tenantDb, id, "task"),
     context.tenantDb.task.findMany({
       where: { isTemplate: true, projects: { some: { projectId: id } } },
       orderBy: { title: "asc" },

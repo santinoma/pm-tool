@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getTenantContext } from "@/tenant/context";
 import { renderMarkdownSafe } from "@/tenant/collaboration/markdown";
 import { canManageMembers } from "@/tenant/auth/roleGuard";
+import { getEffectiveCustomFields } from "@/tenant/customFields/library";
 import { WikiPageClient } from "./WikiPageClient";
 
 export const dynamic = "force-dynamic";
@@ -25,7 +26,7 @@ export default async function WikiPageView({
   const canManage = canManageMembers(context.currentUser.role);
 
   const [customFieldDefs, customValues, sharedLinks, siblingPages] = await Promise.all([
-    context.tenantDb.customFieldDef.findMany({ where: { projectId: id, entityType: "wiki_page" } }),
+    getEffectiveCustomFields(context.tenantDb, id, "wiki_page"),
     context.tenantDb.wikiPageCustomFieldValue.findMany({ where: { wikiPageId: pageId } }),
     canManage
       ? context.tenantDb.sharedWikiLink.findMany({ where: { wikiPageId: pageId }, orderBy: { createdAt: "desc" } })

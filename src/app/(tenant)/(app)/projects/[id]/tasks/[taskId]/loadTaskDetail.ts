@@ -1,5 +1,6 @@
 import { canViewPrivateTask } from "@/tenant/projectAccess/privateTaskFilter";
 import { resolveLinkedTasks } from "@/tenant/taskLinks/taskLinkView";
+import { getEffectiveCustomFields } from "@/tenant/customFields/library";
 import type { getTenantContext } from "@/tenant/context";
 
 type TenantContext = NonNullable<Awaited<ReturnType<typeof getTenantContext>>>;
@@ -46,7 +47,7 @@ export async function loadTaskDetail(context: TenantContext, projectId: string, 
       include: { lists: { orderBy: { position: "asc" } } },
       orderBy: { position: "asc" },
     }),
-    context.tenantDb.customFieldDef.findMany({ where: { projectId, entityType: "task" } }),
+    getEffectiveCustomFields(context.tenantDb, projectId, "task"),
   ]);
 
   const taskLists = folders.flatMap((folder) =>

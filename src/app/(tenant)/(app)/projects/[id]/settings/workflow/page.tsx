@@ -3,6 +3,7 @@ import { getTenantContext } from "@/tenant/context";
 import { canManageMembers } from "@/tenant/auth/roleGuard";
 import { WorkflowEditorClient } from "./WorkflowEditorClient";
 import { ProjectTeamPanel } from "./ProjectTeamPanel";
+import { getAllEffectiveCustomFields } from "@/tenant/customFields/library";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +23,7 @@ export default async function WorkflowSettingsPage({
       where: { workflow: { projects: { some: { id } } } },
       orderBy: { position: "asc" },
     }),
-    context.tenantDb.customFieldDef.findMany({ where: { projectId: id } }),
+    getAllEffectiveCustomFields(context.tenantDb, id),
     context.tenantDb.transitionRule.findMany({
       where: { projectId: id },
       include: { fromStatus: true, toStatus: true },
