@@ -16,8 +16,11 @@ import { cn } from "@/ui/shadcn/lib/utils";
 const TABS = [
   { segment: "list", label: "Liste" },
   { segment: "board", label: "Board" },
+  { segment: "table", label: "Tabelle" },
   { segment: "calendar", label: "Kalender" },
   { segment: "gantt", label: "Gantt" },
+  { segment: "timeline", label: "Timeline" },
+  { segment: "workload", label: "Workload" },
   { segment: "hill-chart", label: "Hill Chart" },
   { segment: "triage", label: "Triage" },
   { segment: "cycles", label: "Cycles", feature: "cycles_sprints", module: "cycles" },
