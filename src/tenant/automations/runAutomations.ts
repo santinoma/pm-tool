@@ -97,61 +97,69 @@ export async function executeRuleActions(
   }
 
   for (const action of actions) {
-    if (action.type === "assign_user" && action.targetUserId) {
-      await tenantDb.task.update({
-        where: { id: taskId },
-        data: { assigneeId: action.targetUserId },
-      });
-    } else if (action.type === "notify_user" && action.targetUserId) {
-      await tenantDb.notification.create({
-        data: { userId: action.targetUserId, activityEventId },
-      });
-    } else if (action.type === "change_status" && action.targetStatusId) {
-      await tenantDb.task.update({
-        where: { id: taskId },
-        data: { statusId: action.targetStatusId },
-      });
-    } else if (action.type === "add_comment" && action.commentBody) {
-      await tenantDb.comment.create({
-        data: { taskId, authorId: actorId, body: action.commentBody },
-      });
-    } else if (action.type === "create_task" || action.type === "create_subtask") {
-      const projectId = await resolvePrimaryProjectId();
-      if (projectId) {
-        // Default-Status zuerst, sonst der erste Status nach Position — es
-        // muss immer irgendein Status auf dem Task landen.
-        const status = await tenantDb.workflowStatus.findFirst({
-          where: { workflow: { projects: { some: { id: projectId } } } },
-          orderBy: [{ isDefault: "desc" }, { position: "asc" }],
+    // Productive's dokumentiertes Verhalten: schlägt eine Aktion fehl, wird nur
+    // diese eine Aktion (für dieses eine Objekt) übersprungen — andere Aktionen
+    // derselben Regel und andere Objekte laufen trotzdem weiter, statt dass ein
+    // einzelner Fehler die ganze Regel abbricht.
+    try {
+      if (action.type === "assign_user" && action.targetUserId) {
+        await tenantDb.task.update({
+          where: { id: taskId },
+          data: { assigneeId: action.targetUserId },
         });
-        if (status) {
-          await tenantDb.task.create({
-            data: {
-              title: action.newItemTitle ?? "Automatisierter Task",
-              statusId: status.id,
-              assigneeId: action.targetUserId,
-              parentTaskId: action.type === "create_subtask" ? taskId : undefined,
-              projects: { create: { projectId, isPrimary: true } },
-            },
+      } else if (action.type === "notify_user" && action.targetUserId) {
+        await tenantDb.notification.create({
+          data: { userId: action.targetUserId, activityEventId },
+        });
+      } else if (action.type === "change_status" && action.targetStatusId) {
+        await tenantDb.task.update({
+          where: { id: taskId },
+          data: { statusId: action.targetStatusId },
+        });
+      } else if (action.type === "add_comment" && action.commentBody) {
+        await tenantDb.comment.create({
+          data: { taskId, authorId: actorId, body: action.commentBody },
+        });
+      } else if (action.type === "create_task" || action.type === "create_subtask") {
+        const projectId = await resolvePrimaryProjectId();
+        if (projectId) {
+          // Default-Status zuerst, sonst der erste Status nach Position — es
+          // muss immer irgendein Status auf dem Task landen.
+          const status = await tenantDb.workflowStatus.findFirst({
+            where: { workflow: { projects: { some: { id: projectId } } } },
+            orderBy: [{ isDefault: "desc" }, { position: "asc" }],
           });
+          if (status) {
+            await tenantDb.task.create({
+              data: {
+                title: action.newItemTitle ?? "Automatisierter Task",
+                statusId: status.id,
+                assigneeId: action.targetUserId,
+                parentTaskId: action.type === "create_subtask" ? taskId : undefined,
+                projects: { create: { projectId, isPrimary: true } },
+              },
+            });
+          }
         }
+      } else if (action.type === "create_todo") {
+        await tenantDb.todo.create({
+          data: {
+            taskId,
+            title: action.newItemTitle ?? "Automatisierter Todo",
+            assigneeId: action.targetUserId,
+          },
+        });
+      } else if (action.type === "send_email") {
+        // Diese Codebase hat keine echte E-Mail-Versandinfrastruktur (kein
+        // nodemailer/resend/sendgrid, kein tenant/email-Modul). Statt neue
+        // Infrastruktur zu erfinden, bleibt diese Aktion bewusst ein
+        // dokumentiertes No-Op, bis echte E-Mail-Infra existiert.
+        console.warn(
+          `[automations] send_email ist nicht konfiguriert — Aktion für Task ${taskId} übersprungen.`,
+        );
       }
-    } else if (action.type === "create_todo") {
-      await tenantDb.todo.create({
-        data: {
-          taskId,
-          title: action.newItemTitle ?? "Automatisierter Todo",
-          assigneeId: action.targetUserId,
-        },
-      });
-    } else if (action.type === "send_email") {
-      // Diese Codebase hat keine echte E-Mail-Versandinfrastruktur (kein
-      // nodemailer/resend/sendgrid, kein tenant/email-Modul). Statt neue
-      // Infrastruktur zu erfinden, bleibt diese Aktion bewusst ein
-      // dokumentiertes No-Op, bis echte E-Mail-Infra existiert.
-      console.warn(
-        `[automations] send_email ist nicht konfiguriert — Aktion für Task ${taskId} übersprungen.`,
-      );
+    } catch (error) {
+      console.warn(`[automations] Aktion "${action.type}" für Task ${taskId} fehlgeschlagen, übersprungen:`, error);
     }
   }
 }
@@ -179,6 +187,12 @@ export async function runAutomations(
   const matching = selectMatchingRules(rules, { ...event, projectId });
 
   for (const rule of matching) {
-    await executeRuleActions(tenantDb, rule.actions, event.taskId, activityEventId, actorId);
+    try {
+      await executeRuleActions(tenantDb, rule.actions, event.taskId, activityEventId, actorId);
+    } catch (error) {
+      // Ein Fehler außerhalb der Per-Action-try/catch (z.B. beim Auflösen des
+      // Primärprojekts) darf nicht verhindern, dass andere Regeln trotzdem laufen.
+      console.warn(`[automations] Regel ${rule.id} für Task ${event.taskId} fehlgeschlagen, übersprungen:`, error);
+    }
   }
 }

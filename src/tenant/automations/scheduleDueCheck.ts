@@ -131,16 +131,22 @@ export async function runDueTimeAutomationRules(
         const projectId = projectIdByTaskId.get(task.id);
         if (!projectId) continue; // Task ohne Primärprojekt kann keine ActivityEvent führen — überspringen.
 
-        const activityEvent = await tenantDb.activityEvent.create({
-          data: {
-            projectId,
-            actorId,
-            type: "task_updated",
-            summary: `Automation „${rule.name}“ zeitgesteuert (Massenausführung) ausgeführt`,
-          },
-        });
+        try {
+          const activityEvent = await tenantDb.activityEvent.create({
+            data: {
+              projectId,
+              actorId,
+              type: "task_updated",
+              summary: `Automation „${rule.name}“ zeitgesteuert (Massenausführung) ausgeführt`,
+            },
+          });
 
-        await executeRuleActions(tenantDb, rule.actions, task.id, activityEvent.id, actorId);
+          await executeRuleActions(tenantDb, rule.actions, task.id, activityEvent.id, actorId);
+        } catch (error) {
+          // Ein Treffer, der fehlschlägt, darf die übrigen Treffer im selben
+          // Massenlauf nicht blockieren — Productives dokumentiertes Verhalten.
+          console.warn(`[automations] Massenausführung für Regel ${rule.id}, Task ${task.id} fehlgeschlagen, übersprungen:`, error);
+        }
       }
     }
 

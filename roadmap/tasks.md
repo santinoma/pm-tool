@@ -22,7 +22,7 @@ Task weitermachen — nicht die ganze Phase anhalten.
 - [x] T106 Invoicing "uninvoiced_time_expenses": Expenses tatsächlich einbeziehen
 - [x] T107 `multi_select` Custom Fields in `CustomFieldInput.tsx` render-/auswählbar
       machen
-- [ ] T108 Automations: Fehler in einer Aktion bricht nicht die ganze Regel ab
+- [x] T108 Automations: Fehler in einer Aktion bricht nicht die ganze Regel ab
 
 ## Phase 2 — Große Lücken
 
