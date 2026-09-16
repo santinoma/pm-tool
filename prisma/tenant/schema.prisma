@@ -985,6 +985,10 @@ model CustomFieldDef {
   /// Werte eines sensiblen Felds werden beim Laden nur an Personen mit
   /// `canManageMembers` ausgeliefert (siehe getEffectiveCustomFields-Aufrufer).
   sensitive          Boolean                    @default(false)
+  /// Nur für Library-Felder (library=true) relevant: wird bei jedem neuen
+  /// Projekt automatisch per ProjectCustomField angehängt, statt manuell
+  /// nachgetragen werden zu müssen (siehe projects/route.ts POST).
+  autoAttach         Boolean                    @default(false)
   taskValues         CustomFieldValue[]
   budgetValues       BudgetCustomFieldValue[]
   wikiPageValues     WikiPageCustomFieldValue[]

@@ -25,6 +25,7 @@ interface FieldRow {
   options: string[];
   required: boolean;
   sensitive: boolean;
+  autoAttach: boolean;
   attachedProjects: ProjectOption[];
 }
 
@@ -68,6 +69,7 @@ export function CustomFieldsSettingsClient({
   const [optionsText, setOptionsText] = useState("");
   const [required, setRequired] = useState(false);
   const [sensitive, setSensitive] = useState(false);
+  const [autoAttach, setAutoAttach] = useState(false);
   const [saving, setSaving] = useState(false);
 
   async function handleCreate(event: React.FormEvent<HTMLFormElement>) {
@@ -86,7 +88,7 @@ export function CustomFieldsSettingsClient({
     const response = await fetch("/api/tenant/custom-fields", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ key, label, type, entityType, options, required, sensitive }),
+      body: JSON.stringify({ key, label, type, entityType, options, required, sensitive, autoAttach }),
     });
     setSaving(false);
     if (!response.ok) {
@@ -99,6 +101,7 @@ export function CustomFieldsSettingsClient({
     setOptionsText("");
     setRequired(false);
     setSensitive(false);
+    setAutoAttach(false);
     router.refresh();
   }
 
@@ -182,6 +185,12 @@ export function CustomFieldsSettingsClient({
             <Checkbox checked={sensitive} onCheckedChange={(checked) => setSensitive(checked === true)} />
             Sensibel
           </label>
+          {entityType !== "user" && (
+            <label className="flex items-center gap-1.5 text-sm text-muted-foreground">
+              <Checkbox checked={autoAttach} onCheckedChange={(checked) => setAutoAttach(checked === true)} />
+              Auto-Attach an neue Projekte
+            </label>
+          )}
           <Button type="submit" disabled={saving || !key.trim() || !label.trim()}>
             Add Field
           </Button>
@@ -206,6 +215,7 @@ export function CustomFieldsSettingsClient({
                   <Badge variant="outline">{TYPE_LABELS[field.type] ?? field.type}</Badge>
                   {field.required && <Badge variant="secondary">Pflichtfeld</Badge>}
                   {field.sensitive && <Badge variant="secondary">Sensibel</Badge>}
+                  {field.autoAttach && <Badge variant="secondary">Auto-Attach</Badge>}
                   <span className="font-normal text-muted-foreground">
                     {field.attachedProjects.length} Projekt(e)
                   </span>

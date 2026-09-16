@@ -57,10 +57,15 @@ Task weitermachen — nicht die ganze Phase anhalten.
 ### Custom Fields — Required/Sensitive + Auto-Attach
 - [x] T220 `CustomFieldDef.required` + serverseitige Erzwingung
 - [x] T221 `CustomFieldDef.sensitive` + sichtbarkeitsbeschränkte Auslieferung
-- [ ] T222 Auto-Attach-Mechanismus für Library-Felder an neue Projekte
+- [x] T222 Auto-Attach-Mechanismus für Library-Felder an neue Projekte
 - [ ] T223 `TaskPriority` → echtes `select`-Custom-Field migrieren (ersetzt
-      Eigenentwicklung, alle 8 Lese-/Schreibstellen umstellen, siehe plan.md)
-- [ ] T224 `TaskTShirtSize` → echtes `select`-Custom-Field migrieren
+      Eigenentwicklung, alle 8 Lese-/Schreibstellen umstellen, siehe plan.md).
+      **Zurückgestellt bis T201-T208 (Filter/Sort-Builder) stehen** — plan.md
+      verlangt ausdrücklich Einbindung ins neue Sortier-/Filtersystem, das ohne
+      Custom-Field-Sort/Filter-Unterstützung sonst ersatzlos verloren ginge
+      (siehe TableViewClient.tsx-Sortierung im Audit).
+- [ ] T224 `TaskTShirtSize` → echtes `select`-Custom-Field migrieren (selbe
+      Zurückstellung wie T223)
 
 ### Billing & Account Management (Grundstufe)
 - [ ] T230 Sitzplatz-Feld auf Tenant/TenantSettings, bezahlt vs. kostenlos

@@ -670,7 +670,8 @@ exports.Prisma.CustomFieldDefScalarFieldEnum = {
   type: 'type',
   options: 'options',
   required: 'required',
-  sensitive: 'sensitive'
+  sensitive: 'sensitive',
+  autoAttach: 'autoAttach'
 };
 
 exports.Prisma.ProjectCustomFieldScalarFieldEnum = {

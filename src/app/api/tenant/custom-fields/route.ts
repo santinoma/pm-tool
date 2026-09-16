@@ -49,6 +49,7 @@ export async function POST(request: Request) {
       options: Array.isArray(body.options) ? body.options : [],
       required: body.required === true,
       sensitive: body.sensitive === true,
+      autoAttach: body.autoAttach === true,
     },
   });
   return NextResponse.json({ field }, { status: 201 });
