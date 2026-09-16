@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Badge } from "@/ui/shadcn/components/badge";
 import { Button } from "@/ui/shadcn/components/button";
 import { Card, CardContent } from "@/ui/shadcn/components/card";
+import { Checkbox } from "@/ui/shadcn/components/checkbox";
 import { Input } from "@/ui/shadcn/components/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 
@@ -14,6 +15,8 @@ interface FieldRow {
   label: string;
   type: string;
   options: string[];
+  required: boolean;
+  sensitive: boolean;
 }
 
 const TYPE_LABELS: Record<string, string> = {
@@ -36,6 +39,8 @@ export function EmployeeFieldsSettingsClient({ canManage, fields }: { canManage:
   const [label, setLabel] = useState("");
   const [type, setType] = useState("text");
   const [optionsText, setOptionsText] = useState("");
+  const [required, setRequired] = useState(false);
+  const [sensitive, setSensitive] = useState(false);
   const [saving, setSaving] = useState(false);
 
   async function handleCreate(event: React.FormEvent<HTMLFormElement>) {
@@ -54,7 +59,7 @@ export function EmployeeFieldsSettingsClient({ canManage, fields }: { canManage:
     const response = await fetch("/api/tenant/custom-fields", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ key, label, type, entityType: "user", options }),
+      body: JSON.stringify({ key, label, type, entityType: "user", options, required, sensitive }),
     });
     setSaving(false);
     if (!response.ok) {
@@ -65,6 +70,8 @@ export function EmployeeFieldsSettingsClient({ canManage, fields }: { canManage:
     setKey("");
     setLabel("");
     setOptionsText("");
+    setRequired(false);
+    setSensitive(false);
     router.refresh();
   }
 
@@ -112,6 +119,14 @@ export function EmployeeFieldsSettingsClient({ canManage, fields }: { canManage:
               className="w-56"
             />
           )}
+          <label className="flex items-center gap-1.5 text-sm text-muted-foreground">
+            <Checkbox checked={required} onCheckedChange={(checked) => setRequired(checked === true)} />
+            Pflichtfeld
+          </label>
+          <label className="flex items-center gap-1.5 text-sm text-muted-foreground">
+            <Checkbox checked={sensitive} onCheckedChange={(checked) => setSensitive(checked === true)} />
+            Sensibel
+          </label>
           <Button type="submit" disabled={saving || !key.trim() || !label.trim()}>
             Feld hinzufügen
           </Button>
@@ -126,6 +141,8 @@ export function EmployeeFieldsSettingsClient({ canManage, fields }: { canManage:
               <div className="flex items-center gap-2 text-sm">
                 <span className="font-medium">{field.label}</span>
                 <Badge variant="outline">{TYPE_LABELS[field.type] ?? field.type}</Badge>
+                {field.required && <Badge variant="secondary">Pflichtfeld</Badge>}
+                {field.sensitive && <Badge variant="secondary">Sensibel</Badge>}
                 {field.options.length > 0 && (
                   <span className="text-xs text-muted-foreground">{field.options.join(", ")}</span>
                 )}

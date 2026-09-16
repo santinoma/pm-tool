@@ -73866,6 +73866,8 @@ export namespace Prisma {
     key: string | null
     label: string | null
     type: $Enums.CustomFieldType | null
+    required: boolean | null
+    sensitive: boolean | null
   }
 
   export type CustomFieldDefMaxAggregateOutputType = {
@@ -73876,6 +73878,8 @@ export namespace Prisma {
     key: string | null
     label: string | null
     type: $Enums.CustomFieldType | null
+    required: boolean | null
+    sensitive: boolean | null
   }
 
   export type CustomFieldDefCountAggregateOutputType = {
@@ -73887,6 +73891,8 @@ export namespace Prisma {
     label: number
     type: number
     options: number
+    required: number
+    sensitive: number
     _all: number
   }
 
@@ -73899,6 +73905,8 @@ export namespace Prisma {
     key?: true
     label?: true
     type?: true
+    required?: true
+    sensitive?: true
   }
 
   export type CustomFieldDefMaxAggregateInputType = {
@@ -73909,6 +73917,8 @@ export namespace Prisma {
     key?: true
     label?: true
     type?: true
+    required?: true
+    sensitive?: true
   }
 
   export type CustomFieldDefCountAggregateInputType = {
@@ -73920,6 +73930,8 @@ export namespace Prisma {
     label?: true
     type?: true
     options?: true
+    required?: true
+    sensitive?: true
     _all?: true
   }
 
@@ -74004,6 +74016,8 @@ export namespace Prisma {
     label: string
     type: $Enums.CustomFieldType
     options: string[]
+    required: boolean
+    sensitive: boolean
     _count: CustomFieldDefCountAggregateOutputType | null
     _min: CustomFieldDefMinAggregateOutputType | null
     _max: CustomFieldDefMaxAggregateOutputType | null
@@ -74032,6 +74046,8 @@ export namespace Prisma {
     label?: boolean
     type?: boolean
     options?: boolean
+    required?: boolean
+    sensitive?: boolean
     project?: boolean | CustomFieldDef$projectArgs<ExtArgs>
     taskValues?: boolean | CustomFieldDef$taskValuesArgs<ExtArgs>
     budgetValues?: boolean | CustomFieldDef$budgetValuesArgs<ExtArgs>
@@ -74050,6 +74066,8 @@ export namespace Prisma {
     label?: boolean
     type?: boolean
     options?: boolean
+    required?: boolean
+    sensitive?: boolean
     project?: boolean | CustomFieldDef$projectArgs<ExtArgs>
   }, ExtArgs["result"]["customFieldDef"]>
 
@@ -74062,6 +74080,8 @@ export namespace Prisma {
     label?: boolean
     type?: boolean
     options?: boolean
+    required?: boolean
+    sensitive?: boolean
     project?: boolean | CustomFieldDef$projectArgs<ExtArgs>
   }, ExtArgs["result"]["customFieldDef"]>
 
@@ -74074,9 +74094,11 @@ export namespace Prisma {
     label?: boolean
     type?: boolean
     options?: boolean
+    required?: boolean
+    sensitive?: boolean
   }
 
-  export type CustomFieldDefOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "projectId" | "library" | "entityType" | "key" | "label" | "type" | "options", ExtArgs["result"]["customFieldDef"]>
+  export type CustomFieldDefOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "projectId" | "library" | "entityType" | "key" | "label" | "type" | "options" | "required" | "sensitive", ExtArgs["result"]["customFieldDef"]>
   export type CustomFieldDefInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     project?: boolean | CustomFieldDef$projectArgs<ExtArgs>
     taskValues?: boolean | CustomFieldDef$taskValuesArgs<ExtArgs>
@@ -74112,6 +74134,18 @@ export namespace Prisma {
       label: string
       type: $Enums.CustomFieldType
       options: string[]
+      /**
+       * Ein Pflichtfeld darf nicht auf einen leeren Wert gesetzt werden (siehe
+       * die PUT-Value-Routen). Erzwingt nicht das Ausfüllen bei der Objekt-
+       * erstellung selbst — Custom-Field-Werte werden in dieser Codebase immer
+       * erst nach der Erstellung über einen eigenen Aufruf gesetzt, nicht inline.
+       */
+      required: boolean
+      /**
+       * Werte eines sensiblen Felds werden beim Laden nur an Personen mit
+       * `canManageMembers` ausgeliefert (siehe getEffectiveCustomFields-Aufrufer).
+       */
+      sensitive: boolean
     }, ExtArgs["result"]["customFieldDef"]>
     composites: {}
   }
@@ -74549,6 +74583,8 @@ export namespace Prisma {
     readonly label: FieldRef<"CustomFieldDef", 'String'>
     readonly type: FieldRef<"CustomFieldDef", 'CustomFieldType'>
     readonly options: FieldRef<"CustomFieldDef", 'String[]'>
+    readonly required: FieldRef<"CustomFieldDef", 'Boolean'>
+    readonly sensitive: FieldRef<"CustomFieldDef", 'Boolean'>
   }
     
 
@@ -113931,7 +113967,9 @@ export namespace Prisma {
     key: 'key',
     label: 'label',
     type: 'type',
-    options: 'options'
+    options: 'options',
+    required: 'required',
+    sensitive: 'sensitive'
   };
 
   export type CustomFieldDefScalarFieldEnum = (typeof CustomFieldDefScalarFieldEnum)[keyof typeof CustomFieldDefScalarFieldEnum]
@@ -119095,6 +119133,8 @@ export namespace Prisma {
     label?: StringFilter<"CustomFieldDef"> | string
     type?: EnumCustomFieldTypeFilter<"CustomFieldDef"> | $Enums.CustomFieldType
     options?: StringNullableListFilter<"CustomFieldDef">
+    required?: BoolFilter<"CustomFieldDef"> | boolean
+    sensitive?: BoolFilter<"CustomFieldDef"> | boolean
     project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
     taskValues?: CustomFieldValueListRelationFilter
     budgetValues?: BudgetCustomFieldValueListRelationFilter
@@ -119112,6 +119152,8 @@ export namespace Prisma {
     label?: SortOrder
     type?: SortOrder
     options?: SortOrder
+    required?: SortOrder
+    sensitive?: SortOrder
     project?: ProjectOrderByWithRelationInput
     taskValues?: CustomFieldValueOrderByRelationAggregateInput
     budgetValues?: BudgetCustomFieldValueOrderByRelationAggregateInput
@@ -119133,6 +119175,8 @@ export namespace Prisma {
     label?: StringFilter<"CustomFieldDef"> | string
     type?: EnumCustomFieldTypeFilter<"CustomFieldDef"> | $Enums.CustomFieldType
     options?: StringNullableListFilter<"CustomFieldDef">
+    required?: BoolFilter<"CustomFieldDef"> | boolean
+    sensitive?: BoolFilter<"CustomFieldDef"> | boolean
     project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
     taskValues?: CustomFieldValueListRelationFilter
     budgetValues?: BudgetCustomFieldValueListRelationFilter
@@ -119150,6 +119194,8 @@ export namespace Prisma {
     label?: SortOrder
     type?: SortOrder
     options?: SortOrder
+    required?: SortOrder
+    sensitive?: SortOrder
     _count?: CustomFieldDefCountOrderByAggregateInput
     _max?: CustomFieldDefMaxOrderByAggregateInput
     _min?: CustomFieldDefMinOrderByAggregateInput
@@ -119167,6 +119213,8 @@ export namespace Prisma {
     label?: StringWithAggregatesFilter<"CustomFieldDef"> | string
     type?: EnumCustomFieldTypeWithAggregatesFilter<"CustomFieldDef"> | $Enums.CustomFieldType
     options?: StringNullableListFilter<"CustomFieldDef">
+    required?: BoolWithAggregatesFilter<"CustomFieldDef"> | boolean
+    sensitive?: BoolWithAggregatesFilter<"CustomFieldDef"> | boolean
   }
 
   export type ProjectCustomFieldWhereInput = {
@@ -125874,6 +125922,8 @@ export namespace Prisma {
     label: string
     type: $Enums.CustomFieldType
     options?: CustomFieldDefCreateoptionsInput | string[]
+    required?: boolean
+    sensitive?: boolean
     project?: ProjectCreateNestedOneWithoutCustomFieldsInput
     taskValues?: CustomFieldValueCreateNestedManyWithoutFieldInput
     budgetValues?: BudgetCustomFieldValueCreateNestedManyWithoutFieldInput
@@ -125891,6 +125941,8 @@ export namespace Prisma {
     label: string
     type: $Enums.CustomFieldType
     options?: CustomFieldDefCreateoptionsInput | string[]
+    required?: boolean
+    sensitive?: boolean
     taskValues?: CustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     budgetValues?: BudgetCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     wikiPageValues?: WikiPageCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
@@ -125906,6 +125958,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
     options?: CustomFieldDefUpdateoptionsInput | string[]
+    required?: BoolFieldUpdateOperationsInput | boolean
+    sensitive?: BoolFieldUpdateOperationsInput | boolean
     project?: ProjectUpdateOneWithoutCustomFieldsNestedInput
     taskValues?: CustomFieldValueUpdateManyWithoutFieldNestedInput
     budgetValues?: BudgetCustomFieldValueUpdateManyWithoutFieldNestedInput
@@ -125923,6 +125977,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
     options?: CustomFieldDefUpdateoptionsInput | string[]
+    required?: BoolFieldUpdateOperationsInput | boolean
+    sensitive?: BoolFieldUpdateOperationsInput | boolean
     taskValues?: CustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     budgetValues?: BudgetCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     wikiPageValues?: WikiPageCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
@@ -125939,6 +125995,8 @@ export namespace Prisma {
     label: string
     type: $Enums.CustomFieldType
     options?: CustomFieldDefCreateoptionsInput | string[]
+    required?: boolean
+    sensitive?: boolean
   }
 
   export type CustomFieldDefUpdateManyMutationInput = {
@@ -125949,6 +126007,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
     options?: CustomFieldDefUpdateoptionsInput | string[]
+    required?: BoolFieldUpdateOperationsInput | boolean
+    sensitive?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type CustomFieldDefUncheckedUpdateManyInput = {
@@ -125960,6 +126020,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
     options?: CustomFieldDefUpdateoptionsInput | string[]
+    required?: BoolFieldUpdateOperationsInput | boolean
+    sensitive?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ProjectCustomFieldCreateInput = {
@@ -131953,6 +132015,8 @@ export namespace Prisma {
     label?: SortOrder
     type?: SortOrder
     options?: SortOrder
+    required?: SortOrder
+    sensitive?: SortOrder
   }
 
   export type CustomFieldDefMaxOrderByAggregateInput = {
@@ -131963,6 +132027,8 @@ export namespace Prisma {
     key?: SortOrder
     label?: SortOrder
     type?: SortOrder
+    required?: SortOrder
+    sensitive?: SortOrder
   }
 
   export type CustomFieldDefMinOrderByAggregateInput = {
@@ -131973,6 +132039,8 @@ export namespace Prisma {
     key?: SortOrder
     label?: SortOrder
     type?: SortOrder
+    required?: SortOrder
+    sensitive?: SortOrder
   }
 
   export type EnumCustomFieldEntityTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -152574,6 +152642,8 @@ export namespace Prisma {
     label: string
     type: $Enums.CustomFieldType
     options?: CustomFieldDefCreateoptionsInput | string[]
+    required?: boolean
+    sensitive?: boolean
     taskValues?: CustomFieldValueCreateNestedManyWithoutFieldInput
     budgetValues?: BudgetCustomFieldValueCreateNestedManyWithoutFieldInput
     wikiPageValues?: WikiPageCustomFieldValueCreateNestedManyWithoutFieldInput
@@ -152589,6 +152659,8 @@ export namespace Prisma {
     label: string
     type: $Enums.CustomFieldType
     options?: CustomFieldDefCreateoptionsInput | string[]
+    required?: boolean
+    sensitive?: boolean
     taskValues?: CustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     budgetValues?: BudgetCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     wikiPageValues?: WikiPageCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
@@ -153629,6 +153701,8 @@ export namespace Prisma {
     label?: StringFilter<"CustomFieldDef"> | string
     type?: EnumCustomFieldTypeFilter<"CustomFieldDef"> | $Enums.CustomFieldType
     options?: StringNullableListFilter<"CustomFieldDef">
+    required?: BoolFilter<"CustomFieldDef"> | boolean
+    sensitive?: BoolFilter<"CustomFieldDef"> | boolean
   }
 
   export type TimeEntryUpsertWithWhereUniqueWithoutProjectInput = {
@@ -168601,6 +168675,8 @@ export namespace Prisma {
     label: string
     type: $Enums.CustomFieldType
     options?: CustomFieldDefCreateoptionsInput | string[]
+    required?: boolean
+    sensitive?: boolean
     project?: ProjectCreateNestedOneWithoutCustomFieldsInput
     taskValues?: CustomFieldValueCreateNestedManyWithoutFieldInput
     budgetValues?: BudgetCustomFieldValueCreateNestedManyWithoutFieldInput
@@ -168617,6 +168693,8 @@ export namespace Prisma {
     label: string
     type: $Enums.CustomFieldType
     options?: CustomFieldDefCreateoptionsInput | string[]
+    required?: boolean
+    sensitive?: boolean
     taskValues?: CustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     budgetValues?: BudgetCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     wikiPageValues?: WikiPageCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
@@ -168746,6 +168824,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
     options?: CustomFieldDefUpdateoptionsInput | string[]
+    required?: BoolFieldUpdateOperationsInput | boolean
+    sensitive?: BoolFieldUpdateOperationsInput | boolean
     project?: ProjectUpdateOneWithoutCustomFieldsNestedInput
     taskValues?: CustomFieldValueUpdateManyWithoutFieldNestedInput
     budgetValues?: BudgetCustomFieldValueUpdateManyWithoutFieldNestedInput
@@ -168762,6 +168842,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
     options?: CustomFieldDefUpdateoptionsInput | string[]
+    required?: BoolFieldUpdateOperationsInput | boolean
+    sensitive?: BoolFieldUpdateOperationsInput | boolean
     taskValues?: CustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     budgetValues?: BudgetCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     wikiPageValues?: WikiPageCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
@@ -168776,6 +168858,8 @@ export namespace Prisma {
     label: string
     type: $Enums.CustomFieldType
     options?: CustomFieldDefCreateoptionsInput | string[]
+    required?: boolean
+    sensitive?: boolean
     project?: ProjectCreateNestedOneWithoutCustomFieldsInput
     budgetValues?: BudgetCustomFieldValueCreateNestedManyWithoutFieldInput
     wikiPageValues?: WikiPageCustomFieldValueCreateNestedManyWithoutFieldInput
@@ -168792,6 +168876,8 @@ export namespace Prisma {
     label: string
     type: $Enums.CustomFieldType
     options?: CustomFieldDefCreateoptionsInput | string[]
+    required?: boolean
+    sensitive?: boolean
     budgetValues?: BudgetCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     wikiPageValues?: WikiPageCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     userValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
@@ -168911,6 +168997,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
     options?: CustomFieldDefUpdateoptionsInput | string[]
+    required?: BoolFieldUpdateOperationsInput | boolean
+    sensitive?: BoolFieldUpdateOperationsInput | boolean
     project?: ProjectUpdateOneWithoutCustomFieldsNestedInput
     budgetValues?: BudgetCustomFieldValueUpdateManyWithoutFieldNestedInput
     wikiPageValues?: WikiPageCustomFieldValueUpdateManyWithoutFieldNestedInput
@@ -168927,6 +169015,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
     options?: CustomFieldDefUpdateoptionsInput | string[]
+    required?: BoolFieldUpdateOperationsInput | boolean
+    sensitive?: BoolFieldUpdateOperationsInput | boolean
     budgetValues?: BudgetCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     wikiPageValues?: WikiPageCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     userValues?: UserCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
@@ -169036,6 +169126,8 @@ export namespace Prisma {
     label: string
     type: $Enums.CustomFieldType
     options?: CustomFieldDefCreateoptionsInput | string[]
+    required?: boolean
+    sensitive?: boolean
     project?: ProjectCreateNestedOneWithoutCustomFieldsInput
     taskValues?: CustomFieldValueCreateNestedManyWithoutFieldInput
     wikiPageValues?: WikiPageCustomFieldValueCreateNestedManyWithoutFieldInput
@@ -169052,6 +169144,8 @@ export namespace Prisma {
     label: string
     type: $Enums.CustomFieldType
     options?: CustomFieldDefCreateoptionsInput | string[]
+    required?: boolean
+    sensitive?: boolean
     taskValues?: CustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     wikiPageValues?: WikiPageCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     userValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
@@ -169137,6 +169231,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
     options?: CustomFieldDefUpdateoptionsInput | string[]
+    required?: BoolFieldUpdateOperationsInput | boolean
+    sensitive?: BoolFieldUpdateOperationsInput | boolean
     project?: ProjectUpdateOneWithoutCustomFieldsNestedInput
     taskValues?: CustomFieldValueUpdateManyWithoutFieldNestedInput
     wikiPageValues?: WikiPageCustomFieldValueUpdateManyWithoutFieldNestedInput
@@ -169153,6 +169249,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
     options?: CustomFieldDefUpdateoptionsInput | string[]
+    required?: BoolFieldUpdateOperationsInput | boolean
+    sensitive?: BoolFieldUpdateOperationsInput | boolean
     taskValues?: CustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     wikiPageValues?: WikiPageCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     userValues?: UserCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
@@ -169228,6 +169326,8 @@ export namespace Prisma {
     label: string
     type: $Enums.CustomFieldType
     options?: CustomFieldDefCreateoptionsInput | string[]
+    required?: boolean
+    sensitive?: boolean
     project?: ProjectCreateNestedOneWithoutCustomFieldsInput
     taskValues?: CustomFieldValueCreateNestedManyWithoutFieldInput
     budgetValues?: BudgetCustomFieldValueCreateNestedManyWithoutFieldInput
@@ -169244,6 +169344,8 @@ export namespace Prisma {
     label: string
     type: $Enums.CustomFieldType
     options?: CustomFieldDefCreateoptionsInput | string[]
+    required?: boolean
+    sensitive?: boolean
     taskValues?: CustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     budgetValues?: BudgetCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     userValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
@@ -169303,6 +169405,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
     options?: CustomFieldDefUpdateoptionsInput | string[]
+    required?: BoolFieldUpdateOperationsInput | boolean
+    sensitive?: BoolFieldUpdateOperationsInput | boolean
     project?: ProjectUpdateOneWithoutCustomFieldsNestedInput
     taskValues?: CustomFieldValueUpdateManyWithoutFieldNestedInput
     budgetValues?: BudgetCustomFieldValueUpdateManyWithoutFieldNestedInput
@@ -169319,6 +169423,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
     options?: CustomFieldDefUpdateoptionsInput | string[]
+    required?: BoolFieldUpdateOperationsInput | boolean
+    sensitive?: BoolFieldUpdateOperationsInput | boolean
     taskValues?: CustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     budgetValues?: BudgetCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     userValues?: UserCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
@@ -169368,6 +169474,8 @@ export namespace Prisma {
     label: string
     type: $Enums.CustomFieldType
     options?: CustomFieldDefCreateoptionsInput | string[]
+    required?: boolean
+    sensitive?: boolean
     project?: ProjectCreateNestedOneWithoutCustomFieldsInput
     taskValues?: CustomFieldValueCreateNestedManyWithoutFieldInput
     budgetValues?: BudgetCustomFieldValueCreateNestedManyWithoutFieldInput
@@ -169384,6 +169492,8 @@ export namespace Prisma {
     label: string
     type: $Enums.CustomFieldType
     options?: CustomFieldDefCreateoptionsInput | string[]
+    required?: boolean
+    sensitive?: boolean
     taskValues?: CustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     budgetValues?: BudgetCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
     wikiPageValues?: WikiPageCustomFieldValueUncheckedCreateNestedManyWithoutFieldInput
@@ -169563,6 +169673,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
     options?: CustomFieldDefUpdateoptionsInput | string[]
+    required?: BoolFieldUpdateOperationsInput | boolean
+    sensitive?: BoolFieldUpdateOperationsInput | boolean
     project?: ProjectUpdateOneWithoutCustomFieldsNestedInput
     taskValues?: CustomFieldValueUpdateManyWithoutFieldNestedInput
     budgetValues?: BudgetCustomFieldValueUpdateManyWithoutFieldNestedInput
@@ -169579,6 +169691,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
     options?: CustomFieldDefUpdateoptionsInput | string[]
+    required?: BoolFieldUpdateOperationsInput | boolean
+    sensitive?: BoolFieldUpdateOperationsInput | boolean
     taskValues?: CustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     budgetValues?: BudgetCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     wikiPageValues?: WikiPageCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
@@ -183995,6 +184109,8 @@ export namespace Prisma {
     label: string
     type: $Enums.CustomFieldType
     options?: CustomFieldDefCreateoptionsInput | string[]
+    required?: boolean
+    sensitive?: boolean
   }
 
   export type TimeEntryCreateManyProjectInput = {
@@ -184255,6 +184371,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
     options?: CustomFieldDefUpdateoptionsInput | string[]
+    required?: BoolFieldUpdateOperationsInput | boolean
+    sensitive?: BoolFieldUpdateOperationsInput | boolean
     taskValues?: CustomFieldValueUpdateManyWithoutFieldNestedInput
     budgetValues?: BudgetCustomFieldValueUpdateManyWithoutFieldNestedInput
     wikiPageValues?: WikiPageCustomFieldValueUpdateManyWithoutFieldNestedInput
@@ -184270,6 +184388,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
     options?: CustomFieldDefUpdateoptionsInput | string[]
+    required?: BoolFieldUpdateOperationsInput | boolean
+    sensitive?: BoolFieldUpdateOperationsInput | boolean
     taskValues?: CustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     budgetValues?: BudgetCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
     wikiPageValues?: WikiPageCustomFieldValueUncheckedUpdateManyWithoutFieldNestedInput
@@ -184285,6 +184405,8 @@ export namespace Prisma {
     label?: StringFieldUpdateOperationsInput | string
     type?: EnumCustomFieldTypeFieldUpdateOperationsInput | $Enums.CustomFieldType
     options?: CustomFieldDefUpdateoptionsInput | string[]
+    required?: BoolFieldUpdateOperationsInput | boolean
+    sensitive?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type TimeEntryUpdateWithoutProjectInput = {

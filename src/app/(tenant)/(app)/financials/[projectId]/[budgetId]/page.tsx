@@ -101,6 +101,10 @@ export default async function BudgetDetailPage({
   }
 
   const canManage = canManageMembers(context.currentUser.role);
+  // Sensible Felder werden nur an Personen mit Verwaltungsrechten ausgeliefert —
+  // sie fehlen für alle anderen komplett, statt nur verschleiert angezeigt zu werden.
+  const visibleCustomFieldDefs = customFieldDefs.filter((field) => !field.sensitive || canManage);
+  const visibleFieldIds = new Set(visibleCustomFieldDefs.map((field) => field.id));
 
   return (
     <AppShellNextElite
@@ -162,14 +166,16 @@ export default async function BudgetDetailPage({
           trackingUnit: item.trackingUnit,
           defaultPrice: item.defaultPrice,
         }))}
-        customFieldDefs={customFieldDefs.map((field) => ({
+        customFieldDefs={visibleCustomFieldDefs.map((field) => ({
           id: field.id,
           key: field.key,
           label: field.label,
           type: field.type,
           options: field.options,
         }))}
-        customFieldValues={budget.customFieldValues.map((value) => ({ fieldId: value.fieldId, value: value.value }))}
+        customFieldValues={budget.customFieldValues
+          .filter((value) => visibleFieldIds.has(value.fieldId))
+          .map((value) => ({ fieldId: value.fieldId, value: value.value }))}
         scenarios={scenarios.map((scenario) => ({
           id: scenario.id,
           title: scenario.title,

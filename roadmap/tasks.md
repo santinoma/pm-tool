@@ -55,8 +55,8 @@ Task weitermachen — nicht die ganze Phase anhalten.
 - [x] T216 Employee-Fields-Seite mit echter Funktion
 
 ### Custom Fields — Required/Sensitive + Auto-Attach
-- [ ] T220 `CustomFieldDef.required` + serverseitige Erzwingung
-- [ ] T221 `CustomFieldDef.sensitive` + sichtbarkeitsbeschränkte Auslieferung
+- [x] T220 `CustomFieldDef.required` + serverseitige Erzwingung
+- [x] T221 `CustomFieldDef.sensitive` + sichtbarkeitsbeschränkte Auslieferung
 - [ ] T222 Auto-Attach-Mechanismus für Library-Felder an neue Projekte
 - [ ] T223 `TaskPriority` → echtes `select`-Custom-Field migrieren (ersetzt
       Eigenentwicklung, alle 8 Lese-/Schreibstellen umstellen, siehe plan.md)

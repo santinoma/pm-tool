@@ -46,6 +46,8 @@ export default async function CustomFieldsSettingsPage() {
           type: field.type,
           entityType: field.entityType,
           options: field.options,
+          required: field.required,
+          sensitive: field.sensitive,
           attachedProjects: field.projectAttachments.map((attachment) => ({ id: attachment.project.id, name: attachment.project.name })),
         }))}
         projects={projects}

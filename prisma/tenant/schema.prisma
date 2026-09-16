@@ -977,6 +977,14 @@ model CustomFieldDef {
   label              String
   type               CustomFieldType
   options            String[]
+  /// Ein Pflichtfeld darf nicht auf einen leeren Wert gesetzt werden (siehe
+  /// die PUT-Value-Routen). Erzwingt nicht das Ausfüllen bei der Objekt-
+  /// erstellung selbst — Custom-Field-Werte werden in dieser Codebase immer
+  /// erst nach der Erstellung über einen eigenen Aufruf gesetzt, nicht inline.
+  required           Boolean                    @default(false)
+  /// Werte eines sensiblen Felds werden beim Laden nur an Personen mit
+  /// `canManageMembers` ausgeliefert (siehe getEffectiveCustomFields-Aufrufer).
+  sensitive          Boolean                    @default(false)
   taskValues         CustomFieldValue[]
   budgetValues       BudgetCustomFieldValue[]
   wikiPageValues     WikiPageCustomFieldValue[]

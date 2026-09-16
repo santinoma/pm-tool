@@ -25,7 +25,15 @@ export default async function EmployeeFieldsSettingsPage() {
     >
       <EmployeeFieldsSettingsClient
         canManage={canManageMembers(context.currentUser.role)}
-        fields={fields.map((field) => ({ id: field.id, key: field.key, label: field.label, type: field.type, options: field.options }))}
+        fields={fields.map((field) => ({
+          id: field.id,
+          key: field.key,
+          label: field.label,
+          type: field.type,
+          options: field.options,
+          required: field.required,
+          sensitive: field.sensitive,
+        }))}
       />
     </AppShellNextElite>
   );

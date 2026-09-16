@@ -38,20 +38,27 @@ export default async function WikiPageView({
     }),
   ]);
 
+  // Sensible Felder werden nur an Personen mit Verwaltungsrechten ausgeliefert —
+  // sie fehlen für alle anderen komplett, statt nur verschleiert angezeigt zu werden.
+  const visibleCustomFieldDefs = customFieldDefs.filter((field) => !field.sensitive || canManage);
+  const visibleFieldIds = new Set(visibleCustomFieldDefs.map((field) => field.id));
+
   return (
     <WikiPageClient
       projectId={id}
       page={{ id: page.id, title: page.title, content: page.content, isTemplate: page.isTemplate }}
       contentHtml={renderMarkdownSafe(page.content)}
       canManage={canManage}
-      customFieldDefs={customFieldDefs.map((field) => ({
+      customFieldDefs={visibleCustomFieldDefs.map((field) => ({
         id: field.id,
         key: field.key,
         label: field.label,
         type: field.type,
         options: field.options,
       }))}
-      customFieldValues={customValues.map((value) => ({ fieldId: value.fieldId, value: value.value }))}
+      customFieldValues={customValues
+        .filter((value) => visibleFieldIds.has(value.fieldId))
+        .map((value) => ({ fieldId: value.fieldId, value: value.value }))}
       sharedLinks={sharedLinks.map((link) => ({
         id: link.id,
         token: link.token,

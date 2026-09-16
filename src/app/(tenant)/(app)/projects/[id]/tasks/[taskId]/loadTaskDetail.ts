@@ -1,4 +1,5 @@
 import { canViewPrivateTask } from "@/tenant/projectAccess/privateTaskFilter";
+import { canManageMembers } from "@/tenant/auth/roleGuard";
 import { resolveLinkedTasks } from "@/tenant/taskLinks/taskLinkView";
 import { getEffectiveCustomFields } from "@/tenant/customFields/library";
 import type { getTenantContext } from "@/tenant/context";
@@ -122,12 +123,17 @@ export async function loadTaskDetail(context: TenantContext, projectId: string, 
       })),
       blocking: task.blocking.map((d) => ({ dependencyId: d.id, id: d.blockedTask.id, title: d.blockedTask.title })),
       blockedBy: task.blockedBy.map((d) => ({ dependencyId: d.id, id: d.blockingTask.id, title: d.blockingTask.title })),
-      customValues: task.customValues.map((v) => ({
-        fieldId: v.fieldId,
-        label: v.field.label,
-        type: v.field.type,
-        value: v.value,
-      })),
+      // Sensible Felder (z. B. Employee Fields) werden nur an Personen mit
+      // Verwaltungsrechten ausgeliefert — sie fehlen für alle anderen komplett,
+      // statt nur verschleiert angezeigt zu werden.
+      customValues: task.customValues
+        .filter((v) => !v.field.sensitive || canManageMembers(currentUser.role))
+        .map((v) => ({
+          fieldId: v.fieldId,
+          label: v.field.label,
+          type: v.field.type,
+          value: v.value,
+        })),
       timeEntries: task.timeEntries.map((entry) => ({
         id: entry.id,
         userLabel: entry.user.name ?? entry.user.email,

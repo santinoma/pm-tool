@@ -668,7 +668,9 @@ exports.Prisma.CustomFieldDefScalarFieldEnum = {
   key: 'key',
   label: 'label',
   type: 'type',
-  options: 'options'
+  options: 'options',
+  required: 'required',
+  sensitive: 'sensitive'
 };
 
 exports.Prisma.ProjectCustomFieldScalarFieldEnum = {
