@@ -713,6 +713,7 @@ model TenantSettings {
   reportsEnabled               Boolean          @default(true)
   resourcingEnabled            Boolean          @default(true)
   timeApprovalEnabled          Boolean          @default(true)
+  timeEntrySubmissionEnabled   Boolean          @default(false)
   createdAt                    DateTime         @default(now())
   updatedAt                    DateTime         @updatedAt
 }

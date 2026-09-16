@@ -10,6 +10,7 @@ import { canManageMembers } from "@/tenant/auth/roleGuard";
 import { resolveProjectIdsForTask } from "@/tenant/projectAccess/resolveProjectMembership";
 import { assertSingleProjectAccess, assertAnyProjectAccess } from "@/tenant/projectAccess/assertProjectAccess";
 import { recordActivity } from "@/tenant/notifications/recordActivity";
+import { resolveInitialTimeEntryState } from "@/tenant/timeTracking/entryLifecycle";
 import type { PrismaClient } from "@/generated/tenant-client/client.js";
 
 /**
@@ -169,6 +170,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: policyError }, { status: 400 });
   }
 
+  const initialState = await resolveInitialTimeEntryState(context.tenantDb);
   const entry = await context.tenantDb.timeEntry.create({
     data: {
       userId: targetUserId,
@@ -178,6 +180,7 @@ export async function POST(request: Request) {
       durationMinutes: roundedDuration,
       startedAt: entryDate,
       description: typeof body.description === "string" ? body.description : null,
+      ...initialState,
     },
   });
 
@@ -243,6 +246,7 @@ export async function handleSectionEntry(
     return NextResponse.json({ error: policyError }, { status: 400 });
   }
 
+  const initialState = await resolveInitialTimeEntryState(tenantDb);
   const { entry, updatedSection } = await tenantDb.$transaction(async (tx) => {
     const created = await tx.timeEntry.create({
       data: {
@@ -255,6 +259,7 @@ export async function handleSectionEntry(
         durationMinutes,
         amount,
         description: typeof body.description === "string" ? body.description : null,
+        ...initialState,
       },
     });
     const updated = await tx.budgetSection.update({

@@ -31,14 +31,6 @@ interface EntryRow {
   projectId: string | null;
 }
 
-interface PendingEntryRow {
-  id: string;
-  userLabel: string;
-  label: string;
-  durationMinutes: number;
-  description: string | null;
-}
-
 interface UserOption {
   id: string;
   label: string;
@@ -85,19 +77,19 @@ function formatElapsed(startedAt: string): string {
 
 export function TimeTrackingClient({
   allowProjectLevelTimeEntries,
+  submissionEnabled,
   isPrivileged,
   runningEntry,
   projects,
   entries,
-  pendingEntries,
   users,
 }: {
   allowProjectLevelTimeEntries: boolean;
+  submissionEnabled: boolean;
   isPrivileged: boolean;
   runningEntry: RunningEntry | null;
   projects: ProjectOption[];
   entries: EntryRow[];
-  pendingEntries: PendingEntryRow[];
   users: UserOption[];
 }) {
   const router = useRouter();
@@ -108,7 +100,6 @@ export function TimeTrackingClient({
   const [description, setDescription] = useState("");
   const [onBehalfOfUserId, setOnBehalfOfUserId] = useState("__self__");
   const [error, setError] = useState<string | null>(null);
-  const [approvalError, setApprovalError] = useState<string | null>(null);
   const [lockUserId, setLockUserId] = useState("__none__");
   const [lockPeriodStart, setLockPeriodStart] = useState("");
   const [lockPeriodEnd, setLockPeriodEnd] = useState("");
@@ -182,28 +173,6 @@ export function TimeTrackingClient({
     setManualDuration("");
     setDescription("");
     setManualDate("");
-    router.refresh();
-  }
-
-  async function handleApprove(id: string) {
-    setApprovalError(null);
-    const response = await fetch(`/api/tenant/time-entries/${id}/approve`, { method: "PATCH" });
-    if (!response.ok) {
-      const body = await response.json();
-      setApprovalError(body.error ?? "Freigabe fehlgeschlagen.");
-      return;
-    }
-    router.refresh();
-  }
-
-  async function handleReject(id: string) {
-    setApprovalError(null);
-    const response = await fetch(`/api/tenant/time-entries/${id}/reject`, { method: "PATCH" });
-    if (!response.ok) {
-      const body = await response.json();
-      setApprovalError(body.error ?? "Ablehnung fehlgeschlagen.");
-      return;
-    }
     router.refresh();
   }
 
@@ -342,20 +311,24 @@ export function TimeTrackingClient({
         </Button>
       </form>
 
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-lg border px-4 py-3">
-        <span className="text-sm text-muted-foreground">
-          Diese Woche: {draftCount > 0 ? `${draftCount} Entwurf/Entwürfe noch nicht eingereicht` : "alles eingereicht"}
-        </span>
-        <div className="flex gap-2">
-          <Button size="sm" disabled={submitting || draftCount === 0} onClick={handleSubmitWeek}>
-            Woche einreichen
-          </Button>
-          <Button size="sm" variant="outline" disabled={submitting || unsubmittableCount === 0} onClick={handleUnsubmitWeek}>
-            Woche zurückziehen
-          </Button>
-        </div>
-      </div>
-      {submissionError && <p className="mb-4 text-sm text-destructive">{submissionError}</p>}
+      {submissionEnabled && (
+        <>
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-lg border px-4 py-3">
+            <span className="text-sm text-muted-foreground">
+              Diese Woche: {draftCount > 0 ? `${draftCount} Entwurf/Entwürfe noch nicht eingereicht` : "alles eingereicht"}
+            </span>
+            <div className="flex gap-2">
+              <Button size="sm" disabled={submitting || draftCount === 0} onClick={handleSubmitWeek}>
+                Woche einreichen
+              </Button>
+              <Button size="sm" variant="outline" disabled={submitting || unsubmittableCount === 0} onClick={handleUnsubmitWeek}>
+                Woche zurückziehen
+              </Button>
+            </div>
+          </div>
+          {submissionError && <p className="mb-4 text-sm text-destructive">{submissionError}</p>}
+        </>
+      )}
 
       <h2 className="mb-3 text-lg font-semibold">Meine letzten Einträge</h2>
       <div className="overflow-hidden rounded-lg border">
@@ -381,7 +354,9 @@ export function TimeTrackingClient({
                       {needsChanges ? (
                         <Badge variant="destructiveOutline">Änderung angefordert</Badge>
                       ) : (
-                        <Badge variant={entry.submitted ? "outline" : "secondary"}>{entry.submitted ? "Eingereicht" : "Entwurf"}</Badge>
+                        submissionEnabled && (
+                          <Badge variant={entry.submitted ? "outline" : "secondary"}>{entry.submitted ? "Eingereicht" : "Entwurf"}</Badge>
+                        )
                       )}
                       {entry.submitted && (
                         <Badge variant={APPROVAL_BADGE_VARIANT[entry.approvalStatus]}>{APPROVAL_LABEL[entry.approvalStatus]}</Badge>
@@ -401,47 +376,7 @@ export function TimeTrackingClient({
 
       {isPrivileged && (
         <>
-          <h2 className="mt-8 mb-3 text-lg font-semibold">Zur Freigabe</h2>
-          {approvalError && <p className="mb-3 text-sm text-destructive">{approvalError}</p>}
-          {pendingEntries.length === 0 ? (
-            <p className="mb-8 text-sm text-muted-foreground">Keine ausstehenden Zeiteinträge.</p>
-          ) : (
-            <div className="mb-8 overflow-hidden rounded-lg border">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Person</TableHead>
-                    <TableHead>Task/Projekt</TableHead>
-                    <TableHead>Dauer</TableHead>
-                    <TableHead>Beschreibung</TableHead>
-                    <TableHead></TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {pendingEntries.map((entry) => (
-                    <TableRow key={entry.id}>
-                      <TableCell>{entry.userLabel}</TableCell>
-                      <TableCell>{entry.label}</TableCell>
-                      <TableCell className="text-muted-foreground">{entry.durationMinutes} min</TableCell>
-                      <TableCell className="text-muted-foreground">{entry.description ?? "—"}</TableCell>
-                      <TableCell>
-                        <div className="flex gap-2">
-                          <Button size="sm" onClick={() => handleApprove(entry.id)}>
-                            Freigeben
-                          </Button>
-                          <Button variant="outline" size="sm" onClick={() => handleReject(entry.id)}>
-                            Ablehnen
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          )}
-
-          <h2 className="mb-3 text-lg font-semibold">Periode sperren</h2>
+          <h2 className="mt-8 mb-3 text-lg font-semibold">Periode sperren</h2>
           <form onSubmit={handleLockSubmit} className="mb-6 flex flex-wrap gap-3">
             <Select value={lockUserId} onValueChange={setLockUserId}>
               <SelectTrigger className="w-48"><SelectValue placeholder="Person wählen…" /></SelectTrigger>

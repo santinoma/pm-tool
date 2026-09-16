@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { authenticateApiKey, authFailureResponse, requireWriteScope } from "@/tenant/apiKeys/authenticateApiKey";
+import { resolveInitialTimeEntryState } from "@/tenant/timeTracking/entryLifecycle";
 
 export async function GET(request: Request) {
   const auth = await authenticateApiKey(request);
@@ -56,6 +57,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "durationMinutes muss eine positive Zahl sein." }, { status: 400 });
   }
 
+  const initialState = await resolveInitialTimeEntryState(auth.tenantDb);
   const entry = await auth.tenantDb.timeEntry.create({
     data: {
       userId: auth.user.id,
@@ -63,6 +65,7 @@ export async function POST(request: Request) {
       projectId,
       durationMinutes: Math.round(durationMinutes),
       description: typeof body.description === "string" ? body.description : null,
+      ...initialState,
     },
   });
 

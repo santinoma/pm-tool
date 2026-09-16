@@ -526,6 +526,7 @@ exports.Prisma.TenantSettingsScalarFieldEnum = {
   reportsEnabled: 'reportsEnabled',
   resourcingEnabled: 'resourcingEnabled',
   timeApprovalEnabled: 'timeApprovalEnabled',
+  timeEntrySubmissionEnabled: 'timeEntrySubmissionEnabled',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

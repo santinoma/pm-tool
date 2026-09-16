@@ -52,7 +52,7 @@ export default async function TimePage() {
 
   const isPrivileged = canManageMembers(context.currentUser.role);
 
-  const [runningEntry, myEntries, projects, myLocks, pendingEntries, activeUsers] = await Promise.all([
+  const [runningEntry, myEntries, projects, myLocks, activeUsers] = await Promise.all([
     context.tenantDb.timeEntry.findFirst({
       where: { userId, startedAt: { not: null }, endedAt: null },
       include: { task: true, project: true },
@@ -68,14 +68,6 @@ export default async function TimePage() {
     }),
     context.tenantDb.timesheetLock.findMany({ where: { userId } }),
     isPrivileged
-      ? context.tenantDb.timeEntry.findMany({
-          where: { approvalStatus: "pending", submittedAt: { not: null } },
-          include: { user: true, task: true, project: true },
-          orderBy: { createdAt: "desc" },
-          take: 50,
-        })
-      : Promise.resolve([]),
-    isPrivileged
       ? context.tenantDb.user.findMany({ where: { isActive: true }, orderBy: { email: "asc" } })
       : Promise.resolve([]),
   ]);
@@ -83,6 +75,7 @@ export default async function TimePage() {
   return (
     <TimeTrackingClient
       allowProjectLevelTimeEntries={settings.allowProjectLevelTimeEntries}
+      submissionEnabled={settings.timeEntrySubmissionEnabled}
       isPrivileged={isPrivileged}
       runningEntry={
         runningEntry
@@ -112,13 +105,6 @@ export default async function TimePage() {
         date: getEntryDate(entry).toISOString(),
         taskId: entry.taskId,
         projectId: entry.projectId,
-      }))}
-      pendingEntries={pendingEntries.map((entry) => ({
-        id: entry.id,
-        userLabel: entry.user.name ?? entry.user.email,
-        label: entry.task?.title ?? entry.project?.name ?? "—",
-        durationMinutes: entry.durationMinutes ?? 0,
-        description: entry.description,
       }))}
       users={activeUsers.map((user) => ({ id: user.id, label: user.name ?? user.email }))}
     />

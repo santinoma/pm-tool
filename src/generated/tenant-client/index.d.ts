@@ -57899,6 +57899,7 @@ export namespace Prisma {
     reportsEnabled: boolean | null
     resourcingEnabled: boolean | null
     timeApprovalEnabled: boolean | null
+    timeEntrySubmissionEnabled: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -57915,6 +57916,7 @@ export namespace Prisma {
     reportsEnabled: boolean | null
     resourcingEnabled: boolean | null
     timeApprovalEnabled: boolean | null
+    timeEntrySubmissionEnabled: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -57931,6 +57933,7 @@ export namespace Prisma {
     reportsEnabled: number
     resourcingEnabled: number
     timeApprovalEnabled: number
+    timeEntrySubmissionEnabled: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -57949,6 +57952,7 @@ export namespace Prisma {
     reportsEnabled?: true
     resourcingEnabled?: true
     timeApprovalEnabled?: true
+    timeEntrySubmissionEnabled?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -57965,6 +57969,7 @@ export namespace Prisma {
     reportsEnabled?: true
     resourcingEnabled?: true
     timeApprovalEnabled?: true
+    timeEntrySubmissionEnabled?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -57981,6 +57986,7 @@ export namespace Prisma {
     reportsEnabled?: true
     resourcingEnabled?: true
     timeApprovalEnabled?: true
+    timeEntrySubmissionEnabled?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -58070,6 +58076,7 @@ export namespace Prisma {
     reportsEnabled: boolean
     resourcingEnabled: boolean
     timeApprovalEnabled: boolean
+    timeEntrySubmissionEnabled: boolean
     createdAt: Date
     updatedAt: Date
     _count: TenantSettingsCountAggregateOutputType | null
@@ -58103,6 +58110,7 @@ export namespace Prisma {
     reportsEnabled?: boolean
     resourcingEnabled?: boolean
     timeApprovalEnabled?: boolean
+    timeEntrySubmissionEnabled?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["tenantSettings"]>
@@ -58119,6 +58127,7 @@ export namespace Prisma {
     reportsEnabled?: boolean
     resourcingEnabled?: boolean
     timeApprovalEnabled?: boolean
+    timeEntrySubmissionEnabled?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["tenantSettings"]>
@@ -58135,6 +58144,7 @@ export namespace Prisma {
     reportsEnabled?: boolean
     resourcingEnabled?: boolean
     timeApprovalEnabled?: boolean
+    timeEntrySubmissionEnabled?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["tenantSettings"]>
@@ -58151,11 +58161,12 @@ export namespace Prisma {
     reportsEnabled?: boolean
     resourcingEnabled?: boolean
     timeApprovalEnabled?: boolean
+    timeEntrySubmissionEnabled?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TenantSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "allowProjectLevelTimeEntries" | "currency" | "triageEnabled" | "timeTrackingMode" | "require2fa" | "scimBearerToken" | "crmEnabled" | "reportsEnabled" | "resourcingEnabled" | "timeApprovalEnabled" | "createdAt" | "updatedAt", ExtArgs["result"]["tenantSettings"]>
+  export type TenantSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "allowProjectLevelTimeEntries" | "currency" | "triageEnabled" | "timeTrackingMode" | "require2fa" | "scimBearerToken" | "crmEnabled" | "reportsEnabled" | "resourcingEnabled" | "timeApprovalEnabled" | "timeEntrySubmissionEnabled" | "createdAt" | "updatedAt", ExtArgs["result"]["tenantSettings"]>
 
   export type $TenantSettingsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "TenantSettings"
@@ -58172,6 +58183,7 @@ export namespace Prisma {
       reportsEnabled: boolean
       resourcingEnabled: boolean
       timeApprovalEnabled: boolean
+      timeEntrySubmissionEnabled: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["tenantSettings"]>
@@ -58608,6 +58620,7 @@ export namespace Prisma {
     readonly reportsEnabled: FieldRef<"TenantSettings", 'Boolean'>
     readonly resourcingEnabled: FieldRef<"TenantSettings", 'Boolean'>
     readonly timeApprovalEnabled: FieldRef<"TenantSettings", 'Boolean'>
+    readonly timeEntrySubmissionEnabled: FieldRef<"TenantSettings", 'Boolean'>
     readonly createdAt: FieldRef<"TenantSettings", 'DateTime'>
     readonly updatedAt: FieldRef<"TenantSettings", 'DateTime'>
   }
@@ -112113,6 +112126,7 @@ export namespace Prisma {
     reportsEnabled: 'reportsEnabled',
     resourcingEnabled: 'resourcingEnabled',
     timeApprovalEnabled: 'timeApprovalEnabled',
+    timeEntrySubmissionEnabled: 'timeEntrySubmissionEnabled',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -116393,6 +116407,7 @@ export namespace Prisma {
     reportsEnabled?: BoolFilter<"TenantSettings"> | boolean
     resourcingEnabled?: BoolFilter<"TenantSettings"> | boolean
     timeApprovalEnabled?: BoolFilter<"TenantSettings"> | boolean
+    timeEntrySubmissionEnabled?: BoolFilter<"TenantSettings"> | boolean
     createdAt?: DateTimeFilter<"TenantSettings"> | Date | string
     updatedAt?: DateTimeFilter<"TenantSettings"> | Date | string
   }
@@ -116409,6 +116424,7 @@ export namespace Prisma {
     reportsEnabled?: SortOrder
     resourcingEnabled?: SortOrder
     timeApprovalEnabled?: SortOrder
+    timeEntrySubmissionEnabled?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -116428,6 +116444,7 @@ export namespace Prisma {
     reportsEnabled?: BoolFilter<"TenantSettings"> | boolean
     resourcingEnabled?: BoolFilter<"TenantSettings"> | boolean
     timeApprovalEnabled?: BoolFilter<"TenantSettings"> | boolean
+    timeEntrySubmissionEnabled?: BoolFilter<"TenantSettings"> | boolean
     createdAt?: DateTimeFilter<"TenantSettings"> | Date | string
     updatedAt?: DateTimeFilter<"TenantSettings"> | Date | string
   }, "id">
@@ -116444,6 +116461,7 @@ export namespace Prisma {
     reportsEnabled?: SortOrder
     resourcingEnabled?: SortOrder
     timeApprovalEnabled?: SortOrder
+    timeEntrySubmissionEnabled?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: TenantSettingsCountOrderByAggregateInput
@@ -116466,6 +116484,7 @@ export namespace Prisma {
     reportsEnabled?: BoolWithAggregatesFilter<"TenantSettings"> | boolean
     resourcingEnabled?: BoolWithAggregatesFilter<"TenantSettings"> | boolean
     timeApprovalEnabled?: BoolWithAggregatesFilter<"TenantSettings"> | boolean
+    timeEntrySubmissionEnabled?: BoolWithAggregatesFilter<"TenantSettings"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"TenantSettings"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"TenantSettings"> | Date | string
   }
@@ -123026,6 +123045,7 @@ export namespace Prisma {
     reportsEnabled?: boolean
     resourcingEnabled?: boolean
     timeApprovalEnabled?: boolean
+    timeEntrySubmissionEnabled?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -123042,6 +123062,7 @@ export namespace Prisma {
     reportsEnabled?: boolean
     resourcingEnabled?: boolean
     timeApprovalEnabled?: boolean
+    timeEntrySubmissionEnabled?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -123058,6 +123079,7 @@ export namespace Prisma {
     reportsEnabled?: BoolFieldUpdateOperationsInput | boolean
     resourcingEnabled?: BoolFieldUpdateOperationsInput | boolean
     timeApprovalEnabled?: BoolFieldUpdateOperationsInput | boolean
+    timeEntrySubmissionEnabled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -123074,6 +123096,7 @@ export namespace Prisma {
     reportsEnabled?: BoolFieldUpdateOperationsInput | boolean
     resourcingEnabled?: BoolFieldUpdateOperationsInput | boolean
     timeApprovalEnabled?: BoolFieldUpdateOperationsInput | boolean
+    timeEntrySubmissionEnabled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -123090,6 +123113,7 @@ export namespace Prisma {
     reportsEnabled?: boolean
     resourcingEnabled?: boolean
     timeApprovalEnabled?: boolean
+    timeEntrySubmissionEnabled?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -123106,6 +123130,7 @@ export namespace Prisma {
     reportsEnabled?: BoolFieldUpdateOperationsInput | boolean
     resourcingEnabled?: BoolFieldUpdateOperationsInput | boolean
     timeApprovalEnabled?: BoolFieldUpdateOperationsInput | boolean
+    timeEntrySubmissionEnabled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -123122,6 +123147,7 @@ export namespace Prisma {
     reportsEnabled?: BoolFieldUpdateOperationsInput | boolean
     resourcingEnabled?: BoolFieldUpdateOperationsInput | boolean
     timeApprovalEnabled?: BoolFieldUpdateOperationsInput | boolean
+    timeEntrySubmissionEnabled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -129249,6 +129275,7 @@ export namespace Prisma {
     reportsEnabled?: SortOrder
     resourcingEnabled?: SortOrder
     timeApprovalEnabled?: SortOrder
+    timeEntrySubmissionEnabled?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -129265,6 +129292,7 @@ export namespace Prisma {
     reportsEnabled?: SortOrder
     resourcingEnabled?: SortOrder
     timeApprovalEnabled?: SortOrder
+    timeEntrySubmissionEnabled?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -129281,6 +129309,7 @@ export namespace Prisma {
     reportsEnabled?: SortOrder
     resourcingEnabled?: SortOrder
     timeApprovalEnabled?: SortOrder
+    timeEntrySubmissionEnabled?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
