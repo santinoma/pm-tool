@@ -27,7 +27,11 @@ Task weitermachen — nicht die ganze Phase anhalten.
 ## Phase 2 — Große Lücken
 
 ### Views, Layouts & Filters
-- [ ] T201 Generischer Filter-Builder (AND/OR-Gruppen, Operatoren) — Datenmodell
+- [x] T201 Generischer Filter-Builder (AND/OR-Gruppen, Operatoren) — Datenmodell
+      (`src/tenant/views/filterEngine.ts`: entitätsagnostischer Evaluator +
+      `__ME__`-Auflösung über verschachtelte Gruppen hinweg). UI-Anbindung an
+      ListClient.tsx/MyTasksClient.tsx folgt in T202 — der Evaluator ersetzt
+      noch nichts Bestehendes, `resolveViewFilters.ts` bleibt vorerst aktiv.
 - [ ] T202 Filter-Builder — UI-Komponente, ersetzt Einzel-Dropdown-Filter in
       ListClient.tsx / MyTasksClient.tsx
 - [ ] T203 Spaltenkonfiguration (hinzufügen/entfernen/umsortieren)
