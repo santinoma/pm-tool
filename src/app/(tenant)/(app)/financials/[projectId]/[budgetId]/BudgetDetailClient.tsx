@@ -162,6 +162,7 @@ function SectionEditRow({
   const [trackBooking, setTrackBooking] = useState(section.trackBooking);
   const [assigneeIds, setAssigneeIds] = useState<string[]>(section.assigneeIds);
   const [saving, setSaving] = useState(false);
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   function toggleAssignee(userId: string) {
     setAssigneeIds((current) => (current.includes(userId) ? current.filter((id) => id !== userId) : [...current, userId]));
@@ -202,93 +203,132 @@ function SectionEditRow({
   return (
     <TableRow>
       <TableCell colSpan={9}>
-        <div className="flex flex-col gap-2 py-3">
-          <div className="flex flex-wrap gap-2">
-            <Input className="w-40" value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" />
-            <Select value={serviceTypeId} onValueChange={setServiceTypeId}>
-              <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="__none__">— kein Service Type —</SelectItem>
-                {serviceTypes.map((type) => (
-                  <SelectItem key={type.id} value={type.id}>
-                    {type.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Select value={billingType} onValueChange={setBillingType}>
-              <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                {Object.entries(BILLING_TYPE_LABELS).map(([value, label]) => (
-                  <SelectItem key={value} value={value}>
-                    {label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Select value={trackingUnit} onValueChange={setTrackingUnit}>
-              <SelectTrigger className="w-32"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                {Object.entries(TRACKING_UNIT_LABELS).map(([value, label]) => (
-                  <SelectItem key={value} value={value}>
-                    {label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {billingType === "fixed" && (
-              <Select value={recognitionMethod} onValueChange={setRecognitionMethod}>
-                <SelectTrigger className="w-56"><SelectValue /></SelectTrigger>
+        <div className="flex flex-col gap-4 py-3">
+          {/* Basics: what this service is */}
+          <div className="flex flex-wrap items-end gap-2">
+            <LabeledField label="Name">
+              <Input className="w-44" value={name} onChange={(e) => setName(e.target.value)} placeholder="z. B. Frontend Development" />
+            </LabeledField>
+            <LabeledField label="Service Type">
+              <Select value={serviceTypeId} onValueChange={setServiceTypeId}>
+                <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  {Object.entries(RECOGNITION_METHOD_LABELS).map(([value, label]) => (
+                  <SelectItem value="__none__">— kein Service Type —</SelectItem>
+                  {serviceTypes.map((type) => (
+                    <SelectItem key={type.id} value={type.id}>
+                      {type.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </LabeledField>
+          </div>
+          <Input value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Beschreibung (optional)" />
+
+          {/* Billing: how this service is tracked and billed */}
+          <div className="flex flex-wrap items-end gap-2">
+            <LabeledField label="Billing Type">
+              <Select value={billingType} onValueChange={setBillingType}>
+                <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {Object.entries(BILLING_TYPE_LABELS).map(([value, label]) => (
                     <SelectItem key={value} value={value}>
                       {label}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
+            </LabeledField>
+            <LabeledField label="Unit">
+              <Select value={trackingUnit} onValueChange={setTrackingUnit}>
+                <SelectTrigger className="w-32"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {Object.entries(TRACKING_UNIT_LABELS).map(([value, label]) => (
+                    <SelectItem key={value} value={value}>
+                      {label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </LabeledField>
+            <LabeledField label="Quantity">
+              <Input className="w-24" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+            </LabeledField>
+            <LabeledField label="Price">
+              <Input className="w-24" type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
+            </LabeledField>
+            {billingType === "fixed" && (
+              <LabeledField label="Revenue Recognition">
+                <Select value={recognitionMethod} onValueChange={setRecognitionMethod}>
+                  <SelectTrigger className="w-56"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {Object.entries(RECOGNITION_METHOD_LABELS).map(([value, label]) => (
+                      <SelectItem key={value} value={value}>
+                        {label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </LabeledField>
             )}
           </div>
-          <Input value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Beschreibung (optional)" />
-          <div className="flex flex-wrap gap-2">
-            <Input className="w-24" type="number" value={budgetedTimeHours} onChange={(e) => setBudgetedTimeHours(e.target.value)} placeholder="Zeit (h)" />
-            <Input className="w-28" type="number" value={estimatedCost} onChange={(e) => setEstimatedCost(e.target.value)} placeholder="Est. Cost" />
-            <Input className="w-24" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Quantity" />
-            <Input className="w-24" type="number" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="Price" />
-            <Input className="w-24" type="number" value={budgetUsed} onChange={(e) => setBudgetUsed(e.target.value)} placeholder="Used" />
-          </div>
-          <div className="flex flex-wrap items-end gap-2">
-            <Input className="w-24" type="number" value={discountPercent} onChange={(e) => setDiscountPercent(e.target.value)} placeholder="Discount %" />
-            <Input className="w-24" type="number" value={markupPercent} onChange={(e) => setMarkupPercent(e.target.value)} placeholder="Markup %" />
-            <Input className="w-36" type="number" value={guaranteedMaxPrice} onChange={(e) => setGuaranteedMaxPrice(e.target.value)} placeholder="Guaranteed max price" />
-            <Input className="w-32" type="number" value={warningThresholdPercent} onChange={(e) => setWarningThresholdPercent(e.target.value)} placeholder="Warnschwelle (%)" />
-            <label className="flex items-center gap-1 text-xs">
-              <Checkbox checked={blockOverrun} onCheckedChange={(c) => setBlockOverrun(c === true)} />
-              Overrun blockieren
-            </label>
-          </div>
+
+          {/* Tracking options: same clock/receipt/calendar icon-toggle pattern as Productive */}
           <div className="flex flex-wrap gap-3">
-            <label className="flex items-center gap-1.5 text-xs">
-              <Checkbox checked={trackTime} onCheckedChange={(c) => setTrackTime(c === true)} />
-              <Clock className="size-3.5" /> Time-Tracking
-            </label>
-            <label className="flex items-center gap-1.5 text-xs">
-              <Checkbox checked={trackExpenses} onCheckedChange={(c) => setTrackExpenses(c === true)} />
-              <Receipt className="size-3.5" /> Expense-Tracking
-            </label>
-            <label className="flex items-center gap-1.5 text-xs">
-              <Checkbox checked={trackBooking} onCheckedChange={(c) => setTrackBooking(c === true)} />
-              <CalendarIcon className="size-3.5" /> Booking
-            </label>
+            <TrackingToggle icon={Clock} label="Time-Tracking" checked={trackTime} onCheckedChange={setTrackTime} />
+            <TrackingToggle icon={Receipt} label="Expense-Tracking" checked={trackExpenses} onCheckedChange={setTrackExpenses} />
+            <TrackingToggle icon={CalendarIcon} label="Booking" checked={trackBooking} onCheckedChange={setTrackBooking} />
           </div>
-          <div className="flex max-w-md flex-wrap gap-2">
-            {users.map((user) => (
-              <label key={user.id} className="flex items-center gap-1.5 text-xs">
-                <Checkbox checked={assigneeIds.includes(user.id)} onCheckedChange={() => toggleAssignee(user.id)} />
-                {user.label}
-              </label>
-            ))}
-          </div>
+
+          <Button type="button" variant="ghost" size="sm" className="self-start text-muted-foreground" onClick={() => setShowAdvanced((v) => !v)}>
+            {showAdvanced ? "Erweitert ausblenden" : "Erweitert anzeigen"} (Schätzungen, Rabatt/Aufschlag, Limits, Assignees)
+          </Button>
+
+          {showAdvanced && (
+            <div className="flex flex-col gap-3 rounded-lg border border-dashed p-3">
+              <div className="flex flex-wrap items-end gap-2">
+                <LabeledField label="Geschätzte Zeit (h)">
+                  <Input className="w-24" type="number" value={budgetedTimeHours} onChange={(e) => setBudgetedTimeHours(e.target.value)} />
+                </LabeledField>
+                <LabeledField label="Geschätzte Kosten">
+                  <Input className="w-28" type="number" value={estimatedCost} onChange={(e) => setEstimatedCost(e.target.value)} />
+                </LabeledField>
+                <LabeledField label="Verbraucht (manuell)">
+                  <Input className="w-24" type="number" value={budgetUsed} onChange={(e) => setBudgetUsed(e.target.value)} />
+                </LabeledField>
+              </div>
+              <div className="flex flex-wrap items-end gap-2">
+                <LabeledField label="Discount %">
+                  <Input className="w-24" type="number" value={discountPercent} onChange={(e) => setDiscountPercent(e.target.value)} />
+                </LabeledField>
+                <LabeledField label="Markup %">
+                  <Input className="w-24" type="number" value={markupPercent} onChange={(e) => setMarkupPercent(e.target.value)} />
+                </LabeledField>
+                <LabeledField label="Guaranteed Max Price">
+                  <Input className="w-36" type="number" value={guaranteedMaxPrice} onChange={(e) => setGuaranteedMaxPrice(e.target.value)} />
+                </LabeledField>
+                <LabeledField label="Warnschwelle %">
+                  <Input className="w-28" type="number" value={warningThresholdPercent} onChange={(e) => setWarningThresholdPercent(e.target.value)} />
+                </LabeledField>
+                <label className="flex items-center gap-1.5 pb-1.5 text-xs">
+                  <Checkbox checked={blockOverrun} onCheckedChange={(c) => setBlockOverrun(c === true)} />
+                  Overrun blockieren
+                </label>
+              </div>
+              <div>
+                <span className="mb-1 block text-xs font-medium text-muted-foreground">Assignees</span>
+                <div className="flex max-w-md flex-wrap gap-2">
+                  {users.map((user) => (
+                    <label key={user.id} className="flex items-center gap-1.5 text-xs">
+                      <Checkbox checked={assigneeIds.includes(user.id)} onCheckedChange={() => toggleAssignee(user.id)} />
+                      {user.label}
+                    </label>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="flex gap-2">
             <Button size="sm" onClick={handleSave} loading={saving}>
               Speichern
@@ -300,6 +340,42 @@ function SectionEditRow({
         </div>
       </TableCell>
     </TableRow>
+  );
+}
+
+function LabeledField({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <label className="flex flex-col gap-1 text-xs">
+      <span className="font-medium text-muted-foreground">{label}</span>
+      {children}
+    </label>
+  );
+}
+
+function TrackingToggle({
+  icon: Icon,
+  label,
+  checked,
+  onCheckedChange,
+}: {
+  icon: typeof Clock;
+  label: string;
+  checked: boolean;
+  onCheckedChange: (checked: boolean) => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={() => onCheckedChange(!checked)}
+      aria-pressed={checked}
+      className={cn(
+        "flex items-center gap-1.5 rounded-md border px-2.5 py-1.5 text-xs transition-colors",
+        checked ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:bg-accent/40",
+      )}
+    >
+      <Icon className="size-3.5" />
+      {label}
+    </button>
   );
 }
 
@@ -544,54 +620,71 @@ function ServicesTab({
               </SelectContent>
             </Select>
           )}
-          <div className="flex flex-wrap gap-2">
-            <Input className="w-44" value={name} onChange={(e) => setName(e.target.value)} placeholder="Name (z. B. Lead & PM Steuerung)" required />
-            <Select value={serviceTypeId} onValueChange={setServiceTypeId}>
-              <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="__none__">— kein Service Type —</SelectItem>
-                {serviceTypes.map((type) => (
-                  <SelectItem key={type.id} value={type.id}>
-                    {type.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Select value={billingType} onValueChange={setBillingType}>
-              <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                {Object.entries(BILLING_TYPE_LABELS).map(([value, label]) => (
-                  <SelectItem key={value} value={value}>
-                    {label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Select value={trackingUnit} onValueChange={setTrackingUnit}>
-              <SelectTrigger className="w-32"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                {Object.entries(TRACKING_UNIT_LABELS).map(([value, label]) => (
-                  <SelectItem key={value} value={value}>
-                    {label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="flex flex-wrap items-end gap-2">
+            <LabeledField label="Name">
+              <Input className="w-44" value={name} onChange={(e) => setName(e.target.value)} placeholder="z. B. Frontend Development" required />
+            </LabeledField>
+            <LabeledField label="Service Type">
+              <Select value={serviceTypeId} onValueChange={setServiceTypeId}>
+                <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="__none__">— kein Service Type —</SelectItem>
+                  {serviceTypes.map((type) => (
+                    <SelectItem key={type.id} value={type.id}>
+                      {type.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </LabeledField>
+            <LabeledField label="Billing Type">
+              <Select value={billingType} onValueChange={setBillingType}>
+                <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {Object.entries(BILLING_TYPE_LABELS).map(([value, label]) => (
+                    <SelectItem key={value} value={value}>
+                      {label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </LabeledField>
+            <LabeledField label="Unit">
+              <Select value={trackingUnit} onValueChange={setTrackingUnit}>
+                <SelectTrigger className="w-32"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {Object.entries(TRACKING_UNIT_LABELS).map(([value, label]) => (
+                    <SelectItem key={value} value={value}>
+                      {label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </LabeledField>
           </div>
           <Input value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Beschreibung (optional)" />
           <div className="flex flex-wrap items-end gap-2">
-            <Input className="w-28" type="number" value={budgetedTimeHours} onChange={(e) => setBudgetedTimeHours(e.target.value)} placeholder="Zeit (h)" />
-            <Input className="w-24" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="Quantity" required />
-            <Input className="w-24" type="number" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="Price" required />
+            <LabeledField label="Geschätzte Zeit (h)">
+              <Input className="w-28" type="number" value={budgetedTimeHours} onChange={(e) => setBudgetedTimeHours(e.target.value)} />
+            </LabeledField>
+            <LabeledField label="Quantity">
+              <Input className="w-24" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} required />
+            </LabeledField>
+            <LabeledField label="Price">
+              <Input className="w-24" type="number" value={price} onChange={(e) => setPrice(e.target.value)} required />
+            </LabeledField>
             <Button type="submit">Anlegen</Button>
           </div>
-          <div className="flex max-w-md flex-wrap gap-2">
-            {users.map((user) => (
-              <label key={user.id} className="flex items-center gap-1.5 text-xs">
-                <Checkbox checked={assigneeIds.includes(user.id)} onCheckedChange={() => toggleAssignee(user.id)} />
-                {user.label}
-              </label>
-            ))}
+          <div>
+            <span className="mb-1 block text-xs font-medium text-muted-foreground">Assignees</span>
+            <div className="flex max-w-md flex-wrap gap-2">
+              {users.map((user) => (
+                <label key={user.id} className="flex items-center gap-1.5 text-xs">
+                  <Checkbox checked={assigneeIds.includes(user.id)} onCheckedChange={() => toggleAssignee(user.id)} />
+                  {user.label}
+                </label>
+              ))}
+            </div>
           </div>
           {error && <p className="text-sm text-destructive">{error}</p>}
         </form>
