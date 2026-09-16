@@ -16,7 +16,7 @@ Task weitermachen — nicht die ganze Phase anhalten.
       koppeln statt an `invoicedAmount`
 - [x] T102 Revenue Recognition: `straight_line` nur auf Fixed/Percentage, nicht T&M;
       `deliveredAt`-Fallback-Kette einbauen
-- [ ] T103 Rate-Card-Auflösung: Standard- und Kunden-Rate-Card gemeinsam anbieten
+- [x] T103 Rate-Card-Auflösung: Standard- und Kunden-Rate-Card gemeinsam anbieten
 - [ ] T104 Offboarding: `Deal.ownerId` reassignen
 - [ ] T105 Offboarding: `AbsenceRequest.reviewedById` reassignen
 - [ ] T106 Invoicing "uninvoiced_time_expenses": Expenses tatsächlich einbeziehen

@@ -153,8 +153,9 @@ export default async function BudgetDetailPage({
         }))}
         users={users.map((u) => ({ id: u.id, label: u.name ?? u.email }))}
         serviceTypes={serviceTypes.map((type) => ({ id: type.id, name: type.name }))}
-        rateCardItems={rateCardItems.map((item) => ({
+        rateCardItems={rateCardItems.map(({ source, item }) => ({
           id: item.id,
+          source,
           name: item.name,
           serviceTypeId: item.serviceTypeId,
           billingType: item.billingType,

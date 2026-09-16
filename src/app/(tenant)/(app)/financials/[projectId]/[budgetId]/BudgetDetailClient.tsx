@@ -13,7 +13,7 @@ import { Checkbox } from "@/ui/shadcn/components/checkbox";
 import { Input } from "@/ui/shadcn/components/input";
 import { Label } from "@/ui/shadcn/components/label";
 import { Progress } from "@/ui/shadcn/components/progress";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/shadcn/components/tabs";
 import { cn } from "@/ui/shadcn/lib/utils";
@@ -56,6 +56,7 @@ interface ServiceTypeOption {
 
 interface RateCardItemOption {
   id: string;
+  source: "client" | "default";
   name: string;
   serviceTypeId: string | null;
   billingType: string;
@@ -612,11 +613,28 @@ function ServicesTab({
               <SelectTrigger className="max-w-80"><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="__none__">— aus Rate Card übernehmen (optional) —</SelectItem>
-                {rateCardItems.map((item) => (
-                  <SelectItem key={item.id} value={item.id}>
-                    {item.name} ({item.defaultPrice.toFixed(2)})
-                  </SelectItem>
-                ))}
+                {rateCardItems.some((item) => item.source === "client") && (
+                  <SelectGroup>
+                    <SelectLabel>Kundenspezifische Rate Card</SelectLabel>
+                    {rateCardItems
+                      .filter((item) => item.source === "client")
+                      .map((item) => (
+                        <SelectItem key={item.id} value={item.id}>
+                          {item.name} ({item.defaultPrice.toFixed(2)})
+                        </SelectItem>
+                      ))}
+                  </SelectGroup>
+                )}
+                <SelectGroup>
+                  <SelectLabel>Standard Rate Card</SelectLabel>
+                  {rateCardItems
+                    .filter((item) => item.source === "default")
+                    .map((item) => (
+                      <SelectItem key={item.id} value={item.id}>
+                        {item.name} ({item.defaultPrice.toFixed(2)})
+                      </SelectItem>
+                    ))}
+                </SelectGroup>
               </SelectContent>
             </Select>
           )}
