@@ -167,6 +167,8 @@ const STRINGS = {
   "settings.modules.desc": { de: "CRM, Reports und Resourcing organisationsweit aktivieren oder deaktivieren.", en: "Enable or disable CRM, Reports and Resourcing organization-wide." },
   "settings.workflows.title": { de: "Workflows", en: "Workflows" },
   "settings.workflows.desc": { de: "Erstelle und bearbeite Gruppen von Task-Status.", en: "Create and edit groups of task statuses." },
+  "settings.pipelines.title": { de: "Pipelines", en: "Pipelines" },
+  "settings.pipelines.desc": { de: "Verwalte Sales-Pipelines, Stages und Lost-Reasons.", en: "Manage sales pipelines, stages, and lost reasons." },
   "settings.automations.title": { de: "Automatisierungen", en: "Automations" },
   "settings.automations.desc": { de: "Erstelle Automationen für Updates, Benachrichtigungen oder Zuweisungen.", en: "Create automations for updates, notifications, or assignments." },
   "settings.webhooks.title": { de: "Webhooks", en: "Webhooks" },

@@ -29,6 +29,21 @@ export type Client = $Result.DefaultSelection<Prisma.$ClientPayload>
  */
 export type ClientContact = $Result.DefaultSelection<Prisma.$ClientContactPayload>
 /**
+ * Model Pipeline
+ * 
+ */
+export type Pipeline = $Result.DefaultSelection<Prisma.$PipelinePayload>
+/**
+ * Model DealStatus
+ * 
+ */
+export type DealStatus = $Result.DefaultSelection<Prisma.$DealStatusPayload>
+/**
+ * Model LostReason
+ * 
+ */
+export type LostReason = $Result.DefaultSelection<Prisma.$LostReasonPayload>
+/**
  * Model Deal
  * 
  */
@@ -437,15 +452,13 @@ export const ClientType: {
 export type ClientType = (typeof ClientType)[keyof typeof ClientType]
 
 
-export const DealStage: {
-  lead: 'lead',
-  qualified: 'qualified',
-  proposal: 'proposal',
+export const DealStatusCategory: {
+  open: 'open',
   won: 'won',
   lost: 'lost'
 };
 
-export type DealStage = (typeof DealStage)[keyof typeof DealStage]
+export type DealStatusCategory = (typeof DealStatusCategory)[keyof typeof DealStatusCategory]
 
 
 export const AbsenceType: {
@@ -719,9 +732,9 @@ export type ClientType = $Enums.ClientType
 
 export const ClientType: typeof $Enums.ClientType
 
-export type DealStage = $Enums.DealStage
+export type DealStatusCategory = $Enums.DealStatusCategory
 
-export const DealStage: typeof $Enums.DealStage
+export const DealStatusCategory: typeof $Enums.DealStatusCategory
 
 export type AbsenceType = $Enums.AbsenceType
 
@@ -977,6 +990,36 @@ export class PrismaClient<
     * ```
     */
   get clientContact(): Prisma.ClientContactDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.pipeline`: Exposes CRUD operations for the **Pipeline** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Pipelines
+    * const pipelines = await prisma.pipeline.findMany()
+    * ```
+    */
+  get pipeline(): Prisma.PipelineDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.dealStatus`: Exposes CRUD operations for the **DealStatus** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DealStatuses
+    * const dealStatuses = await prisma.dealStatus.findMany()
+    * ```
+    */
+  get dealStatus(): Prisma.DealStatusDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.lostReason`: Exposes CRUD operations for the **LostReason** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LostReasons
+    * const lostReasons = await prisma.lostReason.findMany()
+    * ```
+    */
+  get lostReason(): Prisma.LostReasonDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.deal`: Exposes CRUD operations for the **Deal** model.
@@ -2177,6 +2220,9 @@ export namespace Prisma {
     User: 'User',
     Client: 'Client',
     ClientContact: 'ClientContact',
+    Pipeline: 'Pipeline',
+    DealStatus: 'DealStatus',
+    LostReason: 'LostReason',
     Deal: 'Deal',
     ProjectMember: 'ProjectMember',
     CustomRole: 'CustomRole',
@@ -2267,7 +2313,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "client" | "clientContact" | "deal" | "projectMember" | "customRole" | "projectRoleOverride" | "absenceRequest" | "session" | "favorite" | "auditLogEntry" | "invite" | "projectClientAccess" | "slackCaptureConfig" | "project" | "taskFolder" | "taskListGroup" | "baseline" | "baselineTaskSnapshot" | "portfolio" | "goal" | "cycle" | "transitionRule" | "sharedView" | "savedView" | "workflow" | "workflowStatus" | "task" | "tag" | "taskTag" | "taskSubscriber" | "todo" | "comment" | "mention" | "attachment" | "wikiPage" | "tenantSettings" | "pendingLogin" | "timeEntry" | "timesheetLock" | "timeTrackingPolicy" | "holidayCalendar" | "holiday" | "resourceBooking" | "taskProject" | "taskDependency" | "taskLink" | "customFieldDef" | "customFieldValue" | "budgetCustomFieldValue" | "wikiPageCustomFieldValue" | "sharedWikiLink" | "activityEvent" | "notificationPreference" | "notification" | "automationRule" | "automationAction" | "dashboard" | "dashboardWidget" | "webhookEndpoint" | "ssoConfig" | "apiKey" | "webhookDelivery" | "checkInSchedule" | "checkInResponse" | "budget" | "serviceType" | "budgetSection" | "rateCardItem" | "invoice" | "invoiceLineItem" | "invoicePayment" | "creditNote" | "meeting" | "expense" | "purchaseOrder" | "savedReport" | "budgetSectionAssignee"
+      modelProps: "user" | "client" | "clientContact" | "pipeline" | "dealStatus" | "lostReason" | "deal" | "projectMember" | "customRole" | "projectRoleOverride" | "absenceRequest" | "session" | "favorite" | "auditLogEntry" | "invite" | "projectClientAccess" | "slackCaptureConfig" | "project" | "taskFolder" | "taskListGroup" | "baseline" | "baselineTaskSnapshot" | "portfolio" | "goal" | "cycle" | "transitionRule" | "sharedView" | "savedView" | "workflow" | "workflowStatus" | "task" | "tag" | "taskTag" | "taskSubscriber" | "todo" | "comment" | "mention" | "attachment" | "wikiPage" | "tenantSettings" | "pendingLogin" | "timeEntry" | "timesheetLock" | "timeTrackingPolicy" | "holidayCalendar" | "holiday" | "resourceBooking" | "taskProject" | "taskDependency" | "taskLink" | "customFieldDef" | "customFieldValue" | "budgetCustomFieldValue" | "wikiPageCustomFieldValue" | "sharedWikiLink" | "activityEvent" | "notificationPreference" | "notification" | "automationRule" | "automationAction" | "dashboard" | "dashboardWidget" | "webhookEndpoint" | "ssoConfig" | "apiKey" | "webhookDelivery" | "checkInSchedule" | "checkInResponse" | "budget" | "serviceType" | "budgetSection" | "rateCardItem" | "invoice" | "invoiceLineItem" | "invoicePayment" | "creditNote" | "meeting" | "expense" | "purchaseOrder" | "savedReport" | "budgetSectionAssignee"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2490,6 +2536,228 @@ export namespace Prisma {
           count: {
             args: Prisma.ClientContactCountArgs<ExtArgs>
             result: $Utils.Optional<ClientContactCountAggregateOutputType> | number
+          }
+        }
+      }
+      Pipeline: {
+        payload: Prisma.$PipelinePayload<ExtArgs>
+        fields: Prisma.PipelineFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PipelineFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelinePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PipelineFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelinePayload>
+          }
+          findFirst: {
+            args: Prisma.PipelineFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelinePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PipelineFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelinePayload>
+          }
+          findMany: {
+            args: Prisma.PipelineFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelinePayload>[]
+          }
+          create: {
+            args: Prisma.PipelineCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelinePayload>
+          }
+          createMany: {
+            args: Prisma.PipelineCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PipelineCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelinePayload>[]
+          }
+          delete: {
+            args: Prisma.PipelineDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelinePayload>
+          }
+          update: {
+            args: Prisma.PipelineUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelinePayload>
+          }
+          deleteMany: {
+            args: Prisma.PipelineDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PipelineUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PipelineUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelinePayload>[]
+          }
+          upsert: {
+            args: Prisma.PipelineUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelinePayload>
+          }
+          aggregate: {
+            args: Prisma.PipelineAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePipeline>
+          }
+          groupBy: {
+            args: Prisma.PipelineGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PipelineGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PipelineCountArgs<ExtArgs>
+            result: $Utils.Optional<PipelineCountAggregateOutputType> | number
+          }
+        }
+      }
+      DealStatus: {
+        payload: Prisma.$DealStatusPayload<ExtArgs>
+        fields: Prisma.DealStatusFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DealStatusFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealStatusPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DealStatusFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealStatusPayload>
+          }
+          findFirst: {
+            args: Prisma.DealStatusFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealStatusPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DealStatusFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealStatusPayload>
+          }
+          findMany: {
+            args: Prisma.DealStatusFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealStatusPayload>[]
+          }
+          create: {
+            args: Prisma.DealStatusCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealStatusPayload>
+          }
+          createMany: {
+            args: Prisma.DealStatusCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DealStatusCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealStatusPayload>[]
+          }
+          delete: {
+            args: Prisma.DealStatusDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealStatusPayload>
+          }
+          update: {
+            args: Prisma.DealStatusUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealStatusPayload>
+          }
+          deleteMany: {
+            args: Prisma.DealStatusDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DealStatusUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DealStatusUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealStatusPayload>[]
+          }
+          upsert: {
+            args: Prisma.DealStatusUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealStatusPayload>
+          }
+          aggregate: {
+            args: Prisma.DealStatusAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDealStatus>
+          }
+          groupBy: {
+            args: Prisma.DealStatusGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DealStatusGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DealStatusCountArgs<ExtArgs>
+            result: $Utils.Optional<DealStatusCountAggregateOutputType> | number
+          }
+        }
+      }
+      LostReason: {
+        payload: Prisma.$LostReasonPayload<ExtArgs>
+        fields: Prisma.LostReasonFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LostReasonFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LostReasonPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LostReasonFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LostReasonPayload>
+          }
+          findFirst: {
+            args: Prisma.LostReasonFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LostReasonPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LostReasonFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LostReasonPayload>
+          }
+          findMany: {
+            args: Prisma.LostReasonFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LostReasonPayload>[]
+          }
+          create: {
+            args: Prisma.LostReasonCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LostReasonPayload>
+          }
+          createMany: {
+            args: Prisma.LostReasonCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LostReasonCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LostReasonPayload>[]
+          }
+          delete: {
+            args: Prisma.LostReasonDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LostReasonPayload>
+          }
+          update: {
+            args: Prisma.LostReasonUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LostReasonPayload>
+          }
+          deleteMany: {
+            args: Prisma.LostReasonDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LostReasonUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LostReasonUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LostReasonPayload>[]
+          }
+          upsert: {
+            args: Prisma.LostReasonUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LostReasonPayload>
+          }
+          aggregate: {
+            args: Prisma.LostReasonAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLostReason>
+          }
+          groupBy: {
+            args: Prisma.LostReasonGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LostReasonGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LostReasonCountArgs<ExtArgs>
+            result: $Utils.Optional<LostReasonCountAggregateOutputType> | number
           }
         }
       }
@@ -8169,6 +8437,9 @@ export namespace Prisma {
     user?: UserOmit
     client?: ClientOmit
     clientContact?: ClientContactOmit
+    pipeline?: PipelineOmit
+    dealStatus?: DealStatusOmit
+    lostReason?: LostReasonOmit
     deal?: DealOmit
     projectMember?: ProjectMemberOmit
     customRole?: CustomRoleOmit
@@ -8836,6 +9107,99 @@ export namespace Prisma {
    * ClientCountOutputType without action
    */
   export type ClientCountOutputTypeCountDealsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DealWhereInput
+  }
+
+
+  /**
+   * Count Type PipelineCountOutputType
+   */
+
+  export type PipelineCountOutputType = {
+    statuses: number
+  }
+
+  export type PipelineCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    statuses?: boolean | PipelineCountOutputTypeCountStatusesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PipelineCountOutputType without action
+   */
+  export type PipelineCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PipelineCountOutputType
+     */
+    select?: PipelineCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PipelineCountOutputType without action
+   */
+  export type PipelineCountOutputTypeCountStatusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DealStatusWhereInput
+  }
+
+
+  /**
+   * Count Type DealStatusCountOutputType
+   */
+
+  export type DealStatusCountOutputType = {
+    deals: number
+  }
+
+  export type DealStatusCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    deals?: boolean | DealStatusCountOutputTypeCountDealsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * DealStatusCountOutputType without action
+   */
+  export type DealStatusCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatusCountOutputType
+     */
+    select?: DealStatusCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * DealStatusCountOutputType without action
+   */
+  export type DealStatusCountOutputTypeCountDealsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DealWhereInput
+  }
+
+
+  /**
+   * Count Type LostReasonCountOutputType
+   */
+
+  export type LostReasonCountOutputType = {
+    deals: number
+  }
+
+  export type LostReasonCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    deals?: boolean | LostReasonCountOutputTypeCountDealsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * LostReasonCountOutputType without action
+   */
+  export type LostReasonCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReasonCountOutputType
+     */
+    select?: LostReasonCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * LostReasonCountOutputType without action
+   */
+  export type LostReasonCountOutputTypeCountDealsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DealWhereInput
   }
 
@@ -15296,6 +15660,3313 @@ export namespace Prisma {
 
 
   /**
+   * Model Pipeline
+   */
+
+  export type AggregatePipeline = {
+    _count: PipelineCountAggregateOutputType | null
+    _min: PipelineMinAggregateOutputType | null
+    _max: PipelineMaxAggregateOutputType | null
+  }
+
+  export type PipelineMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    archived: boolean | null
+    createdAt: Date | null
+  }
+
+  export type PipelineMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    archived: boolean | null
+    createdAt: Date | null
+  }
+
+  export type PipelineCountAggregateOutputType = {
+    id: number
+    name: number
+    archived: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PipelineMinAggregateInputType = {
+    id?: true
+    name?: true
+    archived?: true
+    createdAt?: true
+  }
+
+  export type PipelineMaxAggregateInputType = {
+    id?: true
+    name?: true
+    archived?: true
+    createdAt?: true
+  }
+
+  export type PipelineCountAggregateInputType = {
+    id?: true
+    name?: true
+    archived?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PipelineAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Pipeline to aggregate.
+     */
+    where?: PipelineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Pipelines to fetch.
+     */
+    orderBy?: PipelineOrderByWithRelationInput | PipelineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PipelineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Pipelines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Pipelines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Pipelines
+    **/
+    _count?: true | PipelineCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PipelineMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PipelineMaxAggregateInputType
+  }
+
+  export type GetPipelineAggregateType<T extends PipelineAggregateArgs> = {
+        [P in keyof T & keyof AggregatePipeline]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePipeline[P]>
+      : GetScalarType<T[P], AggregatePipeline[P]>
+  }
+
+
+
+
+  export type PipelineGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PipelineWhereInput
+    orderBy?: PipelineOrderByWithAggregationInput | PipelineOrderByWithAggregationInput[]
+    by: PipelineScalarFieldEnum[] | PipelineScalarFieldEnum
+    having?: PipelineScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PipelineCountAggregateInputType | true
+    _min?: PipelineMinAggregateInputType
+    _max?: PipelineMaxAggregateInputType
+  }
+
+  export type PipelineGroupByOutputType = {
+    id: string
+    name: string
+    archived: boolean
+    createdAt: Date
+    _count: PipelineCountAggregateOutputType | null
+    _min: PipelineMinAggregateOutputType | null
+    _max: PipelineMaxAggregateOutputType | null
+  }
+
+  type GetPipelineGroupByPayload<T extends PipelineGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PipelineGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PipelineGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PipelineGroupByOutputType[P]>
+            : GetScalarType<T[P], PipelineGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PipelineSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    archived?: boolean
+    createdAt?: boolean
+    statuses?: boolean | Pipeline$statusesArgs<ExtArgs>
+    _count?: boolean | PipelineCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["pipeline"]>
+
+  export type PipelineSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    archived?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["pipeline"]>
+
+  export type PipelineSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    archived?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["pipeline"]>
+
+  export type PipelineSelectScalar = {
+    id?: boolean
+    name?: boolean
+    archived?: boolean
+    createdAt?: boolean
+  }
+
+  export type PipelineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "archived" | "createdAt", ExtArgs["result"]["pipeline"]>
+  export type PipelineInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    statuses?: boolean | Pipeline$statusesArgs<ExtArgs>
+    _count?: boolean | PipelineCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PipelineIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type PipelineIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $PipelinePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Pipeline"
+    objects: {
+      statuses: Prisma.$DealStatusPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      archived: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["pipeline"]>
+    composites: {}
+  }
+
+  type PipelineGetPayload<S extends boolean | null | undefined | PipelineDefaultArgs> = $Result.GetResult<Prisma.$PipelinePayload, S>
+
+  type PipelineCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PipelineFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PipelineCountAggregateInputType | true
+    }
+
+  export interface PipelineDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Pipeline'], meta: { name: 'Pipeline' } }
+    /**
+     * Find zero or one Pipeline that matches the filter.
+     * @param {PipelineFindUniqueArgs} args - Arguments to find a Pipeline
+     * @example
+     * // Get one Pipeline
+     * const pipeline = await prisma.pipeline.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PipelineFindUniqueArgs>(args: SelectSubset<T, PipelineFindUniqueArgs<ExtArgs>>): Prisma__PipelineClient<$Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Pipeline that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PipelineFindUniqueOrThrowArgs} args - Arguments to find a Pipeline
+     * @example
+     * // Get one Pipeline
+     * const pipeline = await prisma.pipeline.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PipelineFindUniqueOrThrowArgs>(args: SelectSubset<T, PipelineFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PipelineClient<$Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Pipeline that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PipelineFindFirstArgs} args - Arguments to find a Pipeline
+     * @example
+     * // Get one Pipeline
+     * const pipeline = await prisma.pipeline.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PipelineFindFirstArgs>(args?: SelectSubset<T, PipelineFindFirstArgs<ExtArgs>>): Prisma__PipelineClient<$Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Pipeline that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PipelineFindFirstOrThrowArgs} args - Arguments to find a Pipeline
+     * @example
+     * // Get one Pipeline
+     * const pipeline = await prisma.pipeline.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PipelineFindFirstOrThrowArgs>(args?: SelectSubset<T, PipelineFindFirstOrThrowArgs<ExtArgs>>): Prisma__PipelineClient<$Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Pipelines that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PipelineFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Pipelines
+     * const pipelines = await prisma.pipeline.findMany()
+     * 
+     * // Get first 10 Pipelines
+     * const pipelines = await prisma.pipeline.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const pipelineWithIdOnly = await prisma.pipeline.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PipelineFindManyArgs>(args?: SelectSubset<T, PipelineFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Pipeline.
+     * @param {PipelineCreateArgs} args - Arguments to create a Pipeline.
+     * @example
+     * // Create one Pipeline
+     * const Pipeline = await prisma.pipeline.create({
+     *   data: {
+     *     // ... data to create a Pipeline
+     *   }
+     * })
+     * 
+     */
+    create<T extends PipelineCreateArgs>(args: SelectSubset<T, PipelineCreateArgs<ExtArgs>>): Prisma__PipelineClient<$Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Pipelines.
+     * @param {PipelineCreateManyArgs} args - Arguments to create many Pipelines.
+     * @example
+     * // Create many Pipelines
+     * const pipeline = await prisma.pipeline.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PipelineCreateManyArgs>(args?: SelectSubset<T, PipelineCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Pipelines and returns the data saved in the database.
+     * @param {PipelineCreateManyAndReturnArgs} args - Arguments to create many Pipelines.
+     * @example
+     * // Create many Pipelines
+     * const pipeline = await prisma.pipeline.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Pipelines and only return the `id`
+     * const pipelineWithIdOnly = await prisma.pipeline.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PipelineCreateManyAndReturnArgs>(args?: SelectSubset<T, PipelineCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Pipeline.
+     * @param {PipelineDeleteArgs} args - Arguments to delete one Pipeline.
+     * @example
+     * // Delete one Pipeline
+     * const Pipeline = await prisma.pipeline.delete({
+     *   where: {
+     *     // ... filter to delete one Pipeline
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PipelineDeleteArgs>(args: SelectSubset<T, PipelineDeleteArgs<ExtArgs>>): Prisma__PipelineClient<$Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Pipeline.
+     * @param {PipelineUpdateArgs} args - Arguments to update one Pipeline.
+     * @example
+     * // Update one Pipeline
+     * const pipeline = await prisma.pipeline.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PipelineUpdateArgs>(args: SelectSubset<T, PipelineUpdateArgs<ExtArgs>>): Prisma__PipelineClient<$Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Pipelines.
+     * @param {PipelineDeleteManyArgs} args - Arguments to filter Pipelines to delete.
+     * @example
+     * // Delete a few Pipelines
+     * const { count } = await prisma.pipeline.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PipelineDeleteManyArgs>(args?: SelectSubset<T, PipelineDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Pipelines.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PipelineUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Pipelines
+     * const pipeline = await prisma.pipeline.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PipelineUpdateManyArgs>(args: SelectSubset<T, PipelineUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Pipelines and returns the data updated in the database.
+     * @param {PipelineUpdateManyAndReturnArgs} args - Arguments to update many Pipelines.
+     * @example
+     * // Update many Pipelines
+     * const pipeline = await prisma.pipeline.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Pipelines and only return the `id`
+     * const pipelineWithIdOnly = await prisma.pipeline.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PipelineUpdateManyAndReturnArgs>(args: SelectSubset<T, PipelineUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Pipeline.
+     * @param {PipelineUpsertArgs} args - Arguments to update or create a Pipeline.
+     * @example
+     * // Update or create a Pipeline
+     * const pipeline = await prisma.pipeline.upsert({
+     *   create: {
+     *     // ... data to create a Pipeline
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Pipeline we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PipelineUpsertArgs>(args: SelectSubset<T, PipelineUpsertArgs<ExtArgs>>): Prisma__PipelineClient<$Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Pipelines.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PipelineCountArgs} args - Arguments to filter Pipelines to count.
+     * @example
+     * // Count the number of Pipelines
+     * const count = await prisma.pipeline.count({
+     *   where: {
+     *     // ... the filter for the Pipelines we want to count
+     *   }
+     * })
+    **/
+    count<T extends PipelineCountArgs>(
+      args?: Subset<T, PipelineCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PipelineCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Pipeline.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PipelineAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PipelineAggregateArgs>(args: Subset<T, PipelineAggregateArgs>): Prisma.PrismaPromise<GetPipelineAggregateType<T>>
+
+    /**
+     * Group by Pipeline.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PipelineGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PipelineGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PipelineGroupByArgs['orderBy'] }
+        : { orderBy?: PipelineGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PipelineGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPipelineGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Pipeline model
+   */
+  readonly fields: PipelineFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Pipeline.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PipelineClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    statuses<T extends Pipeline$statusesArgs<ExtArgs> = {}>(args?: Subset<T, Pipeline$statusesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Pipeline model
+   */
+  interface PipelineFieldRefs {
+    readonly id: FieldRef<"Pipeline", 'String'>
+    readonly name: FieldRef<"Pipeline", 'String'>
+    readonly archived: FieldRef<"Pipeline", 'Boolean'>
+    readonly createdAt: FieldRef<"Pipeline", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Pipeline findUnique
+   */
+  export type PipelineFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pipeline
+     */
+    select?: PipelineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pipeline
+     */
+    omit?: PipelineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineInclude<ExtArgs> | null
+    /**
+     * Filter, which Pipeline to fetch.
+     */
+    where: PipelineWhereUniqueInput
+  }
+
+  /**
+   * Pipeline findUniqueOrThrow
+   */
+  export type PipelineFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pipeline
+     */
+    select?: PipelineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pipeline
+     */
+    omit?: PipelineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineInclude<ExtArgs> | null
+    /**
+     * Filter, which Pipeline to fetch.
+     */
+    where: PipelineWhereUniqueInput
+  }
+
+  /**
+   * Pipeline findFirst
+   */
+  export type PipelineFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pipeline
+     */
+    select?: PipelineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pipeline
+     */
+    omit?: PipelineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineInclude<ExtArgs> | null
+    /**
+     * Filter, which Pipeline to fetch.
+     */
+    where?: PipelineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Pipelines to fetch.
+     */
+    orderBy?: PipelineOrderByWithRelationInput | PipelineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Pipelines.
+     */
+    cursor?: PipelineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Pipelines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Pipelines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Pipelines.
+     */
+    distinct?: PipelineScalarFieldEnum | PipelineScalarFieldEnum[]
+  }
+
+  /**
+   * Pipeline findFirstOrThrow
+   */
+  export type PipelineFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pipeline
+     */
+    select?: PipelineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pipeline
+     */
+    omit?: PipelineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineInclude<ExtArgs> | null
+    /**
+     * Filter, which Pipeline to fetch.
+     */
+    where?: PipelineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Pipelines to fetch.
+     */
+    orderBy?: PipelineOrderByWithRelationInput | PipelineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Pipelines.
+     */
+    cursor?: PipelineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Pipelines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Pipelines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Pipelines.
+     */
+    distinct?: PipelineScalarFieldEnum | PipelineScalarFieldEnum[]
+  }
+
+  /**
+   * Pipeline findMany
+   */
+  export type PipelineFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pipeline
+     */
+    select?: PipelineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pipeline
+     */
+    omit?: PipelineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineInclude<ExtArgs> | null
+    /**
+     * Filter, which Pipelines to fetch.
+     */
+    where?: PipelineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Pipelines to fetch.
+     */
+    orderBy?: PipelineOrderByWithRelationInput | PipelineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Pipelines.
+     */
+    cursor?: PipelineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Pipelines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Pipelines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Pipelines.
+     */
+    distinct?: PipelineScalarFieldEnum | PipelineScalarFieldEnum[]
+  }
+
+  /**
+   * Pipeline create
+   */
+  export type PipelineCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pipeline
+     */
+    select?: PipelineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pipeline
+     */
+    omit?: PipelineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Pipeline.
+     */
+    data: XOR<PipelineCreateInput, PipelineUncheckedCreateInput>
+  }
+
+  /**
+   * Pipeline createMany
+   */
+  export type PipelineCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Pipelines.
+     */
+    data: PipelineCreateManyInput | PipelineCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Pipeline createManyAndReturn
+   */
+  export type PipelineCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pipeline
+     */
+    select?: PipelineSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pipeline
+     */
+    omit?: PipelineOmit<ExtArgs> | null
+    /**
+     * The data used to create many Pipelines.
+     */
+    data: PipelineCreateManyInput | PipelineCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Pipeline update
+   */
+  export type PipelineUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pipeline
+     */
+    select?: PipelineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pipeline
+     */
+    omit?: PipelineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Pipeline.
+     */
+    data: XOR<PipelineUpdateInput, PipelineUncheckedUpdateInput>
+    /**
+     * Choose, which Pipeline to update.
+     */
+    where: PipelineWhereUniqueInput
+  }
+
+  /**
+   * Pipeline updateMany
+   */
+  export type PipelineUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Pipelines.
+     */
+    data: XOR<PipelineUpdateManyMutationInput, PipelineUncheckedUpdateManyInput>
+    /**
+     * Filter which Pipelines to update
+     */
+    where?: PipelineWhereInput
+    /**
+     * Limit how many Pipelines to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Pipeline updateManyAndReturn
+   */
+  export type PipelineUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pipeline
+     */
+    select?: PipelineSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pipeline
+     */
+    omit?: PipelineOmit<ExtArgs> | null
+    /**
+     * The data used to update Pipelines.
+     */
+    data: XOR<PipelineUpdateManyMutationInput, PipelineUncheckedUpdateManyInput>
+    /**
+     * Filter which Pipelines to update
+     */
+    where?: PipelineWhereInput
+    /**
+     * Limit how many Pipelines to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Pipeline upsert
+   */
+  export type PipelineUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pipeline
+     */
+    select?: PipelineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pipeline
+     */
+    omit?: PipelineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Pipeline to update in case it exists.
+     */
+    where: PipelineWhereUniqueInput
+    /**
+     * In case the Pipeline found by the `where` argument doesn't exist, create a new Pipeline with this data.
+     */
+    create: XOR<PipelineCreateInput, PipelineUncheckedCreateInput>
+    /**
+     * In case the Pipeline was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PipelineUpdateInput, PipelineUncheckedUpdateInput>
+  }
+
+  /**
+   * Pipeline delete
+   */
+  export type PipelineDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pipeline
+     */
+    select?: PipelineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pipeline
+     */
+    omit?: PipelineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineInclude<ExtArgs> | null
+    /**
+     * Filter which Pipeline to delete.
+     */
+    where: PipelineWhereUniqueInput
+  }
+
+  /**
+   * Pipeline deleteMany
+   */
+  export type PipelineDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Pipelines to delete
+     */
+    where?: PipelineWhereInput
+    /**
+     * Limit how many Pipelines to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Pipeline.statuses
+   */
+  export type Pipeline$statusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusInclude<ExtArgs> | null
+    where?: DealStatusWhereInput
+    orderBy?: DealStatusOrderByWithRelationInput | DealStatusOrderByWithRelationInput[]
+    cursor?: DealStatusWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DealStatusScalarFieldEnum | DealStatusScalarFieldEnum[]
+  }
+
+  /**
+   * Pipeline without action
+   */
+  export type PipelineDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pipeline
+     */
+    select?: PipelineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pipeline
+     */
+    omit?: PipelineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DealStatus
+   */
+
+  export type AggregateDealStatus = {
+    _count: DealStatusCountAggregateOutputType | null
+    _avg: DealStatusAvgAggregateOutputType | null
+    _sum: DealStatusSumAggregateOutputType | null
+    _min: DealStatusMinAggregateOutputType | null
+    _max: DealStatusMaxAggregateOutputType | null
+  }
+
+  export type DealStatusAvgAggregateOutputType = {
+    position: number | null
+    defaultProbability: number | null
+  }
+
+  export type DealStatusSumAggregateOutputType = {
+    position: number | null
+    defaultProbability: number | null
+  }
+
+  export type DealStatusMinAggregateOutputType = {
+    id: string | null
+    pipelineId: string | null
+    name: string | null
+    category: $Enums.DealStatusCategory | null
+    position: number | null
+    defaultProbability: number | null
+    trackTime: boolean | null
+    trackExpenses: boolean | null
+    createBookings: boolean | null
+  }
+
+  export type DealStatusMaxAggregateOutputType = {
+    id: string | null
+    pipelineId: string | null
+    name: string | null
+    category: $Enums.DealStatusCategory | null
+    position: number | null
+    defaultProbability: number | null
+    trackTime: boolean | null
+    trackExpenses: boolean | null
+    createBookings: boolean | null
+  }
+
+  export type DealStatusCountAggregateOutputType = {
+    id: number
+    pipelineId: number
+    name: number
+    category: number
+    position: number
+    defaultProbability: number
+    trackTime: number
+    trackExpenses: number
+    createBookings: number
+    _all: number
+  }
+
+
+  export type DealStatusAvgAggregateInputType = {
+    position?: true
+    defaultProbability?: true
+  }
+
+  export type DealStatusSumAggregateInputType = {
+    position?: true
+    defaultProbability?: true
+  }
+
+  export type DealStatusMinAggregateInputType = {
+    id?: true
+    pipelineId?: true
+    name?: true
+    category?: true
+    position?: true
+    defaultProbability?: true
+    trackTime?: true
+    trackExpenses?: true
+    createBookings?: true
+  }
+
+  export type DealStatusMaxAggregateInputType = {
+    id?: true
+    pipelineId?: true
+    name?: true
+    category?: true
+    position?: true
+    defaultProbability?: true
+    trackTime?: true
+    trackExpenses?: true
+    createBookings?: true
+  }
+
+  export type DealStatusCountAggregateInputType = {
+    id?: true
+    pipelineId?: true
+    name?: true
+    category?: true
+    position?: true
+    defaultProbability?: true
+    trackTime?: true
+    trackExpenses?: true
+    createBookings?: true
+    _all?: true
+  }
+
+  export type DealStatusAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DealStatus to aggregate.
+     */
+    where?: DealStatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DealStatuses to fetch.
+     */
+    orderBy?: DealStatusOrderByWithRelationInput | DealStatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DealStatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DealStatuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DealStatuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DealStatuses
+    **/
+    _count?: true | DealStatusCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DealStatusAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DealStatusSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DealStatusMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DealStatusMaxAggregateInputType
+  }
+
+  export type GetDealStatusAggregateType<T extends DealStatusAggregateArgs> = {
+        [P in keyof T & keyof AggregateDealStatus]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDealStatus[P]>
+      : GetScalarType<T[P], AggregateDealStatus[P]>
+  }
+
+
+
+
+  export type DealStatusGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DealStatusWhereInput
+    orderBy?: DealStatusOrderByWithAggregationInput | DealStatusOrderByWithAggregationInput[]
+    by: DealStatusScalarFieldEnum[] | DealStatusScalarFieldEnum
+    having?: DealStatusScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DealStatusCountAggregateInputType | true
+    _avg?: DealStatusAvgAggregateInputType
+    _sum?: DealStatusSumAggregateInputType
+    _min?: DealStatusMinAggregateInputType
+    _max?: DealStatusMaxAggregateInputType
+  }
+
+  export type DealStatusGroupByOutputType = {
+    id: string
+    pipelineId: string
+    name: string
+    category: $Enums.DealStatusCategory
+    position: number
+    defaultProbability: number | null
+    trackTime: boolean
+    trackExpenses: boolean
+    createBookings: boolean
+    _count: DealStatusCountAggregateOutputType | null
+    _avg: DealStatusAvgAggregateOutputType | null
+    _sum: DealStatusSumAggregateOutputType | null
+    _min: DealStatusMinAggregateOutputType | null
+    _max: DealStatusMaxAggregateOutputType | null
+  }
+
+  type GetDealStatusGroupByPayload<T extends DealStatusGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DealStatusGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DealStatusGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DealStatusGroupByOutputType[P]>
+            : GetScalarType<T[P], DealStatusGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DealStatusSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pipelineId?: boolean
+    name?: boolean
+    category?: boolean
+    position?: boolean
+    defaultProbability?: boolean
+    trackTime?: boolean
+    trackExpenses?: boolean
+    createBookings?: boolean
+    pipeline?: boolean | PipelineDefaultArgs<ExtArgs>
+    deals?: boolean | DealStatus$dealsArgs<ExtArgs>
+    _count?: boolean | DealStatusCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dealStatus"]>
+
+  export type DealStatusSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pipelineId?: boolean
+    name?: boolean
+    category?: boolean
+    position?: boolean
+    defaultProbability?: boolean
+    trackTime?: boolean
+    trackExpenses?: boolean
+    createBookings?: boolean
+    pipeline?: boolean | PipelineDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dealStatus"]>
+
+  export type DealStatusSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pipelineId?: boolean
+    name?: boolean
+    category?: boolean
+    position?: boolean
+    defaultProbability?: boolean
+    trackTime?: boolean
+    trackExpenses?: boolean
+    createBookings?: boolean
+    pipeline?: boolean | PipelineDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dealStatus"]>
+
+  export type DealStatusSelectScalar = {
+    id?: boolean
+    pipelineId?: boolean
+    name?: boolean
+    category?: boolean
+    position?: boolean
+    defaultProbability?: boolean
+    trackTime?: boolean
+    trackExpenses?: boolean
+    createBookings?: boolean
+  }
+
+  export type DealStatusOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "pipelineId" | "name" | "category" | "position" | "defaultProbability" | "trackTime" | "trackExpenses" | "createBookings", ExtArgs["result"]["dealStatus"]>
+  export type DealStatusInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    pipeline?: boolean | PipelineDefaultArgs<ExtArgs>
+    deals?: boolean | DealStatus$dealsArgs<ExtArgs>
+    _count?: boolean | DealStatusCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type DealStatusIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    pipeline?: boolean | PipelineDefaultArgs<ExtArgs>
+  }
+  export type DealStatusIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    pipeline?: boolean | PipelineDefaultArgs<ExtArgs>
+  }
+
+  export type $DealStatusPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DealStatus"
+    objects: {
+      pipeline: Prisma.$PipelinePayload<ExtArgs>
+      deals: Prisma.$DealPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      pipelineId: string
+      name: string
+      category: $Enums.DealStatusCategory
+      position: number
+      defaultProbability: number | null
+      trackTime: boolean
+      trackExpenses: boolean
+      createBookings: boolean
+    }, ExtArgs["result"]["dealStatus"]>
+    composites: {}
+  }
+
+  type DealStatusGetPayload<S extends boolean | null | undefined | DealStatusDefaultArgs> = $Result.GetResult<Prisma.$DealStatusPayload, S>
+
+  type DealStatusCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DealStatusFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DealStatusCountAggregateInputType | true
+    }
+
+  export interface DealStatusDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DealStatus'], meta: { name: 'DealStatus' } }
+    /**
+     * Find zero or one DealStatus that matches the filter.
+     * @param {DealStatusFindUniqueArgs} args - Arguments to find a DealStatus
+     * @example
+     * // Get one DealStatus
+     * const dealStatus = await prisma.dealStatus.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DealStatusFindUniqueArgs>(args: SelectSubset<T, DealStatusFindUniqueArgs<ExtArgs>>): Prisma__DealStatusClient<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DealStatus that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DealStatusFindUniqueOrThrowArgs} args - Arguments to find a DealStatus
+     * @example
+     * // Get one DealStatus
+     * const dealStatus = await prisma.dealStatus.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DealStatusFindUniqueOrThrowArgs>(args: SelectSubset<T, DealStatusFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DealStatusClient<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DealStatus that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealStatusFindFirstArgs} args - Arguments to find a DealStatus
+     * @example
+     * // Get one DealStatus
+     * const dealStatus = await prisma.dealStatus.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DealStatusFindFirstArgs>(args?: SelectSubset<T, DealStatusFindFirstArgs<ExtArgs>>): Prisma__DealStatusClient<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DealStatus that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealStatusFindFirstOrThrowArgs} args - Arguments to find a DealStatus
+     * @example
+     * // Get one DealStatus
+     * const dealStatus = await prisma.dealStatus.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DealStatusFindFirstOrThrowArgs>(args?: SelectSubset<T, DealStatusFindFirstOrThrowArgs<ExtArgs>>): Prisma__DealStatusClient<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DealStatuses that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealStatusFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DealStatuses
+     * const dealStatuses = await prisma.dealStatus.findMany()
+     * 
+     * // Get first 10 DealStatuses
+     * const dealStatuses = await prisma.dealStatus.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const dealStatusWithIdOnly = await prisma.dealStatus.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DealStatusFindManyArgs>(args?: SelectSubset<T, DealStatusFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DealStatus.
+     * @param {DealStatusCreateArgs} args - Arguments to create a DealStatus.
+     * @example
+     * // Create one DealStatus
+     * const DealStatus = await prisma.dealStatus.create({
+     *   data: {
+     *     // ... data to create a DealStatus
+     *   }
+     * })
+     * 
+     */
+    create<T extends DealStatusCreateArgs>(args: SelectSubset<T, DealStatusCreateArgs<ExtArgs>>): Prisma__DealStatusClient<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DealStatuses.
+     * @param {DealStatusCreateManyArgs} args - Arguments to create many DealStatuses.
+     * @example
+     * // Create many DealStatuses
+     * const dealStatus = await prisma.dealStatus.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DealStatusCreateManyArgs>(args?: SelectSubset<T, DealStatusCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DealStatuses and returns the data saved in the database.
+     * @param {DealStatusCreateManyAndReturnArgs} args - Arguments to create many DealStatuses.
+     * @example
+     * // Create many DealStatuses
+     * const dealStatus = await prisma.dealStatus.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DealStatuses and only return the `id`
+     * const dealStatusWithIdOnly = await prisma.dealStatus.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DealStatusCreateManyAndReturnArgs>(args?: SelectSubset<T, DealStatusCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DealStatus.
+     * @param {DealStatusDeleteArgs} args - Arguments to delete one DealStatus.
+     * @example
+     * // Delete one DealStatus
+     * const DealStatus = await prisma.dealStatus.delete({
+     *   where: {
+     *     // ... filter to delete one DealStatus
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DealStatusDeleteArgs>(args: SelectSubset<T, DealStatusDeleteArgs<ExtArgs>>): Prisma__DealStatusClient<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DealStatus.
+     * @param {DealStatusUpdateArgs} args - Arguments to update one DealStatus.
+     * @example
+     * // Update one DealStatus
+     * const dealStatus = await prisma.dealStatus.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DealStatusUpdateArgs>(args: SelectSubset<T, DealStatusUpdateArgs<ExtArgs>>): Prisma__DealStatusClient<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DealStatuses.
+     * @param {DealStatusDeleteManyArgs} args - Arguments to filter DealStatuses to delete.
+     * @example
+     * // Delete a few DealStatuses
+     * const { count } = await prisma.dealStatus.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DealStatusDeleteManyArgs>(args?: SelectSubset<T, DealStatusDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DealStatuses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealStatusUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DealStatuses
+     * const dealStatus = await prisma.dealStatus.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DealStatusUpdateManyArgs>(args: SelectSubset<T, DealStatusUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DealStatuses and returns the data updated in the database.
+     * @param {DealStatusUpdateManyAndReturnArgs} args - Arguments to update many DealStatuses.
+     * @example
+     * // Update many DealStatuses
+     * const dealStatus = await prisma.dealStatus.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DealStatuses and only return the `id`
+     * const dealStatusWithIdOnly = await prisma.dealStatus.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DealStatusUpdateManyAndReturnArgs>(args: SelectSubset<T, DealStatusUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DealStatus.
+     * @param {DealStatusUpsertArgs} args - Arguments to update or create a DealStatus.
+     * @example
+     * // Update or create a DealStatus
+     * const dealStatus = await prisma.dealStatus.upsert({
+     *   create: {
+     *     // ... data to create a DealStatus
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DealStatus we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DealStatusUpsertArgs>(args: SelectSubset<T, DealStatusUpsertArgs<ExtArgs>>): Prisma__DealStatusClient<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DealStatuses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealStatusCountArgs} args - Arguments to filter DealStatuses to count.
+     * @example
+     * // Count the number of DealStatuses
+     * const count = await prisma.dealStatus.count({
+     *   where: {
+     *     // ... the filter for the DealStatuses we want to count
+     *   }
+     * })
+    **/
+    count<T extends DealStatusCountArgs>(
+      args?: Subset<T, DealStatusCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DealStatusCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DealStatus.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealStatusAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DealStatusAggregateArgs>(args: Subset<T, DealStatusAggregateArgs>): Prisma.PrismaPromise<GetDealStatusAggregateType<T>>
+
+    /**
+     * Group by DealStatus.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealStatusGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DealStatusGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DealStatusGroupByArgs['orderBy'] }
+        : { orderBy?: DealStatusGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DealStatusGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDealStatusGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DealStatus model
+   */
+  readonly fields: DealStatusFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DealStatus.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DealStatusClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    pipeline<T extends PipelineDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PipelineDefaultArgs<ExtArgs>>): Prisma__PipelineClient<$Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    deals<T extends DealStatus$dealsArgs<ExtArgs> = {}>(args?: Subset<T, DealStatus$dealsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DealStatus model
+   */
+  interface DealStatusFieldRefs {
+    readonly id: FieldRef<"DealStatus", 'String'>
+    readonly pipelineId: FieldRef<"DealStatus", 'String'>
+    readonly name: FieldRef<"DealStatus", 'String'>
+    readonly category: FieldRef<"DealStatus", 'DealStatusCategory'>
+    readonly position: FieldRef<"DealStatus", 'Int'>
+    readonly defaultProbability: FieldRef<"DealStatus", 'Int'>
+    readonly trackTime: FieldRef<"DealStatus", 'Boolean'>
+    readonly trackExpenses: FieldRef<"DealStatus", 'Boolean'>
+    readonly createBookings: FieldRef<"DealStatus", 'Boolean'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DealStatus findUnique
+   */
+  export type DealStatusFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which DealStatus to fetch.
+     */
+    where: DealStatusWhereUniqueInput
+  }
+
+  /**
+   * DealStatus findUniqueOrThrow
+   */
+  export type DealStatusFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which DealStatus to fetch.
+     */
+    where: DealStatusWhereUniqueInput
+  }
+
+  /**
+   * DealStatus findFirst
+   */
+  export type DealStatusFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which DealStatus to fetch.
+     */
+    where?: DealStatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DealStatuses to fetch.
+     */
+    orderBy?: DealStatusOrderByWithRelationInput | DealStatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DealStatuses.
+     */
+    cursor?: DealStatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DealStatuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DealStatuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DealStatuses.
+     */
+    distinct?: DealStatusScalarFieldEnum | DealStatusScalarFieldEnum[]
+  }
+
+  /**
+   * DealStatus findFirstOrThrow
+   */
+  export type DealStatusFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which DealStatus to fetch.
+     */
+    where?: DealStatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DealStatuses to fetch.
+     */
+    orderBy?: DealStatusOrderByWithRelationInput | DealStatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DealStatuses.
+     */
+    cursor?: DealStatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DealStatuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DealStatuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DealStatuses.
+     */
+    distinct?: DealStatusScalarFieldEnum | DealStatusScalarFieldEnum[]
+  }
+
+  /**
+   * DealStatus findMany
+   */
+  export type DealStatusFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which DealStatuses to fetch.
+     */
+    where?: DealStatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DealStatuses to fetch.
+     */
+    orderBy?: DealStatusOrderByWithRelationInput | DealStatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DealStatuses.
+     */
+    cursor?: DealStatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DealStatuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DealStatuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DealStatuses.
+     */
+    distinct?: DealStatusScalarFieldEnum | DealStatusScalarFieldEnum[]
+  }
+
+  /**
+   * DealStatus create
+   */
+  export type DealStatusCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DealStatus.
+     */
+    data: XOR<DealStatusCreateInput, DealStatusUncheckedCreateInput>
+  }
+
+  /**
+   * DealStatus createMany
+   */
+  export type DealStatusCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DealStatuses.
+     */
+    data: DealStatusCreateManyInput | DealStatusCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DealStatus createManyAndReturn
+   */
+  export type DealStatusCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * The data used to create many DealStatuses.
+     */
+    data: DealStatusCreateManyInput | DealStatusCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DealStatus update
+   */
+  export type DealStatusUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DealStatus.
+     */
+    data: XOR<DealStatusUpdateInput, DealStatusUncheckedUpdateInput>
+    /**
+     * Choose, which DealStatus to update.
+     */
+    where: DealStatusWhereUniqueInput
+  }
+
+  /**
+   * DealStatus updateMany
+   */
+  export type DealStatusUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DealStatuses.
+     */
+    data: XOR<DealStatusUpdateManyMutationInput, DealStatusUncheckedUpdateManyInput>
+    /**
+     * Filter which DealStatuses to update
+     */
+    where?: DealStatusWhereInput
+    /**
+     * Limit how many DealStatuses to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DealStatus updateManyAndReturn
+   */
+  export type DealStatusUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * The data used to update DealStatuses.
+     */
+    data: XOR<DealStatusUpdateManyMutationInput, DealStatusUncheckedUpdateManyInput>
+    /**
+     * Filter which DealStatuses to update
+     */
+    where?: DealStatusWhereInput
+    /**
+     * Limit how many DealStatuses to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DealStatus upsert
+   */
+  export type DealStatusUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DealStatus to update in case it exists.
+     */
+    where: DealStatusWhereUniqueInput
+    /**
+     * In case the DealStatus found by the `where` argument doesn't exist, create a new DealStatus with this data.
+     */
+    create: XOR<DealStatusCreateInput, DealStatusUncheckedCreateInput>
+    /**
+     * In case the DealStatus was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DealStatusUpdateInput, DealStatusUncheckedUpdateInput>
+  }
+
+  /**
+   * DealStatus delete
+   */
+  export type DealStatusDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusInclude<ExtArgs> | null
+    /**
+     * Filter which DealStatus to delete.
+     */
+    where: DealStatusWhereUniqueInput
+  }
+
+  /**
+   * DealStatus deleteMany
+   */
+  export type DealStatusDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DealStatuses to delete
+     */
+    where?: DealStatusWhereInput
+    /**
+     * Limit how many DealStatuses to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DealStatus.deals
+   */
+  export type DealStatus$dealsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Deal
+     */
+    select?: DealSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Deal
+     */
+    omit?: DealOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealInclude<ExtArgs> | null
+    where?: DealWhereInput
+    orderBy?: DealOrderByWithRelationInput | DealOrderByWithRelationInput[]
+    cursor?: DealWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DealScalarFieldEnum | DealScalarFieldEnum[]
+  }
+
+  /**
+   * DealStatus without action
+   */
+  export type DealStatusDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LostReason
+   */
+
+  export type AggregateLostReason = {
+    _count: LostReasonCountAggregateOutputType | null
+    _min: LostReasonMinAggregateOutputType | null
+    _max: LostReasonMaxAggregateOutputType | null
+  }
+
+  export type LostReasonMinAggregateOutputType = {
+    id: string | null
+    label: string | null
+    archived: boolean | null
+    createdAt: Date | null
+  }
+
+  export type LostReasonMaxAggregateOutputType = {
+    id: string | null
+    label: string | null
+    archived: boolean | null
+    createdAt: Date | null
+  }
+
+  export type LostReasonCountAggregateOutputType = {
+    id: number
+    label: number
+    archived: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type LostReasonMinAggregateInputType = {
+    id?: true
+    label?: true
+    archived?: true
+    createdAt?: true
+  }
+
+  export type LostReasonMaxAggregateInputType = {
+    id?: true
+    label?: true
+    archived?: true
+    createdAt?: true
+  }
+
+  export type LostReasonCountAggregateInputType = {
+    id?: true
+    label?: true
+    archived?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type LostReasonAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LostReason to aggregate.
+     */
+    where?: LostReasonWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LostReasons to fetch.
+     */
+    orderBy?: LostReasonOrderByWithRelationInput | LostReasonOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LostReasonWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LostReasons from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LostReasons.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LostReasons
+    **/
+    _count?: true | LostReasonCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LostReasonMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LostReasonMaxAggregateInputType
+  }
+
+  export type GetLostReasonAggregateType<T extends LostReasonAggregateArgs> = {
+        [P in keyof T & keyof AggregateLostReason]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLostReason[P]>
+      : GetScalarType<T[P], AggregateLostReason[P]>
+  }
+
+
+
+
+  export type LostReasonGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LostReasonWhereInput
+    orderBy?: LostReasonOrderByWithAggregationInput | LostReasonOrderByWithAggregationInput[]
+    by: LostReasonScalarFieldEnum[] | LostReasonScalarFieldEnum
+    having?: LostReasonScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LostReasonCountAggregateInputType | true
+    _min?: LostReasonMinAggregateInputType
+    _max?: LostReasonMaxAggregateInputType
+  }
+
+  export type LostReasonGroupByOutputType = {
+    id: string
+    label: string
+    archived: boolean
+    createdAt: Date
+    _count: LostReasonCountAggregateOutputType | null
+    _min: LostReasonMinAggregateOutputType | null
+    _max: LostReasonMaxAggregateOutputType | null
+  }
+
+  type GetLostReasonGroupByPayload<T extends LostReasonGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LostReasonGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LostReasonGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LostReasonGroupByOutputType[P]>
+            : GetScalarType<T[P], LostReasonGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LostReasonSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    label?: boolean
+    archived?: boolean
+    createdAt?: boolean
+    deals?: boolean | LostReason$dealsArgs<ExtArgs>
+    _count?: boolean | LostReasonCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["lostReason"]>
+
+  export type LostReasonSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    label?: boolean
+    archived?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["lostReason"]>
+
+  export type LostReasonSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    label?: boolean
+    archived?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["lostReason"]>
+
+  export type LostReasonSelectScalar = {
+    id?: boolean
+    label?: boolean
+    archived?: boolean
+    createdAt?: boolean
+  }
+
+  export type LostReasonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "label" | "archived" | "createdAt", ExtArgs["result"]["lostReason"]>
+  export type LostReasonInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    deals?: boolean | LostReason$dealsArgs<ExtArgs>
+    _count?: boolean | LostReasonCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type LostReasonIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type LostReasonIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $LostReasonPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LostReason"
+    objects: {
+      deals: Prisma.$DealPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      label: string
+      archived: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["lostReason"]>
+    composites: {}
+  }
+
+  type LostReasonGetPayload<S extends boolean | null | undefined | LostReasonDefaultArgs> = $Result.GetResult<Prisma.$LostReasonPayload, S>
+
+  type LostReasonCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LostReasonFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LostReasonCountAggregateInputType | true
+    }
+
+  export interface LostReasonDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LostReason'], meta: { name: 'LostReason' } }
+    /**
+     * Find zero or one LostReason that matches the filter.
+     * @param {LostReasonFindUniqueArgs} args - Arguments to find a LostReason
+     * @example
+     * // Get one LostReason
+     * const lostReason = await prisma.lostReason.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LostReasonFindUniqueArgs>(args: SelectSubset<T, LostReasonFindUniqueArgs<ExtArgs>>): Prisma__LostReasonClient<$Result.GetResult<Prisma.$LostReasonPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LostReason that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LostReasonFindUniqueOrThrowArgs} args - Arguments to find a LostReason
+     * @example
+     * // Get one LostReason
+     * const lostReason = await prisma.lostReason.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LostReasonFindUniqueOrThrowArgs>(args: SelectSubset<T, LostReasonFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LostReasonClient<$Result.GetResult<Prisma.$LostReasonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LostReason that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LostReasonFindFirstArgs} args - Arguments to find a LostReason
+     * @example
+     * // Get one LostReason
+     * const lostReason = await prisma.lostReason.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LostReasonFindFirstArgs>(args?: SelectSubset<T, LostReasonFindFirstArgs<ExtArgs>>): Prisma__LostReasonClient<$Result.GetResult<Prisma.$LostReasonPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LostReason that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LostReasonFindFirstOrThrowArgs} args - Arguments to find a LostReason
+     * @example
+     * // Get one LostReason
+     * const lostReason = await prisma.lostReason.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LostReasonFindFirstOrThrowArgs>(args?: SelectSubset<T, LostReasonFindFirstOrThrowArgs<ExtArgs>>): Prisma__LostReasonClient<$Result.GetResult<Prisma.$LostReasonPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LostReasons that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LostReasonFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LostReasons
+     * const lostReasons = await prisma.lostReason.findMany()
+     * 
+     * // Get first 10 LostReasons
+     * const lostReasons = await prisma.lostReason.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const lostReasonWithIdOnly = await prisma.lostReason.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LostReasonFindManyArgs>(args?: SelectSubset<T, LostReasonFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LostReasonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LostReason.
+     * @param {LostReasonCreateArgs} args - Arguments to create a LostReason.
+     * @example
+     * // Create one LostReason
+     * const LostReason = await prisma.lostReason.create({
+     *   data: {
+     *     // ... data to create a LostReason
+     *   }
+     * })
+     * 
+     */
+    create<T extends LostReasonCreateArgs>(args: SelectSubset<T, LostReasonCreateArgs<ExtArgs>>): Prisma__LostReasonClient<$Result.GetResult<Prisma.$LostReasonPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LostReasons.
+     * @param {LostReasonCreateManyArgs} args - Arguments to create many LostReasons.
+     * @example
+     * // Create many LostReasons
+     * const lostReason = await prisma.lostReason.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LostReasonCreateManyArgs>(args?: SelectSubset<T, LostReasonCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LostReasons and returns the data saved in the database.
+     * @param {LostReasonCreateManyAndReturnArgs} args - Arguments to create many LostReasons.
+     * @example
+     * // Create many LostReasons
+     * const lostReason = await prisma.lostReason.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LostReasons and only return the `id`
+     * const lostReasonWithIdOnly = await prisma.lostReason.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LostReasonCreateManyAndReturnArgs>(args?: SelectSubset<T, LostReasonCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LostReasonPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LostReason.
+     * @param {LostReasonDeleteArgs} args - Arguments to delete one LostReason.
+     * @example
+     * // Delete one LostReason
+     * const LostReason = await prisma.lostReason.delete({
+     *   where: {
+     *     // ... filter to delete one LostReason
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LostReasonDeleteArgs>(args: SelectSubset<T, LostReasonDeleteArgs<ExtArgs>>): Prisma__LostReasonClient<$Result.GetResult<Prisma.$LostReasonPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LostReason.
+     * @param {LostReasonUpdateArgs} args - Arguments to update one LostReason.
+     * @example
+     * // Update one LostReason
+     * const lostReason = await prisma.lostReason.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LostReasonUpdateArgs>(args: SelectSubset<T, LostReasonUpdateArgs<ExtArgs>>): Prisma__LostReasonClient<$Result.GetResult<Prisma.$LostReasonPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LostReasons.
+     * @param {LostReasonDeleteManyArgs} args - Arguments to filter LostReasons to delete.
+     * @example
+     * // Delete a few LostReasons
+     * const { count } = await prisma.lostReason.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LostReasonDeleteManyArgs>(args?: SelectSubset<T, LostReasonDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LostReasons.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LostReasonUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LostReasons
+     * const lostReason = await prisma.lostReason.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LostReasonUpdateManyArgs>(args: SelectSubset<T, LostReasonUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LostReasons and returns the data updated in the database.
+     * @param {LostReasonUpdateManyAndReturnArgs} args - Arguments to update many LostReasons.
+     * @example
+     * // Update many LostReasons
+     * const lostReason = await prisma.lostReason.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LostReasons and only return the `id`
+     * const lostReasonWithIdOnly = await prisma.lostReason.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LostReasonUpdateManyAndReturnArgs>(args: SelectSubset<T, LostReasonUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LostReasonPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LostReason.
+     * @param {LostReasonUpsertArgs} args - Arguments to update or create a LostReason.
+     * @example
+     * // Update or create a LostReason
+     * const lostReason = await prisma.lostReason.upsert({
+     *   create: {
+     *     // ... data to create a LostReason
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LostReason we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LostReasonUpsertArgs>(args: SelectSubset<T, LostReasonUpsertArgs<ExtArgs>>): Prisma__LostReasonClient<$Result.GetResult<Prisma.$LostReasonPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LostReasons.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LostReasonCountArgs} args - Arguments to filter LostReasons to count.
+     * @example
+     * // Count the number of LostReasons
+     * const count = await prisma.lostReason.count({
+     *   where: {
+     *     // ... the filter for the LostReasons we want to count
+     *   }
+     * })
+    **/
+    count<T extends LostReasonCountArgs>(
+      args?: Subset<T, LostReasonCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LostReasonCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LostReason.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LostReasonAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LostReasonAggregateArgs>(args: Subset<T, LostReasonAggregateArgs>): Prisma.PrismaPromise<GetLostReasonAggregateType<T>>
+
+    /**
+     * Group by LostReason.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LostReasonGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LostReasonGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LostReasonGroupByArgs['orderBy'] }
+        : { orderBy?: LostReasonGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LostReasonGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLostReasonGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LostReason model
+   */
+  readonly fields: LostReasonFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LostReason.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LostReasonClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    deals<T extends LostReason$dealsArgs<ExtArgs> = {}>(args?: Subset<T, LostReason$dealsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LostReason model
+   */
+  interface LostReasonFieldRefs {
+    readonly id: FieldRef<"LostReason", 'String'>
+    readonly label: FieldRef<"LostReason", 'String'>
+    readonly archived: FieldRef<"LostReason", 'Boolean'>
+    readonly createdAt: FieldRef<"LostReason", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LostReason findUnique
+   */
+  export type LostReasonFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LostReasonInclude<ExtArgs> | null
+    /**
+     * Filter, which LostReason to fetch.
+     */
+    where: LostReasonWhereUniqueInput
+  }
+
+  /**
+   * LostReason findUniqueOrThrow
+   */
+  export type LostReasonFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LostReasonInclude<ExtArgs> | null
+    /**
+     * Filter, which LostReason to fetch.
+     */
+    where: LostReasonWhereUniqueInput
+  }
+
+  /**
+   * LostReason findFirst
+   */
+  export type LostReasonFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LostReasonInclude<ExtArgs> | null
+    /**
+     * Filter, which LostReason to fetch.
+     */
+    where?: LostReasonWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LostReasons to fetch.
+     */
+    orderBy?: LostReasonOrderByWithRelationInput | LostReasonOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LostReasons.
+     */
+    cursor?: LostReasonWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LostReasons from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LostReasons.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LostReasons.
+     */
+    distinct?: LostReasonScalarFieldEnum | LostReasonScalarFieldEnum[]
+  }
+
+  /**
+   * LostReason findFirstOrThrow
+   */
+  export type LostReasonFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LostReasonInclude<ExtArgs> | null
+    /**
+     * Filter, which LostReason to fetch.
+     */
+    where?: LostReasonWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LostReasons to fetch.
+     */
+    orderBy?: LostReasonOrderByWithRelationInput | LostReasonOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LostReasons.
+     */
+    cursor?: LostReasonWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LostReasons from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LostReasons.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LostReasons.
+     */
+    distinct?: LostReasonScalarFieldEnum | LostReasonScalarFieldEnum[]
+  }
+
+  /**
+   * LostReason findMany
+   */
+  export type LostReasonFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LostReasonInclude<ExtArgs> | null
+    /**
+     * Filter, which LostReasons to fetch.
+     */
+    where?: LostReasonWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LostReasons to fetch.
+     */
+    orderBy?: LostReasonOrderByWithRelationInput | LostReasonOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LostReasons.
+     */
+    cursor?: LostReasonWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LostReasons from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LostReasons.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LostReasons.
+     */
+    distinct?: LostReasonScalarFieldEnum | LostReasonScalarFieldEnum[]
+  }
+
+  /**
+   * LostReason create
+   */
+  export type LostReasonCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LostReasonInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LostReason.
+     */
+    data: XOR<LostReasonCreateInput, LostReasonUncheckedCreateInput>
+  }
+
+  /**
+   * LostReason createMany
+   */
+  export type LostReasonCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LostReasons.
+     */
+    data: LostReasonCreateManyInput | LostReasonCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LostReason createManyAndReturn
+   */
+  export type LostReasonCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * The data used to create many LostReasons.
+     */
+    data: LostReasonCreateManyInput | LostReasonCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LostReason update
+   */
+  export type LostReasonUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LostReasonInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LostReason.
+     */
+    data: XOR<LostReasonUpdateInput, LostReasonUncheckedUpdateInput>
+    /**
+     * Choose, which LostReason to update.
+     */
+    where: LostReasonWhereUniqueInput
+  }
+
+  /**
+   * LostReason updateMany
+   */
+  export type LostReasonUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LostReasons.
+     */
+    data: XOR<LostReasonUpdateManyMutationInput, LostReasonUncheckedUpdateManyInput>
+    /**
+     * Filter which LostReasons to update
+     */
+    where?: LostReasonWhereInput
+    /**
+     * Limit how many LostReasons to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LostReason updateManyAndReturn
+   */
+  export type LostReasonUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * The data used to update LostReasons.
+     */
+    data: XOR<LostReasonUpdateManyMutationInput, LostReasonUncheckedUpdateManyInput>
+    /**
+     * Filter which LostReasons to update
+     */
+    where?: LostReasonWhereInput
+    /**
+     * Limit how many LostReasons to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LostReason upsert
+   */
+  export type LostReasonUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LostReasonInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LostReason to update in case it exists.
+     */
+    where: LostReasonWhereUniqueInput
+    /**
+     * In case the LostReason found by the `where` argument doesn't exist, create a new LostReason with this data.
+     */
+    create: XOR<LostReasonCreateInput, LostReasonUncheckedCreateInput>
+    /**
+     * In case the LostReason was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LostReasonUpdateInput, LostReasonUncheckedUpdateInput>
+  }
+
+  /**
+   * LostReason delete
+   */
+  export type LostReasonDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LostReasonInclude<ExtArgs> | null
+    /**
+     * Filter which LostReason to delete.
+     */
+    where: LostReasonWhereUniqueInput
+  }
+
+  /**
+   * LostReason deleteMany
+   */
+  export type LostReasonDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LostReasons to delete
+     */
+    where?: LostReasonWhereInput
+    /**
+     * Limit how many LostReasons to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LostReason.deals
+   */
+  export type LostReason$dealsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Deal
+     */
+    select?: DealSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Deal
+     */
+    omit?: DealOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealInclude<ExtArgs> | null
+    where?: DealWhereInput
+    orderBy?: DealOrderByWithRelationInput | DealOrderByWithRelationInput[]
+    cursor?: DealWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DealScalarFieldEnum | DealScalarFieldEnum[]
+  }
+
+  /**
+   * LostReason without action
+   */
+  export type LostReasonDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LostReasonInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Deal
    */
 
@@ -15321,11 +18992,12 @@ export namespace Prisma {
     id: string | null
     title: string | null
     companyId: string | null
-    stage: $Enums.DealStage | null
+    statusId: string | null
     ownerId: string | null
     estimatedValue: number | null
     probability: number | null
-    lostReason: string | null
+    lostReasonId: string | null
+    lostReasonNote: string | null
     projectId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -15335,11 +19007,12 @@ export namespace Prisma {
     id: string | null
     title: string | null
     companyId: string | null
-    stage: $Enums.DealStage | null
+    statusId: string | null
     ownerId: string | null
     estimatedValue: number | null
     probability: number | null
-    lostReason: string | null
+    lostReasonId: string | null
+    lostReasonNote: string | null
     projectId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -15349,11 +19022,12 @@ export namespace Prisma {
     id: number
     title: number
     companyId: number
-    stage: number
+    statusId: number
     ownerId: number
     estimatedValue: number
     probability: number
-    lostReason: number
+    lostReasonId: number
+    lostReasonNote: number
     projectId: number
     createdAt: number
     updatedAt: number
@@ -15375,11 +19049,12 @@ export namespace Prisma {
     id?: true
     title?: true
     companyId?: true
-    stage?: true
+    statusId?: true
     ownerId?: true
     estimatedValue?: true
     probability?: true
-    lostReason?: true
+    lostReasonId?: true
+    lostReasonNote?: true
     projectId?: true
     createdAt?: true
     updatedAt?: true
@@ -15389,11 +19064,12 @@ export namespace Prisma {
     id?: true
     title?: true
     companyId?: true
-    stage?: true
+    statusId?: true
     ownerId?: true
     estimatedValue?: true
     probability?: true
-    lostReason?: true
+    lostReasonId?: true
+    lostReasonNote?: true
     projectId?: true
     createdAt?: true
     updatedAt?: true
@@ -15403,11 +19079,12 @@ export namespace Prisma {
     id?: true
     title?: true
     companyId?: true
-    stage?: true
+    statusId?: true
     ownerId?: true
     estimatedValue?: true
     probability?: true
-    lostReason?: true
+    lostReasonId?: true
+    lostReasonNote?: true
     projectId?: true
     createdAt?: true
     updatedAt?: true
@@ -15504,11 +19181,12 @@ export namespace Prisma {
     id: string
     title: string
     companyId: string
-    stage: $Enums.DealStage
+    statusId: string
     ownerId: string
     estimatedValue: number | null
     probability: number | null
-    lostReason: string | null
+    lostReasonId: string | null
+    lostReasonNote: string | null
     projectId: string | null
     createdAt: Date
     updatedAt: Date
@@ -15537,16 +19215,19 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     companyId?: boolean
-    stage?: boolean
+    statusId?: boolean
     ownerId?: boolean
     estimatedValue?: boolean
     probability?: boolean
-    lostReason?: boolean
+    lostReasonId?: boolean
+    lostReasonNote?: boolean
     projectId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | ClientDefaultArgs<ExtArgs>
+    status?: boolean | DealStatusDefaultArgs<ExtArgs>
     owner?: boolean | UserDefaultArgs<ExtArgs>
+    lostReason?: boolean | Deal$lostReasonArgs<ExtArgs>
     project?: boolean | Deal$projectArgs<ExtArgs>
   }, ExtArgs["result"]["deal"]>
 
@@ -15554,16 +19235,19 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     companyId?: boolean
-    stage?: boolean
+    statusId?: boolean
     ownerId?: boolean
     estimatedValue?: boolean
     probability?: boolean
-    lostReason?: boolean
+    lostReasonId?: boolean
+    lostReasonNote?: boolean
     projectId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | ClientDefaultArgs<ExtArgs>
+    status?: boolean | DealStatusDefaultArgs<ExtArgs>
     owner?: boolean | UserDefaultArgs<ExtArgs>
+    lostReason?: boolean | Deal$lostReasonArgs<ExtArgs>
     project?: boolean | Deal$projectArgs<ExtArgs>
   }, ExtArgs["result"]["deal"]>
 
@@ -15571,16 +19255,19 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     companyId?: boolean
-    stage?: boolean
+    statusId?: boolean
     ownerId?: boolean
     estimatedValue?: boolean
     probability?: boolean
-    lostReason?: boolean
+    lostReasonId?: boolean
+    lostReasonNote?: boolean
     projectId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | ClientDefaultArgs<ExtArgs>
+    status?: boolean | DealStatusDefaultArgs<ExtArgs>
     owner?: boolean | UserDefaultArgs<ExtArgs>
+    lostReason?: boolean | Deal$lostReasonArgs<ExtArgs>
     project?: boolean | Deal$projectArgs<ExtArgs>
   }, ExtArgs["result"]["deal"]>
 
@@ -15588,30 +19275,37 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     companyId?: boolean
-    stage?: boolean
+    statusId?: boolean
     ownerId?: boolean
     estimatedValue?: boolean
     probability?: boolean
-    lostReason?: boolean
+    lostReasonId?: boolean
+    lostReasonNote?: boolean
     projectId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type DealOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "companyId" | "stage" | "ownerId" | "estimatedValue" | "probability" | "lostReason" | "projectId" | "createdAt" | "updatedAt", ExtArgs["result"]["deal"]>
+  export type DealOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "companyId" | "statusId" | "ownerId" | "estimatedValue" | "probability" | "lostReasonId" | "lostReasonNote" | "projectId" | "createdAt" | "updatedAt", ExtArgs["result"]["deal"]>
   export type DealInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | ClientDefaultArgs<ExtArgs>
+    status?: boolean | DealStatusDefaultArgs<ExtArgs>
     owner?: boolean | UserDefaultArgs<ExtArgs>
+    lostReason?: boolean | Deal$lostReasonArgs<ExtArgs>
     project?: boolean | Deal$projectArgs<ExtArgs>
   }
   export type DealIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | ClientDefaultArgs<ExtArgs>
+    status?: boolean | DealStatusDefaultArgs<ExtArgs>
     owner?: boolean | UserDefaultArgs<ExtArgs>
+    lostReason?: boolean | Deal$lostReasonArgs<ExtArgs>
     project?: boolean | Deal$projectArgs<ExtArgs>
   }
   export type DealIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | ClientDefaultArgs<ExtArgs>
+    status?: boolean | DealStatusDefaultArgs<ExtArgs>
     owner?: boolean | UserDefaultArgs<ExtArgs>
+    lostReason?: boolean | Deal$lostReasonArgs<ExtArgs>
     project?: boolean | Deal$projectArgs<ExtArgs>
   }
 
@@ -15619,18 +19313,21 @@ export namespace Prisma {
     name: "Deal"
     objects: {
       company: Prisma.$ClientPayload<ExtArgs>
+      status: Prisma.$DealStatusPayload<ExtArgs>
       owner: Prisma.$UserPayload<ExtArgs>
+      lostReason: Prisma.$LostReasonPayload<ExtArgs> | null
       project: Prisma.$ProjectPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
       companyId: string
-      stage: $Enums.DealStage
+      statusId: string
       ownerId: string
       estimatedValue: number | null
       probability: number | null
-      lostReason: string | null
+      lostReasonId: string | null
+      lostReasonNote: string | null
       projectId: string | null
       createdAt: Date
       updatedAt: Date
@@ -16029,7 +19726,9 @@ export namespace Prisma {
   export interface Prisma__DealClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     company<T extends ClientDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClientDefaultArgs<ExtArgs>>): Prisma__ClientClient<$Result.GetResult<Prisma.$ClientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    status<T extends DealStatusDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DealStatusDefaultArgs<ExtArgs>>): Prisma__DealStatusClient<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    lostReason<T extends Deal$lostReasonArgs<ExtArgs> = {}>(args?: Subset<T, Deal$lostReasonArgs<ExtArgs>>): Prisma__LostReasonClient<$Result.GetResult<Prisma.$LostReasonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     project<T extends Deal$projectArgs<ExtArgs> = {}>(args?: Subset<T, Deal$projectArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -16063,11 +19762,12 @@ export namespace Prisma {
     readonly id: FieldRef<"Deal", 'String'>
     readonly title: FieldRef<"Deal", 'String'>
     readonly companyId: FieldRef<"Deal", 'String'>
-    readonly stage: FieldRef<"Deal", 'DealStage'>
+    readonly statusId: FieldRef<"Deal", 'String'>
     readonly ownerId: FieldRef<"Deal", 'String'>
     readonly estimatedValue: FieldRef<"Deal", 'Float'>
     readonly probability: FieldRef<"Deal", 'Int'>
-    readonly lostReason: FieldRef<"Deal", 'String'>
+    readonly lostReasonId: FieldRef<"Deal", 'String'>
+    readonly lostReasonNote: FieldRef<"Deal", 'String'>
     readonly projectId: FieldRef<"Deal", 'String'>
     readonly createdAt: FieldRef<"Deal", 'DateTime'>
     readonly updatedAt: FieldRef<"Deal", 'DateTime'>
@@ -16469,6 +20169,25 @@ export namespace Prisma {
      * Limit how many Deals to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Deal.lostReason
+   */
+  export type Deal$lostReasonArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LostReasonInclude<ExtArgs> | null
+    where?: LostReasonWhereInput
   }
 
   /**
@@ -101460,15 +105179,51 @@ export namespace Prisma {
   export type ClientContactScalarFieldEnum = (typeof ClientContactScalarFieldEnum)[keyof typeof ClientContactScalarFieldEnum]
 
 
+  export const PipelineScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    archived: 'archived',
+    createdAt: 'createdAt'
+  };
+
+  export type PipelineScalarFieldEnum = (typeof PipelineScalarFieldEnum)[keyof typeof PipelineScalarFieldEnum]
+
+
+  export const DealStatusScalarFieldEnum: {
+    id: 'id',
+    pipelineId: 'pipelineId',
+    name: 'name',
+    category: 'category',
+    position: 'position',
+    defaultProbability: 'defaultProbability',
+    trackTime: 'trackTime',
+    trackExpenses: 'trackExpenses',
+    createBookings: 'createBookings'
+  };
+
+  export type DealStatusScalarFieldEnum = (typeof DealStatusScalarFieldEnum)[keyof typeof DealStatusScalarFieldEnum]
+
+
+  export const LostReasonScalarFieldEnum: {
+    id: 'id',
+    label: 'label',
+    archived: 'archived',
+    createdAt: 'createdAt'
+  };
+
+  export type LostReasonScalarFieldEnum = (typeof LostReasonScalarFieldEnum)[keyof typeof LostReasonScalarFieldEnum]
+
+
   export const DealScalarFieldEnum: {
     id: 'id',
     title: 'title',
     companyId: 'companyId',
-    stage: 'stage',
+    statusId: 'statusId',
     ownerId: 'ownerId',
     estimatedValue: 'estimatedValue',
     probability: 'probability',
-    lostReason: 'lostReason',
+    lostReasonId: 'lostReasonId',
+    lostReasonNote: 'lostReasonNote',
     projectId: 'projectId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -102615,16 +106370,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'DealStage'
+   * Reference to a field of type 'DealStatusCategory'
    */
-  export type EnumDealStageFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DealStage'>
+  export type EnumDealStatusCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DealStatusCategory'>
     
 
 
   /**
-   * Reference to a field of type 'DealStage[]'
+   * Reference to a field of type 'DealStatusCategory[]'
    */
-  export type ListEnumDealStageFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DealStage[]'>
+  export type ListEnumDealStatusCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DealStatusCategory[]'>
     
 
 
@@ -103461,6 +107216,187 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"ClientContact"> | Date | string
   }
 
+  export type PipelineWhereInput = {
+    AND?: PipelineWhereInput | PipelineWhereInput[]
+    OR?: PipelineWhereInput[]
+    NOT?: PipelineWhereInput | PipelineWhereInput[]
+    id?: StringFilter<"Pipeline"> | string
+    name?: StringFilter<"Pipeline"> | string
+    archived?: BoolFilter<"Pipeline"> | boolean
+    createdAt?: DateTimeFilter<"Pipeline"> | Date | string
+    statuses?: DealStatusListRelationFilter
+  }
+
+  export type PipelineOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+    statuses?: DealStatusOrderByRelationAggregateInput
+  }
+
+  export type PipelineWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PipelineWhereInput | PipelineWhereInput[]
+    OR?: PipelineWhereInput[]
+    NOT?: PipelineWhereInput | PipelineWhereInput[]
+    name?: StringFilter<"Pipeline"> | string
+    archived?: BoolFilter<"Pipeline"> | boolean
+    createdAt?: DateTimeFilter<"Pipeline"> | Date | string
+    statuses?: DealStatusListRelationFilter
+  }, "id">
+
+  export type PipelineOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+    _count?: PipelineCountOrderByAggregateInput
+    _max?: PipelineMaxOrderByAggregateInput
+    _min?: PipelineMinOrderByAggregateInput
+  }
+
+  export type PipelineScalarWhereWithAggregatesInput = {
+    AND?: PipelineScalarWhereWithAggregatesInput | PipelineScalarWhereWithAggregatesInput[]
+    OR?: PipelineScalarWhereWithAggregatesInput[]
+    NOT?: PipelineScalarWhereWithAggregatesInput | PipelineScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Pipeline"> | string
+    name?: StringWithAggregatesFilter<"Pipeline"> | string
+    archived?: BoolWithAggregatesFilter<"Pipeline"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Pipeline"> | Date | string
+  }
+
+  export type DealStatusWhereInput = {
+    AND?: DealStatusWhereInput | DealStatusWhereInput[]
+    OR?: DealStatusWhereInput[]
+    NOT?: DealStatusWhereInput | DealStatusWhereInput[]
+    id?: StringFilter<"DealStatus"> | string
+    pipelineId?: StringFilter<"DealStatus"> | string
+    name?: StringFilter<"DealStatus"> | string
+    category?: EnumDealStatusCategoryFilter<"DealStatus"> | $Enums.DealStatusCategory
+    position?: IntFilter<"DealStatus"> | number
+    defaultProbability?: IntNullableFilter<"DealStatus"> | number | null
+    trackTime?: BoolFilter<"DealStatus"> | boolean
+    trackExpenses?: BoolFilter<"DealStatus"> | boolean
+    createBookings?: BoolFilter<"DealStatus"> | boolean
+    pipeline?: XOR<PipelineScalarRelationFilter, PipelineWhereInput>
+    deals?: DealListRelationFilter
+  }
+
+  export type DealStatusOrderByWithRelationInput = {
+    id?: SortOrder
+    pipelineId?: SortOrder
+    name?: SortOrder
+    category?: SortOrder
+    position?: SortOrder
+    defaultProbability?: SortOrderInput | SortOrder
+    trackTime?: SortOrder
+    trackExpenses?: SortOrder
+    createBookings?: SortOrder
+    pipeline?: PipelineOrderByWithRelationInput
+    deals?: DealOrderByRelationAggregateInput
+  }
+
+  export type DealStatusWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    pipelineId_name?: DealStatusPipelineIdNameCompoundUniqueInput
+    AND?: DealStatusWhereInput | DealStatusWhereInput[]
+    OR?: DealStatusWhereInput[]
+    NOT?: DealStatusWhereInput | DealStatusWhereInput[]
+    pipelineId?: StringFilter<"DealStatus"> | string
+    name?: StringFilter<"DealStatus"> | string
+    category?: EnumDealStatusCategoryFilter<"DealStatus"> | $Enums.DealStatusCategory
+    position?: IntFilter<"DealStatus"> | number
+    defaultProbability?: IntNullableFilter<"DealStatus"> | number | null
+    trackTime?: BoolFilter<"DealStatus"> | boolean
+    trackExpenses?: BoolFilter<"DealStatus"> | boolean
+    createBookings?: BoolFilter<"DealStatus"> | boolean
+    pipeline?: XOR<PipelineScalarRelationFilter, PipelineWhereInput>
+    deals?: DealListRelationFilter
+  }, "id" | "pipelineId_name">
+
+  export type DealStatusOrderByWithAggregationInput = {
+    id?: SortOrder
+    pipelineId?: SortOrder
+    name?: SortOrder
+    category?: SortOrder
+    position?: SortOrder
+    defaultProbability?: SortOrderInput | SortOrder
+    trackTime?: SortOrder
+    trackExpenses?: SortOrder
+    createBookings?: SortOrder
+    _count?: DealStatusCountOrderByAggregateInput
+    _avg?: DealStatusAvgOrderByAggregateInput
+    _max?: DealStatusMaxOrderByAggregateInput
+    _min?: DealStatusMinOrderByAggregateInput
+    _sum?: DealStatusSumOrderByAggregateInput
+  }
+
+  export type DealStatusScalarWhereWithAggregatesInput = {
+    AND?: DealStatusScalarWhereWithAggregatesInput | DealStatusScalarWhereWithAggregatesInput[]
+    OR?: DealStatusScalarWhereWithAggregatesInput[]
+    NOT?: DealStatusScalarWhereWithAggregatesInput | DealStatusScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DealStatus"> | string
+    pipelineId?: StringWithAggregatesFilter<"DealStatus"> | string
+    name?: StringWithAggregatesFilter<"DealStatus"> | string
+    category?: EnumDealStatusCategoryWithAggregatesFilter<"DealStatus"> | $Enums.DealStatusCategory
+    position?: IntWithAggregatesFilter<"DealStatus"> | number
+    defaultProbability?: IntNullableWithAggregatesFilter<"DealStatus"> | number | null
+    trackTime?: BoolWithAggregatesFilter<"DealStatus"> | boolean
+    trackExpenses?: BoolWithAggregatesFilter<"DealStatus"> | boolean
+    createBookings?: BoolWithAggregatesFilter<"DealStatus"> | boolean
+  }
+
+  export type LostReasonWhereInput = {
+    AND?: LostReasonWhereInput | LostReasonWhereInput[]
+    OR?: LostReasonWhereInput[]
+    NOT?: LostReasonWhereInput | LostReasonWhereInput[]
+    id?: StringFilter<"LostReason"> | string
+    label?: StringFilter<"LostReason"> | string
+    archived?: BoolFilter<"LostReason"> | boolean
+    createdAt?: DateTimeFilter<"LostReason"> | Date | string
+    deals?: DealListRelationFilter
+  }
+
+  export type LostReasonOrderByWithRelationInput = {
+    id?: SortOrder
+    label?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+    deals?: DealOrderByRelationAggregateInput
+  }
+
+  export type LostReasonWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    label?: string
+    AND?: LostReasonWhereInput | LostReasonWhereInput[]
+    OR?: LostReasonWhereInput[]
+    NOT?: LostReasonWhereInput | LostReasonWhereInput[]
+    archived?: BoolFilter<"LostReason"> | boolean
+    createdAt?: DateTimeFilter<"LostReason"> | Date | string
+    deals?: DealListRelationFilter
+  }, "id" | "label">
+
+  export type LostReasonOrderByWithAggregationInput = {
+    id?: SortOrder
+    label?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+    _count?: LostReasonCountOrderByAggregateInput
+    _max?: LostReasonMaxOrderByAggregateInput
+    _min?: LostReasonMinOrderByAggregateInput
+  }
+
+  export type LostReasonScalarWhereWithAggregatesInput = {
+    AND?: LostReasonScalarWhereWithAggregatesInput | LostReasonScalarWhereWithAggregatesInput[]
+    OR?: LostReasonScalarWhereWithAggregatesInput[]
+    NOT?: LostReasonScalarWhereWithAggregatesInput | LostReasonScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LostReason"> | string
+    label?: StringWithAggregatesFilter<"LostReason"> | string
+    archived?: BoolWithAggregatesFilter<"LostReason"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"LostReason"> | Date | string
+  }
+
   export type DealWhereInput = {
     AND?: DealWhereInput | DealWhereInput[]
     OR?: DealWhereInput[]
@@ -103468,16 +107404,19 @@ export namespace Prisma {
     id?: StringFilter<"Deal"> | string
     title?: StringFilter<"Deal"> | string
     companyId?: StringFilter<"Deal"> | string
-    stage?: EnumDealStageFilter<"Deal"> | $Enums.DealStage
+    statusId?: StringFilter<"Deal"> | string
     ownerId?: StringFilter<"Deal"> | string
     estimatedValue?: FloatNullableFilter<"Deal"> | number | null
     probability?: IntNullableFilter<"Deal"> | number | null
-    lostReason?: StringNullableFilter<"Deal"> | string | null
+    lostReasonId?: StringNullableFilter<"Deal"> | string | null
+    lostReasonNote?: StringNullableFilter<"Deal"> | string | null
     projectId?: StringNullableFilter<"Deal"> | string | null
     createdAt?: DateTimeFilter<"Deal"> | Date | string
     updatedAt?: DateTimeFilter<"Deal"> | Date | string
     company?: XOR<ClientScalarRelationFilter, ClientWhereInput>
+    status?: XOR<DealStatusScalarRelationFilter, DealStatusWhereInput>
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+    lostReason?: XOR<LostReasonNullableScalarRelationFilter, LostReasonWhereInput> | null
     project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
   }
 
@@ -103485,16 +107424,19 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     companyId?: SortOrder
-    stage?: SortOrder
+    statusId?: SortOrder
     ownerId?: SortOrder
     estimatedValue?: SortOrderInput | SortOrder
     probability?: SortOrderInput | SortOrder
-    lostReason?: SortOrderInput | SortOrder
+    lostReasonId?: SortOrderInput | SortOrder
+    lostReasonNote?: SortOrderInput | SortOrder
     projectId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     company?: ClientOrderByWithRelationInput
+    status?: DealStatusOrderByWithRelationInput
     owner?: UserOrderByWithRelationInput
+    lostReason?: LostReasonOrderByWithRelationInput
     project?: ProjectOrderByWithRelationInput
   }
 
@@ -103505,16 +107447,19 @@ export namespace Prisma {
     NOT?: DealWhereInput | DealWhereInput[]
     title?: StringFilter<"Deal"> | string
     companyId?: StringFilter<"Deal"> | string
-    stage?: EnumDealStageFilter<"Deal"> | $Enums.DealStage
+    statusId?: StringFilter<"Deal"> | string
     ownerId?: StringFilter<"Deal"> | string
     estimatedValue?: FloatNullableFilter<"Deal"> | number | null
     probability?: IntNullableFilter<"Deal"> | number | null
-    lostReason?: StringNullableFilter<"Deal"> | string | null
+    lostReasonId?: StringNullableFilter<"Deal"> | string | null
+    lostReasonNote?: StringNullableFilter<"Deal"> | string | null
     projectId?: StringNullableFilter<"Deal"> | string | null
     createdAt?: DateTimeFilter<"Deal"> | Date | string
     updatedAt?: DateTimeFilter<"Deal"> | Date | string
     company?: XOR<ClientScalarRelationFilter, ClientWhereInput>
+    status?: XOR<DealStatusScalarRelationFilter, DealStatusWhereInput>
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+    lostReason?: XOR<LostReasonNullableScalarRelationFilter, LostReasonWhereInput> | null
     project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
   }, "id">
 
@@ -103522,11 +107467,12 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     companyId?: SortOrder
-    stage?: SortOrder
+    statusId?: SortOrder
     ownerId?: SortOrder
     estimatedValue?: SortOrderInput | SortOrder
     probability?: SortOrderInput | SortOrder
-    lostReason?: SortOrderInput | SortOrder
+    lostReasonId?: SortOrderInput | SortOrder
+    lostReasonNote?: SortOrderInput | SortOrder
     projectId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -103544,11 +107490,12 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Deal"> | string
     title?: StringWithAggregatesFilter<"Deal"> | string
     companyId?: StringWithAggregatesFilter<"Deal"> | string
-    stage?: EnumDealStageWithAggregatesFilter<"Deal"> | $Enums.DealStage
+    statusId?: StringWithAggregatesFilter<"Deal"> | string
     ownerId?: StringWithAggregatesFilter<"Deal"> | string
     estimatedValue?: FloatNullableWithAggregatesFilter<"Deal"> | number | null
     probability?: IntNullableWithAggregatesFilter<"Deal"> | number | null
-    lostReason?: StringNullableWithAggregatesFilter<"Deal"> | string | null
+    lostReasonId?: StringNullableWithAggregatesFilter<"Deal"> | string | null
+    lostReasonNote?: StringNullableWithAggregatesFilter<"Deal"> | string | null
     projectId?: StringNullableWithAggregatesFilter<"Deal"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Deal"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Deal"> | Date | string
@@ -109469,17 +113416,211 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PipelineCreateInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+    statuses?: DealStatusCreateNestedManyWithoutPipelineInput
+  }
+
+  export type PipelineUncheckedCreateInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+    statuses?: DealStatusUncheckedCreateNestedManyWithoutPipelineInput
+  }
+
+  export type PipelineUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    statuses?: DealStatusUpdateManyWithoutPipelineNestedInput
+  }
+
+  export type PipelineUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    statuses?: DealStatusUncheckedUpdateManyWithoutPipelineNestedInput
+  }
+
+  export type PipelineCreateManyInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+  }
+
+  export type PipelineUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PipelineUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealStatusCreateInput = {
+    id?: string
+    name: string
+    category: $Enums.DealStatusCategory
+    position: number
+    defaultProbability?: number | null
+    trackTime?: boolean
+    trackExpenses?: boolean
+    createBookings?: boolean
+    pipeline: PipelineCreateNestedOneWithoutStatusesInput
+    deals?: DealCreateNestedManyWithoutStatusInput
+  }
+
+  export type DealStatusUncheckedCreateInput = {
+    id?: string
+    pipelineId: string
+    name: string
+    category: $Enums.DealStatusCategory
+    position: number
+    defaultProbability?: number | null
+    trackTime?: boolean
+    trackExpenses?: boolean
+    createBookings?: boolean
+    deals?: DealUncheckedCreateNestedManyWithoutStatusInput
+  }
+
+  export type DealStatusUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: EnumDealStatusCategoryFieldUpdateOperationsInput | $Enums.DealStatusCategory
+    position?: IntFieldUpdateOperationsInput | number
+    defaultProbability?: NullableIntFieldUpdateOperationsInput | number | null
+    trackTime?: BoolFieldUpdateOperationsInput | boolean
+    trackExpenses?: BoolFieldUpdateOperationsInput | boolean
+    createBookings?: BoolFieldUpdateOperationsInput | boolean
+    pipeline?: PipelineUpdateOneRequiredWithoutStatusesNestedInput
+    deals?: DealUpdateManyWithoutStatusNestedInput
+  }
+
+  export type DealStatusUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pipelineId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: EnumDealStatusCategoryFieldUpdateOperationsInput | $Enums.DealStatusCategory
+    position?: IntFieldUpdateOperationsInput | number
+    defaultProbability?: NullableIntFieldUpdateOperationsInput | number | null
+    trackTime?: BoolFieldUpdateOperationsInput | boolean
+    trackExpenses?: BoolFieldUpdateOperationsInput | boolean
+    createBookings?: BoolFieldUpdateOperationsInput | boolean
+    deals?: DealUncheckedUpdateManyWithoutStatusNestedInput
+  }
+
+  export type DealStatusCreateManyInput = {
+    id?: string
+    pipelineId: string
+    name: string
+    category: $Enums.DealStatusCategory
+    position: number
+    defaultProbability?: number | null
+    trackTime?: boolean
+    trackExpenses?: boolean
+    createBookings?: boolean
+  }
+
+  export type DealStatusUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: EnumDealStatusCategoryFieldUpdateOperationsInput | $Enums.DealStatusCategory
+    position?: IntFieldUpdateOperationsInput | number
+    defaultProbability?: NullableIntFieldUpdateOperationsInput | number | null
+    trackTime?: BoolFieldUpdateOperationsInput | boolean
+    trackExpenses?: BoolFieldUpdateOperationsInput | boolean
+    createBookings?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type DealStatusUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pipelineId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: EnumDealStatusCategoryFieldUpdateOperationsInput | $Enums.DealStatusCategory
+    position?: IntFieldUpdateOperationsInput | number
+    defaultProbability?: NullableIntFieldUpdateOperationsInput | number | null
+    trackTime?: BoolFieldUpdateOperationsInput | boolean
+    trackExpenses?: BoolFieldUpdateOperationsInput | boolean
+    createBookings?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type LostReasonCreateInput = {
+    id?: string
+    label: string
+    archived?: boolean
+    createdAt?: Date | string
+    deals?: DealCreateNestedManyWithoutLostReasonInput
+  }
+
+  export type LostReasonUncheckedCreateInput = {
+    id?: string
+    label: string
+    archived?: boolean
+    createdAt?: Date | string
+    deals?: DealUncheckedCreateNestedManyWithoutLostReasonInput
+  }
+
+  export type LostReasonUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deals?: DealUpdateManyWithoutLostReasonNestedInput
+  }
+
+  export type LostReasonUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deals?: DealUncheckedUpdateManyWithoutLostReasonNestedInput
+  }
+
+  export type LostReasonCreateManyInput = {
+    id?: string
+    label: string
+    archived?: boolean
+    createdAt?: Date | string
+  }
+
+  export type LostReasonUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LostReasonUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type DealCreateInput = {
     id?: string
     title: string
-    stage?: $Enums.DealStage
     estimatedValue?: number | null
     probability?: number | null
-    lostReason?: string | null
+    lostReasonNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: ClientCreateNestedOneWithoutDealsInput
+    status: DealStatusCreateNestedOneWithoutDealsInput
     owner: UserCreateNestedOneWithoutOwnedDealsInput
+    lostReason?: LostReasonCreateNestedOneWithoutDealsInput
     project?: ProjectCreateNestedOneWithoutDealsInput
   }
 
@@ -109487,11 +113628,12 @@ export namespace Prisma {
     id?: string
     title: string
     companyId: string
-    stage?: $Enums.DealStage
+    statusId: string
     ownerId: string
     estimatedValue?: number | null
     probability?: number | null
-    lostReason?: string | null
+    lostReasonId?: string | null
+    lostReasonNote?: string | null
     projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -109500,14 +113642,15 @@ export namespace Prisma {
   export type DealUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: ClientUpdateOneRequiredWithoutDealsNestedInput
+    status?: DealStatusUpdateOneRequiredWithoutDealsNestedInput
     owner?: UserUpdateOneRequiredWithoutOwnedDealsNestedInput
+    lostReason?: LostReasonUpdateOneWithoutDealsNestedInput
     project?: ProjectUpdateOneWithoutDealsNestedInput
   }
 
@@ -109515,11 +113658,12 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
+    statusId?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -109529,11 +113673,12 @@ export namespace Prisma {
     id?: string
     title: string
     companyId: string
-    stage?: $Enums.DealStage
+    statusId: string
     ownerId: string
     estimatedValue?: number | null
     probability?: number | null
-    lostReason?: string | null
+    lostReasonId?: string | null
+    lostReasonNote?: string | null
     projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -109542,10 +113687,9 @@ export namespace Prisma {
   export type DealUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -109554,11 +113698,12 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
+    statusId?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -115964,16 +120109,171 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
-  export type EnumDealStageFilter<$PrismaModel = never> = {
-    equals?: $Enums.DealStage | EnumDealStageFieldRefInput<$PrismaModel>
-    in?: $Enums.DealStage[] | ListEnumDealStageFieldRefInput<$PrismaModel>
-    notIn?: $Enums.DealStage[] | ListEnumDealStageFieldRefInput<$PrismaModel>
-    not?: NestedEnumDealStageFilter<$PrismaModel> | $Enums.DealStage
+  export type DealStatusListRelationFilter = {
+    every?: DealStatusWhereInput
+    some?: DealStatusWhereInput
+    none?: DealStatusWhereInput
+  }
+
+  export type DealStatusOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PipelineCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PipelineMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PipelineMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumDealStatusCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.DealStatusCategory | EnumDealStatusCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.DealStatusCategory[] | ListEnumDealStatusCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DealStatusCategory[] | ListEnumDealStatusCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumDealStatusCategoryFilter<$PrismaModel> | $Enums.DealStatusCategory
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type PipelineScalarRelationFilter = {
+    is?: PipelineWhereInput
+    isNot?: PipelineWhereInput
+  }
+
+  export type DealStatusPipelineIdNameCompoundUniqueInput = {
+    pipelineId: string
+    name: string
+  }
+
+  export type DealStatusCountOrderByAggregateInput = {
+    id?: SortOrder
+    pipelineId?: SortOrder
+    name?: SortOrder
+    category?: SortOrder
+    position?: SortOrder
+    defaultProbability?: SortOrder
+    trackTime?: SortOrder
+    trackExpenses?: SortOrder
+    createBookings?: SortOrder
+  }
+
+  export type DealStatusAvgOrderByAggregateInput = {
+    position?: SortOrder
+    defaultProbability?: SortOrder
+  }
+
+  export type DealStatusMaxOrderByAggregateInput = {
+    id?: SortOrder
+    pipelineId?: SortOrder
+    name?: SortOrder
+    category?: SortOrder
+    position?: SortOrder
+    defaultProbability?: SortOrder
+    trackTime?: SortOrder
+    trackExpenses?: SortOrder
+    createBookings?: SortOrder
+  }
+
+  export type DealStatusMinOrderByAggregateInput = {
+    id?: SortOrder
+    pipelineId?: SortOrder
+    name?: SortOrder
+    category?: SortOrder
+    position?: SortOrder
+    defaultProbability?: SortOrder
+    trackTime?: SortOrder
+    trackExpenses?: SortOrder
+    createBookings?: SortOrder
+  }
+
+  export type DealStatusSumOrderByAggregateInput = {
+    position?: SortOrder
+    defaultProbability?: SortOrder
+  }
+
+  export type EnumDealStatusCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DealStatusCategory | EnumDealStatusCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.DealStatusCategory[] | ListEnumDealStatusCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DealStatusCategory[] | ListEnumDealStatusCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumDealStatusCategoryWithAggregatesFilter<$PrismaModel> | $Enums.DealStatusCategory
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDealStatusCategoryFilter<$PrismaModel>
+    _max?: NestedEnumDealStatusCategoryFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type LostReasonCountOrderByAggregateInput = {
+    id?: SortOrder
+    label?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LostReasonMaxOrderByAggregateInput = {
+    id?: SortOrder
+    label?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LostReasonMinOrderByAggregateInput = {
+    id?: SortOrder
+    label?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DealStatusScalarRelationFilter = {
+    is?: DealStatusWhereInput
+    isNot?: DealStatusWhereInput
   }
 
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
+  }
+
+  export type LostReasonNullableScalarRelationFilter = {
+    is?: LostReasonWhereInput | null
+    isNot?: LostReasonWhereInput | null
   }
 
   export type ProjectNullableScalarRelationFilter = {
@@ -115985,11 +120285,12 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     companyId?: SortOrder
-    stage?: SortOrder
+    statusId?: SortOrder
     ownerId?: SortOrder
     estimatedValue?: SortOrder
     probability?: SortOrder
-    lostReason?: SortOrder
+    lostReasonId?: SortOrder
+    lostReasonNote?: SortOrder
     projectId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -116004,11 +120305,12 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     companyId?: SortOrder
-    stage?: SortOrder
+    statusId?: SortOrder
     ownerId?: SortOrder
     estimatedValue?: SortOrder
     probability?: SortOrder
-    lostReason?: SortOrder
+    lostReasonId?: SortOrder
+    lostReasonNote?: SortOrder
     projectId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -116018,11 +120320,12 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     companyId?: SortOrder
-    stage?: SortOrder
+    statusId?: SortOrder
     ownerId?: SortOrder
     estimatedValue?: SortOrder
     probability?: SortOrder
-    lostReason?: SortOrder
+    lostReasonId?: SortOrder
+    lostReasonNote?: SortOrder
     projectId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -116031,16 +120334,6 @@ export namespace Prisma {
   export type DealSumOrderByAggregateInput = {
     estimatedValue?: SortOrder
     probability?: SortOrder
-  }
-
-  export type EnumDealStageWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.DealStage | EnumDealStageFieldRefInput<$PrismaModel>
-    in?: $Enums.DealStage[] | ListEnumDealStageFieldRefInput<$PrismaModel>
-    notIn?: $Enums.DealStage[] | ListEnumDealStageFieldRefInput<$PrismaModel>
-    not?: NestedEnumDealStageWithAggregatesFilter<$PrismaModel> | $Enums.DealStage
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumDealStageFilter<$PrismaModel>
-    _max?: NestedEnumDealStageFilter<$PrismaModel>
   }
 
   export type ProjectScalarRelationFilter = {
@@ -116560,17 +120853,6 @@ export namespace Prisma {
     _max?: NestedEnumProjectTypeFilter<$PrismaModel>
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type TaskListGroupListRelationFilter = {
     every?: TaskListGroupWhereInput
     some?: TaskListGroupWhereInput
@@ -116611,22 +120893,6 @@ export namespace Prisma {
 
   export type TaskFolderSumOrderByAggregateInput = {
     position?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type TaskFolderScalarRelationFilter = {
@@ -121987,10 +126253,168 @@ export namespace Prisma {
     update?: XOR<XOR<ClientUpdateToOneWithWhereWithoutContactsInput, ClientUpdateWithoutContactsInput>, ClientUncheckedUpdateWithoutContactsInput>
   }
 
+  export type DealStatusCreateNestedManyWithoutPipelineInput = {
+    create?: XOR<DealStatusCreateWithoutPipelineInput, DealStatusUncheckedCreateWithoutPipelineInput> | DealStatusCreateWithoutPipelineInput[] | DealStatusUncheckedCreateWithoutPipelineInput[]
+    connectOrCreate?: DealStatusCreateOrConnectWithoutPipelineInput | DealStatusCreateOrConnectWithoutPipelineInput[]
+    createMany?: DealStatusCreateManyPipelineInputEnvelope
+    connect?: DealStatusWhereUniqueInput | DealStatusWhereUniqueInput[]
+  }
+
+  export type DealStatusUncheckedCreateNestedManyWithoutPipelineInput = {
+    create?: XOR<DealStatusCreateWithoutPipelineInput, DealStatusUncheckedCreateWithoutPipelineInput> | DealStatusCreateWithoutPipelineInput[] | DealStatusUncheckedCreateWithoutPipelineInput[]
+    connectOrCreate?: DealStatusCreateOrConnectWithoutPipelineInput | DealStatusCreateOrConnectWithoutPipelineInput[]
+    createMany?: DealStatusCreateManyPipelineInputEnvelope
+    connect?: DealStatusWhereUniqueInput | DealStatusWhereUniqueInput[]
+  }
+
+  export type DealStatusUpdateManyWithoutPipelineNestedInput = {
+    create?: XOR<DealStatusCreateWithoutPipelineInput, DealStatusUncheckedCreateWithoutPipelineInput> | DealStatusCreateWithoutPipelineInput[] | DealStatusUncheckedCreateWithoutPipelineInput[]
+    connectOrCreate?: DealStatusCreateOrConnectWithoutPipelineInput | DealStatusCreateOrConnectWithoutPipelineInput[]
+    upsert?: DealStatusUpsertWithWhereUniqueWithoutPipelineInput | DealStatusUpsertWithWhereUniqueWithoutPipelineInput[]
+    createMany?: DealStatusCreateManyPipelineInputEnvelope
+    set?: DealStatusWhereUniqueInput | DealStatusWhereUniqueInput[]
+    disconnect?: DealStatusWhereUniqueInput | DealStatusWhereUniqueInput[]
+    delete?: DealStatusWhereUniqueInput | DealStatusWhereUniqueInput[]
+    connect?: DealStatusWhereUniqueInput | DealStatusWhereUniqueInput[]
+    update?: DealStatusUpdateWithWhereUniqueWithoutPipelineInput | DealStatusUpdateWithWhereUniqueWithoutPipelineInput[]
+    updateMany?: DealStatusUpdateManyWithWhereWithoutPipelineInput | DealStatusUpdateManyWithWhereWithoutPipelineInput[]
+    deleteMany?: DealStatusScalarWhereInput | DealStatusScalarWhereInput[]
+  }
+
+  export type DealStatusUncheckedUpdateManyWithoutPipelineNestedInput = {
+    create?: XOR<DealStatusCreateWithoutPipelineInput, DealStatusUncheckedCreateWithoutPipelineInput> | DealStatusCreateWithoutPipelineInput[] | DealStatusUncheckedCreateWithoutPipelineInput[]
+    connectOrCreate?: DealStatusCreateOrConnectWithoutPipelineInput | DealStatusCreateOrConnectWithoutPipelineInput[]
+    upsert?: DealStatusUpsertWithWhereUniqueWithoutPipelineInput | DealStatusUpsertWithWhereUniqueWithoutPipelineInput[]
+    createMany?: DealStatusCreateManyPipelineInputEnvelope
+    set?: DealStatusWhereUniqueInput | DealStatusWhereUniqueInput[]
+    disconnect?: DealStatusWhereUniqueInput | DealStatusWhereUniqueInput[]
+    delete?: DealStatusWhereUniqueInput | DealStatusWhereUniqueInput[]
+    connect?: DealStatusWhereUniqueInput | DealStatusWhereUniqueInput[]
+    update?: DealStatusUpdateWithWhereUniqueWithoutPipelineInput | DealStatusUpdateWithWhereUniqueWithoutPipelineInput[]
+    updateMany?: DealStatusUpdateManyWithWhereWithoutPipelineInput | DealStatusUpdateManyWithWhereWithoutPipelineInput[]
+    deleteMany?: DealStatusScalarWhereInput | DealStatusScalarWhereInput[]
+  }
+
+  export type PipelineCreateNestedOneWithoutStatusesInput = {
+    create?: XOR<PipelineCreateWithoutStatusesInput, PipelineUncheckedCreateWithoutStatusesInput>
+    connectOrCreate?: PipelineCreateOrConnectWithoutStatusesInput
+    connect?: PipelineWhereUniqueInput
+  }
+
+  export type DealCreateNestedManyWithoutStatusInput = {
+    create?: XOR<DealCreateWithoutStatusInput, DealUncheckedCreateWithoutStatusInput> | DealCreateWithoutStatusInput[] | DealUncheckedCreateWithoutStatusInput[]
+    connectOrCreate?: DealCreateOrConnectWithoutStatusInput | DealCreateOrConnectWithoutStatusInput[]
+    createMany?: DealCreateManyStatusInputEnvelope
+    connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+  }
+
+  export type DealUncheckedCreateNestedManyWithoutStatusInput = {
+    create?: XOR<DealCreateWithoutStatusInput, DealUncheckedCreateWithoutStatusInput> | DealCreateWithoutStatusInput[] | DealUncheckedCreateWithoutStatusInput[]
+    connectOrCreate?: DealCreateOrConnectWithoutStatusInput | DealCreateOrConnectWithoutStatusInput[]
+    createMany?: DealCreateManyStatusInputEnvelope
+    connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+  }
+
+  export type EnumDealStatusCategoryFieldUpdateOperationsInput = {
+    set?: $Enums.DealStatusCategory
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type PipelineUpdateOneRequiredWithoutStatusesNestedInput = {
+    create?: XOR<PipelineCreateWithoutStatusesInput, PipelineUncheckedCreateWithoutStatusesInput>
+    connectOrCreate?: PipelineCreateOrConnectWithoutStatusesInput
+    upsert?: PipelineUpsertWithoutStatusesInput
+    connect?: PipelineWhereUniqueInput
+    update?: XOR<XOR<PipelineUpdateToOneWithWhereWithoutStatusesInput, PipelineUpdateWithoutStatusesInput>, PipelineUncheckedUpdateWithoutStatusesInput>
+  }
+
+  export type DealUpdateManyWithoutStatusNestedInput = {
+    create?: XOR<DealCreateWithoutStatusInput, DealUncheckedCreateWithoutStatusInput> | DealCreateWithoutStatusInput[] | DealUncheckedCreateWithoutStatusInput[]
+    connectOrCreate?: DealCreateOrConnectWithoutStatusInput | DealCreateOrConnectWithoutStatusInput[]
+    upsert?: DealUpsertWithWhereUniqueWithoutStatusInput | DealUpsertWithWhereUniqueWithoutStatusInput[]
+    createMany?: DealCreateManyStatusInputEnvelope
+    set?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    disconnect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    delete?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    update?: DealUpdateWithWhereUniqueWithoutStatusInput | DealUpdateWithWhereUniqueWithoutStatusInput[]
+    updateMany?: DealUpdateManyWithWhereWithoutStatusInput | DealUpdateManyWithWhereWithoutStatusInput[]
+    deleteMany?: DealScalarWhereInput | DealScalarWhereInput[]
+  }
+
+  export type DealUncheckedUpdateManyWithoutStatusNestedInput = {
+    create?: XOR<DealCreateWithoutStatusInput, DealUncheckedCreateWithoutStatusInput> | DealCreateWithoutStatusInput[] | DealUncheckedCreateWithoutStatusInput[]
+    connectOrCreate?: DealCreateOrConnectWithoutStatusInput | DealCreateOrConnectWithoutStatusInput[]
+    upsert?: DealUpsertWithWhereUniqueWithoutStatusInput | DealUpsertWithWhereUniqueWithoutStatusInput[]
+    createMany?: DealCreateManyStatusInputEnvelope
+    set?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    disconnect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    delete?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    update?: DealUpdateWithWhereUniqueWithoutStatusInput | DealUpdateWithWhereUniqueWithoutStatusInput[]
+    updateMany?: DealUpdateManyWithWhereWithoutStatusInput | DealUpdateManyWithWhereWithoutStatusInput[]
+    deleteMany?: DealScalarWhereInput | DealScalarWhereInput[]
+  }
+
+  export type DealCreateNestedManyWithoutLostReasonInput = {
+    create?: XOR<DealCreateWithoutLostReasonInput, DealUncheckedCreateWithoutLostReasonInput> | DealCreateWithoutLostReasonInput[] | DealUncheckedCreateWithoutLostReasonInput[]
+    connectOrCreate?: DealCreateOrConnectWithoutLostReasonInput | DealCreateOrConnectWithoutLostReasonInput[]
+    createMany?: DealCreateManyLostReasonInputEnvelope
+    connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+  }
+
+  export type DealUncheckedCreateNestedManyWithoutLostReasonInput = {
+    create?: XOR<DealCreateWithoutLostReasonInput, DealUncheckedCreateWithoutLostReasonInput> | DealCreateWithoutLostReasonInput[] | DealUncheckedCreateWithoutLostReasonInput[]
+    connectOrCreate?: DealCreateOrConnectWithoutLostReasonInput | DealCreateOrConnectWithoutLostReasonInput[]
+    createMany?: DealCreateManyLostReasonInputEnvelope
+    connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+  }
+
+  export type DealUpdateManyWithoutLostReasonNestedInput = {
+    create?: XOR<DealCreateWithoutLostReasonInput, DealUncheckedCreateWithoutLostReasonInput> | DealCreateWithoutLostReasonInput[] | DealUncheckedCreateWithoutLostReasonInput[]
+    connectOrCreate?: DealCreateOrConnectWithoutLostReasonInput | DealCreateOrConnectWithoutLostReasonInput[]
+    upsert?: DealUpsertWithWhereUniqueWithoutLostReasonInput | DealUpsertWithWhereUniqueWithoutLostReasonInput[]
+    createMany?: DealCreateManyLostReasonInputEnvelope
+    set?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    disconnect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    delete?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    update?: DealUpdateWithWhereUniqueWithoutLostReasonInput | DealUpdateWithWhereUniqueWithoutLostReasonInput[]
+    updateMany?: DealUpdateManyWithWhereWithoutLostReasonInput | DealUpdateManyWithWhereWithoutLostReasonInput[]
+    deleteMany?: DealScalarWhereInput | DealScalarWhereInput[]
+  }
+
+  export type DealUncheckedUpdateManyWithoutLostReasonNestedInput = {
+    create?: XOR<DealCreateWithoutLostReasonInput, DealUncheckedCreateWithoutLostReasonInput> | DealCreateWithoutLostReasonInput[] | DealUncheckedCreateWithoutLostReasonInput[]
+    connectOrCreate?: DealCreateOrConnectWithoutLostReasonInput | DealCreateOrConnectWithoutLostReasonInput[]
+    upsert?: DealUpsertWithWhereUniqueWithoutLostReasonInput | DealUpsertWithWhereUniqueWithoutLostReasonInput[]
+    createMany?: DealCreateManyLostReasonInputEnvelope
+    set?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    disconnect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    delete?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    update?: DealUpdateWithWhereUniqueWithoutLostReasonInput | DealUpdateWithWhereUniqueWithoutLostReasonInput[]
+    updateMany?: DealUpdateManyWithWhereWithoutLostReasonInput | DealUpdateManyWithWhereWithoutLostReasonInput[]
+    deleteMany?: DealScalarWhereInput | DealScalarWhereInput[]
+  }
+
   export type ClientCreateNestedOneWithoutDealsInput = {
     create?: XOR<ClientCreateWithoutDealsInput, ClientUncheckedCreateWithoutDealsInput>
     connectOrCreate?: ClientCreateOrConnectWithoutDealsInput
     connect?: ClientWhereUniqueInput
+  }
+
+  export type DealStatusCreateNestedOneWithoutDealsInput = {
+    create?: XOR<DealStatusCreateWithoutDealsInput, DealStatusUncheckedCreateWithoutDealsInput>
+    connectOrCreate?: DealStatusCreateOrConnectWithoutDealsInput
+    connect?: DealStatusWhereUniqueInput
   }
 
   export type UserCreateNestedOneWithoutOwnedDealsInput = {
@@ -121999,14 +126423,16 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type LostReasonCreateNestedOneWithoutDealsInput = {
+    create?: XOR<LostReasonCreateWithoutDealsInput, LostReasonUncheckedCreateWithoutDealsInput>
+    connectOrCreate?: LostReasonCreateOrConnectWithoutDealsInput
+    connect?: LostReasonWhereUniqueInput
+  }
+
   export type ProjectCreateNestedOneWithoutDealsInput = {
     create?: XOR<ProjectCreateWithoutDealsInput, ProjectUncheckedCreateWithoutDealsInput>
     connectOrCreate?: ProjectCreateOrConnectWithoutDealsInput
     connect?: ProjectWhereUniqueInput
-  }
-
-  export type EnumDealStageFieldUpdateOperationsInput = {
-    set?: $Enums.DealStage
   }
 
   export type ClientUpdateOneRequiredWithoutDealsNestedInput = {
@@ -122017,12 +126443,30 @@ export namespace Prisma {
     update?: XOR<XOR<ClientUpdateToOneWithWhereWithoutDealsInput, ClientUpdateWithoutDealsInput>, ClientUncheckedUpdateWithoutDealsInput>
   }
 
+  export type DealStatusUpdateOneRequiredWithoutDealsNestedInput = {
+    create?: XOR<DealStatusCreateWithoutDealsInput, DealStatusUncheckedCreateWithoutDealsInput>
+    connectOrCreate?: DealStatusCreateOrConnectWithoutDealsInput
+    upsert?: DealStatusUpsertWithoutDealsInput
+    connect?: DealStatusWhereUniqueInput
+    update?: XOR<XOR<DealStatusUpdateToOneWithWhereWithoutDealsInput, DealStatusUpdateWithoutDealsInput>, DealStatusUncheckedUpdateWithoutDealsInput>
+  }
+
   export type UserUpdateOneRequiredWithoutOwnedDealsNestedInput = {
     create?: XOR<UserCreateWithoutOwnedDealsInput, UserUncheckedCreateWithoutOwnedDealsInput>
     connectOrCreate?: UserCreateOrConnectWithoutOwnedDealsInput
     upsert?: UserUpsertWithoutOwnedDealsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutOwnedDealsInput, UserUpdateWithoutOwnedDealsInput>, UserUncheckedUpdateWithoutOwnedDealsInput>
+  }
+
+  export type LostReasonUpdateOneWithoutDealsNestedInput = {
+    create?: XOR<LostReasonCreateWithoutDealsInput, LostReasonUncheckedCreateWithoutDealsInput>
+    connectOrCreate?: LostReasonCreateOrConnectWithoutDealsInput
+    upsert?: LostReasonUpsertWithoutDealsInput
+    disconnect?: LostReasonWhereInput | boolean
+    delete?: LostReasonWhereInput | boolean
+    connect?: LostReasonWhereUniqueInput
+    update?: XOR<XOR<LostReasonUpdateToOneWithWhereWithoutDealsInput, LostReasonUpdateWithoutDealsInput>, LostReasonUncheckedUpdateWithoutDealsInput>
   }
 
   export type ProjectUpdateOneWithoutDealsNestedInput = {
@@ -123432,14 +127876,6 @@ export namespace Prisma {
     connectOrCreate?: TaskListGroupCreateOrConnectWithoutFolderInput | TaskListGroupCreateOrConnectWithoutFolderInput[]
     createMany?: TaskListGroupCreateManyFolderInputEnvelope
     connect?: TaskListGroupWhereUniqueInput | TaskListGroupWhereUniqueInput[]
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type ProjectUpdateOneRequiredWithoutTaskFoldersNestedInput = {
@@ -127875,21 +132311,37 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type NestedEnumDealStageFilter<$PrismaModel = never> = {
-    equals?: $Enums.DealStage | EnumDealStageFieldRefInput<$PrismaModel>
-    in?: $Enums.DealStage[] | ListEnumDealStageFieldRefInput<$PrismaModel>
-    notIn?: $Enums.DealStage[] | ListEnumDealStageFieldRefInput<$PrismaModel>
-    not?: NestedEnumDealStageFilter<$PrismaModel> | $Enums.DealStage
+  export type NestedEnumDealStatusCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.DealStatusCategory | EnumDealStatusCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.DealStatusCategory[] | ListEnumDealStatusCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DealStatusCategory[] | ListEnumDealStatusCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumDealStatusCategoryFilter<$PrismaModel> | $Enums.DealStatusCategory
   }
 
-  export type NestedEnumDealStageWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.DealStage | EnumDealStageFieldRefInput<$PrismaModel>
-    in?: $Enums.DealStage[] | ListEnumDealStageFieldRefInput<$PrismaModel>
-    notIn?: $Enums.DealStage[] | ListEnumDealStageFieldRefInput<$PrismaModel>
-    not?: NestedEnumDealStageWithAggregatesFilter<$PrismaModel> | $Enums.DealStage
+  export type NestedEnumDealStatusCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DealStatusCategory | EnumDealStatusCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.DealStatusCategory[] | ListEnumDealStatusCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DealStatusCategory[] | ListEnumDealStatusCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumDealStatusCategoryWithAggregatesFilter<$PrismaModel> | $Enums.DealStatusCategory
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumDealStageFilter<$PrismaModel>
-    _max?: NestedEnumDealStageFilter<$PrismaModel>
+    _min?: NestedEnumDealStatusCategoryFilter<$PrismaModel>
+    _max?: NestedEnumDealStatusCategoryFilter<$PrismaModel>
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type NestedEnumAbsenceTypeFilter<$PrismaModel = never> = {
@@ -127941,22 +132393,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumProjectTypeFilter<$PrismaModel>
     _max?: NestedEnumProjectTypeFilter<$PrismaModel>
-  }
-
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type NestedEnumStatusCategoryFilter<$PrismaModel = never> = {
@@ -130334,13 +134770,14 @@ export namespace Prisma {
   export type DealCreateWithoutOwnerInput = {
     id?: string
     title: string
-    stage?: $Enums.DealStage
     estimatedValue?: number | null
     probability?: number | null
-    lostReason?: string | null
+    lostReasonNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: ClientCreateNestedOneWithoutDealsInput
+    status: DealStatusCreateNestedOneWithoutDealsInput
+    lostReason?: LostReasonCreateNestedOneWithoutDealsInput
     project?: ProjectCreateNestedOneWithoutDealsInput
   }
 
@@ -130348,10 +134785,11 @@ export namespace Prisma {
     id?: string
     title: string
     companyId: string
-    stage?: $Enums.DealStage
+    statusId: string
     estimatedValue?: number | null
     probability?: number | null
-    lostReason?: string | null
+    lostReasonId?: string | null
+    lostReasonNote?: string | null
     projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -131969,11 +136407,12 @@ export namespace Prisma {
     id?: StringFilter<"Deal"> | string
     title?: StringFilter<"Deal"> | string
     companyId?: StringFilter<"Deal"> | string
-    stage?: EnumDealStageFilter<"Deal"> | $Enums.DealStage
+    statusId?: StringFilter<"Deal"> | string
     ownerId?: StringFilter<"Deal"> | string
     estimatedValue?: FloatNullableFilter<"Deal"> | number | null
     probability?: IntNullableFilter<"Deal"> | number | null
-    lostReason?: StringNullableFilter<"Deal"> | string | null
+    lostReasonId?: StringNullableFilter<"Deal"> | string | null
+    lostReasonNote?: StringNullableFilter<"Deal"> | string | null
     projectId?: StringNullableFilter<"Deal"> | string | null
     createdAt?: DateTimeFilter<"Deal"> | Date | string
     updatedAt?: DateTimeFilter<"Deal"> | Date | string
@@ -132338,24 +136777,26 @@ export namespace Prisma {
   export type DealCreateWithoutCompanyInput = {
     id?: string
     title: string
-    stage?: $Enums.DealStage
     estimatedValue?: number | null
     probability?: number | null
-    lostReason?: string | null
+    lostReasonNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status: DealStatusCreateNestedOneWithoutDealsInput
     owner: UserCreateNestedOneWithoutOwnedDealsInput
+    lostReason?: LostReasonCreateNestedOneWithoutDealsInput
     project?: ProjectCreateNestedOneWithoutDealsInput
   }
 
   export type DealUncheckedCreateWithoutCompanyInput = {
     id?: string
     title: string
-    stage?: $Enums.DealStage
+    statusId: string
     ownerId: string
     estimatedValue?: number | null
     probability?: number | null
-    lostReason?: string | null
+    lostReasonId?: string | null
+    lostReasonNote?: string | null
     projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -132733,6 +137174,223 @@ export namespace Prisma {
     deals?: DealUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
+  export type DealStatusCreateWithoutPipelineInput = {
+    id?: string
+    name: string
+    category: $Enums.DealStatusCategory
+    position: number
+    defaultProbability?: number | null
+    trackTime?: boolean
+    trackExpenses?: boolean
+    createBookings?: boolean
+    deals?: DealCreateNestedManyWithoutStatusInput
+  }
+
+  export type DealStatusUncheckedCreateWithoutPipelineInput = {
+    id?: string
+    name: string
+    category: $Enums.DealStatusCategory
+    position: number
+    defaultProbability?: number | null
+    trackTime?: boolean
+    trackExpenses?: boolean
+    createBookings?: boolean
+    deals?: DealUncheckedCreateNestedManyWithoutStatusInput
+  }
+
+  export type DealStatusCreateOrConnectWithoutPipelineInput = {
+    where: DealStatusWhereUniqueInput
+    create: XOR<DealStatusCreateWithoutPipelineInput, DealStatusUncheckedCreateWithoutPipelineInput>
+  }
+
+  export type DealStatusCreateManyPipelineInputEnvelope = {
+    data: DealStatusCreateManyPipelineInput | DealStatusCreateManyPipelineInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DealStatusUpsertWithWhereUniqueWithoutPipelineInput = {
+    where: DealStatusWhereUniqueInput
+    update: XOR<DealStatusUpdateWithoutPipelineInput, DealStatusUncheckedUpdateWithoutPipelineInput>
+    create: XOR<DealStatusCreateWithoutPipelineInput, DealStatusUncheckedCreateWithoutPipelineInput>
+  }
+
+  export type DealStatusUpdateWithWhereUniqueWithoutPipelineInput = {
+    where: DealStatusWhereUniqueInput
+    data: XOR<DealStatusUpdateWithoutPipelineInput, DealStatusUncheckedUpdateWithoutPipelineInput>
+  }
+
+  export type DealStatusUpdateManyWithWhereWithoutPipelineInput = {
+    where: DealStatusScalarWhereInput
+    data: XOR<DealStatusUpdateManyMutationInput, DealStatusUncheckedUpdateManyWithoutPipelineInput>
+  }
+
+  export type DealStatusScalarWhereInput = {
+    AND?: DealStatusScalarWhereInput | DealStatusScalarWhereInput[]
+    OR?: DealStatusScalarWhereInput[]
+    NOT?: DealStatusScalarWhereInput | DealStatusScalarWhereInput[]
+    id?: StringFilter<"DealStatus"> | string
+    pipelineId?: StringFilter<"DealStatus"> | string
+    name?: StringFilter<"DealStatus"> | string
+    category?: EnumDealStatusCategoryFilter<"DealStatus"> | $Enums.DealStatusCategory
+    position?: IntFilter<"DealStatus"> | number
+    defaultProbability?: IntNullableFilter<"DealStatus"> | number | null
+    trackTime?: BoolFilter<"DealStatus"> | boolean
+    trackExpenses?: BoolFilter<"DealStatus"> | boolean
+    createBookings?: BoolFilter<"DealStatus"> | boolean
+  }
+
+  export type PipelineCreateWithoutStatusesInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+  }
+
+  export type PipelineUncheckedCreateWithoutStatusesInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+  }
+
+  export type PipelineCreateOrConnectWithoutStatusesInput = {
+    where: PipelineWhereUniqueInput
+    create: XOR<PipelineCreateWithoutStatusesInput, PipelineUncheckedCreateWithoutStatusesInput>
+  }
+
+  export type DealCreateWithoutStatusInput = {
+    id?: string
+    title: string
+    estimatedValue?: number | null
+    probability?: number | null
+    lostReasonNote?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: ClientCreateNestedOneWithoutDealsInput
+    owner: UserCreateNestedOneWithoutOwnedDealsInput
+    lostReason?: LostReasonCreateNestedOneWithoutDealsInput
+    project?: ProjectCreateNestedOneWithoutDealsInput
+  }
+
+  export type DealUncheckedCreateWithoutStatusInput = {
+    id?: string
+    title: string
+    companyId: string
+    ownerId: string
+    estimatedValue?: number | null
+    probability?: number | null
+    lostReasonId?: string | null
+    lostReasonNote?: string | null
+    projectId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DealCreateOrConnectWithoutStatusInput = {
+    where: DealWhereUniqueInput
+    create: XOR<DealCreateWithoutStatusInput, DealUncheckedCreateWithoutStatusInput>
+  }
+
+  export type DealCreateManyStatusInputEnvelope = {
+    data: DealCreateManyStatusInput | DealCreateManyStatusInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PipelineUpsertWithoutStatusesInput = {
+    update: XOR<PipelineUpdateWithoutStatusesInput, PipelineUncheckedUpdateWithoutStatusesInput>
+    create: XOR<PipelineCreateWithoutStatusesInput, PipelineUncheckedCreateWithoutStatusesInput>
+    where?: PipelineWhereInput
+  }
+
+  export type PipelineUpdateToOneWithWhereWithoutStatusesInput = {
+    where?: PipelineWhereInput
+    data: XOR<PipelineUpdateWithoutStatusesInput, PipelineUncheckedUpdateWithoutStatusesInput>
+  }
+
+  export type PipelineUpdateWithoutStatusesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PipelineUncheckedUpdateWithoutStatusesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealUpsertWithWhereUniqueWithoutStatusInput = {
+    where: DealWhereUniqueInput
+    update: XOR<DealUpdateWithoutStatusInput, DealUncheckedUpdateWithoutStatusInput>
+    create: XOR<DealCreateWithoutStatusInput, DealUncheckedCreateWithoutStatusInput>
+  }
+
+  export type DealUpdateWithWhereUniqueWithoutStatusInput = {
+    where: DealWhereUniqueInput
+    data: XOR<DealUpdateWithoutStatusInput, DealUncheckedUpdateWithoutStatusInput>
+  }
+
+  export type DealUpdateManyWithWhereWithoutStatusInput = {
+    where: DealScalarWhereInput
+    data: XOR<DealUpdateManyMutationInput, DealUncheckedUpdateManyWithoutStatusInput>
+  }
+
+  export type DealCreateWithoutLostReasonInput = {
+    id?: string
+    title: string
+    estimatedValue?: number | null
+    probability?: number | null
+    lostReasonNote?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: ClientCreateNestedOneWithoutDealsInput
+    status: DealStatusCreateNestedOneWithoutDealsInput
+    owner: UserCreateNestedOneWithoutOwnedDealsInput
+    project?: ProjectCreateNestedOneWithoutDealsInput
+  }
+
+  export type DealUncheckedCreateWithoutLostReasonInput = {
+    id?: string
+    title: string
+    companyId: string
+    statusId: string
+    ownerId: string
+    estimatedValue?: number | null
+    probability?: number | null
+    lostReasonNote?: string | null
+    projectId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DealCreateOrConnectWithoutLostReasonInput = {
+    where: DealWhereUniqueInput
+    create: XOR<DealCreateWithoutLostReasonInput, DealUncheckedCreateWithoutLostReasonInput>
+  }
+
+  export type DealCreateManyLostReasonInputEnvelope = {
+    data: DealCreateManyLostReasonInput | DealCreateManyLostReasonInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DealUpsertWithWhereUniqueWithoutLostReasonInput = {
+    where: DealWhereUniqueInput
+    update: XOR<DealUpdateWithoutLostReasonInput, DealUncheckedUpdateWithoutLostReasonInput>
+    create: XOR<DealCreateWithoutLostReasonInput, DealUncheckedCreateWithoutLostReasonInput>
+  }
+
+  export type DealUpdateWithWhereUniqueWithoutLostReasonInput = {
+    where: DealWhereUniqueInput
+    data: XOR<DealUpdateWithoutLostReasonInput, DealUncheckedUpdateWithoutLostReasonInput>
+  }
+
+  export type DealUpdateManyWithWhereWithoutLostReasonInput = {
+    where: DealScalarWhereInput
+    data: XOR<DealUpdateManyMutationInput, DealUncheckedUpdateManyWithoutLostReasonInput>
+  }
+
   export type ClientCreateWithoutDealsInput = {
     id?: string
     name: string
@@ -132772,6 +137430,35 @@ export namespace Prisma {
   export type ClientCreateOrConnectWithoutDealsInput = {
     where: ClientWhereUniqueInput
     create: XOR<ClientCreateWithoutDealsInput, ClientUncheckedCreateWithoutDealsInput>
+  }
+
+  export type DealStatusCreateWithoutDealsInput = {
+    id?: string
+    name: string
+    category: $Enums.DealStatusCategory
+    position: number
+    defaultProbability?: number | null
+    trackTime?: boolean
+    trackExpenses?: boolean
+    createBookings?: boolean
+    pipeline: PipelineCreateNestedOneWithoutStatusesInput
+  }
+
+  export type DealStatusUncheckedCreateWithoutDealsInput = {
+    id?: string
+    pipelineId: string
+    name: string
+    category: $Enums.DealStatusCategory
+    position: number
+    defaultProbability?: number | null
+    trackTime?: boolean
+    trackExpenses?: boolean
+    createBookings?: boolean
+  }
+
+  export type DealStatusCreateOrConnectWithoutDealsInput = {
+    where: DealStatusWhereUniqueInput
+    create: XOR<DealStatusCreateWithoutDealsInput, DealStatusUncheckedCreateWithoutDealsInput>
   }
 
   export type UserCreateWithoutOwnedDealsInput = {
@@ -132917,6 +137604,25 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutOwnedDealsInput, UserUncheckedCreateWithoutOwnedDealsInput>
   }
 
+  export type LostReasonCreateWithoutDealsInput = {
+    id?: string
+    label: string
+    archived?: boolean
+    createdAt?: Date | string
+  }
+
+  export type LostReasonUncheckedCreateWithoutDealsInput = {
+    id?: string
+    label: string
+    archived?: boolean
+    createdAt?: Date | string
+  }
+
+  export type LostReasonCreateOrConnectWithoutDealsInput = {
+    where: LostReasonWhereUniqueInput
+    create: XOR<LostReasonCreateWithoutDealsInput, LostReasonUncheckedCreateWithoutDealsInput>
+  }
+
   export type ProjectCreateWithoutDealsInput = {
     id?: string
     name: string
@@ -133053,6 +137759,41 @@ export namespace Prisma {
     children?: ClientUncheckedUpdateManyWithoutParentNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutClientNestedInput
     contacts?: ClientContactUncheckedUpdateManyWithoutClientNestedInput
+  }
+
+  export type DealStatusUpsertWithoutDealsInput = {
+    update: XOR<DealStatusUpdateWithoutDealsInput, DealStatusUncheckedUpdateWithoutDealsInput>
+    create: XOR<DealStatusCreateWithoutDealsInput, DealStatusUncheckedCreateWithoutDealsInput>
+    where?: DealStatusWhereInput
+  }
+
+  export type DealStatusUpdateToOneWithWhereWithoutDealsInput = {
+    where?: DealStatusWhereInput
+    data: XOR<DealStatusUpdateWithoutDealsInput, DealStatusUncheckedUpdateWithoutDealsInput>
+  }
+
+  export type DealStatusUpdateWithoutDealsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: EnumDealStatusCategoryFieldUpdateOperationsInput | $Enums.DealStatusCategory
+    position?: IntFieldUpdateOperationsInput | number
+    defaultProbability?: NullableIntFieldUpdateOperationsInput | number | null
+    trackTime?: BoolFieldUpdateOperationsInput | boolean
+    trackExpenses?: BoolFieldUpdateOperationsInput | boolean
+    createBookings?: BoolFieldUpdateOperationsInput | boolean
+    pipeline?: PipelineUpdateOneRequiredWithoutStatusesNestedInput
+  }
+
+  export type DealStatusUncheckedUpdateWithoutDealsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pipelineId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: EnumDealStatusCategoryFieldUpdateOperationsInput | $Enums.DealStatusCategory
+    position?: IntFieldUpdateOperationsInput | number
+    defaultProbability?: NullableIntFieldUpdateOperationsInput | number | null
+    trackTime?: BoolFieldUpdateOperationsInput | boolean
+    trackExpenses?: BoolFieldUpdateOperationsInput | boolean
+    createBookings?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUpsertWithoutOwnedDealsInput = {
@@ -133202,6 +137943,31 @@ export namespace Prisma {
     approvedExpenses?: ExpenseUncheckedUpdateManyWithoutApprovedByNestedInput
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
+  }
+
+  export type LostReasonUpsertWithoutDealsInput = {
+    update: XOR<LostReasonUpdateWithoutDealsInput, LostReasonUncheckedUpdateWithoutDealsInput>
+    create: XOR<LostReasonCreateWithoutDealsInput, LostReasonUncheckedCreateWithoutDealsInput>
+    where?: LostReasonWhereInput
+  }
+
+  export type LostReasonUpdateToOneWithWhereWithoutDealsInput = {
+    where?: LostReasonWhereInput
+    data: XOR<LostReasonUpdateWithoutDealsInput, LostReasonUncheckedUpdateWithoutDealsInput>
+  }
+
+  export type LostReasonUpdateWithoutDealsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LostReasonUncheckedUpdateWithoutDealsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProjectUpsertWithoutDealsInput = {
@@ -137550,25 +142316,27 @@ export namespace Prisma {
   export type DealCreateWithoutProjectInput = {
     id?: string
     title: string
-    stage?: $Enums.DealStage
     estimatedValue?: number | null
     probability?: number | null
-    lostReason?: string | null
+    lostReasonNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: ClientCreateNestedOneWithoutDealsInput
+    status: DealStatusCreateNestedOneWithoutDealsInput
     owner: UserCreateNestedOneWithoutOwnedDealsInput
+    lostReason?: LostReasonCreateNestedOneWithoutDealsInput
   }
 
   export type DealUncheckedCreateWithoutProjectInput = {
     id?: string
     title: string
     companyId: string
-    stage?: $Enums.DealStage
+    statusId: string
     ownerId: string
     estimatedValue?: number | null
     probability?: number | null
-    lostReason?: string | null
+    lostReasonId?: string | null
+    lostReasonNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -162466,10 +167234,11 @@ export namespace Prisma {
     id?: string
     title: string
     companyId: string
-    stage?: $Enums.DealStage
+    statusId: string
     estimatedValue?: number | null
     probability?: number | null
-    lostReason?: string | null
+    lostReasonId?: string | null
+    lostReasonNote?: string | null
     projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -164278,13 +169047,14 @@ export namespace Prisma {
   export type DealUpdateWithoutOwnerInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: ClientUpdateOneRequiredWithoutDealsNestedInput
+    status?: DealStatusUpdateOneRequiredWithoutDealsNestedInput
+    lostReason?: LostReasonUpdateOneWithoutDealsNestedInput
     project?: ProjectUpdateOneWithoutDealsNestedInput
   }
 
@@ -164292,10 +169062,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
+    statusId?: StringFieldUpdateOperationsInput | string
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -164305,10 +169076,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
+    statusId?: StringFieldUpdateOperationsInput | string
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -164360,11 +169132,12 @@ export namespace Prisma {
   export type DealCreateManyCompanyInput = {
     id?: string
     title: string
-    stage?: $Enums.DealStage
+    statusId: string
     ownerId: string
     estimatedValue?: number | null
     probability?: number | null
-    lostReason?: string | null
+    lostReasonId?: string | null
+    lostReasonNote?: string | null
     projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -164558,24 +169331,26 @@ export namespace Prisma {
   export type DealUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: DealStatusUpdateOneRequiredWithoutDealsNestedInput
     owner?: UserUpdateOneRequiredWithoutOwnedDealsNestedInput
+    lostReason?: LostReasonUpdateOneWithoutDealsNestedInput
     project?: ProjectUpdateOneWithoutDealsNestedInput
   }
 
   export type DealUncheckedUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
+    statusId?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -164584,11 +169359,170 @@ export namespace Prisma {
   export type DealUncheckedUpdateManyWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
+    statusId?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealStatusCreateManyPipelineInput = {
+    id?: string
+    name: string
+    category: $Enums.DealStatusCategory
+    position: number
+    defaultProbability?: number | null
+    trackTime?: boolean
+    trackExpenses?: boolean
+    createBookings?: boolean
+  }
+
+  export type DealStatusUpdateWithoutPipelineInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: EnumDealStatusCategoryFieldUpdateOperationsInput | $Enums.DealStatusCategory
+    position?: IntFieldUpdateOperationsInput | number
+    defaultProbability?: NullableIntFieldUpdateOperationsInput | number | null
+    trackTime?: BoolFieldUpdateOperationsInput | boolean
+    trackExpenses?: BoolFieldUpdateOperationsInput | boolean
+    createBookings?: BoolFieldUpdateOperationsInput | boolean
+    deals?: DealUpdateManyWithoutStatusNestedInput
+  }
+
+  export type DealStatusUncheckedUpdateWithoutPipelineInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: EnumDealStatusCategoryFieldUpdateOperationsInput | $Enums.DealStatusCategory
+    position?: IntFieldUpdateOperationsInput | number
+    defaultProbability?: NullableIntFieldUpdateOperationsInput | number | null
+    trackTime?: BoolFieldUpdateOperationsInput | boolean
+    trackExpenses?: BoolFieldUpdateOperationsInput | boolean
+    createBookings?: BoolFieldUpdateOperationsInput | boolean
+    deals?: DealUncheckedUpdateManyWithoutStatusNestedInput
+  }
+
+  export type DealStatusUncheckedUpdateManyWithoutPipelineInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: EnumDealStatusCategoryFieldUpdateOperationsInput | $Enums.DealStatusCategory
+    position?: IntFieldUpdateOperationsInput | number
+    defaultProbability?: NullableIntFieldUpdateOperationsInput | number | null
+    trackTime?: BoolFieldUpdateOperationsInput | boolean
+    trackExpenses?: BoolFieldUpdateOperationsInput | boolean
+    createBookings?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type DealCreateManyStatusInput = {
+    id?: string
+    title: string
+    companyId: string
+    ownerId: string
+    estimatedValue?: number | null
+    probability?: number | null
+    lostReasonId?: string | null
+    lostReasonNote?: string | null
+    projectId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DealUpdateWithoutStatusInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
+    probability?: NullableIntFieldUpdateOperationsInput | number | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: ClientUpdateOneRequiredWithoutDealsNestedInput
+    owner?: UserUpdateOneRequiredWithoutOwnedDealsNestedInput
+    lostReason?: LostReasonUpdateOneWithoutDealsNestedInput
+    project?: ProjectUpdateOneWithoutDealsNestedInput
+  }
+
+  export type DealUncheckedUpdateWithoutStatusInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
+    probability?: NullableIntFieldUpdateOperationsInput | number | null
+    lostReasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealUncheckedUpdateManyWithoutStatusInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
+    probability?: NullableIntFieldUpdateOperationsInput | number | null
+    lostReasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealCreateManyLostReasonInput = {
+    id?: string
+    title: string
+    companyId: string
+    statusId: string
+    ownerId: string
+    estimatedValue?: number | null
+    probability?: number | null
+    lostReasonNote?: string | null
+    projectId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DealUpdateWithoutLostReasonInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
+    probability?: NullableIntFieldUpdateOperationsInput | number | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: ClientUpdateOneRequiredWithoutDealsNestedInput
+    status?: DealStatusUpdateOneRequiredWithoutDealsNestedInput
+    owner?: UserUpdateOneRequiredWithoutOwnedDealsNestedInput
+    project?: ProjectUpdateOneWithoutDealsNestedInput
+  }
+
+  export type DealUncheckedUpdateWithoutLostReasonInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    statusId?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
+    probability?: NullableIntFieldUpdateOperationsInput | number | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealUncheckedUpdateManyWithoutLostReasonInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    statusId?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
+    probability?: NullableIntFieldUpdateOperationsInput | number | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -165018,11 +169952,12 @@ export namespace Prisma {
     id?: string
     title: string
     companyId: string
-    stage?: $Enums.DealStage
+    statusId: string
     ownerId: string
     estimatedValue?: number | null
     probability?: number | null
-    lostReason?: string | null
+    lostReasonId?: string | null
+    lostReasonNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -165715,25 +170650,27 @@ export namespace Prisma {
   export type DealUpdateWithoutProjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: ClientUpdateOneRequiredWithoutDealsNestedInput
+    status?: DealStatusUpdateOneRequiredWithoutDealsNestedInput
     owner?: UserUpdateOneRequiredWithoutOwnedDealsNestedInput
+    lostReason?: LostReasonUpdateOneWithoutDealsNestedInput
   }
 
   export type DealUncheckedUpdateWithoutProjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
+    statusId?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -165742,11 +170679,12 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
+    statusId?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

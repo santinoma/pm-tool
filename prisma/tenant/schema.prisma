@@ -139,29 +139,68 @@ model ClientContact {
   createdAt DateTime @default(now())
 }
 
-enum DealStage {
-  lead
-  qualified
-  proposal
+enum DealStatusCategory {
+  open
   won
   lost
 }
 
+// Reference "Setting up Your Sales Pipelines": a Pipeline is an organization-wide,
+// reusable set of deal stages (several sales processes can have their own pipeline),
+// mirroring how Workflow does the same for task statuses. Archiving frees up the
+// plan's pipeline slot without deleting a Pipeline still referenced by a deal.
+model Pipeline {
+  id        String       @id @default(uuid())
+  name      String
+  archived  Boolean      @default(false)
+  createdAt DateTime     @default(now())
+  statuses  DealStatus[]
+}
+
+model DealStatus {
+  id                 String             @id @default(uuid())
+  pipeline           Pipeline           @relation(fields: [pipelineId], references: [id])
+  pipelineId         String
+  name               String
+  category           DealStatusCategory
+  position           Int
+  defaultProbability Int?
+  trackTime          Boolean            @default(true)
+  trackExpenses      Boolean            @default(true)
+  createBookings     Boolean            @default(true)
+  deals              Deal[]
+
+  @@unique([pipelineId, name])
+}
+
+// Reference "General Sales Settings: Pipeline Stages, Lost Reasons...": a managed
+// catalog instead of free text, so lost deals can actually be analyzed by reason.
+model LostReason {
+  id        String   @id @default(uuid())
+  label     String   @unique
+  archived  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  deals     Deal[]
+}
+
 model Deal {
-  id             String    @id @default(uuid())
+  id             String      @id @default(uuid())
   title          String
-  company        Client    @relation(fields: [companyId], references: [id])
+  company        Client      @relation(fields: [companyId], references: [id])
   companyId      String
-  stage          DealStage @default(lead)
-  owner          User      @relation(fields: [ownerId], references: [id])
+  status         DealStatus  @relation(fields: [statusId], references: [id])
+  statusId       String
+  owner          User        @relation(fields: [ownerId], references: [id])
   ownerId        String
   estimatedValue Float?
   probability    Int?
-  lostReason     String?
-  project        Project?  @relation(fields: [projectId], references: [id])
+  lostReason     LostReason? @relation(fields: [lostReasonId], references: [id])
+  lostReasonId   String?
+  lostReasonNote String?
+  project        Project?    @relation(fields: [projectId], references: [id])
   projectId      String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
 }
 
 model ProjectMember {

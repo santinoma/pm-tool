@@ -60,7 +60,8 @@ function getGroups(locale: Locale) {
       title: t(locale, "settings.group.modulesAutomation"),
       items: [
         { href: "/settings/organization/modules", label: t(locale, "settings.modules.title"), desc: t(locale, "settings.modules.desc"), icon: Blocks, managerOnly: true },
-        { href: "/settings/organization/workflows", label: t(locale, "settings.workflows.title"), desc: t(locale, "settings.workflows.desc"), icon: Workflow, placeholder: true },
+        { href: "/settings/organization/workflows", label: t(locale, "settings.workflows.title"), desc: t(locale, "settings.workflows.desc"), icon: Workflow },
+        { href: "/settings/organization/pipelines", label: t(locale, "settings.pipelines.title"), desc: t(locale, "settings.pipelines.desc"), icon: Workflow },
         { href: "/settings/organization/automations", label: t(locale, "settings.automations.title"), desc: t(locale, "settings.automations.desc"), icon: Zap, feature: "automation_rules" },
         { href: "/settings/webhooks", label: t(locale, "settings.webhooks.title"), desc: t(locale, "settings.webhooks.desc"), icon: Webhook },
         {

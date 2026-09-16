@@ -35,46 +35,64 @@ interface UserOption {
   label: string;
 }
 
-type Stage = "lead" | "qualified" | "proposal" | "won" | "lost";
+interface StatusOption {
+  id: string;
+  name: string;
+  category: string;
+  position: number;
+}
+
+interface LostReasonOption {
+  id: string;
+  label: string;
+}
 
 interface Deal {
   id: string;
   title: string;
-  stage: Stage;
+  statusId: string;
+  statusName: string;
+  statusCategory: string;
   companyId: string;
   companyName: string;
   ownerLabel: string;
   estimatedValue: number | null;
   probability: number | null;
-  lostReason: string | null;
+  lostReasonId: string | null;
+  lostReasonLabel: string | null;
+  lostReasonNote: string | null;
 }
 
-const STAGE_LABELS: Record<Stage, string> = {
-  lead: "Lead",
-  qualified: "Qualified",
-  proposal: "Proposal",
-  won: "Won",
-  lost: "Lost",
-};
-const STAGE_ORDER: Stage[] = ["lead", "qualified", "proposal", "won", "lost"];
-
-export function DealsClient({ deals, companies, users }: { deals: Deal[]; companies: CompanyOption[]; users: UserOption[] }) {
+export function DealsClient({
+  deals,
+  companies,
+  users,
+  statuses,
+  lostReasons,
+}: {
+  deals: Deal[];
+  companies: CompanyOption[];
+  users: UserOption[];
+  statuses: StatusOption[];
+  lostReasons: LostReasonOption[];
+}) {
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [companyId, setCompanyId] = useState(companies[0]?.id ?? "");
   const [ownerId, setOwnerId] = useState(users[0]?.id ?? "");
-  const [stage, setStage] = useState<Stage>("lead");
+  const [statusId, setStatusId] = useState(statuses[0]?.id ?? "");
   const [estimatedValue, setEstimatedValue] = useState("");
   const [probability, setProbability] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set());
-  const [stageOverrides, setStageOverrides] = useState<Record<string, Stage>>({});
-  const [lostDealPending, setLostDealPending] = useState<Deal | null>(null);
-  const [lostReasonDraft, setLostReasonDraft] = useState("");
+  const [statusOverrides, setStatusOverrides] = useState<Record<string, string>>({});
+  const [lostDealPending, setLostDealPending] = useState<{ deal: Deal; targetStatusId: string } | null>(null);
+  const [lostReasonId, setLostReasonId] = useState("");
+  const [lostReasonNote, setLostReasonNote] = useState("");
   // Reference §03: Board (Kanban) is the pipeline's primary layout, "umschaltbar auf Liste".
   const [layout, setLayout] = useState<"board" | "list">("board");
-  const [dragOverStage, setDragOverStage] = useState<Stage | null>(null);
+  const [dragOverStatusId, setDragOverStatusId] = useState<string | null>(null);
 
   function toggleGroup(key: string) {
     setCollapsedGroups((current) => {
@@ -96,7 +114,7 @@ export function DealsClient({ deals, companies, users }: { deals: Deal[]; compan
         title,
         companyId,
         ownerId,
-        stage,
+        statusId,
         estimatedValue: estimatedValue ? Number(estimatedValue) : undefined,
         probability: probability ? Number(probability) : undefined,
       }),
@@ -110,57 +128,64 @@ export function DealsClient({ deals, companies, users }: { deals: Deal[]; compan
     setTitle("");
     setEstimatedValue("");
     setProbability("");
-    setStage("lead");
+    setStatusId(statuses[0]?.id ?? "");
     router.refresh();
   }
 
-  async function handleStageChange(dealId: string, newStage: Stage, lostReason?: string) {
-    setStageOverrides((current) => ({ ...current, [dealId]: newStage }));
+  async function handleStatusChange(dealId: string, newStatusId: string, reasonId?: string, reasonNote?: string) {
+    setStatusOverrides((current) => ({ ...current, [dealId]: newStatusId }));
     await fetch(`/api/tenant/deals/${dealId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ stage: newStage, ...(lostReason ? { lostReason } : {}) }),
+      body: JSON.stringify({
+        statusId: newStatusId,
+        ...(reasonId ? { lostReasonId: reasonId } : {}),
+        ...(reasonNote !== undefined ? { lostReasonNote: reasonNote } : {}),
+      }),
     });
     router.refresh();
   }
 
-  function handleStageSelect(deal: Deal, newStage: Stage) {
-    if (newStage === "lost") {
-      setLostReasonDraft(deal.lostReason ?? "");
-      setLostDealPending(deal);
+  function handleStatusSelect(deal: Deal, targetStatusId: string) {
+    const targetStatus = statuses.find((s) => s.id === targetStatusId);
+    if (targetStatus?.category === "lost") {
+      setLostReasonId(deal.lostReasonId ?? "");
+      setLostReasonNote(deal.lostReasonNote ?? "");
+      setLostDealPending({ deal, targetStatusId });
       return;
     }
-    handleStageChange(deal.id, newStage);
+    handleStatusChange(deal.id, targetStatusId);
   }
 
   async function confirmLostReason() {
-    if (!lostDealPending) return;
-    const reason = lostReasonDraft.trim();
-    if (!reason) return;
-    await handleStageChange(lostDealPending.id, "lost", reason);
+    if (!lostDealPending || !lostReasonId) return;
+    await handleStatusChange(lostDealPending.deal.id, lostDealPending.targetStatusId, lostReasonId, lostReasonNote.trim() || undefined);
     setLostDealPending(null);
-    setLostReasonDraft("");
+    setLostReasonId("");
+    setLostReasonNote("");
   }
 
   const groups = useMemo(() => {
-    const byStage = new Map<Stage, Deal[]>();
+    const byStatus = new Map<string, Deal[]>();
     for (const deal of deals) {
-      const list = byStage.get(deal.stage);
+      const list = byStatus.get(deal.statusId);
       if (list) list.push(deal);
-      else byStage.set(deal.stage, [deal]);
+      else byStatus.set(deal.statusId, [deal]);
     }
-    return STAGE_ORDER.filter((stage) => byStage.has(stage)).map((stage) => ({ key: stage, label: STAGE_LABELS[stage], rows: byStage.get(stage)! }));
-  }, [deals]);
+    return statuses
+      .filter((status) => byStatus.has(status.id))
+      .map((status) => ({ key: status.id, label: status.name, rows: byStatus.get(status.id)! }));
+  }, [deals, statuses]);
 
   // Reference: "Spaltenkopf zeigt Stufensumme" — every board column, even
   // empty ones, so drag targets stay visible.
   const boardColumns = useMemo(
     () =>
-      STAGE_ORDER.map((stageKey) => {
-        const rows = deals.filter((deal) => (stageOverrides[deal.id] ?? deal.stage) === stageKey);
-        return { key: stageKey, label: STAGE_LABELS[stageKey], rows, valueSum: rows.reduce((sum, deal) => sum + (deal.estimatedValue ?? 0), 0) };
+      statuses.map((status) => {
+        const rows = deals.filter((deal) => (statusOverrides[deal.id] ?? deal.statusId) === status.id);
+        return { key: status.id, label: status.name, rows, valueSum: rows.reduce((sum, deal) => sum + (deal.estimatedValue ?? 0), 0) };
       }),
-    [deals, stageOverrides],
+    [deals, statuses, statusOverrides],
   );
 
   return (
@@ -185,7 +210,7 @@ export function DealsClient({ deals, companies, users }: { deals: Deal[]; compan
       </div>
       <p className="mb-6 text-sm text-muted-foreground">Alle Deals, gruppiert nach Stage.</p>
 
-      {companies.length > 0 && (
+      {companies.length > 0 && statuses.length > 0 && (
         <>
           <h2 className="mb-3 text-lg font-semibold">Neuer Deal</h2>
           <form onSubmit={handleSubmit} className="mb-8 flex flex-wrap gap-3">
@@ -210,12 +235,12 @@ export function DealsClient({ deals, companies, users }: { deals: Deal[]; compan
                 ))}
               </SelectContent>
             </Select>
-            <Select value={stage} onValueChange={(value) => setStage(value as Stage)}>
+            <Select value={statusId} onValueChange={setStatusId}>
               <SelectTrigger className="w-36"><SelectValue /></SelectTrigger>
               <SelectContent>
-                {STAGE_ORDER.map((s) => (
-                  <SelectItem key={s} value={s}>
-                    {STAGE_LABELS[s]}
+                {statuses.map((status) => (
+                  <SelectItem key={status.id} value={status.id}>
+                    {status.name}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -256,19 +281,19 @@ export function DealsClient({ deals, companies, users }: { deals: Deal[]; compan
               key={column.key}
               onDragOver={(event) => {
                 event.preventDefault();
-                setDragOverStage(column.key);
+                setDragOverStatusId(column.key);
               }}
-              onDragLeave={() => setDragOverStage(null)}
+              onDragLeave={() => setDragOverStatusId(null)}
               onDrop={(event) => {
                 event.preventDefault();
                 const dealId = event.dataTransfer.getData("text/deal-id");
-                setDragOverStage(null);
+                setDragOverStatusId(null);
                 const deal = deals.find((d) => d.id === dealId);
-                if (deal) handleStageSelect(deal, column.key);
+                if (deal) handleStatusSelect(deal, column.key);
               }}
               className={cn(
                 "min-w-64 shrink-0 rounded-lg border bg-muted/40 p-3 transition-colors",
-                dragOverStage === column.key && "border-primary bg-primary/5",
+                dragOverStatusId === column.key && "border-primary bg-primary/5",
               )}
             >
               <div className="mb-3 flex items-center justify-between px-1">
@@ -334,33 +359,34 @@ export function DealsClient({ deals, companies, users }: { deals: Deal[]; compan
                       </TableCell>
                     </TableRow>
                     {!isCollapsed &&
-                      group.rows.map((deal) => (
-                        <TableRow key={deal.id}>
-                          <TableCell className="font-semibold">{deal.title}</TableCell>
-                          <TableCell className="text-muted-foreground">{deal.companyName}</TableCell>
-                          <TableCell className="text-muted-foreground">{deal.ownerLabel}</TableCell>
-                          <TableCell>
-                            <Select
-                              value={stageOverrides[deal.id] ?? deal.stage}
-                              onValueChange={(value) => handleStageSelect(deal, value as Stage)}
-                            >
-                              <SelectTrigger className="h-8 w-32 text-xs"><SelectValue /></SelectTrigger>
-                              <SelectContent>
-                                {STAGE_ORDER.map((s) => (
-                                  <SelectItem key={s} value={s}>
-                                    {STAGE_LABELS[s]}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </TableCell>
-                          <TableCell className="text-muted-foreground">{deal.estimatedValue !== null ? deal.estimatedValue.toFixed(2) : "—"}</TableCell>
-                          <TableCell className="text-muted-foreground">{deal.probability !== null ? `${deal.probability}%` : "—"}</TableCell>
-                          <TableCell className="max-w-56 truncate text-muted-foreground" title={deal.lostReason ?? undefined}>
-                            {(stageOverrides[deal.id] ?? deal.stage) === "lost" ? (deal.lostReason ?? "—") : "—"}
-                          </TableCell>
-                        </TableRow>
-                      ))}
+                      group.rows.map((deal) => {
+                        const currentStatusId = statusOverrides[deal.id] ?? deal.statusId;
+                        const currentStatus = statuses.find((s) => s.id === currentStatusId);
+                        return (
+                          <TableRow key={deal.id}>
+                            <TableCell className="font-semibold">{deal.title}</TableCell>
+                            <TableCell className="text-muted-foreground">{deal.companyName}</TableCell>
+                            <TableCell className="text-muted-foreground">{deal.ownerLabel}</TableCell>
+                            <TableCell>
+                              <Select value={currentStatusId} onValueChange={(value) => handleStatusSelect(deal, value)}>
+                                <SelectTrigger className="h-8 w-32 text-xs"><SelectValue /></SelectTrigger>
+                                <SelectContent>
+                                  {statuses.map((status) => (
+                                    <SelectItem key={status.id} value={status.id}>
+                                      {status.name}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            </TableCell>
+                            <TableCell className="text-muted-foreground">{deal.estimatedValue !== null ? deal.estimatedValue.toFixed(2) : "—"}</TableCell>
+                            <TableCell className="text-muted-foreground">{deal.probability !== null ? `${deal.probability}%` : "—"}</TableCell>
+                            <TableCell className="max-w-56 truncate text-muted-foreground" title={deal.lostReasonLabel ?? undefined}>
+                              {currentStatus?.category === "lost" ? (deal.lostReasonLabel ?? "—") : "—"}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
                   </Fragment>
                 );
               })}
@@ -374,24 +400,36 @@ export function DealsClient({ deals, companies, users }: { deals: Deal[]; compan
           <DialogHeader>
             <DialogTitle>Deal als verloren markieren</DialogTitle>
             <DialogDescription>
-              Warum wurde „{lostDealPending?.title}&rdquo; nicht gewonnen? Der Grund hilft bei der Auswertung verlorener Deals.
+              Warum wurde „{lostDealPending?.deal.title}&rdquo; nicht gewonnen? Der Grund hilft bei der Auswertung verlorener Deals.
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-2">
             <Label htmlFor="lost-reason">Verlustgrund</Label>
+            <Select value={lostReasonId} onValueChange={setLostReasonId}>
+              <SelectTrigger id="lost-reason" className="w-full"><SelectValue placeholder="Grund wählen…" /></SelectTrigger>
+              <SelectContent>
+                {lostReasons.map((reason) => (
+                  <SelectItem key={reason.id} value={reason.id}>
+                    {reason.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Label htmlFor="lost-reason-note" className="mt-2">
+              Notiz (optional)
+            </Label>
             <Textarea
-              id="lost-reason"
-              autoFocus
-              value={lostReasonDraft}
-              onChange={(event) => setLostReasonDraft(event.target.value)}
-              placeholder="z. B. Budget zu niedrig, Wettbewerber gewählt, Projekt abgesagt …"
+              id="lost-reason-note"
+              value={lostReasonNote}
+              onChange={(event) => setLostReasonNote(event.target.value)}
+              placeholder="Weitere Details, z. B. konkretes Feedback vom Kunden…"
             />
           </div>
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => setLostDealPending(null)}>
               Abbrechen
             </Button>
-            <Button type="button" onClick={confirmLostReason} disabled={!lostReasonDraft.trim()}>
+            <Button type="button" onClick={confirmLostReason} disabled={!lostReasonId}>
               Als verloren markieren
             </Button>
           </DialogFooter>
