@@ -40,7 +40,7 @@ function getGroups(locale: Locale) {
       title: t(locale, "settings.group.myProfile"),
       items: [
         { href: "/settings/account", label: t(locale, "settings.account.title"), desc: t(locale, "settings.account.desc"), icon: UserCircle },
-        { href: "/settings/notifications", label: t(locale, "settings.notifications.title"), desc: t(locale, "settings.notifications.desc"), icon: SettingsIcon, placeholder: true },
+        { href: "/settings/notifications", label: t(locale, "settings.notifications.title"), desc: t(locale, "settings.notifications.desc"), icon: SettingsIcon },
         { href: "/settings/security", label: t(locale, "settings.security.title"), desc: t(locale, "settings.security.desc"), icon: ShieldCheck },
         { href: "/settings/appearance", label: t(locale, "settings.appearance.title"), desc: t(locale, "settings.appearance.desc"), icon: Palette, placeholder: true },
       ],
