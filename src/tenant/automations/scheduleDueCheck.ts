@@ -1,7 +1,8 @@
 import type { PrismaClient } from "@/generated/tenant-client/client.js";
 import { getUtcDateKey } from "../projects/dateUtils";
 import { getCurrentWeekRange } from "../resourcePlanning/week";
-import { executeRuleActions } from "./runAutomations";
+import { executeRuleActions, getAutomationTaskFieldValue, type AutomationTaskSnapshot } from "./runAutomations";
+import { evaluateFilterNode, type FilterGroup } from "@/tenant/views/filterEngine";
 
 export type ScheduleRecurrence = "time_daily" | "time_weekly";
 
@@ -64,8 +65,9 @@ export function isTimeAutomationDue(
 
 /**
  * "Find Object"-Massenausführung für fällige zeitbasierte Regeln (Productives
- * "Check if"-Schritt): findet ALLE Tasks, die zu `conditionStatusCategory`
- * und dem `projectIds`-Scope der Regel passen (leer = alle Projekte), und
+ * "Check if"-Schritt): findet ALLE Tasks, die zu `conditionConfig` (T306,
+ * generisches Attribut/Operator-Bedingungssystem) und dem `projectIds`-Scope
+ * der Regel passen (leer = alle Projekte), und
  * führt die Regel-Aktionen gegen jeden einzelnen Treffer aus — begrenzt auf
  * `maxTasksPerRule` (Standard `MAX_BULK_AUTOMATION_TASKS`) Tasks je Regel und
  * Lauf, stabil sortiert nach `createdAt`. Pull-basiert: wird von einem echten
@@ -76,11 +78,17 @@ export function isTimeAutomationDue(
  * nur über den manuellen "Run Now"-Endpunkt gegen genau einen explizit
  * gewählten Task liefen — dies war eine dokumentierte Lücke ("keine echte
  * unbeaufsichtigte Massenausführung").
+ *
+ * Kein `actorId`-Parameter mehr (T307): läuft jetzt auch aus dem echten
+ * Hintergrund-Scheduler (`instrumentation.ts`), ohne einen Nutzer, der
+ * gerade eine Seite besucht — als Actor der resultierenden ActivityEvents
+ * dient stattdessen `rule.createdById`, was inhaltlich ohnehin korrekter
+ * ist ("diese von X erstellte Automation hat Y getan") als der zufällige
+ * Admin, der die Automations-Einstellungsseite geladen hat.
  */
 export async function runDueTimeAutomationRules(
   tenantDb: PrismaClient,
   now: Date,
-  actorId: string,
   maxTasksPerRule: number = MAX_BULK_AUTOMATION_TASKS,
 ): Promise<void> {
   const candidateRules = await tenantDb.automationRule.findMany({
@@ -108,17 +116,33 @@ export async function runDueTimeAutomationRules(
     );
     if (!due) continue;
 
-    const tasks = await tenantDb.task.findMany({
-      where: {
-        ...(rule.conditionStatusCategory ? { status: { category: rule.conditionStatusCategory } } : {}),
-        ...(rule.projectIds.length > 0
-          ? { projects: { some: { projectId: { in: rule.projectIds } } } }
-          : {}),
-      },
+    // conditionConfig is a generic AND/OR condition tree (T306) — it can't be
+    // pushed into the Prisma `where` the way the old single-field
+    // conditionStatusCategory could, so only the project scope narrows the SQL
+    // query; the condition itself is evaluated in memory below. The overfetch
+    // bound keeps this from scanning unboundedly large tenants in one tick.
+    const OVERFETCH_MULTIPLIER = 20;
+    const candidates = await tenantDb.task.findMany({
+      where: rule.projectIds.length > 0 ? { projects: { some: { projectId: { in: rule.projectIds } } } } : {},
+      include: { status: true },
       orderBy: { createdAt: "asc" },
-      take: maxTasksPerRule,
-      select: { id: true },
+      take: maxTasksPerRule * OVERFETCH_MULTIPLIER,
     });
+
+    const conditionConfig = rule.conditionConfig as FilterGroup | null;
+    const tasks = candidates
+      .filter((task) => {
+        if (!conditionConfig) return true;
+        const snapshot: AutomationTaskSnapshot = {
+          statusCategory: task.status.category,
+          assigneeId: task.assigneeId,
+          isKeyTask: task.isKeyTask,
+          isPrivate: task.isPrivate,
+        };
+        return evaluateFilterNode(conditionConfig, (field) => getAutomationTaskFieldValue(snapshot, field));
+      })
+      .slice(0, maxTasksPerRule)
+      .map((task) => ({ id: task.id }));
 
     if (tasks.length > 0) {
       const primaryLinks = await tenantDb.taskProject.findMany({
@@ -135,13 +159,14 @@ export async function runDueTimeAutomationRules(
           const activityEvent = await tenantDb.activityEvent.create({
             data: {
               projectId,
-              actorId,
+              taskId: task.id,
+              actorId: rule.createdById,
               type: "task_updated",
               summary: `Automation „${rule.name}“ zeitgesteuert (Massenausführung) ausgeführt`,
             },
           });
 
-          await executeRuleActions(tenantDb, rule.actions, task.id, activityEvent.id, actorId);
+          await executeRuleActions(tenantDb, rule.actions, task.id, activityEvent.id, rule.createdById);
         } catch (error) {
           // Ein Treffer, der fehlschlägt, darf die übrigen Treffer im selben
           // Massenlauf nicht blockieren — Productives dokumentiertes Verhalten.

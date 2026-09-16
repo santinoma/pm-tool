@@ -748,7 +748,7 @@ exports.Prisma.AutomationRuleScalarFieldEnum = {
   id: 'id',
   name: 'name',
   triggers: 'triggers',
-  conditionStatusCategory: 'conditionStatusCategory',
+  conditionConfig: 'conditionConfig',
   projectIds: 'projectIds',
   scheduleTime: 'scheduleTime',
   scheduleWeekday: 'scheduleWeekday',

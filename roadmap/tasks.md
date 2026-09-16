@@ -126,9 +126,22 @@ Task weitermachen — nicht die ganze Phase anhalten.
       vergebbar (beide hängen nur von `budgets_manage` ab, nicht
       voneinander) — genau das bildet die Trennung ab, siehe Tests in
       `customRoles.test.ts`
-- [ ] T305 Automations: weitere Objekttypen (Budget, Deal, Invoice)
-- [ ] T306 Automations: echtes Attribut/Vergleichsoperator-Bedingungssystem
-- [ ] T307 Automations: echter Scheduler statt Pull-on-Page-Load
+- [ ] T305 Automations: weitere Objekttypen (Budget, Deal, Invoice) — noch
+      offen, deutlich größerer strukturller Umbau als T306/T307 (braucht
+      einen `objectType` auf AutomationRule, pro Objekttyp eigene Trigger-/
+      Aktionssätze, eigene UI-Konfiguration je Typ) — bewusst als eigener
+      Anlauf zurückgestellt statt in denselben Durchgang gequetscht
+- [x] T306 Automations: echtes Attribut/Vergleichsoperator-Bedingungssystem —
+      `conditionStatusCategory` ersetzt durch `conditionConfig` (FilterGroup,
+      derselbe Evaluator wie Filter/SavedViews aus T201), UI nutzt denselben
+      `FilterBuilderPopover`. Verfügbare Felder: Status-Kategorie, Key Task,
+      Privat (assigneeId im Backend ebenfalls auswertbar)
+- [x] T307 Automations: echter Scheduler statt Pull-on-Page-Load —
+      `instrumentation.ts` registriert einen minütlichen Hintergrund-Tick
+      (`runDueAutomationsForAllTenants`), der jeden aktiven Tenant durchläuft;
+      der Seitenaufruf bleibt als idempotentes Sicherheitsnetz bestehen.
+      Nebenbei einen echten Bug gefunden und behoben: die Massenausführung
+      hat nie `taskId` auf dem erzeugten ActivityEvent gesetzt
 - [x] T308 TransitionRule erneut bewerten (nach T220-T222) — kein Ersatz
       möglich (unterschiedliche Trigger-Zeitpunkte: Value-Write vs.
       Status-Übergang), final als eigenständiges Feature ohne Productive-

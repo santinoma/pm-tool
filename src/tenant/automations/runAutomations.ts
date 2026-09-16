@@ -3,6 +3,7 @@ import type {
   PrismaClient,
   StatusCategory,
 } from "@/generated/tenant-client/client.js";
+import { evaluateFilterNode, type FilterGroup } from "@/tenant/views/filterEngine";
 
 export type AutomationEventType =
   | "task_created"
@@ -40,7 +41,10 @@ export interface AutomationActionInput {
 export interface AutomationRuleInput {
   id: string;
   triggers: AutomationEventType[];
-  conditionStatusCategory: StatusCategory | null;
+  /** T306: generisches Attribut/Operator-Bedingungssystem (siehe filterEngine.ts,
+   * dasselbe wie Filter/SavedViews) statt der früheren Einzelfeld-Bedingung
+   * `conditionStatusCategory`. `null`/leere Gruppe = keine Bedingung, matcht immer. */
+  conditionConfig: FilterGroup | null;
   isEnabled: boolean;
   actions: AutomationActionInput[];
   /** Leer = gilt für alle Projekte (Legacy-/Default-Verhalten). Nicht-leer =
@@ -48,18 +52,44 @@ export interface AutomationRuleInput {
   projectIds?: string[];
 }
 
+/**
+ * Zum Zeitpunkt des Regel-Abgleichs verfügbare Task-Attribute für
+ * `conditionConfig` — bewusst schlank (kein voller Task-Read mit allen
+ * Relationen), erweiterbar bei Bedarf um weitere Felder.
+ */
+export interface AutomationTaskSnapshot {
+  statusCategory: StatusCategory | null;
+  assigneeId: string | null;
+  isKeyTask: boolean;
+  isPrivate: boolean;
+}
+
+export function getAutomationTaskFieldValue(snapshot: AutomationTaskSnapshot, field: string): unknown {
+  switch (field) {
+    case "statusCategory":
+      return snapshot.statusCategory;
+    case "assigneeId":
+      return snapshot.assigneeId;
+    case "isKeyTask":
+      return snapshot.isKeyTask;
+    case "isPrivate":
+      return snapshot.isPrivate;
+    default:
+      return undefined;
+  }
+}
+
 export function selectMatchingRules(
   rules: AutomationRuleInput[],
   event: AutomationEvent,
+  snapshot: AutomationTaskSnapshot,
 ): AutomationRuleInput[] {
   return rules.filter((rule) => {
     if (!rule.isEnabled || !rule.triggers.includes(event.type)) {
       return false;
     }
-    if (event.type === "task_status_changed" && rule.conditionStatusCategory) {
-      if (rule.conditionStatusCategory !== event.statusCategory) {
-        return false;
-      }
+    if (rule.conditionConfig && !evaluateFilterNode(rule.conditionConfig, (field) => getAutomationTaskFieldValue(snapshot, field))) {
+      return false;
     }
     const projectIds = rule.projectIds ?? [];
     if (projectIds.length > 0) {
@@ -175,6 +205,12 @@ export async function runAutomations(
     include: { actions: { orderBy: { position: "asc" } } },
   });
 
+  const task = await tenantDb.task.findUnique({
+    where: { id: event.taskId },
+    include: { status: true },
+  });
+  if (!task) return;
+
   let projectId = event.projectId;
   if (projectId === undefined) {
     const primaryLink = await tenantDb.taskProject.findFirst({
@@ -184,7 +220,18 @@ export async function runAutomations(
     projectId = primaryLink?.projectId ?? null;
   }
 
-  const matching = selectMatchingRules(rules, { ...event, projectId });
+  const snapshot: AutomationTaskSnapshot = {
+    statusCategory: event.statusCategory ?? task.status.category,
+    assigneeId: task.assigneeId,
+    isKeyTask: task.isKeyTask,
+    isPrivate: task.isPrivate,
+  };
+
+  const matching = selectMatchingRules(
+    rules.map((rule) => ({ ...rule, conditionConfig: rule.conditionConfig as FilterGroup | null })),
+    { ...event, projectId },
+    snapshot,
+  );
 
   for (const rule of matching) {
     try {

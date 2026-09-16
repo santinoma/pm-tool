@@ -3,6 +3,7 @@ import { getTenantContext } from "@/tenant/context";
 import { AppShellNextElite } from "@/ui/nextelite/AppShellNextElite";
 import { canManageMembers } from "@/tenant/auth/roleGuard";
 import { runDueTimeAutomationRules } from "@/tenant/automations/scheduleDueCheck";
+import type { FilterGroup } from "@/tenant/views/filterEngine";
 import { AutomationsClient } from "./AutomationsClient";
 
 export const dynamic = "force-dynamic";
@@ -13,12 +14,11 @@ export default async function AutomationsSettingsPage() {
     redirect("/login");
   }
 
-  // Pull-basierter Trigger für fällige time_daily/time_weekly-Regeln (dasselbe
-  // Muster wie die automatischen Check-ins): beim Besuch der Automations-
-  // Einstellungsseite werden alle fälligen zeitbasierten Regeln als
-  // Massenausführung gegen ihre passenden Tasks gefahren, bevor die Liste
-  // geladen wird — kein separater Cron nötig.
-  await runDueTimeAutomationRules(context.tenantDb, new Date(), context.currentUser.id);
+  // Zusätzlich zum echten Hintergrund-Scheduler (T307, siehe instrumentation.ts)
+  // hier nochmal ausgelöst, rein als Sicherheitsnetz — idempotent über
+  // `lastRunPeriodKey`, löst also nichts doppelt aus, falls der Scheduler-
+  // Prozess zwischenzeitlich neu gestartet wurde.
+  await runDueTimeAutomationRules(context.tenantDb, new Date());
 
   const [rules, users, statuses, projects] = await Promise.all([
     context.tenantDb.automationRule.findMany({
@@ -47,7 +47,7 @@ export default async function AutomationsSettingsPage() {
           id: rule.id,
           name: rule.name,
           triggers: rule.triggers,
-          conditionStatusCategory: rule.conditionStatusCategory,
+          conditionConfig: rule.conditionConfig as FilterGroup | null,
           scheduleTime: rule.scheduleTime,
           scheduleWeekday: rule.scheduleWeekday,
           isEnabled: rule.isEnabled,

@@ -1153,20 +1153,23 @@ enum AutomationActionType {
 }
 
 model AutomationRule {
-  id                      String              @id @default(uuid())
-  name                    String
-  triggers                AutomationTrigger[]
-  conditionStatusCategory StatusCategory?
-  projectIds              String[]            @default([])
-  scheduleTime            String?
-  scheduleWeekday         Int?
-  lastRunPeriodKey        String?
-  isEnabled               Boolean             @default(true)
-  createdBy               User                @relation(fields: [createdById], references: [id])
-  createdById             String
-  createdAt               DateTime            @default(now())
-  updatedAt               DateTime            @updatedAt
-  actions                 AutomationAction[]
+  id               String              @id @default(uuid())
+  name             String
+  triggers         AutomationTrigger[]
+  /// T306: generisches Attribut/Operator-Bedingungssystem (FilterGroup, siehe
+  /// src/tenant/views/filterEngine.ts) statt der früheren Einzelfeld-Bedingung
+  /// `conditionStatusCategory`. `null` = keine Bedingung, Regel matcht immer.
+  conditionConfig  Json?
+  projectIds       String[]            @default([])
+  scheduleTime     String?
+  scheduleWeekday  Int?
+  lastRunPeriodKey String?
+  isEnabled        Boolean             @default(true)
+  createdBy        User                @relation(fields: [createdById], references: [id])
+  createdById      String
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+  actions          AutomationAction[]
 }
 
 model AutomationAction {

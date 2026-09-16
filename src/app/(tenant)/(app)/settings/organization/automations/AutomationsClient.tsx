@@ -8,6 +8,8 @@ import { Checkbox } from "@/ui/shadcn/components/checkbox";
 import { Input } from "@/ui/shadcn/components/input";
 import { Label } from "@/ui/shadcn/components/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
+import { FilterBuilderPopover, type FilterFieldOption } from "@/ui/components/FilterBuilderPopover";
+import type { FilterGroup } from "@/tenant/views/filterEngine";
 
 type Trigger = "task_created" | "task_status_changed" | "task_updated" | "task_commented" | "time_daily" | "time_weekly";
 // send_email ist bewusst nicht in der UI wählbar — diese Codebase hat keine
@@ -21,7 +23,6 @@ type ActionType =
   | "create_task"
   | "create_subtask"
   | "create_todo";
-type StatusCategory = "not_started" | "started" | "done";
 
 const NEW_ITEM_ACTION_TYPES: ActionType[] = ["create_task", "create_subtask", "create_todo"];
 
@@ -37,7 +38,7 @@ interface Rule {
   id: string;
   name: string;
   triggers: Trigger[];
-  conditionStatusCategory: StatusCategory | null;
+  conditionConfig: FilterGroup | null;
   scheduleTime: string | null;
   scheduleWeekday: number | null;
   isEnabled: boolean;
@@ -79,13 +80,37 @@ const ACTION_LABELS: Record<ActionType, string> = {
   create_todo: "Todo erstellen",
 };
 
-const CATEGORY_LABELS: Record<StatusCategory, string> = {
-  not_started: "Nicht begonnen",
-  started: "In Arbeit",
-  done: "Erledigt",
-};
-
 const WEEKDAY_LABELS = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
+
+const EMPTY_CONDITION_CONFIG: FilterGroup = { logic: "AND", rules: [] };
+
+const AUTOMATION_CONDITION_FIELDS: FilterFieldOption[] = [
+  {
+    value: "statusCategory",
+    label: "Status-Kategorie",
+    type: "select",
+    options: [
+      { value: "not_started", label: "Nicht begonnen" },
+      { value: "started", label: "In Arbeit" },
+      { value: "done", label: "Erledigt" },
+    ],
+  },
+  { value: "isKeyTask", label: "Key Task", type: "boolean" },
+  { value: "isPrivate", label: "Privat", type: "boolean" },
+];
+
+/** Kurzbeschreibung einer conditionConfig für die Regel-Liste, z. B. "Status-Kategorie ist Erledigt". */
+function describeConditionConfig(config: FilterGroup | null): string | null {
+  if (!config || config.rules.length === 0) return null;
+  const parts = config.rules.map((rule) => {
+    if (!("field" in rule)) return "…";
+    const field = AUTOMATION_CONDITION_FIELDS.find((f) => f.value === rule.field);
+    const fieldLabel = field?.label ?? rule.field;
+    const valueLabel = field?.options?.find((o) => o.value === rule.value)?.label ?? String(rule.value ?? "");
+    return `${fieldLabel} ${rule.operator === "equals" ? "ist" : rule.operator} ${valueLabel}`.trim();
+  });
+  return parts.join(config.logic === "AND" ? " und " : " oder ");
+}
 
 interface DraftAction {
   type: ActionType;
@@ -101,7 +126,7 @@ interface Recipe {
   description: string;
   name: string;
   triggers: Trigger[];
-  conditionCategory: StatusCategory | "__any__";
+  conditionConfig: FilterGroup;
   scheduleTime?: string;
   scheduleWeekday?: number;
   actions: Array<Pick<DraftAction, "type"> & Partial<DraftAction>>;
@@ -114,7 +139,7 @@ const RECIPES: Recipe[] = [
     description: "Wenn ein Task erstellt wird, eine Person benachrichtigen.",
     name: "Neuer Task → Benachrichtigung",
     triggers: ["task_created"],
-    conditionCategory: "__any__",
+    conditionConfig: EMPTY_CONDITION_CONFIG,
     actions: [{ type: "notify_user" }],
   },
   {
@@ -123,7 +148,7 @@ const RECIPES: Recipe[] = [
     description: "Wenn ein Task in die Kategorie „Erledigt“ wechselt, eine Person benachrichtigen.",
     name: "Task erledigt → Benachrichtigung",
     triggers: ["task_status_changed"],
-    conditionCategory: "done",
+    conditionConfig: { logic: "AND", rules: [{ field: "statusCategory", operator: "equals", value: "done" }] },
     actions: [{ type: "notify_user" }],
   },
   {
@@ -132,7 +157,7 @@ const RECIPES: Recipe[] = [
     description: "Wenn ein Kommentar hinzugefügt wird, den Verantwortlichen benachrichtigen.",
     name: "Kommentar → Benachrichtigung",
     triggers: ["task_commented"],
-    conditionCategory: "__any__",
+    conditionConfig: EMPTY_CONDITION_CONFIG,
     actions: [{ type: "notify_user" }],
   },
   {
@@ -141,7 +166,7 @@ const RECIPES: Recipe[] = [
     description: "Wenn sich ein Task ändert, automatisch in einen bestimmten Status verschieben.",
     name: "Auto-Status bei Änderung",
     triggers: ["task_updated"],
-    conditionCategory: "__any__",
+    conditionConfig: EMPTY_CONDITION_CONFIG,
     actions: [{ type: "change_status" }],
   },
   {
@@ -150,7 +175,7 @@ const RECIPES: Recipe[] = [
     description: "Jeden Tag um 9 Uhr automatisch ein wiederkehrendes Todo anlegen.",
     name: "Tägliches Todo",
     triggers: ["time_daily"],
-    conditionCategory: "__any__",
+    conditionConfig: EMPTY_CONDITION_CONFIG,
     scheduleTime: "09:00",
     actions: [{ type: "create_todo", newItemTitle: "Tages-Check-in" }],
   },
@@ -160,7 +185,7 @@ const RECIPES: Recipe[] = [
     description: "Jeden Montag automatisch einen Wochenreview-Task anlegen.",
     name: "Wöchentlicher Review-Task",
     triggers: ["time_weekly"],
-    conditionCategory: "__any__",
+    conditionConfig: EMPTY_CONDITION_CONFIG,
     scheduleTime: "09:00",
     scheduleWeekday: 1,
     actions: [{ type: "create_task", newItemTitle: "Wochenreview" }],
@@ -183,7 +208,7 @@ export function AutomationsClient({
   const router = useRouter();
   const [name, setName] = useState("");
   const [triggers, setTriggers] = useState<Trigger[]>(["task_created"]);
-  const [conditionCategory, setConditionCategory] = useState<StatusCategory | "__any__">("__any__");
+  const [conditionConfig, setConditionConfig] = useState<FilterGroup>(EMPTY_CONDITION_CONFIG);
   const [scheduleTime, setScheduleTime] = useState("09:00");
   const [scheduleWeekday, setScheduleWeekday] = useState(1);
   const [projectIds, setProjectIds] = useState<string[]>([]);
@@ -215,7 +240,7 @@ export function AutomationsClient({
   function applyRecipe(recipe: Recipe) {
     setName(recipe.name);
     setTriggers(recipe.triggers);
-    setConditionCategory(recipe.conditionCategory);
+    setConditionConfig(recipe.conditionConfig);
     if (recipe.scheduleTime) setScheduleTime(recipe.scheduleTime);
     if (recipe.scheduleWeekday !== undefined) setScheduleWeekday(recipe.scheduleWeekday);
     setDraftActions(
@@ -264,8 +289,7 @@ export function AutomationsClient({
       body: JSON.stringify({
         name,
         triggers,
-        conditionStatusCategory:
-          triggers.includes("task_status_changed") && conditionCategory !== "__any__" ? conditionCategory : null,
+        conditionConfig: conditionConfig.rules.length > 0 ? conditionConfig : null,
         scheduleTime: hasTimeTrigger ? scheduleTime : undefined,
         scheduleWeekday: triggers.includes("time_weekly") ? scheduleWeekday : undefined,
         projectIds,
@@ -289,6 +313,7 @@ export function AutomationsClient({
     }
     setName("");
     setTriggers(["task_created"]);
+    setConditionConfig(EMPTY_CONDITION_CONFIG);
     setProjectIds([]);
     setDraftActions([
       {
@@ -385,24 +410,10 @@ export function AutomationsClient({
                 ))}
               </div>
 
-              {triggers.includes("task_status_changed") && (
-                <div className="mb-4 max-w-xs">
-                  <Label htmlFor="automation-condition" className="mb-2 block">
-                    Nur wenn neue Status-Kategorie
-                  </Label>
-                  <Select value={conditionCategory} onValueChange={(value) => setConditionCategory(value as StatusCategory | "__any__")}>
-                    <SelectTrigger id="automation-condition" className="w-full">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="__any__">Beliebig</SelectItem>
-                      <SelectItem value="not_started">Nicht begonnen</SelectItem>
-                      <SelectItem value="started">In Arbeit</SelectItem>
-                      <SelectItem value="done">Erledigt</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
+              <div className="mb-4 max-w-md">
+                <span className="mb-2 block text-sm font-medium">Nur wenn (optional)</span>
+                <FilterBuilderPopover fields={AUTOMATION_CONDITION_FIELDS} value={conditionConfig} onChange={setConditionConfig} />
+              </div>
 
               <div className="mb-4">
                 <span className="mb-2 block text-sm font-medium">Projekte (keine Auswahl = Alle Projekte)</span>
@@ -582,7 +593,7 @@ export function AutomationsClient({
                 </div>
                 <p className="text-sm text-muted-foreground">
                   Wenn <strong className="text-foreground">{rule.triggers.map((t) => TRIGGER_LABELS[t]).join(" oder ")}</strong>
-                  {rule.conditionStatusCategory && <> (nur bei Kategorie „{CATEGORY_LABELS[rule.conditionStatusCategory]}“)</>}
+                  {describeConditionConfig(rule.conditionConfig) && <> (nur wenn {describeConditionConfig(rule.conditionConfig)})</>}
                   {rule.scheduleTime && <> um {rule.scheduleTime} Uhr</>}
                   {rule.scheduleWeekday !== null && <> ({WEEKDAY_LABELS[rule.scheduleWeekday]})</>}
                   {" — "}

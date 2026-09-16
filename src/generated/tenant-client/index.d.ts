@@ -84882,7 +84882,6 @@ export namespace Prisma {
   export type AutomationRuleMinAggregateOutputType = {
     id: string | null
     name: string | null
-    conditionStatusCategory: $Enums.StatusCategory | null
     scheduleTime: string | null
     scheduleWeekday: number | null
     lastRunPeriodKey: string | null
@@ -84895,7 +84894,6 @@ export namespace Prisma {
   export type AutomationRuleMaxAggregateOutputType = {
     id: string | null
     name: string | null
-    conditionStatusCategory: $Enums.StatusCategory | null
     scheduleTime: string | null
     scheduleWeekday: number | null
     lastRunPeriodKey: string | null
@@ -84909,7 +84907,7 @@ export namespace Prisma {
     id: number
     name: number
     triggers: number
-    conditionStatusCategory: number
+    conditionConfig: number
     projectIds: number
     scheduleTime: number
     scheduleWeekday: number
@@ -84933,7 +84931,6 @@ export namespace Prisma {
   export type AutomationRuleMinAggregateInputType = {
     id?: true
     name?: true
-    conditionStatusCategory?: true
     scheduleTime?: true
     scheduleWeekday?: true
     lastRunPeriodKey?: true
@@ -84946,7 +84943,6 @@ export namespace Prisma {
   export type AutomationRuleMaxAggregateInputType = {
     id?: true
     name?: true
-    conditionStatusCategory?: true
     scheduleTime?: true
     scheduleWeekday?: true
     lastRunPeriodKey?: true
@@ -84960,7 +84956,7 @@ export namespace Prisma {
     id?: true
     name?: true
     triggers?: true
-    conditionStatusCategory?: true
+    conditionConfig?: true
     projectIds?: true
     scheduleTime?: true
     scheduleWeekday?: true
@@ -85062,7 +85058,7 @@ export namespace Prisma {
     id: string
     name: string
     triggers: $Enums.AutomationTrigger[]
-    conditionStatusCategory: $Enums.StatusCategory | null
+    conditionConfig: JsonValue | null
     projectIds: string[]
     scheduleTime: string | null
     scheduleWeekday: number | null
@@ -85096,7 +85092,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     triggers?: boolean
-    conditionStatusCategory?: boolean
+    conditionConfig?: boolean
     projectIds?: boolean
     scheduleTime?: boolean
     scheduleWeekday?: boolean
@@ -85114,7 +85110,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     triggers?: boolean
-    conditionStatusCategory?: boolean
+    conditionConfig?: boolean
     projectIds?: boolean
     scheduleTime?: boolean
     scheduleWeekday?: boolean
@@ -85130,7 +85126,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     triggers?: boolean
-    conditionStatusCategory?: boolean
+    conditionConfig?: boolean
     projectIds?: boolean
     scheduleTime?: boolean
     scheduleWeekday?: boolean
@@ -85146,7 +85142,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     triggers?: boolean
-    conditionStatusCategory?: boolean
+    conditionConfig?: boolean
     projectIds?: boolean
     scheduleTime?: boolean
     scheduleWeekday?: boolean
@@ -85157,7 +85153,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type AutomationRuleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "triggers" | "conditionStatusCategory" | "projectIds" | "scheduleTime" | "scheduleWeekday" | "lastRunPeriodKey" | "isEnabled" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["automationRule"]>
+  export type AutomationRuleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "triggers" | "conditionConfig" | "projectIds" | "scheduleTime" | "scheduleWeekday" | "lastRunPeriodKey" | "isEnabled" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["automationRule"]>
   export type AutomationRuleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
     actions?: boolean | AutomationRule$actionsArgs<ExtArgs>
@@ -85180,7 +85176,12 @@ export namespace Prisma {
       id: string
       name: string
       triggers: $Enums.AutomationTrigger[]
-      conditionStatusCategory: $Enums.StatusCategory | null
+      /**
+       * T306: generisches Attribut/Operator-Bedingungssystem (FilterGroup, siehe
+       * src/tenant/views/filterEngine.ts) statt der früheren Einzelfeld-Bedingung
+       * `conditionStatusCategory`. `null` = keine Bedingung, Regel matcht immer.
+       */
+      conditionConfig: Prisma.JsonValue | null
       projectIds: string[]
       scheduleTime: string | null
       scheduleWeekday: number | null
@@ -85617,7 +85618,7 @@ export namespace Prisma {
     readonly id: FieldRef<"AutomationRule", 'String'>
     readonly name: FieldRef<"AutomationRule", 'String'>
     readonly triggers: FieldRef<"AutomationRule", 'AutomationTrigger[]'>
-    readonly conditionStatusCategory: FieldRef<"AutomationRule", 'StatusCategory'>
+    readonly conditionConfig: FieldRef<"AutomationRule", 'Json'>
     readonly projectIds: FieldRef<"AutomationRule", 'String[]'>
     readonly scheduleTime: FieldRef<"AutomationRule", 'String'>
     readonly scheduleWeekday: FieldRef<"AutomationRule", 'Int'>
@@ -114096,7 +114097,7 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     triggers: 'triggers',
-    conditionStatusCategory: 'conditionStatusCategory',
+    conditionConfig: 'conditionConfig',
     projectIds: 'projectIds',
     scheduleTime: 'scheduleTime',
     scheduleWeekday: 'scheduleWeekday',
@@ -119776,7 +119777,7 @@ export namespace Prisma {
     id?: StringFilter<"AutomationRule"> | string
     name?: StringFilter<"AutomationRule"> | string
     triggers?: EnumAutomationTriggerNullableListFilter<"AutomationRule">
-    conditionStatusCategory?: EnumStatusCategoryNullableFilter<"AutomationRule"> | $Enums.StatusCategory | null
+    conditionConfig?: JsonNullableFilter<"AutomationRule">
     projectIds?: StringNullableListFilter<"AutomationRule">
     scheduleTime?: StringNullableFilter<"AutomationRule"> | string | null
     scheduleWeekday?: IntNullableFilter<"AutomationRule"> | number | null
@@ -119793,7 +119794,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     triggers?: SortOrder
-    conditionStatusCategory?: SortOrderInput | SortOrder
+    conditionConfig?: SortOrderInput | SortOrder
     projectIds?: SortOrder
     scheduleTime?: SortOrderInput | SortOrder
     scheduleWeekday?: SortOrderInput | SortOrder
@@ -119813,7 +119814,7 @@ export namespace Prisma {
     NOT?: AutomationRuleWhereInput | AutomationRuleWhereInput[]
     name?: StringFilter<"AutomationRule"> | string
     triggers?: EnumAutomationTriggerNullableListFilter<"AutomationRule">
-    conditionStatusCategory?: EnumStatusCategoryNullableFilter<"AutomationRule"> | $Enums.StatusCategory | null
+    conditionConfig?: JsonNullableFilter<"AutomationRule">
     projectIds?: StringNullableListFilter<"AutomationRule">
     scheduleTime?: StringNullableFilter<"AutomationRule"> | string | null
     scheduleWeekday?: IntNullableFilter<"AutomationRule"> | number | null
@@ -119830,7 +119831,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     triggers?: SortOrder
-    conditionStatusCategory?: SortOrderInput | SortOrder
+    conditionConfig?: SortOrderInput | SortOrder
     projectIds?: SortOrder
     scheduleTime?: SortOrderInput | SortOrder
     scheduleWeekday?: SortOrderInput | SortOrder
@@ -119853,7 +119854,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"AutomationRule"> | string
     name?: StringWithAggregatesFilter<"AutomationRule"> | string
     triggers?: EnumAutomationTriggerNullableListFilter<"AutomationRule">
-    conditionStatusCategory?: EnumStatusCategoryNullableWithAggregatesFilter<"AutomationRule"> | $Enums.StatusCategory | null
+    conditionConfig?: JsonNullableWithAggregatesFilter<"AutomationRule">
     projectIds?: StringNullableListFilter<"AutomationRule">
     scheduleTime?: StringNullableWithAggregatesFilter<"AutomationRule"> | string | null
     scheduleWeekday?: IntNullableWithAggregatesFilter<"AutomationRule"> | number | null
@@ -126534,7 +126535,7 @@ export namespace Prisma {
     id?: string
     name: string
     triggers?: AutomationRuleCreatetriggersInput | $Enums.AutomationTrigger[]
-    conditionStatusCategory?: $Enums.StatusCategory | null
+    conditionConfig?: NullableJsonNullValueInput | InputJsonValue
     projectIds?: AutomationRuleCreateprojectIdsInput | string[]
     scheduleTime?: string | null
     scheduleWeekday?: number | null
@@ -126550,7 +126551,7 @@ export namespace Prisma {
     id?: string
     name: string
     triggers?: AutomationRuleCreatetriggersInput | $Enums.AutomationTrigger[]
-    conditionStatusCategory?: $Enums.StatusCategory | null
+    conditionConfig?: NullableJsonNullValueInput | InputJsonValue
     projectIds?: AutomationRuleCreateprojectIdsInput | string[]
     scheduleTime?: string | null
     scheduleWeekday?: number | null
@@ -126566,7 +126567,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     triggers?: AutomationRuleUpdatetriggersInput | $Enums.AutomationTrigger[]
-    conditionStatusCategory?: NullableEnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory | null
+    conditionConfig?: NullableJsonNullValueInput | InputJsonValue
     projectIds?: AutomationRuleUpdateprojectIdsInput | string[]
     scheduleTime?: NullableStringFieldUpdateOperationsInput | string | null
     scheduleWeekday?: NullableIntFieldUpdateOperationsInput | number | null
@@ -126582,7 +126583,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     triggers?: AutomationRuleUpdatetriggersInput | $Enums.AutomationTrigger[]
-    conditionStatusCategory?: NullableEnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory | null
+    conditionConfig?: NullableJsonNullValueInput | InputJsonValue
     projectIds?: AutomationRuleUpdateprojectIdsInput | string[]
     scheduleTime?: NullableStringFieldUpdateOperationsInput | string | null
     scheduleWeekday?: NullableIntFieldUpdateOperationsInput | number | null
@@ -126598,7 +126599,7 @@ export namespace Prisma {
     id?: string
     name: string
     triggers?: AutomationRuleCreatetriggersInput | $Enums.AutomationTrigger[]
-    conditionStatusCategory?: $Enums.StatusCategory | null
+    conditionConfig?: NullableJsonNullValueInput | InputJsonValue
     projectIds?: AutomationRuleCreateprojectIdsInput | string[]
     scheduleTime?: string | null
     scheduleWeekday?: number | null
@@ -126613,7 +126614,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     triggers?: AutomationRuleUpdatetriggersInput | $Enums.AutomationTrigger[]
-    conditionStatusCategory?: NullableEnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory | null
+    conditionConfig?: NullableJsonNullValueInput | InputJsonValue
     projectIds?: AutomationRuleUpdateprojectIdsInput | string[]
     scheduleTime?: NullableStringFieldUpdateOperationsInput | string | null
     scheduleWeekday?: NullableIntFieldUpdateOperationsInput | number | null
@@ -126627,7 +126628,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     triggers?: AutomationRuleUpdatetriggersInput | $Enums.AutomationTrigger[]
-    conditionStatusCategory?: NullableEnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory | null
+    conditionConfig?: NullableJsonNullValueInput | InputJsonValue
     projectIds?: AutomationRuleUpdateprojectIdsInput | string[]
     scheduleTime?: NullableStringFieldUpdateOperationsInput | string | null
     scheduleWeekday?: NullableIntFieldUpdateOperationsInput | number | null
@@ -132409,7 +132410,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     triggers?: SortOrder
-    conditionStatusCategory?: SortOrder
+    conditionConfig?: SortOrder
     projectIds?: SortOrder
     scheduleTime?: SortOrder
     scheduleWeekday?: SortOrder
@@ -132427,7 +132428,6 @@ export namespace Prisma {
   export type AutomationRuleMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    conditionStatusCategory?: SortOrder
     scheduleTime?: SortOrder
     scheduleWeekday?: SortOrder
     lastRunPeriodKey?: SortOrder
@@ -132440,7 +132440,6 @@ export namespace Prisma {
   export type AutomationRuleMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    conditionStatusCategory?: SortOrder
     scheduleTime?: SortOrder
     scheduleWeekday?: SortOrder
     lastRunPeriodKey?: SortOrder
@@ -144161,7 +144160,7 @@ export namespace Prisma {
     id?: string
     name: string
     triggers?: AutomationRuleCreatetriggersInput | $Enums.AutomationTrigger[]
-    conditionStatusCategory?: $Enums.StatusCategory | null
+    conditionConfig?: NullableJsonNullValueInput | InputJsonValue
     projectIds?: AutomationRuleCreateprojectIdsInput | string[]
     scheduleTime?: string | null
     scheduleWeekday?: number | null
@@ -144176,7 +144175,7 @@ export namespace Prisma {
     id?: string
     name: string
     triggers?: AutomationRuleCreatetriggersInput | $Enums.AutomationTrigger[]
-    conditionStatusCategory?: $Enums.StatusCategory | null
+    conditionConfig?: NullableJsonNullValueInput | InputJsonValue
     projectIds?: AutomationRuleCreateprojectIdsInput | string[]
     scheduleTime?: string | null
     scheduleWeekday?: number | null
@@ -146191,7 +146190,7 @@ export namespace Prisma {
     id?: StringFilter<"AutomationRule"> | string
     name?: StringFilter<"AutomationRule"> | string
     triggers?: EnumAutomationTriggerNullableListFilter<"AutomationRule">
-    conditionStatusCategory?: EnumStatusCategoryNullableFilter<"AutomationRule"> | $Enums.StatusCategory | null
+    conditionConfig?: JsonNullableFilter<"AutomationRule">
     projectIds?: StringNullableListFilter<"AutomationRule">
     scheduleTime?: StringNullableFilter<"AutomationRule"> | string | null
     scheduleWeekday?: IntNullableFilter<"AutomationRule"> | number | null
@@ -172330,7 +172329,7 @@ export namespace Prisma {
     id?: string
     name: string
     triggers?: AutomationRuleCreatetriggersInput | $Enums.AutomationTrigger[]
-    conditionStatusCategory?: $Enums.StatusCategory | null
+    conditionConfig?: NullableJsonNullValueInput | InputJsonValue
     projectIds?: AutomationRuleCreateprojectIdsInput | string[]
     scheduleTime?: string | null
     scheduleWeekday?: number | null
@@ -172345,7 +172344,7 @@ export namespace Prisma {
     id?: string
     name: string
     triggers?: AutomationRuleCreatetriggersInput | $Enums.AutomationTrigger[]
-    conditionStatusCategory?: $Enums.StatusCategory | null
+    conditionConfig?: NullableJsonNullValueInput | InputJsonValue
     projectIds?: AutomationRuleCreateprojectIdsInput | string[]
     scheduleTime?: string | null
     scheduleWeekday?: number | null
@@ -172554,7 +172553,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     triggers?: AutomationRuleUpdatetriggersInput | $Enums.AutomationTrigger[]
-    conditionStatusCategory?: NullableEnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory | null
+    conditionConfig?: NullableJsonNullValueInput | InputJsonValue
     projectIds?: AutomationRuleUpdateprojectIdsInput | string[]
     scheduleTime?: NullableStringFieldUpdateOperationsInput | string | null
     scheduleWeekday?: NullableIntFieldUpdateOperationsInput | number | null
@@ -172569,7 +172568,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     triggers?: AutomationRuleUpdatetriggersInput | $Enums.AutomationTrigger[]
-    conditionStatusCategory?: NullableEnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory | null
+    conditionConfig?: NullableJsonNullValueInput | InputJsonValue
     projectIds?: AutomationRuleUpdateprojectIdsInput | string[]
     scheduleTime?: NullableStringFieldUpdateOperationsInput | string | null
     scheduleWeekday?: NullableIntFieldUpdateOperationsInput | number | null
@@ -181108,7 +181107,7 @@ export namespace Prisma {
     id?: string
     name: string
     triggers?: AutomationRuleCreatetriggersInput | $Enums.AutomationTrigger[]
-    conditionStatusCategory?: $Enums.StatusCategory | null
+    conditionConfig?: NullableJsonNullValueInput | InputJsonValue
     projectIds?: AutomationRuleCreateprojectIdsInput | string[]
     scheduleTime?: string | null
     scheduleWeekday?: number | null
@@ -182058,7 +182057,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     triggers?: AutomationRuleUpdatetriggersInput | $Enums.AutomationTrigger[]
-    conditionStatusCategory?: NullableEnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory | null
+    conditionConfig?: NullableJsonNullValueInput | InputJsonValue
     projectIds?: AutomationRuleUpdateprojectIdsInput | string[]
     scheduleTime?: NullableStringFieldUpdateOperationsInput | string | null
     scheduleWeekday?: NullableIntFieldUpdateOperationsInput | number | null
@@ -182073,7 +182072,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     triggers?: AutomationRuleUpdatetriggersInput | $Enums.AutomationTrigger[]
-    conditionStatusCategory?: NullableEnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory | null
+    conditionConfig?: NullableJsonNullValueInput | InputJsonValue
     projectIds?: AutomationRuleUpdateprojectIdsInput | string[]
     scheduleTime?: NullableStringFieldUpdateOperationsInput | string | null
     scheduleWeekday?: NullableIntFieldUpdateOperationsInput | number | null
@@ -182088,7 +182087,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     triggers?: AutomationRuleUpdatetriggersInput | $Enums.AutomationTrigger[]
-    conditionStatusCategory?: NullableEnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory | null
+    conditionConfig?: NullableJsonNullValueInput | InputJsonValue
     projectIds?: AutomationRuleUpdateprojectIdsInput | string[]
     scheduleTime?: NullableStringFieldUpdateOperationsInput | string | null
     scheduleWeekday?: NullableIntFieldUpdateOperationsInput | number | null
