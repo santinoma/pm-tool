@@ -261,3 +261,11 @@ Task weitermachen — nicht die ganze Phase anhalten.
 ## Log (kurz, nur bemerkenswerte Entscheidungen während der Umsetzung)
 
 - 16.09.2026: Phase 0 abgeschlossen, gepusht.
+- 16.09.2026: Phase 3 abgeschlossen (T301–T316), gepusht. Offen bleiben
+  bewusst nur T215 (Recycle-Bin, Phase 2 — Soft-Delete-Umbau an 38
+  Query-Stellen, eigener Anlauf nötig) und T305 (Automations auf weitere
+  Objekttypen — eigener struktureller Umbau). Alle anderen Tasks entweder
+  umgesetzt oder per Productive-Doku-Recherche als bereits abgedeckt/ohne
+  echte Entsprechung dokumentiert (T206/T207/T310 bereits vorhanden, T309
+  kein Productive-Datenmodell, T314 "Department" kein Productive-
+  Datenmodell).
