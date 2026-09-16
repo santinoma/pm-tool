@@ -44,7 +44,11 @@ Task weitermachen — nicht die ganze Phase anhalten.
       Sichtbarkeit in SavedView.sortConfig persistiert (rückwärtskompatibel:
       fehlt eine neu hinzugekommene Spalte in einer alten SavedView, wird sie
       angehängt statt zu verschwinden)
-- [ ] T204 `SavedView` auf Budgets ausweiten
+- [x] T204 `SavedView` auf Budgets ausweiten — neuer Scope "budgets"
+      (`saved-views/route.ts`, `SavedViewsBar` verallgemeinert von
+      scope-Literal-Vergleich auf `projectId`-Anwesenheit), Filter/Sort in
+      `ProjectBudgetsClient.tsx` (Owner/Titel-Filter, Sort: Titel/Owner/
+      Budget Total)
 - [ ] T205 `SavedView` auf Zeit-Ansichten ausweiten
 - [ ] T206 Table-Layout als neuer Ansichtstyp
 - [ ] T207 Workload-Layout als neuer Ansichtstyp

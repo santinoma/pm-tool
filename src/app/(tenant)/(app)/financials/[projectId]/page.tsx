@@ -78,7 +78,7 @@ export default async function ProjectBudgetsPage({
     });
   }
 
-  const [budgets, users, templates] = await Promise.all([
+  const [budgets, users, templates, savedViews] = await Promise.all([
     context.tenantDb.budget.findMany({
       where: { projectId, isScenario: false },
       include: { owner: true, sections: true },
@@ -89,6 +89,14 @@ export default async function ProjectBudgetsPage({
       where: { projectId, isTemplate: true },
       orderBy: { title: "asc" },
       select: { id: true, title: true },
+    }),
+    context.tenantDb.savedView.findMany({
+      where: {
+        scope: "budgets",
+        projectId,
+        OR: [{ ownerId: context.currentUser.id }, { sharedWithAll: true }],
+      },
+      orderBy: { createdAt: "desc" },
     }),
   ]);
 
@@ -148,6 +156,7 @@ export default async function ProjectBudgetsPage({
         budgets={budgets.map((budget) => ({
           id: budget.id,
           title: budget.title,
+          ownerId: budget.ownerId,
           ownerLabel: budget.owner.name ?? budget.owner.email,
           sectionCount: budget.sections.length,
           budgetTotal: budget.sections.reduce(
@@ -157,6 +166,16 @@ export default async function ProjectBudgetsPage({
         }))}
         users={users.map((u) => ({ id: u.id, label: u.name ?? u.email }))}
         templates={templates.map((t) => ({ id: t.id, title: t.title }))}
+        savedViews={savedViews.map((view) => ({
+          id: view.id,
+          name: view.name,
+          viewType: view.viewType,
+          filterConfig: view.filterConfig as Record<string, unknown>,
+          sortConfig: view.sortConfig as Record<string, unknown> | null,
+          sharedWithAll: view.sharedWithAll,
+          ownerId: view.ownerId,
+        }))}
+        currentUserId={context.currentUser.id}
       />
     </AppShellNextElite>
   );
