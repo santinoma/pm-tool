@@ -51,8 +51,8 @@ export async function POST(request: Request, { params }: { params: Promise<{ tok
 
   const user = await tenantDb.user.upsert({
     where: { email: invite.email },
-    create: { email: invite.email, name: body.name, passwordHash, role: invite.role },
-    update: { name: body.name, passwordHash, role: invite.role },
+    create: { email: invite.email, name: body.name, passwordHash, role: invite.role, employmentType: invite.employmentType },
+    update: { name: body.name, passwordHash, role: invite.role, employmentType: invite.employmentType },
   });
 
   await tenantDb.invite.update({ where: { id: invite.id }, data: { acceptedAt: new Date() } });

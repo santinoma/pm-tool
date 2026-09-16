@@ -223,7 +223,22 @@ Task weitermachen — nicht die ganze Phase anhalten.
       Sharing-Modelle ist ein eigener, unabhängiger Umbau je Objekttyp,
       analog zur bewussten Zurückstellung von T305 (Automations auf weitere
       Objekttypen).
-- [ ] T315 User Management: Employee-vs-Contractor-Unterscheidung
+- [x] T315 User Management: Employee-vs-Contractor-Unterscheidung — laut
+      Productive-Vergleichstabelle ("Employees vs. Contractors") sind die
+      strukturellen Unterschiede: (1) Contractors können nie Admin/Owner
+      sein, nur ein festes Berechtigungsprofil statt mehrerer Stufen, und
+      (2) Projekt-/Budget-Zugriff läuft für sie ausschließlich über
+      explizite Mitgliedschaft. Punkt (2) war für `role: member` bereits
+      strukturell erfüllt (`hasProjectMemberAccess` umgeht die
+      Mitgliedschaftsprüfung nur für owner/admin). Neu für Punkt (1):
+      `User.employmentType`/`Invite.employmentType` (Enum employee/
+      contractor); durchgesetzt beim Einladen, bei Rollenwechseln und bei
+      Custom-Role-Zuweisung (`src/tenant/auth/employmentType.ts`) — ein
+      Contractor kann nicht auf admin/owner gesetzt werden und bekommt
+      keine Custom Role zugewiesen (bleibt auf dem Legacy-`member`-Profil,
+      Productives "one default permission set"). UI: Typ-Spalte/-Filter in
+      der Mitgliederliste, Typ-Auswahl im Einladungsformular (blendet
+      "admin" aus, sobald Contractor gewählt ist).
 - [ ] T316 User Management: Kostensatz-Historie
 
 ## Log (kurz, nur bemerkenswerte Entscheidungen während der Umsetzung)

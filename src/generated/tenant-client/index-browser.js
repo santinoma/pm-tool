@@ -126,6 +126,7 @@ exports.Prisma.UserScalarFieldEnum = {
   passwordHash: 'passwordHash',
   name: 'name',
   role: 'role',
+  employmentType: 'employmentType',
   weeklyCapacityHours: 'weeklyCapacityHours',
   isActive: 'isActive',
   avatarUrl: 'avatarUrl',
@@ -275,6 +276,7 @@ exports.Prisma.InviteScalarFieldEnum = {
   email: 'email',
   token: 'token',
   role: 'role',
+  employmentType: 'employmentType',
   grantedProjectIds: 'grantedProjectIds',
   expiresAt: 'expiresAt',
   acceptedAt: 'acceptedAt',
@@ -1095,6 +1097,11 @@ exports.Role = exports.$Enums.Role = {
   admin: 'admin',
   member: 'member',
   client: 'client'
+};
+
+exports.EmploymentType = exports.$Enums.EmploymentType = {
+  employee: 'employee',
+  contractor: 'contractor'
 };
 
 exports.Locale = exports.$Enums.Locale = {

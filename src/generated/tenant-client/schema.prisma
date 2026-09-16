@@ -18,6 +18,24 @@ enum Role {
   client
 }
 
+/**
+ * T315 (Productive "Employees vs. Contractors"): unterscheidet interne
+ * Mitarbeitende von externen Kollaborateuren, unabhängig von `role`.
+ * Laut Doku-Vergleichstabelle sind die strukturellen Unterschiede: (1)
+ * Contractors können nicht Admin/Owner sein — genau EIN festes
+ * Berechtigungsprofil statt mehrerer Stufen — und (2) Projekt-/Budget-
+ * Zugriff läuft ausschließlich über explizite Mitgliedschaft, nie über ein
+ * rollenbasiertes "sieht automatisch alles". Punkt (2) ist in dieser
+ * Codebase für `role: member` bereits strukturell erfüllt (siehe
+ * `hasProjectMemberAccess` — nur owner/admin umgehen die Mitgliedschafts-
+ * prüfung); Punkt (1) wird bei Einladung/Rollenänderung/Custom-Role-
+ * Zuweisung erzwungen (siehe `invites`- und `users/[id]`-Routen).
+ */
+enum EmploymentType {
+  employee
+  contractor
+}
+
 enum Locale {
   de
   en
@@ -29,6 +47,7 @@ model User {
   passwordHash               String? // null, solange die Einladung noch nicht angenommen wurde
   name                       String?
   role                       Role                        @default(member)
+  employmentType             EmploymentType              @default(employee)
   weeklyCapacityHours        Float                       @default(40)
   isActive                   Boolean                     @default(true)
   avatarUrl                  String?
@@ -303,14 +322,15 @@ model AuditLogEntry {
 }
 
 model Invite {
-  id                String    @id @default(uuid())
+  id                String         @id @default(uuid())
   email             String
-  token             String    @unique
-  role              Role      @default(member)
-  grantedProjectIds String[]  @default([])
+  token             String         @unique
+  role              Role           @default(member)
+  employmentType    EmploymentType @default(employee)
+  grantedProjectIds String[]       @default([])
   expiresAt         DateTime
   acceptedAt        DateTime?
-  createdAt         DateTime  @default(now())
+  createdAt         DateTime       @default(now())
 }
 
 model ProjectClientAccess {

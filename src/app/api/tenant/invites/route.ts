@@ -6,8 +6,10 @@ import { hasFeature } from "@/tenant/entitlements/features";
 import { hasEffectivePermission } from "@/tenant/permissions/resolvePermissions";
 import { getTenantById } from "@/platform/tenantRegistry";
 import { PAID_SEAT_ROLES, countPaidSeats } from "@/tenant/billing/seats";
+import { isRoleAllowedForEmploymentType, type EmploymentTypeName } from "@/tenant/auth/employmentType";
 
 const INVITABLE_ROLES: RoleName[] = ["admin", "member", "client"];
+const VALID_EMPLOYMENT_TYPES: EmploymentTypeName[] = ["employee", "contractor"];
 
 export async function POST(request: Request) {
   const context = await getTenantContext();
@@ -31,6 +33,17 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   }
+  const employmentType: EmploymentTypeName =
+    typeof body.employmentType === "string" && VALID_EMPLOYMENT_TYPES.includes(body.employmentType)
+      ? body.employmentType
+      : "employee";
+  if (!isRoleAllowedForEmploymentType(body.role, employmentType)) {
+    return NextResponse.json(
+      { error: "Contractors können nicht als admin eingeladen werden — nur ein festes Berechtigungsprofil (member)." },
+      { status: 400 },
+    );
+  }
+
   const grantedProjectIds = Array.isArray(body.grantedProjectIds)
     ? body.grantedProjectIds.filter((id: unknown) => typeof id === "string")
     : [];
@@ -62,6 +75,7 @@ export async function POST(request: Request) {
     data: {
       email: body.email,
       role: body.role,
+      employmentType,
       token,
       expiresAt: computeInviteExpiry(),
       grantedProjectIds: body.role === "client" ? grantedProjectIds : [],

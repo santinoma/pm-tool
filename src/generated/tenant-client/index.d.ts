@@ -491,6 +491,14 @@ export namespace $Enums {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
+export const EmploymentType: {
+  employee: 'employee',
+  contractor: 'contractor'
+};
+
+export type EmploymentType = (typeof EmploymentType)[keyof typeof EmploymentType]
+
+
 export const Locale: {
   de: 'de',
   en: 'en'
@@ -862,6 +870,10 @@ export type ExpenseApprovalStatus = (typeof ExpenseApprovalStatus)[keyof typeof 
 export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
+
+export type EmploymentType = $Enums.EmploymentType
+
+export const EmploymentType: typeof $Enums.EmploymentType
 
 export type Locale = $Enums.Locale
 
@@ -11723,6 +11735,7 @@ export namespace Prisma {
     passwordHash: string | null
     name: string | null
     role: $Enums.Role | null
+    employmentType: $Enums.EmploymentType | null
     weeklyCapacityHours: number | null
     isActive: boolean | null
     avatarUrl: string | null
@@ -11744,6 +11757,7 @@ export namespace Prisma {
     passwordHash: string | null
     name: string | null
     role: $Enums.Role | null
+    employmentType: $Enums.EmploymentType | null
     weeklyCapacityHours: number | null
     isActive: boolean | null
     avatarUrl: string | null
@@ -11765,6 +11779,7 @@ export namespace Prisma {
     passwordHash: number
     name: number
     role: number
+    employmentType: number
     weeklyCapacityHours: number
     isActive: number
     avatarUrl: number
@@ -11798,6 +11813,7 @@ export namespace Prisma {
     passwordHash?: true
     name?: true
     role?: true
+    employmentType?: true
     weeklyCapacityHours?: true
     isActive?: true
     avatarUrl?: true
@@ -11819,6 +11835,7 @@ export namespace Prisma {
     passwordHash?: true
     name?: true
     role?: true
+    employmentType?: true
     weeklyCapacityHours?: true
     isActive?: true
     avatarUrl?: true
@@ -11840,6 +11857,7 @@ export namespace Prisma {
     passwordHash?: true
     name?: true
     role?: true
+    employmentType?: true
     weeklyCapacityHours?: true
     isActive?: true
     avatarUrl?: true
@@ -11948,6 +11966,7 @@ export namespace Prisma {
     passwordHash: string | null
     name: string | null
     role: $Enums.Role
+    employmentType: $Enums.EmploymentType
     weeklyCapacityHours: number
     isActive: boolean
     avatarUrl: string | null
@@ -11988,6 +12007,7 @@ export namespace Prisma {
     passwordHash?: boolean
     name?: boolean
     role?: boolean
+    employmentType?: boolean
     weeklyCapacityHours?: boolean
     isActive?: boolean
     avatarUrl?: boolean
@@ -12067,6 +12087,7 @@ export namespace Prisma {
     passwordHash?: boolean
     name?: boolean
     role?: boolean
+    employmentType?: boolean
     weeklyCapacityHours?: boolean
     isActive?: boolean
     avatarUrl?: boolean
@@ -12091,6 +12112,7 @@ export namespace Prisma {
     passwordHash?: boolean
     name?: boolean
     role?: boolean
+    employmentType?: boolean
     weeklyCapacityHours?: boolean
     isActive?: boolean
     avatarUrl?: boolean
@@ -12115,6 +12137,7 @@ export namespace Prisma {
     passwordHash?: boolean
     name?: boolean
     role?: boolean
+    employmentType?: boolean
     weeklyCapacityHours?: boolean
     isActive?: boolean
     avatarUrl?: boolean
@@ -12130,7 +12153,7 @@ export namespace Prisma {
     holidayCalendarId?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "role" | "weeklyCapacityHours" | "isActive" | "avatarUrl" | "avatarStoragePath" | "avatarMimeType" | "internalCostRate" | "totpSecret" | "totpEnabled" | "locale" | "createdAt" | "customRoleId" | "managerId" | "holidayCalendarId", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "role" | "employmentType" | "weeklyCapacityHours" | "isActive" | "avatarUrl" | "avatarStoragePath" | "avatarMimeType" | "internalCostRate" | "totpSecret" | "totpEnabled" | "locale" | "createdAt" | "customRoleId" | "managerId" | "holidayCalendarId", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     assignedTasks?: boolean | User$assignedTasksArgs<ExtArgs>
@@ -12269,6 +12292,7 @@ export namespace Prisma {
       passwordHash: string | null
       name: string | null
       role: $Enums.Role
+      employmentType: $Enums.EmploymentType
       weeklyCapacityHours: number
       isActive: boolean
       avatarUrl: string | null
@@ -12767,6 +12791,7 @@ export namespace Prisma {
     readonly passwordHash: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
+    readonly employmentType: FieldRef<"User", 'EmploymentType'>
     readonly weeklyCapacityHours: FieldRef<"User", 'Float'>
     readonly isActive: FieldRef<"User", 'Boolean'>
     readonly avatarUrl: FieldRef<"User", 'String'>
@@ -29239,6 +29264,7 @@ export namespace Prisma {
     email: string | null
     token: string | null
     role: $Enums.Role | null
+    employmentType: $Enums.EmploymentType | null
     expiresAt: Date | null
     acceptedAt: Date | null
     createdAt: Date | null
@@ -29249,6 +29275,7 @@ export namespace Prisma {
     email: string | null
     token: string | null
     role: $Enums.Role | null
+    employmentType: $Enums.EmploymentType | null
     expiresAt: Date | null
     acceptedAt: Date | null
     createdAt: Date | null
@@ -29259,6 +29286,7 @@ export namespace Prisma {
     email: number
     token: number
     role: number
+    employmentType: number
     grantedProjectIds: number
     expiresAt: number
     acceptedAt: number
@@ -29272,6 +29300,7 @@ export namespace Prisma {
     email?: true
     token?: true
     role?: true
+    employmentType?: true
     expiresAt?: true
     acceptedAt?: true
     createdAt?: true
@@ -29282,6 +29311,7 @@ export namespace Prisma {
     email?: true
     token?: true
     role?: true
+    employmentType?: true
     expiresAt?: true
     acceptedAt?: true
     createdAt?: true
@@ -29292,6 +29322,7 @@ export namespace Prisma {
     email?: true
     token?: true
     role?: true
+    employmentType?: true
     grantedProjectIds?: true
     expiresAt?: true
     acceptedAt?: true
@@ -29376,6 +29407,7 @@ export namespace Prisma {
     email: string
     token: string
     role: $Enums.Role
+    employmentType: $Enums.EmploymentType
     grantedProjectIds: string[]
     expiresAt: Date
     acceptedAt: Date | null
@@ -29404,6 +29436,7 @@ export namespace Prisma {
     email?: boolean
     token?: boolean
     role?: boolean
+    employmentType?: boolean
     grantedProjectIds?: boolean
     expiresAt?: boolean
     acceptedAt?: boolean
@@ -29415,6 +29448,7 @@ export namespace Prisma {
     email?: boolean
     token?: boolean
     role?: boolean
+    employmentType?: boolean
     grantedProjectIds?: boolean
     expiresAt?: boolean
     acceptedAt?: boolean
@@ -29426,6 +29460,7 @@ export namespace Prisma {
     email?: boolean
     token?: boolean
     role?: boolean
+    employmentType?: boolean
     grantedProjectIds?: boolean
     expiresAt?: boolean
     acceptedAt?: boolean
@@ -29437,13 +29472,14 @@ export namespace Prisma {
     email?: boolean
     token?: boolean
     role?: boolean
+    employmentType?: boolean
     grantedProjectIds?: boolean
     expiresAt?: boolean
     acceptedAt?: boolean
     createdAt?: boolean
   }
 
-  export type InviteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "token" | "role" | "grantedProjectIds" | "expiresAt" | "acceptedAt" | "createdAt", ExtArgs["result"]["invite"]>
+  export type InviteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "token" | "role" | "employmentType" | "grantedProjectIds" | "expiresAt" | "acceptedAt" | "createdAt", ExtArgs["result"]["invite"]>
 
   export type $InvitePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Invite"
@@ -29453,6 +29489,7 @@ export namespace Prisma {
       email: string
       token: string
       role: $Enums.Role
+      employmentType: $Enums.EmploymentType
       grantedProjectIds: string[]
       expiresAt: Date
       acceptedAt: Date | null
@@ -29884,6 +29921,7 @@ export namespace Prisma {
     readonly email: FieldRef<"Invite", 'String'>
     readonly token: FieldRef<"Invite", 'String'>
     readonly role: FieldRef<"Invite", 'Role'>
+    readonly employmentType: FieldRef<"Invite", 'EmploymentType'>
     readonly grantedProjectIds: FieldRef<"Invite", 'String[]'>
     readonly expiresAt: FieldRef<"Invite", 'DateTime'>
     readonly acceptedAt: FieldRef<"Invite", 'DateTime'>
@@ -117008,6 +117046,7 @@ export namespace Prisma {
     passwordHash: 'passwordHash',
     name: 'name',
     role: 'role',
+    employmentType: 'employmentType',
     weeklyCapacityHours: 'weeklyCapacityHours',
     isActive: 'isActive',
     avatarUrl: 'avatarUrl',
@@ -117199,6 +117238,7 @@ export namespace Prisma {
     email: 'email',
     token: 'token',
     role: 'role',
+    employmentType: 'employmentType',
     grantedProjectIds: 'grantedProjectIds',
     expiresAt: 'expiresAt',
     acceptedAt: 'acceptedAt',
@@ -118295,6 +118335,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'EmploymentType'
+   */
+  export type EnumEmploymentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EmploymentType'>
+    
+
+
+  /**
+   * Reference to a field of type 'EmploymentType[]'
+   */
+  export type ListEnumEmploymentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EmploymentType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -118901,6 +118955,7 @@ export namespace Prisma {
     passwordHash?: StringNullableFilter<"User"> | string | null
     name?: StringNullableFilter<"User"> | string | null
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    employmentType?: EnumEmploymentTypeFilter<"User"> | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFilter<"User"> | number
     isActive?: BoolFilter<"User"> | boolean
     avatarUrl?: StringNullableFilter<"User"> | string | null
@@ -118979,6 +119034,7 @@ export namespace Prisma {
     passwordHash?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
     role?: SortOrder
+    employmentType?: SortOrder
     weeklyCapacityHours?: SortOrder
     isActive?: SortOrder
     avatarUrl?: SortOrderInput | SortOrder
@@ -119060,6 +119116,7 @@ export namespace Prisma {
     passwordHash?: StringNullableFilter<"User"> | string | null
     name?: StringNullableFilter<"User"> | string | null
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    employmentType?: EnumEmploymentTypeFilter<"User"> | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFilter<"User"> | number
     isActive?: BoolFilter<"User"> | boolean
     avatarUrl?: StringNullableFilter<"User"> | string | null
@@ -119138,6 +119195,7 @@ export namespace Prisma {
     passwordHash?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
     role?: SortOrder
+    employmentType?: SortOrder
     weeklyCapacityHours?: SortOrder
     isActive?: SortOrder
     avatarUrl?: SortOrderInput | SortOrder
@@ -119167,6 +119225,7 @@ export namespace Prisma {
     passwordHash?: StringNullableWithAggregatesFilter<"User"> | string | null
     name?: StringNullableWithAggregatesFilter<"User"> | string | null
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
+    employmentType?: EnumEmploymentTypeWithAggregatesFilter<"User"> | $Enums.EmploymentType
     weeklyCapacityHours?: FloatWithAggregatesFilter<"User"> | number
     isActive?: BoolWithAggregatesFilter<"User"> | boolean
     avatarUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -120088,6 +120147,7 @@ export namespace Prisma {
     email?: StringFilter<"Invite"> | string
     token?: StringFilter<"Invite"> | string
     role?: EnumRoleFilter<"Invite"> | $Enums.Role
+    employmentType?: EnumEmploymentTypeFilter<"Invite"> | $Enums.EmploymentType
     grantedProjectIds?: StringNullableListFilter<"Invite">
     expiresAt?: DateTimeFilter<"Invite"> | Date | string
     acceptedAt?: DateTimeNullableFilter<"Invite"> | Date | string | null
@@ -120099,6 +120159,7 @@ export namespace Prisma {
     email?: SortOrder
     token?: SortOrder
     role?: SortOrder
+    employmentType?: SortOrder
     grantedProjectIds?: SortOrder
     expiresAt?: SortOrder
     acceptedAt?: SortOrderInput | SortOrder
@@ -120113,6 +120174,7 @@ export namespace Prisma {
     NOT?: InviteWhereInput | InviteWhereInput[]
     email?: StringFilter<"Invite"> | string
     role?: EnumRoleFilter<"Invite"> | $Enums.Role
+    employmentType?: EnumEmploymentTypeFilter<"Invite"> | $Enums.EmploymentType
     grantedProjectIds?: StringNullableListFilter<"Invite">
     expiresAt?: DateTimeFilter<"Invite"> | Date | string
     acceptedAt?: DateTimeNullableFilter<"Invite"> | Date | string | null
@@ -120124,6 +120186,7 @@ export namespace Prisma {
     email?: SortOrder
     token?: SortOrder
     role?: SortOrder
+    employmentType?: SortOrder
     grantedProjectIds?: SortOrder
     expiresAt?: SortOrder
     acceptedAt?: SortOrderInput | SortOrder
@@ -120141,6 +120204,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"Invite"> | string
     token?: StringWithAggregatesFilter<"Invite"> | string
     role?: EnumRoleWithAggregatesFilter<"Invite"> | $Enums.Role
+    employmentType?: EnumEmploymentTypeWithAggregatesFilter<"Invite"> | $Enums.EmploymentType
     grantedProjectIds?: StringNullableListFilter<"Invite">
     expiresAt?: DateTimeWithAggregatesFilter<"Invite"> | Date | string
     acceptedAt?: DateTimeNullableWithAggregatesFilter<"Invite"> | Date | string | null
@@ -125709,6 +125773,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -125784,6 +125849,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -125859,6 +125925,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -125934,6 +126001,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -126009,6 +126077,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -126030,6 +126099,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -126048,6 +126118,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -126992,6 +127063,7 @@ export namespace Prisma {
     email: string
     token: string
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     grantedProjectIds?: InviteCreategrantedProjectIdsInput | string[]
     expiresAt: Date | string
     acceptedAt?: Date | string | null
@@ -127003,6 +127075,7 @@ export namespace Prisma {
     email: string
     token: string
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     grantedProjectIds?: InviteCreategrantedProjectIdsInput | string[]
     expiresAt: Date | string
     acceptedAt?: Date | string | null
@@ -127014,6 +127087,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     grantedProjectIds?: InviteUpdategrantedProjectIdsInput | string[]
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -127025,6 +127099,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     grantedProjectIds?: InviteUpdategrantedProjectIdsInput | string[]
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -127036,6 +127111,7 @@ export namespace Prisma {
     email: string
     token: string
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     grantedProjectIds?: InviteCreategrantedProjectIdsInput | string[]
     expiresAt: Date | string
     acceptedAt?: Date | string | null
@@ -127047,6 +127123,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     grantedProjectIds?: InviteUpdategrantedProjectIdsInput | string[]
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -127058,6 +127135,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     grantedProjectIds?: InviteUpdategrantedProjectIdsInput | string[]
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -132798,6 +132876,13 @@ export namespace Prisma {
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
+  export type EnumEmploymentTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.EmploymentType | EnumEmploymentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.EmploymentType[] | ListEnumEmploymentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EmploymentType[] | ListEnumEmploymentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumEmploymentTypeFilter<$PrismaModel> | $Enums.EmploymentType
+  }
+
   export type FloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -133349,6 +133434,7 @@ export namespace Prisma {
     passwordHash?: SortOrder
     name?: SortOrder
     role?: SortOrder
+    employmentType?: SortOrder
     weeklyCapacityHours?: SortOrder
     isActive?: SortOrder
     avatarUrl?: SortOrder
@@ -133375,6 +133461,7 @@ export namespace Prisma {
     passwordHash?: SortOrder
     name?: SortOrder
     role?: SortOrder
+    employmentType?: SortOrder
     weeklyCapacityHours?: SortOrder
     isActive?: SortOrder
     avatarUrl?: SortOrder
@@ -133396,6 +133483,7 @@ export namespace Prisma {
     passwordHash?: SortOrder
     name?: SortOrder
     role?: SortOrder
+    employmentType?: SortOrder
     weeklyCapacityHours?: SortOrder
     isActive?: SortOrder
     avatarUrl?: SortOrder
@@ -133460,6 +133548,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRoleFilter<$PrismaModel>
     _max?: NestedEnumRoleFilter<$PrismaModel>
+  }
+
+  export type EnumEmploymentTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.EmploymentType | EnumEmploymentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.EmploymentType[] | ListEnumEmploymentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EmploymentType[] | ListEnumEmploymentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumEmploymentTypeWithAggregatesFilter<$PrismaModel> | $Enums.EmploymentType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumEmploymentTypeFilter<$PrismaModel>
+    _max?: NestedEnumEmploymentTypeFilter<$PrismaModel>
   }
 
   export type FloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -134195,6 +134293,7 @@ export namespace Prisma {
     email?: SortOrder
     token?: SortOrder
     role?: SortOrder
+    employmentType?: SortOrder
     grantedProjectIds?: SortOrder
     expiresAt?: SortOrder
     acceptedAt?: SortOrder
@@ -134206,6 +134305,7 @@ export namespace Prisma {
     email?: SortOrder
     token?: SortOrder
     role?: SortOrder
+    employmentType?: SortOrder
     expiresAt?: SortOrder
     acceptedAt?: SortOrder
     createdAt?: SortOrder
@@ -134216,6 +134316,7 @@ export namespace Prisma {
     email?: SortOrder
     token?: SortOrder
     role?: SortOrder
+    employmentType?: SortOrder
     expiresAt?: SortOrder
     acceptedAt?: SortOrder
     createdAt?: SortOrder
@@ -138800,6 +138901,10 @@ export namespace Prisma {
 
   export type EnumRoleFieldUpdateOperationsInput = {
     set?: $Enums.Role
+  }
+
+  export type EnumEmploymentTypeFieldUpdateOperationsInput = {
+    set?: $Enums.EmploymentType
   }
 
   export type FloatFieldUpdateOperationsInput = {
@@ -147174,6 +147279,13 @@ export namespace Prisma {
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
+  export type NestedEnumEmploymentTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.EmploymentType | EnumEmploymentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.EmploymentType[] | ListEnumEmploymentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EmploymentType[] | ListEnumEmploymentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumEmploymentTypeFilter<$PrismaModel> | $Enums.EmploymentType
+  }
+
   export type NestedFloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -147283,6 +147395,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRoleFilter<$PrismaModel>
     _max?: NestedEnumRoleFilter<$PrismaModel>
+  }
+
+  export type NestedEnumEmploymentTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.EmploymentType | EnumEmploymentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.EmploymentType[] | ListEnumEmploymentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EmploymentType[] | ListEnumEmploymentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumEmploymentTypeWithAggregatesFilter<$PrismaModel> | $Enums.EmploymentType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumEmploymentTypeFilter<$PrismaModel>
+    _max?: NestedEnumEmploymentTypeFilter<$PrismaModel>
   }
 
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -149140,6 +149262,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -149214,6 +149337,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -149293,6 +149417,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -149367,6 +149492,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -151166,6 +151292,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -151240,6 +151367,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -151333,6 +151461,7 @@ export namespace Prisma {
     passwordHash?: StringNullableFilter<"User"> | string | null
     name?: StringNullableFilter<"User"> | string | null
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    employmentType?: EnumEmploymentTypeFilter<"User"> | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFilter<"User"> | number
     isActive?: BoolFilter<"User"> | boolean
     avatarUrl?: StringNullableFilter<"User"> | string | null
@@ -151996,6 +152125,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -152070,6 +152200,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -152443,6 +152574,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -152517,6 +152649,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -153126,6 +153259,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -153200,6 +153334,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -153486,6 +153621,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -153560,6 +153696,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -153851,6 +153988,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -153925,6 +154063,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -154114,6 +154253,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -154188,6 +154328,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -154262,6 +154403,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -154336,6 +154478,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -154569,6 +154712,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -154643,6 +154787,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -154853,6 +154998,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -154927,6 +155073,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -155028,6 +155175,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -155102,6 +155250,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -155181,6 +155330,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -155255,6 +155405,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -155345,6 +155496,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -155419,6 +155571,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -155504,6 +155657,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -155578,6 +155732,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -155652,6 +155807,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -155726,6 +155882,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -155816,6 +155973,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -155890,6 +156048,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -155964,6 +156123,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -156038,6 +156198,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -156128,6 +156289,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -156202,6 +156364,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -156276,6 +156439,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -156350,6 +156514,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -156440,6 +156605,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -156514,6 +156680,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -156681,6 +156848,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -156755,6 +156923,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -156944,6 +157113,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -157018,6 +157188,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -157845,6 +158016,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -157919,6 +158091,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -158761,6 +158934,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -158835,6 +159009,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -160732,6 +160907,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -160806,6 +160982,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -160995,6 +161172,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -161069,6 +161247,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -161236,6 +161415,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -161310,6 +161490,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -161499,6 +161680,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -161573,6 +161755,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -162140,6 +162323,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -162214,6 +162398,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -163087,6 +163272,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -163161,6 +163347,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -164095,6 +164282,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -164169,6 +164357,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -164354,6 +164543,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -164428,6 +164618,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -164591,6 +164782,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -164665,6 +164857,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -164850,6 +165043,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -164924,6 +165118,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -165087,6 +165282,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -165161,6 +165357,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -165366,6 +165563,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -165440,6 +165638,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -165551,6 +165750,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -165625,6 +165825,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -165742,6 +165943,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -165816,6 +166018,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -165979,6 +166182,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -166053,6 +166257,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -166238,6 +166443,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -166312,6 +166518,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -166479,6 +166686,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -166553,6 +166761,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -166790,6 +166999,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -166864,6 +167074,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -166980,6 +167191,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -167054,6 +167266,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -167144,6 +167357,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -167218,6 +167432,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -167292,6 +167507,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -167366,6 +167582,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -167456,6 +167673,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -167530,6 +167748,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -167604,6 +167823,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -167678,6 +167898,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -168049,6 +168270,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -168123,6 +168345,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -168202,6 +168425,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -168276,6 +168500,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -168392,6 +168617,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -168466,6 +168692,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -168867,6 +169094,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -168941,6 +169169,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -169026,6 +169255,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -169100,6 +169330,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -169339,6 +169570,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -169413,6 +169645,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -169538,6 +169771,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -169612,6 +169846,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -169733,6 +169968,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -169807,6 +170043,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -169950,6 +170187,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -170024,6 +170262,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -170098,6 +170337,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -170172,6 +170412,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -170251,6 +170492,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -170325,6 +170567,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -170415,6 +170658,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -170489,6 +170733,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -170574,6 +170819,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -170648,6 +170894,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -170773,6 +171020,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -170847,6 +171095,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -170960,6 +171209,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -171034,6 +171284,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -171130,6 +171381,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -171204,6 +171456,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -171374,6 +171627,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -171448,6 +171702,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -171687,6 +171942,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -171761,6 +172017,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -171851,6 +172108,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -171925,6 +172183,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -172182,6 +172441,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -172256,6 +172516,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -173252,6 +173513,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -173326,6 +173588,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -173606,6 +173869,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -173680,6 +173944,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -175103,6 +175368,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -175177,6 +175443,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -175314,6 +175581,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -175388,6 +175656,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -175491,6 +175760,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -175565,6 +175835,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -175690,6 +175961,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -175764,6 +176036,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -175931,6 +176204,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -176005,6 +176279,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -176366,6 +176641,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -176440,6 +176716,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -176690,6 +176967,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -176764,6 +177042,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -176947,6 +177226,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177021,6 +177301,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177194,6 +177475,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -177268,6 +177550,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -177385,6 +177668,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177459,6 +177743,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177566,6 +177851,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -177640,6 +177926,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -177760,6 +178047,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177834,6 +178122,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -177959,6 +178248,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -178033,6 +178323,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -178193,6 +178484,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -178267,6 +178559,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -178376,6 +178669,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -178450,6 +178744,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -178572,6 +178867,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -178646,6 +178942,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -179040,6 +179337,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -179114,6 +179412,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -179204,6 +179503,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -179278,6 +179578,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -179669,6 +179970,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -179743,6 +180045,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -179864,6 +180167,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -179938,6 +180242,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -180105,6 +180410,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -180179,6 +180485,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -180742,6 +181049,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -180816,6 +181124,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -182013,6 +182322,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -182087,6 +182397,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -182428,6 +182739,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -182502,6 +182814,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -183023,6 +183336,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -183097,6 +183411,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -183236,6 +183551,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -183310,6 +183626,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -183427,6 +183744,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -183501,6 +183819,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -183640,6 +183959,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -183714,6 +184034,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -183881,6 +184202,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -183955,6 +184277,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -184144,6 +184467,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -184218,6 +184542,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -184465,6 +184790,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -184539,6 +184865,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -184618,6 +184945,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -184692,6 +185020,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -185048,6 +185377,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -185122,6 +185452,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -185207,6 +185538,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -185281,6 +185613,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -185513,6 +185846,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -185587,6 +185921,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -185776,6 +186111,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -185850,6 +186186,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -185924,6 +186261,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -185998,6 +186336,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -186088,6 +186427,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -186162,6 +186502,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -186303,6 +186644,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -186377,6 +186719,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -186540,6 +186883,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -186614,6 +186958,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -186998,6 +187343,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -188316,6 +188662,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -188390,6 +188737,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -188464,6 +188812,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -189750,6 +190099,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -189777,6 +190127,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -189851,6 +190202,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -189925,6 +190277,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -192890,6 +193243,7 @@ export namespace Prisma {
     passwordHash?: string | null
     name?: string | null
     role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
     weeklyCapacityHours?: number
     isActive?: boolean
     avatarUrl?: string | null
@@ -192928,6 +193282,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -193002,6 +193357,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -193076,6 +193432,7 @@ export namespace Prisma {
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
     weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null

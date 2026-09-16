@@ -28,6 +28,7 @@ interface MemberUser {
   name: string | null;
   avatarUrl: string | null;
   role: string;
+  employmentType: string;
   isActive: boolean;
   internalCostRate: number | null;
   customRoleId: string | null;
@@ -213,6 +214,7 @@ export function MembersClient({
   const router = useRouter();
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviteRole, setInviteRole] = useState("member");
+  const [inviteEmploymentType, setInviteEmploymentType] = useState("employee");
   const [grantedProjectIds, setGrantedProjectIds] = useState<string[]>([]);
   const [inviteLink, setInviteLink] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -326,6 +328,7 @@ export function MembersClient({
       body: JSON.stringify({
         email: inviteEmail,
         role: inviteRole,
+        employmentType: inviteEmploymentType,
         grantedProjectIds: inviteRole === "client" ? grantedProjectIds : undefined,
       }),
     });
@@ -337,6 +340,21 @@ export function MembersClient({
     setInviteLink(data.inviteUrl);
     setInviteEmail("");
     setGrantedProjectIds([]);
+    router.refresh();
+  }
+
+  async function handleEmploymentTypeChange(userId: string, employmentType: string) {
+    setError(null);
+    const response = await fetch(`/api/tenant/users/${userId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ employmentType }),
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      setError(data.error ?? "Employment Type konnte nicht geändert werden.");
+      return;
+    }
     router.refresh();
   }
 
@@ -356,6 +374,7 @@ export function MembersClient({
               <TableHead>Name</TableHead>
               <TableHead>E-Mail</TableHead>
               <TableHead>Rolle</TableHead>
+              <TableHead>Typ</TableHead>
               {hasCustomRolesFeature && <TableHead>Custom Role</TableHead>}
               <TableHead>Status</TableHead>
               <TableHead>Interner Stundensatz</TableHead>
@@ -379,8 +398,8 @@ export function MembersClient({
                     <Select defaultValue={user.role} onValueChange={(value) => handleRoleChange(user.id, value)}>
                       <SelectTrigger className="w-32"><SelectValue /></SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="owner">owner</SelectItem>
-                        <SelectItem value="admin">admin</SelectItem>
+                        {user.employmentType !== "contractor" && <SelectItem value="owner">owner</SelectItem>}
+                        {user.employmentType !== "contractor" && <SelectItem value="admin">admin</SelectItem>}
                         <SelectItem value="member">member</SelectItem>
                       </SelectContent>
                     </Select>
@@ -388,9 +407,22 @@ export function MembersClient({
                     <LegendKey label={user.role} variant={ROLE_VARIANT[user.role] ?? "default"} />
                   )}
                 </TableCell>
+                <TableCell>
+                  {canManage && user.id !== currentUserId ? (
+                    <Select defaultValue={user.employmentType} onValueChange={(value) => handleEmploymentTypeChange(user.id, value)}>
+                      <SelectTrigger className="w-28"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="employee">Employee</SelectItem>
+                        <SelectItem value="contractor">Contractor</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  ) : (
+                    <span className="text-muted-foreground">{user.employmentType === "contractor" ? "Contractor" : "Employee"}</span>
+                  )}
+                </TableCell>
                 {hasCustomRolesFeature && (
                   <TableCell>
-                    {canManage ? (
+                    {canManage && user.employmentType !== "contractor" ? (
                       <Select defaultValue={user.customRoleId ?? "__none__"} onValueChange={(value) => handleCustomRoleChange(user.id, value)}>
                         <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
                         <SelectContent>
@@ -405,7 +437,7 @@ export function MembersClient({
                     ) : user.customRoleId && customRoles.find((role) => role.id === user.customRoleId) ? (
                       <LegendKey label={customRoles.find((role) => role.id === user.customRoleId)!.name} variant="started" />
                     ) : (
-                      <span className="text-muted-foreground">—</span>
+                      <span className="text-muted-foreground">{user.employmentType === "contractor" ? "Festes Profil" : "—"}</span>
                     )}
                   </TableCell>
                 )}
@@ -510,11 +542,29 @@ export function MembersClient({
                 <SelectTrigger id="invite-role" className="w-32"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="member">member</SelectItem>
-                  <SelectItem value="admin">admin</SelectItem>
+                  {inviteEmploymentType !== "contractor" && <SelectItem value="admin">admin</SelectItem>}
                   <SelectItem value="client">client</SelectItem>
                 </SelectContent>
               </Select>
             </div>
+            {inviteRole !== "client" && (
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="invite-employment-type">Typ</Label>
+                <Select
+                  value={inviteEmploymentType}
+                  onValueChange={(value) => {
+                    setInviteEmploymentType(value);
+                    if (value === "contractor" && inviteRole === "admin") setInviteRole("member");
+                  }}
+                >
+                  <SelectTrigger id="invite-employment-type" className="w-32"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="employee">Employee</SelectItem>
+                    <SelectItem value="contractor">Contractor</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
             <Button type="submit">Einladen</Button>
           </form>
 
