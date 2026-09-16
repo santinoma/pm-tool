@@ -3,7 +3,7 @@
 import { Fragment, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ChevronDown, Download, Lock, Plus, Rows3, Search, Sparkles, Upload, Zap } from "lucide-react";
+import { ChevronDown, ChevronUp, Download, Lock, Plus, Rows3, Search, Sparkles, Upload, Zap } from "lucide-react";
 import { LegendKey } from "@/ui/components/LegendKey";
 import { NewTaskModal, type NewTaskModalStatusOption, type NewTaskModalUserOption, type NewTaskModalCustomField, type NewTaskModalTaskOption } from "@/ui/components/NewTaskModal";
 import { CsvImportModal } from "@/ui/components/CsvImportModal";
@@ -28,9 +28,28 @@ const EMPTY_FILTER_GROUP: FilterGroup = { logic: "AND", rules: [] };
 // pattern (same data, switchable form).
 const ALL_COLUMNS = [
   { key: "assignee", label: "Assignee" },
+  { key: "startDate", label: "Start" },
   { key: "dueDate", label: "Fälligkeit" },
+  { key: "priority", label: "Priorität" },
 ] as const;
 type ColumnKey = (typeof ALL_COLUMNS)[number]["key"];
+
+const DEFAULT_COLUMN_ORDER: ColumnKey[] = ["assignee", "startDate", "dueDate", "priority"];
+const DEFAULT_VISIBLE_COLUMNS: Record<ColumnKey, boolean> = {
+  assignee: true,
+  startDate: false,
+  dueDate: true,
+  priority: false,
+};
+const COLUMN_LABEL: Record<ColumnKey, string> = Object.fromEntries(ALL_COLUMNS.map((c) => [c.key, c.label])) as Record<ColumnKey, string>;
+
+const PRIORITY_LABELS: Record<string, string> = {
+  no_priority: "—",
+  low: "Niedrig",
+  medium: "Mittel",
+  high: "Hoch",
+  urgent: "Dringend",
+};
 
 interface ListTask {
   id: string;
@@ -38,7 +57,9 @@ interface ListTask {
   status: string;
   statusCategory: string;
   assignee: string | null;
+  startDate: string | null;
   dueDate: string | null;
+  priority: string;
   isKeyTask: boolean;
   isPrivate: boolean;
   taskListGroupId: string | null;
@@ -53,6 +74,19 @@ type SortKey = "title" | "status" | "assignee" | "dueDate";
 type GroupKey = "status" | "list" | "none";
 
 const NO_LIST_KEY = "__no_list__";
+
+function renderColumnValue(key: ColumnKey, task: ListTask) {
+  switch (key) {
+    case "assignee":
+      return task.assignee ?? "—";
+    case "startDate":
+      return task.startDate ? new Date(task.startDate).toLocaleDateString("de-DE") : "—";
+    case "dueDate":
+      return task.dueDate ? new Date(task.dueDate).toLocaleDateString("de-DE") : "—";
+    case "priority":
+      return PRIORITY_LABELS[task.priority] ?? task.priority;
+  }
+}
 
 export function ListClient({
   projectId,
@@ -82,7 +116,19 @@ export function ListClient({
   const [groupBy, setGroupBy] = useState<GroupKey>("status");
   const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set());
   const [titleQuery, setTitleQuery] = useState("");
-  const [visibleColumns, setVisibleColumns] = useState<Record<ColumnKey, boolean>>({ assignee: true, dueDate: true });
+  const [visibleColumns, setVisibleColumns] = useState<Record<ColumnKey, boolean>>(DEFAULT_VISIBLE_COLUMNS);
+  const [columnOrder, setColumnOrder] = useState<ColumnKey[]>(DEFAULT_COLUMN_ORDER);
+
+  function moveColumn(key: ColumnKey, direction: -1 | 1) {
+    setColumnOrder((current) => {
+      const index = current.indexOf(key);
+      const targetIndex = index + direction;
+      if (index === -1 || targetIndex < 0 || targetIndex >= current.length) return current;
+      const next = [...current];
+      [next[index], next[targetIndex]] = [next[targetIndex], next[index]];
+      return next;
+    });
+  }
   // Quick Add (Cmd+K → "Neuer Task") navigiert hierher mit ?newTask=1, statt eine
   // zweite Task-Erstell-UI in der Command Palette nachzubauen — das öffnet direkt
   // den bestehenden NewTaskModal-Flow. Lazy initializer statt Effekt+setState,
@@ -119,6 +165,12 @@ export function ListClient({
       },
       { value: "isKeyTask", label: "Key Task", type: "boolean" },
       { value: "isPrivate", label: "Privat", type: "boolean" },
+      {
+        value: "priority",
+        label: "Priorität",
+        type: "select",
+        options: Object.entries(PRIORITY_LABELS).map(([value, label]) => ({ value, label })),
+      },
     ],
     [statuses, users],
   );
@@ -133,6 +185,8 @@ export function ListClient({
         return task.isKeyTask;
       case "isPrivate":
         return task.isPrivate;
+      case "priority":
+        return task.priority;
       default:
         return undefined;
     }
@@ -296,6 +350,18 @@ export function ListClient({
     if (typeof sortConfig.groupBy === "string") {
       setGroupBy(sortConfig.groupBy as GroupKey);
     }
+    if (Array.isArray(sortConfig.columnOrder)) {
+      const validKeys = sortConfig.columnOrder.filter((key): key is ColumnKey =>
+        ALL_COLUMNS.some((column) => column.key === key),
+      );
+      // A saved view predating a newly added column (e.g. "priority") would otherwise
+      // silently drop it — append any column missing from the persisted order.
+      const missing = DEFAULT_COLUMN_ORDER.filter((key) => !validKeys.includes(key));
+      setColumnOrder([...validKeys, ...missing]);
+    }
+    if (sortConfig.visibleColumns && typeof sortConfig.visibleColumns === "object") {
+      setVisibleColumns((current) => ({ ...current, ...(sortConfig.visibleColumns as Record<ColumnKey, boolean>) }));
+    }
   }
 
   return (
@@ -311,7 +377,7 @@ export function ListClient({
           getCurrentConfig={() => ({
             viewType: "list",
             filterConfig: filterGroup as unknown as Record<string, unknown>,
-            sortConfig: { sortKey, groupBy },
+            sortConfig: { sortKey, groupBy, columnOrder, visibleColumns },
           })}
           onApply={applySavedView}
         />
@@ -334,19 +400,37 @@ export function ListClient({
               Fields {Object.values(visibleColumns).filter(Boolean).length}
             </Button>
           </PopoverTrigger>
-          <PopoverContent align="end" className="w-52">
+          <PopoverContent align="end" className="w-64">
             <div className="mb-1.5 text-xs font-semibold tracking-wide text-muted-foreground uppercase">Sichtbare Felder</div>
-            <div className="flex flex-col gap-2">
-              {ALL_COLUMNS.map((column) => (
-                <label key={column.key} className="flex items-center gap-2 text-sm">
-                  <Checkbox
-                    checked={visibleColumns[column.key]}
-                    onCheckedChange={(checked) =>
-                      setVisibleColumns((current) => ({ ...current, [column.key]: checked === true }))
-                    }
-                  />
-                  {column.label}
-                </label>
+            <div className="flex flex-col gap-1">
+              {columnOrder.map((key, index) => (
+                <div key={key} className="flex items-center gap-1.5">
+                  <label className="flex flex-1 items-center gap-2 text-sm">
+                    <Checkbox
+                      checked={visibleColumns[key]}
+                      onCheckedChange={(checked) => setVisibleColumns((current) => ({ ...current, [key]: checked === true }))}
+                    />
+                    {COLUMN_LABEL[key]}
+                  </label>
+                  <Button
+                    variant="ghost"
+                    size="icon-sm"
+                    aria-label={`${COLUMN_LABEL[key]} nach oben`}
+                    disabled={index === 0}
+                    onClick={() => moveColumn(key, -1)}
+                  >
+                    <ChevronUp className="size-3.5" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon-sm"
+                    aria-label={`${COLUMN_LABEL[key]} nach unten`}
+                    disabled={index === columnOrder.length - 1}
+                    onClick={() => moveColumn(key, 1)}
+                  >
+                    <ChevronDown className="size-3.5" />
+                  </Button>
+                </div>
               ))}
             </div>
           </PopoverContent>
@@ -498,8 +582,9 @@ export function ListClient({
                 <TableHead className="w-10"></TableHead>
                 <TableHead>Titel</TableHead>
                 <TableHead>Status</TableHead>
-                {visibleColumns.assignee && <TableHead>Assignee</TableHead>}
-                {visibleColumns.dueDate && <TableHead>Fälligkeit</TableHead>}
+                {columnOrder.filter((key) => visibleColumns[key]).map((key) => (
+                  <TableHead key={key}>{COLUMN_LABEL[key]}</TableHead>
+                ))}
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -554,14 +639,13 @@ export function ListClient({
                           <TableCell>
                             <LegendKey label={task.status} category={task.statusCategory} />
                           </TableCell>
-                          {visibleColumns.assignee && (
-                            <TableCell className="text-muted-foreground">{task.assignee ?? "—"}</TableCell>
-                          )}
-                          {visibleColumns.dueDate && (
-                            <TableCell className="text-muted-foreground">
-                              {task.dueDate ? new Date(task.dueDate).toLocaleDateString("de-DE") : "—"}
-                            </TableCell>
-                          )}
+                          {columnOrder
+                            .filter((key) => visibleColumns[key])
+                            .map((key) => (
+                              <TableCell key={key} className="text-muted-foreground">
+                                {renderColumnValue(key, task)}
+                              </TableCell>
+                            ))}
                         </TableRow>
                       ))}
                   </Fragment>

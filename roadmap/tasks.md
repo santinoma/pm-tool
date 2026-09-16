@@ -38,7 +38,12 @@ Task weitermachen — nicht die ganze Phase anhalten.
       UI dafür bewusst zurückgestellt, bis mehr Felder das rechtfertigen).
       Alte `{statusFilter}`-SavedViews werden über `parseFilterConfig`
       rückwärtskompatibel gelesen.
-- [ ] T203 Spaltenkonfiguration (hinzufügen/entfernen/umsortieren)
+- [x] T203 Spaltenkonfiguration (hinzufügen/entfernen/umsortieren) — Fields-
+      Popover in ListClient.tsx um Auf/Ab-Reorder-Buttons erweitert, zwei
+      neue Spalten (Start, Priorität) ergänzt, Spaltenreihenfolge +
+      Sichtbarkeit in SavedView.sortConfig persistiert (rückwärtskompatibel:
+      fehlt eine neu hinzugekommene Spalte in einer alten SavedView, wird sie
+      angehängt statt zu verschwinden)
 - [ ] T204 `SavedView` auf Budgets ausweiten
 - [ ] T205 `SavedView` auf Zeit-Ansichten ausweiten
 - [ ] T206 Table-Layout als neuer Ansichtstyp

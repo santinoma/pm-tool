@@ -82,6 +82,8 @@ export default async function ListPage({ params }: { params: Promise<{ id: strin
           statusCategory: task.status.category,
           assignee: task.assignee?.name ?? task.assignee?.email ?? null,
           dueDate: task.dueDate ? task.dueDate.toISOString() : null,
+          startDate: task.startDate ? task.startDate.toISOString() : null,
+          priority: task.priority,
           isKeyTask: task.isKeyTask,
           isPrivate: task.isPrivate,
           taskListGroupId: task.taskListGroupId,
