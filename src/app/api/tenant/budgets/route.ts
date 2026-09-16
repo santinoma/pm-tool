@@ -87,7 +87,9 @@ export async function POST(request: Request) {
       where: { id: body.templateBudgetId },
       include: { sections: true },
     });
-    if (!template || !template.isTemplate || template.projectId !== body.projectId) {
+    // Productive Template Center: Vorlagen sind organisationsweit
+    // wiederverwendbar, nicht auf ihr Ursprungsprojekt beschränkt (T311).
+    if (!template || !template.isTemplate) {
       return NextResponse.json({ error: "Ungültige Budget-Vorlage." }, { status: 400 });
     }
     templateSections = template.sections;

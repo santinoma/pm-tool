@@ -53,6 +53,7 @@ function getGroups(locale: Locale) {
         { href: "/settings/time-tracking", label: t(locale, "settings.timeTracking.title"), desc: t(locale, "settings.timeTracking.desc"), icon: History },
         { href: "/settings/organization/service-types", label: t(locale, "settings.serviceTypes.title"), desc: t(locale, "settings.serviceTypes.desc"), icon: Tag },
         { href: "/settings/organization/rate-cards", label: t(locale, "settings.rateCards.title"), desc: t(locale, "settings.rateCards.desc"), icon: CreditCard },
+        { href: "/settings/organization/budget-templates", label: t(locale, "settings.budgetTemplates.title"), desc: t(locale, "settings.budgetTemplates.desc"), icon: CreditCard },
         { href: "/settings/organization/holiday-calendars", label: t(locale, "settings.holidayCalendars.title"), desc: t(locale, "settings.holidayCalendars.desc"), icon: CalendarDays },
         { href: "/settings/organization/recycle-bin", label: t(locale, "settings.recycleBin.title"), desc: t(locale, "settings.recycleBin.desc"), icon: Trash2, placeholder: true },
         { href: "/settings/organization/financial-month-closing", label: t(locale, "settings.financialMonthClosing.title"), desc: t(locale, "settings.financialMonthClosing.desc"), icon: Lock },

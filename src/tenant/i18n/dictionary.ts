@@ -168,6 +168,8 @@ const STRINGS = {
   "settings.recycleBin.desc": { de: "Finde und stelle gelöschte Elemente wieder her.", en: "Find and restore deleted items." },
   "settings.financialMonthClosing.title": { de: "Financial Month Closing", en: "Financial month closing" },
   "settings.financialMonthClosing.desc": { de: "Zeiteinträge, Ausgaben und Services abgeschlossener Monate sperren.", en: "Lock time entries, expenses and services for closed months." },
+  "settings.budgetTemplates.title": { de: "Budget Templates", en: "Budget templates" },
+  "settings.budgetTemplates.desc": { de: "Organisationsweiter Katalog wiederverwendbarer Budget-Vorlagen.", en: "Organization-wide catalog of reusable budget templates." },
 
   "settings.modules.title": { de: "Module", en: "Modules" },
   "settings.modules.desc": { de: "CRM, Reports und Resourcing organisationsweit aktivieren oder deaktivieren.", en: "Enable or disable CRM, Reports and Resourcing organization-wide." },

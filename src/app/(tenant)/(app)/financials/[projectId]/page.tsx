@@ -85,10 +85,12 @@ export default async function ProjectBudgetsPage({
       orderBy: { createdAt: "desc" },
     }),
     context.tenantDb.user.findMany({ orderBy: { email: "asc" } }),
+    // Productive Template Center: Budget-Vorlagen sind organisationsweit
+    // wiederverwendbar, nicht auf das Ursprungsprojekt beschränkt (T311).
     context.tenantDb.budget.findMany({
-      where: { projectId, isTemplate: true },
+      where: { isTemplate: true },
       orderBy: { title: "asc" },
-      select: { id: true, title: true },
+      select: { id: true, title: true, project: { select: { name: true } } },
     }),
     context.tenantDb.savedView.findMany({
       where: {
@@ -165,7 +167,7 @@ export default async function ProjectBudgetsPage({
           ),
         }))}
         users={users.map((u) => ({ id: u.id, label: u.name ?? u.email }))}
-        templates={templates.map((t) => ({ id: t.id, title: t.title }))}
+        templates={templates.map((t) => ({ id: t.id, title: t.title, projectName: t.project.name }))}
         savedViews={savedViews.map((view) => ({
           id: view.id,
           name: view.name,

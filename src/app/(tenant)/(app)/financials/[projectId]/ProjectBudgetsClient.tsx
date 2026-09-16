@@ -44,7 +44,7 @@ export function ProjectBudgetsClient({
   canManage: boolean;
   budgets: BudgetRow[];
   users: { id: string; label: string }[];
-  templates: { id: string; title: string }[];
+  templates: { id: string; title: string; projectName: string }[];
   savedViews?: SavedViewRecord[];
   currentUserId: string;
 }) {
@@ -209,7 +209,7 @@ export function ProjectBudgetsClient({
                   <SelectItem value="__none__">— keine Vorlage —</SelectItem>
                   {templates.map((template) => (
                     <SelectItem key={template.id} value={template.id}>
-                      {template.title}
+                      {template.title} ({template.projectName})
                     </SelectItem>
                   ))}
                 </SelectContent>

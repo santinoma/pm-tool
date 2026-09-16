@@ -161,7 +161,21 @@ Task weitermachen — nicht die ganze Phase anhalten.
       (`buildPercentageLineItems` in `generateInvoice.ts`, verdrahtet über
       `budgets/[id]/invoices/route.ts` als Invoicing-Methode "percentage").
       Im Audit übersehen/vor dieser Session entstanden. Kein neuer Code nötig.
-- [ ] T311 Budgets: Budget-Template-Center
+- [x] T311 Budgets: Budget-Template-Center — Kernlücke war, dass Vorlagen
+      (`Budget.isTemplate`) bislang strikt auf ihr Ursprungsprojekt
+      beschränkt waren (`template.projectId !== body.projectId` wurde
+      abgelehnt) und nur über ein Dropdown im jeweiligen Projekt sichtbar
+      waren — Productives Template Center ist dagegen organisationsweit.
+      Fix: `POST /api/tenant/budgets` erlaubt jetzt jede Vorlage unabhängig
+      vom Zielprojekt; neue Seite `/settings/organization/budget-templates`
+      listet ALLE Vorlagen org-weit (Titel/Ursprungsprojekt/Owner/
+      Service-Anzahl) mit Umbenennen/Löschen/"Verwenden" (Zielprojekt+Owner
+      wählen, Budget wird per bestehendem Template-Klon-Pfad erstellt).
+      Bewusst NICHT umgesetzt: "von Grund auf neu" direkt im Template
+      Center anlegen, ohne ein Startprojekt zu wählen — `Budget.projectId`
+      ist ein Pflichtfeld im Schema; das wäre eine strukturelle
+      Schema-Änderung (nullable projectId) und damit ein eigener, größerer
+      Umbau statt Teil dieser Lücken-Schließung.
 - [x] T312 Budgets: Financial Month Closing — `TenantSettings.financialMonthClosingEnabled/-Day`
       + `FinancialPeriodLock` (explizite Monats-Übersteuerung, gewinnt immer
       gegen die Auto-Regel); `src/tenant/financials/monthClosing.ts`
