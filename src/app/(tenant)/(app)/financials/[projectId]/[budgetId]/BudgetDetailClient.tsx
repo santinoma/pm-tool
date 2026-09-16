@@ -883,6 +883,7 @@ export function BudgetDetailClient({
   timeEntries,
   invoicesTab,
   retainerBurnTab,
+  approvalPolicies,
 }: {
   projectId: string;
   canManage: boolean;
@@ -898,6 +899,7 @@ export function BudgetDetailClient({
     isTemplate: boolean;
     scenarioOf: { id: string; title: string } | null;
     deliveredAt: string | null;
+    approvalPolicyId: string | null;
   };
   sections: Section[];
   users: UserOption[];
@@ -910,6 +912,7 @@ export function BudgetDetailClient({
   timeEntries: TimeEntryRow[];
   invoicesTab: ReactNode;
   retainerBurnTab: ReactNode;
+  approvalPolicies: { id: string; name: string }[];
 }) {
   const router = useRouter();
   const [tab, setTab] = useState<TabKey>("services");
@@ -920,6 +923,7 @@ export function BudgetDetailClient({
   const [isTemplate, setIsTemplate] = useState(budget.isTemplate);
   const [promoting, setPromoting] = useState(false);
   const [deliverBusy, setDeliverBusy] = useState(false);
+  const [approvalPolicyId, setApprovalPolicyId] = useState(budget.approvalPolicyId ?? "__none__");
 
   function onSaved() {
     router.refresh();
@@ -937,6 +941,16 @@ export function BudgetDetailClient({
       }),
     });
     setEditingHeader(false);
+    onSaved();
+  }
+
+  async function handleApprovalPolicyChange(value: string) {
+    setApprovalPolicyId(value);
+    await fetch(`/api/tenant/budgets/${budget.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ approvalPolicyId: value === "__none__" ? null : value }),
+    });
     onSaved();
   }
 
@@ -1006,6 +1020,24 @@ export function BudgetDetailClient({
           <p className="text-xs text-muted-foreground">
             {budget.startDate ?? "—"} – {budget.endDate ?? "—"}
           </p>
+          <div className="mt-1.5 flex items-center gap-2 text-xs text-muted-foreground">
+            Genehmigung:
+            {canManage ? (
+              <Select value={approvalPolicyId} onValueChange={handleApprovalPolicyChange}>
+                <SelectTrigger className="h-6 w-56 text-xs"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="__none__">Keine Policy (jeder Owner/Admin genehmigt)</SelectItem>
+                  {approvalPolicies.map((policy) => (
+                    <SelectItem key={policy.id} value={policy.id}>
+                      {policy.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            ) : (
+              <span>{approvalPolicies.find((p) => p.id === approvalPolicyId)?.name ?? "Keine Policy"}</span>
+            )}
+          </div>
           {budget.deliveredAt && (
             <Badge variant="primaryOutline" className="mt-2">
               Geliefert am {new Date(budget.deliveredAt).toLocaleDateString("de-DE")}

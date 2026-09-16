@@ -15,17 +15,20 @@ interface TimeTrackingPolicyState {
 export function TimeTrackingSettingsClient({
   allowProjectLevelTimeEntries,
   timeTrackingMode,
+  timeApprovalEnabled,
   isPrivileged,
   policy,
 }: {
   allowProjectLevelTimeEntries: boolean;
   timeTrackingMode: "timer" | "entries";
+  timeApprovalEnabled: boolean;
   isPrivileged: boolean;
   policy: TimeTrackingPolicyState | null;
 }) {
   const router = useRouter();
   const [checked, setChecked] = useState(allowProjectLevelTimeEntries);
   const [mode, setMode] = useState(timeTrackingMode);
+  const [approvalEnabled, setApprovalEnabled] = useState(timeApprovalEnabled);
   const [saving, setSaving] = useState(false);
 
   const [maxDailyHours, setMaxDailyHours] = useState(
@@ -98,6 +101,11 @@ export function TimeTrackingSettingsClient({
     await patch({ allowProjectLevelTimeEntries: nextChecked });
   }
 
+  async function handleApprovalEnabledChange(nextChecked: boolean) {
+    setApprovalEnabled(nextChecked);
+    await patch({ timeApprovalEnabled: nextChecked });
+  }
+
   return (
     <div className="mx-auto max-w-xl pb-10">
       <h1 className="mb-8 text-2xl font-bold tracking-tight">Zeiterfassung – Einstellungen</h1>
@@ -126,10 +134,27 @@ export function TimeTrackingSettingsClient({
         </Label>
       </fieldset>
 
-      <Label className="flex items-center gap-3 font-normal">
+      <Label className="mb-6 flex items-center gap-3 font-normal">
         <Checkbox checked={checked} disabled={saving} onCheckedChange={(value) => handleAllowChange(value === true)} />
         Zeitbuchung auch direkt auf Projektebene erlauben (ohne konkreten Task)
       </Label>
+
+      {isPrivileged && (
+        <div className="mb-8">
+          <Label className="mb-2 flex items-center gap-3 font-normal">
+            <Checkbox checked={approvalEnabled} disabled={saving} onCheckedChange={(value) => handleApprovalEnabledChange(value === true)} />
+            Time Approval aktivieren
+          </Label>
+          <p className="text-sm text-muted-foreground">
+            Wenn aktiviert, kann pro Budget festgelegt werden, wer Zeiteinträge genehmigen muss, bevor sie
+            anerkannt und abrechenbar werden — siehe{" "}
+            <a href="/settings/organization/approval-policies" className="text-primary hover:underline">
+              Approval Policies
+            </a>
+            .
+          </p>
+        </div>
+      )}
 
       {isPrivileged && policy && (
         <>

@@ -5,8 +5,10 @@ import { useRouter } from "next/navigation";
 
 import { Badge } from "@/ui/shadcn/components/badge";
 import { Button } from "@/ui/shadcn/components/button";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/ui/shadcn/components/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/shadcn/components/tabs";
+import { Textarea } from "@/ui/shadcn/components/textarea";
 
 interface TimeEntryRow {
   id: string;
@@ -61,10 +63,15 @@ export function ApprovalsClient({
 }) {
   const router = useRouter();
   const [pendingIds, setPendingIds] = useState<Set<string>>(new Set());
+  const [rejectTarget, setRejectTarget] = useState<string | null>(null);
+  const [rejectReason, setRejectReason] = useState("");
 
-  async function handleAction(url: string, id: string) {
+  async function handleAction(url: string, id: string, body?: unknown) {
     setPendingIds((current) => new Set(current).add(id));
-    const response = await fetch(url, { method: "PATCH" });
+    const response = await fetch(url, {
+      method: "PATCH",
+      ...(body !== undefined ? { headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) } : {}),
+    });
     setPendingIds((current) => {
       const next = new Set(current);
       next.delete(id);
@@ -73,6 +80,13 @@ export function ApprovalsClient({
     if (response.ok) {
       router.refresh();
     }
+  }
+
+  async function confirmRejectTimeEntry() {
+    if (!rejectTarget) return;
+    await handleAction(`/api/tenant/time-entries/${rejectTarget}/reject`, rejectTarget, { reason: rejectReason.trim() || undefined });
+    setRejectTarget(null);
+    setRejectReason("");
   }
 
   async function handleAbsenceAction(id: string, status: "approved" | "rejected") {
@@ -137,9 +151,9 @@ export function ApprovalsClient({
                             size="sm"
                             variant="outline"
                             disabled={pendingIds.has(entry.id)}
-                            onClick={() => handleAction(`/api/tenant/time-entries/${entry.id}/reject`, entry.id)}
+                            onClick={() => setRejectTarget(entry.id)}
                           >
-                            Ablehnen
+                            Änderung anfordern
                           </Button>
                           <Button
                             size="sm"
@@ -261,6 +275,28 @@ export function ApprovalsClient({
           )}
         </TabsContent>
       </Tabs>
+
+      <Dialog open={rejectTarget !== null} onOpenChange={(open) => !open && setRejectTarget(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Änderung anfordern</DialogTitle>
+          </DialogHeader>
+          <Textarea
+            value={rejectReason}
+            onChange={(event) => setRejectReason(event.target.value)}
+            placeholder="Grund (optional) — die Person sieht diesen Text bei ihrem Eintrag."
+            rows={3}
+          />
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setRejectTarget(null)}>
+              Abbrechen
+            </Button>
+            <Button onClick={confirmRejectTimeEntry} disabled={rejectTarget !== null && pendingIds.has(rejectTarget)}>
+              Anfordern
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

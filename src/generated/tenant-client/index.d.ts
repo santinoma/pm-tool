@@ -224,6 +224,21 @@ export type PendingLogin = $Result.DefaultSelection<Prisma.$PendingLoginPayload>
  */
 export type TimeEntry = $Result.DefaultSelection<Prisma.$TimeEntryPayload>
 /**
+ * Model ApprovalPolicy
+ * 
+ */
+export type ApprovalPolicy = $Result.DefaultSelection<Prisma.$ApprovalPolicyPayload>
+/**
+ * Model ApprovalPolicyApprover
+ * 
+ */
+export type ApprovalPolicyApprover = $Result.DefaultSelection<Prisma.$ApprovalPolicyApproverPayload>
+/**
+ * Model TimeEntryApproverDecision
+ * 
+ */
+export type TimeEntryApproverDecision = $Result.DefaultSelection<Prisma.$TimeEntryApproverDecisionPayload>
+/**
  * Model TimesheetLock
  * 
  */
@@ -554,6 +569,42 @@ export const TimeEntryApprovalStatus: {
 export type TimeEntryApprovalStatus = (typeof TimeEntryApprovalStatus)[keyof typeof TimeEntryApprovalStatus]
 
 
+export const ApprovalMode: {
+  any: 'any',
+  all: 'all',
+  none: 'none'
+};
+
+export type ApprovalMode = (typeof ApprovalMode)[keyof typeof ApprovalMode]
+
+
+export const ApproverRoleType: {
+  budget_owner: 'budget_owner',
+  project_manager: 'project_manager',
+  submitter_manager: 'submitter_manager',
+  specific_person: 'specific_person'
+};
+
+export type ApproverRoleType = (typeof ApproverRoleType)[keyof typeof ApproverRoleType]
+
+
+export const ApprovalKind: {
+  time: 'time',
+  expense: 'expense'
+};
+
+export type ApprovalKind = (typeof ApprovalKind)[keyof typeof ApprovalKind]
+
+
+export const ApprovalDecisionStatus: {
+  pending: 'pending',
+  approved: 'approved',
+  rejected: 'rejected'
+};
+
+export type ApprovalDecisionStatus = (typeof ApprovalDecisionStatus)[keyof typeof ApprovalDecisionStatus]
+
+
 export const CustomFieldType: {
   text: 'text',
   number: 'number',
@@ -789,6 +840,22 @@ export const TimeTrackingMode: typeof $Enums.TimeTrackingMode
 export type TimeEntryApprovalStatus = $Enums.TimeEntryApprovalStatus
 
 export const TimeEntryApprovalStatus: typeof $Enums.TimeEntryApprovalStatus
+
+export type ApprovalMode = $Enums.ApprovalMode
+
+export const ApprovalMode: typeof $Enums.ApprovalMode
+
+export type ApproverRoleType = $Enums.ApproverRoleType
+
+export const ApproverRoleType: typeof $Enums.ApproverRoleType
+
+export type ApprovalKind = $Enums.ApprovalKind
+
+export const ApprovalKind: typeof $Enums.ApprovalKind
+
+export type ApprovalDecisionStatus = $Enums.ApprovalDecisionStatus
+
+export const ApprovalDecisionStatus: typeof $Enums.ApprovalDecisionStatus
 
 export type CustomFieldType = $Enums.CustomFieldType
 
@@ -1402,6 +1469,36 @@ export class PrismaClient<
     * ```
     */
   get timeEntry(): Prisma.TimeEntryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.approvalPolicy`: Exposes CRUD operations for the **ApprovalPolicy** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ApprovalPolicies
+    * const approvalPolicies = await prisma.approvalPolicy.findMany()
+    * ```
+    */
+  get approvalPolicy(): Prisma.ApprovalPolicyDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.approvalPolicyApprover`: Exposes CRUD operations for the **ApprovalPolicyApprover** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ApprovalPolicyApprovers
+    * const approvalPolicyApprovers = await prisma.approvalPolicyApprover.findMany()
+    * ```
+    */
+  get approvalPolicyApprover(): Prisma.ApprovalPolicyApproverDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.timeEntryApproverDecision`: Exposes CRUD operations for the **TimeEntryApproverDecision** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TimeEntryApproverDecisions
+    * const timeEntryApproverDecisions = await prisma.timeEntryApproverDecision.findMany()
+    * ```
+    */
+  get timeEntryApproverDecision(): Prisma.TimeEntryApproverDecisionDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.timesheetLock`: Exposes CRUD operations for the **TimesheetLock** model.
@@ -2301,6 +2398,9 @@ export namespace Prisma {
     TenantSettings: 'TenantSettings',
     PendingLogin: 'PendingLogin',
     TimeEntry: 'TimeEntry',
+    ApprovalPolicy: 'ApprovalPolicy',
+    ApprovalPolicyApprover: 'ApprovalPolicyApprover',
+    TimeEntryApproverDecision: 'TimeEntryApproverDecision',
     TimesheetLock: 'TimesheetLock',
     TimeTrackingPolicy: 'TimeTrackingPolicy',
     HolidayCalendar: 'HolidayCalendar',
@@ -2357,7 +2457,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "client" | "clientContact" | "pipeline" | "dealStatus" | "lostReason" | "deal" | "projectMember" | "customRole" | "projectRoleOverride" | "absenceRequest" | "session" | "favorite" | "auditLogEntry" | "invite" | "projectClientAccess" | "slackCaptureConfig" | "project" | "taskFolder" | "taskListGroup" | "baseline" | "baselineTaskSnapshot" | "portfolio" | "goal" | "cycle" | "transitionRule" | "sharedView" | "savedView" | "workflow" | "workflowStatus" | "task" | "tag" | "taskTag" | "taskSubscriber" | "todo" | "comment" | "mention" | "attachment" | "wikiPage" | "tenantSettings" | "pendingLogin" | "timeEntry" | "timesheetLock" | "timeTrackingPolicy" | "holidayCalendar" | "holiday" | "resourceBooking" | "taskProject" | "taskDependency" | "taskLink" | "customFieldDef" | "projectCustomField" | "customFieldValue" | "budgetCustomFieldValue" | "wikiPageCustomFieldValue" | "sharedWikiLink" | "activityEvent" | "notificationPreference" | "notification" | "automationRule" | "automationAction" | "dashboard" | "dashboardWidget" | "webhookEndpoint" | "ssoConfig" | "apiKey" | "webhookDelivery" | "checkInSchedule" | "checkInResponse" | "budget" | "serviceType" | "budgetSection" | "rateCard" | "rateCardItem" | "invoice" | "invoiceLineItem" | "invoicePayment" | "creditNote" | "meeting" | "expense" | "purchaseOrder" | "savedReport" | "budgetSectionAssignee"
+      modelProps: "user" | "client" | "clientContact" | "pipeline" | "dealStatus" | "lostReason" | "deal" | "projectMember" | "customRole" | "projectRoleOverride" | "absenceRequest" | "session" | "favorite" | "auditLogEntry" | "invite" | "projectClientAccess" | "slackCaptureConfig" | "project" | "taskFolder" | "taskListGroup" | "baseline" | "baselineTaskSnapshot" | "portfolio" | "goal" | "cycle" | "transitionRule" | "sharedView" | "savedView" | "workflow" | "workflowStatus" | "task" | "tag" | "taskTag" | "taskSubscriber" | "todo" | "comment" | "mention" | "attachment" | "wikiPage" | "tenantSettings" | "pendingLogin" | "timeEntry" | "approvalPolicy" | "approvalPolicyApprover" | "timeEntryApproverDecision" | "timesheetLock" | "timeTrackingPolicy" | "holidayCalendar" | "holiday" | "resourceBooking" | "taskProject" | "taskDependency" | "taskLink" | "customFieldDef" | "projectCustomField" | "customFieldValue" | "budgetCustomFieldValue" | "wikiPageCustomFieldValue" | "sharedWikiLink" | "activityEvent" | "notificationPreference" | "notification" | "automationRule" | "automationAction" | "dashboard" | "dashboardWidget" | "webhookEndpoint" | "ssoConfig" | "apiKey" | "webhookDelivery" | "checkInSchedule" | "checkInResponse" | "budget" | "serviceType" | "budgetSection" | "rateCard" | "rateCardItem" | "invoice" | "invoiceLineItem" | "invoicePayment" | "creditNote" | "meeting" | "expense" | "purchaseOrder" | "savedReport" | "budgetSectionAssignee"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5466,6 +5566,228 @@ export namespace Prisma {
           count: {
             args: Prisma.TimeEntryCountArgs<ExtArgs>
             result: $Utils.Optional<TimeEntryCountAggregateOutputType> | number
+          }
+        }
+      }
+      ApprovalPolicy: {
+        payload: Prisma.$ApprovalPolicyPayload<ExtArgs>
+        fields: Prisma.ApprovalPolicyFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ApprovalPolicyFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPolicyPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ApprovalPolicyFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPolicyPayload>
+          }
+          findFirst: {
+            args: Prisma.ApprovalPolicyFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPolicyPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ApprovalPolicyFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPolicyPayload>
+          }
+          findMany: {
+            args: Prisma.ApprovalPolicyFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPolicyPayload>[]
+          }
+          create: {
+            args: Prisma.ApprovalPolicyCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPolicyPayload>
+          }
+          createMany: {
+            args: Prisma.ApprovalPolicyCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ApprovalPolicyCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPolicyPayload>[]
+          }
+          delete: {
+            args: Prisma.ApprovalPolicyDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPolicyPayload>
+          }
+          update: {
+            args: Prisma.ApprovalPolicyUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPolicyPayload>
+          }
+          deleteMany: {
+            args: Prisma.ApprovalPolicyDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ApprovalPolicyUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ApprovalPolicyUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPolicyPayload>[]
+          }
+          upsert: {
+            args: Prisma.ApprovalPolicyUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPolicyPayload>
+          }
+          aggregate: {
+            args: Prisma.ApprovalPolicyAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateApprovalPolicy>
+          }
+          groupBy: {
+            args: Prisma.ApprovalPolicyGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ApprovalPolicyGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ApprovalPolicyCountArgs<ExtArgs>
+            result: $Utils.Optional<ApprovalPolicyCountAggregateOutputType> | number
+          }
+        }
+      }
+      ApprovalPolicyApprover: {
+        payload: Prisma.$ApprovalPolicyApproverPayload<ExtArgs>
+        fields: Prisma.ApprovalPolicyApproverFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ApprovalPolicyApproverFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPolicyApproverPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ApprovalPolicyApproverFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPolicyApproverPayload>
+          }
+          findFirst: {
+            args: Prisma.ApprovalPolicyApproverFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPolicyApproverPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ApprovalPolicyApproverFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPolicyApproverPayload>
+          }
+          findMany: {
+            args: Prisma.ApprovalPolicyApproverFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPolicyApproverPayload>[]
+          }
+          create: {
+            args: Prisma.ApprovalPolicyApproverCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPolicyApproverPayload>
+          }
+          createMany: {
+            args: Prisma.ApprovalPolicyApproverCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ApprovalPolicyApproverCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPolicyApproverPayload>[]
+          }
+          delete: {
+            args: Prisma.ApprovalPolicyApproverDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPolicyApproverPayload>
+          }
+          update: {
+            args: Prisma.ApprovalPolicyApproverUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPolicyApproverPayload>
+          }
+          deleteMany: {
+            args: Prisma.ApprovalPolicyApproverDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ApprovalPolicyApproverUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ApprovalPolicyApproverUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPolicyApproverPayload>[]
+          }
+          upsert: {
+            args: Prisma.ApprovalPolicyApproverUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ApprovalPolicyApproverPayload>
+          }
+          aggregate: {
+            args: Prisma.ApprovalPolicyApproverAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateApprovalPolicyApprover>
+          }
+          groupBy: {
+            args: Prisma.ApprovalPolicyApproverGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ApprovalPolicyApproverGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ApprovalPolicyApproverCountArgs<ExtArgs>
+            result: $Utils.Optional<ApprovalPolicyApproverCountAggregateOutputType> | number
+          }
+        }
+      }
+      TimeEntryApproverDecision: {
+        payload: Prisma.$TimeEntryApproverDecisionPayload<ExtArgs>
+        fields: Prisma.TimeEntryApproverDecisionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TimeEntryApproverDecisionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeEntryApproverDecisionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TimeEntryApproverDecisionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeEntryApproverDecisionPayload>
+          }
+          findFirst: {
+            args: Prisma.TimeEntryApproverDecisionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeEntryApproverDecisionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TimeEntryApproverDecisionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeEntryApproverDecisionPayload>
+          }
+          findMany: {
+            args: Prisma.TimeEntryApproverDecisionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeEntryApproverDecisionPayload>[]
+          }
+          create: {
+            args: Prisma.TimeEntryApproverDecisionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeEntryApproverDecisionPayload>
+          }
+          createMany: {
+            args: Prisma.TimeEntryApproverDecisionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TimeEntryApproverDecisionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeEntryApproverDecisionPayload>[]
+          }
+          delete: {
+            args: Prisma.TimeEntryApproverDecisionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeEntryApproverDecisionPayload>
+          }
+          update: {
+            args: Prisma.TimeEntryApproverDecisionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeEntryApproverDecisionPayload>
+          }
+          deleteMany: {
+            args: Prisma.TimeEntryApproverDecisionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TimeEntryApproverDecisionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TimeEntryApproverDecisionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeEntryApproverDecisionPayload>[]
+          }
+          upsert: {
+            args: Prisma.TimeEntryApproverDecisionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TimeEntryApproverDecisionPayload>
+          }
+          aggregate: {
+            args: Prisma.TimeEntryApproverDecisionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTimeEntryApproverDecision>
+          }
+          groupBy: {
+            args: Prisma.TimeEntryApproverDecisionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TimeEntryApproverDecisionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TimeEntryApproverDecisionCountArgs<ExtArgs>
+            result: $Utils.Optional<TimeEntryApproverDecisionCountAggregateOutputType> | number
           }
         }
       }
@@ -8668,6 +8990,9 @@ export namespace Prisma {
     tenantSettings?: TenantSettingsOmit
     pendingLogin?: PendingLoginOmit
     timeEntry?: TimeEntryOmit
+    approvalPolicy?: ApprovalPolicyOmit
+    approvalPolicyApprover?: ApprovalPolicyApproverOmit
+    timeEntryApproverDecision?: TimeEntryApproverDecisionOmit
     timesheetLock?: TimesheetLockOmit
     timeTrackingPolicy?: TimeTrackingPolicyOmit
     holidayCalendar?: HolidayCalendarOmit
@@ -8838,6 +9163,8 @@ export namespace Prisma {
     createdWikiPages: number
     accountOwnedClients: number
     ownedDeals: number
+    approvalPolicyApprovals: number
+    timeEntryApproverDecisions: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8890,6 +9217,8 @@ export namespace Prisma {
     createdWikiPages?: boolean | UserCountOutputTypeCountCreatedWikiPagesArgs
     accountOwnedClients?: boolean | UserCountOutputTypeCountAccountOwnedClientsArgs
     ownedDeals?: boolean | UserCountOutputTypeCountOwnedDealsArgs
+    approvalPolicyApprovals?: boolean | UserCountOutputTypeCountApprovalPolicyApprovalsArgs
+    timeEntryApproverDecisions?: boolean | UserCountOutputTypeCountTimeEntryApproverDecisionsArgs
   }
 
   // Custom InputTypes
@@ -9244,6 +9573,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountOwnedDealsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DealWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountApprovalPolicyApprovalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ApprovalPolicyApproverWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountTimeEntryApproverDecisionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TimeEntryApproverDecisionWhereInput
   }
 
 
@@ -10216,6 +10559,77 @@ export namespace Prisma {
 
 
   /**
+   * Count Type TimeEntryCountOutputType
+   */
+
+  export type TimeEntryCountOutputType = {
+    approverDecisions: number
+  }
+
+  export type TimeEntryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    approverDecisions?: boolean | TimeEntryCountOutputTypeCountApproverDecisionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TimeEntryCountOutputType without action
+   */
+  export type TimeEntryCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntryCountOutputType
+     */
+    select?: TimeEntryCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TimeEntryCountOutputType without action
+   */
+  export type TimeEntryCountOutputTypeCountApproverDecisionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TimeEntryApproverDecisionWhereInput
+  }
+
+
+  /**
+   * Count Type ApprovalPolicyCountOutputType
+   */
+
+  export type ApprovalPolicyCountOutputType = {
+    approvers: number
+    budgets: number
+  }
+
+  export type ApprovalPolicyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    approvers?: boolean | ApprovalPolicyCountOutputTypeCountApproversArgs
+    budgets?: boolean | ApprovalPolicyCountOutputTypeCountBudgetsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ApprovalPolicyCountOutputType without action
+   */
+  export type ApprovalPolicyCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicyCountOutputType
+     */
+    select?: ApprovalPolicyCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ApprovalPolicyCountOutputType without action
+   */
+  export type ApprovalPolicyCountOutputTypeCountApproversArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ApprovalPolicyApproverWhereInput
+  }
+
+  /**
+   * ApprovalPolicyCountOutputType without action
+   */
+  export type ApprovalPolicyCountOutputTypeCountBudgetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BudgetWhereInput
+  }
+
+
+  /**
    * Count Type HolidayCalendarCountOutputType
    */
 
@@ -11102,6 +11516,8 @@ export namespace Prisma {
     createdWikiPages?: boolean | User$createdWikiPagesArgs<ExtArgs>
     accountOwnedClients?: boolean | User$accountOwnedClientsArgs<ExtArgs>
     ownedDeals?: boolean | User$ownedDealsArgs<ExtArgs>
+    approvalPolicyApprovals?: boolean | User$approvalPolicyApprovalsArgs<ExtArgs>
+    timeEntryApproverDecisions?: boolean | User$timeEntryApproverDecisionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -11228,6 +11644,8 @@ export namespace Prisma {
     createdWikiPages?: boolean | User$createdWikiPagesArgs<ExtArgs>
     accountOwnedClients?: boolean | User$accountOwnedClientsArgs<ExtArgs>
     ownedDeals?: boolean | User$ownedDealsArgs<ExtArgs>
+    approvalPolicyApprovals?: boolean | User$approvalPolicyApprovalsArgs<ExtArgs>
+    timeEntryApproverDecisions?: boolean | User$timeEntryApproverDecisionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11296,6 +11714,8 @@ export namespace Prisma {
       createdWikiPages: Prisma.$WikiPagePayload<ExtArgs>[]
       accountOwnedClients: Prisma.$ClientPayload<ExtArgs>[]
       ownedDeals: Prisma.$DealPayload<ExtArgs>[]
+      approvalPolicyApprovals: Prisma.$ApprovalPolicyApproverPayload<ExtArgs>[]
+      timeEntryApproverDecisions: Prisma.$TimeEntryApproverDecisionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -11762,6 +12182,8 @@ export namespace Prisma {
     createdWikiPages<T extends User$createdWikiPagesArgs<ExtArgs> = {}>(args?: Subset<T, User$createdWikiPagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WikiPagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     accountOwnedClients<T extends User$accountOwnedClientsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountOwnedClientsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     ownedDeals<T extends User$ownedDealsArgs<ExtArgs> = {}>(args?: Subset<T, User$ownedDealsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    approvalPolicyApprovals<T extends User$approvalPolicyApprovalsArgs<ExtArgs> = {}>(args?: Subset<T, User$approvalPolicyApprovalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApprovalPolicyApproverPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    timeEntryApproverDecisions<T extends User$timeEntryApproverDecisionsArgs<ExtArgs> = {}>(args?: Subset<T, User$timeEntryApproverDecisionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeEntryApproverDecisionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13440,6 +13862,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: DealScalarFieldEnum | DealScalarFieldEnum[]
+  }
+
+  /**
+   * User.approvalPolicyApprovals
+   */
+  export type User$approvalPolicyApprovalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicyApprover
+     */
+    select?: ApprovalPolicyApproverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicyApprover
+     */
+    omit?: ApprovalPolicyApproverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyApproverInclude<ExtArgs> | null
+    where?: ApprovalPolicyApproverWhereInput
+    orderBy?: ApprovalPolicyApproverOrderByWithRelationInput | ApprovalPolicyApproverOrderByWithRelationInput[]
+    cursor?: ApprovalPolicyApproverWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ApprovalPolicyApproverScalarFieldEnum | ApprovalPolicyApproverScalarFieldEnum[]
+  }
+
+  /**
+   * User.timeEntryApproverDecisions
+   */
+  export type User$timeEntryApproverDecisionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntryApproverDecision
+     */
+    select?: TimeEntryApproverDecisionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntryApproverDecision
+     */
+    omit?: TimeEntryApproverDecisionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryApproverDecisionInclude<ExtArgs> | null
+    where?: TimeEntryApproverDecisionWhereInput
+    orderBy?: TimeEntryApproverDecisionOrderByWithRelationInput | TimeEntryApproverDecisionOrderByWithRelationInput[]
+    cursor?: TimeEntryApproverDecisionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TimeEntryApproverDecisionScalarFieldEnum | TimeEntryApproverDecisionScalarFieldEnum[]
   }
 
   /**
@@ -57428,6 +57898,7 @@ export namespace Prisma {
     crmEnabled: boolean | null
     reportsEnabled: boolean | null
     resourcingEnabled: boolean | null
+    timeApprovalEnabled: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -57443,6 +57914,7 @@ export namespace Prisma {
     crmEnabled: boolean | null
     reportsEnabled: boolean | null
     resourcingEnabled: boolean | null
+    timeApprovalEnabled: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -57458,6 +57930,7 @@ export namespace Prisma {
     crmEnabled: number
     reportsEnabled: number
     resourcingEnabled: number
+    timeApprovalEnabled: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -57475,6 +57948,7 @@ export namespace Prisma {
     crmEnabled?: true
     reportsEnabled?: true
     resourcingEnabled?: true
+    timeApprovalEnabled?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -57490,6 +57964,7 @@ export namespace Prisma {
     crmEnabled?: true
     reportsEnabled?: true
     resourcingEnabled?: true
+    timeApprovalEnabled?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -57505,6 +57980,7 @@ export namespace Prisma {
     crmEnabled?: true
     reportsEnabled?: true
     resourcingEnabled?: true
+    timeApprovalEnabled?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -57593,6 +58069,7 @@ export namespace Prisma {
     crmEnabled: boolean
     reportsEnabled: boolean
     resourcingEnabled: boolean
+    timeApprovalEnabled: boolean
     createdAt: Date
     updatedAt: Date
     _count: TenantSettingsCountAggregateOutputType | null
@@ -57625,6 +58102,7 @@ export namespace Prisma {
     crmEnabled?: boolean
     reportsEnabled?: boolean
     resourcingEnabled?: boolean
+    timeApprovalEnabled?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["tenantSettings"]>
@@ -57640,6 +58118,7 @@ export namespace Prisma {
     crmEnabled?: boolean
     reportsEnabled?: boolean
     resourcingEnabled?: boolean
+    timeApprovalEnabled?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["tenantSettings"]>
@@ -57655,6 +58134,7 @@ export namespace Prisma {
     crmEnabled?: boolean
     reportsEnabled?: boolean
     resourcingEnabled?: boolean
+    timeApprovalEnabled?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["tenantSettings"]>
@@ -57670,11 +58150,12 @@ export namespace Prisma {
     crmEnabled?: boolean
     reportsEnabled?: boolean
     resourcingEnabled?: boolean
+    timeApprovalEnabled?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TenantSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "allowProjectLevelTimeEntries" | "currency" | "triageEnabled" | "timeTrackingMode" | "require2fa" | "scimBearerToken" | "crmEnabled" | "reportsEnabled" | "resourcingEnabled" | "createdAt" | "updatedAt", ExtArgs["result"]["tenantSettings"]>
+  export type TenantSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "allowProjectLevelTimeEntries" | "currency" | "triageEnabled" | "timeTrackingMode" | "require2fa" | "scimBearerToken" | "crmEnabled" | "reportsEnabled" | "resourcingEnabled" | "timeApprovalEnabled" | "createdAt" | "updatedAt", ExtArgs["result"]["tenantSettings"]>
 
   export type $TenantSettingsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "TenantSettings"
@@ -57690,6 +58171,7 @@ export namespace Prisma {
       crmEnabled: boolean
       reportsEnabled: boolean
       resourcingEnabled: boolean
+      timeApprovalEnabled: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["tenantSettings"]>
@@ -58125,6 +58607,7 @@ export namespace Prisma {
     readonly crmEnabled: FieldRef<"TenantSettings", 'Boolean'>
     readonly reportsEnabled: FieldRef<"TenantSettings", 'Boolean'>
     readonly resourcingEnabled: FieldRef<"TenantSettings", 'Boolean'>
+    readonly timeApprovalEnabled: FieldRef<"TenantSettings", 'Boolean'>
     readonly createdAt: FieldRef<"TenantSettings", 'DateTime'>
     readonly updatedAt: FieldRef<"TenantSettings", 'DateTime'>
   }
@@ -59588,6 +60071,7 @@ export namespace Prisma {
     approvedAt: Date | null
     loggedForUserId: string | null
     submittedAt: Date | null
+    rejectionReason: string | null
   }
 
   export type TimeEntryMaxAggregateOutputType = {
@@ -59608,6 +60092,7 @@ export namespace Prisma {
     approvedAt: Date | null
     loggedForUserId: string | null
     submittedAt: Date | null
+    rejectionReason: string | null
   }
 
   export type TimeEntryCountAggregateOutputType = {
@@ -59628,6 +60113,7 @@ export namespace Prisma {
     approvedAt: number
     loggedForUserId: number
     submittedAt: number
+    rejectionReason: number
     _all: number
   }
 
@@ -59660,6 +60146,7 @@ export namespace Prisma {
     approvedAt?: true
     loggedForUserId?: true
     submittedAt?: true
+    rejectionReason?: true
   }
 
   export type TimeEntryMaxAggregateInputType = {
@@ -59680,6 +60167,7 @@ export namespace Prisma {
     approvedAt?: true
     loggedForUserId?: true
     submittedAt?: true
+    rejectionReason?: true
   }
 
   export type TimeEntryCountAggregateInputType = {
@@ -59700,6 +60188,7 @@ export namespace Prisma {
     approvedAt?: true
     loggedForUserId?: true
     submittedAt?: true
+    rejectionReason?: true
     _all?: true
   }
 
@@ -59807,6 +60296,7 @@ export namespace Prisma {
     approvedAt: Date | null
     loggedForUserId: string | null
     submittedAt: Date | null
+    rejectionReason: string | null
     _count: TimeEntryCountAggregateOutputType | null
     _avg: TimeEntryAvgAggregateOutputType | null
     _sum: TimeEntrySumAggregateOutputType | null
@@ -59846,6 +60336,7 @@ export namespace Prisma {
     approvedAt?: boolean
     loggedForUserId?: boolean
     submittedAt?: boolean
+    rejectionReason?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     task?: boolean | TimeEntry$taskArgs<ExtArgs>
     project?: boolean | TimeEntry$projectArgs<ExtArgs>
@@ -59853,6 +60344,8 @@ export namespace Prisma {
     invoice?: boolean | TimeEntry$invoiceArgs<ExtArgs>
     approvedBy?: boolean | TimeEntry$approvedByArgs<ExtArgs>
     loggedForUser?: boolean | TimeEntry$loggedForUserArgs<ExtArgs>
+    approverDecisions?: boolean | TimeEntry$approverDecisionsArgs<ExtArgs>
+    _count?: boolean | TimeEntryCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["timeEntry"]>
 
   export type TimeEntrySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -59873,6 +60366,7 @@ export namespace Prisma {
     approvedAt?: boolean
     loggedForUserId?: boolean
     submittedAt?: boolean
+    rejectionReason?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     task?: boolean | TimeEntry$taskArgs<ExtArgs>
     project?: boolean | TimeEntry$projectArgs<ExtArgs>
@@ -59900,6 +60394,7 @@ export namespace Prisma {
     approvedAt?: boolean
     loggedForUserId?: boolean
     submittedAt?: boolean
+    rejectionReason?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     task?: boolean | TimeEntry$taskArgs<ExtArgs>
     project?: boolean | TimeEntry$projectArgs<ExtArgs>
@@ -59927,9 +60422,10 @@ export namespace Prisma {
     approvedAt?: boolean
     loggedForUserId?: boolean
     submittedAt?: boolean
+    rejectionReason?: boolean
   }
 
-  export type TimeEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "taskId" | "projectId" | "budgetSectionId" | "amount" | "description" | "startedAt" | "endedAt" | "durationMinutes" | "createdAt" | "invoiceId" | "approvalStatus" | "approvedById" | "approvedAt" | "loggedForUserId" | "submittedAt", ExtArgs["result"]["timeEntry"]>
+  export type TimeEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "taskId" | "projectId" | "budgetSectionId" | "amount" | "description" | "startedAt" | "endedAt" | "durationMinutes" | "createdAt" | "invoiceId" | "approvalStatus" | "approvedById" | "approvedAt" | "loggedForUserId" | "submittedAt" | "rejectionReason", ExtArgs["result"]["timeEntry"]>
   export type TimeEntryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     task?: boolean | TimeEntry$taskArgs<ExtArgs>
@@ -59938,6 +60434,8 @@ export namespace Prisma {
     invoice?: boolean | TimeEntry$invoiceArgs<ExtArgs>
     approvedBy?: boolean | TimeEntry$approvedByArgs<ExtArgs>
     loggedForUser?: boolean | TimeEntry$loggedForUserArgs<ExtArgs>
+    approverDecisions?: boolean | TimeEntry$approverDecisionsArgs<ExtArgs>
+    _count?: boolean | TimeEntryCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TimeEntryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -59968,6 +60466,7 @@ export namespace Prisma {
       invoice: Prisma.$InvoicePayload<ExtArgs> | null
       approvedBy: Prisma.$UserPayload<ExtArgs> | null
       loggedForUser: Prisma.$UserPayload<ExtArgs> | null
+      approverDecisions: Prisma.$TimeEntryApproverDecisionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -59987,6 +60486,7 @@ export namespace Prisma {
       approvedAt: Date | null
       loggedForUserId: string | null
       submittedAt: Date | null
+      rejectionReason: string | null
     }, ExtArgs["result"]["timeEntry"]>
     composites: {}
   }
@@ -60388,6 +60888,7 @@ export namespace Prisma {
     invoice<T extends TimeEntry$invoiceArgs<ExtArgs> = {}>(args?: Subset<T, TimeEntry$invoiceArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     approvedBy<T extends TimeEntry$approvedByArgs<ExtArgs> = {}>(args?: Subset<T, TimeEntry$approvedByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     loggedForUser<T extends TimeEntry$loggedForUserArgs<ExtArgs> = {}>(args?: Subset<T, TimeEntry$loggedForUserArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    approverDecisions<T extends TimeEntry$approverDecisionsArgs<ExtArgs> = {}>(args?: Subset<T, TimeEntry$approverDecisionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeEntryApproverDecisionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -60434,6 +60935,7 @@ export namespace Prisma {
     readonly approvedAt: FieldRef<"TimeEntry", 'DateTime'>
     readonly loggedForUserId: FieldRef<"TimeEntry", 'String'>
     readonly submittedAt: FieldRef<"TimeEntry", 'DateTime'>
+    readonly rejectionReason: FieldRef<"TimeEntry", 'String'>
   }
     
 
@@ -60949,6 +61451,30 @@ export namespace Prisma {
   }
 
   /**
+   * TimeEntry.approverDecisions
+   */
+  export type TimeEntry$approverDecisionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntryApproverDecision
+     */
+    select?: TimeEntryApproverDecisionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntryApproverDecision
+     */
+    omit?: TimeEntryApproverDecisionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryApproverDecisionInclude<ExtArgs> | null
+    where?: TimeEntryApproverDecisionWhereInput
+    orderBy?: TimeEntryApproverDecisionOrderByWithRelationInput | TimeEntryApproverDecisionOrderByWithRelationInput[]
+    cursor?: TimeEntryApproverDecisionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TimeEntryApproverDecisionScalarFieldEnum | TimeEntryApproverDecisionScalarFieldEnum[]
+  }
+
+  /**
    * TimeEntry without action
    */
   export type TimeEntryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -60964,6 +61490,3322 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: TimeEntryInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ApprovalPolicy
+   */
+
+  export type AggregateApprovalPolicy = {
+    _count: ApprovalPolicyCountAggregateOutputType | null
+    _min: ApprovalPolicyMinAggregateOutputType | null
+    _max: ApprovalPolicyMaxAggregateOutputType | null
+  }
+
+  export type ApprovalPolicyMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    description: string | null
+    timeApprovalMode: $Enums.ApprovalMode | null
+    expenseApprovalMode: $Enums.ApprovalMode | null
+    isDefault: boolean | null
+    archived: boolean | null
+    createdAt: Date | null
+  }
+
+  export type ApprovalPolicyMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    description: string | null
+    timeApprovalMode: $Enums.ApprovalMode | null
+    expenseApprovalMode: $Enums.ApprovalMode | null
+    isDefault: boolean | null
+    archived: boolean | null
+    createdAt: Date | null
+  }
+
+  export type ApprovalPolicyCountAggregateOutputType = {
+    id: number
+    name: number
+    description: number
+    timeApprovalMode: number
+    expenseApprovalMode: number
+    isDefault: number
+    archived: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ApprovalPolicyMinAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    timeApprovalMode?: true
+    expenseApprovalMode?: true
+    isDefault?: true
+    archived?: true
+    createdAt?: true
+  }
+
+  export type ApprovalPolicyMaxAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    timeApprovalMode?: true
+    expenseApprovalMode?: true
+    isDefault?: true
+    archived?: true
+    createdAt?: true
+  }
+
+  export type ApprovalPolicyCountAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    timeApprovalMode?: true
+    expenseApprovalMode?: true
+    isDefault?: true
+    archived?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ApprovalPolicyAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ApprovalPolicy to aggregate.
+     */
+    where?: ApprovalPolicyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApprovalPolicies to fetch.
+     */
+    orderBy?: ApprovalPolicyOrderByWithRelationInput | ApprovalPolicyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ApprovalPolicyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApprovalPolicies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApprovalPolicies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ApprovalPolicies
+    **/
+    _count?: true | ApprovalPolicyCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ApprovalPolicyMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ApprovalPolicyMaxAggregateInputType
+  }
+
+  export type GetApprovalPolicyAggregateType<T extends ApprovalPolicyAggregateArgs> = {
+        [P in keyof T & keyof AggregateApprovalPolicy]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateApprovalPolicy[P]>
+      : GetScalarType<T[P], AggregateApprovalPolicy[P]>
+  }
+
+
+
+
+  export type ApprovalPolicyGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ApprovalPolicyWhereInput
+    orderBy?: ApprovalPolicyOrderByWithAggregationInput | ApprovalPolicyOrderByWithAggregationInput[]
+    by: ApprovalPolicyScalarFieldEnum[] | ApprovalPolicyScalarFieldEnum
+    having?: ApprovalPolicyScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ApprovalPolicyCountAggregateInputType | true
+    _min?: ApprovalPolicyMinAggregateInputType
+    _max?: ApprovalPolicyMaxAggregateInputType
+  }
+
+  export type ApprovalPolicyGroupByOutputType = {
+    id: string
+    name: string
+    description: string | null
+    timeApprovalMode: $Enums.ApprovalMode
+    expenseApprovalMode: $Enums.ApprovalMode
+    isDefault: boolean
+    archived: boolean
+    createdAt: Date
+    _count: ApprovalPolicyCountAggregateOutputType | null
+    _min: ApprovalPolicyMinAggregateOutputType | null
+    _max: ApprovalPolicyMaxAggregateOutputType | null
+  }
+
+  type GetApprovalPolicyGroupByPayload<T extends ApprovalPolicyGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ApprovalPolicyGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ApprovalPolicyGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ApprovalPolicyGroupByOutputType[P]>
+            : GetScalarType<T[P], ApprovalPolicyGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ApprovalPolicySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    timeApprovalMode?: boolean
+    expenseApprovalMode?: boolean
+    isDefault?: boolean
+    archived?: boolean
+    createdAt?: boolean
+    approvers?: boolean | ApprovalPolicy$approversArgs<ExtArgs>
+    budgets?: boolean | ApprovalPolicy$budgetsArgs<ExtArgs>
+    _count?: boolean | ApprovalPolicyCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["approvalPolicy"]>
+
+  export type ApprovalPolicySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    timeApprovalMode?: boolean
+    expenseApprovalMode?: boolean
+    isDefault?: boolean
+    archived?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["approvalPolicy"]>
+
+  export type ApprovalPolicySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    timeApprovalMode?: boolean
+    expenseApprovalMode?: boolean
+    isDefault?: boolean
+    archived?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["approvalPolicy"]>
+
+  export type ApprovalPolicySelectScalar = {
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    timeApprovalMode?: boolean
+    expenseApprovalMode?: boolean
+    isDefault?: boolean
+    archived?: boolean
+    createdAt?: boolean
+  }
+
+  export type ApprovalPolicyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "timeApprovalMode" | "expenseApprovalMode" | "isDefault" | "archived" | "createdAt", ExtArgs["result"]["approvalPolicy"]>
+  export type ApprovalPolicyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    approvers?: boolean | ApprovalPolicy$approversArgs<ExtArgs>
+    budgets?: boolean | ApprovalPolicy$budgetsArgs<ExtArgs>
+    _count?: boolean | ApprovalPolicyCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ApprovalPolicyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type ApprovalPolicyIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $ApprovalPolicyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ApprovalPolicy"
+    objects: {
+      approvers: Prisma.$ApprovalPolicyApproverPayload<ExtArgs>[]
+      budgets: Prisma.$BudgetPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      description: string | null
+      timeApprovalMode: $Enums.ApprovalMode
+      expenseApprovalMode: $Enums.ApprovalMode
+      isDefault: boolean
+      archived: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["approvalPolicy"]>
+    composites: {}
+  }
+
+  type ApprovalPolicyGetPayload<S extends boolean | null | undefined | ApprovalPolicyDefaultArgs> = $Result.GetResult<Prisma.$ApprovalPolicyPayload, S>
+
+  type ApprovalPolicyCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ApprovalPolicyFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ApprovalPolicyCountAggregateInputType | true
+    }
+
+  export interface ApprovalPolicyDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ApprovalPolicy'], meta: { name: 'ApprovalPolicy' } }
+    /**
+     * Find zero or one ApprovalPolicy that matches the filter.
+     * @param {ApprovalPolicyFindUniqueArgs} args - Arguments to find a ApprovalPolicy
+     * @example
+     * // Get one ApprovalPolicy
+     * const approvalPolicy = await prisma.approvalPolicy.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ApprovalPolicyFindUniqueArgs>(args: SelectSubset<T, ApprovalPolicyFindUniqueArgs<ExtArgs>>): Prisma__ApprovalPolicyClient<$Result.GetResult<Prisma.$ApprovalPolicyPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ApprovalPolicy that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ApprovalPolicyFindUniqueOrThrowArgs} args - Arguments to find a ApprovalPolicy
+     * @example
+     * // Get one ApprovalPolicy
+     * const approvalPolicy = await prisma.approvalPolicy.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ApprovalPolicyFindUniqueOrThrowArgs>(args: SelectSubset<T, ApprovalPolicyFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ApprovalPolicyClient<$Result.GetResult<Prisma.$ApprovalPolicyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ApprovalPolicy that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApprovalPolicyFindFirstArgs} args - Arguments to find a ApprovalPolicy
+     * @example
+     * // Get one ApprovalPolicy
+     * const approvalPolicy = await prisma.approvalPolicy.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ApprovalPolicyFindFirstArgs>(args?: SelectSubset<T, ApprovalPolicyFindFirstArgs<ExtArgs>>): Prisma__ApprovalPolicyClient<$Result.GetResult<Prisma.$ApprovalPolicyPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ApprovalPolicy that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApprovalPolicyFindFirstOrThrowArgs} args - Arguments to find a ApprovalPolicy
+     * @example
+     * // Get one ApprovalPolicy
+     * const approvalPolicy = await prisma.approvalPolicy.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ApprovalPolicyFindFirstOrThrowArgs>(args?: SelectSubset<T, ApprovalPolicyFindFirstOrThrowArgs<ExtArgs>>): Prisma__ApprovalPolicyClient<$Result.GetResult<Prisma.$ApprovalPolicyPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ApprovalPolicies that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApprovalPolicyFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ApprovalPolicies
+     * const approvalPolicies = await prisma.approvalPolicy.findMany()
+     * 
+     * // Get first 10 ApprovalPolicies
+     * const approvalPolicies = await prisma.approvalPolicy.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const approvalPolicyWithIdOnly = await prisma.approvalPolicy.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ApprovalPolicyFindManyArgs>(args?: SelectSubset<T, ApprovalPolicyFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApprovalPolicyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ApprovalPolicy.
+     * @param {ApprovalPolicyCreateArgs} args - Arguments to create a ApprovalPolicy.
+     * @example
+     * // Create one ApprovalPolicy
+     * const ApprovalPolicy = await prisma.approvalPolicy.create({
+     *   data: {
+     *     // ... data to create a ApprovalPolicy
+     *   }
+     * })
+     * 
+     */
+    create<T extends ApprovalPolicyCreateArgs>(args: SelectSubset<T, ApprovalPolicyCreateArgs<ExtArgs>>): Prisma__ApprovalPolicyClient<$Result.GetResult<Prisma.$ApprovalPolicyPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ApprovalPolicies.
+     * @param {ApprovalPolicyCreateManyArgs} args - Arguments to create many ApprovalPolicies.
+     * @example
+     * // Create many ApprovalPolicies
+     * const approvalPolicy = await prisma.approvalPolicy.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ApprovalPolicyCreateManyArgs>(args?: SelectSubset<T, ApprovalPolicyCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ApprovalPolicies and returns the data saved in the database.
+     * @param {ApprovalPolicyCreateManyAndReturnArgs} args - Arguments to create many ApprovalPolicies.
+     * @example
+     * // Create many ApprovalPolicies
+     * const approvalPolicy = await prisma.approvalPolicy.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ApprovalPolicies and only return the `id`
+     * const approvalPolicyWithIdOnly = await prisma.approvalPolicy.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ApprovalPolicyCreateManyAndReturnArgs>(args?: SelectSubset<T, ApprovalPolicyCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApprovalPolicyPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ApprovalPolicy.
+     * @param {ApprovalPolicyDeleteArgs} args - Arguments to delete one ApprovalPolicy.
+     * @example
+     * // Delete one ApprovalPolicy
+     * const ApprovalPolicy = await prisma.approvalPolicy.delete({
+     *   where: {
+     *     // ... filter to delete one ApprovalPolicy
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ApprovalPolicyDeleteArgs>(args: SelectSubset<T, ApprovalPolicyDeleteArgs<ExtArgs>>): Prisma__ApprovalPolicyClient<$Result.GetResult<Prisma.$ApprovalPolicyPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ApprovalPolicy.
+     * @param {ApprovalPolicyUpdateArgs} args - Arguments to update one ApprovalPolicy.
+     * @example
+     * // Update one ApprovalPolicy
+     * const approvalPolicy = await prisma.approvalPolicy.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ApprovalPolicyUpdateArgs>(args: SelectSubset<T, ApprovalPolicyUpdateArgs<ExtArgs>>): Prisma__ApprovalPolicyClient<$Result.GetResult<Prisma.$ApprovalPolicyPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ApprovalPolicies.
+     * @param {ApprovalPolicyDeleteManyArgs} args - Arguments to filter ApprovalPolicies to delete.
+     * @example
+     * // Delete a few ApprovalPolicies
+     * const { count } = await prisma.approvalPolicy.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ApprovalPolicyDeleteManyArgs>(args?: SelectSubset<T, ApprovalPolicyDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ApprovalPolicies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApprovalPolicyUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ApprovalPolicies
+     * const approvalPolicy = await prisma.approvalPolicy.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ApprovalPolicyUpdateManyArgs>(args: SelectSubset<T, ApprovalPolicyUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ApprovalPolicies and returns the data updated in the database.
+     * @param {ApprovalPolicyUpdateManyAndReturnArgs} args - Arguments to update many ApprovalPolicies.
+     * @example
+     * // Update many ApprovalPolicies
+     * const approvalPolicy = await prisma.approvalPolicy.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ApprovalPolicies and only return the `id`
+     * const approvalPolicyWithIdOnly = await prisma.approvalPolicy.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ApprovalPolicyUpdateManyAndReturnArgs>(args: SelectSubset<T, ApprovalPolicyUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApprovalPolicyPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ApprovalPolicy.
+     * @param {ApprovalPolicyUpsertArgs} args - Arguments to update or create a ApprovalPolicy.
+     * @example
+     * // Update or create a ApprovalPolicy
+     * const approvalPolicy = await prisma.approvalPolicy.upsert({
+     *   create: {
+     *     // ... data to create a ApprovalPolicy
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ApprovalPolicy we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ApprovalPolicyUpsertArgs>(args: SelectSubset<T, ApprovalPolicyUpsertArgs<ExtArgs>>): Prisma__ApprovalPolicyClient<$Result.GetResult<Prisma.$ApprovalPolicyPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ApprovalPolicies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApprovalPolicyCountArgs} args - Arguments to filter ApprovalPolicies to count.
+     * @example
+     * // Count the number of ApprovalPolicies
+     * const count = await prisma.approvalPolicy.count({
+     *   where: {
+     *     // ... the filter for the ApprovalPolicies we want to count
+     *   }
+     * })
+    **/
+    count<T extends ApprovalPolicyCountArgs>(
+      args?: Subset<T, ApprovalPolicyCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ApprovalPolicyCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ApprovalPolicy.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApprovalPolicyAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ApprovalPolicyAggregateArgs>(args: Subset<T, ApprovalPolicyAggregateArgs>): Prisma.PrismaPromise<GetApprovalPolicyAggregateType<T>>
+
+    /**
+     * Group by ApprovalPolicy.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApprovalPolicyGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ApprovalPolicyGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ApprovalPolicyGroupByArgs['orderBy'] }
+        : { orderBy?: ApprovalPolicyGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ApprovalPolicyGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetApprovalPolicyGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ApprovalPolicy model
+   */
+  readonly fields: ApprovalPolicyFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ApprovalPolicy.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ApprovalPolicyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    approvers<T extends ApprovalPolicy$approversArgs<ExtArgs> = {}>(args?: Subset<T, ApprovalPolicy$approversArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApprovalPolicyApproverPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    budgets<T extends ApprovalPolicy$budgetsArgs<ExtArgs> = {}>(args?: Subset<T, ApprovalPolicy$budgetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BudgetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ApprovalPolicy model
+   */
+  interface ApprovalPolicyFieldRefs {
+    readonly id: FieldRef<"ApprovalPolicy", 'String'>
+    readonly name: FieldRef<"ApprovalPolicy", 'String'>
+    readonly description: FieldRef<"ApprovalPolicy", 'String'>
+    readonly timeApprovalMode: FieldRef<"ApprovalPolicy", 'ApprovalMode'>
+    readonly expenseApprovalMode: FieldRef<"ApprovalPolicy", 'ApprovalMode'>
+    readonly isDefault: FieldRef<"ApprovalPolicy", 'Boolean'>
+    readonly archived: FieldRef<"ApprovalPolicy", 'Boolean'>
+    readonly createdAt: FieldRef<"ApprovalPolicy", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ApprovalPolicy findUnique
+   */
+  export type ApprovalPolicyFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicy
+     */
+    select?: ApprovalPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicy
+     */
+    omit?: ApprovalPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which ApprovalPolicy to fetch.
+     */
+    where: ApprovalPolicyWhereUniqueInput
+  }
+
+  /**
+   * ApprovalPolicy findUniqueOrThrow
+   */
+  export type ApprovalPolicyFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicy
+     */
+    select?: ApprovalPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicy
+     */
+    omit?: ApprovalPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which ApprovalPolicy to fetch.
+     */
+    where: ApprovalPolicyWhereUniqueInput
+  }
+
+  /**
+   * ApprovalPolicy findFirst
+   */
+  export type ApprovalPolicyFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicy
+     */
+    select?: ApprovalPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicy
+     */
+    omit?: ApprovalPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which ApprovalPolicy to fetch.
+     */
+    where?: ApprovalPolicyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApprovalPolicies to fetch.
+     */
+    orderBy?: ApprovalPolicyOrderByWithRelationInput | ApprovalPolicyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ApprovalPolicies.
+     */
+    cursor?: ApprovalPolicyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApprovalPolicies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApprovalPolicies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ApprovalPolicies.
+     */
+    distinct?: ApprovalPolicyScalarFieldEnum | ApprovalPolicyScalarFieldEnum[]
+  }
+
+  /**
+   * ApprovalPolicy findFirstOrThrow
+   */
+  export type ApprovalPolicyFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicy
+     */
+    select?: ApprovalPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicy
+     */
+    omit?: ApprovalPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which ApprovalPolicy to fetch.
+     */
+    where?: ApprovalPolicyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApprovalPolicies to fetch.
+     */
+    orderBy?: ApprovalPolicyOrderByWithRelationInput | ApprovalPolicyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ApprovalPolicies.
+     */
+    cursor?: ApprovalPolicyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApprovalPolicies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApprovalPolicies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ApprovalPolicies.
+     */
+    distinct?: ApprovalPolicyScalarFieldEnum | ApprovalPolicyScalarFieldEnum[]
+  }
+
+  /**
+   * ApprovalPolicy findMany
+   */
+  export type ApprovalPolicyFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicy
+     */
+    select?: ApprovalPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicy
+     */
+    omit?: ApprovalPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which ApprovalPolicies to fetch.
+     */
+    where?: ApprovalPolicyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApprovalPolicies to fetch.
+     */
+    orderBy?: ApprovalPolicyOrderByWithRelationInput | ApprovalPolicyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ApprovalPolicies.
+     */
+    cursor?: ApprovalPolicyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApprovalPolicies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApprovalPolicies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ApprovalPolicies.
+     */
+    distinct?: ApprovalPolicyScalarFieldEnum | ApprovalPolicyScalarFieldEnum[]
+  }
+
+  /**
+   * ApprovalPolicy create
+   */
+  export type ApprovalPolicyCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicy
+     */
+    select?: ApprovalPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicy
+     */
+    omit?: ApprovalPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ApprovalPolicy.
+     */
+    data: XOR<ApprovalPolicyCreateInput, ApprovalPolicyUncheckedCreateInput>
+  }
+
+  /**
+   * ApprovalPolicy createMany
+   */
+  export type ApprovalPolicyCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ApprovalPolicies.
+     */
+    data: ApprovalPolicyCreateManyInput | ApprovalPolicyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ApprovalPolicy createManyAndReturn
+   */
+  export type ApprovalPolicyCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicy
+     */
+    select?: ApprovalPolicySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicy
+     */
+    omit?: ApprovalPolicyOmit<ExtArgs> | null
+    /**
+     * The data used to create many ApprovalPolicies.
+     */
+    data: ApprovalPolicyCreateManyInput | ApprovalPolicyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ApprovalPolicy update
+   */
+  export type ApprovalPolicyUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicy
+     */
+    select?: ApprovalPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicy
+     */
+    omit?: ApprovalPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ApprovalPolicy.
+     */
+    data: XOR<ApprovalPolicyUpdateInput, ApprovalPolicyUncheckedUpdateInput>
+    /**
+     * Choose, which ApprovalPolicy to update.
+     */
+    where: ApprovalPolicyWhereUniqueInput
+  }
+
+  /**
+   * ApprovalPolicy updateMany
+   */
+  export type ApprovalPolicyUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ApprovalPolicies.
+     */
+    data: XOR<ApprovalPolicyUpdateManyMutationInput, ApprovalPolicyUncheckedUpdateManyInput>
+    /**
+     * Filter which ApprovalPolicies to update
+     */
+    where?: ApprovalPolicyWhereInput
+    /**
+     * Limit how many ApprovalPolicies to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ApprovalPolicy updateManyAndReturn
+   */
+  export type ApprovalPolicyUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicy
+     */
+    select?: ApprovalPolicySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicy
+     */
+    omit?: ApprovalPolicyOmit<ExtArgs> | null
+    /**
+     * The data used to update ApprovalPolicies.
+     */
+    data: XOR<ApprovalPolicyUpdateManyMutationInput, ApprovalPolicyUncheckedUpdateManyInput>
+    /**
+     * Filter which ApprovalPolicies to update
+     */
+    where?: ApprovalPolicyWhereInput
+    /**
+     * Limit how many ApprovalPolicies to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ApprovalPolicy upsert
+   */
+  export type ApprovalPolicyUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicy
+     */
+    select?: ApprovalPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicy
+     */
+    omit?: ApprovalPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ApprovalPolicy to update in case it exists.
+     */
+    where: ApprovalPolicyWhereUniqueInput
+    /**
+     * In case the ApprovalPolicy found by the `where` argument doesn't exist, create a new ApprovalPolicy with this data.
+     */
+    create: XOR<ApprovalPolicyCreateInput, ApprovalPolicyUncheckedCreateInput>
+    /**
+     * In case the ApprovalPolicy was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ApprovalPolicyUpdateInput, ApprovalPolicyUncheckedUpdateInput>
+  }
+
+  /**
+   * ApprovalPolicy delete
+   */
+  export type ApprovalPolicyDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicy
+     */
+    select?: ApprovalPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicy
+     */
+    omit?: ApprovalPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyInclude<ExtArgs> | null
+    /**
+     * Filter which ApprovalPolicy to delete.
+     */
+    where: ApprovalPolicyWhereUniqueInput
+  }
+
+  /**
+   * ApprovalPolicy deleteMany
+   */
+  export type ApprovalPolicyDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ApprovalPolicies to delete
+     */
+    where?: ApprovalPolicyWhereInput
+    /**
+     * Limit how many ApprovalPolicies to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ApprovalPolicy.approvers
+   */
+  export type ApprovalPolicy$approversArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicyApprover
+     */
+    select?: ApprovalPolicyApproverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicyApprover
+     */
+    omit?: ApprovalPolicyApproverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyApproverInclude<ExtArgs> | null
+    where?: ApprovalPolicyApproverWhereInput
+    orderBy?: ApprovalPolicyApproverOrderByWithRelationInput | ApprovalPolicyApproverOrderByWithRelationInput[]
+    cursor?: ApprovalPolicyApproverWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ApprovalPolicyApproverScalarFieldEnum | ApprovalPolicyApproverScalarFieldEnum[]
+  }
+
+  /**
+   * ApprovalPolicy.budgets
+   */
+  export type ApprovalPolicy$budgetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Budget
+     */
+    select?: BudgetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Budget
+     */
+    omit?: BudgetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BudgetInclude<ExtArgs> | null
+    where?: BudgetWhereInput
+    orderBy?: BudgetOrderByWithRelationInput | BudgetOrderByWithRelationInput[]
+    cursor?: BudgetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BudgetScalarFieldEnum | BudgetScalarFieldEnum[]
+  }
+
+  /**
+   * ApprovalPolicy without action
+   */
+  export type ApprovalPolicyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicy
+     */
+    select?: ApprovalPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicy
+     */
+    omit?: ApprovalPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ApprovalPolicyApprover
+   */
+
+  export type AggregateApprovalPolicyApprover = {
+    _count: ApprovalPolicyApproverCountAggregateOutputType | null
+    _min: ApprovalPolicyApproverMinAggregateOutputType | null
+    _max: ApprovalPolicyApproverMaxAggregateOutputType | null
+  }
+
+  export type ApprovalPolicyApproverMinAggregateOutputType = {
+    id: string | null
+    policyId: string | null
+    kind: $Enums.ApprovalKind | null
+    roleType: $Enums.ApproverRoleType | null
+    specificUserId: string | null
+  }
+
+  export type ApprovalPolicyApproverMaxAggregateOutputType = {
+    id: string | null
+    policyId: string | null
+    kind: $Enums.ApprovalKind | null
+    roleType: $Enums.ApproverRoleType | null
+    specificUserId: string | null
+  }
+
+  export type ApprovalPolicyApproverCountAggregateOutputType = {
+    id: number
+    policyId: number
+    kind: number
+    roleType: number
+    specificUserId: number
+    _all: number
+  }
+
+
+  export type ApprovalPolicyApproverMinAggregateInputType = {
+    id?: true
+    policyId?: true
+    kind?: true
+    roleType?: true
+    specificUserId?: true
+  }
+
+  export type ApprovalPolicyApproverMaxAggregateInputType = {
+    id?: true
+    policyId?: true
+    kind?: true
+    roleType?: true
+    specificUserId?: true
+  }
+
+  export type ApprovalPolicyApproverCountAggregateInputType = {
+    id?: true
+    policyId?: true
+    kind?: true
+    roleType?: true
+    specificUserId?: true
+    _all?: true
+  }
+
+  export type ApprovalPolicyApproverAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ApprovalPolicyApprover to aggregate.
+     */
+    where?: ApprovalPolicyApproverWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApprovalPolicyApprovers to fetch.
+     */
+    orderBy?: ApprovalPolicyApproverOrderByWithRelationInput | ApprovalPolicyApproverOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ApprovalPolicyApproverWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApprovalPolicyApprovers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApprovalPolicyApprovers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ApprovalPolicyApprovers
+    **/
+    _count?: true | ApprovalPolicyApproverCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ApprovalPolicyApproverMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ApprovalPolicyApproverMaxAggregateInputType
+  }
+
+  export type GetApprovalPolicyApproverAggregateType<T extends ApprovalPolicyApproverAggregateArgs> = {
+        [P in keyof T & keyof AggregateApprovalPolicyApprover]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateApprovalPolicyApprover[P]>
+      : GetScalarType<T[P], AggregateApprovalPolicyApprover[P]>
+  }
+
+
+
+
+  export type ApprovalPolicyApproverGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ApprovalPolicyApproverWhereInput
+    orderBy?: ApprovalPolicyApproverOrderByWithAggregationInput | ApprovalPolicyApproverOrderByWithAggregationInput[]
+    by: ApprovalPolicyApproverScalarFieldEnum[] | ApprovalPolicyApproverScalarFieldEnum
+    having?: ApprovalPolicyApproverScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ApprovalPolicyApproverCountAggregateInputType | true
+    _min?: ApprovalPolicyApproverMinAggregateInputType
+    _max?: ApprovalPolicyApproverMaxAggregateInputType
+  }
+
+  export type ApprovalPolicyApproverGroupByOutputType = {
+    id: string
+    policyId: string
+    kind: $Enums.ApprovalKind
+    roleType: $Enums.ApproverRoleType
+    specificUserId: string | null
+    _count: ApprovalPolicyApproverCountAggregateOutputType | null
+    _min: ApprovalPolicyApproverMinAggregateOutputType | null
+    _max: ApprovalPolicyApproverMaxAggregateOutputType | null
+  }
+
+  type GetApprovalPolicyApproverGroupByPayload<T extends ApprovalPolicyApproverGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ApprovalPolicyApproverGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ApprovalPolicyApproverGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ApprovalPolicyApproverGroupByOutputType[P]>
+            : GetScalarType<T[P], ApprovalPolicyApproverGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ApprovalPolicyApproverSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    policyId?: boolean
+    kind?: boolean
+    roleType?: boolean
+    specificUserId?: boolean
+    policy?: boolean | ApprovalPolicyDefaultArgs<ExtArgs>
+    specificUser?: boolean | ApprovalPolicyApprover$specificUserArgs<ExtArgs>
+  }, ExtArgs["result"]["approvalPolicyApprover"]>
+
+  export type ApprovalPolicyApproverSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    policyId?: boolean
+    kind?: boolean
+    roleType?: boolean
+    specificUserId?: boolean
+    policy?: boolean | ApprovalPolicyDefaultArgs<ExtArgs>
+    specificUser?: boolean | ApprovalPolicyApprover$specificUserArgs<ExtArgs>
+  }, ExtArgs["result"]["approvalPolicyApprover"]>
+
+  export type ApprovalPolicyApproverSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    policyId?: boolean
+    kind?: boolean
+    roleType?: boolean
+    specificUserId?: boolean
+    policy?: boolean | ApprovalPolicyDefaultArgs<ExtArgs>
+    specificUser?: boolean | ApprovalPolicyApprover$specificUserArgs<ExtArgs>
+  }, ExtArgs["result"]["approvalPolicyApprover"]>
+
+  export type ApprovalPolicyApproverSelectScalar = {
+    id?: boolean
+    policyId?: boolean
+    kind?: boolean
+    roleType?: boolean
+    specificUserId?: boolean
+  }
+
+  export type ApprovalPolicyApproverOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "policyId" | "kind" | "roleType" | "specificUserId", ExtArgs["result"]["approvalPolicyApprover"]>
+  export type ApprovalPolicyApproverInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    policy?: boolean | ApprovalPolicyDefaultArgs<ExtArgs>
+    specificUser?: boolean | ApprovalPolicyApprover$specificUserArgs<ExtArgs>
+  }
+  export type ApprovalPolicyApproverIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    policy?: boolean | ApprovalPolicyDefaultArgs<ExtArgs>
+    specificUser?: boolean | ApprovalPolicyApprover$specificUserArgs<ExtArgs>
+  }
+  export type ApprovalPolicyApproverIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    policy?: boolean | ApprovalPolicyDefaultArgs<ExtArgs>
+    specificUser?: boolean | ApprovalPolicyApprover$specificUserArgs<ExtArgs>
+  }
+
+  export type $ApprovalPolicyApproverPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ApprovalPolicyApprover"
+    objects: {
+      policy: Prisma.$ApprovalPolicyPayload<ExtArgs>
+      specificUser: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      policyId: string
+      kind: $Enums.ApprovalKind
+      roleType: $Enums.ApproverRoleType
+      specificUserId: string | null
+    }, ExtArgs["result"]["approvalPolicyApprover"]>
+    composites: {}
+  }
+
+  type ApprovalPolicyApproverGetPayload<S extends boolean | null | undefined | ApprovalPolicyApproverDefaultArgs> = $Result.GetResult<Prisma.$ApprovalPolicyApproverPayload, S>
+
+  type ApprovalPolicyApproverCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ApprovalPolicyApproverFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ApprovalPolicyApproverCountAggregateInputType | true
+    }
+
+  export interface ApprovalPolicyApproverDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ApprovalPolicyApprover'], meta: { name: 'ApprovalPolicyApprover' } }
+    /**
+     * Find zero or one ApprovalPolicyApprover that matches the filter.
+     * @param {ApprovalPolicyApproverFindUniqueArgs} args - Arguments to find a ApprovalPolicyApprover
+     * @example
+     * // Get one ApprovalPolicyApprover
+     * const approvalPolicyApprover = await prisma.approvalPolicyApprover.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ApprovalPolicyApproverFindUniqueArgs>(args: SelectSubset<T, ApprovalPolicyApproverFindUniqueArgs<ExtArgs>>): Prisma__ApprovalPolicyApproverClient<$Result.GetResult<Prisma.$ApprovalPolicyApproverPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ApprovalPolicyApprover that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ApprovalPolicyApproverFindUniqueOrThrowArgs} args - Arguments to find a ApprovalPolicyApprover
+     * @example
+     * // Get one ApprovalPolicyApprover
+     * const approvalPolicyApprover = await prisma.approvalPolicyApprover.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ApprovalPolicyApproverFindUniqueOrThrowArgs>(args: SelectSubset<T, ApprovalPolicyApproverFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ApprovalPolicyApproverClient<$Result.GetResult<Prisma.$ApprovalPolicyApproverPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ApprovalPolicyApprover that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApprovalPolicyApproverFindFirstArgs} args - Arguments to find a ApprovalPolicyApprover
+     * @example
+     * // Get one ApprovalPolicyApprover
+     * const approvalPolicyApprover = await prisma.approvalPolicyApprover.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ApprovalPolicyApproverFindFirstArgs>(args?: SelectSubset<T, ApprovalPolicyApproverFindFirstArgs<ExtArgs>>): Prisma__ApprovalPolicyApproverClient<$Result.GetResult<Prisma.$ApprovalPolicyApproverPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ApprovalPolicyApprover that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApprovalPolicyApproverFindFirstOrThrowArgs} args - Arguments to find a ApprovalPolicyApprover
+     * @example
+     * // Get one ApprovalPolicyApprover
+     * const approvalPolicyApprover = await prisma.approvalPolicyApprover.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ApprovalPolicyApproverFindFirstOrThrowArgs>(args?: SelectSubset<T, ApprovalPolicyApproverFindFirstOrThrowArgs<ExtArgs>>): Prisma__ApprovalPolicyApproverClient<$Result.GetResult<Prisma.$ApprovalPolicyApproverPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ApprovalPolicyApprovers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApprovalPolicyApproverFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ApprovalPolicyApprovers
+     * const approvalPolicyApprovers = await prisma.approvalPolicyApprover.findMany()
+     * 
+     * // Get first 10 ApprovalPolicyApprovers
+     * const approvalPolicyApprovers = await prisma.approvalPolicyApprover.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const approvalPolicyApproverWithIdOnly = await prisma.approvalPolicyApprover.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ApprovalPolicyApproverFindManyArgs>(args?: SelectSubset<T, ApprovalPolicyApproverFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApprovalPolicyApproverPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ApprovalPolicyApprover.
+     * @param {ApprovalPolicyApproverCreateArgs} args - Arguments to create a ApprovalPolicyApprover.
+     * @example
+     * // Create one ApprovalPolicyApprover
+     * const ApprovalPolicyApprover = await prisma.approvalPolicyApprover.create({
+     *   data: {
+     *     // ... data to create a ApprovalPolicyApprover
+     *   }
+     * })
+     * 
+     */
+    create<T extends ApprovalPolicyApproverCreateArgs>(args: SelectSubset<T, ApprovalPolicyApproverCreateArgs<ExtArgs>>): Prisma__ApprovalPolicyApproverClient<$Result.GetResult<Prisma.$ApprovalPolicyApproverPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ApprovalPolicyApprovers.
+     * @param {ApprovalPolicyApproverCreateManyArgs} args - Arguments to create many ApprovalPolicyApprovers.
+     * @example
+     * // Create many ApprovalPolicyApprovers
+     * const approvalPolicyApprover = await prisma.approvalPolicyApprover.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ApprovalPolicyApproverCreateManyArgs>(args?: SelectSubset<T, ApprovalPolicyApproverCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ApprovalPolicyApprovers and returns the data saved in the database.
+     * @param {ApprovalPolicyApproverCreateManyAndReturnArgs} args - Arguments to create many ApprovalPolicyApprovers.
+     * @example
+     * // Create many ApprovalPolicyApprovers
+     * const approvalPolicyApprover = await prisma.approvalPolicyApprover.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ApprovalPolicyApprovers and only return the `id`
+     * const approvalPolicyApproverWithIdOnly = await prisma.approvalPolicyApprover.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ApprovalPolicyApproverCreateManyAndReturnArgs>(args?: SelectSubset<T, ApprovalPolicyApproverCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApprovalPolicyApproverPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ApprovalPolicyApprover.
+     * @param {ApprovalPolicyApproverDeleteArgs} args - Arguments to delete one ApprovalPolicyApprover.
+     * @example
+     * // Delete one ApprovalPolicyApprover
+     * const ApprovalPolicyApprover = await prisma.approvalPolicyApprover.delete({
+     *   where: {
+     *     // ... filter to delete one ApprovalPolicyApprover
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ApprovalPolicyApproverDeleteArgs>(args: SelectSubset<T, ApprovalPolicyApproverDeleteArgs<ExtArgs>>): Prisma__ApprovalPolicyApproverClient<$Result.GetResult<Prisma.$ApprovalPolicyApproverPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ApprovalPolicyApprover.
+     * @param {ApprovalPolicyApproverUpdateArgs} args - Arguments to update one ApprovalPolicyApprover.
+     * @example
+     * // Update one ApprovalPolicyApprover
+     * const approvalPolicyApprover = await prisma.approvalPolicyApprover.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ApprovalPolicyApproverUpdateArgs>(args: SelectSubset<T, ApprovalPolicyApproverUpdateArgs<ExtArgs>>): Prisma__ApprovalPolicyApproverClient<$Result.GetResult<Prisma.$ApprovalPolicyApproverPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ApprovalPolicyApprovers.
+     * @param {ApprovalPolicyApproverDeleteManyArgs} args - Arguments to filter ApprovalPolicyApprovers to delete.
+     * @example
+     * // Delete a few ApprovalPolicyApprovers
+     * const { count } = await prisma.approvalPolicyApprover.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ApprovalPolicyApproverDeleteManyArgs>(args?: SelectSubset<T, ApprovalPolicyApproverDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ApprovalPolicyApprovers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApprovalPolicyApproverUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ApprovalPolicyApprovers
+     * const approvalPolicyApprover = await prisma.approvalPolicyApprover.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ApprovalPolicyApproverUpdateManyArgs>(args: SelectSubset<T, ApprovalPolicyApproverUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ApprovalPolicyApprovers and returns the data updated in the database.
+     * @param {ApprovalPolicyApproverUpdateManyAndReturnArgs} args - Arguments to update many ApprovalPolicyApprovers.
+     * @example
+     * // Update many ApprovalPolicyApprovers
+     * const approvalPolicyApprover = await prisma.approvalPolicyApprover.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ApprovalPolicyApprovers and only return the `id`
+     * const approvalPolicyApproverWithIdOnly = await prisma.approvalPolicyApprover.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ApprovalPolicyApproverUpdateManyAndReturnArgs>(args: SelectSubset<T, ApprovalPolicyApproverUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApprovalPolicyApproverPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ApprovalPolicyApprover.
+     * @param {ApprovalPolicyApproverUpsertArgs} args - Arguments to update or create a ApprovalPolicyApprover.
+     * @example
+     * // Update or create a ApprovalPolicyApprover
+     * const approvalPolicyApprover = await prisma.approvalPolicyApprover.upsert({
+     *   create: {
+     *     // ... data to create a ApprovalPolicyApprover
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ApprovalPolicyApprover we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ApprovalPolicyApproverUpsertArgs>(args: SelectSubset<T, ApprovalPolicyApproverUpsertArgs<ExtArgs>>): Prisma__ApprovalPolicyApproverClient<$Result.GetResult<Prisma.$ApprovalPolicyApproverPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ApprovalPolicyApprovers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApprovalPolicyApproverCountArgs} args - Arguments to filter ApprovalPolicyApprovers to count.
+     * @example
+     * // Count the number of ApprovalPolicyApprovers
+     * const count = await prisma.approvalPolicyApprover.count({
+     *   where: {
+     *     // ... the filter for the ApprovalPolicyApprovers we want to count
+     *   }
+     * })
+    **/
+    count<T extends ApprovalPolicyApproverCountArgs>(
+      args?: Subset<T, ApprovalPolicyApproverCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ApprovalPolicyApproverCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ApprovalPolicyApprover.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApprovalPolicyApproverAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ApprovalPolicyApproverAggregateArgs>(args: Subset<T, ApprovalPolicyApproverAggregateArgs>): Prisma.PrismaPromise<GetApprovalPolicyApproverAggregateType<T>>
+
+    /**
+     * Group by ApprovalPolicyApprover.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ApprovalPolicyApproverGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ApprovalPolicyApproverGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ApprovalPolicyApproverGroupByArgs['orderBy'] }
+        : { orderBy?: ApprovalPolicyApproverGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ApprovalPolicyApproverGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetApprovalPolicyApproverGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ApprovalPolicyApprover model
+   */
+  readonly fields: ApprovalPolicyApproverFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ApprovalPolicyApprover.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ApprovalPolicyApproverClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    policy<T extends ApprovalPolicyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ApprovalPolicyDefaultArgs<ExtArgs>>): Prisma__ApprovalPolicyClient<$Result.GetResult<Prisma.$ApprovalPolicyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    specificUser<T extends ApprovalPolicyApprover$specificUserArgs<ExtArgs> = {}>(args?: Subset<T, ApprovalPolicyApprover$specificUserArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ApprovalPolicyApprover model
+   */
+  interface ApprovalPolicyApproverFieldRefs {
+    readonly id: FieldRef<"ApprovalPolicyApprover", 'String'>
+    readonly policyId: FieldRef<"ApprovalPolicyApprover", 'String'>
+    readonly kind: FieldRef<"ApprovalPolicyApprover", 'ApprovalKind'>
+    readonly roleType: FieldRef<"ApprovalPolicyApprover", 'ApproverRoleType'>
+    readonly specificUserId: FieldRef<"ApprovalPolicyApprover", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ApprovalPolicyApprover findUnique
+   */
+  export type ApprovalPolicyApproverFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicyApprover
+     */
+    select?: ApprovalPolicyApproverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicyApprover
+     */
+    omit?: ApprovalPolicyApproverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyApproverInclude<ExtArgs> | null
+    /**
+     * Filter, which ApprovalPolicyApprover to fetch.
+     */
+    where: ApprovalPolicyApproverWhereUniqueInput
+  }
+
+  /**
+   * ApprovalPolicyApprover findUniqueOrThrow
+   */
+  export type ApprovalPolicyApproverFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicyApprover
+     */
+    select?: ApprovalPolicyApproverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicyApprover
+     */
+    omit?: ApprovalPolicyApproverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyApproverInclude<ExtArgs> | null
+    /**
+     * Filter, which ApprovalPolicyApprover to fetch.
+     */
+    where: ApprovalPolicyApproverWhereUniqueInput
+  }
+
+  /**
+   * ApprovalPolicyApprover findFirst
+   */
+  export type ApprovalPolicyApproverFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicyApprover
+     */
+    select?: ApprovalPolicyApproverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicyApprover
+     */
+    omit?: ApprovalPolicyApproverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyApproverInclude<ExtArgs> | null
+    /**
+     * Filter, which ApprovalPolicyApprover to fetch.
+     */
+    where?: ApprovalPolicyApproverWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApprovalPolicyApprovers to fetch.
+     */
+    orderBy?: ApprovalPolicyApproverOrderByWithRelationInput | ApprovalPolicyApproverOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ApprovalPolicyApprovers.
+     */
+    cursor?: ApprovalPolicyApproverWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApprovalPolicyApprovers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApprovalPolicyApprovers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ApprovalPolicyApprovers.
+     */
+    distinct?: ApprovalPolicyApproverScalarFieldEnum | ApprovalPolicyApproverScalarFieldEnum[]
+  }
+
+  /**
+   * ApprovalPolicyApprover findFirstOrThrow
+   */
+  export type ApprovalPolicyApproverFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicyApprover
+     */
+    select?: ApprovalPolicyApproverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicyApprover
+     */
+    omit?: ApprovalPolicyApproverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyApproverInclude<ExtArgs> | null
+    /**
+     * Filter, which ApprovalPolicyApprover to fetch.
+     */
+    where?: ApprovalPolicyApproverWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApprovalPolicyApprovers to fetch.
+     */
+    orderBy?: ApprovalPolicyApproverOrderByWithRelationInput | ApprovalPolicyApproverOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ApprovalPolicyApprovers.
+     */
+    cursor?: ApprovalPolicyApproverWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApprovalPolicyApprovers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApprovalPolicyApprovers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ApprovalPolicyApprovers.
+     */
+    distinct?: ApprovalPolicyApproverScalarFieldEnum | ApprovalPolicyApproverScalarFieldEnum[]
+  }
+
+  /**
+   * ApprovalPolicyApprover findMany
+   */
+  export type ApprovalPolicyApproverFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicyApprover
+     */
+    select?: ApprovalPolicyApproverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicyApprover
+     */
+    omit?: ApprovalPolicyApproverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyApproverInclude<ExtArgs> | null
+    /**
+     * Filter, which ApprovalPolicyApprovers to fetch.
+     */
+    where?: ApprovalPolicyApproverWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ApprovalPolicyApprovers to fetch.
+     */
+    orderBy?: ApprovalPolicyApproverOrderByWithRelationInput | ApprovalPolicyApproverOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ApprovalPolicyApprovers.
+     */
+    cursor?: ApprovalPolicyApproverWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ApprovalPolicyApprovers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ApprovalPolicyApprovers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ApprovalPolicyApprovers.
+     */
+    distinct?: ApprovalPolicyApproverScalarFieldEnum | ApprovalPolicyApproverScalarFieldEnum[]
+  }
+
+  /**
+   * ApprovalPolicyApprover create
+   */
+  export type ApprovalPolicyApproverCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicyApprover
+     */
+    select?: ApprovalPolicyApproverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicyApprover
+     */
+    omit?: ApprovalPolicyApproverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyApproverInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ApprovalPolicyApprover.
+     */
+    data: XOR<ApprovalPolicyApproverCreateInput, ApprovalPolicyApproverUncheckedCreateInput>
+  }
+
+  /**
+   * ApprovalPolicyApprover createMany
+   */
+  export type ApprovalPolicyApproverCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ApprovalPolicyApprovers.
+     */
+    data: ApprovalPolicyApproverCreateManyInput | ApprovalPolicyApproverCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ApprovalPolicyApprover createManyAndReturn
+   */
+  export type ApprovalPolicyApproverCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicyApprover
+     */
+    select?: ApprovalPolicyApproverSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicyApprover
+     */
+    omit?: ApprovalPolicyApproverOmit<ExtArgs> | null
+    /**
+     * The data used to create many ApprovalPolicyApprovers.
+     */
+    data: ApprovalPolicyApproverCreateManyInput | ApprovalPolicyApproverCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyApproverIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ApprovalPolicyApprover update
+   */
+  export type ApprovalPolicyApproverUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicyApprover
+     */
+    select?: ApprovalPolicyApproverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicyApprover
+     */
+    omit?: ApprovalPolicyApproverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyApproverInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ApprovalPolicyApprover.
+     */
+    data: XOR<ApprovalPolicyApproverUpdateInput, ApprovalPolicyApproverUncheckedUpdateInput>
+    /**
+     * Choose, which ApprovalPolicyApprover to update.
+     */
+    where: ApprovalPolicyApproverWhereUniqueInput
+  }
+
+  /**
+   * ApprovalPolicyApprover updateMany
+   */
+  export type ApprovalPolicyApproverUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ApprovalPolicyApprovers.
+     */
+    data: XOR<ApprovalPolicyApproverUpdateManyMutationInput, ApprovalPolicyApproverUncheckedUpdateManyInput>
+    /**
+     * Filter which ApprovalPolicyApprovers to update
+     */
+    where?: ApprovalPolicyApproverWhereInput
+    /**
+     * Limit how many ApprovalPolicyApprovers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ApprovalPolicyApprover updateManyAndReturn
+   */
+  export type ApprovalPolicyApproverUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicyApprover
+     */
+    select?: ApprovalPolicyApproverSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicyApprover
+     */
+    omit?: ApprovalPolicyApproverOmit<ExtArgs> | null
+    /**
+     * The data used to update ApprovalPolicyApprovers.
+     */
+    data: XOR<ApprovalPolicyApproverUpdateManyMutationInput, ApprovalPolicyApproverUncheckedUpdateManyInput>
+    /**
+     * Filter which ApprovalPolicyApprovers to update
+     */
+    where?: ApprovalPolicyApproverWhereInput
+    /**
+     * Limit how many ApprovalPolicyApprovers to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyApproverIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ApprovalPolicyApprover upsert
+   */
+  export type ApprovalPolicyApproverUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicyApprover
+     */
+    select?: ApprovalPolicyApproverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicyApprover
+     */
+    omit?: ApprovalPolicyApproverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyApproverInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ApprovalPolicyApprover to update in case it exists.
+     */
+    where: ApprovalPolicyApproverWhereUniqueInput
+    /**
+     * In case the ApprovalPolicyApprover found by the `where` argument doesn't exist, create a new ApprovalPolicyApprover with this data.
+     */
+    create: XOR<ApprovalPolicyApproverCreateInput, ApprovalPolicyApproverUncheckedCreateInput>
+    /**
+     * In case the ApprovalPolicyApprover was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ApprovalPolicyApproverUpdateInput, ApprovalPolicyApproverUncheckedUpdateInput>
+  }
+
+  /**
+   * ApprovalPolicyApprover delete
+   */
+  export type ApprovalPolicyApproverDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicyApprover
+     */
+    select?: ApprovalPolicyApproverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicyApprover
+     */
+    omit?: ApprovalPolicyApproverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyApproverInclude<ExtArgs> | null
+    /**
+     * Filter which ApprovalPolicyApprover to delete.
+     */
+    where: ApprovalPolicyApproverWhereUniqueInput
+  }
+
+  /**
+   * ApprovalPolicyApprover deleteMany
+   */
+  export type ApprovalPolicyApproverDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ApprovalPolicyApprovers to delete
+     */
+    where?: ApprovalPolicyApproverWhereInput
+    /**
+     * Limit how many ApprovalPolicyApprovers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ApprovalPolicyApprover.specificUser
+   */
+  export type ApprovalPolicyApprover$specificUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * ApprovalPolicyApprover without action
+   */
+  export type ApprovalPolicyApproverDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicyApprover
+     */
+    select?: ApprovalPolicyApproverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicyApprover
+     */
+    omit?: ApprovalPolicyApproverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyApproverInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TimeEntryApproverDecision
+   */
+
+  export type AggregateTimeEntryApproverDecision = {
+    _count: TimeEntryApproverDecisionCountAggregateOutputType | null
+    _min: TimeEntryApproverDecisionMinAggregateOutputType | null
+    _max: TimeEntryApproverDecisionMaxAggregateOutputType | null
+  }
+
+  export type TimeEntryApproverDecisionMinAggregateOutputType = {
+    id: string | null
+    timeEntryId: string | null
+    approverId: string | null
+    status: $Enums.ApprovalDecisionStatus | null
+    decidedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type TimeEntryApproverDecisionMaxAggregateOutputType = {
+    id: string | null
+    timeEntryId: string | null
+    approverId: string | null
+    status: $Enums.ApprovalDecisionStatus | null
+    decidedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type TimeEntryApproverDecisionCountAggregateOutputType = {
+    id: number
+    timeEntryId: number
+    approverId: number
+    status: number
+    decidedAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type TimeEntryApproverDecisionMinAggregateInputType = {
+    id?: true
+    timeEntryId?: true
+    approverId?: true
+    status?: true
+    decidedAt?: true
+    createdAt?: true
+  }
+
+  export type TimeEntryApproverDecisionMaxAggregateInputType = {
+    id?: true
+    timeEntryId?: true
+    approverId?: true
+    status?: true
+    decidedAt?: true
+    createdAt?: true
+  }
+
+  export type TimeEntryApproverDecisionCountAggregateInputType = {
+    id?: true
+    timeEntryId?: true
+    approverId?: true
+    status?: true
+    decidedAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type TimeEntryApproverDecisionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TimeEntryApproverDecision to aggregate.
+     */
+    where?: TimeEntryApproverDecisionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TimeEntryApproverDecisions to fetch.
+     */
+    orderBy?: TimeEntryApproverDecisionOrderByWithRelationInput | TimeEntryApproverDecisionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TimeEntryApproverDecisionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TimeEntryApproverDecisions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TimeEntryApproverDecisions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TimeEntryApproverDecisions
+    **/
+    _count?: true | TimeEntryApproverDecisionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TimeEntryApproverDecisionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TimeEntryApproverDecisionMaxAggregateInputType
+  }
+
+  export type GetTimeEntryApproverDecisionAggregateType<T extends TimeEntryApproverDecisionAggregateArgs> = {
+        [P in keyof T & keyof AggregateTimeEntryApproverDecision]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTimeEntryApproverDecision[P]>
+      : GetScalarType<T[P], AggregateTimeEntryApproverDecision[P]>
+  }
+
+
+
+
+  export type TimeEntryApproverDecisionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TimeEntryApproverDecisionWhereInput
+    orderBy?: TimeEntryApproverDecisionOrderByWithAggregationInput | TimeEntryApproverDecisionOrderByWithAggregationInput[]
+    by: TimeEntryApproverDecisionScalarFieldEnum[] | TimeEntryApproverDecisionScalarFieldEnum
+    having?: TimeEntryApproverDecisionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TimeEntryApproverDecisionCountAggregateInputType | true
+    _min?: TimeEntryApproverDecisionMinAggregateInputType
+    _max?: TimeEntryApproverDecisionMaxAggregateInputType
+  }
+
+  export type TimeEntryApproverDecisionGroupByOutputType = {
+    id: string
+    timeEntryId: string
+    approverId: string
+    status: $Enums.ApprovalDecisionStatus
+    decidedAt: Date | null
+    createdAt: Date
+    _count: TimeEntryApproverDecisionCountAggregateOutputType | null
+    _min: TimeEntryApproverDecisionMinAggregateOutputType | null
+    _max: TimeEntryApproverDecisionMaxAggregateOutputType | null
+  }
+
+  type GetTimeEntryApproverDecisionGroupByPayload<T extends TimeEntryApproverDecisionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TimeEntryApproverDecisionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TimeEntryApproverDecisionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TimeEntryApproverDecisionGroupByOutputType[P]>
+            : GetScalarType<T[P], TimeEntryApproverDecisionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TimeEntryApproverDecisionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    timeEntryId?: boolean
+    approverId?: boolean
+    status?: boolean
+    decidedAt?: boolean
+    createdAt?: boolean
+    timeEntry?: boolean | TimeEntryDefaultArgs<ExtArgs>
+    approver?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["timeEntryApproverDecision"]>
+
+  export type TimeEntryApproverDecisionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    timeEntryId?: boolean
+    approverId?: boolean
+    status?: boolean
+    decidedAt?: boolean
+    createdAt?: boolean
+    timeEntry?: boolean | TimeEntryDefaultArgs<ExtArgs>
+    approver?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["timeEntryApproverDecision"]>
+
+  export type TimeEntryApproverDecisionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    timeEntryId?: boolean
+    approverId?: boolean
+    status?: boolean
+    decidedAt?: boolean
+    createdAt?: boolean
+    timeEntry?: boolean | TimeEntryDefaultArgs<ExtArgs>
+    approver?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["timeEntryApproverDecision"]>
+
+  export type TimeEntryApproverDecisionSelectScalar = {
+    id?: boolean
+    timeEntryId?: boolean
+    approverId?: boolean
+    status?: boolean
+    decidedAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type TimeEntryApproverDecisionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "timeEntryId" | "approverId" | "status" | "decidedAt" | "createdAt", ExtArgs["result"]["timeEntryApproverDecision"]>
+  export type TimeEntryApproverDecisionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    timeEntry?: boolean | TimeEntryDefaultArgs<ExtArgs>
+    approver?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type TimeEntryApproverDecisionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    timeEntry?: boolean | TimeEntryDefaultArgs<ExtArgs>
+    approver?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type TimeEntryApproverDecisionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    timeEntry?: boolean | TimeEntryDefaultArgs<ExtArgs>
+    approver?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $TimeEntryApproverDecisionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TimeEntryApproverDecision"
+    objects: {
+      timeEntry: Prisma.$TimeEntryPayload<ExtArgs>
+      approver: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      timeEntryId: string
+      approverId: string
+      status: $Enums.ApprovalDecisionStatus
+      decidedAt: Date | null
+      createdAt: Date
+    }, ExtArgs["result"]["timeEntryApproverDecision"]>
+    composites: {}
+  }
+
+  type TimeEntryApproverDecisionGetPayload<S extends boolean | null | undefined | TimeEntryApproverDecisionDefaultArgs> = $Result.GetResult<Prisma.$TimeEntryApproverDecisionPayload, S>
+
+  type TimeEntryApproverDecisionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TimeEntryApproverDecisionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TimeEntryApproverDecisionCountAggregateInputType | true
+    }
+
+  export interface TimeEntryApproverDecisionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TimeEntryApproverDecision'], meta: { name: 'TimeEntryApproverDecision' } }
+    /**
+     * Find zero or one TimeEntryApproverDecision that matches the filter.
+     * @param {TimeEntryApproverDecisionFindUniqueArgs} args - Arguments to find a TimeEntryApproverDecision
+     * @example
+     * // Get one TimeEntryApproverDecision
+     * const timeEntryApproverDecision = await prisma.timeEntryApproverDecision.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TimeEntryApproverDecisionFindUniqueArgs>(args: SelectSubset<T, TimeEntryApproverDecisionFindUniqueArgs<ExtArgs>>): Prisma__TimeEntryApproverDecisionClient<$Result.GetResult<Prisma.$TimeEntryApproverDecisionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TimeEntryApproverDecision that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TimeEntryApproverDecisionFindUniqueOrThrowArgs} args - Arguments to find a TimeEntryApproverDecision
+     * @example
+     * // Get one TimeEntryApproverDecision
+     * const timeEntryApproverDecision = await prisma.timeEntryApproverDecision.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TimeEntryApproverDecisionFindUniqueOrThrowArgs>(args: SelectSubset<T, TimeEntryApproverDecisionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TimeEntryApproverDecisionClient<$Result.GetResult<Prisma.$TimeEntryApproverDecisionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TimeEntryApproverDecision that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimeEntryApproverDecisionFindFirstArgs} args - Arguments to find a TimeEntryApproverDecision
+     * @example
+     * // Get one TimeEntryApproverDecision
+     * const timeEntryApproverDecision = await prisma.timeEntryApproverDecision.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TimeEntryApproverDecisionFindFirstArgs>(args?: SelectSubset<T, TimeEntryApproverDecisionFindFirstArgs<ExtArgs>>): Prisma__TimeEntryApproverDecisionClient<$Result.GetResult<Prisma.$TimeEntryApproverDecisionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TimeEntryApproverDecision that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimeEntryApproverDecisionFindFirstOrThrowArgs} args - Arguments to find a TimeEntryApproverDecision
+     * @example
+     * // Get one TimeEntryApproverDecision
+     * const timeEntryApproverDecision = await prisma.timeEntryApproverDecision.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TimeEntryApproverDecisionFindFirstOrThrowArgs>(args?: SelectSubset<T, TimeEntryApproverDecisionFindFirstOrThrowArgs<ExtArgs>>): Prisma__TimeEntryApproverDecisionClient<$Result.GetResult<Prisma.$TimeEntryApproverDecisionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TimeEntryApproverDecisions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimeEntryApproverDecisionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TimeEntryApproverDecisions
+     * const timeEntryApproverDecisions = await prisma.timeEntryApproverDecision.findMany()
+     * 
+     * // Get first 10 TimeEntryApproverDecisions
+     * const timeEntryApproverDecisions = await prisma.timeEntryApproverDecision.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const timeEntryApproverDecisionWithIdOnly = await prisma.timeEntryApproverDecision.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TimeEntryApproverDecisionFindManyArgs>(args?: SelectSubset<T, TimeEntryApproverDecisionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeEntryApproverDecisionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TimeEntryApproverDecision.
+     * @param {TimeEntryApproverDecisionCreateArgs} args - Arguments to create a TimeEntryApproverDecision.
+     * @example
+     * // Create one TimeEntryApproverDecision
+     * const TimeEntryApproverDecision = await prisma.timeEntryApproverDecision.create({
+     *   data: {
+     *     // ... data to create a TimeEntryApproverDecision
+     *   }
+     * })
+     * 
+     */
+    create<T extends TimeEntryApproverDecisionCreateArgs>(args: SelectSubset<T, TimeEntryApproverDecisionCreateArgs<ExtArgs>>): Prisma__TimeEntryApproverDecisionClient<$Result.GetResult<Prisma.$TimeEntryApproverDecisionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TimeEntryApproverDecisions.
+     * @param {TimeEntryApproverDecisionCreateManyArgs} args - Arguments to create many TimeEntryApproverDecisions.
+     * @example
+     * // Create many TimeEntryApproverDecisions
+     * const timeEntryApproverDecision = await prisma.timeEntryApproverDecision.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TimeEntryApproverDecisionCreateManyArgs>(args?: SelectSubset<T, TimeEntryApproverDecisionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TimeEntryApproverDecisions and returns the data saved in the database.
+     * @param {TimeEntryApproverDecisionCreateManyAndReturnArgs} args - Arguments to create many TimeEntryApproverDecisions.
+     * @example
+     * // Create many TimeEntryApproverDecisions
+     * const timeEntryApproverDecision = await prisma.timeEntryApproverDecision.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TimeEntryApproverDecisions and only return the `id`
+     * const timeEntryApproverDecisionWithIdOnly = await prisma.timeEntryApproverDecision.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TimeEntryApproverDecisionCreateManyAndReturnArgs>(args?: SelectSubset<T, TimeEntryApproverDecisionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeEntryApproverDecisionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TimeEntryApproverDecision.
+     * @param {TimeEntryApproverDecisionDeleteArgs} args - Arguments to delete one TimeEntryApproverDecision.
+     * @example
+     * // Delete one TimeEntryApproverDecision
+     * const TimeEntryApproverDecision = await prisma.timeEntryApproverDecision.delete({
+     *   where: {
+     *     // ... filter to delete one TimeEntryApproverDecision
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TimeEntryApproverDecisionDeleteArgs>(args: SelectSubset<T, TimeEntryApproverDecisionDeleteArgs<ExtArgs>>): Prisma__TimeEntryApproverDecisionClient<$Result.GetResult<Prisma.$TimeEntryApproverDecisionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TimeEntryApproverDecision.
+     * @param {TimeEntryApproverDecisionUpdateArgs} args - Arguments to update one TimeEntryApproverDecision.
+     * @example
+     * // Update one TimeEntryApproverDecision
+     * const timeEntryApproverDecision = await prisma.timeEntryApproverDecision.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TimeEntryApproverDecisionUpdateArgs>(args: SelectSubset<T, TimeEntryApproverDecisionUpdateArgs<ExtArgs>>): Prisma__TimeEntryApproverDecisionClient<$Result.GetResult<Prisma.$TimeEntryApproverDecisionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TimeEntryApproverDecisions.
+     * @param {TimeEntryApproverDecisionDeleteManyArgs} args - Arguments to filter TimeEntryApproverDecisions to delete.
+     * @example
+     * // Delete a few TimeEntryApproverDecisions
+     * const { count } = await prisma.timeEntryApproverDecision.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TimeEntryApproverDecisionDeleteManyArgs>(args?: SelectSubset<T, TimeEntryApproverDecisionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TimeEntryApproverDecisions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimeEntryApproverDecisionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TimeEntryApproverDecisions
+     * const timeEntryApproverDecision = await prisma.timeEntryApproverDecision.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TimeEntryApproverDecisionUpdateManyArgs>(args: SelectSubset<T, TimeEntryApproverDecisionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TimeEntryApproverDecisions and returns the data updated in the database.
+     * @param {TimeEntryApproverDecisionUpdateManyAndReturnArgs} args - Arguments to update many TimeEntryApproverDecisions.
+     * @example
+     * // Update many TimeEntryApproverDecisions
+     * const timeEntryApproverDecision = await prisma.timeEntryApproverDecision.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TimeEntryApproverDecisions and only return the `id`
+     * const timeEntryApproverDecisionWithIdOnly = await prisma.timeEntryApproverDecision.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TimeEntryApproverDecisionUpdateManyAndReturnArgs>(args: SelectSubset<T, TimeEntryApproverDecisionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeEntryApproverDecisionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TimeEntryApproverDecision.
+     * @param {TimeEntryApproverDecisionUpsertArgs} args - Arguments to update or create a TimeEntryApproverDecision.
+     * @example
+     * // Update or create a TimeEntryApproverDecision
+     * const timeEntryApproverDecision = await prisma.timeEntryApproverDecision.upsert({
+     *   create: {
+     *     // ... data to create a TimeEntryApproverDecision
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TimeEntryApproverDecision we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TimeEntryApproverDecisionUpsertArgs>(args: SelectSubset<T, TimeEntryApproverDecisionUpsertArgs<ExtArgs>>): Prisma__TimeEntryApproverDecisionClient<$Result.GetResult<Prisma.$TimeEntryApproverDecisionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TimeEntryApproverDecisions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimeEntryApproverDecisionCountArgs} args - Arguments to filter TimeEntryApproverDecisions to count.
+     * @example
+     * // Count the number of TimeEntryApproverDecisions
+     * const count = await prisma.timeEntryApproverDecision.count({
+     *   where: {
+     *     // ... the filter for the TimeEntryApproverDecisions we want to count
+     *   }
+     * })
+    **/
+    count<T extends TimeEntryApproverDecisionCountArgs>(
+      args?: Subset<T, TimeEntryApproverDecisionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TimeEntryApproverDecisionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TimeEntryApproverDecision.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimeEntryApproverDecisionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TimeEntryApproverDecisionAggregateArgs>(args: Subset<T, TimeEntryApproverDecisionAggregateArgs>): Prisma.PrismaPromise<GetTimeEntryApproverDecisionAggregateType<T>>
+
+    /**
+     * Group by TimeEntryApproverDecision.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TimeEntryApproverDecisionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TimeEntryApproverDecisionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TimeEntryApproverDecisionGroupByArgs['orderBy'] }
+        : { orderBy?: TimeEntryApproverDecisionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TimeEntryApproverDecisionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTimeEntryApproverDecisionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TimeEntryApproverDecision model
+   */
+  readonly fields: TimeEntryApproverDecisionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TimeEntryApproverDecision.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TimeEntryApproverDecisionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    timeEntry<T extends TimeEntryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TimeEntryDefaultArgs<ExtArgs>>): Prisma__TimeEntryClient<$Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    approver<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TimeEntryApproverDecision model
+   */
+  interface TimeEntryApproverDecisionFieldRefs {
+    readonly id: FieldRef<"TimeEntryApproverDecision", 'String'>
+    readonly timeEntryId: FieldRef<"TimeEntryApproverDecision", 'String'>
+    readonly approverId: FieldRef<"TimeEntryApproverDecision", 'String'>
+    readonly status: FieldRef<"TimeEntryApproverDecision", 'ApprovalDecisionStatus'>
+    readonly decidedAt: FieldRef<"TimeEntryApproverDecision", 'DateTime'>
+    readonly createdAt: FieldRef<"TimeEntryApproverDecision", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TimeEntryApproverDecision findUnique
+   */
+  export type TimeEntryApproverDecisionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntryApproverDecision
+     */
+    select?: TimeEntryApproverDecisionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntryApproverDecision
+     */
+    omit?: TimeEntryApproverDecisionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryApproverDecisionInclude<ExtArgs> | null
+    /**
+     * Filter, which TimeEntryApproverDecision to fetch.
+     */
+    where: TimeEntryApproverDecisionWhereUniqueInput
+  }
+
+  /**
+   * TimeEntryApproverDecision findUniqueOrThrow
+   */
+  export type TimeEntryApproverDecisionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntryApproverDecision
+     */
+    select?: TimeEntryApproverDecisionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntryApproverDecision
+     */
+    omit?: TimeEntryApproverDecisionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryApproverDecisionInclude<ExtArgs> | null
+    /**
+     * Filter, which TimeEntryApproverDecision to fetch.
+     */
+    where: TimeEntryApproverDecisionWhereUniqueInput
+  }
+
+  /**
+   * TimeEntryApproverDecision findFirst
+   */
+  export type TimeEntryApproverDecisionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntryApproverDecision
+     */
+    select?: TimeEntryApproverDecisionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntryApproverDecision
+     */
+    omit?: TimeEntryApproverDecisionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryApproverDecisionInclude<ExtArgs> | null
+    /**
+     * Filter, which TimeEntryApproverDecision to fetch.
+     */
+    where?: TimeEntryApproverDecisionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TimeEntryApproverDecisions to fetch.
+     */
+    orderBy?: TimeEntryApproverDecisionOrderByWithRelationInput | TimeEntryApproverDecisionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TimeEntryApproverDecisions.
+     */
+    cursor?: TimeEntryApproverDecisionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TimeEntryApproverDecisions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TimeEntryApproverDecisions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TimeEntryApproverDecisions.
+     */
+    distinct?: TimeEntryApproverDecisionScalarFieldEnum | TimeEntryApproverDecisionScalarFieldEnum[]
+  }
+
+  /**
+   * TimeEntryApproverDecision findFirstOrThrow
+   */
+  export type TimeEntryApproverDecisionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntryApproverDecision
+     */
+    select?: TimeEntryApproverDecisionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntryApproverDecision
+     */
+    omit?: TimeEntryApproverDecisionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryApproverDecisionInclude<ExtArgs> | null
+    /**
+     * Filter, which TimeEntryApproverDecision to fetch.
+     */
+    where?: TimeEntryApproverDecisionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TimeEntryApproverDecisions to fetch.
+     */
+    orderBy?: TimeEntryApproverDecisionOrderByWithRelationInput | TimeEntryApproverDecisionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TimeEntryApproverDecisions.
+     */
+    cursor?: TimeEntryApproverDecisionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TimeEntryApproverDecisions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TimeEntryApproverDecisions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TimeEntryApproverDecisions.
+     */
+    distinct?: TimeEntryApproverDecisionScalarFieldEnum | TimeEntryApproverDecisionScalarFieldEnum[]
+  }
+
+  /**
+   * TimeEntryApproverDecision findMany
+   */
+  export type TimeEntryApproverDecisionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntryApproverDecision
+     */
+    select?: TimeEntryApproverDecisionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntryApproverDecision
+     */
+    omit?: TimeEntryApproverDecisionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryApproverDecisionInclude<ExtArgs> | null
+    /**
+     * Filter, which TimeEntryApproverDecisions to fetch.
+     */
+    where?: TimeEntryApproverDecisionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TimeEntryApproverDecisions to fetch.
+     */
+    orderBy?: TimeEntryApproverDecisionOrderByWithRelationInput | TimeEntryApproverDecisionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TimeEntryApproverDecisions.
+     */
+    cursor?: TimeEntryApproverDecisionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TimeEntryApproverDecisions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TimeEntryApproverDecisions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TimeEntryApproverDecisions.
+     */
+    distinct?: TimeEntryApproverDecisionScalarFieldEnum | TimeEntryApproverDecisionScalarFieldEnum[]
+  }
+
+  /**
+   * TimeEntryApproverDecision create
+   */
+  export type TimeEntryApproverDecisionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntryApproverDecision
+     */
+    select?: TimeEntryApproverDecisionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntryApproverDecision
+     */
+    omit?: TimeEntryApproverDecisionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryApproverDecisionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TimeEntryApproverDecision.
+     */
+    data: XOR<TimeEntryApproverDecisionCreateInput, TimeEntryApproverDecisionUncheckedCreateInput>
+  }
+
+  /**
+   * TimeEntryApproverDecision createMany
+   */
+  export type TimeEntryApproverDecisionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TimeEntryApproverDecisions.
+     */
+    data: TimeEntryApproverDecisionCreateManyInput | TimeEntryApproverDecisionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TimeEntryApproverDecision createManyAndReturn
+   */
+  export type TimeEntryApproverDecisionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntryApproverDecision
+     */
+    select?: TimeEntryApproverDecisionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntryApproverDecision
+     */
+    omit?: TimeEntryApproverDecisionOmit<ExtArgs> | null
+    /**
+     * The data used to create many TimeEntryApproverDecisions.
+     */
+    data: TimeEntryApproverDecisionCreateManyInput | TimeEntryApproverDecisionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryApproverDecisionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TimeEntryApproverDecision update
+   */
+  export type TimeEntryApproverDecisionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntryApproverDecision
+     */
+    select?: TimeEntryApproverDecisionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntryApproverDecision
+     */
+    omit?: TimeEntryApproverDecisionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryApproverDecisionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TimeEntryApproverDecision.
+     */
+    data: XOR<TimeEntryApproverDecisionUpdateInput, TimeEntryApproverDecisionUncheckedUpdateInput>
+    /**
+     * Choose, which TimeEntryApproverDecision to update.
+     */
+    where: TimeEntryApproverDecisionWhereUniqueInput
+  }
+
+  /**
+   * TimeEntryApproverDecision updateMany
+   */
+  export type TimeEntryApproverDecisionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TimeEntryApproverDecisions.
+     */
+    data: XOR<TimeEntryApproverDecisionUpdateManyMutationInput, TimeEntryApproverDecisionUncheckedUpdateManyInput>
+    /**
+     * Filter which TimeEntryApproverDecisions to update
+     */
+    where?: TimeEntryApproverDecisionWhereInput
+    /**
+     * Limit how many TimeEntryApproverDecisions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TimeEntryApproverDecision updateManyAndReturn
+   */
+  export type TimeEntryApproverDecisionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntryApproverDecision
+     */
+    select?: TimeEntryApproverDecisionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntryApproverDecision
+     */
+    omit?: TimeEntryApproverDecisionOmit<ExtArgs> | null
+    /**
+     * The data used to update TimeEntryApproverDecisions.
+     */
+    data: XOR<TimeEntryApproverDecisionUpdateManyMutationInput, TimeEntryApproverDecisionUncheckedUpdateManyInput>
+    /**
+     * Filter which TimeEntryApproverDecisions to update
+     */
+    where?: TimeEntryApproverDecisionWhereInput
+    /**
+     * Limit how many TimeEntryApproverDecisions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryApproverDecisionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TimeEntryApproverDecision upsert
+   */
+  export type TimeEntryApproverDecisionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntryApproverDecision
+     */
+    select?: TimeEntryApproverDecisionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntryApproverDecision
+     */
+    omit?: TimeEntryApproverDecisionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryApproverDecisionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TimeEntryApproverDecision to update in case it exists.
+     */
+    where: TimeEntryApproverDecisionWhereUniqueInput
+    /**
+     * In case the TimeEntryApproverDecision found by the `where` argument doesn't exist, create a new TimeEntryApproverDecision with this data.
+     */
+    create: XOR<TimeEntryApproverDecisionCreateInput, TimeEntryApproverDecisionUncheckedCreateInput>
+    /**
+     * In case the TimeEntryApproverDecision was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TimeEntryApproverDecisionUpdateInput, TimeEntryApproverDecisionUncheckedUpdateInput>
+  }
+
+  /**
+   * TimeEntryApproverDecision delete
+   */
+  export type TimeEntryApproverDecisionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntryApproverDecision
+     */
+    select?: TimeEntryApproverDecisionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntryApproverDecision
+     */
+    omit?: TimeEntryApproverDecisionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryApproverDecisionInclude<ExtArgs> | null
+    /**
+     * Filter which TimeEntryApproverDecision to delete.
+     */
+    where: TimeEntryApproverDecisionWhereUniqueInput
+  }
+
+  /**
+   * TimeEntryApproverDecision deleteMany
+   */
+  export type TimeEntryApproverDecisionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TimeEntryApproverDecisions to delete
+     */
+    where?: TimeEntryApproverDecisionWhereInput
+    /**
+     * Limit how many TimeEntryApproverDecisions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TimeEntryApproverDecision without action
+   */
+  export type TimeEntryApproverDecisionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TimeEntryApproverDecision
+     */
+    select?: TimeEntryApproverDecisionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TimeEntryApproverDecision
+     */
+    omit?: TimeEntryApproverDecisionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TimeEntryApproverDecisionInclude<ExtArgs> | null
   }
 
 
@@ -90889,6 +94731,7 @@ export namespace Prisma {
     deliveredAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
+    approvalPolicyId: string | null
   }
 
   export type BudgetMaxAggregateOutputType = {
@@ -90908,6 +94751,7 @@ export namespace Prisma {
     deliveredAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
+    approvalPolicyId: string | null
   }
 
   export type BudgetCountAggregateOutputType = {
@@ -90927,6 +94771,7 @@ export namespace Prisma {
     deliveredAt: number
     createdAt: number
     updatedAt: number
+    approvalPolicyId: number
     _all: number
   }
 
@@ -90948,6 +94793,7 @@ export namespace Prisma {
     deliveredAt?: true
     createdAt?: true
     updatedAt?: true
+    approvalPolicyId?: true
   }
 
   export type BudgetMaxAggregateInputType = {
@@ -90967,6 +94813,7 @@ export namespace Prisma {
     deliveredAt?: true
     createdAt?: true
     updatedAt?: true
+    approvalPolicyId?: true
   }
 
   export type BudgetCountAggregateInputType = {
@@ -90986,6 +94833,7 @@ export namespace Prisma {
     deliveredAt?: true
     createdAt?: true
     updatedAt?: true
+    approvalPolicyId?: true
     _all?: true
   }
 
@@ -91078,6 +94926,7 @@ export namespace Prisma {
     deliveredAt: Date | null
     createdAt: Date
     updatedAt: Date
+    approvalPolicyId: string | null
     _count: BudgetCountAggregateOutputType | null
     _min: BudgetMinAggregateOutputType | null
     _max: BudgetMaxAggregateOutputType | null
@@ -91114,6 +94963,7 @@ export namespace Prisma {
     deliveredAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    approvalPolicyId?: boolean
     project?: boolean | ProjectDefaultArgs<ExtArgs>
     owner?: boolean | UserDefaultArgs<ExtArgs>
     scenarioOf?: boolean | Budget$scenarioOfArgs<ExtArgs>
@@ -91123,6 +94973,7 @@ export namespace Prisma {
     customFieldValues?: boolean | Budget$customFieldValuesArgs<ExtArgs>
     activityEvents?: boolean | Budget$activityEventsArgs<ExtArgs>
     expenses?: boolean | Budget$expensesArgs<ExtArgs>
+    approvalPolicy?: boolean | Budget$approvalPolicyArgs<ExtArgs>
     _count?: boolean | BudgetCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["budget"]>
 
@@ -91143,9 +94994,11 @@ export namespace Prisma {
     deliveredAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    approvalPolicyId?: boolean
     project?: boolean | ProjectDefaultArgs<ExtArgs>
     owner?: boolean | UserDefaultArgs<ExtArgs>
     scenarioOf?: boolean | Budget$scenarioOfArgs<ExtArgs>
+    approvalPolicy?: boolean | Budget$approvalPolicyArgs<ExtArgs>
   }, ExtArgs["result"]["budget"]>
 
   export type BudgetSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -91165,9 +95018,11 @@ export namespace Prisma {
     deliveredAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    approvalPolicyId?: boolean
     project?: boolean | ProjectDefaultArgs<ExtArgs>
     owner?: boolean | UserDefaultArgs<ExtArgs>
     scenarioOf?: boolean | Budget$scenarioOfArgs<ExtArgs>
+    approvalPolicy?: boolean | Budget$approvalPolicyArgs<ExtArgs>
   }, ExtArgs["result"]["budget"]>
 
   export type BudgetSelectScalar = {
@@ -91187,9 +95042,10 @@ export namespace Prisma {
     deliveredAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    approvalPolicyId?: boolean
   }
 
-  export type BudgetOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "projectId" | "title" | "ownerId" | "isRetainer" | "recurrenceInterval" | "lastRecurrencePeriodKey" | "startDate" | "endDate" | "color" | "isScenario" | "scenarioOfId" | "isTemplate" | "deliveredAt" | "createdAt" | "updatedAt", ExtArgs["result"]["budget"]>
+  export type BudgetOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "projectId" | "title" | "ownerId" | "isRetainer" | "recurrenceInterval" | "lastRecurrencePeriodKey" | "startDate" | "endDate" | "color" | "isScenario" | "scenarioOfId" | "isTemplate" | "deliveredAt" | "createdAt" | "updatedAt" | "approvalPolicyId", ExtArgs["result"]["budget"]>
   export type BudgetInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     project?: boolean | ProjectDefaultArgs<ExtArgs>
     owner?: boolean | UserDefaultArgs<ExtArgs>
@@ -91200,17 +95056,20 @@ export namespace Prisma {
     customFieldValues?: boolean | Budget$customFieldValuesArgs<ExtArgs>
     activityEvents?: boolean | Budget$activityEventsArgs<ExtArgs>
     expenses?: boolean | Budget$expensesArgs<ExtArgs>
+    approvalPolicy?: boolean | Budget$approvalPolicyArgs<ExtArgs>
     _count?: boolean | BudgetCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type BudgetIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     project?: boolean | ProjectDefaultArgs<ExtArgs>
     owner?: boolean | UserDefaultArgs<ExtArgs>
     scenarioOf?: boolean | Budget$scenarioOfArgs<ExtArgs>
+    approvalPolicy?: boolean | Budget$approvalPolicyArgs<ExtArgs>
   }
   export type BudgetIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     project?: boolean | ProjectDefaultArgs<ExtArgs>
     owner?: boolean | UserDefaultArgs<ExtArgs>
     scenarioOf?: boolean | Budget$scenarioOfArgs<ExtArgs>
+    approvalPolicy?: boolean | Budget$approvalPolicyArgs<ExtArgs>
   }
 
   export type $BudgetPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -91225,6 +95084,7 @@ export namespace Prisma {
       customFieldValues: Prisma.$BudgetCustomFieldValuePayload<ExtArgs>[]
       activityEvents: Prisma.$ActivityEventPayload<ExtArgs>[]
       expenses: Prisma.$ExpensePayload<ExtArgs>[]
+      approvalPolicy: Prisma.$ApprovalPolicyPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -91243,6 +95103,7 @@ export namespace Prisma {
       deliveredAt: Date | null
       createdAt: Date
       updatedAt: Date
+      approvalPolicyId: string | null
     }, ExtArgs["result"]["budget"]>
     composites: {}
   }
@@ -91646,6 +95507,7 @@ export namespace Prisma {
     customFieldValues<T extends Budget$customFieldValuesArgs<ExtArgs> = {}>(args?: Subset<T, Budget$customFieldValuesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BudgetCustomFieldValuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     activityEvents<T extends Budget$activityEventsArgs<ExtArgs> = {}>(args?: Subset<T, Budget$activityEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     expenses<T extends Budget$expensesArgs<ExtArgs> = {}>(args?: Subset<T, Budget$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    approvalPolicy<T extends Budget$approvalPolicyArgs<ExtArgs> = {}>(args?: Subset<T, Budget$approvalPolicyArgs<ExtArgs>>): Prisma__ApprovalPolicyClient<$Result.GetResult<Prisma.$ApprovalPolicyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -91691,6 +95553,7 @@ export namespace Prisma {
     readonly deliveredAt: FieldRef<"Budget", 'DateTime'>
     readonly createdAt: FieldRef<"Budget", 'DateTime'>
     readonly updatedAt: FieldRef<"Budget", 'DateTime'>
+    readonly approvalPolicyId: FieldRef<"Budget", 'String'>
   }
     
 
@@ -92252,6 +96115,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ExpenseScalarFieldEnum | ExpenseScalarFieldEnum[]
+  }
+
+  /**
+   * Budget.approvalPolicy
+   */
+  export type Budget$approvalPolicyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ApprovalPolicy
+     */
+    select?: ApprovalPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ApprovalPolicy
+     */
+    omit?: ApprovalPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApprovalPolicyInclude<ExtArgs> | null
+    where?: ApprovalPolicyWhereInput
   }
 
   /**
@@ -108230,6 +112112,7 @@ export namespace Prisma {
     crmEnabled: 'crmEnabled',
     reportsEnabled: 'reportsEnabled',
     resourcingEnabled: 'resourcingEnabled',
+    timeApprovalEnabled: 'timeApprovalEnabled',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -108264,10 +112147,48 @@ export namespace Prisma {
     approvedById: 'approvedById',
     approvedAt: 'approvedAt',
     loggedForUserId: 'loggedForUserId',
-    submittedAt: 'submittedAt'
+    submittedAt: 'submittedAt',
+    rejectionReason: 'rejectionReason'
   };
 
   export type TimeEntryScalarFieldEnum = (typeof TimeEntryScalarFieldEnum)[keyof typeof TimeEntryScalarFieldEnum]
+
+
+  export const ApprovalPolicyScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    description: 'description',
+    timeApprovalMode: 'timeApprovalMode',
+    expenseApprovalMode: 'expenseApprovalMode',
+    isDefault: 'isDefault',
+    archived: 'archived',
+    createdAt: 'createdAt'
+  };
+
+  export type ApprovalPolicyScalarFieldEnum = (typeof ApprovalPolicyScalarFieldEnum)[keyof typeof ApprovalPolicyScalarFieldEnum]
+
+
+  export const ApprovalPolicyApproverScalarFieldEnum: {
+    id: 'id',
+    policyId: 'policyId',
+    kind: 'kind',
+    roleType: 'roleType',
+    specificUserId: 'specificUserId'
+  };
+
+  export type ApprovalPolicyApproverScalarFieldEnum = (typeof ApprovalPolicyApproverScalarFieldEnum)[keyof typeof ApprovalPolicyApproverScalarFieldEnum]
+
+
+  export const TimeEntryApproverDecisionScalarFieldEnum: {
+    id: 'id',
+    timeEntryId: 'timeEntryId',
+    approverId: 'approverId',
+    status: 'status',
+    decidedAt: 'decidedAt',
+    createdAt: 'createdAt'
+  };
+
+  export type TimeEntryApproverDecisionScalarFieldEnum = (typeof TimeEntryApproverDecisionScalarFieldEnum)[keyof typeof TimeEntryApproverDecisionScalarFieldEnum]
 
 
   export const TimesheetLockScalarFieldEnum: {
@@ -108617,7 +112538,8 @@ export namespace Prisma {
     isTemplate: 'isTemplate',
     deliveredAt: 'deliveredAt',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    approvalPolicyId: 'approvalPolicyId'
   };
 
   export type BudgetScalarFieldEnum = (typeof BudgetScalarFieldEnum)[keyof typeof BudgetScalarFieldEnum]
@@ -109134,6 +113056,62 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ApprovalMode'
+   */
+  export type EnumApprovalModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApprovalMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'ApprovalMode[]'
+   */
+  export type ListEnumApprovalModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApprovalMode[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ApprovalKind'
+   */
+  export type EnumApprovalKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApprovalKind'>
+    
+
+
+  /**
+   * Reference to a field of type 'ApprovalKind[]'
+   */
+  export type ListEnumApprovalKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApprovalKind[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ApproverRoleType'
+   */
+  export type EnumApproverRoleTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApproverRoleType'>
+    
+
+
+  /**
+   * Reference to a field of type 'ApproverRoleType[]'
+   */
+  export type ListEnumApproverRoleTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApproverRoleType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ApprovalDecisionStatus'
+   */
+  export type EnumApprovalDecisionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApprovalDecisionStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ApprovalDecisionStatus[]'
+   */
+  export type ListEnumApprovalDecisionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApprovalDecisionStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'CustomFieldEntityType'
    */
   export type EnumCustomFieldEntityTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CustomFieldEntityType'>
@@ -109462,6 +113440,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageListRelationFilter
     accountOwnedClients?: ClientListRelationFilter
     ownedDeals?: DealListRelationFilter
+    approvalPolicyApprovals?: ApprovalPolicyApproverListRelationFilter
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -109535,6 +113515,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageOrderByRelationAggregateInput
     accountOwnedClients?: ClientOrderByRelationAggregateInput
     ownedDeals?: DealOrderByRelationAggregateInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverOrderByRelationAggregateInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -109611,6 +113593,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageListRelationFilter
     accountOwnedClients?: ClientListRelationFilter
     ownedDeals?: DealListRelationFilter
+    approvalPolicyApprovals?: ApprovalPolicyApproverListRelationFilter
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -112408,6 +116392,7 @@ export namespace Prisma {
     crmEnabled?: BoolFilter<"TenantSettings"> | boolean
     reportsEnabled?: BoolFilter<"TenantSettings"> | boolean
     resourcingEnabled?: BoolFilter<"TenantSettings"> | boolean
+    timeApprovalEnabled?: BoolFilter<"TenantSettings"> | boolean
     createdAt?: DateTimeFilter<"TenantSettings"> | Date | string
     updatedAt?: DateTimeFilter<"TenantSettings"> | Date | string
   }
@@ -112423,6 +116408,7 @@ export namespace Prisma {
     crmEnabled?: SortOrder
     reportsEnabled?: SortOrder
     resourcingEnabled?: SortOrder
+    timeApprovalEnabled?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -112441,6 +116427,7 @@ export namespace Prisma {
     crmEnabled?: BoolFilter<"TenantSettings"> | boolean
     reportsEnabled?: BoolFilter<"TenantSettings"> | boolean
     resourcingEnabled?: BoolFilter<"TenantSettings"> | boolean
+    timeApprovalEnabled?: BoolFilter<"TenantSettings"> | boolean
     createdAt?: DateTimeFilter<"TenantSettings"> | Date | string
     updatedAt?: DateTimeFilter<"TenantSettings"> | Date | string
   }, "id">
@@ -112456,6 +116443,7 @@ export namespace Prisma {
     crmEnabled?: SortOrder
     reportsEnabled?: SortOrder
     resourcingEnabled?: SortOrder
+    timeApprovalEnabled?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: TenantSettingsCountOrderByAggregateInput
@@ -112477,6 +116465,7 @@ export namespace Prisma {
     crmEnabled?: BoolWithAggregatesFilter<"TenantSettings"> | boolean
     reportsEnabled?: BoolWithAggregatesFilter<"TenantSettings"> | boolean
     resourcingEnabled?: BoolWithAggregatesFilter<"TenantSettings"> | boolean
+    timeApprovalEnabled?: BoolWithAggregatesFilter<"TenantSettings"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"TenantSettings"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"TenantSettings"> | Date | string
   }
@@ -112552,6 +116541,7 @@ export namespace Prisma {
     approvedAt?: DateTimeNullableFilter<"TimeEntry"> | Date | string | null
     loggedForUserId?: StringNullableFilter<"TimeEntry"> | string | null
     submittedAt?: DateTimeNullableFilter<"TimeEntry"> | Date | string | null
+    rejectionReason?: StringNullableFilter<"TimeEntry"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     task?: XOR<TaskNullableScalarRelationFilter, TaskWhereInput> | null
     project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
@@ -112559,6 +116549,7 @@ export namespace Prisma {
     invoice?: XOR<InvoiceNullableScalarRelationFilter, InvoiceWhereInput> | null
     approvedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     loggedForUser?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    approverDecisions?: TimeEntryApproverDecisionListRelationFilter
   }
 
   export type TimeEntryOrderByWithRelationInput = {
@@ -112579,6 +116570,7 @@ export namespace Prisma {
     approvedAt?: SortOrderInput | SortOrder
     loggedForUserId?: SortOrderInput | SortOrder
     submittedAt?: SortOrderInput | SortOrder
+    rejectionReason?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
     task?: TaskOrderByWithRelationInput
     project?: ProjectOrderByWithRelationInput
@@ -112586,6 +116578,7 @@ export namespace Prisma {
     invoice?: InvoiceOrderByWithRelationInput
     approvedBy?: UserOrderByWithRelationInput
     loggedForUser?: UserOrderByWithRelationInput
+    approverDecisions?: TimeEntryApproverDecisionOrderByRelationAggregateInput
   }
 
   export type TimeEntryWhereUniqueInput = Prisma.AtLeast<{
@@ -112609,6 +116602,7 @@ export namespace Prisma {
     approvedAt?: DateTimeNullableFilter<"TimeEntry"> | Date | string | null
     loggedForUserId?: StringNullableFilter<"TimeEntry"> | string | null
     submittedAt?: DateTimeNullableFilter<"TimeEntry"> | Date | string | null
+    rejectionReason?: StringNullableFilter<"TimeEntry"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     task?: XOR<TaskNullableScalarRelationFilter, TaskWhereInput> | null
     project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
@@ -112616,6 +116610,7 @@ export namespace Prisma {
     invoice?: XOR<InvoiceNullableScalarRelationFilter, InvoiceWhereInput> | null
     approvedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     loggedForUser?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    approverDecisions?: TimeEntryApproverDecisionListRelationFilter
   }, "id">
 
   export type TimeEntryOrderByWithAggregationInput = {
@@ -112636,6 +116631,7 @@ export namespace Prisma {
     approvedAt?: SortOrderInput | SortOrder
     loggedForUserId?: SortOrderInput | SortOrder
     submittedAt?: SortOrderInput | SortOrder
+    rejectionReason?: SortOrderInput | SortOrder
     _count?: TimeEntryCountOrderByAggregateInput
     _avg?: TimeEntryAvgOrderByAggregateInput
     _max?: TimeEntryMaxOrderByAggregateInput
@@ -112664,6 +116660,202 @@ export namespace Prisma {
     approvedAt?: DateTimeNullableWithAggregatesFilter<"TimeEntry"> | Date | string | null
     loggedForUserId?: StringNullableWithAggregatesFilter<"TimeEntry"> | string | null
     submittedAt?: DateTimeNullableWithAggregatesFilter<"TimeEntry"> | Date | string | null
+    rejectionReason?: StringNullableWithAggregatesFilter<"TimeEntry"> | string | null
+  }
+
+  export type ApprovalPolicyWhereInput = {
+    AND?: ApprovalPolicyWhereInput | ApprovalPolicyWhereInput[]
+    OR?: ApprovalPolicyWhereInput[]
+    NOT?: ApprovalPolicyWhereInput | ApprovalPolicyWhereInput[]
+    id?: StringFilter<"ApprovalPolicy"> | string
+    name?: StringFilter<"ApprovalPolicy"> | string
+    description?: StringNullableFilter<"ApprovalPolicy"> | string | null
+    timeApprovalMode?: EnumApprovalModeFilter<"ApprovalPolicy"> | $Enums.ApprovalMode
+    expenseApprovalMode?: EnumApprovalModeFilter<"ApprovalPolicy"> | $Enums.ApprovalMode
+    isDefault?: BoolFilter<"ApprovalPolicy"> | boolean
+    archived?: BoolFilter<"ApprovalPolicy"> | boolean
+    createdAt?: DateTimeFilter<"ApprovalPolicy"> | Date | string
+    approvers?: ApprovalPolicyApproverListRelationFilter
+    budgets?: BudgetListRelationFilter
+  }
+
+  export type ApprovalPolicyOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    timeApprovalMode?: SortOrder
+    expenseApprovalMode?: SortOrder
+    isDefault?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+    approvers?: ApprovalPolicyApproverOrderByRelationAggregateInput
+    budgets?: BudgetOrderByRelationAggregateInput
+  }
+
+  export type ApprovalPolicyWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ApprovalPolicyWhereInput | ApprovalPolicyWhereInput[]
+    OR?: ApprovalPolicyWhereInput[]
+    NOT?: ApprovalPolicyWhereInput | ApprovalPolicyWhereInput[]
+    name?: StringFilter<"ApprovalPolicy"> | string
+    description?: StringNullableFilter<"ApprovalPolicy"> | string | null
+    timeApprovalMode?: EnumApprovalModeFilter<"ApprovalPolicy"> | $Enums.ApprovalMode
+    expenseApprovalMode?: EnumApprovalModeFilter<"ApprovalPolicy"> | $Enums.ApprovalMode
+    isDefault?: BoolFilter<"ApprovalPolicy"> | boolean
+    archived?: BoolFilter<"ApprovalPolicy"> | boolean
+    createdAt?: DateTimeFilter<"ApprovalPolicy"> | Date | string
+    approvers?: ApprovalPolicyApproverListRelationFilter
+    budgets?: BudgetListRelationFilter
+  }, "id">
+
+  export type ApprovalPolicyOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    timeApprovalMode?: SortOrder
+    expenseApprovalMode?: SortOrder
+    isDefault?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+    _count?: ApprovalPolicyCountOrderByAggregateInput
+    _max?: ApprovalPolicyMaxOrderByAggregateInput
+    _min?: ApprovalPolicyMinOrderByAggregateInput
+  }
+
+  export type ApprovalPolicyScalarWhereWithAggregatesInput = {
+    AND?: ApprovalPolicyScalarWhereWithAggregatesInput | ApprovalPolicyScalarWhereWithAggregatesInput[]
+    OR?: ApprovalPolicyScalarWhereWithAggregatesInput[]
+    NOT?: ApprovalPolicyScalarWhereWithAggregatesInput | ApprovalPolicyScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ApprovalPolicy"> | string
+    name?: StringWithAggregatesFilter<"ApprovalPolicy"> | string
+    description?: StringNullableWithAggregatesFilter<"ApprovalPolicy"> | string | null
+    timeApprovalMode?: EnumApprovalModeWithAggregatesFilter<"ApprovalPolicy"> | $Enums.ApprovalMode
+    expenseApprovalMode?: EnumApprovalModeWithAggregatesFilter<"ApprovalPolicy"> | $Enums.ApprovalMode
+    isDefault?: BoolWithAggregatesFilter<"ApprovalPolicy"> | boolean
+    archived?: BoolWithAggregatesFilter<"ApprovalPolicy"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"ApprovalPolicy"> | Date | string
+  }
+
+  export type ApprovalPolicyApproverWhereInput = {
+    AND?: ApprovalPolicyApproverWhereInput | ApprovalPolicyApproverWhereInput[]
+    OR?: ApprovalPolicyApproverWhereInput[]
+    NOT?: ApprovalPolicyApproverWhereInput | ApprovalPolicyApproverWhereInput[]
+    id?: StringFilter<"ApprovalPolicyApprover"> | string
+    policyId?: StringFilter<"ApprovalPolicyApprover"> | string
+    kind?: EnumApprovalKindFilter<"ApprovalPolicyApprover"> | $Enums.ApprovalKind
+    roleType?: EnumApproverRoleTypeFilter<"ApprovalPolicyApprover"> | $Enums.ApproverRoleType
+    specificUserId?: StringNullableFilter<"ApprovalPolicyApprover"> | string | null
+    policy?: XOR<ApprovalPolicyScalarRelationFilter, ApprovalPolicyWhereInput>
+    specificUser?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type ApprovalPolicyApproverOrderByWithRelationInput = {
+    id?: SortOrder
+    policyId?: SortOrder
+    kind?: SortOrder
+    roleType?: SortOrder
+    specificUserId?: SortOrderInput | SortOrder
+    policy?: ApprovalPolicyOrderByWithRelationInput
+    specificUser?: UserOrderByWithRelationInput
+  }
+
+  export type ApprovalPolicyApproverWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ApprovalPolicyApproverWhereInput | ApprovalPolicyApproverWhereInput[]
+    OR?: ApprovalPolicyApproverWhereInput[]
+    NOT?: ApprovalPolicyApproverWhereInput | ApprovalPolicyApproverWhereInput[]
+    policyId?: StringFilter<"ApprovalPolicyApprover"> | string
+    kind?: EnumApprovalKindFilter<"ApprovalPolicyApprover"> | $Enums.ApprovalKind
+    roleType?: EnumApproverRoleTypeFilter<"ApprovalPolicyApprover"> | $Enums.ApproverRoleType
+    specificUserId?: StringNullableFilter<"ApprovalPolicyApprover"> | string | null
+    policy?: XOR<ApprovalPolicyScalarRelationFilter, ApprovalPolicyWhereInput>
+    specificUser?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id">
+
+  export type ApprovalPolicyApproverOrderByWithAggregationInput = {
+    id?: SortOrder
+    policyId?: SortOrder
+    kind?: SortOrder
+    roleType?: SortOrder
+    specificUserId?: SortOrderInput | SortOrder
+    _count?: ApprovalPolicyApproverCountOrderByAggregateInput
+    _max?: ApprovalPolicyApproverMaxOrderByAggregateInput
+    _min?: ApprovalPolicyApproverMinOrderByAggregateInput
+  }
+
+  export type ApprovalPolicyApproverScalarWhereWithAggregatesInput = {
+    AND?: ApprovalPolicyApproverScalarWhereWithAggregatesInput | ApprovalPolicyApproverScalarWhereWithAggregatesInput[]
+    OR?: ApprovalPolicyApproverScalarWhereWithAggregatesInput[]
+    NOT?: ApprovalPolicyApproverScalarWhereWithAggregatesInput | ApprovalPolicyApproverScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ApprovalPolicyApprover"> | string
+    policyId?: StringWithAggregatesFilter<"ApprovalPolicyApprover"> | string
+    kind?: EnumApprovalKindWithAggregatesFilter<"ApprovalPolicyApprover"> | $Enums.ApprovalKind
+    roleType?: EnumApproverRoleTypeWithAggregatesFilter<"ApprovalPolicyApprover"> | $Enums.ApproverRoleType
+    specificUserId?: StringNullableWithAggregatesFilter<"ApprovalPolicyApprover"> | string | null
+  }
+
+  export type TimeEntryApproverDecisionWhereInput = {
+    AND?: TimeEntryApproverDecisionWhereInput | TimeEntryApproverDecisionWhereInput[]
+    OR?: TimeEntryApproverDecisionWhereInput[]
+    NOT?: TimeEntryApproverDecisionWhereInput | TimeEntryApproverDecisionWhereInput[]
+    id?: StringFilter<"TimeEntryApproverDecision"> | string
+    timeEntryId?: StringFilter<"TimeEntryApproverDecision"> | string
+    approverId?: StringFilter<"TimeEntryApproverDecision"> | string
+    status?: EnumApprovalDecisionStatusFilter<"TimeEntryApproverDecision"> | $Enums.ApprovalDecisionStatus
+    decidedAt?: DateTimeNullableFilter<"TimeEntryApproverDecision"> | Date | string | null
+    createdAt?: DateTimeFilter<"TimeEntryApproverDecision"> | Date | string
+    timeEntry?: XOR<TimeEntryScalarRelationFilter, TimeEntryWhereInput>
+    approver?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type TimeEntryApproverDecisionOrderByWithRelationInput = {
+    id?: SortOrder
+    timeEntryId?: SortOrder
+    approverId?: SortOrder
+    status?: SortOrder
+    decidedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    timeEntry?: TimeEntryOrderByWithRelationInput
+    approver?: UserOrderByWithRelationInput
+  }
+
+  export type TimeEntryApproverDecisionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    timeEntryId_approverId?: TimeEntryApproverDecisionTimeEntryIdApproverIdCompoundUniqueInput
+    AND?: TimeEntryApproverDecisionWhereInput | TimeEntryApproverDecisionWhereInput[]
+    OR?: TimeEntryApproverDecisionWhereInput[]
+    NOT?: TimeEntryApproverDecisionWhereInput | TimeEntryApproverDecisionWhereInput[]
+    timeEntryId?: StringFilter<"TimeEntryApproverDecision"> | string
+    approverId?: StringFilter<"TimeEntryApproverDecision"> | string
+    status?: EnumApprovalDecisionStatusFilter<"TimeEntryApproverDecision"> | $Enums.ApprovalDecisionStatus
+    decidedAt?: DateTimeNullableFilter<"TimeEntryApproverDecision"> | Date | string | null
+    createdAt?: DateTimeFilter<"TimeEntryApproverDecision"> | Date | string
+    timeEntry?: XOR<TimeEntryScalarRelationFilter, TimeEntryWhereInput>
+    approver?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "timeEntryId_approverId">
+
+  export type TimeEntryApproverDecisionOrderByWithAggregationInput = {
+    id?: SortOrder
+    timeEntryId?: SortOrder
+    approverId?: SortOrder
+    status?: SortOrder
+    decidedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: TimeEntryApproverDecisionCountOrderByAggregateInput
+    _max?: TimeEntryApproverDecisionMaxOrderByAggregateInput
+    _min?: TimeEntryApproverDecisionMinOrderByAggregateInput
+  }
+
+  export type TimeEntryApproverDecisionScalarWhereWithAggregatesInput = {
+    AND?: TimeEntryApproverDecisionScalarWhereWithAggregatesInput | TimeEntryApproverDecisionScalarWhereWithAggregatesInput[]
+    OR?: TimeEntryApproverDecisionScalarWhereWithAggregatesInput[]
+    NOT?: TimeEntryApproverDecisionScalarWhereWithAggregatesInput | TimeEntryApproverDecisionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TimeEntryApproverDecision"> | string
+    timeEntryId?: StringWithAggregatesFilter<"TimeEntryApproverDecision"> | string
+    approverId?: StringWithAggregatesFilter<"TimeEntryApproverDecision"> | string
+    status?: EnumApprovalDecisionStatusWithAggregatesFilter<"TimeEntryApproverDecision"> | $Enums.ApprovalDecisionStatus
+    decidedAt?: DateTimeNullableWithAggregatesFilter<"TimeEntryApproverDecision"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"TimeEntryApproverDecision"> | Date | string
   }
 
   export type TimesheetLockWhereInput = {
@@ -114456,6 +118648,7 @@ export namespace Prisma {
     deliveredAt?: DateTimeNullableFilter<"Budget"> | Date | string | null
     createdAt?: DateTimeFilter<"Budget"> | Date | string
     updatedAt?: DateTimeFilter<"Budget"> | Date | string
+    approvalPolicyId?: StringNullableFilter<"Budget"> | string | null
     project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
     scenarioOf?: XOR<BudgetNullableScalarRelationFilter, BudgetWhereInput> | null
@@ -114465,6 +118658,7 @@ export namespace Prisma {
     customFieldValues?: BudgetCustomFieldValueListRelationFilter
     activityEvents?: ActivityEventListRelationFilter
     expenses?: ExpenseListRelationFilter
+    approvalPolicy?: XOR<ApprovalPolicyNullableScalarRelationFilter, ApprovalPolicyWhereInput> | null
   }
 
   export type BudgetOrderByWithRelationInput = {
@@ -114484,6 +118678,7 @@ export namespace Prisma {
     deliveredAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    approvalPolicyId?: SortOrderInput | SortOrder
     project?: ProjectOrderByWithRelationInput
     owner?: UserOrderByWithRelationInput
     scenarioOf?: BudgetOrderByWithRelationInput
@@ -114493,6 +118688,7 @@ export namespace Prisma {
     customFieldValues?: BudgetCustomFieldValueOrderByRelationAggregateInput
     activityEvents?: ActivityEventOrderByRelationAggregateInput
     expenses?: ExpenseOrderByRelationAggregateInput
+    approvalPolicy?: ApprovalPolicyOrderByWithRelationInput
   }
 
   export type BudgetWhereUniqueInput = Prisma.AtLeast<{
@@ -114515,6 +118711,7 @@ export namespace Prisma {
     deliveredAt?: DateTimeNullableFilter<"Budget"> | Date | string | null
     createdAt?: DateTimeFilter<"Budget"> | Date | string
     updatedAt?: DateTimeFilter<"Budget"> | Date | string
+    approvalPolicyId?: StringNullableFilter<"Budget"> | string | null
     project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
     scenarioOf?: XOR<BudgetNullableScalarRelationFilter, BudgetWhereInput> | null
@@ -114524,6 +118721,7 @@ export namespace Prisma {
     customFieldValues?: BudgetCustomFieldValueListRelationFilter
     activityEvents?: ActivityEventListRelationFilter
     expenses?: ExpenseListRelationFilter
+    approvalPolicy?: XOR<ApprovalPolicyNullableScalarRelationFilter, ApprovalPolicyWhereInput> | null
   }, "id">
 
   export type BudgetOrderByWithAggregationInput = {
@@ -114543,6 +118741,7 @@ export namespace Prisma {
     deliveredAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    approvalPolicyId?: SortOrderInput | SortOrder
     _count?: BudgetCountOrderByAggregateInput
     _max?: BudgetMaxOrderByAggregateInput
     _min?: BudgetMinOrderByAggregateInput
@@ -114568,6 +118767,7 @@ export namespace Prisma {
     deliveredAt?: DateTimeNullableWithAggregatesFilter<"Budget"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Budget"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Budget"> | Date | string
+    approvalPolicyId?: StringNullableWithAggregatesFilter<"Budget"> | string | null
   }
 
   export type ServiceTypeWhereInput = {
@@ -115717,6 +119917,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -115787,6 +119989,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserUpdateInput = {
@@ -115857,6 +120061,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -115927,6 +120133,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -118817,6 +123025,7 @@ export namespace Prisma {
     crmEnabled?: boolean
     reportsEnabled?: boolean
     resourcingEnabled?: boolean
+    timeApprovalEnabled?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -118832,6 +123041,7 @@ export namespace Prisma {
     crmEnabled?: boolean
     reportsEnabled?: boolean
     resourcingEnabled?: boolean
+    timeApprovalEnabled?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -118847,6 +123057,7 @@ export namespace Prisma {
     crmEnabled?: BoolFieldUpdateOperationsInput | boolean
     reportsEnabled?: BoolFieldUpdateOperationsInput | boolean
     resourcingEnabled?: BoolFieldUpdateOperationsInput | boolean
+    timeApprovalEnabled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -118862,6 +123073,7 @@ export namespace Prisma {
     crmEnabled?: BoolFieldUpdateOperationsInput | boolean
     reportsEnabled?: BoolFieldUpdateOperationsInput | boolean
     resourcingEnabled?: BoolFieldUpdateOperationsInput | boolean
+    timeApprovalEnabled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -118877,6 +123089,7 @@ export namespace Prisma {
     crmEnabled?: boolean
     reportsEnabled?: boolean
     resourcingEnabled?: boolean
+    timeApprovalEnabled?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -118892,6 +123105,7 @@ export namespace Prisma {
     crmEnabled?: BoolFieldUpdateOperationsInput | boolean
     reportsEnabled?: BoolFieldUpdateOperationsInput | boolean
     resourcingEnabled?: BoolFieldUpdateOperationsInput | boolean
+    timeApprovalEnabled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -118907,6 +123121,7 @@ export namespace Prisma {
     crmEnabled?: BoolFieldUpdateOperationsInput | boolean
     reportsEnabled?: BoolFieldUpdateOperationsInput | boolean
     resourcingEnabled?: BoolFieldUpdateOperationsInput | boolean
+    timeApprovalEnabled?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -118970,6 +123185,7 @@ export namespace Prisma {
     approvalStatus?: $Enums.TimeEntryApprovalStatus
     approvedAt?: Date | string | null
     submittedAt?: Date | string | null
+    rejectionReason?: string | null
     user: UserCreateNestedOneWithoutTimeEntriesInput
     task?: TaskCreateNestedOneWithoutTimeEntriesInput
     project?: ProjectCreateNestedOneWithoutTimeEntriesInput
@@ -118977,6 +123193,7 @@ export namespace Prisma {
     invoice?: InvoiceCreateNestedOneWithoutTimeEntriesInput
     approvedBy?: UserCreateNestedOneWithoutApprovedTimeEntriesInput
     loggedForUser?: UserCreateNestedOneWithoutLoggedForTimeEntriesInput
+    approverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutTimeEntryInput
   }
 
   export type TimeEntryUncheckedCreateInput = {
@@ -118997,6 +123214,8 @@ export namespace Prisma {
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
     submittedAt?: Date | string | null
+    rejectionReason?: string | null
+    approverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutTimeEntryInput
   }
 
   export type TimeEntryUpdateInput = {
@@ -119010,6 +123229,7 @@ export namespace Prisma {
     approvalStatus?: EnumTimeEntryApprovalStatusFieldUpdateOperationsInput | $Enums.TimeEntryApprovalStatus
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutTimeEntriesNestedInput
     task?: TaskUpdateOneWithoutTimeEntriesNestedInput
     project?: ProjectUpdateOneWithoutTimeEntriesNestedInput
@@ -119017,6 +123237,7 @@ export namespace Prisma {
     invoice?: InvoiceUpdateOneWithoutTimeEntriesNestedInput
     approvedBy?: UserUpdateOneWithoutApprovedTimeEntriesNestedInput
     loggedForUser?: UserUpdateOneWithoutLoggedForTimeEntriesNestedInput
+    approverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutTimeEntryNestedInput
   }
 
   export type TimeEntryUncheckedUpdateInput = {
@@ -119037,6 +123258,8 @@ export namespace Prisma {
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    approverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutTimeEntryNestedInput
   }
 
   export type TimeEntryCreateManyInput = {
@@ -119057,6 +123280,7 @@ export namespace Prisma {
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
     submittedAt?: Date | string | null
+    rejectionReason?: string | null
   }
 
   export type TimeEntryUpdateManyMutationInput = {
@@ -119070,6 +123294,7 @@ export namespace Prisma {
     approvalStatus?: EnumTimeEntryApprovalStatusFieldUpdateOperationsInput | $Enums.TimeEntryApprovalStatus
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TimeEntryUncheckedUpdateManyInput = {
@@ -119090,6 +123315,207 @@ export namespace Prisma {
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ApprovalPolicyCreateInput = {
+    id?: string
+    name: string
+    description?: string | null
+    timeApprovalMode?: $Enums.ApprovalMode
+    expenseApprovalMode?: $Enums.ApprovalMode
+    isDefault?: boolean
+    archived?: boolean
+    createdAt?: Date | string
+    approvers?: ApprovalPolicyApproverCreateNestedManyWithoutPolicyInput
+    budgets?: BudgetCreateNestedManyWithoutApprovalPolicyInput
+  }
+
+  export type ApprovalPolicyUncheckedCreateInput = {
+    id?: string
+    name: string
+    description?: string | null
+    timeApprovalMode?: $Enums.ApprovalMode
+    expenseApprovalMode?: $Enums.ApprovalMode
+    isDefault?: boolean
+    archived?: boolean
+    createdAt?: Date | string
+    approvers?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutPolicyInput
+    budgets?: BudgetUncheckedCreateNestedManyWithoutApprovalPolicyInput
+  }
+
+  export type ApprovalPolicyUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    timeApprovalMode?: EnumApprovalModeFieldUpdateOperationsInput | $Enums.ApprovalMode
+    expenseApprovalMode?: EnumApprovalModeFieldUpdateOperationsInput | $Enums.ApprovalMode
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvers?: ApprovalPolicyApproverUpdateManyWithoutPolicyNestedInput
+    budgets?: BudgetUpdateManyWithoutApprovalPolicyNestedInput
+  }
+
+  export type ApprovalPolicyUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    timeApprovalMode?: EnumApprovalModeFieldUpdateOperationsInput | $Enums.ApprovalMode
+    expenseApprovalMode?: EnumApprovalModeFieldUpdateOperationsInput | $Enums.ApprovalMode
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvers?: ApprovalPolicyApproverUncheckedUpdateManyWithoutPolicyNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutApprovalPolicyNestedInput
+  }
+
+  export type ApprovalPolicyCreateManyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    timeApprovalMode?: $Enums.ApprovalMode
+    expenseApprovalMode?: $Enums.ApprovalMode
+    isDefault?: boolean
+    archived?: boolean
+    createdAt?: Date | string
+  }
+
+  export type ApprovalPolicyUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    timeApprovalMode?: EnumApprovalModeFieldUpdateOperationsInput | $Enums.ApprovalMode
+    expenseApprovalMode?: EnumApprovalModeFieldUpdateOperationsInput | $Enums.ApprovalMode
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApprovalPolicyUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    timeApprovalMode?: EnumApprovalModeFieldUpdateOperationsInput | $Enums.ApprovalMode
+    expenseApprovalMode?: EnumApprovalModeFieldUpdateOperationsInput | $Enums.ApprovalMode
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApprovalPolicyApproverCreateInput = {
+    id?: string
+    kind: $Enums.ApprovalKind
+    roleType: $Enums.ApproverRoleType
+    policy: ApprovalPolicyCreateNestedOneWithoutApproversInput
+    specificUser?: UserCreateNestedOneWithoutApprovalPolicyApprovalsInput
+  }
+
+  export type ApprovalPolicyApproverUncheckedCreateInput = {
+    id?: string
+    policyId: string
+    kind: $Enums.ApprovalKind
+    roleType: $Enums.ApproverRoleType
+    specificUserId?: string | null
+  }
+
+  export type ApprovalPolicyApproverUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumApprovalKindFieldUpdateOperationsInput | $Enums.ApprovalKind
+    roleType?: EnumApproverRoleTypeFieldUpdateOperationsInput | $Enums.ApproverRoleType
+    policy?: ApprovalPolicyUpdateOneRequiredWithoutApproversNestedInput
+    specificUser?: UserUpdateOneWithoutApprovalPolicyApprovalsNestedInput
+  }
+
+  export type ApprovalPolicyApproverUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    policyId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumApprovalKindFieldUpdateOperationsInput | $Enums.ApprovalKind
+    roleType?: EnumApproverRoleTypeFieldUpdateOperationsInput | $Enums.ApproverRoleType
+    specificUserId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ApprovalPolicyApproverCreateManyInput = {
+    id?: string
+    policyId: string
+    kind: $Enums.ApprovalKind
+    roleType: $Enums.ApproverRoleType
+    specificUserId?: string | null
+  }
+
+  export type ApprovalPolicyApproverUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumApprovalKindFieldUpdateOperationsInput | $Enums.ApprovalKind
+    roleType?: EnumApproverRoleTypeFieldUpdateOperationsInput | $Enums.ApproverRoleType
+  }
+
+  export type ApprovalPolicyApproverUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    policyId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumApprovalKindFieldUpdateOperationsInput | $Enums.ApprovalKind
+    roleType?: EnumApproverRoleTypeFieldUpdateOperationsInput | $Enums.ApproverRoleType
+    specificUserId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TimeEntryApproverDecisionCreateInput = {
+    id?: string
+    status?: $Enums.ApprovalDecisionStatus
+    decidedAt?: Date | string | null
+    createdAt?: Date | string
+    timeEntry: TimeEntryCreateNestedOneWithoutApproverDecisionsInput
+    approver: UserCreateNestedOneWithoutTimeEntryApproverDecisionsInput
+  }
+
+  export type TimeEntryApproverDecisionUncheckedCreateInput = {
+    id?: string
+    timeEntryId: string
+    approverId: string
+    status?: $Enums.ApprovalDecisionStatus
+    decidedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type TimeEntryApproverDecisionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumApprovalDecisionStatusFieldUpdateOperationsInput | $Enums.ApprovalDecisionStatus
+    decidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeEntry?: TimeEntryUpdateOneRequiredWithoutApproverDecisionsNestedInput
+    approver?: UserUpdateOneRequiredWithoutTimeEntryApproverDecisionsNestedInput
+  }
+
+  export type TimeEntryApproverDecisionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timeEntryId?: StringFieldUpdateOperationsInput | string
+    approverId?: StringFieldUpdateOperationsInput | string
+    status?: EnumApprovalDecisionStatusFieldUpdateOperationsInput | $Enums.ApprovalDecisionStatus
+    decidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimeEntryApproverDecisionCreateManyInput = {
+    id?: string
+    timeEntryId: string
+    approverId: string
+    status?: $Enums.ApprovalDecisionStatus
+    decidedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type TimeEntryApproverDecisionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumApprovalDecisionStatusFieldUpdateOperationsInput | $Enums.ApprovalDecisionStatus
+    decidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimeEntryApproverDecisionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timeEntryId?: StringFieldUpdateOperationsInput | string
+    approverId?: StringFieldUpdateOperationsInput | string
+    status?: EnumApprovalDecisionStatusFieldUpdateOperationsInput | $Enums.ApprovalDecisionStatus
+    decidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TimesheetLockCreateInput = {
@@ -120864,6 +125290,7 @@ export namespace Prisma {
     customFieldValues?: BudgetCustomFieldValueCreateNestedManyWithoutBudgetInput
     activityEvents?: ActivityEventCreateNestedManyWithoutBudgetInput
     expenses?: ExpenseCreateNestedManyWithoutBudgetInput
+    approvalPolicy?: ApprovalPolicyCreateNestedOneWithoutBudgetsInput
   }
 
   export type BudgetUncheckedCreateInput = {
@@ -120883,6 +125310,7 @@ export namespace Prisma {
     deliveredAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    approvalPolicyId?: string | null
     scenarios?: BudgetUncheckedCreateNestedManyWithoutScenarioOfInput
     sections?: BudgetSectionUncheckedCreateNestedManyWithoutBudgetInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutBudgetInput
@@ -120914,6 +125342,7 @@ export namespace Prisma {
     customFieldValues?: BudgetCustomFieldValueUpdateManyWithoutBudgetNestedInput
     activityEvents?: ActivityEventUpdateManyWithoutBudgetNestedInput
     expenses?: ExpenseUpdateManyWithoutBudgetNestedInput
+    approvalPolicy?: ApprovalPolicyUpdateOneWithoutBudgetsNestedInput
   }
 
   export type BudgetUncheckedUpdateInput = {
@@ -120933,6 +125362,7 @@ export namespace Prisma {
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
     scenarios?: BudgetUncheckedUpdateManyWithoutScenarioOfNestedInput
     sections?: BudgetSectionUncheckedUpdateManyWithoutBudgetNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutBudgetNestedInput
@@ -120958,6 +125388,7 @@ export namespace Prisma {
     deliveredAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    approvalPolicyId?: string | null
   }
 
   export type BudgetUpdateManyMutationInput = {
@@ -120993,6 +125424,7 @@ export namespace Prisma {
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ServiceTypeCreateInput = {
@@ -122487,6 +126919,18 @@ export namespace Prisma {
     none?: DealWhereInput
   }
 
+  export type ApprovalPolicyApproverListRelationFilter = {
+    every?: ApprovalPolicyApproverWhereInput
+    some?: ApprovalPolicyApproverWhereInput
+    none?: ApprovalPolicyApproverWhereInput
+  }
+
+  export type TimeEntryApproverDecisionListRelationFilter = {
+    every?: TimeEntryApproverDecisionWhereInput
+    some?: TimeEntryApproverDecisionWhereInput
+    none?: TimeEntryApproverDecisionWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -122661,6 +127105,14 @@ export namespace Prisma {
   }
 
   export type DealOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ApprovalPolicyApproverOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TimeEntryApproverDecisionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -124796,6 +129248,7 @@ export namespace Prisma {
     crmEnabled?: SortOrder
     reportsEnabled?: SortOrder
     resourcingEnabled?: SortOrder
+    timeApprovalEnabled?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -124811,6 +129264,7 @@ export namespace Prisma {
     crmEnabled?: SortOrder
     reportsEnabled?: SortOrder
     resourcingEnabled?: SortOrder
+    timeApprovalEnabled?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -124826,6 +129280,7 @@ export namespace Prisma {
     crmEnabled?: SortOrder
     reportsEnabled?: SortOrder
     resourcingEnabled?: SortOrder
+    timeApprovalEnabled?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -124896,6 +129351,7 @@ export namespace Prisma {
     approvedAt?: SortOrder
     loggedForUserId?: SortOrder
     submittedAt?: SortOrder
+    rejectionReason?: SortOrder
   }
 
   export type TimeEntryAvgOrderByAggregateInput = {
@@ -124921,6 +129377,7 @@ export namespace Prisma {
     approvedAt?: SortOrder
     loggedForUserId?: SortOrder
     submittedAt?: SortOrder
+    rejectionReason?: SortOrder
   }
 
   export type TimeEntryMinOrderByAggregateInput = {
@@ -124941,6 +129398,7 @@ export namespace Prisma {
     approvedAt?: SortOrder
     loggedForUserId?: SortOrder
     submittedAt?: SortOrder
+    rejectionReason?: SortOrder
   }
 
   export type TimeEntrySumOrderByAggregateInput = {
@@ -124956,6 +129414,173 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTimeEntryApprovalStatusFilter<$PrismaModel>
     _max?: NestedEnumTimeEntryApprovalStatusFilter<$PrismaModel>
+  }
+
+  export type EnumApprovalModeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApprovalMode | EnumApprovalModeFieldRefInput<$PrismaModel>
+    in?: $Enums.ApprovalMode[] | ListEnumApprovalModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApprovalMode[] | ListEnumApprovalModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumApprovalModeFilter<$PrismaModel> | $Enums.ApprovalMode
+  }
+
+  export type ApprovalPolicyCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    timeApprovalMode?: SortOrder
+    expenseApprovalMode?: SortOrder
+    isDefault?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ApprovalPolicyMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    timeApprovalMode?: SortOrder
+    expenseApprovalMode?: SortOrder
+    isDefault?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ApprovalPolicyMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    timeApprovalMode?: SortOrder
+    expenseApprovalMode?: SortOrder
+    isDefault?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumApprovalModeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApprovalMode | EnumApprovalModeFieldRefInput<$PrismaModel>
+    in?: $Enums.ApprovalMode[] | ListEnumApprovalModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApprovalMode[] | ListEnumApprovalModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumApprovalModeWithAggregatesFilter<$PrismaModel> | $Enums.ApprovalMode
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumApprovalModeFilter<$PrismaModel>
+    _max?: NestedEnumApprovalModeFilter<$PrismaModel>
+  }
+
+  export type EnumApprovalKindFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApprovalKind | EnumApprovalKindFieldRefInput<$PrismaModel>
+    in?: $Enums.ApprovalKind[] | ListEnumApprovalKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApprovalKind[] | ListEnumApprovalKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumApprovalKindFilter<$PrismaModel> | $Enums.ApprovalKind
+  }
+
+  export type EnumApproverRoleTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApproverRoleType | EnumApproverRoleTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ApproverRoleType[] | ListEnumApproverRoleTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApproverRoleType[] | ListEnumApproverRoleTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumApproverRoleTypeFilter<$PrismaModel> | $Enums.ApproverRoleType
+  }
+
+  export type ApprovalPolicyScalarRelationFilter = {
+    is?: ApprovalPolicyWhereInput
+    isNot?: ApprovalPolicyWhereInput
+  }
+
+  export type ApprovalPolicyApproverCountOrderByAggregateInput = {
+    id?: SortOrder
+    policyId?: SortOrder
+    kind?: SortOrder
+    roleType?: SortOrder
+    specificUserId?: SortOrder
+  }
+
+  export type ApprovalPolicyApproverMaxOrderByAggregateInput = {
+    id?: SortOrder
+    policyId?: SortOrder
+    kind?: SortOrder
+    roleType?: SortOrder
+    specificUserId?: SortOrder
+  }
+
+  export type ApprovalPolicyApproverMinOrderByAggregateInput = {
+    id?: SortOrder
+    policyId?: SortOrder
+    kind?: SortOrder
+    roleType?: SortOrder
+    specificUserId?: SortOrder
+  }
+
+  export type EnumApprovalKindWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApprovalKind | EnumApprovalKindFieldRefInput<$PrismaModel>
+    in?: $Enums.ApprovalKind[] | ListEnumApprovalKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApprovalKind[] | ListEnumApprovalKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumApprovalKindWithAggregatesFilter<$PrismaModel> | $Enums.ApprovalKind
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumApprovalKindFilter<$PrismaModel>
+    _max?: NestedEnumApprovalKindFilter<$PrismaModel>
+  }
+
+  export type EnumApproverRoleTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApproverRoleType | EnumApproverRoleTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ApproverRoleType[] | ListEnumApproverRoleTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApproverRoleType[] | ListEnumApproverRoleTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumApproverRoleTypeWithAggregatesFilter<$PrismaModel> | $Enums.ApproverRoleType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumApproverRoleTypeFilter<$PrismaModel>
+    _max?: NestedEnumApproverRoleTypeFilter<$PrismaModel>
+  }
+
+  export type EnumApprovalDecisionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApprovalDecisionStatus | EnumApprovalDecisionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ApprovalDecisionStatus[] | ListEnumApprovalDecisionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApprovalDecisionStatus[] | ListEnumApprovalDecisionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumApprovalDecisionStatusFilter<$PrismaModel> | $Enums.ApprovalDecisionStatus
+  }
+
+  export type TimeEntryScalarRelationFilter = {
+    is?: TimeEntryWhereInput
+    isNot?: TimeEntryWhereInput
+  }
+
+  export type TimeEntryApproverDecisionTimeEntryIdApproverIdCompoundUniqueInput = {
+    timeEntryId: string
+    approverId: string
+  }
+
+  export type TimeEntryApproverDecisionCountOrderByAggregateInput = {
+    id?: SortOrder
+    timeEntryId?: SortOrder
+    approverId?: SortOrder
+    status?: SortOrder
+    decidedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TimeEntryApproverDecisionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    timeEntryId?: SortOrder
+    approverId?: SortOrder
+    status?: SortOrder
+    decidedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TimeEntryApproverDecisionMinOrderByAggregateInput = {
+    id?: SortOrder
+    timeEntryId?: SortOrder
+    approverId?: SortOrder
+    status?: SortOrder
+    decidedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumApprovalDecisionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApprovalDecisionStatus | EnumApprovalDecisionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ApprovalDecisionStatus[] | ListEnumApprovalDecisionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApprovalDecisionStatus[] | ListEnumApprovalDecisionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumApprovalDecisionStatusWithAggregatesFilter<$PrismaModel> | $Enums.ApprovalDecisionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumApprovalDecisionStatusFilter<$PrismaModel>
+    _max?: NestedEnumApprovalDecisionStatusFilter<$PrismaModel>
   }
 
   export type TimesheetLockUserIdPeriodStartPeriodEndCompoundUniqueInput = {
@@ -126058,6 +130683,11 @@ export namespace Prisma {
     none?: BudgetSectionWhereInput
   }
 
+  export type ApprovalPolicyNullableScalarRelationFilter = {
+    is?: ApprovalPolicyWhereInput | null
+    isNot?: ApprovalPolicyWhereInput | null
+  }
+
   export type BudgetSectionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -126079,6 +130709,7 @@ export namespace Prisma {
     deliveredAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    approvalPolicyId?: SortOrder
   }
 
   export type BudgetMaxOrderByAggregateInput = {
@@ -126098,6 +130729,7 @@ export namespace Prisma {
     deliveredAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    approvalPolicyId?: SortOrder
   }
 
   export type BudgetMinOrderByAggregateInput = {
@@ -126117,6 +130749,7 @@ export namespace Prisma {
     deliveredAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    approvalPolicyId?: SortOrder
   }
 
   export type EnumRecurrenceIntervalNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -127255,6 +131888,20 @@ export namespace Prisma {
     connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
   }
 
+  export type ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput = {
+    create?: XOR<ApprovalPolicyApproverCreateWithoutSpecificUserInput, ApprovalPolicyApproverUncheckedCreateWithoutSpecificUserInput> | ApprovalPolicyApproverCreateWithoutSpecificUserInput[] | ApprovalPolicyApproverUncheckedCreateWithoutSpecificUserInput[]
+    connectOrCreate?: ApprovalPolicyApproverCreateOrConnectWithoutSpecificUserInput | ApprovalPolicyApproverCreateOrConnectWithoutSpecificUserInput[]
+    createMany?: ApprovalPolicyApproverCreateManySpecificUserInputEnvelope
+    connect?: ApprovalPolicyApproverWhereUniqueInput | ApprovalPolicyApproverWhereUniqueInput[]
+  }
+
+  export type TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput = {
+    create?: XOR<TimeEntryApproverDecisionCreateWithoutApproverInput, TimeEntryApproverDecisionUncheckedCreateWithoutApproverInput> | TimeEntryApproverDecisionCreateWithoutApproverInput[] | TimeEntryApproverDecisionUncheckedCreateWithoutApproverInput[]
+    connectOrCreate?: TimeEntryApproverDecisionCreateOrConnectWithoutApproverInput | TimeEntryApproverDecisionCreateOrConnectWithoutApproverInput[]
+    createMany?: TimeEntryApproverDecisionCreateManyApproverInputEnvelope
+    connect?: TimeEntryApproverDecisionWhereUniqueInput | TimeEntryApproverDecisionWhereUniqueInput[]
+  }
+
   export type SessionUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -127596,6 +132243,20 @@ export namespace Prisma {
     connectOrCreate?: DealCreateOrConnectWithoutOwnerInput | DealCreateOrConnectWithoutOwnerInput[]
     createMany?: DealCreateManyOwnerInputEnvelope
     connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+  }
+
+  export type ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput = {
+    create?: XOR<ApprovalPolicyApproverCreateWithoutSpecificUserInput, ApprovalPolicyApproverUncheckedCreateWithoutSpecificUserInput> | ApprovalPolicyApproverCreateWithoutSpecificUserInput[] | ApprovalPolicyApproverUncheckedCreateWithoutSpecificUserInput[]
+    connectOrCreate?: ApprovalPolicyApproverCreateOrConnectWithoutSpecificUserInput | ApprovalPolicyApproverCreateOrConnectWithoutSpecificUserInput[]
+    createMany?: ApprovalPolicyApproverCreateManySpecificUserInputEnvelope
+    connect?: ApprovalPolicyApproverWhereUniqueInput | ApprovalPolicyApproverWhereUniqueInput[]
+  }
+
+  export type TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput = {
+    create?: XOR<TimeEntryApproverDecisionCreateWithoutApproverInput, TimeEntryApproverDecisionUncheckedCreateWithoutApproverInput> | TimeEntryApproverDecisionCreateWithoutApproverInput[] | TimeEntryApproverDecisionUncheckedCreateWithoutApproverInput[]
+    connectOrCreate?: TimeEntryApproverDecisionCreateOrConnectWithoutApproverInput | TimeEntryApproverDecisionCreateOrConnectWithoutApproverInput[]
+    createMany?: TimeEntryApproverDecisionCreateManyApproverInputEnvelope
+    connect?: TimeEntryApproverDecisionWhereUniqueInput | TimeEntryApproverDecisionWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -128354,6 +133015,34 @@ export namespace Prisma {
     deleteMany?: DealScalarWhereInput | DealScalarWhereInput[]
   }
 
+  export type ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput = {
+    create?: XOR<ApprovalPolicyApproverCreateWithoutSpecificUserInput, ApprovalPolicyApproverUncheckedCreateWithoutSpecificUserInput> | ApprovalPolicyApproverCreateWithoutSpecificUserInput[] | ApprovalPolicyApproverUncheckedCreateWithoutSpecificUserInput[]
+    connectOrCreate?: ApprovalPolicyApproverCreateOrConnectWithoutSpecificUserInput | ApprovalPolicyApproverCreateOrConnectWithoutSpecificUserInput[]
+    upsert?: ApprovalPolicyApproverUpsertWithWhereUniqueWithoutSpecificUserInput | ApprovalPolicyApproverUpsertWithWhereUniqueWithoutSpecificUserInput[]
+    createMany?: ApprovalPolicyApproverCreateManySpecificUserInputEnvelope
+    set?: ApprovalPolicyApproverWhereUniqueInput | ApprovalPolicyApproverWhereUniqueInput[]
+    disconnect?: ApprovalPolicyApproverWhereUniqueInput | ApprovalPolicyApproverWhereUniqueInput[]
+    delete?: ApprovalPolicyApproverWhereUniqueInput | ApprovalPolicyApproverWhereUniqueInput[]
+    connect?: ApprovalPolicyApproverWhereUniqueInput | ApprovalPolicyApproverWhereUniqueInput[]
+    update?: ApprovalPolicyApproverUpdateWithWhereUniqueWithoutSpecificUserInput | ApprovalPolicyApproverUpdateWithWhereUniqueWithoutSpecificUserInput[]
+    updateMany?: ApprovalPolicyApproverUpdateManyWithWhereWithoutSpecificUserInput | ApprovalPolicyApproverUpdateManyWithWhereWithoutSpecificUserInput[]
+    deleteMany?: ApprovalPolicyApproverScalarWhereInput | ApprovalPolicyApproverScalarWhereInput[]
+  }
+
+  export type TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput = {
+    create?: XOR<TimeEntryApproverDecisionCreateWithoutApproverInput, TimeEntryApproverDecisionUncheckedCreateWithoutApproverInput> | TimeEntryApproverDecisionCreateWithoutApproverInput[] | TimeEntryApproverDecisionUncheckedCreateWithoutApproverInput[]
+    connectOrCreate?: TimeEntryApproverDecisionCreateOrConnectWithoutApproverInput | TimeEntryApproverDecisionCreateOrConnectWithoutApproverInput[]
+    upsert?: TimeEntryApproverDecisionUpsertWithWhereUniqueWithoutApproverInput | TimeEntryApproverDecisionUpsertWithWhereUniqueWithoutApproverInput[]
+    createMany?: TimeEntryApproverDecisionCreateManyApproverInputEnvelope
+    set?: TimeEntryApproverDecisionWhereUniqueInput | TimeEntryApproverDecisionWhereUniqueInput[]
+    disconnect?: TimeEntryApproverDecisionWhereUniqueInput | TimeEntryApproverDecisionWhereUniqueInput[]
+    delete?: TimeEntryApproverDecisionWhereUniqueInput | TimeEntryApproverDecisionWhereUniqueInput[]
+    connect?: TimeEntryApproverDecisionWhereUniqueInput | TimeEntryApproverDecisionWhereUniqueInput[]
+    update?: TimeEntryApproverDecisionUpdateWithWhereUniqueWithoutApproverInput | TimeEntryApproverDecisionUpdateWithWhereUniqueWithoutApproverInput[]
+    updateMany?: TimeEntryApproverDecisionUpdateManyWithWhereWithoutApproverInput | TimeEntryApproverDecisionUpdateManyWithWhereWithoutApproverInput[]
+    deleteMany?: TimeEntryApproverDecisionScalarWhereInput | TimeEntryApproverDecisionScalarWhereInput[]
+  }
+
   export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -129038,6 +133727,34 @@ export namespace Prisma {
     update?: DealUpdateWithWhereUniqueWithoutOwnerInput | DealUpdateWithWhereUniqueWithoutOwnerInput[]
     updateMany?: DealUpdateManyWithWhereWithoutOwnerInput | DealUpdateManyWithWhereWithoutOwnerInput[]
     deleteMany?: DealScalarWhereInput | DealScalarWhereInput[]
+  }
+
+  export type ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput = {
+    create?: XOR<ApprovalPolicyApproverCreateWithoutSpecificUserInput, ApprovalPolicyApproverUncheckedCreateWithoutSpecificUserInput> | ApprovalPolicyApproverCreateWithoutSpecificUserInput[] | ApprovalPolicyApproverUncheckedCreateWithoutSpecificUserInput[]
+    connectOrCreate?: ApprovalPolicyApproverCreateOrConnectWithoutSpecificUserInput | ApprovalPolicyApproverCreateOrConnectWithoutSpecificUserInput[]
+    upsert?: ApprovalPolicyApproverUpsertWithWhereUniqueWithoutSpecificUserInput | ApprovalPolicyApproverUpsertWithWhereUniqueWithoutSpecificUserInput[]
+    createMany?: ApprovalPolicyApproverCreateManySpecificUserInputEnvelope
+    set?: ApprovalPolicyApproverWhereUniqueInput | ApprovalPolicyApproverWhereUniqueInput[]
+    disconnect?: ApprovalPolicyApproverWhereUniqueInput | ApprovalPolicyApproverWhereUniqueInput[]
+    delete?: ApprovalPolicyApproverWhereUniqueInput | ApprovalPolicyApproverWhereUniqueInput[]
+    connect?: ApprovalPolicyApproverWhereUniqueInput | ApprovalPolicyApproverWhereUniqueInput[]
+    update?: ApprovalPolicyApproverUpdateWithWhereUniqueWithoutSpecificUserInput | ApprovalPolicyApproverUpdateWithWhereUniqueWithoutSpecificUserInput[]
+    updateMany?: ApprovalPolicyApproverUpdateManyWithWhereWithoutSpecificUserInput | ApprovalPolicyApproverUpdateManyWithWhereWithoutSpecificUserInput[]
+    deleteMany?: ApprovalPolicyApproverScalarWhereInput | ApprovalPolicyApproverScalarWhereInput[]
+  }
+
+  export type TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput = {
+    create?: XOR<TimeEntryApproverDecisionCreateWithoutApproverInput, TimeEntryApproverDecisionUncheckedCreateWithoutApproverInput> | TimeEntryApproverDecisionCreateWithoutApproverInput[] | TimeEntryApproverDecisionUncheckedCreateWithoutApproverInput[]
+    connectOrCreate?: TimeEntryApproverDecisionCreateOrConnectWithoutApproverInput | TimeEntryApproverDecisionCreateOrConnectWithoutApproverInput[]
+    upsert?: TimeEntryApproverDecisionUpsertWithWhereUniqueWithoutApproverInput | TimeEntryApproverDecisionUpsertWithWhereUniqueWithoutApproverInput[]
+    createMany?: TimeEntryApproverDecisionCreateManyApproverInputEnvelope
+    set?: TimeEntryApproverDecisionWhereUniqueInput | TimeEntryApproverDecisionWhereUniqueInput[]
+    disconnect?: TimeEntryApproverDecisionWhereUniqueInput | TimeEntryApproverDecisionWhereUniqueInput[]
+    delete?: TimeEntryApproverDecisionWhereUniqueInput | TimeEntryApproverDecisionWhereUniqueInput[]
+    connect?: TimeEntryApproverDecisionWhereUniqueInput | TimeEntryApproverDecisionWhereUniqueInput[]
+    update?: TimeEntryApproverDecisionUpdateWithWhereUniqueWithoutApproverInput | TimeEntryApproverDecisionUpdateWithWhereUniqueWithoutApproverInput[]
+    updateMany?: TimeEntryApproverDecisionUpdateManyWithWhereWithoutApproverInput | TimeEntryApproverDecisionUpdateManyWithWhereWithoutApproverInput[]
+    deleteMany?: TimeEntryApproverDecisionScalarWhereInput | TimeEntryApproverDecisionScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutAccountOwnedClientsInput = {
@@ -132844,6 +137561,20 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type TimeEntryApproverDecisionCreateNestedManyWithoutTimeEntryInput = {
+    create?: XOR<TimeEntryApproverDecisionCreateWithoutTimeEntryInput, TimeEntryApproverDecisionUncheckedCreateWithoutTimeEntryInput> | TimeEntryApproverDecisionCreateWithoutTimeEntryInput[] | TimeEntryApproverDecisionUncheckedCreateWithoutTimeEntryInput[]
+    connectOrCreate?: TimeEntryApproverDecisionCreateOrConnectWithoutTimeEntryInput | TimeEntryApproverDecisionCreateOrConnectWithoutTimeEntryInput[]
+    createMany?: TimeEntryApproverDecisionCreateManyTimeEntryInputEnvelope
+    connect?: TimeEntryApproverDecisionWhereUniqueInput | TimeEntryApproverDecisionWhereUniqueInput[]
+  }
+
+  export type TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutTimeEntryInput = {
+    create?: XOR<TimeEntryApproverDecisionCreateWithoutTimeEntryInput, TimeEntryApproverDecisionUncheckedCreateWithoutTimeEntryInput> | TimeEntryApproverDecisionCreateWithoutTimeEntryInput[] | TimeEntryApproverDecisionUncheckedCreateWithoutTimeEntryInput[]
+    connectOrCreate?: TimeEntryApproverDecisionCreateOrConnectWithoutTimeEntryInput | TimeEntryApproverDecisionCreateOrConnectWithoutTimeEntryInput[]
+    createMany?: TimeEntryApproverDecisionCreateManyTimeEntryInputEnvelope
+    connect?: TimeEntryApproverDecisionWhereUniqueInput | TimeEntryApproverDecisionWhereUniqueInput[]
+  }
+
   export type EnumTimeEntryApprovalStatusFieldUpdateOperationsInput = {
     set?: $Enums.TimeEntryApprovalStatus
   }
@@ -132914,6 +137645,192 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLoggedForTimeEntriesInput, UserUpdateWithoutLoggedForTimeEntriesInput>, UserUncheckedUpdateWithoutLoggedForTimeEntriesInput>
+  }
+
+  export type TimeEntryApproverDecisionUpdateManyWithoutTimeEntryNestedInput = {
+    create?: XOR<TimeEntryApproverDecisionCreateWithoutTimeEntryInput, TimeEntryApproverDecisionUncheckedCreateWithoutTimeEntryInput> | TimeEntryApproverDecisionCreateWithoutTimeEntryInput[] | TimeEntryApproverDecisionUncheckedCreateWithoutTimeEntryInput[]
+    connectOrCreate?: TimeEntryApproverDecisionCreateOrConnectWithoutTimeEntryInput | TimeEntryApproverDecisionCreateOrConnectWithoutTimeEntryInput[]
+    upsert?: TimeEntryApproverDecisionUpsertWithWhereUniqueWithoutTimeEntryInput | TimeEntryApproverDecisionUpsertWithWhereUniqueWithoutTimeEntryInput[]
+    createMany?: TimeEntryApproverDecisionCreateManyTimeEntryInputEnvelope
+    set?: TimeEntryApproverDecisionWhereUniqueInput | TimeEntryApproverDecisionWhereUniqueInput[]
+    disconnect?: TimeEntryApproverDecisionWhereUniqueInput | TimeEntryApproverDecisionWhereUniqueInput[]
+    delete?: TimeEntryApproverDecisionWhereUniqueInput | TimeEntryApproverDecisionWhereUniqueInput[]
+    connect?: TimeEntryApproverDecisionWhereUniqueInput | TimeEntryApproverDecisionWhereUniqueInput[]
+    update?: TimeEntryApproverDecisionUpdateWithWhereUniqueWithoutTimeEntryInput | TimeEntryApproverDecisionUpdateWithWhereUniqueWithoutTimeEntryInput[]
+    updateMany?: TimeEntryApproverDecisionUpdateManyWithWhereWithoutTimeEntryInput | TimeEntryApproverDecisionUpdateManyWithWhereWithoutTimeEntryInput[]
+    deleteMany?: TimeEntryApproverDecisionScalarWhereInput | TimeEntryApproverDecisionScalarWhereInput[]
+  }
+
+  export type TimeEntryApproverDecisionUncheckedUpdateManyWithoutTimeEntryNestedInput = {
+    create?: XOR<TimeEntryApproverDecisionCreateWithoutTimeEntryInput, TimeEntryApproverDecisionUncheckedCreateWithoutTimeEntryInput> | TimeEntryApproverDecisionCreateWithoutTimeEntryInput[] | TimeEntryApproverDecisionUncheckedCreateWithoutTimeEntryInput[]
+    connectOrCreate?: TimeEntryApproverDecisionCreateOrConnectWithoutTimeEntryInput | TimeEntryApproverDecisionCreateOrConnectWithoutTimeEntryInput[]
+    upsert?: TimeEntryApproverDecisionUpsertWithWhereUniqueWithoutTimeEntryInput | TimeEntryApproverDecisionUpsertWithWhereUniqueWithoutTimeEntryInput[]
+    createMany?: TimeEntryApproverDecisionCreateManyTimeEntryInputEnvelope
+    set?: TimeEntryApproverDecisionWhereUniqueInput | TimeEntryApproverDecisionWhereUniqueInput[]
+    disconnect?: TimeEntryApproverDecisionWhereUniqueInput | TimeEntryApproverDecisionWhereUniqueInput[]
+    delete?: TimeEntryApproverDecisionWhereUniqueInput | TimeEntryApproverDecisionWhereUniqueInput[]
+    connect?: TimeEntryApproverDecisionWhereUniqueInput | TimeEntryApproverDecisionWhereUniqueInput[]
+    update?: TimeEntryApproverDecisionUpdateWithWhereUniqueWithoutTimeEntryInput | TimeEntryApproverDecisionUpdateWithWhereUniqueWithoutTimeEntryInput[]
+    updateMany?: TimeEntryApproverDecisionUpdateManyWithWhereWithoutTimeEntryInput | TimeEntryApproverDecisionUpdateManyWithWhereWithoutTimeEntryInput[]
+    deleteMany?: TimeEntryApproverDecisionScalarWhereInput | TimeEntryApproverDecisionScalarWhereInput[]
+  }
+
+  export type ApprovalPolicyApproverCreateNestedManyWithoutPolicyInput = {
+    create?: XOR<ApprovalPolicyApproverCreateWithoutPolicyInput, ApprovalPolicyApproverUncheckedCreateWithoutPolicyInput> | ApprovalPolicyApproverCreateWithoutPolicyInput[] | ApprovalPolicyApproverUncheckedCreateWithoutPolicyInput[]
+    connectOrCreate?: ApprovalPolicyApproverCreateOrConnectWithoutPolicyInput | ApprovalPolicyApproverCreateOrConnectWithoutPolicyInput[]
+    createMany?: ApprovalPolicyApproverCreateManyPolicyInputEnvelope
+    connect?: ApprovalPolicyApproverWhereUniqueInput | ApprovalPolicyApproverWhereUniqueInput[]
+  }
+
+  export type BudgetCreateNestedManyWithoutApprovalPolicyInput = {
+    create?: XOR<BudgetCreateWithoutApprovalPolicyInput, BudgetUncheckedCreateWithoutApprovalPolicyInput> | BudgetCreateWithoutApprovalPolicyInput[] | BudgetUncheckedCreateWithoutApprovalPolicyInput[]
+    connectOrCreate?: BudgetCreateOrConnectWithoutApprovalPolicyInput | BudgetCreateOrConnectWithoutApprovalPolicyInput[]
+    createMany?: BudgetCreateManyApprovalPolicyInputEnvelope
+    connect?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+  }
+
+  export type ApprovalPolicyApproverUncheckedCreateNestedManyWithoutPolicyInput = {
+    create?: XOR<ApprovalPolicyApproverCreateWithoutPolicyInput, ApprovalPolicyApproverUncheckedCreateWithoutPolicyInput> | ApprovalPolicyApproverCreateWithoutPolicyInput[] | ApprovalPolicyApproverUncheckedCreateWithoutPolicyInput[]
+    connectOrCreate?: ApprovalPolicyApproverCreateOrConnectWithoutPolicyInput | ApprovalPolicyApproverCreateOrConnectWithoutPolicyInput[]
+    createMany?: ApprovalPolicyApproverCreateManyPolicyInputEnvelope
+    connect?: ApprovalPolicyApproverWhereUniqueInput | ApprovalPolicyApproverWhereUniqueInput[]
+  }
+
+  export type BudgetUncheckedCreateNestedManyWithoutApprovalPolicyInput = {
+    create?: XOR<BudgetCreateWithoutApprovalPolicyInput, BudgetUncheckedCreateWithoutApprovalPolicyInput> | BudgetCreateWithoutApprovalPolicyInput[] | BudgetUncheckedCreateWithoutApprovalPolicyInput[]
+    connectOrCreate?: BudgetCreateOrConnectWithoutApprovalPolicyInput | BudgetCreateOrConnectWithoutApprovalPolicyInput[]
+    createMany?: BudgetCreateManyApprovalPolicyInputEnvelope
+    connect?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+  }
+
+  export type EnumApprovalModeFieldUpdateOperationsInput = {
+    set?: $Enums.ApprovalMode
+  }
+
+  export type ApprovalPolicyApproverUpdateManyWithoutPolicyNestedInput = {
+    create?: XOR<ApprovalPolicyApproverCreateWithoutPolicyInput, ApprovalPolicyApproverUncheckedCreateWithoutPolicyInput> | ApprovalPolicyApproverCreateWithoutPolicyInput[] | ApprovalPolicyApproverUncheckedCreateWithoutPolicyInput[]
+    connectOrCreate?: ApprovalPolicyApproverCreateOrConnectWithoutPolicyInput | ApprovalPolicyApproverCreateOrConnectWithoutPolicyInput[]
+    upsert?: ApprovalPolicyApproverUpsertWithWhereUniqueWithoutPolicyInput | ApprovalPolicyApproverUpsertWithWhereUniqueWithoutPolicyInput[]
+    createMany?: ApprovalPolicyApproverCreateManyPolicyInputEnvelope
+    set?: ApprovalPolicyApproverWhereUniqueInput | ApprovalPolicyApproverWhereUniqueInput[]
+    disconnect?: ApprovalPolicyApproverWhereUniqueInput | ApprovalPolicyApproverWhereUniqueInput[]
+    delete?: ApprovalPolicyApproverWhereUniqueInput | ApprovalPolicyApproverWhereUniqueInput[]
+    connect?: ApprovalPolicyApproverWhereUniqueInput | ApprovalPolicyApproverWhereUniqueInput[]
+    update?: ApprovalPolicyApproverUpdateWithWhereUniqueWithoutPolicyInput | ApprovalPolicyApproverUpdateWithWhereUniqueWithoutPolicyInput[]
+    updateMany?: ApprovalPolicyApproverUpdateManyWithWhereWithoutPolicyInput | ApprovalPolicyApproverUpdateManyWithWhereWithoutPolicyInput[]
+    deleteMany?: ApprovalPolicyApproverScalarWhereInput | ApprovalPolicyApproverScalarWhereInput[]
+  }
+
+  export type BudgetUpdateManyWithoutApprovalPolicyNestedInput = {
+    create?: XOR<BudgetCreateWithoutApprovalPolicyInput, BudgetUncheckedCreateWithoutApprovalPolicyInput> | BudgetCreateWithoutApprovalPolicyInput[] | BudgetUncheckedCreateWithoutApprovalPolicyInput[]
+    connectOrCreate?: BudgetCreateOrConnectWithoutApprovalPolicyInput | BudgetCreateOrConnectWithoutApprovalPolicyInput[]
+    upsert?: BudgetUpsertWithWhereUniqueWithoutApprovalPolicyInput | BudgetUpsertWithWhereUniqueWithoutApprovalPolicyInput[]
+    createMany?: BudgetCreateManyApprovalPolicyInputEnvelope
+    set?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+    disconnect?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+    delete?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+    connect?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+    update?: BudgetUpdateWithWhereUniqueWithoutApprovalPolicyInput | BudgetUpdateWithWhereUniqueWithoutApprovalPolicyInput[]
+    updateMany?: BudgetUpdateManyWithWhereWithoutApprovalPolicyInput | BudgetUpdateManyWithWhereWithoutApprovalPolicyInput[]
+    deleteMany?: BudgetScalarWhereInput | BudgetScalarWhereInput[]
+  }
+
+  export type ApprovalPolicyApproverUncheckedUpdateManyWithoutPolicyNestedInput = {
+    create?: XOR<ApprovalPolicyApproverCreateWithoutPolicyInput, ApprovalPolicyApproverUncheckedCreateWithoutPolicyInput> | ApprovalPolicyApproverCreateWithoutPolicyInput[] | ApprovalPolicyApproverUncheckedCreateWithoutPolicyInput[]
+    connectOrCreate?: ApprovalPolicyApproverCreateOrConnectWithoutPolicyInput | ApprovalPolicyApproverCreateOrConnectWithoutPolicyInput[]
+    upsert?: ApprovalPolicyApproverUpsertWithWhereUniqueWithoutPolicyInput | ApprovalPolicyApproverUpsertWithWhereUniqueWithoutPolicyInput[]
+    createMany?: ApprovalPolicyApproverCreateManyPolicyInputEnvelope
+    set?: ApprovalPolicyApproverWhereUniqueInput | ApprovalPolicyApproverWhereUniqueInput[]
+    disconnect?: ApprovalPolicyApproverWhereUniqueInput | ApprovalPolicyApproverWhereUniqueInput[]
+    delete?: ApprovalPolicyApproverWhereUniqueInput | ApprovalPolicyApproverWhereUniqueInput[]
+    connect?: ApprovalPolicyApproverWhereUniqueInput | ApprovalPolicyApproverWhereUniqueInput[]
+    update?: ApprovalPolicyApproverUpdateWithWhereUniqueWithoutPolicyInput | ApprovalPolicyApproverUpdateWithWhereUniqueWithoutPolicyInput[]
+    updateMany?: ApprovalPolicyApproverUpdateManyWithWhereWithoutPolicyInput | ApprovalPolicyApproverUpdateManyWithWhereWithoutPolicyInput[]
+    deleteMany?: ApprovalPolicyApproverScalarWhereInput | ApprovalPolicyApproverScalarWhereInput[]
+  }
+
+  export type BudgetUncheckedUpdateManyWithoutApprovalPolicyNestedInput = {
+    create?: XOR<BudgetCreateWithoutApprovalPolicyInput, BudgetUncheckedCreateWithoutApprovalPolicyInput> | BudgetCreateWithoutApprovalPolicyInput[] | BudgetUncheckedCreateWithoutApprovalPolicyInput[]
+    connectOrCreate?: BudgetCreateOrConnectWithoutApprovalPolicyInput | BudgetCreateOrConnectWithoutApprovalPolicyInput[]
+    upsert?: BudgetUpsertWithWhereUniqueWithoutApprovalPolicyInput | BudgetUpsertWithWhereUniqueWithoutApprovalPolicyInput[]
+    createMany?: BudgetCreateManyApprovalPolicyInputEnvelope
+    set?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+    disconnect?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+    delete?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+    connect?: BudgetWhereUniqueInput | BudgetWhereUniqueInput[]
+    update?: BudgetUpdateWithWhereUniqueWithoutApprovalPolicyInput | BudgetUpdateWithWhereUniqueWithoutApprovalPolicyInput[]
+    updateMany?: BudgetUpdateManyWithWhereWithoutApprovalPolicyInput | BudgetUpdateManyWithWhereWithoutApprovalPolicyInput[]
+    deleteMany?: BudgetScalarWhereInput | BudgetScalarWhereInput[]
+  }
+
+  export type ApprovalPolicyCreateNestedOneWithoutApproversInput = {
+    create?: XOR<ApprovalPolicyCreateWithoutApproversInput, ApprovalPolicyUncheckedCreateWithoutApproversInput>
+    connectOrCreate?: ApprovalPolicyCreateOrConnectWithoutApproversInput
+    connect?: ApprovalPolicyWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutApprovalPolicyApprovalsInput = {
+    create?: XOR<UserCreateWithoutApprovalPolicyApprovalsInput, UserUncheckedCreateWithoutApprovalPolicyApprovalsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutApprovalPolicyApprovalsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumApprovalKindFieldUpdateOperationsInput = {
+    set?: $Enums.ApprovalKind
+  }
+
+  export type EnumApproverRoleTypeFieldUpdateOperationsInput = {
+    set?: $Enums.ApproverRoleType
+  }
+
+  export type ApprovalPolicyUpdateOneRequiredWithoutApproversNestedInput = {
+    create?: XOR<ApprovalPolicyCreateWithoutApproversInput, ApprovalPolicyUncheckedCreateWithoutApproversInput>
+    connectOrCreate?: ApprovalPolicyCreateOrConnectWithoutApproversInput
+    upsert?: ApprovalPolicyUpsertWithoutApproversInput
+    connect?: ApprovalPolicyWhereUniqueInput
+    update?: XOR<XOR<ApprovalPolicyUpdateToOneWithWhereWithoutApproversInput, ApprovalPolicyUpdateWithoutApproversInput>, ApprovalPolicyUncheckedUpdateWithoutApproversInput>
+  }
+
+  export type UserUpdateOneWithoutApprovalPolicyApprovalsNestedInput = {
+    create?: XOR<UserCreateWithoutApprovalPolicyApprovalsInput, UserUncheckedCreateWithoutApprovalPolicyApprovalsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutApprovalPolicyApprovalsInput
+    upsert?: UserUpsertWithoutApprovalPolicyApprovalsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutApprovalPolicyApprovalsInput, UserUpdateWithoutApprovalPolicyApprovalsInput>, UserUncheckedUpdateWithoutApprovalPolicyApprovalsInput>
+  }
+
+  export type TimeEntryCreateNestedOneWithoutApproverDecisionsInput = {
+    create?: XOR<TimeEntryCreateWithoutApproverDecisionsInput, TimeEntryUncheckedCreateWithoutApproverDecisionsInput>
+    connectOrCreate?: TimeEntryCreateOrConnectWithoutApproverDecisionsInput
+    connect?: TimeEntryWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutTimeEntryApproverDecisionsInput = {
+    create?: XOR<UserCreateWithoutTimeEntryApproverDecisionsInput, UserUncheckedCreateWithoutTimeEntryApproverDecisionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTimeEntryApproverDecisionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumApprovalDecisionStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ApprovalDecisionStatus
+  }
+
+  export type TimeEntryUpdateOneRequiredWithoutApproverDecisionsNestedInput = {
+    create?: XOR<TimeEntryCreateWithoutApproverDecisionsInput, TimeEntryUncheckedCreateWithoutApproverDecisionsInput>
+    connectOrCreate?: TimeEntryCreateOrConnectWithoutApproverDecisionsInput
+    upsert?: TimeEntryUpsertWithoutApproverDecisionsInput
+    connect?: TimeEntryWhereUniqueInput
+    update?: XOR<XOR<TimeEntryUpdateToOneWithWhereWithoutApproverDecisionsInput, TimeEntryUpdateWithoutApproverDecisionsInput>, TimeEntryUncheckedUpdateWithoutApproverDecisionsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutTimeEntryApproverDecisionsNestedInput = {
+    create?: XOR<UserCreateWithoutTimeEntryApproverDecisionsInput, UserUncheckedCreateWithoutTimeEntryApproverDecisionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTimeEntryApproverDecisionsInput
+    upsert?: UserUpsertWithoutTimeEntryApproverDecisionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTimeEntryApproverDecisionsInput, UserUpdateWithoutTimeEntryApproverDecisionsInput>, UserUncheckedUpdateWithoutTimeEntryApproverDecisionsInput>
   }
 
   export type UserCreateNestedOneWithoutTimesheetLocksInput = {
@@ -134148,6 +139065,12 @@ export namespace Prisma {
     connect?: ExpenseWhereUniqueInput | ExpenseWhereUniqueInput[]
   }
 
+  export type ApprovalPolicyCreateNestedOneWithoutBudgetsInput = {
+    create?: XOR<ApprovalPolicyCreateWithoutBudgetsInput, ApprovalPolicyUncheckedCreateWithoutBudgetsInput>
+    connectOrCreate?: ApprovalPolicyCreateOrConnectWithoutBudgetsInput
+    connect?: ApprovalPolicyWhereUniqueInput
+  }
+
   export type BudgetUncheckedCreateNestedManyWithoutScenarioOfInput = {
     create?: XOR<BudgetCreateWithoutScenarioOfInput, BudgetUncheckedCreateWithoutScenarioOfInput> | BudgetCreateWithoutScenarioOfInput[] | BudgetUncheckedCreateWithoutScenarioOfInput[]
     connectOrCreate?: BudgetCreateOrConnectWithoutScenarioOfInput | BudgetCreateOrConnectWithoutScenarioOfInput[]
@@ -134302,6 +139225,16 @@ export namespace Prisma {
     update?: ExpenseUpdateWithWhereUniqueWithoutBudgetInput | ExpenseUpdateWithWhereUniqueWithoutBudgetInput[]
     updateMany?: ExpenseUpdateManyWithWhereWithoutBudgetInput | ExpenseUpdateManyWithWhereWithoutBudgetInput[]
     deleteMany?: ExpenseScalarWhereInput | ExpenseScalarWhereInput[]
+  }
+
+  export type ApprovalPolicyUpdateOneWithoutBudgetsNestedInput = {
+    create?: XOR<ApprovalPolicyCreateWithoutBudgetsInput, ApprovalPolicyUncheckedCreateWithoutBudgetsInput>
+    connectOrCreate?: ApprovalPolicyCreateOrConnectWithoutBudgetsInput
+    upsert?: ApprovalPolicyUpsertWithoutBudgetsInput
+    disconnect?: ApprovalPolicyWhereInput | boolean
+    delete?: ApprovalPolicyWhereInput | boolean
+    connect?: ApprovalPolicyWhereUniqueInput
+    update?: XOR<XOR<ApprovalPolicyUpdateToOneWithWhereWithoutBudgetsInput, ApprovalPolicyUpdateWithoutBudgetsInput>, ApprovalPolicyUncheckedUpdateWithoutBudgetsInput>
   }
 
   export type BudgetUncheckedUpdateManyWithoutScenarioOfNestedInput = {
@@ -135809,6 +140742,74 @@ export namespace Prisma {
     _max?: NestedEnumTimeEntryApprovalStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumApprovalModeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApprovalMode | EnumApprovalModeFieldRefInput<$PrismaModel>
+    in?: $Enums.ApprovalMode[] | ListEnumApprovalModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApprovalMode[] | ListEnumApprovalModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumApprovalModeFilter<$PrismaModel> | $Enums.ApprovalMode
+  }
+
+  export type NestedEnumApprovalModeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApprovalMode | EnumApprovalModeFieldRefInput<$PrismaModel>
+    in?: $Enums.ApprovalMode[] | ListEnumApprovalModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApprovalMode[] | ListEnumApprovalModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumApprovalModeWithAggregatesFilter<$PrismaModel> | $Enums.ApprovalMode
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumApprovalModeFilter<$PrismaModel>
+    _max?: NestedEnumApprovalModeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumApprovalKindFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApprovalKind | EnumApprovalKindFieldRefInput<$PrismaModel>
+    in?: $Enums.ApprovalKind[] | ListEnumApprovalKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApprovalKind[] | ListEnumApprovalKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumApprovalKindFilter<$PrismaModel> | $Enums.ApprovalKind
+  }
+
+  export type NestedEnumApproverRoleTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApproverRoleType | EnumApproverRoleTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ApproverRoleType[] | ListEnumApproverRoleTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApproverRoleType[] | ListEnumApproverRoleTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumApproverRoleTypeFilter<$PrismaModel> | $Enums.ApproverRoleType
+  }
+
+  export type NestedEnumApprovalKindWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApprovalKind | EnumApprovalKindFieldRefInput<$PrismaModel>
+    in?: $Enums.ApprovalKind[] | ListEnumApprovalKindFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApprovalKind[] | ListEnumApprovalKindFieldRefInput<$PrismaModel>
+    not?: NestedEnumApprovalKindWithAggregatesFilter<$PrismaModel> | $Enums.ApprovalKind
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumApprovalKindFilter<$PrismaModel>
+    _max?: NestedEnumApprovalKindFilter<$PrismaModel>
+  }
+
+  export type NestedEnumApproverRoleTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApproverRoleType | EnumApproverRoleTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ApproverRoleType[] | ListEnumApproverRoleTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApproverRoleType[] | ListEnumApproverRoleTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumApproverRoleTypeWithAggregatesFilter<$PrismaModel> | $Enums.ApproverRoleType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumApproverRoleTypeFilter<$PrismaModel>
+    _max?: NestedEnumApproverRoleTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumApprovalDecisionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApprovalDecisionStatus | EnumApprovalDecisionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ApprovalDecisionStatus[] | ListEnumApprovalDecisionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApprovalDecisionStatus[] | ListEnumApprovalDecisionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumApprovalDecisionStatusFilter<$PrismaModel> | $Enums.ApprovalDecisionStatus
+  }
+
+  export type NestedEnumApprovalDecisionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApprovalDecisionStatus | EnumApprovalDecisionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ApprovalDecisionStatus[] | ListEnumApprovalDecisionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApprovalDecisionStatus[] | ListEnumApprovalDecisionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumApprovalDecisionStatusWithAggregatesFilter<$PrismaModel> | $Enums.ApprovalDecisionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumApprovalDecisionStatusFilter<$PrismaModel>
+    _max?: NestedEnumApprovalDecisionStatusFilter<$PrismaModel>
+  }
+
   export type NestedEnumCustomFieldEntityTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.CustomFieldEntityType | EnumCustomFieldEntityTypeFieldRefInput<$PrismaModel>
     in?: $Enums.CustomFieldEntityType[] | ListEnumCustomFieldEntityTypeFieldRefInput<$PrismaModel>
@@ -136229,12 +141230,14 @@ export namespace Prisma {
     approvalStatus?: $Enums.TimeEntryApprovalStatus
     approvedAt?: Date | string | null
     submittedAt?: Date | string | null
+    rejectionReason?: string | null
     task?: TaskCreateNestedOneWithoutTimeEntriesInput
     project?: ProjectCreateNestedOneWithoutTimeEntriesInput
     budgetSection?: BudgetSectionCreateNestedOneWithoutTimeEntriesInput
     invoice?: InvoiceCreateNestedOneWithoutTimeEntriesInput
     approvedBy?: UserCreateNestedOneWithoutApprovedTimeEntriesInput
     loggedForUser?: UserCreateNestedOneWithoutLoggedForTimeEntriesInput
+    approverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutTimeEntryInput
   }
 
   export type TimeEntryUncheckedCreateWithoutUserInput = {
@@ -136254,6 +141257,8 @@ export namespace Prisma {
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
     submittedAt?: Date | string | null
+    rejectionReason?: string | null
+    approverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutTimeEntryInput
   }
 
   export type TimeEntryCreateOrConnectWithoutUserInput = {
@@ -136498,6 +141503,7 @@ export namespace Prisma {
     customFieldValues?: BudgetCustomFieldValueCreateNestedManyWithoutBudgetInput
     activityEvents?: ActivityEventCreateNestedManyWithoutBudgetInput
     expenses?: ExpenseCreateNestedManyWithoutBudgetInput
+    approvalPolicy?: ApprovalPolicyCreateNestedOneWithoutBudgetsInput
   }
 
   export type BudgetUncheckedCreateWithoutOwnerInput = {
@@ -136516,6 +141522,7 @@ export namespace Prisma {
     deliveredAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    approvalPolicyId?: string | null
     scenarios?: BudgetUncheckedCreateNestedManyWithoutScenarioOfInput
     sections?: BudgetSectionUncheckedCreateNestedManyWithoutBudgetInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutBudgetInput
@@ -137204,6 +142211,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutDirectReportsInput = {
@@ -137273,6 +142282,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutDirectReportsInput = {
@@ -137347,6 +142358,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutManagerInput = {
@@ -137416,6 +142429,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutManagerInput = {
@@ -137579,12 +142594,14 @@ export namespace Prisma {
     approvalStatus?: $Enums.TimeEntryApprovalStatus
     approvedAt?: Date | string | null
     submittedAt?: Date | string | null
+    rejectionReason?: string | null
     user: UserCreateNestedOneWithoutTimeEntriesInput
     task?: TaskCreateNestedOneWithoutTimeEntriesInput
     project?: ProjectCreateNestedOneWithoutTimeEntriesInput
     budgetSection?: BudgetSectionCreateNestedOneWithoutTimeEntriesInput
     invoice?: InvoiceCreateNestedOneWithoutTimeEntriesInput
     loggedForUser?: UserCreateNestedOneWithoutLoggedForTimeEntriesInput
+    approverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutTimeEntryInput
   }
 
   export type TimeEntryUncheckedCreateWithoutApprovedByInput = {
@@ -137604,6 +142621,8 @@ export namespace Prisma {
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
     submittedAt?: Date | string | null
+    rejectionReason?: string | null
+    approverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutTimeEntryInput
   }
 
   export type TimeEntryCreateOrConnectWithoutApprovedByInput = {
@@ -137627,12 +142646,14 @@ export namespace Prisma {
     approvalStatus?: $Enums.TimeEntryApprovalStatus
     approvedAt?: Date | string | null
     submittedAt?: Date | string | null
+    rejectionReason?: string | null
     user: UserCreateNestedOneWithoutTimeEntriesInput
     task?: TaskCreateNestedOneWithoutTimeEntriesInput
     project?: ProjectCreateNestedOneWithoutTimeEntriesInput
     budgetSection?: BudgetSectionCreateNestedOneWithoutTimeEntriesInput
     invoice?: InvoiceCreateNestedOneWithoutTimeEntriesInput
     approvedBy?: UserCreateNestedOneWithoutApprovedTimeEntriesInput
+    approverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutTimeEntryInput
   }
 
   export type TimeEntryUncheckedCreateWithoutLoggedForUserInput = {
@@ -137652,6 +142673,8 @@ export namespace Prisma {
     approvedById?: string | null
     approvedAt?: Date | string | null
     submittedAt?: Date | string | null
+    rejectionReason?: string | null
+    approverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutTimeEntryInput
   }
 
   export type TimeEntryCreateOrConnectWithoutLoggedForUserInput = {
@@ -138081,6 +143104,56 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ApprovalPolicyApproverCreateWithoutSpecificUserInput = {
+    id?: string
+    kind: $Enums.ApprovalKind
+    roleType: $Enums.ApproverRoleType
+    policy: ApprovalPolicyCreateNestedOneWithoutApproversInput
+  }
+
+  export type ApprovalPolicyApproverUncheckedCreateWithoutSpecificUserInput = {
+    id?: string
+    policyId: string
+    kind: $Enums.ApprovalKind
+    roleType: $Enums.ApproverRoleType
+  }
+
+  export type ApprovalPolicyApproverCreateOrConnectWithoutSpecificUserInput = {
+    where: ApprovalPolicyApproverWhereUniqueInput
+    create: XOR<ApprovalPolicyApproverCreateWithoutSpecificUserInput, ApprovalPolicyApproverUncheckedCreateWithoutSpecificUserInput>
+  }
+
+  export type ApprovalPolicyApproverCreateManySpecificUserInputEnvelope = {
+    data: ApprovalPolicyApproverCreateManySpecificUserInput | ApprovalPolicyApproverCreateManySpecificUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TimeEntryApproverDecisionCreateWithoutApproverInput = {
+    id?: string
+    status?: $Enums.ApprovalDecisionStatus
+    decidedAt?: Date | string | null
+    createdAt?: Date | string
+    timeEntry: TimeEntryCreateNestedOneWithoutApproverDecisionsInput
+  }
+
+  export type TimeEntryApproverDecisionUncheckedCreateWithoutApproverInput = {
+    id?: string
+    timeEntryId: string
+    status?: $Enums.ApprovalDecisionStatus
+    decidedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type TimeEntryApproverDecisionCreateOrConnectWithoutApproverInput = {
+    where: TimeEntryApproverDecisionWhereUniqueInput
+    create: XOR<TimeEntryApproverDecisionCreateWithoutApproverInput, TimeEntryApproverDecisionUncheckedCreateWithoutApproverInput>
+  }
+
+  export type TimeEntryApproverDecisionCreateManyApproverInputEnvelope = {
+    data: TimeEntryApproverDecisionCreateManyApproverInput | TimeEntryApproverDecisionCreateManyApproverInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SessionUpsertWithWhereUniqueWithoutUserInput = {
     where: SessionWhereUniqueInput
     update: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
@@ -138193,6 +143266,7 @@ export namespace Prisma {
     approvedAt?: DateTimeNullableFilter<"TimeEntry"> | Date | string | null
     loggedForUserId?: StringNullableFilter<"TimeEntry"> | string | null
     submittedAt?: DateTimeNullableFilter<"TimeEntry"> | Date | string | null
+    rejectionReason?: StringNullableFilter<"TimeEntry"> | string | null
   }
 
   export type CommentUpsertWithWhereUniqueWithoutAuthorInput = {
@@ -138453,6 +143527,7 @@ export namespace Prisma {
     deliveredAt?: DateTimeNullableFilter<"Budget"> | Date | string | null
     createdAt?: DateTimeFilter<"Budget"> | Date | string
     updatedAt?: DateTimeFilter<"Budget"> | Date | string
+    approvalPolicyId?: StringNullableFilter<"Budget"> | string | null
   }
 
   export type BudgetSectionAssigneeUpsertWithWhereUniqueWithoutUserInput = {
@@ -139075,6 +144150,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDirectReportsInput = {
@@ -139144,6 +144221,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUpsertWithWhereUniqueWithoutManagerInput = {
@@ -139695,6 +144774,61 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Deal"> | Date | string
   }
 
+  export type ApprovalPolicyApproverUpsertWithWhereUniqueWithoutSpecificUserInput = {
+    where: ApprovalPolicyApproverWhereUniqueInput
+    update: XOR<ApprovalPolicyApproverUpdateWithoutSpecificUserInput, ApprovalPolicyApproverUncheckedUpdateWithoutSpecificUserInput>
+    create: XOR<ApprovalPolicyApproverCreateWithoutSpecificUserInput, ApprovalPolicyApproverUncheckedCreateWithoutSpecificUserInput>
+  }
+
+  export type ApprovalPolicyApproverUpdateWithWhereUniqueWithoutSpecificUserInput = {
+    where: ApprovalPolicyApproverWhereUniqueInput
+    data: XOR<ApprovalPolicyApproverUpdateWithoutSpecificUserInput, ApprovalPolicyApproverUncheckedUpdateWithoutSpecificUserInput>
+  }
+
+  export type ApprovalPolicyApproverUpdateManyWithWhereWithoutSpecificUserInput = {
+    where: ApprovalPolicyApproverScalarWhereInput
+    data: XOR<ApprovalPolicyApproverUpdateManyMutationInput, ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserInput>
+  }
+
+  export type ApprovalPolicyApproverScalarWhereInput = {
+    AND?: ApprovalPolicyApproverScalarWhereInput | ApprovalPolicyApproverScalarWhereInput[]
+    OR?: ApprovalPolicyApproverScalarWhereInput[]
+    NOT?: ApprovalPolicyApproverScalarWhereInput | ApprovalPolicyApproverScalarWhereInput[]
+    id?: StringFilter<"ApprovalPolicyApprover"> | string
+    policyId?: StringFilter<"ApprovalPolicyApprover"> | string
+    kind?: EnumApprovalKindFilter<"ApprovalPolicyApprover"> | $Enums.ApprovalKind
+    roleType?: EnumApproverRoleTypeFilter<"ApprovalPolicyApprover"> | $Enums.ApproverRoleType
+    specificUserId?: StringNullableFilter<"ApprovalPolicyApprover"> | string | null
+  }
+
+  export type TimeEntryApproverDecisionUpsertWithWhereUniqueWithoutApproverInput = {
+    where: TimeEntryApproverDecisionWhereUniqueInput
+    update: XOR<TimeEntryApproverDecisionUpdateWithoutApproverInput, TimeEntryApproverDecisionUncheckedUpdateWithoutApproverInput>
+    create: XOR<TimeEntryApproverDecisionCreateWithoutApproverInput, TimeEntryApproverDecisionUncheckedCreateWithoutApproverInput>
+  }
+
+  export type TimeEntryApproverDecisionUpdateWithWhereUniqueWithoutApproverInput = {
+    where: TimeEntryApproverDecisionWhereUniqueInput
+    data: XOR<TimeEntryApproverDecisionUpdateWithoutApproverInput, TimeEntryApproverDecisionUncheckedUpdateWithoutApproverInput>
+  }
+
+  export type TimeEntryApproverDecisionUpdateManyWithWhereWithoutApproverInput = {
+    where: TimeEntryApproverDecisionScalarWhereInput
+    data: XOR<TimeEntryApproverDecisionUpdateManyMutationInput, TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverInput>
+  }
+
+  export type TimeEntryApproverDecisionScalarWhereInput = {
+    AND?: TimeEntryApproverDecisionScalarWhereInput | TimeEntryApproverDecisionScalarWhereInput[]
+    OR?: TimeEntryApproverDecisionScalarWhereInput[]
+    NOT?: TimeEntryApproverDecisionScalarWhereInput | TimeEntryApproverDecisionScalarWhereInput[]
+    id?: StringFilter<"TimeEntryApproverDecision"> | string
+    timeEntryId?: StringFilter<"TimeEntryApproverDecision"> | string
+    approverId?: StringFilter<"TimeEntryApproverDecision"> | string
+    status?: EnumApprovalDecisionStatusFilter<"TimeEntryApproverDecision"> | $Enums.ApprovalDecisionStatus
+    decidedAt?: DateTimeNullableFilter<"TimeEntryApproverDecision"> | Date | string | null
+    createdAt?: DateTimeFilter<"TimeEntryApproverDecision"> | Date | string
+  }
+
   export type UserCreateWithoutAccountOwnedClientsInput = {
     id?: string
     email: string
@@ -139762,6 +144896,8 @@ export namespace Prisma {
     approvedExpenses?: ExpenseCreateNestedManyWithoutApprovedByInput
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutAccountOwnedClientsInput = {
@@ -139831,6 +144967,8 @@ export namespace Prisma {
     approvedExpenses?: ExpenseUncheckedCreateNestedManyWithoutApprovedByInput
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutAccountOwnedClientsInput = {
@@ -140199,6 +145337,8 @@ export namespace Prisma {
     approvedExpenses?: ExpenseUpdateManyWithoutApprovedByNestedInput
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountOwnedClientsInput = {
@@ -140268,6 +145408,8 @@ export namespace Prisma {
     approvedExpenses?: ExpenseUncheckedUpdateManyWithoutApprovedByNestedInput
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type ClientUpsertWithoutChildrenInput = {
@@ -140872,6 +146014,8 @@ export namespace Prisma {
     approvedExpenses?: ExpenseCreateNestedManyWithoutApprovedByInput
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutOwnedDealsInput = {
@@ -140941,6 +146085,8 @@ export namespace Prisma {
     approvedExpenses?: ExpenseUncheckedCreateNestedManyWithoutApprovedByInput
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutOwnedDealsInput = {
@@ -141222,6 +146368,8 @@ export namespace Prisma {
     approvedExpenses?: ExpenseUpdateManyWithoutApprovedByNestedInput
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOwnedDealsInput = {
@@ -141291,6 +146439,8 @@ export namespace Prisma {
     approvedExpenses?: ExpenseUncheckedUpdateManyWithoutApprovedByNestedInput
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type LostReasonUpsertWithoutDealsInput = {
@@ -141577,6 +146727,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutProjectMembershipsInput = {
@@ -141646,6 +146798,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutProjectMembershipsInput = {
@@ -141830,6 +146984,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectMembershipsInput = {
@@ -141899,6 +147055,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type UserCreateWithoutCustomRoleInput = {
@@ -141968,6 +147126,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutCustomRoleInput = {
@@ -142037,6 +147197,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutCustomRoleInput = {
@@ -142265,6 +147427,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutProjectRoleOverridesInput = {
@@ -142334,6 +147498,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutProjectRoleOverridesInput = {
@@ -142539,6 +147705,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectRoleOverridesInput = {
@@ -142608,6 +147776,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type CustomRoleUpsertWithoutProjectOverridesInput = {
@@ -142704,6 +147874,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutAbsenceRequestsInput = {
@@ -142773,6 +147945,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutAbsenceRequestsInput = {
@@ -142847,6 +148021,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutReviewedAbsenceRequestsInput = {
@@ -142916,6 +148092,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutReviewedAbsenceRequestsInput = {
@@ -143001,6 +148179,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAbsenceRequestsInput = {
@@ -143070,6 +148250,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUpsertWithoutReviewedAbsenceRequestsInput = {
@@ -143150,6 +148332,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewedAbsenceRequestsInput = {
@@ -143219,6 +148403,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -143288,6 +148474,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -143357,6 +148545,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -143442,6 +148632,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -143511,6 +148703,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type UserCreateWithoutFavoritesInput = {
@@ -143580,6 +148774,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutFavoritesInput = {
@@ -143649,6 +148845,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutFavoritesInput = {
@@ -143734,6 +148932,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFavoritesInput = {
@@ -143803,6 +149003,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type UserCreateWithoutAuditLogEntriesInput = {
@@ -143872,6 +149074,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutAuditLogEntriesInput = {
@@ -143941,6 +149145,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutAuditLogEntriesInput = {
@@ -144026,6 +149232,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAuditLogEntriesInput = {
@@ -144095,6 +149303,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type ProjectCreateWithoutClientAccessInput = {
@@ -144257,6 +149467,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutProjectClientAccessInput = {
@@ -144326,6 +149538,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutProjectClientAccessInput = {
@@ -144510,6 +149724,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectClientAccessInput = {
@@ -144579,6 +149795,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type ProjectCreateWithoutSlackCaptureConfigsInput = {
@@ -144863,12 +150081,14 @@ export namespace Prisma {
     approvalStatus?: $Enums.TimeEntryApprovalStatus
     approvedAt?: Date | string | null
     submittedAt?: Date | string | null
+    rejectionReason?: string | null
     user: UserCreateNestedOneWithoutTimeEntriesInput
     task?: TaskCreateNestedOneWithoutTimeEntriesInput
     budgetSection?: BudgetSectionCreateNestedOneWithoutTimeEntriesInput
     invoice?: InvoiceCreateNestedOneWithoutTimeEntriesInput
     approvedBy?: UserCreateNestedOneWithoutApprovedTimeEntriesInput
     loggedForUser?: UserCreateNestedOneWithoutLoggedForTimeEntriesInput
+    approverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutTimeEntryInput
   }
 
   export type TimeEntryUncheckedCreateWithoutProjectInput = {
@@ -144888,6 +150108,8 @@ export namespace Prisma {
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
     submittedAt?: Date | string | null
+    rejectionReason?: string | null
+    approverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutTimeEntryInput
   }
 
   export type TimeEntryCreateOrConnectWithoutProjectInput = {
@@ -145040,6 +150262,7 @@ export namespace Prisma {
     customFieldValues?: BudgetCustomFieldValueCreateNestedManyWithoutBudgetInput
     activityEvents?: ActivityEventCreateNestedManyWithoutBudgetInput
     expenses?: ExpenseCreateNestedManyWithoutBudgetInput
+    approvalPolicy?: ApprovalPolicyCreateNestedOneWithoutBudgetsInput
   }
 
   export type BudgetUncheckedCreateWithoutProjectInput = {
@@ -145058,6 +150281,7 @@ export namespace Prisma {
     deliveredAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    approvalPolicyId?: string | null
     scenarios?: BudgetUncheckedCreateNestedManyWithoutScenarioOfInput
     sections?: BudgetSectionUncheckedCreateNestedManyWithoutBudgetInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutBudgetInput
@@ -145383,6 +150607,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutManagedProjectsInput = {
@@ -145452,6 +150678,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutManagedProjectsInput = {
@@ -146282,6 +151510,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutManagedProjectsInput = {
@@ -146351,6 +151581,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type ProjectMemberUpsertWithWhereUniqueWithoutProjectInput = {
@@ -148243,6 +153475,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutCreatedSharedViewsInput = {
@@ -148312,6 +153546,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutCreatedSharedViewsInput = {
@@ -148496,6 +153732,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedSharedViewsInput = {
@@ -148565,6 +153803,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type ProjectCreateWithoutSavedViewsInput = {
@@ -148727,6 +153967,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutSavedViewsInput = {
@@ -148796,6 +154038,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutSavedViewsInput = {
@@ -148980,6 +154224,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSavedViewsInput = {
@@ -149049,6 +154295,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type WorkflowStatusCreateWithoutWorkflowInput = {
@@ -149611,6 +154859,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutAssignedTasksInput = {
@@ -149680,6 +154930,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutAssignedTasksInput = {
@@ -150238,12 +155490,14 @@ export namespace Prisma {
     approvalStatus?: $Enums.TimeEntryApprovalStatus
     approvedAt?: Date | string | null
     submittedAt?: Date | string | null
+    rejectionReason?: string | null
     user: UserCreateNestedOneWithoutTimeEntriesInput
     project?: ProjectCreateNestedOneWithoutTimeEntriesInput
     budgetSection?: BudgetSectionCreateNestedOneWithoutTimeEntriesInput
     invoice?: InvoiceCreateNestedOneWithoutTimeEntriesInput
     approvedBy?: UserCreateNestedOneWithoutApprovedTimeEntriesInput
     loggedForUser?: UserCreateNestedOneWithoutLoggedForTimeEntriesInput
+    approverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutTimeEntryInput
   }
 
   export type TimeEntryUncheckedCreateWithoutTaskInput = {
@@ -150263,6 +155517,8 @@ export namespace Prisma {
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
     submittedAt?: Date | string | null
+    rejectionReason?: string | null
+    approverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutTimeEntryInput
   }
 
   export type TimeEntryCreateOrConnectWithoutTaskInput = {
@@ -150544,6 +155800,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssignedTasksInput = {
@@ -150613,6 +155871,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type TaskUpsertWithoutSubtasksInput = {
@@ -151542,6 +156802,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutTaskSubscriptionsInput = {
@@ -151611,6 +156873,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutTaskSubscriptionsInput = {
@@ -151791,6 +157055,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTaskSubscriptionsInput = {
@@ -151860,6 +157126,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type TaskCreateWithoutTodosInput = {
@@ -152018,6 +157286,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutAssignedTodosInput = {
@@ -152087,6 +157357,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutAssignedTodosInput = {
@@ -152267,6 +157539,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssignedTodosInput = {
@@ -152336,6 +157610,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type TaskCreateWithoutCommentsInput = {
@@ -152494,6 +157770,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutCommentsInput = {
@@ -152563,6 +157841,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutCommentsInput = {
@@ -152763,6 +158043,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -152832,6 +158114,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type MentionUpsertWithWhereUniqueWithoutCommentInput = {
@@ -152938,6 +158222,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutMentionsInput = {
@@ -153007,6 +158293,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutMentionsInput = {
@@ -153119,6 +158407,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMentionsInput = {
@@ -153188,6 +158478,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type TaskCreateWithoutAttachmentsInput = {
@@ -153346,6 +158638,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutAttachmentsInput = {
@@ -153415,6 +158709,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutAttachmentsInput = {
@@ -153595,6 +158891,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAttachmentsInput = {
@@ -153664,6 +158962,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type ProjectCreateWithoutWikiPagesInput = {
@@ -153826,6 +159126,8 @@ export namespace Prisma {
     approvedExpenses?: ExpenseCreateNestedManyWithoutApprovedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutCreatedWikiPagesInput = {
@@ -153895,6 +159197,8 @@ export namespace Prisma {
     approvedExpenses?: ExpenseUncheckedCreateNestedManyWithoutApprovedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutCreatedWikiPagesInput = {
@@ -154127,6 +159431,8 @@ export namespace Prisma {
     approvedExpenses?: ExpenseUpdateManyWithoutApprovedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedWikiPagesInput = {
@@ -154196,6 +159502,8 @@ export namespace Prisma {
     approvedExpenses?: ExpenseUncheckedUpdateManyWithoutApprovedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type WikiPageCustomFieldValueUpsertWithWhereUniqueWithoutWikiPageInput = {
@@ -154307,6 +159615,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutPendingLoginsInput = {
@@ -154376,6 +159686,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutPendingLoginsInput = {
@@ -154461,6 +159773,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPendingLoginsInput = {
@@ -154530,6 +159844,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type UserCreateWithoutTimeEntriesInput = {
@@ -154599,6 +159915,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutTimeEntriesInput = {
@@ -154668,6 +159986,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutTimeEntriesInput = {
@@ -155032,6 +160352,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutApprovedTimeEntriesInput = {
@@ -155101,6 +160423,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutApprovedTimeEntriesInput = {
@@ -155175,6 +160499,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutLoggedForTimeEntriesInput = {
@@ -155244,11 +160570,39 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutLoggedForTimeEntriesInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutLoggedForTimeEntriesInput, UserUncheckedCreateWithoutLoggedForTimeEntriesInput>
+  }
+
+  export type TimeEntryApproverDecisionCreateWithoutTimeEntryInput = {
+    id?: string
+    status?: $Enums.ApprovalDecisionStatus
+    decidedAt?: Date | string | null
+    createdAt?: Date | string
+    approver: UserCreateNestedOneWithoutTimeEntryApproverDecisionsInput
+  }
+
+  export type TimeEntryApproverDecisionUncheckedCreateWithoutTimeEntryInput = {
+    id?: string
+    approverId: string
+    status?: $Enums.ApprovalDecisionStatus
+    decidedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type TimeEntryApproverDecisionCreateOrConnectWithoutTimeEntryInput = {
+    where: TimeEntryApproverDecisionWhereUniqueInput
+    create: XOR<TimeEntryApproverDecisionCreateWithoutTimeEntryInput, TimeEntryApproverDecisionUncheckedCreateWithoutTimeEntryInput>
+  }
+
+  export type TimeEntryApproverDecisionCreateManyTimeEntryInputEnvelope = {
+    data: TimeEntryApproverDecisionCreateManyTimeEntryInput | TimeEntryApproverDecisionCreateManyTimeEntryInput[]
+    skipDuplicates?: boolean
   }
 
   export type UserUpsertWithoutTimeEntriesInput = {
@@ -155329,6 +160683,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimeEntriesInput = {
@@ -155398,6 +160754,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type TaskUpsertWithoutTimeEntriesInput = {
@@ -155792,6 +161150,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutApprovedTimeEntriesInput = {
@@ -155861,6 +161221,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUpsertWithoutLoggedForTimeEntriesInput = {
@@ -155941,6 +161303,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLoggedForTimeEntriesInput = {
@@ -156010,6 +161374,904 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+  }
+
+  export type TimeEntryApproverDecisionUpsertWithWhereUniqueWithoutTimeEntryInput = {
+    where: TimeEntryApproverDecisionWhereUniqueInput
+    update: XOR<TimeEntryApproverDecisionUpdateWithoutTimeEntryInput, TimeEntryApproverDecisionUncheckedUpdateWithoutTimeEntryInput>
+    create: XOR<TimeEntryApproverDecisionCreateWithoutTimeEntryInput, TimeEntryApproverDecisionUncheckedCreateWithoutTimeEntryInput>
+  }
+
+  export type TimeEntryApproverDecisionUpdateWithWhereUniqueWithoutTimeEntryInput = {
+    where: TimeEntryApproverDecisionWhereUniqueInput
+    data: XOR<TimeEntryApproverDecisionUpdateWithoutTimeEntryInput, TimeEntryApproverDecisionUncheckedUpdateWithoutTimeEntryInput>
+  }
+
+  export type TimeEntryApproverDecisionUpdateManyWithWhereWithoutTimeEntryInput = {
+    where: TimeEntryApproverDecisionScalarWhereInput
+    data: XOR<TimeEntryApproverDecisionUpdateManyMutationInput, TimeEntryApproverDecisionUncheckedUpdateManyWithoutTimeEntryInput>
+  }
+
+  export type ApprovalPolicyApproverCreateWithoutPolicyInput = {
+    id?: string
+    kind: $Enums.ApprovalKind
+    roleType: $Enums.ApproverRoleType
+    specificUser?: UserCreateNestedOneWithoutApprovalPolicyApprovalsInput
+  }
+
+  export type ApprovalPolicyApproverUncheckedCreateWithoutPolicyInput = {
+    id?: string
+    kind: $Enums.ApprovalKind
+    roleType: $Enums.ApproverRoleType
+    specificUserId?: string | null
+  }
+
+  export type ApprovalPolicyApproverCreateOrConnectWithoutPolicyInput = {
+    where: ApprovalPolicyApproverWhereUniqueInput
+    create: XOR<ApprovalPolicyApproverCreateWithoutPolicyInput, ApprovalPolicyApproverUncheckedCreateWithoutPolicyInput>
+  }
+
+  export type ApprovalPolicyApproverCreateManyPolicyInputEnvelope = {
+    data: ApprovalPolicyApproverCreateManyPolicyInput | ApprovalPolicyApproverCreateManyPolicyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BudgetCreateWithoutApprovalPolicyInput = {
+    id?: string
+    title: string
+    isRetainer?: boolean
+    recurrenceInterval?: $Enums.RecurrenceInterval | null
+    lastRecurrencePeriodKey?: string | null
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    color?: string | null
+    isScenario?: boolean
+    isTemplate?: boolean
+    deliveredAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    project: ProjectCreateNestedOneWithoutBudgetsInput
+    owner: UserCreateNestedOneWithoutOwnedBudgetsInput
+    scenarioOf?: BudgetCreateNestedOneWithoutScenariosInput
+    scenarios?: BudgetCreateNestedManyWithoutScenarioOfInput
+    sections?: BudgetSectionCreateNestedManyWithoutBudgetInput
+    invoices?: InvoiceCreateNestedManyWithoutBudgetInput
+    customFieldValues?: BudgetCustomFieldValueCreateNestedManyWithoutBudgetInput
+    activityEvents?: ActivityEventCreateNestedManyWithoutBudgetInput
+    expenses?: ExpenseCreateNestedManyWithoutBudgetInput
+  }
+
+  export type BudgetUncheckedCreateWithoutApprovalPolicyInput = {
+    id?: string
+    projectId: string
+    title: string
+    ownerId: string
+    isRetainer?: boolean
+    recurrenceInterval?: $Enums.RecurrenceInterval | null
+    lastRecurrencePeriodKey?: string | null
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    color?: string | null
+    isScenario?: boolean
+    scenarioOfId?: string | null
+    isTemplate?: boolean
+    deliveredAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    scenarios?: BudgetUncheckedCreateNestedManyWithoutScenarioOfInput
+    sections?: BudgetSectionUncheckedCreateNestedManyWithoutBudgetInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutBudgetInput
+    customFieldValues?: BudgetCustomFieldValueUncheckedCreateNestedManyWithoutBudgetInput
+    activityEvents?: ActivityEventUncheckedCreateNestedManyWithoutBudgetInput
+    expenses?: ExpenseUncheckedCreateNestedManyWithoutBudgetInput
+  }
+
+  export type BudgetCreateOrConnectWithoutApprovalPolicyInput = {
+    where: BudgetWhereUniqueInput
+    create: XOR<BudgetCreateWithoutApprovalPolicyInput, BudgetUncheckedCreateWithoutApprovalPolicyInput>
+  }
+
+  export type BudgetCreateManyApprovalPolicyInputEnvelope = {
+    data: BudgetCreateManyApprovalPolicyInput | BudgetCreateManyApprovalPolicyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ApprovalPolicyApproverUpsertWithWhereUniqueWithoutPolicyInput = {
+    where: ApprovalPolicyApproverWhereUniqueInput
+    update: XOR<ApprovalPolicyApproverUpdateWithoutPolicyInput, ApprovalPolicyApproverUncheckedUpdateWithoutPolicyInput>
+    create: XOR<ApprovalPolicyApproverCreateWithoutPolicyInput, ApprovalPolicyApproverUncheckedCreateWithoutPolicyInput>
+  }
+
+  export type ApprovalPolicyApproverUpdateWithWhereUniqueWithoutPolicyInput = {
+    where: ApprovalPolicyApproverWhereUniqueInput
+    data: XOR<ApprovalPolicyApproverUpdateWithoutPolicyInput, ApprovalPolicyApproverUncheckedUpdateWithoutPolicyInput>
+  }
+
+  export type ApprovalPolicyApproverUpdateManyWithWhereWithoutPolicyInput = {
+    where: ApprovalPolicyApproverScalarWhereInput
+    data: XOR<ApprovalPolicyApproverUpdateManyMutationInput, ApprovalPolicyApproverUncheckedUpdateManyWithoutPolicyInput>
+  }
+
+  export type BudgetUpsertWithWhereUniqueWithoutApprovalPolicyInput = {
+    where: BudgetWhereUniqueInput
+    update: XOR<BudgetUpdateWithoutApprovalPolicyInput, BudgetUncheckedUpdateWithoutApprovalPolicyInput>
+    create: XOR<BudgetCreateWithoutApprovalPolicyInput, BudgetUncheckedCreateWithoutApprovalPolicyInput>
+  }
+
+  export type BudgetUpdateWithWhereUniqueWithoutApprovalPolicyInput = {
+    where: BudgetWhereUniqueInput
+    data: XOR<BudgetUpdateWithoutApprovalPolicyInput, BudgetUncheckedUpdateWithoutApprovalPolicyInput>
+  }
+
+  export type BudgetUpdateManyWithWhereWithoutApprovalPolicyInput = {
+    where: BudgetScalarWhereInput
+    data: XOR<BudgetUpdateManyMutationInput, BudgetUncheckedUpdateManyWithoutApprovalPolicyInput>
+  }
+
+  export type ApprovalPolicyCreateWithoutApproversInput = {
+    id?: string
+    name: string
+    description?: string | null
+    timeApprovalMode?: $Enums.ApprovalMode
+    expenseApprovalMode?: $Enums.ApprovalMode
+    isDefault?: boolean
+    archived?: boolean
+    createdAt?: Date | string
+    budgets?: BudgetCreateNestedManyWithoutApprovalPolicyInput
+  }
+
+  export type ApprovalPolicyUncheckedCreateWithoutApproversInput = {
+    id?: string
+    name: string
+    description?: string | null
+    timeApprovalMode?: $Enums.ApprovalMode
+    expenseApprovalMode?: $Enums.ApprovalMode
+    isDefault?: boolean
+    archived?: boolean
+    createdAt?: Date | string
+    budgets?: BudgetUncheckedCreateNestedManyWithoutApprovalPolicyInput
+  }
+
+  export type ApprovalPolicyCreateOrConnectWithoutApproversInput = {
+    where: ApprovalPolicyWhereUniqueInput
+    create: XOR<ApprovalPolicyCreateWithoutApproversInput, ApprovalPolicyUncheckedCreateWithoutApproversInput>
+  }
+
+  export type UserCreateWithoutApprovalPolicyApprovalsInput = {
+    id?: string
+    email: string
+    passwordHash?: string | null
+    name?: string | null
+    role?: $Enums.Role
+    weeklyCapacityHours?: number
+    isActive?: boolean
+    avatarUrl?: string | null
+    avatarStoragePath?: string | null
+    avatarMimeType?: string | null
+    internalCostRate?: number | null
+    totpSecret?: string | null
+    totpEnabled?: boolean
+    locale?: $Enums.Locale
+    createdAt?: Date | string
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    assignedTasks?: TaskCreateNestedManyWithoutAssigneeInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    mentions?: MentionCreateNestedManyWithoutUserInput
+    attachments?: AttachmentCreateNestedManyWithoutUploadedByInput
+    activityEvents?: ActivityEventCreateNestedManyWithoutActorInput
+    notificationPreferences?: NotificationPreferenceCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    dashboards?: DashboardCreateNestedManyWithoutOwnerInput
+    checkInResponses?: CheckInResponseCreateNestedManyWithoutUserInput
+    ownedBudgets?: BudgetCreateNestedManyWithoutOwnerInput
+    budgetSectionAssignments?: BudgetSectionAssigneeCreateNestedManyWithoutUserInput
+    absenceRequests?: AbsenceRequestCreateNestedManyWithoutUserInput
+    reviewedAbsenceRequests?: AbsenceRequestCreateNestedManyWithoutReviewedByInput
+    createdAutomationRules?: AutomationRuleCreateNestedManyWithoutCreatedByInput
+    automationActionTargets?: AutomationActionCreateNestedManyWithoutTargetUserInput
+    createdInvoices?: InvoiceCreateNestedManyWithoutCreatedByInput
+    projectClientAccess?: ProjectClientAccessCreateNestedManyWithoutUserInput
+    createdSharedViews?: SharedViewCreateNestedManyWithoutCreatedByInput
+    createdTaskLinks?: TaskLinkCreateNestedManyWithoutCreatedByInput
+    pendingLogins?: PendingLoginCreateNestedManyWithoutUserInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
+    customRole?: CustomRoleCreateNestedOneWithoutUsersInput
+    projectRoleOverrides?: ProjectRoleOverrideCreateNestedManyWithoutUserInput
+    managedProjects?: ProjectCreateNestedManyWithoutProjectManagerInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    taskSubscriptions?: TaskSubscriberCreateNestedManyWithoutUserInput
+    assignedTodos?: TodoCreateNestedManyWithoutAssigneeInput
+    savedViews?: SavedViewCreateNestedManyWithoutOwnerInput
+    sharedWikiLinks?: SharedWikiLinkCreateNestedManyWithoutCreatedByInput
+    manager?: UserCreateNestedOneWithoutDirectReportsInput
+    directReports?: UserCreateNestedManyWithoutManagerInput
+    favorites?: FavoriteCreateNestedManyWithoutUserInput
+    auditLogEntries?: AuditLogEntryCreateNestedManyWithoutActorInput
+    invoicePayments?: InvoicePaymentCreateNestedManyWithoutCreatedByInput
+    creditNotes?: CreditNoteCreateNestedManyWithoutCreatedByInput
+    savedReports?: SavedReportCreateNestedManyWithoutOwnerInput
+    approvedTimeEntries?: TimeEntryCreateNestedManyWithoutApprovedByInput
+    loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
+    timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
+    lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
+    resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
+    createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
+    createdMeetings?: MeetingCreateNestedManyWithoutCreatedByInput
+    createdExpenses?: ExpenseCreateNestedManyWithoutCreatedByInput
+    createdPurchaseOrders?: PurchaseOrderCreateNestedManyWithoutCreatedByInput
+    approvedExpenses?: ExpenseCreateNestedManyWithoutApprovedByInput
+    createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
+    accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
+    ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+  }
+
+  export type UserUncheckedCreateWithoutApprovalPolicyApprovalsInput = {
+    id?: string
+    email: string
+    passwordHash?: string | null
+    name?: string | null
+    role?: $Enums.Role
+    weeklyCapacityHours?: number
+    isActive?: boolean
+    avatarUrl?: string | null
+    avatarStoragePath?: string | null
+    avatarMimeType?: string | null
+    internalCostRate?: number | null
+    totpSecret?: string | null
+    totpEnabled?: boolean
+    locale?: $Enums.Locale
+    createdAt?: Date | string
+    customRoleId?: string | null
+    managerId?: string | null
+    holidayCalendarId?: string | null
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    mentions?: MentionUncheckedCreateNestedManyWithoutUserInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutUploadedByInput
+    activityEvents?: ActivityEventUncheckedCreateNestedManyWithoutActorInput
+    notificationPreferences?: NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    dashboards?: DashboardUncheckedCreateNestedManyWithoutOwnerInput
+    checkInResponses?: CheckInResponseUncheckedCreateNestedManyWithoutUserInput
+    ownedBudgets?: BudgetUncheckedCreateNestedManyWithoutOwnerInput
+    budgetSectionAssignments?: BudgetSectionAssigneeUncheckedCreateNestedManyWithoutUserInput
+    absenceRequests?: AbsenceRequestUncheckedCreateNestedManyWithoutUserInput
+    reviewedAbsenceRequests?: AbsenceRequestUncheckedCreateNestedManyWithoutReviewedByInput
+    createdAutomationRules?: AutomationRuleUncheckedCreateNestedManyWithoutCreatedByInput
+    automationActionTargets?: AutomationActionUncheckedCreateNestedManyWithoutTargetUserInput
+    createdInvoices?: InvoiceUncheckedCreateNestedManyWithoutCreatedByInput
+    projectClientAccess?: ProjectClientAccessUncheckedCreateNestedManyWithoutUserInput
+    createdSharedViews?: SharedViewUncheckedCreateNestedManyWithoutCreatedByInput
+    createdTaskLinks?: TaskLinkUncheckedCreateNestedManyWithoutCreatedByInput
+    pendingLogins?: PendingLoginUncheckedCreateNestedManyWithoutUserInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
+    projectRoleOverrides?: ProjectRoleOverrideUncheckedCreateNestedManyWithoutUserInput
+    managedProjects?: ProjectUncheckedCreateNestedManyWithoutProjectManagerInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    taskSubscriptions?: TaskSubscriberUncheckedCreateNestedManyWithoutUserInput
+    assignedTodos?: TodoUncheckedCreateNestedManyWithoutAssigneeInput
+    savedViews?: SavedViewUncheckedCreateNestedManyWithoutOwnerInput
+    sharedWikiLinks?: SharedWikiLinkUncheckedCreateNestedManyWithoutCreatedByInput
+    directReports?: UserUncheckedCreateNestedManyWithoutManagerInput
+    favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
+    auditLogEntries?: AuditLogEntryUncheckedCreateNestedManyWithoutActorInput
+    invoicePayments?: InvoicePaymentUncheckedCreateNestedManyWithoutCreatedByInput
+    creditNotes?: CreditNoteUncheckedCreateNestedManyWithoutCreatedByInput
+    savedReports?: SavedReportUncheckedCreateNestedManyWithoutOwnerInput
+    approvedTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutApprovedByInput
+    loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
+    timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
+    lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
+    createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
+    createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
+    createdExpenses?: ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
+    createdPurchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutCreatedByInput
+    approvedExpenses?: ExpenseUncheckedCreateNestedManyWithoutApprovedByInput
+    createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
+    accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
+    ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+  }
+
+  export type UserCreateOrConnectWithoutApprovalPolicyApprovalsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutApprovalPolicyApprovalsInput, UserUncheckedCreateWithoutApprovalPolicyApprovalsInput>
+  }
+
+  export type ApprovalPolicyUpsertWithoutApproversInput = {
+    update: XOR<ApprovalPolicyUpdateWithoutApproversInput, ApprovalPolicyUncheckedUpdateWithoutApproversInput>
+    create: XOR<ApprovalPolicyCreateWithoutApproversInput, ApprovalPolicyUncheckedCreateWithoutApproversInput>
+    where?: ApprovalPolicyWhereInput
+  }
+
+  export type ApprovalPolicyUpdateToOneWithWhereWithoutApproversInput = {
+    where?: ApprovalPolicyWhereInput
+    data: XOR<ApprovalPolicyUpdateWithoutApproversInput, ApprovalPolicyUncheckedUpdateWithoutApproversInput>
+  }
+
+  export type ApprovalPolicyUpdateWithoutApproversInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    timeApprovalMode?: EnumApprovalModeFieldUpdateOperationsInput | $Enums.ApprovalMode
+    expenseApprovalMode?: EnumApprovalModeFieldUpdateOperationsInput | $Enums.ApprovalMode
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    budgets?: BudgetUpdateManyWithoutApprovalPolicyNestedInput
+  }
+
+  export type ApprovalPolicyUncheckedUpdateWithoutApproversInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    timeApprovalMode?: EnumApprovalModeFieldUpdateOperationsInput | $Enums.ApprovalMode
+    expenseApprovalMode?: EnumApprovalModeFieldUpdateOperationsInput | $Enums.ApprovalMode
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    budgets?: BudgetUncheckedUpdateManyWithoutApprovalPolicyNestedInput
+  }
+
+  export type UserUpsertWithoutApprovalPolicyApprovalsInput = {
+    update: XOR<UserUpdateWithoutApprovalPolicyApprovalsInput, UserUncheckedUpdateWithoutApprovalPolicyApprovalsInput>
+    create: XOR<UserCreateWithoutApprovalPolicyApprovalsInput, UserUncheckedCreateWithoutApprovalPolicyApprovalsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutApprovalPolicyApprovalsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutApprovalPolicyApprovalsInput, UserUncheckedUpdateWithoutApprovalPolicyApprovalsInput>
+  }
+
+  export type UserUpdateWithoutApprovalPolicyApprovalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarStoragePath?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarMimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    internalCostRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    totpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    locale?: EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    assignedTasks?: TaskUpdateManyWithoutAssigneeNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    mentions?: MentionUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUpdateManyWithoutUploadedByNestedInput
+    activityEvents?: ActivityEventUpdateManyWithoutActorNestedInput
+    notificationPreferences?: NotificationPreferenceUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    dashboards?: DashboardUpdateManyWithoutOwnerNestedInput
+    checkInResponses?: CheckInResponseUpdateManyWithoutUserNestedInput
+    ownedBudgets?: BudgetUpdateManyWithoutOwnerNestedInput
+    budgetSectionAssignments?: BudgetSectionAssigneeUpdateManyWithoutUserNestedInput
+    absenceRequests?: AbsenceRequestUpdateManyWithoutUserNestedInput
+    reviewedAbsenceRequests?: AbsenceRequestUpdateManyWithoutReviewedByNestedInput
+    createdAutomationRules?: AutomationRuleUpdateManyWithoutCreatedByNestedInput
+    automationActionTargets?: AutomationActionUpdateManyWithoutTargetUserNestedInput
+    createdInvoices?: InvoiceUpdateManyWithoutCreatedByNestedInput
+    projectClientAccess?: ProjectClientAccessUpdateManyWithoutUserNestedInput
+    createdSharedViews?: SharedViewUpdateManyWithoutCreatedByNestedInput
+    createdTaskLinks?: TaskLinkUpdateManyWithoutCreatedByNestedInput
+    pendingLogins?: PendingLoginUpdateManyWithoutUserNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
+    customRole?: CustomRoleUpdateOneWithoutUsersNestedInput
+    projectRoleOverrides?: ProjectRoleOverrideUpdateManyWithoutUserNestedInput
+    managedProjects?: ProjectUpdateManyWithoutProjectManagerNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    taskSubscriptions?: TaskSubscriberUpdateManyWithoutUserNestedInput
+    assignedTodos?: TodoUpdateManyWithoutAssigneeNestedInput
+    savedViews?: SavedViewUpdateManyWithoutOwnerNestedInput
+    sharedWikiLinks?: SharedWikiLinkUpdateManyWithoutCreatedByNestedInput
+    manager?: UserUpdateOneWithoutDirectReportsNestedInput
+    directReports?: UserUpdateManyWithoutManagerNestedInput
+    favorites?: FavoriteUpdateManyWithoutUserNestedInput
+    auditLogEntries?: AuditLogEntryUpdateManyWithoutActorNestedInput
+    invoicePayments?: InvoicePaymentUpdateManyWithoutCreatedByNestedInput
+    creditNotes?: CreditNoteUpdateManyWithoutCreatedByNestedInput
+    savedReports?: SavedReportUpdateManyWithoutOwnerNestedInput
+    approvedTimeEntries?: TimeEntryUpdateManyWithoutApprovedByNestedInput
+    loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
+    timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
+    lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
+    resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
+    createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
+    createdMeetings?: MeetingUpdateManyWithoutCreatedByNestedInput
+    createdExpenses?: ExpenseUpdateManyWithoutCreatedByNestedInput
+    createdPurchaseOrders?: PurchaseOrderUpdateManyWithoutCreatedByNestedInput
+    approvedExpenses?: ExpenseUpdateManyWithoutApprovedByNestedInput
+    createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
+    accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
+    ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutApprovalPolicyApprovalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarStoragePath?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarMimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    internalCostRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    totpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    locale?: EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customRoleId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    holidayCalendarId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    assignedTasks?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    mentions?: MentionUncheckedUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput
+    activityEvents?: ActivityEventUncheckedUpdateManyWithoutActorNestedInput
+    notificationPreferences?: NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    dashboards?: DashboardUncheckedUpdateManyWithoutOwnerNestedInput
+    checkInResponses?: CheckInResponseUncheckedUpdateManyWithoutUserNestedInput
+    ownedBudgets?: BudgetUncheckedUpdateManyWithoutOwnerNestedInput
+    budgetSectionAssignments?: BudgetSectionAssigneeUncheckedUpdateManyWithoutUserNestedInput
+    absenceRequests?: AbsenceRequestUncheckedUpdateManyWithoutUserNestedInput
+    reviewedAbsenceRequests?: AbsenceRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+    createdAutomationRules?: AutomationRuleUncheckedUpdateManyWithoutCreatedByNestedInput
+    automationActionTargets?: AutomationActionUncheckedUpdateManyWithoutTargetUserNestedInput
+    createdInvoices?: InvoiceUncheckedUpdateManyWithoutCreatedByNestedInput
+    projectClientAccess?: ProjectClientAccessUncheckedUpdateManyWithoutUserNestedInput
+    createdSharedViews?: SharedViewUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdTaskLinks?: TaskLinkUncheckedUpdateManyWithoutCreatedByNestedInput
+    pendingLogins?: PendingLoginUncheckedUpdateManyWithoutUserNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
+    projectRoleOverrides?: ProjectRoleOverrideUncheckedUpdateManyWithoutUserNestedInput
+    managedProjects?: ProjectUncheckedUpdateManyWithoutProjectManagerNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    taskSubscriptions?: TaskSubscriberUncheckedUpdateManyWithoutUserNestedInput
+    assignedTodos?: TodoUncheckedUpdateManyWithoutAssigneeNestedInput
+    savedViews?: SavedViewUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedWikiLinks?: SharedWikiLinkUncheckedUpdateManyWithoutCreatedByNestedInput
+    directReports?: UserUncheckedUpdateManyWithoutManagerNestedInput
+    favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
+    auditLogEntries?: AuditLogEntryUncheckedUpdateManyWithoutActorNestedInput
+    invoicePayments?: InvoicePaymentUncheckedUpdateManyWithoutCreatedByNestedInput
+    creditNotes?: CreditNoteUncheckedUpdateManyWithoutCreatedByNestedInput
+    savedReports?: SavedReportUncheckedUpdateManyWithoutOwnerNestedInput
+    approvedTimeEntries?: TimeEntryUncheckedUpdateManyWithoutApprovedByNestedInput
+    loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
+    timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
+    lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
+    createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdExpenses?: ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdPurchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutCreatedByNestedInput
+    approvedExpenses?: ExpenseUncheckedUpdateManyWithoutApprovedByNestedInput
+    createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
+    accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
+    ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+  }
+
+  export type TimeEntryCreateWithoutApproverDecisionsInput = {
+    id?: string
+    amount?: number | null
+    description?: string | null
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
+    durationMinutes?: number | null
+    createdAt?: Date | string
+    approvalStatus?: $Enums.TimeEntryApprovalStatus
+    approvedAt?: Date | string | null
+    submittedAt?: Date | string | null
+    rejectionReason?: string | null
+    user: UserCreateNestedOneWithoutTimeEntriesInput
+    task?: TaskCreateNestedOneWithoutTimeEntriesInput
+    project?: ProjectCreateNestedOneWithoutTimeEntriesInput
+    budgetSection?: BudgetSectionCreateNestedOneWithoutTimeEntriesInput
+    invoice?: InvoiceCreateNestedOneWithoutTimeEntriesInput
+    approvedBy?: UserCreateNestedOneWithoutApprovedTimeEntriesInput
+    loggedForUser?: UserCreateNestedOneWithoutLoggedForTimeEntriesInput
+  }
+
+  export type TimeEntryUncheckedCreateWithoutApproverDecisionsInput = {
+    id?: string
+    userId: string
+    taskId?: string | null
+    projectId?: string | null
+    budgetSectionId?: string | null
+    amount?: number | null
+    description?: string | null
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
+    durationMinutes?: number | null
+    createdAt?: Date | string
+    invoiceId?: string | null
+    approvalStatus?: $Enums.TimeEntryApprovalStatus
+    approvedById?: string | null
+    approvedAt?: Date | string | null
+    loggedForUserId?: string | null
+    submittedAt?: Date | string | null
+    rejectionReason?: string | null
+  }
+
+  export type TimeEntryCreateOrConnectWithoutApproverDecisionsInput = {
+    where: TimeEntryWhereUniqueInput
+    create: XOR<TimeEntryCreateWithoutApproverDecisionsInput, TimeEntryUncheckedCreateWithoutApproverDecisionsInput>
+  }
+
+  export type UserCreateWithoutTimeEntryApproverDecisionsInput = {
+    id?: string
+    email: string
+    passwordHash?: string | null
+    name?: string | null
+    role?: $Enums.Role
+    weeklyCapacityHours?: number
+    isActive?: boolean
+    avatarUrl?: string | null
+    avatarStoragePath?: string | null
+    avatarMimeType?: string | null
+    internalCostRate?: number | null
+    totpSecret?: string | null
+    totpEnabled?: boolean
+    locale?: $Enums.Locale
+    createdAt?: Date | string
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    assignedTasks?: TaskCreateNestedManyWithoutAssigneeInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    mentions?: MentionCreateNestedManyWithoutUserInput
+    attachments?: AttachmentCreateNestedManyWithoutUploadedByInput
+    activityEvents?: ActivityEventCreateNestedManyWithoutActorInput
+    notificationPreferences?: NotificationPreferenceCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    dashboards?: DashboardCreateNestedManyWithoutOwnerInput
+    checkInResponses?: CheckInResponseCreateNestedManyWithoutUserInput
+    ownedBudgets?: BudgetCreateNestedManyWithoutOwnerInput
+    budgetSectionAssignments?: BudgetSectionAssigneeCreateNestedManyWithoutUserInput
+    absenceRequests?: AbsenceRequestCreateNestedManyWithoutUserInput
+    reviewedAbsenceRequests?: AbsenceRequestCreateNestedManyWithoutReviewedByInput
+    createdAutomationRules?: AutomationRuleCreateNestedManyWithoutCreatedByInput
+    automationActionTargets?: AutomationActionCreateNestedManyWithoutTargetUserInput
+    createdInvoices?: InvoiceCreateNestedManyWithoutCreatedByInput
+    projectClientAccess?: ProjectClientAccessCreateNestedManyWithoutUserInput
+    createdSharedViews?: SharedViewCreateNestedManyWithoutCreatedByInput
+    createdTaskLinks?: TaskLinkCreateNestedManyWithoutCreatedByInput
+    pendingLogins?: PendingLoginCreateNestedManyWithoutUserInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
+    customRole?: CustomRoleCreateNestedOneWithoutUsersInput
+    projectRoleOverrides?: ProjectRoleOverrideCreateNestedManyWithoutUserInput
+    managedProjects?: ProjectCreateNestedManyWithoutProjectManagerInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    taskSubscriptions?: TaskSubscriberCreateNestedManyWithoutUserInput
+    assignedTodos?: TodoCreateNestedManyWithoutAssigneeInput
+    savedViews?: SavedViewCreateNestedManyWithoutOwnerInput
+    sharedWikiLinks?: SharedWikiLinkCreateNestedManyWithoutCreatedByInput
+    manager?: UserCreateNestedOneWithoutDirectReportsInput
+    directReports?: UserCreateNestedManyWithoutManagerInput
+    favorites?: FavoriteCreateNestedManyWithoutUserInput
+    auditLogEntries?: AuditLogEntryCreateNestedManyWithoutActorInput
+    invoicePayments?: InvoicePaymentCreateNestedManyWithoutCreatedByInput
+    creditNotes?: CreditNoteCreateNestedManyWithoutCreatedByInput
+    savedReports?: SavedReportCreateNestedManyWithoutOwnerInput
+    approvedTimeEntries?: TimeEntryCreateNestedManyWithoutApprovedByInput
+    loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
+    timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
+    lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
+    resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
+    createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
+    createdMeetings?: MeetingCreateNestedManyWithoutCreatedByInput
+    createdExpenses?: ExpenseCreateNestedManyWithoutCreatedByInput
+    createdPurchaseOrders?: PurchaseOrderCreateNestedManyWithoutCreatedByInput
+    approvedExpenses?: ExpenseCreateNestedManyWithoutApprovedByInput
+    createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
+    accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
+    ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+  }
+
+  export type UserUncheckedCreateWithoutTimeEntryApproverDecisionsInput = {
+    id?: string
+    email: string
+    passwordHash?: string | null
+    name?: string | null
+    role?: $Enums.Role
+    weeklyCapacityHours?: number
+    isActive?: boolean
+    avatarUrl?: string | null
+    avatarStoragePath?: string | null
+    avatarMimeType?: string | null
+    internalCostRate?: number | null
+    totpSecret?: string | null
+    totpEnabled?: boolean
+    locale?: $Enums.Locale
+    createdAt?: Date | string
+    customRoleId?: string | null
+    managerId?: string | null
+    holidayCalendarId?: string | null
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    mentions?: MentionUncheckedCreateNestedManyWithoutUserInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutUploadedByInput
+    activityEvents?: ActivityEventUncheckedCreateNestedManyWithoutActorInput
+    notificationPreferences?: NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    dashboards?: DashboardUncheckedCreateNestedManyWithoutOwnerInput
+    checkInResponses?: CheckInResponseUncheckedCreateNestedManyWithoutUserInput
+    ownedBudgets?: BudgetUncheckedCreateNestedManyWithoutOwnerInput
+    budgetSectionAssignments?: BudgetSectionAssigneeUncheckedCreateNestedManyWithoutUserInput
+    absenceRequests?: AbsenceRequestUncheckedCreateNestedManyWithoutUserInput
+    reviewedAbsenceRequests?: AbsenceRequestUncheckedCreateNestedManyWithoutReviewedByInput
+    createdAutomationRules?: AutomationRuleUncheckedCreateNestedManyWithoutCreatedByInput
+    automationActionTargets?: AutomationActionUncheckedCreateNestedManyWithoutTargetUserInput
+    createdInvoices?: InvoiceUncheckedCreateNestedManyWithoutCreatedByInput
+    projectClientAccess?: ProjectClientAccessUncheckedCreateNestedManyWithoutUserInput
+    createdSharedViews?: SharedViewUncheckedCreateNestedManyWithoutCreatedByInput
+    createdTaskLinks?: TaskLinkUncheckedCreateNestedManyWithoutCreatedByInput
+    pendingLogins?: PendingLoginUncheckedCreateNestedManyWithoutUserInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
+    projectRoleOverrides?: ProjectRoleOverrideUncheckedCreateNestedManyWithoutUserInput
+    managedProjects?: ProjectUncheckedCreateNestedManyWithoutProjectManagerInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    taskSubscriptions?: TaskSubscriberUncheckedCreateNestedManyWithoutUserInput
+    assignedTodos?: TodoUncheckedCreateNestedManyWithoutAssigneeInput
+    savedViews?: SavedViewUncheckedCreateNestedManyWithoutOwnerInput
+    sharedWikiLinks?: SharedWikiLinkUncheckedCreateNestedManyWithoutCreatedByInput
+    directReports?: UserUncheckedCreateNestedManyWithoutManagerInput
+    favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
+    auditLogEntries?: AuditLogEntryUncheckedCreateNestedManyWithoutActorInput
+    invoicePayments?: InvoicePaymentUncheckedCreateNestedManyWithoutCreatedByInput
+    creditNotes?: CreditNoteUncheckedCreateNestedManyWithoutCreatedByInput
+    savedReports?: SavedReportUncheckedCreateNestedManyWithoutOwnerInput
+    approvedTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutApprovedByInput
+    loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
+    timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
+    lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
+    createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
+    createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
+    createdExpenses?: ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
+    createdPurchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutCreatedByInput
+    approvedExpenses?: ExpenseUncheckedCreateNestedManyWithoutApprovedByInput
+    createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
+    accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
+    ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+  }
+
+  export type UserCreateOrConnectWithoutTimeEntryApproverDecisionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutTimeEntryApproverDecisionsInput, UserUncheckedCreateWithoutTimeEntryApproverDecisionsInput>
+  }
+
+  export type TimeEntryUpsertWithoutApproverDecisionsInput = {
+    update: XOR<TimeEntryUpdateWithoutApproverDecisionsInput, TimeEntryUncheckedUpdateWithoutApproverDecisionsInput>
+    create: XOR<TimeEntryCreateWithoutApproverDecisionsInput, TimeEntryUncheckedCreateWithoutApproverDecisionsInput>
+    where?: TimeEntryWhereInput
+  }
+
+  export type TimeEntryUpdateToOneWithWhereWithoutApproverDecisionsInput = {
+    where?: TimeEntryWhereInput
+    data: XOR<TimeEntryUpdateWithoutApproverDecisionsInput, TimeEntryUncheckedUpdateWithoutApproverDecisionsInput>
+  }
+
+  export type TimeEntryUpdateWithoutApproverDecisionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: NullableFloatFieldUpdateOperationsInput | number | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    durationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvalStatus?: EnumTimeEntryApprovalStatusFieldUpdateOperationsInput | $Enums.TimeEntryApprovalStatus
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneRequiredWithoutTimeEntriesNestedInput
+    task?: TaskUpdateOneWithoutTimeEntriesNestedInput
+    project?: ProjectUpdateOneWithoutTimeEntriesNestedInput
+    budgetSection?: BudgetSectionUpdateOneWithoutTimeEntriesNestedInput
+    invoice?: InvoiceUpdateOneWithoutTimeEntriesNestedInput
+    approvedBy?: UserUpdateOneWithoutApprovedTimeEntriesNestedInput
+    loggedForUser?: UserUpdateOneWithoutLoggedForTimeEntriesNestedInput
+  }
+
+  export type TimeEntryUncheckedUpdateWithoutApproverDecisionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    taskId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetSectionId?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: NullableFloatFieldUpdateOperationsInput | number | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    durationMinutes?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invoiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    approvalStatus?: EnumTimeEntryApprovalStatusFieldUpdateOperationsInput | $Enums.TimeEntryApprovalStatus
+    approvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserUpsertWithoutTimeEntryApproverDecisionsInput = {
+    update: XOR<UserUpdateWithoutTimeEntryApproverDecisionsInput, UserUncheckedUpdateWithoutTimeEntryApproverDecisionsInput>
+    create: XOR<UserCreateWithoutTimeEntryApproverDecisionsInput, UserUncheckedCreateWithoutTimeEntryApproverDecisionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutTimeEntryApproverDecisionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutTimeEntryApproverDecisionsInput, UserUncheckedUpdateWithoutTimeEntryApproverDecisionsInput>
+  }
+
+  export type UserUpdateWithoutTimeEntryApproverDecisionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarStoragePath?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarMimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    internalCostRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    totpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    locale?: EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    assignedTasks?: TaskUpdateManyWithoutAssigneeNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    mentions?: MentionUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUpdateManyWithoutUploadedByNestedInput
+    activityEvents?: ActivityEventUpdateManyWithoutActorNestedInput
+    notificationPreferences?: NotificationPreferenceUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    dashboards?: DashboardUpdateManyWithoutOwnerNestedInput
+    checkInResponses?: CheckInResponseUpdateManyWithoutUserNestedInput
+    ownedBudgets?: BudgetUpdateManyWithoutOwnerNestedInput
+    budgetSectionAssignments?: BudgetSectionAssigneeUpdateManyWithoutUserNestedInput
+    absenceRequests?: AbsenceRequestUpdateManyWithoutUserNestedInput
+    reviewedAbsenceRequests?: AbsenceRequestUpdateManyWithoutReviewedByNestedInput
+    createdAutomationRules?: AutomationRuleUpdateManyWithoutCreatedByNestedInput
+    automationActionTargets?: AutomationActionUpdateManyWithoutTargetUserNestedInput
+    createdInvoices?: InvoiceUpdateManyWithoutCreatedByNestedInput
+    projectClientAccess?: ProjectClientAccessUpdateManyWithoutUserNestedInput
+    createdSharedViews?: SharedViewUpdateManyWithoutCreatedByNestedInput
+    createdTaskLinks?: TaskLinkUpdateManyWithoutCreatedByNestedInput
+    pendingLogins?: PendingLoginUpdateManyWithoutUserNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
+    customRole?: CustomRoleUpdateOneWithoutUsersNestedInput
+    projectRoleOverrides?: ProjectRoleOverrideUpdateManyWithoutUserNestedInput
+    managedProjects?: ProjectUpdateManyWithoutProjectManagerNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    taskSubscriptions?: TaskSubscriberUpdateManyWithoutUserNestedInput
+    assignedTodos?: TodoUpdateManyWithoutAssigneeNestedInput
+    savedViews?: SavedViewUpdateManyWithoutOwnerNestedInput
+    sharedWikiLinks?: SharedWikiLinkUpdateManyWithoutCreatedByNestedInput
+    manager?: UserUpdateOneWithoutDirectReportsNestedInput
+    directReports?: UserUpdateManyWithoutManagerNestedInput
+    favorites?: FavoriteUpdateManyWithoutUserNestedInput
+    auditLogEntries?: AuditLogEntryUpdateManyWithoutActorNestedInput
+    invoicePayments?: InvoicePaymentUpdateManyWithoutCreatedByNestedInput
+    creditNotes?: CreditNoteUpdateManyWithoutCreatedByNestedInput
+    savedReports?: SavedReportUpdateManyWithoutOwnerNestedInput
+    approvedTimeEntries?: TimeEntryUpdateManyWithoutApprovedByNestedInput
+    loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
+    timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
+    lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
+    resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
+    createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
+    createdMeetings?: MeetingUpdateManyWithoutCreatedByNestedInput
+    createdExpenses?: ExpenseUpdateManyWithoutCreatedByNestedInput
+    createdPurchaseOrders?: PurchaseOrderUpdateManyWithoutCreatedByNestedInput
+    approvedExpenses?: ExpenseUpdateManyWithoutApprovedByNestedInput
+    createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
+    accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
+    ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutTimeEntryApproverDecisionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarStoragePath?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarMimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    internalCostRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    totpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    locale?: EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customRoleId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    holidayCalendarId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    assignedTasks?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    mentions?: MentionUncheckedUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput
+    activityEvents?: ActivityEventUncheckedUpdateManyWithoutActorNestedInput
+    notificationPreferences?: NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    dashboards?: DashboardUncheckedUpdateManyWithoutOwnerNestedInput
+    checkInResponses?: CheckInResponseUncheckedUpdateManyWithoutUserNestedInput
+    ownedBudgets?: BudgetUncheckedUpdateManyWithoutOwnerNestedInput
+    budgetSectionAssignments?: BudgetSectionAssigneeUncheckedUpdateManyWithoutUserNestedInput
+    absenceRequests?: AbsenceRequestUncheckedUpdateManyWithoutUserNestedInput
+    reviewedAbsenceRequests?: AbsenceRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+    createdAutomationRules?: AutomationRuleUncheckedUpdateManyWithoutCreatedByNestedInput
+    automationActionTargets?: AutomationActionUncheckedUpdateManyWithoutTargetUserNestedInput
+    createdInvoices?: InvoiceUncheckedUpdateManyWithoutCreatedByNestedInput
+    projectClientAccess?: ProjectClientAccessUncheckedUpdateManyWithoutUserNestedInput
+    createdSharedViews?: SharedViewUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdTaskLinks?: TaskLinkUncheckedUpdateManyWithoutCreatedByNestedInput
+    pendingLogins?: PendingLoginUncheckedUpdateManyWithoutUserNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
+    projectRoleOverrides?: ProjectRoleOverrideUncheckedUpdateManyWithoutUserNestedInput
+    managedProjects?: ProjectUncheckedUpdateManyWithoutProjectManagerNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    taskSubscriptions?: TaskSubscriberUncheckedUpdateManyWithoutUserNestedInput
+    assignedTodos?: TodoUncheckedUpdateManyWithoutAssigneeNestedInput
+    savedViews?: SavedViewUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedWikiLinks?: SharedWikiLinkUncheckedUpdateManyWithoutCreatedByNestedInput
+    directReports?: UserUncheckedUpdateManyWithoutManagerNestedInput
+    favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
+    auditLogEntries?: AuditLogEntryUncheckedUpdateManyWithoutActorNestedInput
+    invoicePayments?: InvoicePaymentUncheckedUpdateManyWithoutCreatedByNestedInput
+    creditNotes?: CreditNoteUncheckedUpdateManyWithoutCreatedByNestedInput
+    savedReports?: SavedReportUncheckedUpdateManyWithoutOwnerNestedInput
+    approvedTimeEntries?: TimeEntryUncheckedUpdateManyWithoutApprovedByNestedInput
+    loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
+    timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
+    lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
+    createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdExpenses?: ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdPurchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutCreatedByNestedInput
+    approvedExpenses?: ExpenseUncheckedUpdateManyWithoutApprovedByNestedInput
+    createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
+    accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
+    ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
   }
 
   export type UserCreateWithoutTimesheetLocksInput = {
@@ -156079,6 +162341,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutTimesheetLocksInput = {
@@ -156148,6 +162412,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutTimesheetLocksInput = {
@@ -156222,6 +162488,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutLockedTimesheetsInput = {
@@ -156291,6 +162559,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutLockedTimesheetsInput = {
@@ -156376,6 +162646,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimesheetLocksInput = {
@@ -156445,6 +162717,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUpsertWithoutLockedTimesheetsInput = {
@@ -156525,6 +162799,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLockedTimesheetsInput = {
@@ -156594,6 +162870,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type HolidayCreateWithoutCalendarInput = {
@@ -156685,6 +162963,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutHolidayCalendarInput = {
@@ -156754,6 +163034,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutHolidayCalendarInput = {
@@ -156919,6 +163201,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutResourceBookingsInput = {
@@ -156988,6 +163272,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutResourceBookingsInput = {
@@ -157222,6 +163508,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutCreatedResourceBookingsInput = {
@@ -157291,6 +163579,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutCreatedResourceBookingsInput = {
@@ -157376,6 +163666,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutResourceBookingsInput = {
@@ -157445,6 +163737,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type ProjectUpsertWithoutResourceBookingsInput = {
@@ -157697,6 +163991,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedResourceBookingsInput = {
@@ -157766,6 +164062,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type TaskCreateWithoutProjectsInput = {
@@ -158757,6 +165055,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutCreatedTaskLinksInput = {
@@ -158826,6 +165126,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutCreatedTaskLinksInput = {
@@ -159101,6 +165403,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedTaskLinksInput = {
@@ -159170,6 +165474,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type ProjectCreateWithoutCustomFieldsInput = {
@@ -160101,6 +166407,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutBudgetInput
     activityEvents?: ActivityEventCreateNestedManyWithoutBudgetInput
     expenses?: ExpenseCreateNestedManyWithoutBudgetInput
+    approvalPolicy?: ApprovalPolicyCreateNestedOneWithoutBudgetsInput
   }
 
   export type BudgetUncheckedCreateWithoutCustomFieldValuesInput = {
@@ -160120,6 +166427,7 @@ export namespace Prisma {
     deliveredAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    approvalPolicyId?: string | null
     scenarios?: BudgetUncheckedCreateNestedManyWithoutScenarioOfInput
     sections?: BudgetSectionUncheckedCreateNestedManyWithoutBudgetInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutBudgetInput
@@ -160204,6 +166512,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutBudgetNestedInput
     activityEvents?: ActivityEventUpdateManyWithoutBudgetNestedInput
     expenses?: ExpenseUpdateManyWithoutBudgetNestedInput
+    approvalPolicy?: ApprovalPolicyUpdateOneWithoutBudgetsNestedInput
   }
 
   export type BudgetUncheckedUpdateWithoutCustomFieldValuesInput = {
@@ -160223,6 +166532,7 @@ export namespace Prisma {
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
     scenarios?: BudgetUncheckedUpdateManyWithoutScenarioOfNestedInput
     sections?: BudgetSectionUncheckedUpdateManyWithoutBudgetNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutBudgetNestedInput
@@ -160462,6 +166772,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutSharedWikiLinksInput = {
@@ -160531,6 +166843,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutSharedWikiLinksInput = {
@@ -160651,6 +166965,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSharedWikiLinksInput = {
@@ -160720,6 +167036,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type ProjectCreateWithoutActivityEventsInput = {
@@ -160882,6 +167200,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutActivityEventsInput = {
@@ -160951,6 +167271,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutActivityEventsInput = {
@@ -161069,6 +167391,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutBudgetInput
     customFieldValues?: BudgetCustomFieldValueCreateNestedManyWithoutBudgetInput
     expenses?: ExpenseCreateNestedManyWithoutBudgetInput
+    approvalPolicy?: ApprovalPolicyCreateNestedOneWithoutBudgetsInput
   }
 
   export type BudgetUncheckedCreateWithoutActivityEventsInput = {
@@ -161088,6 +167411,7 @@ export namespace Prisma {
     deliveredAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    approvalPolicyId?: string | null
     scenarios?: BudgetUncheckedCreateNestedManyWithoutScenarioOfInput
     sections?: BudgetSectionUncheckedCreateNestedManyWithoutBudgetInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutBudgetInput
@@ -161301,6 +167625,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutActivityEventsInput = {
@@ -161370,6 +167696,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type TaskUpsertWithoutActivityEventsInput = {
@@ -161500,6 +167828,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutBudgetNestedInput
     customFieldValues?: BudgetCustomFieldValueUpdateManyWithoutBudgetNestedInput
     expenses?: ExpenseUpdateManyWithoutBudgetNestedInput
+    approvalPolicy?: ApprovalPolicyUpdateOneWithoutBudgetsNestedInput
   }
 
   export type BudgetUncheckedUpdateWithoutActivityEventsInput = {
@@ -161519,6 +167848,7 @@ export namespace Prisma {
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
     scenarios?: BudgetUncheckedUpdateManyWithoutScenarioOfNestedInput
     sections?: BudgetSectionUncheckedUpdateManyWithoutBudgetNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutBudgetNestedInput
@@ -161609,6 +167939,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutNotificationPreferencesInput = {
@@ -161678,6 +168010,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutNotificationPreferencesInput = {
@@ -161856,6 +168190,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationPreferencesInput = {
@@ -161925,6 +168261,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type ProjectUpsertWithoutNotificationPreferencesInput = {
@@ -162093,6 +168431,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -162162,6 +168502,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -162274,6 +168616,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -162343,6 +168687,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type ActivityEventUpsertWithoutNotificationsInput = {
@@ -162445,6 +168791,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutCreatedAutomationRulesInput = {
@@ -162514,6 +168862,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutCreatedAutomationRulesInput = {
@@ -162629,6 +168979,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedAutomationRulesInput = {
@@ -162698,6 +169050,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type AutomationActionUpsertWithWhereUniqueWithoutRuleInput = {
@@ -162818,6 +169172,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutAutomationActionTargetsInput = {
@@ -162887,6 +169243,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutAutomationActionTargetsInput = {
@@ -163042,6 +169400,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAutomationActionTargetsInput = {
@@ -163111,6 +169471,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type WorkflowStatusUpsertWithoutAutomationActionsInput = {
@@ -163215,6 +169577,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutDashboardsInput = {
@@ -163284,6 +169648,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutDashboardsInput = {
@@ -163401,6 +169767,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDashboardsInput = {
@@ -163470,6 +169838,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type DashboardWidgetUpsertWithWhereUniqueWithoutDashboardInput = {
@@ -163859,6 +170229,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutApiKeysInput = {
@@ -163928,6 +170300,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutApiKeysInput = {
@@ -164013,6 +170387,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutApiKeysInput = {
@@ -164082,6 +170458,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type WebhookEndpointCreateWithoutDeliveriesInput = {
@@ -164468,6 +170846,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutCheckInResponsesInput = {
@@ -164537,6 +170917,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutCheckInResponsesInput = {
@@ -164653,6 +171035,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCheckInResponsesInput = {
@@ -164722,6 +171106,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type ProjectCreateWithoutBudgetsInput = {
@@ -164884,6 +171270,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutOwnedBudgetsInput = {
@@ -164953,6 +171341,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutOwnedBudgetsInput = {
@@ -164982,6 +171372,7 @@ export namespace Prisma {
     customFieldValues?: BudgetCustomFieldValueCreateNestedManyWithoutBudgetInput
     activityEvents?: ActivityEventCreateNestedManyWithoutBudgetInput
     expenses?: ExpenseCreateNestedManyWithoutBudgetInput
+    approvalPolicy?: ApprovalPolicyCreateNestedOneWithoutBudgetsInput
   }
 
   export type BudgetUncheckedCreateWithoutScenariosInput = {
@@ -165001,6 +171392,7 @@ export namespace Prisma {
     deliveredAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    approvalPolicyId?: string | null
     sections?: BudgetSectionUncheckedCreateNestedManyWithoutBudgetInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutBudgetInput
     customFieldValues?: BudgetCustomFieldValueUncheckedCreateNestedManyWithoutBudgetInput
@@ -165035,6 +171427,7 @@ export namespace Prisma {
     customFieldValues?: BudgetCustomFieldValueCreateNestedManyWithoutBudgetInput
     activityEvents?: ActivityEventCreateNestedManyWithoutBudgetInput
     expenses?: ExpenseCreateNestedManyWithoutBudgetInput
+    approvalPolicy?: ApprovalPolicyCreateNestedOneWithoutBudgetsInput
   }
 
   export type BudgetUncheckedCreateWithoutScenarioOfInput = {
@@ -165053,6 +171446,7 @@ export namespace Prisma {
     deliveredAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    approvalPolicyId?: string | null
     scenarios?: BudgetUncheckedCreateNestedManyWithoutScenarioOfInput
     sections?: BudgetSectionUncheckedCreateNestedManyWithoutBudgetInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutBudgetInput
@@ -165287,6 +171681,35 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ApprovalPolicyCreateWithoutBudgetsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    timeApprovalMode?: $Enums.ApprovalMode
+    expenseApprovalMode?: $Enums.ApprovalMode
+    isDefault?: boolean
+    archived?: boolean
+    createdAt?: Date | string
+    approvers?: ApprovalPolicyApproverCreateNestedManyWithoutPolicyInput
+  }
+
+  export type ApprovalPolicyUncheckedCreateWithoutBudgetsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    timeApprovalMode?: $Enums.ApprovalMode
+    expenseApprovalMode?: $Enums.ApprovalMode
+    isDefault?: boolean
+    archived?: boolean
+    createdAt?: Date | string
+    approvers?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutPolicyInput
+  }
+
+  export type ApprovalPolicyCreateOrConnectWithoutBudgetsInput = {
+    where: ApprovalPolicyWhereUniqueInput
+    create: XOR<ApprovalPolicyCreateWithoutBudgetsInput, ApprovalPolicyUncheckedCreateWithoutBudgetsInput>
+  }
+
   export type ProjectUpsertWithoutBudgetsInput = {
     update: XOR<ProjectUpdateWithoutBudgetsInput, ProjectUncheckedUpdateWithoutBudgetsInput>
     create: XOR<ProjectCreateWithoutBudgetsInput, ProjectUncheckedCreateWithoutBudgetsInput>
@@ -165464,6 +171887,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOwnedBudgetsInput = {
@@ -165533,6 +171958,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type BudgetUpsertWithoutScenariosInput = {
@@ -165568,6 +171995,7 @@ export namespace Prisma {
     customFieldValues?: BudgetCustomFieldValueUpdateManyWithoutBudgetNestedInput
     activityEvents?: ActivityEventUpdateManyWithoutBudgetNestedInput
     expenses?: ExpenseUpdateManyWithoutBudgetNestedInput
+    approvalPolicy?: ApprovalPolicyUpdateOneWithoutBudgetsNestedInput
   }
 
   export type BudgetUncheckedUpdateWithoutScenariosInput = {
@@ -165587,6 +172015,7 @@ export namespace Prisma {
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
     sections?: BudgetSectionUncheckedUpdateManyWithoutBudgetNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutBudgetNestedInput
     customFieldValues?: BudgetCustomFieldValueUncheckedUpdateManyWithoutBudgetNestedInput
@@ -165719,6 +172148,41 @@ export namespace Prisma {
   export type ExpenseUpdateManyWithWhereWithoutBudgetInput = {
     where: ExpenseScalarWhereInput
     data: XOR<ExpenseUpdateManyMutationInput, ExpenseUncheckedUpdateManyWithoutBudgetInput>
+  }
+
+  export type ApprovalPolicyUpsertWithoutBudgetsInput = {
+    update: XOR<ApprovalPolicyUpdateWithoutBudgetsInput, ApprovalPolicyUncheckedUpdateWithoutBudgetsInput>
+    create: XOR<ApprovalPolicyCreateWithoutBudgetsInput, ApprovalPolicyUncheckedCreateWithoutBudgetsInput>
+    where?: ApprovalPolicyWhereInput
+  }
+
+  export type ApprovalPolicyUpdateToOneWithWhereWithoutBudgetsInput = {
+    where?: ApprovalPolicyWhereInput
+    data: XOR<ApprovalPolicyUpdateWithoutBudgetsInput, ApprovalPolicyUncheckedUpdateWithoutBudgetsInput>
+  }
+
+  export type ApprovalPolicyUpdateWithoutBudgetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    timeApprovalMode?: EnumApprovalModeFieldUpdateOperationsInput | $Enums.ApprovalMode
+    expenseApprovalMode?: EnumApprovalModeFieldUpdateOperationsInput | $Enums.ApprovalMode
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvers?: ApprovalPolicyApproverUpdateManyWithoutPolicyNestedInput
+  }
+
+  export type ApprovalPolicyUncheckedUpdateWithoutBudgetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    timeApprovalMode?: EnumApprovalModeFieldUpdateOperationsInput | $Enums.ApprovalMode
+    expenseApprovalMode?: EnumApprovalModeFieldUpdateOperationsInput | $Enums.ApprovalMode
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvers?: ApprovalPolicyApproverUncheckedUpdateManyWithoutPolicyNestedInput
   }
 
   export type BudgetSectionCreateWithoutServiceTypeInput = {
@@ -165951,6 +172415,7 @@ export namespace Prisma {
     customFieldValues?: BudgetCustomFieldValueCreateNestedManyWithoutBudgetInput
     activityEvents?: ActivityEventCreateNestedManyWithoutBudgetInput
     expenses?: ExpenseCreateNestedManyWithoutBudgetInput
+    approvalPolicy?: ApprovalPolicyCreateNestedOneWithoutBudgetsInput
   }
 
   export type BudgetUncheckedCreateWithoutSectionsInput = {
@@ -165970,6 +172435,7 @@ export namespace Prisma {
     deliveredAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    approvalPolicyId?: string | null
     scenarios?: BudgetUncheckedCreateNestedManyWithoutScenarioOfInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutBudgetInput
     customFieldValues?: BudgetCustomFieldValueUncheckedCreateNestedManyWithoutBudgetInput
@@ -166032,12 +172498,14 @@ export namespace Prisma {
     approvalStatus?: $Enums.TimeEntryApprovalStatus
     approvedAt?: Date | string | null
     submittedAt?: Date | string | null
+    rejectionReason?: string | null
     user: UserCreateNestedOneWithoutTimeEntriesInput
     task?: TaskCreateNestedOneWithoutTimeEntriesInput
     project?: ProjectCreateNestedOneWithoutTimeEntriesInput
     invoice?: InvoiceCreateNestedOneWithoutTimeEntriesInput
     approvedBy?: UserCreateNestedOneWithoutApprovedTimeEntriesInput
     loggedForUser?: UserCreateNestedOneWithoutLoggedForTimeEntriesInput
+    approverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutTimeEntryInput
   }
 
   export type TimeEntryUncheckedCreateWithoutBudgetSectionInput = {
@@ -166057,6 +172525,8 @@ export namespace Prisma {
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
     submittedAt?: Date | string | null
+    rejectionReason?: string | null
+    approverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutTimeEntryInput
   }
 
   export type TimeEntryCreateOrConnectWithoutBudgetSectionInput = {
@@ -166168,6 +172638,7 @@ export namespace Prisma {
     customFieldValues?: BudgetCustomFieldValueUpdateManyWithoutBudgetNestedInput
     activityEvents?: ActivityEventUpdateManyWithoutBudgetNestedInput
     expenses?: ExpenseUpdateManyWithoutBudgetNestedInput
+    approvalPolicy?: ApprovalPolicyUpdateOneWithoutBudgetsNestedInput
   }
 
   export type BudgetUncheckedUpdateWithoutSectionsInput = {
@@ -166187,6 +172658,7 @@ export namespace Prisma {
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
     scenarios?: BudgetUncheckedUpdateManyWithoutScenarioOfNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutBudgetNestedInput
     customFieldValues?: BudgetCustomFieldValueUncheckedUpdateManyWithoutBudgetNestedInput
@@ -166555,6 +173027,7 @@ export namespace Prisma {
     customFieldValues?: BudgetCustomFieldValueCreateNestedManyWithoutBudgetInput
     activityEvents?: ActivityEventCreateNestedManyWithoutBudgetInput
     expenses?: ExpenseCreateNestedManyWithoutBudgetInput
+    approvalPolicy?: ApprovalPolicyCreateNestedOneWithoutBudgetsInput
   }
 
   export type BudgetUncheckedCreateWithoutInvoicesInput = {
@@ -166574,6 +173047,7 @@ export namespace Prisma {
     deliveredAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    approvalPolicyId?: string | null
     scenarios?: BudgetUncheckedCreateNestedManyWithoutScenarioOfInput
     sections?: BudgetSectionUncheckedCreateNestedManyWithoutBudgetInput
     customFieldValues?: BudgetCustomFieldValueUncheckedCreateNestedManyWithoutBudgetInput
@@ -166653,6 +173127,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutCreatedInvoicesInput = {
@@ -166722,6 +173198,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutCreatedInvoicesInput = {
@@ -166770,12 +173248,14 @@ export namespace Prisma {
     approvalStatus?: $Enums.TimeEntryApprovalStatus
     approvedAt?: Date | string | null
     submittedAt?: Date | string | null
+    rejectionReason?: string | null
     user: UserCreateNestedOneWithoutTimeEntriesInput
     task?: TaskCreateNestedOneWithoutTimeEntriesInput
     project?: ProjectCreateNestedOneWithoutTimeEntriesInput
     budgetSection?: BudgetSectionCreateNestedOneWithoutTimeEntriesInput
     approvedBy?: UserCreateNestedOneWithoutApprovedTimeEntriesInput
     loggedForUser?: UserCreateNestedOneWithoutLoggedForTimeEntriesInput
+    approverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutTimeEntryInput
   }
 
   export type TimeEntryUncheckedCreateWithoutInvoiceInput = {
@@ -166795,6 +173275,8 @@ export namespace Prisma {
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
     submittedAt?: Date | string | null
+    rejectionReason?: string | null
+    approverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutTimeEntryInput
   }
 
   export type TimeEntryCreateOrConnectWithoutInvoiceInput = {
@@ -166894,6 +173376,7 @@ export namespace Prisma {
     customFieldValues?: BudgetCustomFieldValueUpdateManyWithoutBudgetNestedInput
     activityEvents?: ActivityEventUpdateManyWithoutBudgetNestedInput
     expenses?: ExpenseUpdateManyWithoutBudgetNestedInput
+    approvalPolicy?: ApprovalPolicyUpdateOneWithoutBudgetsNestedInput
   }
 
   export type BudgetUncheckedUpdateWithoutInvoicesInput = {
@@ -166913,6 +173396,7 @@ export namespace Prisma {
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
     scenarios?: BudgetUncheckedUpdateManyWithoutScenarioOfNestedInput
     sections?: BudgetSectionUncheckedUpdateManyWithoutBudgetNestedInput
     customFieldValues?: BudgetCustomFieldValueUncheckedUpdateManyWithoutBudgetNestedInput
@@ -166998,6 +173482,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedInvoicesInput = {
@@ -167067,6 +173553,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type InvoiceLineItemUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -167469,6 +173957,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutInvoicePaymentsInput = {
@@ -167538,6 +174028,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutInvoicePaymentsInput = {
@@ -167670,6 +174162,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInvoicePaymentsInput = {
@@ -167739,6 +174233,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type InvoiceCreateWithoutCreditNotesInput = {
@@ -167849,6 +174345,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutCreditNotesInput = {
@@ -167918,6 +174416,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutCreditNotesInput = {
@@ -168050,6 +174550,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreditNotesInput = {
@@ -168119,6 +174621,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type ProjectCreateWithoutMeetingsInput = {
@@ -168281,6 +174785,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutCreatedMeetingsInput = {
@@ -168350,6 +174856,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutCreatedMeetingsInput = {
@@ -168534,6 +175042,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedMeetingsInput = {
@@ -168603,6 +175113,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type ProjectCreateWithoutExpensesInput = {
@@ -168720,6 +175232,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutBudgetInput
     customFieldValues?: BudgetCustomFieldValueCreateNestedManyWithoutBudgetInput
     activityEvents?: ActivityEventCreateNestedManyWithoutBudgetInput
+    approvalPolicy?: ApprovalPolicyCreateNestedOneWithoutBudgetsInput
   }
 
   export type BudgetUncheckedCreateWithoutExpensesInput = {
@@ -168739,6 +175252,7 @@ export namespace Prisma {
     deliveredAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    approvalPolicyId?: string | null
     scenarios?: BudgetUncheckedCreateNestedManyWithoutScenarioOfInput
     sections?: BudgetSectionUncheckedCreateNestedManyWithoutBudgetInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutBudgetInput
@@ -168839,6 +175353,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutApprovedExpensesInput = {
@@ -168908,6 +175424,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutApprovedExpensesInput = {
@@ -168982,6 +175500,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutCreatedExpensesInput = {
@@ -169051,6 +175571,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutCreatedExpensesInput = {
@@ -169190,6 +175712,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutBudgetNestedInput
     customFieldValues?: BudgetCustomFieldValueUpdateManyWithoutBudgetNestedInput
     activityEvents?: ActivityEventUpdateManyWithoutBudgetNestedInput
+    approvalPolicy?: ApprovalPolicyUpdateOneWithoutBudgetsNestedInput
   }
 
   export type BudgetUncheckedUpdateWithoutExpensesInput = {
@@ -169209,6 +175732,7 @@ export namespace Prisma {
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
     scenarios?: BudgetUncheckedUpdateManyWithoutScenarioOfNestedInput
     sections?: BudgetSectionUncheckedUpdateManyWithoutBudgetNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutBudgetNestedInput
@@ -169321,6 +175845,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutApprovedExpensesInput = {
@@ -169390,6 +175916,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUpsertWithoutCreatedExpensesInput = {
@@ -169470,6 +175998,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedExpensesInput = {
@@ -169539,6 +176069,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type ProjectCreateWithoutPurchaseOrdersInput = {
@@ -169701,6 +176233,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutCreatedPurchaseOrdersInput = {
@@ -169770,6 +176304,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutCreatedPurchaseOrdersInput = {
@@ -169954,6 +176490,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedPurchaseOrdersInput = {
@@ -170023,6 +176561,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type UserCreateWithoutSavedReportsInput = {
@@ -170092,6 +176632,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutSavedReportsInput = {
@@ -170161,6 +176703,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutSavedReportsInput = {
@@ -170246,6 +176790,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSavedReportsInput = {
@@ -170315,6 +176861,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type BudgetSectionCreateWithoutAssigneesInput = {
@@ -170451,6 +176999,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
   }
 
   export type UserUncheckedCreateWithoutBudgetSectionAssignmentsInput = {
@@ -170520,6 +177070,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
     accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
     ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
   }
 
   export type UserCreateOrConnectWithoutBudgetSectionAssignmentsInput = {
@@ -170678,6 +177230,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBudgetSectionAssignmentsInput = {
@@ -170747,6 +177301,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type SessionCreateManyUserInput = {
@@ -170801,6 +177357,7 @@ export namespace Prisma {
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
     submittedAt?: Date | string | null
+    rejectionReason?: string | null
   }
 
   export type CommentCreateManyAuthorInput = {
@@ -170881,6 +177438,7 @@ export namespace Prisma {
     deliveredAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    approvalPolicyId?: string | null
   }
 
   export type BudgetSectionAssigneeCreateManyUserInput = {
@@ -171136,6 +177694,7 @@ export namespace Prisma {
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
     submittedAt?: Date | string | null
+    rejectionReason?: string | null
   }
 
   export type TimeEntryCreateManyLoggedForUserInput = {
@@ -171155,6 +177714,7 @@ export namespace Prisma {
     approvedById?: string | null
     approvedAt?: Date | string | null
     submittedAt?: Date | string | null
+    rejectionReason?: string | null
   }
 
   export type TimesheetLockCreateManyUserInput = {
@@ -171292,6 +177852,21 @@ export namespace Prisma {
     projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type ApprovalPolicyApproverCreateManySpecificUserInput = {
+    id?: string
+    policyId: string
+    kind: $Enums.ApprovalKind
+    roleType: $Enums.ApproverRoleType
+  }
+
+  export type TimeEntryApproverDecisionCreateManyApproverInput = {
+    id?: string
+    timeEntryId: string
+    status?: $Enums.ApprovalDecisionStatus
+    decidedAt?: Date | string | null
+    createdAt?: Date | string
   }
 
   export type SessionUpdateWithoutUserInput = {
@@ -171440,12 +178015,14 @@ export namespace Prisma {
     approvalStatus?: EnumTimeEntryApprovalStatusFieldUpdateOperationsInput | $Enums.TimeEntryApprovalStatus
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     task?: TaskUpdateOneWithoutTimeEntriesNestedInput
     project?: ProjectUpdateOneWithoutTimeEntriesNestedInput
     budgetSection?: BudgetSectionUpdateOneWithoutTimeEntriesNestedInput
     invoice?: InvoiceUpdateOneWithoutTimeEntriesNestedInput
     approvedBy?: UserUpdateOneWithoutApprovedTimeEntriesNestedInput
     loggedForUser?: UserUpdateOneWithoutLoggedForTimeEntriesNestedInput
+    approverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutTimeEntryNestedInput
   }
 
   export type TimeEntryUncheckedUpdateWithoutUserInput = {
@@ -171465,6 +178042,8 @@ export namespace Prisma {
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    approverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutTimeEntryNestedInput
   }
 
   export type TimeEntryUncheckedUpdateManyWithoutUserInput = {
@@ -171484,6 +178063,7 @@ export namespace Prisma {
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CommentUpdateWithoutAuthorInput = {
@@ -171700,6 +178280,7 @@ export namespace Prisma {
     customFieldValues?: BudgetCustomFieldValueUpdateManyWithoutBudgetNestedInput
     activityEvents?: ActivityEventUpdateManyWithoutBudgetNestedInput
     expenses?: ExpenseUpdateManyWithoutBudgetNestedInput
+    approvalPolicy?: ApprovalPolicyUpdateOneWithoutBudgetsNestedInput
   }
 
   export type BudgetUncheckedUpdateWithoutOwnerInput = {
@@ -171718,6 +178299,7 @@ export namespace Prisma {
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
     scenarios?: BudgetUncheckedUpdateManyWithoutScenarioOfNestedInput
     sections?: BudgetSectionUncheckedUpdateManyWithoutBudgetNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutBudgetNestedInput
@@ -171742,6 +178324,7 @@ export namespace Prisma {
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type BudgetSectionAssigneeUpdateWithoutUserInput = {
@@ -172384,6 +178967,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutManagerInput = {
@@ -172453,6 +179038,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutManagerInput = {
@@ -172621,12 +179208,14 @@ export namespace Prisma {
     approvalStatus?: EnumTimeEntryApprovalStatusFieldUpdateOperationsInput | $Enums.TimeEntryApprovalStatus
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutTimeEntriesNestedInput
     task?: TaskUpdateOneWithoutTimeEntriesNestedInput
     project?: ProjectUpdateOneWithoutTimeEntriesNestedInput
     budgetSection?: BudgetSectionUpdateOneWithoutTimeEntriesNestedInput
     invoice?: InvoiceUpdateOneWithoutTimeEntriesNestedInput
     loggedForUser?: UserUpdateOneWithoutLoggedForTimeEntriesNestedInput
+    approverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutTimeEntryNestedInput
   }
 
   export type TimeEntryUncheckedUpdateWithoutApprovedByInput = {
@@ -172646,6 +179235,8 @@ export namespace Prisma {
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    approverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutTimeEntryNestedInput
   }
 
   export type TimeEntryUncheckedUpdateManyWithoutApprovedByInput = {
@@ -172665,6 +179256,7 @@ export namespace Prisma {
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TimeEntryUpdateWithoutLoggedForUserInput = {
@@ -172678,12 +179270,14 @@ export namespace Prisma {
     approvalStatus?: EnumTimeEntryApprovalStatusFieldUpdateOperationsInput | $Enums.TimeEntryApprovalStatus
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutTimeEntriesNestedInput
     task?: TaskUpdateOneWithoutTimeEntriesNestedInput
     project?: ProjectUpdateOneWithoutTimeEntriesNestedInput
     budgetSection?: BudgetSectionUpdateOneWithoutTimeEntriesNestedInput
     invoice?: InvoiceUpdateOneWithoutTimeEntriesNestedInput
     approvedBy?: UserUpdateOneWithoutApprovedTimeEntriesNestedInput
+    approverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutTimeEntryNestedInput
   }
 
   export type TimeEntryUncheckedUpdateWithoutLoggedForUserInput = {
@@ -172703,6 +179297,8 @@ export namespace Prisma {
     approvedById?: NullableStringFieldUpdateOperationsInput | string | null
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    approverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutTimeEntryNestedInput
   }
 
   export type TimeEntryUncheckedUpdateManyWithoutLoggedForUserInput = {
@@ -172722,6 +179318,7 @@ export namespace Prisma {
     approvedById?: NullableStringFieldUpdateOperationsInput | string | null
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TimesheetLockUpdateWithoutUserInput = {
@@ -173147,6 +179744,51 @@ export namespace Prisma {
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApprovalPolicyApproverUpdateWithoutSpecificUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumApprovalKindFieldUpdateOperationsInput | $Enums.ApprovalKind
+    roleType?: EnumApproverRoleTypeFieldUpdateOperationsInput | $Enums.ApproverRoleType
+    policy?: ApprovalPolicyUpdateOneRequiredWithoutApproversNestedInput
+  }
+
+  export type ApprovalPolicyApproverUncheckedUpdateWithoutSpecificUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    policyId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumApprovalKindFieldUpdateOperationsInput | $Enums.ApprovalKind
+    roleType?: EnumApproverRoleTypeFieldUpdateOperationsInput | $Enums.ApproverRoleType
+  }
+
+  export type ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    policyId?: StringFieldUpdateOperationsInput | string
+    kind?: EnumApprovalKindFieldUpdateOperationsInput | $Enums.ApprovalKind
+    roleType?: EnumApproverRoleTypeFieldUpdateOperationsInput | $Enums.ApproverRoleType
+  }
+
+  export type TimeEntryApproverDecisionUpdateWithoutApproverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumApprovalDecisionStatusFieldUpdateOperationsInput | $Enums.ApprovalDecisionStatus
+    decidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeEntry?: TimeEntryUpdateOneRequiredWithoutApproverDecisionsNestedInput
+  }
+
+  export type TimeEntryApproverDecisionUncheckedUpdateWithoutApproverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timeEntryId?: StringFieldUpdateOperationsInput | string
+    status?: EnumApprovalDecisionStatusFieldUpdateOperationsInput | $Enums.ApprovalDecisionStatus
+    decidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timeEntryId?: StringFieldUpdateOperationsInput | string
+    status?: EnumApprovalDecisionStatusFieldUpdateOperationsInput | $Enums.ApprovalDecisionStatus
+    decidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ClientCreateManyParentInput = {
@@ -173719,6 +180361,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCustomRoleInput = {
@@ -173788,6 +180432,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCustomRoleInput = {
@@ -173863,6 +180509,7 @@ export namespace Prisma {
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
     submittedAt?: Date | string | null
+    rejectionReason?: string | null
   }
 
   export type WikiPageCreateManyProjectInput = {
@@ -173916,6 +180563,7 @@ export namespace Prisma {
     deliveredAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    approvalPolicyId?: string | null
   }
 
   export type TransitionRuleCreateManyProjectInput = {
@@ -174142,12 +180790,14 @@ export namespace Prisma {
     approvalStatus?: EnumTimeEntryApprovalStatusFieldUpdateOperationsInput | $Enums.TimeEntryApprovalStatus
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutTimeEntriesNestedInput
     task?: TaskUpdateOneWithoutTimeEntriesNestedInput
     budgetSection?: BudgetSectionUpdateOneWithoutTimeEntriesNestedInput
     invoice?: InvoiceUpdateOneWithoutTimeEntriesNestedInput
     approvedBy?: UserUpdateOneWithoutApprovedTimeEntriesNestedInput
     loggedForUser?: UserUpdateOneWithoutLoggedForTimeEntriesNestedInput
+    approverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutTimeEntryNestedInput
   }
 
   export type TimeEntryUncheckedUpdateWithoutProjectInput = {
@@ -174167,6 +180817,8 @@ export namespace Prisma {
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    approverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutTimeEntryNestedInput
   }
 
   export type TimeEntryUncheckedUpdateManyWithoutProjectInput = {
@@ -174186,6 +180838,7 @@ export namespace Prisma {
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type WikiPageUpdateWithoutProjectInput = {
@@ -174323,6 +180976,7 @@ export namespace Prisma {
     customFieldValues?: BudgetCustomFieldValueUpdateManyWithoutBudgetNestedInput
     activityEvents?: ActivityEventUpdateManyWithoutBudgetNestedInput
     expenses?: ExpenseUpdateManyWithoutBudgetNestedInput
+    approvalPolicy?: ApprovalPolicyUpdateOneWithoutBudgetsNestedInput
   }
 
   export type BudgetUncheckedUpdateWithoutProjectInput = {
@@ -174341,6 +180995,7 @@ export namespace Prisma {
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
     scenarios?: BudgetUncheckedUpdateManyWithoutScenarioOfNestedInput
     sections?: BudgetSectionUncheckedUpdateManyWithoutBudgetNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutBudgetNestedInput
@@ -174365,6 +181020,7 @@ export namespace Prisma {
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TransitionRuleUpdateWithoutProjectInput = {
@@ -175867,6 +182523,7 @@ export namespace Prisma {
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
     submittedAt?: Date | string | null
+    rejectionReason?: string | null
   }
 
   export type CommentCreateManyTaskInput = {
@@ -176253,12 +182910,14 @@ export namespace Prisma {
     approvalStatus?: EnumTimeEntryApprovalStatusFieldUpdateOperationsInput | $Enums.TimeEntryApprovalStatus
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutTimeEntriesNestedInput
     project?: ProjectUpdateOneWithoutTimeEntriesNestedInput
     budgetSection?: BudgetSectionUpdateOneWithoutTimeEntriesNestedInput
     invoice?: InvoiceUpdateOneWithoutTimeEntriesNestedInput
     approvedBy?: UserUpdateOneWithoutApprovedTimeEntriesNestedInput
     loggedForUser?: UserUpdateOneWithoutLoggedForTimeEntriesNestedInput
+    approverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutTimeEntryNestedInput
   }
 
   export type TimeEntryUncheckedUpdateWithoutTaskInput = {
@@ -176278,6 +182937,8 @@ export namespace Prisma {
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    approverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutTimeEntryNestedInput
   }
 
   export type TimeEntryUncheckedUpdateManyWithoutTaskInput = {
@@ -176297,6 +182958,7 @@ export namespace Prisma {
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CommentUpdateWithoutTaskInput = {
@@ -176533,6 +183195,154 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type TimeEntryApproverDecisionCreateManyTimeEntryInput = {
+    id?: string
+    approverId: string
+    status?: $Enums.ApprovalDecisionStatus
+    decidedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type TimeEntryApproverDecisionUpdateWithoutTimeEntryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumApprovalDecisionStatusFieldUpdateOperationsInput | $Enums.ApprovalDecisionStatus
+    decidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approver?: UserUpdateOneRequiredWithoutTimeEntryApproverDecisionsNestedInput
+  }
+
+  export type TimeEntryApproverDecisionUncheckedUpdateWithoutTimeEntryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    approverId?: StringFieldUpdateOperationsInput | string
+    status?: EnumApprovalDecisionStatusFieldUpdateOperationsInput | $Enums.ApprovalDecisionStatus
+    decidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TimeEntryApproverDecisionUncheckedUpdateManyWithoutTimeEntryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    approverId?: StringFieldUpdateOperationsInput | string
+    status?: EnumApprovalDecisionStatusFieldUpdateOperationsInput | $Enums.ApprovalDecisionStatus
+    decidedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ApprovalPolicyApproverCreateManyPolicyInput = {
+    id?: string
+    kind: $Enums.ApprovalKind
+    roleType: $Enums.ApproverRoleType
+    specificUserId?: string | null
+  }
+
+  export type BudgetCreateManyApprovalPolicyInput = {
+    id?: string
+    projectId: string
+    title: string
+    ownerId: string
+    isRetainer?: boolean
+    recurrenceInterval?: $Enums.RecurrenceInterval | null
+    lastRecurrencePeriodKey?: string | null
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    color?: string | null
+    isScenario?: boolean
+    scenarioOfId?: string | null
+    isTemplate?: boolean
+    deliveredAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ApprovalPolicyApproverUpdateWithoutPolicyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumApprovalKindFieldUpdateOperationsInput | $Enums.ApprovalKind
+    roleType?: EnumApproverRoleTypeFieldUpdateOperationsInput | $Enums.ApproverRoleType
+    specificUser?: UserUpdateOneWithoutApprovalPolicyApprovalsNestedInput
+  }
+
+  export type ApprovalPolicyApproverUncheckedUpdateWithoutPolicyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumApprovalKindFieldUpdateOperationsInput | $Enums.ApprovalKind
+    roleType?: EnumApproverRoleTypeFieldUpdateOperationsInput | $Enums.ApproverRoleType
+    specificUserId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ApprovalPolicyApproverUncheckedUpdateManyWithoutPolicyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    kind?: EnumApprovalKindFieldUpdateOperationsInput | $Enums.ApprovalKind
+    roleType?: EnumApproverRoleTypeFieldUpdateOperationsInput | $Enums.ApproverRoleType
+    specificUserId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type BudgetUpdateWithoutApprovalPolicyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    isRetainer?: BoolFieldUpdateOperationsInput | boolean
+    recurrenceInterval?: NullableEnumRecurrenceIntervalFieldUpdateOperationsInput | $Enums.RecurrenceInterval | null
+    lastRecurrencePeriodKey?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    isScenario?: BoolFieldUpdateOperationsInput | boolean
+    isTemplate?: BoolFieldUpdateOperationsInput | boolean
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: ProjectUpdateOneRequiredWithoutBudgetsNestedInput
+    owner?: UserUpdateOneRequiredWithoutOwnedBudgetsNestedInput
+    scenarioOf?: BudgetUpdateOneWithoutScenariosNestedInput
+    scenarios?: BudgetUpdateManyWithoutScenarioOfNestedInput
+    sections?: BudgetSectionUpdateManyWithoutBudgetNestedInput
+    invoices?: InvoiceUpdateManyWithoutBudgetNestedInput
+    customFieldValues?: BudgetCustomFieldValueUpdateManyWithoutBudgetNestedInput
+    activityEvents?: ActivityEventUpdateManyWithoutBudgetNestedInput
+    expenses?: ExpenseUpdateManyWithoutBudgetNestedInput
+  }
+
+  export type BudgetUncheckedUpdateWithoutApprovalPolicyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    isRetainer?: BoolFieldUpdateOperationsInput | boolean
+    recurrenceInterval?: NullableEnumRecurrenceIntervalFieldUpdateOperationsInput | $Enums.RecurrenceInterval | null
+    lastRecurrencePeriodKey?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    isScenario?: BoolFieldUpdateOperationsInput | boolean
+    scenarioOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    isTemplate?: BoolFieldUpdateOperationsInput | boolean
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    scenarios?: BudgetUncheckedUpdateManyWithoutScenarioOfNestedInput
+    sections?: BudgetSectionUncheckedUpdateManyWithoutBudgetNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutBudgetNestedInput
+    customFieldValues?: BudgetCustomFieldValueUncheckedUpdateManyWithoutBudgetNestedInput
+    activityEvents?: ActivityEventUncheckedUpdateManyWithoutBudgetNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutBudgetNestedInput
+  }
+
+  export type BudgetUncheckedUpdateManyWithoutApprovalPolicyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    isRetainer?: BoolFieldUpdateOperationsInput | boolean
+    recurrenceInterval?: NullableEnumRecurrenceIntervalFieldUpdateOperationsInput | $Enums.RecurrenceInterval | null
+    lastRecurrencePeriodKey?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    isScenario?: BoolFieldUpdateOperationsInput | boolean
+    scenarioOfId?: NullableStringFieldUpdateOperationsInput | string | null
+    isTemplate?: BoolFieldUpdateOperationsInput | boolean
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type HolidayCreateManyCalendarInput = {
     id?: string
     date: Date | string
@@ -176644,6 +183454,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHolidayCalendarInput = {
@@ -176713,6 +183525,8 @@ export namespace Prisma {
     createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutHolidayCalendarInput = {
@@ -177035,6 +183849,7 @@ export namespace Prisma {
     deliveredAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    approvalPolicyId?: string | null
   }
 
   export type BudgetSectionCreateManyBudgetInput = {
@@ -177133,6 +183948,7 @@ export namespace Prisma {
     customFieldValues?: BudgetCustomFieldValueUpdateManyWithoutBudgetNestedInput
     activityEvents?: ActivityEventUpdateManyWithoutBudgetNestedInput
     expenses?: ExpenseUpdateManyWithoutBudgetNestedInput
+    approvalPolicy?: ApprovalPolicyUpdateOneWithoutBudgetsNestedInput
   }
 
   export type BudgetUncheckedUpdateWithoutScenarioOfInput = {
@@ -177151,6 +183967,7 @@ export namespace Prisma {
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
     scenarios?: BudgetUncheckedUpdateManyWithoutScenarioOfNestedInput
     sections?: BudgetSectionUncheckedUpdateManyWithoutBudgetNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutBudgetNestedInput
@@ -177175,6 +183992,7 @@ export namespace Prisma {
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvalPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type BudgetSectionUpdateWithoutBudgetInput = {
@@ -177662,6 +184480,7 @@ export namespace Prisma {
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
     submittedAt?: Date | string | null
+    rejectionReason?: string | null
   }
 
   export type InvoiceLineItemCreateManyBudgetSectionInput = {
@@ -177710,12 +184529,14 @@ export namespace Prisma {
     approvalStatus?: EnumTimeEntryApprovalStatusFieldUpdateOperationsInput | $Enums.TimeEntryApprovalStatus
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutTimeEntriesNestedInput
     task?: TaskUpdateOneWithoutTimeEntriesNestedInput
     project?: ProjectUpdateOneWithoutTimeEntriesNestedInput
     invoice?: InvoiceUpdateOneWithoutTimeEntriesNestedInput
     approvedBy?: UserUpdateOneWithoutApprovedTimeEntriesNestedInput
     loggedForUser?: UserUpdateOneWithoutLoggedForTimeEntriesNestedInput
+    approverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutTimeEntryNestedInput
   }
 
   export type TimeEntryUncheckedUpdateWithoutBudgetSectionInput = {
@@ -177735,6 +184556,8 @@ export namespace Prisma {
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    approverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutTimeEntryNestedInput
   }
 
   export type TimeEntryUncheckedUpdateManyWithoutBudgetSectionInput = {
@@ -177754,6 +184577,7 @@ export namespace Prisma {
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type InvoiceLineItemUpdateWithoutBudgetSectionInput = {
@@ -177892,6 +184716,7 @@ export namespace Prisma {
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
     submittedAt?: Date | string | null
+    rejectionReason?: string | null
   }
 
   export type InvoicePaymentCreateManyInvoiceInput = {
@@ -177952,12 +184777,14 @@ export namespace Prisma {
     approvalStatus?: EnumTimeEntryApprovalStatusFieldUpdateOperationsInput | $Enums.TimeEntryApprovalStatus
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutTimeEntriesNestedInput
     task?: TaskUpdateOneWithoutTimeEntriesNestedInput
     project?: ProjectUpdateOneWithoutTimeEntriesNestedInput
     budgetSection?: BudgetSectionUpdateOneWithoutTimeEntriesNestedInput
     approvedBy?: UserUpdateOneWithoutApprovedTimeEntriesNestedInput
     loggedForUser?: UserUpdateOneWithoutLoggedForTimeEntriesNestedInput
+    approverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutTimeEntryNestedInput
   }
 
   export type TimeEntryUncheckedUpdateWithoutInvoiceInput = {
@@ -177977,6 +184804,8 @@ export namespace Prisma {
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
+    approverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutTimeEntryNestedInput
   }
 
   export type TimeEntryUncheckedUpdateManyWithoutInvoiceInput = {
@@ -177996,6 +184825,7 @@ export namespace Prisma {
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
     submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type InvoicePaymentUpdateWithoutInvoiceInput = {

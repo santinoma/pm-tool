@@ -24,76 +24,78 @@ enum Locale {
 }
 
 model User {
-  id                       String                   @id @default(uuid())
-  email                    String                   @unique
-  passwordHash             String? // null, solange die Einladung noch nicht angenommen wurde
-  name                     String?
-  role                     Role                     @default(member)
-  weeklyCapacityHours      Float                    @default(40)
-  isActive                 Boolean                  @default(true)
-  avatarUrl                String?
-  avatarStoragePath        String?
-  avatarMimeType           String?
-  internalCostRate         Float?
-  totpSecret               String?
-  totpEnabled              Boolean                  @default(false)
-  locale                   Locale                   @default(de)
-  createdAt                DateTime                 @default(now())
-  sessions                 Session[]
-  assignedTasks            Task[]
-  timeEntries              TimeEntry[]
-  comments                 Comment[]
-  mentions                 Mention[]
-  attachments              Attachment[]
-  activityEvents           ActivityEvent[]
-  notificationPreferences  NotificationPreference[]
-  notifications            Notification[]
-  dashboards               Dashboard[]
-  checkInResponses         CheckInResponse[]
-  ownedBudgets             Budget[]                 @relation("BudgetOwner")
-  budgetSectionAssignments BudgetSectionAssignee[]  @relation("BudgetSectionAssignee")
-  absenceRequests          AbsenceRequest[]         @relation("AbsenceRequester")
-  reviewedAbsenceRequests  AbsenceRequest[]         @relation("AbsenceReviewer")
-  createdAutomationRules   AutomationRule[]
-  automationActionTargets  AutomationAction[]
-  createdInvoices          Invoice[]
-  projectClientAccess      ProjectClientAccess[]
-  createdSharedViews       SharedView[]
-  createdTaskLinks         TaskLink[]
-  pendingLogins            PendingLogin[]
-  apiKeys                  ApiKey[]
-  customRole               CustomRole?              @relation(fields: [customRoleId], references: [id])
-  customRoleId             String?
-  projectRoleOverrides     ProjectRoleOverride[]
-  managedProjects          Project[]                @relation("ProjectManager")
-  projectMemberships       ProjectMember[]
-  taskSubscriptions        TaskSubscriber[]
-  assignedTodos            Todo[]
-  savedViews               SavedView[]
-  sharedWikiLinks          SharedWikiLink[]
-  manager                  User?                    @relation("ManagerOf", fields: [managerId], references: [id])
-  managerId                String?
-  directReports            User[]                   @relation("ManagerOf")
-  favorites                Favorite[]
-  auditLogEntries          AuditLogEntry[]
-  invoicePayments          InvoicePayment[]
-  creditNotes              CreditNote[]
-  savedReports             SavedReport[]
-  approvedTimeEntries      TimeEntry[]              @relation("TimeEntryApprover")
-  loggedForTimeEntries     TimeEntry[]              @relation("TimeEntryLoggedFor")
-  timesheetLocks           TimesheetLock[]
-  lockedTimesheets         TimesheetLock[]          @relation("TimesheetLockedBy")
-  holidayCalendar          HolidayCalendar?         @relation(fields: [holidayCalendarId], references: [id])
-  holidayCalendarId        String?
-  resourceBookings         ResourceBooking[]
-  createdResourceBookings  ResourceBooking[]        @relation("ResourceBookingCreator")
-  createdMeetings          Meeting[]
-  createdExpenses          Expense[]
-  createdPurchaseOrders    PurchaseOrder[]
-  approvedExpenses         Expense[]                @relation("ExpenseApprover")
-  createdWikiPages         WikiPage[]
-  accountOwnedClients      Client[]                 @relation("ClientAccountOwner")
-  ownedDeals               Deal[]
+  id                         String                      @id @default(uuid())
+  email                      String                      @unique
+  passwordHash               String? // null, solange die Einladung noch nicht angenommen wurde
+  name                       String?
+  role                       Role                        @default(member)
+  weeklyCapacityHours        Float                       @default(40)
+  isActive                   Boolean                     @default(true)
+  avatarUrl                  String?
+  avatarStoragePath          String?
+  avatarMimeType             String?
+  internalCostRate           Float?
+  totpSecret                 String?
+  totpEnabled                Boolean                     @default(false)
+  locale                     Locale                      @default(de)
+  createdAt                  DateTime                    @default(now())
+  sessions                   Session[]
+  assignedTasks              Task[]
+  timeEntries                TimeEntry[]
+  comments                   Comment[]
+  mentions                   Mention[]
+  attachments                Attachment[]
+  activityEvents             ActivityEvent[]
+  notificationPreferences    NotificationPreference[]
+  notifications              Notification[]
+  dashboards                 Dashboard[]
+  checkInResponses           CheckInResponse[]
+  ownedBudgets               Budget[]                    @relation("BudgetOwner")
+  budgetSectionAssignments   BudgetSectionAssignee[]     @relation("BudgetSectionAssignee")
+  absenceRequests            AbsenceRequest[]            @relation("AbsenceRequester")
+  reviewedAbsenceRequests    AbsenceRequest[]            @relation("AbsenceReviewer")
+  createdAutomationRules     AutomationRule[]
+  automationActionTargets    AutomationAction[]
+  createdInvoices            Invoice[]
+  projectClientAccess        ProjectClientAccess[]
+  createdSharedViews         SharedView[]
+  createdTaskLinks           TaskLink[]
+  pendingLogins              PendingLogin[]
+  apiKeys                    ApiKey[]
+  customRole                 CustomRole?                 @relation(fields: [customRoleId], references: [id])
+  customRoleId               String?
+  projectRoleOverrides       ProjectRoleOverride[]
+  managedProjects            Project[]                   @relation("ProjectManager")
+  projectMemberships         ProjectMember[]
+  taskSubscriptions          TaskSubscriber[]
+  assignedTodos              Todo[]
+  savedViews                 SavedView[]
+  sharedWikiLinks            SharedWikiLink[]
+  manager                    User?                       @relation("ManagerOf", fields: [managerId], references: [id])
+  managerId                  String?
+  directReports              User[]                      @relation("ManagerOf")
+  favorites                  Favorite[]
+  auditLogEntries            AuditLogEntry[]
+  invoicePayments            InvoicePayment[]
+  creditNotes                CreditNote[]
+  savedReports               SavedReport[]
+  approvedTimeEntries        TimeEntry[]                 @relation("TimeEntryApprover")
+  loggedForTimeEntries       TimeEntry[]                 @relation("TimeEntryLoggedFor")
+  timesheetLocks             TimesheetLock[]
+  lockedTimesheets           TimesheetLock[]             @relation("TimesheetLockedBy")
+  holidayCalendar            HolidayCalendar?            @relation(fields: [holidayCalendarId], references: [id])
+  holidayCalendarId          String?
+  resourceBookings           ResourceBooking[]
+  createdResourceBookings    ResourceBooking[]           @relation("ResourceBookingCreator")
+  createdMeetings            Meeting[]
+  createdExpenses            Expense[]
+  createdPurchaseOrders      PurchaseOrder[]
+  approvedExpenses           Expense[]                   @relation("ExpenseApprover")
+  createdWikiPages           WikiPage[]
+  accountOwnedClients        Client[]                    @relation("ClientAccountOwner")
+  ownedDeals                 Deal[]
+  approvalPolicyApprovals    ApprovalPolicyApprover[]    @relation("ApprovalPolicySpecificApprover")
+  timeEntryApproverDecisions TimeEntryApproverDecision[] @relation("TimeEntryApproverDecisionApprover")
 }
 
 enum ClientType {
@@ -710,6 +712,7 @@ model TenantSettings {
   crmEnabled                   Boolean          @default(true)
   reportsEnabled               Boolean          @default(true)
   resourcingEnabled            Boolean          @default(true)
+  timeApprovalEnabled          Boolean          @default(true)
   createdAt                    DateTime         @default(now())
   updatedAt                    DateTime         @updatedAt
 }
@@ -729,30 +732,101 @@ enum TimeEntryApprovalStatus {
 }
 
 model TimeEntry {
-  id              String                  @id @default(uuid())
-  user            User                    @relation(fields: [userId], references: [id])
-  userId          String
-  task            Task?                   @relation(fields: [taskId], references: [id])
-  taskId          String?
-  project         Project?                @relation(fields: [projectId], references: [id])
-  projectId       String?
-  budgetSection   BudgetSection?          @relation(fields: [budgetSectionId], references: [id])
-  budgetSectionId String?
-  amount          Float?
-  description     String?
-  startedAt       DateTime?
-  endedAt         DateTime?
-  durationMinutes Int?
-  createdAt       DateTime                @default(now())
-  invoice         Invoice?                @relation(fields: [invoiceId], references: [id])
-  invoiceId       String?
-  approvalStatus  TimeEntryApprovalStatus @default(pending)
-  approvedBy      User?                   @relation("TimeEntryApprover", fields: [approvedById], references: [id])
-  approvedById    String?
-  approvedAt      DateTime?
-  loggedForUser   User?                   @relation("TimeEntryLoggedFor", fields: [loggedForUserId], references: [id])
-  loggedForUserId String?
-  submittedAt     DateTime?
+  id                String                      @id @default(uuid())
+  user              User                        @relation(fields: [userId], references: [id])
+  userId            String
+  task              Task?                       @relation(fields: [taskId], references: [id])
+  taskId            String?
+  project           Project?                    @relation(fields: [projectId], references: [id])
+  projectId         String?
+  budgetSection     BudgetSection?              @relation(fields: [budgetSectionId], references: [id])
+  budgetSectionId   String?
+  amount            Float?
+  description       String?
+  startedAt         DateTime?
+  endedAt           DateTime?
+  durationMinutes   Int?
+  createdAt         DateTime                    @default(now())
+  invoice           Invoice?                    @relation(fields: [invoiceId], references: [id])
+  invoiceId         String?
+  approvalStatus    TimeEntryApprovalStatus     @default(pending)
+  approvedBy        User?                       @relation("TimeEntryApprover", fields: [approvedById], references: [id])
+  approvedById      String?
+  approvedAt        DateTime?
+  loggedForUser     User?                       @relation("TimeEntryLoggedFor", fields: [loggedForUserId], references: [id])
+  loggedForUserId   String?
+  submittedAt       DateTime?
+  rejectionReason   String?
+  approverDecisions TimeEntryApproverDecision[]
+}
+
+enum ApprovalMode {
+  any
+  all
+  none
+}
+
+enum ApproverRoleType {
+  budget_owner
+  project_manager
+  submitter_manager
+  specific_person
+}
+
+enum ApprovalKind {
+  time
+  expense
+}
+
+enum ApprovalDecisionStatus {
+  pending
+  approved
+  rejected
+}
+
+// A reusable, named approver configuration assignable to many budgets — same
+// "centralize as a shared entity" pattern as Workflow/Pipeline/RateCard. A
+// budget with no policy assigned keeps today's behavior (any owner/admin can
+// approve, single decision) so nothing changes for existing budgets.
+model ApprovalPolicy {
+  id                  String                   @id @default(uuid())
+  name                String
+  description         String?
+  timeApprovalMode    ApprovalMode             @default(any)
+  expenseApprovalMode ApprovalMode             @default(any)
+  isDefault           Boolean                  @default(false)
+  archived            Boolean                  @default(false)
+  createdAt           DateTime                 @default(now())
+  approvers           ApprovalPolicyApprover[]
+  budgets             Budget[]
+}
+
+model ApprovalPolicyApprover {
+  id             String           @id @default(uuid())
+  policy         ApprovalPolicy   @relation(fields: [policyId], references: [id])
+  policyId       String
+  kind           ApprovalKind
+  roleType       ApproverRoleType
+  specificUser   User?            @relation("ApprovalPolicySpecificApprover", fields: [specificUserId], references: [id])
+  specificUserId String?
+}
+
+// One row per resolved concrete approver for a submitted time entry, lazily
+// created once the entry is submitted and its budget's policy is resolved.
+// "any" mode: the entry is approved as soon as one row is approved. "all"
+// mode: every row must be approved. A single rejection rejects the entry
+// outright regardless of mode.
+model TimeEntryApproverDecision {
+  id          String                 @id @default(uuid())
+  timeEntry   TimeEntry              @relation(fields: [timeEntryId], references: [id])
+  timeEntryId String
+  approver    User                   @relation("TimeEntryApproverDecisionApprover", fields: [approverId], references: [id])
+  approverId  String
+  status      ApprovalDecisionStatus @default(pending)
+  decidedAt   DateTime?
+  createdAt   DateTime               @default(now())
+
+  @@unique([timeEntryId, approverId])
 }
 
 model TimesheetLock {
@@ -1191,6 +1265,8 @@ model Budget {
   customFieldValues       BudgetCustomFieldValue[]
   activityEvents          ActivityEvent[]
   expenses                Expense[]
+  approvalPolicy          ApprovalPolicy?          @relation(fields: [approvalPolicyId], references: [id])
+  approvalPolicyId        String?
 }
 
 enum BillingType {

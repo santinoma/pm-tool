@@ -32,15 +32,19 @@ export async function PATCH(request: Request) {
       body.triageEnabled === undefined &&
       body.timeTrackingMode === undefined &&
       body.require2fa === undefined &&
+      body.timeApprovalEnabled === undefined &&
       !hasModuleToggle)
   ) {
     return NextResponse.json(
       {
         error:
-          "allowProjectLevelTimeEntries (boolean), currency (string), triageEnabled (boolean), timeTrackingMode ('timer'|'entries'), require2fa (boolean) oder ein Modul-Flag (crmEnabled/reportsEnabled/resourcingEnabled, boolean) ist erforderlich.",
+          "allowProjectLevelTimeEntries (boolean), currency (string), triageEnabled (boolean), timeTrackingMode ('timer'|'entries'), require2fa (boolean), timeApprovalEnabled (boolean) oder ein Modul-Flag (crmEnabled/reportsEnabled/resourcingEnabled, boolean) ist erforderlich.",
       },
       { status: 400 },
     );
+  }
+  if (body.timeApprovalEnabled !== undefined && !canManageMembers(context.currentUser.role)) {
+    return NextResponse.json({ error: "Keine Berechtigung." }, { status: 403 });
   }
   if (body.timeTrackingMode !== undefined && !VALID_TIME_TRACKING_MODES.includes(body.timeTrackingMode)) {
     return NextResponse.json({ error: "Ungültiger timeTrackingMode." }, { status: 400 });
@@ -68,6 +72,7 @@ export async function PATCH(request: Request) {
       timeTrackingMode:
         typeof body.timeTrackingMode === "string" ? body.timeTrackingMode : undefined,
       require2fa: typeof body.require2fa === "boolean" ? body.require2fa : undefined,
+      timeApprovalEnabled: typeof body.timeApprovalEnabled === "boolean" ? body.timeApprovalEnabled : undefined,
       crmEnabled: typeof body.crmEnabled === "boolean" ? body.crmEnabled : undefined,
       reportsEnabled: typeof body.reportsEnabled === "boolean" ? body.reportsEnabled : undefined,
       resourcingEnabled: typeof body.resourcingEnabled === "boolean" ? body.resourcingEnabled : undefined,

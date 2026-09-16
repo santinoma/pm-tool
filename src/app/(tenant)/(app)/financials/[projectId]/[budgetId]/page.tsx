@@ -29,7 +29,7 @@ export default async function BudgetDetailPage({
 
   const project = await context.tenantDb.project.findUnique({ where: { id: projectId }, select: { clientId: true } });
 
-  const [budget, users, invoices, serviceTypes, rateCardItems, customFieldDefs, scenarios, feedEvents, timeEntries] =
+  const [budget, users, invoices, serviceTypes, rateCardItems, customFieldDefs, scenarios, feedEvents, timeEntries, approvalPolicies] =
     await Promise.all([
       context.tenantDb.budget.findUnique({
         where: { id: budgetId },
@@ -67,6 +67,7 @@ export default async function BudgetDetailPage({
         include: { user: true, budgetSection: true },
         orderBy: { createdAt: "desc" },
       }),
+      context.tenantDb.approvalPolicy.findMany({ where: { archived: false }, orderBy: { name: "asc" }, select: { id: true, name: true } }),
     ]);
 
   if (!budget || budget.projectId !== projectId) {
@@ -122,7 +123,9 @@ export default async function BudgetDetailPage({
           isTemplate: budget.isTemplate,
           scenarioOf: budget.scenarioOf,
           deliveredAt: budget.deliveredAt ? budget.deliveredAt.toISOString() : null,
+          approvalPolicyId: budget.approvalPolicyId,
         }}
+        approvalPolicies={approvalPolicies.map((policy) => ({ id: policy.id, name: policy.name }))}
         sections={budget.sections.map((section) => ({
           id: section.id,
           name: section.name,

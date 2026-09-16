@@ -4,6 +4,7 @@ import {
   Blocks,
   Building2,
   CalendarDays,
+  CheckSquare,
   Code2,
   CreditCard,
   History,
@@ -63,6 +64,7 @@ function getGroups(locale: Locale) {
         { href: "/settings/organization/workflows", label: t(locale, "settings.workflows.title"), desc: t(locale, "settings.workflows.desc"), icon: Workflow },
         { href: "/settings/organization/pipelines", label: t(locale, "settings.pipelines.title"), desc: t(locale, "settings.pipelines.desc"), icon: Workflow },
         { href: "/settings/organization/custom-fields", label: t(locale, "settings.customFields.title"), desc: t(locale, "settings.customFields.desc"), icon: Tag },
+        { href: "/settings/organization/approval-policies", label: t(locale, "settings.approvalPolicies.title"), desc: t(locale, "settings.approvalPolicies.desc"), icon: CheckSquare },
         { href: "/settings/organization/automations", label: t(locale, "settings.automations.title"), desc: t(locale, "settings.automations.desc"), icon: Zap, feature: "automation_rules" },
         { href: "/settings/webhooks", label: t(locale, "settings.webhooks.title"), desc: t(locale, "settings.webhooks.desc"), icon: Webhook },
         {

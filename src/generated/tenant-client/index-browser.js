@@ -525,6 +525,7 @@ exports.Prisma.TenantSettingsScalarFieldEnum = {
   crmEnabled: 'crmEnabled',
   reportsEnabled: 'reportsEnabled',
   resourcingEnabled: 'resourcingEnabled',
+  timeApprovalEnabled: 'timeApprovalEnabled',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -553,7 +554,36 @@ exports.Prisma.TimeEntryScalarFieldEnum = {
   approvedById: 'approvedById',
   approvedAt: 'approvedAt',
   loggedForUserId: 'loggedForUserId',
-  submittedAt: 'submittedAt'
+  submittedAt: 'submittedAt',
+  rejectionReason: 'rejectionReason'
+};
+
+exports.Prisma.ApprovalPolicyScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  timeApprovalMode: 'timeApprovalMode',
+  expenseApprovalMode: 'expenseApprovalMode',
+  isDefault: 'isDefault',
+  archived: 'archived',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ApprovalPolicyApproverScalarFieldEnum = {
+  id: 'id',
+  policyId: 'policyId',
+  kind: 'kind',
+  roleType: 'roleType',
+  specificUserId: 'specificUserId'
+};
+
+exports.Prisma.TimeEntryApproverDecisionScalarFieldEnum = {
+  id: 'id',
+  timeEntryId: 'timeEntryId',
+  approverId: 'approverId',
+  status: 'status',
+  decidedAt: 'decidedAt',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.TimesheetLockScalarFieldEnum = {
@@ -822,7 +852,8 @@ exports.Prisma.BudgetScalarFieldEnum = {
   isTemplate: 'isTemplate',
   deliveredAt: 'deliveredAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  approvalPolicyId: 'approvalPolicyId'
 };
 
 exports.Prisma.ServiceTypeScalarFieldEnum = {
@@ -1095,6 +1126,30 @@ exports.TimeEntryApprovalStatus = exports.$Enums.TimeEntryApprovalStatus = {
   rejected: 'rejected'
 };
 
+exports.ApprovalMode = exports.$Enums.ApprovalMode = {
+  any: 'any',
+  all: 'all',
+  none: 'none'
+};
+
+exports.ApprovalKind = exports.$Enums.ApprovalKind = {
+  time: 'time',
+  expense: 'expense'
+};
+
+exports.ApproverRoleType = exports.$Enums.ApproverRoleType = {
+  budget_owner: 'budget_owner',
+  project_manager: 'project_manager',
+  submitter_manager: 'submitter_manager',
+  specific_person: 'specific_person'
+};
+
+exports.ApprovalDecisionStatus = exports.$Enums.ApprovalDecisionStatus = {
+  pending: 'pending',
+  approved: 'approved',
+  rejected: 'rejected'
+};
+
 exports.CustomFieldEntityType = exports.$Enums.CustomFieldEntityType = {
   task: 'task',
   budget: 'budget',
@@ -1267,6 +1322,9 @@ exports.Prisma.ModelName = {
   TenantSettings: 'TenantSettings',
   PendingLogin: 'PendingLogin',
   TimeEntry: 'TimeEntry',
+  ApprovalPolicy: 'ApprovalPolicy',
+  ApprovalPolicyApprover: 'ApprovalPolicyApprover',
+  TimeEntryApproverDecision: 'TimeEntryApproverDecision',
   TimesheetLock: 'TimesheetLock',
   TimeTrackingPolicy: 'TimeTrackingPolicy',
   HolidayCalendar: 'HolidayCalendar',

@@ -24,6 +24,7 @@ interface EntryRow {
   description: string | null;
   approvalStatus: "pending" | "approved" | "rejected";
   submitted: boolean;
+  rejectionReason: string | null;
   locked: boolean;
   date: string;
   taskId: string | null;
@@ -368,22 +369,32 @@ export function TimeTrackingClient({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {entries.map((entry) => (
-              <TableRow key={entry.id}>
-                <TableCell>{entry.label}</TableCell>
-                <TableCell className="text-muted-foreground">{entry.durationMinutes} min</TableCell>
-                <TableCell className="text-muted-foreground">{entry.description ?? "—"}</TableCell>
-                <TableCell>
-                  <div className="flex gap-1.5">
-                    <Badge variant={entry.submitted ? "outline" : "secondary"}>{entry.submitted ? "Eingereicht" : "Entwurf"}</Badge>
-                    {entry.submitted && (
-                      <Badge variant={APPROVAL_BADGE_VARIANT[entry.approvalStatus]}>{APPROVAL_LABEL[entry.approvalStatus]}</Badge>
-                    )}
-                    {entry.locked && <Badge variant="warningOutline">Gesperrt</Badge>}
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
+            {entries.map((entry) => {
+              const needsChanges = !entry.submitted && entry.approvalStatus === "rejected";
+              return (
+                <TableRow key={entry.id}>
+                  <TableCell>{entry.label}</TableCell>
+                  <TableCell className="text-muted-foreground">{entry.durationMinutes} min</TableCell>
+                  <TableCell className="text-muted-foreground">{entry.description ?? "—"}</TableCell>
+                  <TableCell>
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      {needsChanges ? (
+                        <Badge variant="destructiveOutline">Änderung angefordert</Badge>
+                      ) : (
+                        <Badge variant={entry.submitted ? "outline" : "secondary"}>{entry.submitted ? "Eingereicht" : "Entwurf"}</Badge>
+                      )}
+                      {entry.submitted && (
+                        <Badge variant={APPROVAL_BADGE_VARIANT[entry.approvalStatus]}>{APPROVAL_LABEL[entry.approvalStatus]}</Badge>
+                      )}
+                      {entry.locked && <Badge variant="warningOutline">Gesperrt</Badge>}
+                      {needsChanges && entry.rejectionReason && (
+                        <span className="text-xs text-muted-foreground">— {entry.rejectionReason}</span>
+                      )}
+                    </div>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </div>
