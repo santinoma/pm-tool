@@ -12,9 +12,9 @@ Task weitermachen — nicht die ganze Phase anhalten.
 
 ## Phase 1 — Bugs fixen
 
-- [ ] T101 Revenue Recognition: `immediate`-Modus an genehmigte Zeit/Spesen/Bookings
+- [x] T101 Revenue Recognition: `immediate`-Modus an genehmigte Zeit/Spesen/Bookings
       koppeln statt an `invoicedAmount`
-- [ ] T102 Revenue Recognition: `straight_line` nur auf Fixed/Percentage, nicht T&M;
+- [x] T102 Revenue Recognition: `straight_line` nur auf Fixed/Percentage, nicht T&M;
       `deliveredAt`-Fallback-Kette einbauen
 - [ ] T103 Rate-Card-Auflösung: Standard- und Kunden-Rate-Card gemeinsam anbieten
 - [ ] T104 Offboarding: `Deal.ownerId` reassignen

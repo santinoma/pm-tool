@@ -25,7 +25,7 @@ export default async function FinancialsPage() {
     orderBy: { updatedAt: "desc" },
     include: {
       project: { select: { id: true, name: true, type: true, projectManager: { select: { name: true, email: true } } } },
-      sections: { select: { id: true, budgetedTimeHours: true, price: true, quantity: true, recognitionMethod: true } },
+      sections: { select: { id: true, budgetedTimeHours: true, price: true, quantity: true, recognitionMethod: true, billingType: true } },
     },
   });
 
@@ -33,7 +33,7 @@ export default async function FinancialsPage() {
   // row into Node and reducing over them — the previous approach didn't scale with tenant size.
   const budgetIds = budgets.map((b) => b.id);
   const sectionIds = budgets.flatMap((b) => b.sections.map((s) => s.id));
-  const [revenueByBudget, minutesBySection, lineItemsBySection] = await Promise.all([
+  const [revenueByBudget, minutesBySection, approvedWorkBySection, approvedExpensesByBudget] = await Promise.all([
     budgetIds.length > 0
       ? context.tenantDb.invoice.groupBy({
           by: ["budgetId"],
@@ -48,17 +48,27 @@ export default async function FinancialsPage() {
           _sum: { durationMinutes: true },
         })
       : [],
+    // Revenue Recognition (Productive-Modell): basiert auf genehmigter Arbeit, nicht auf
+    // Rechnungsstellung — siehe src/tenant/financials/revenueRecognition.ts.
     sectionIds.length > 0
-      ? context.tenantDb.invoiceLineItem.groupBy({
+      ? context.tenantDb.timeEntry.groupBy({
           by: ["budgetSectionId"],
-          where: { budgetSectionId: { in: sectionIds }, invoice: { status: { not: "draft" } } },
+          where: { budgetSectionId: { in: sectionIds }, approvalStatus: "approved" },
+          _sum: { amount: true },
+        })
+      : [],
+    budgetIds.length > 0
+      ? context.tenantDb.expense.groupBy({
+          by: ["budgetId"],
+          where: { budgetId: { in: budgetIds }, approvalStatus: "approved", billable: true },
           _sum: { amount: true },
         })
       : [],
   ]);
   const revenueByBudgetId = new Map(revenueByBudget.map((r) => [r.budgetId, r._sum.totalAmount ?? 0]));
   const minutesBySectionId = new Map(minutesBySection.map((r) => [r.budgetSectionId!, r._sum.durationMinutes ?? 0]));
-  const invoicedAmountBySectionId = new Map(lineItemsBySection.map((r) => [r.budgetSectionId, r._sum.amount ?? 0]));
+  const approvedWorkBySectionId = new Map(approvedWorkBySection.map((r) => [r.budgetSectionId!, r._sum.amount ?? 0]));
+  const approvedExpensesByBudgetId = new Map(approvedExpensesByBudget.map((r) => [r.budgetId, r._sum.amount ?? 0]));
 
   const now = new Date();
   const rows = budgets.map((budget) => {
@@ -69,11 +79,13 @@ export default async function FinancialsPage() {
     const usedTimeHours = budget.sections.reduce((sum, section) => sum + (minutesBySectionId.get(section.id) ?? 0), 0) / 60;
     const recognizedRevenue = computeRecognizedRevenue(
       budget.sections.map((section) => ({
+        billingType: section.billingType,
         recognitionMethod: section.recognitionMethod,
         totalAmount: section.price * section.quantity,
-        invoicedAmount: invoicedAmountBySectionId.get(section.id) ?? 0,
+        approvedWorkAmount: approvedWorkBySectionId.get(section.id) ?? 0,
       })),
-      { startDate: budget.startDate, endDate: budget.endDate },
+      approvedExpensesByBudgetId.get(budget.id) ?? 0,
+      { startDate: budget.startDate, endDate: budget.endDate, deliveredAt: budget.deliveredAt },
       now,
     );
 
