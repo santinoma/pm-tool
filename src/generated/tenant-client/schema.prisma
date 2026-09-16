@@ -378,6 +378,7 @@ model Project {
   purchaseOrders          PurchaseOrder[]
   deals                   Deal[]
   dashboardWidgetFilters  DashboardWidget[]
+  customFieldAttachments  ProjectCustomField[]
 }
 
 model TaskFolder {
@@ -861,19 +862,36 @@ enum CustomFieldEntityType {
 }
 
 model CustomFieldDef {
-  id             String                     @id @default(uuid())
-  project        Project                    @relation(fields: [projectId], references: [id])
-  projectId      String
-  entityType     CustomFieldEntityType      @default(task)
-  key            String
-  label          String
-  type           CustomFieldType
-  options        String[]
-  taskValues     CustomFieldValue[]
-  budgetValues   BudgetCustomFieldValue[]
-  wikiPageValues WikiPageCustomFieldValue[]
+  id                 String                     @id @default(uuid())
+  project            Project?                   @relation(fields: [projectId], references: [id])
+  projectId          String?
+  library            Boolean                    @default(false)
+  entityType         CustomFieldEntityType      @default(task)
+  key                String
+  label              String
+  type               CustomFieldType
+  options            String[]
+  taskValues         CustomFieldValue[]
+  budgetValues       BudgetCustomFieldValue[]
+  wikiPageValues     WikiPageCustomFieldValue[]
+  projectAttachments ProjectCustomField[]
 
   @@unique([projectId, key])
+}
+
+// A library field is defined once (projectId null, library true) and shared
+// across many projects via this join table, instead of every project owning
+// its own private copy — mirrors the Workflow/Pipeline/RateCard "centralize
+// as a shared, reusable entity" pattern.
+model ProjectCustomField {
+  id        String         @id @default(uuid())
+  project   Project        @relation(fields: [projectId], references: [id])
+  projectId String
+  field     CustomFieldDef @relation(fields: [fieldId], references: [id])
+  fieldId   String
+  createdAt DateTime       @default(now())
+
+  @@unique([projectId, fieldId])
 }
 
 model CustomFieldValue {

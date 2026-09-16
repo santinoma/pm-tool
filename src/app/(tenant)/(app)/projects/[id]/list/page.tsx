@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getTenantContext } from "@/tenant/context";
 import { canManageMembers } from "@/tenant/auth/roleGuard";
 import { privateTaskVisibilityFilter } from "@/tenant/projectAccess/privateTaskFilter";
+import { getEffectiveCustomFields } from "@/tenant/customFields/library";
 import { ListClient } from "./ListClient";
 import { SharedViewsPanel } from "./SharedViewsPanel";
 
@@ -34,7 +35,7 @@ export default async function ListPage({ params }: { params: Promise<{ id: strin
       orderBy: { position: "asc" },
     }),
     context.tenantDb.user.findMany({ where: { isActive: true }, orderBy: { createdAt: "asc" } }),
-    context.tenantDb.customFieldDef.findMany({ where: { projectId: id, entityType: "task" } }),
+    getEffectiveCustomFields(context.tenantDb, id, "task"),
     context.tenantDb.taskFolder.findMany({
       where: { projectId: id },
       include: { lists: { orderBy: { position: "asc" } } },
