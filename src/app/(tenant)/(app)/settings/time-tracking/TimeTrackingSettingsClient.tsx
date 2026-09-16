@@ -16,12 +16,14 @@ export function TimeTrackingSettingsClient({
   allowProjectLevelTimeEntries,
   timeTrackingMode,
   timeApprovalEnabled,
+  timeEntrySubmissionEnabled,
   isPrivileged,
   policy,
 }: {
   allowProjectLevelTimeEntries: boolean;
   timeTrackingMode: "timer" | "entries";
   timeApprovalEnabled: boolean;
+  timeEntrySubmissionEnabled: boolean;
   isPrivileged: boolean;
   policy: TimeTrackingPolicyState | null;
 }) {
@@ -29,6 +31,7 @@ export function TimeTrackingSettingsClient({
   const [checked, setChecked] = useState(allowProjectLevelTimeEntries);
   const [mode, setMode] = useState(timeTrackingMode);
   const [approvalEnabled, setApprovalEnabled] = useState(timeApprovalEnabled);
+  const [submissionEnabled, setSubmissionEnabled] = useState(timeEntrySubmissionEnabled);
   const [saving, setSaving] = useState(false);
 
   const [maxDailyHours, setMaxDailyHours] = useState(
@@ -106,6 +109,11 @@ export function TimeTrackingSettingsClient({
     await patch({ timeApprovalEnabled: nextChecked });
   }
 
+  async function handleSubmissionEnabledChange(nextChecked: boolean) {
+    setSubmissionEnabled(nextChecked);
+    await patch({ timeEntrySubmissionEnabled: nextChecked });
+  }
+
   return (
     <div className="mx-auto max-w-xl pb-10">
       <h1 className="mb-8 text-2xl font-bold tracking-tight">Zeiterfassung – Einstellungen</h1>
@@ -145,14 +153,34 @@ export function TimeTrackingSettingsClient({
             <Checkbox checked={approvalEnabled} disabled={saving} onCheckedChange={(value) => handleApprovalEnabledChange(value === true)} />
             Time Approval aktivieren
           </Label>
-          <p className="text-sm text-muted-foreground">
-            Wenn aktiviert, kann pro Budget festgelegt werden, wer Zeiteinträge genehmigen muss, bevor sie
-            anerkannt und abrechenbar werden — siehe{" "}
+          <p className="mb-4 text-sm text-muted-foreground">
+            Wenn aktiviert, geht jeder erfasste Zeiteintrag automatisch in die Genehmigung (kein manuelles
+            Einreichen nötig) — pro Budget lässt sich festlegen, wer genehmigen muss, bevor der Eintrag anerkannt
+            und abrechenbar wird. Ist ein Budget ohne Policy, genehmigt jeder Owner/Admin. Ist Time Approval
+            komplett deaktiviert, werden Einträge sofort automatisch genehmigt. Siehe{" "}
             <a href="/settings/organization/approval-policies" className="text-primary hover:underline">
               Approval Policies
             </a>
             .
           </p>
+
+          {approvalEnabled && (
+            <Label className="flex items-center gap-3 font-normal">
+              <Checkbox
+                checked={submissionEnabled}
+                disabled={saving}
+                onCheckedChange={(value) => handleSubmissionEnabledChange(value === true)}
+              />
+              Zusätzlich manuelles Einreichen verlangen (Timesheet Submission)
+            </Label>
+          )}
+          {approvalEnabled && submissionEnabled && (
+            <p className="mt-1 text-sm text-muted-foreground">
+              Mit dieser Zusatzoption starten neue Einträge als Entwurf und müssen erst per „Woche einreichen&ldquo;
+              bestätigt werden, bevor sie in die Genehmigung gehen — eine zusätzliche Stufe on top of Time
+              Approval, keine Voraussetzung dafür.
+            </p>
+          )}
         </div>
       )}
 

@@ -28,6 +28,7 @@ export default async function TimeTrackingSettingsPage() {
         allowProjectLevelTimeEntries={settings.allowProjectLevelTimeEntries}
         timeTrackingMode={settings.timeTrackingMode}
         timeApprovalEnabled={settings.timeApprovalEnabled}
+        timeEntrySubmissionEnabled={settings.timeEntrySubmissionEnabled}
         isPrivileged={isPrivileged}
         policy={
           policy

@@ -1,5 +1,6 @@
 import type { PrismaClient, TimeEntry } from "../../generated/tenant-client/client.js";
 import { computeDurationMinutes } from "./duration";
+import { resolveInitialTimeEntryState } from "./entryLifecycle";
 
 /**
  * Stoppt den aktuell laufenden Timer (falls vorhanden) des angegebenen Nutzers.
@@ -18,8 +19,9 @@ export async function stopRunningTimer(
     return null;
   }
 
+  const initialState = await resolveInitialTimeEntryState(tenantDb, now);
   return tenantDb.timeEntry.update({
     where: { id: running.id },
-    data: { endedAt: now, durationMinutes: computeDurationMinutes(running.startedAt, now) },
+    data: { endedAt: now, durationMinutes: computeDurationMinutes(running.startedAt, now), ...initialState },
   });
 }
