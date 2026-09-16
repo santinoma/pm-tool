@@ -1,7 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { sanitizeEnabledModules, computeEffectiveModules } from "../src/tenant/projects/moduleCatalog";
 
-const NO_DATA = { hasWiki: false, hasBudgets: false, hasCycles: false, hasBaselines: false, hasCheckIns: false };
+const NO_DATA = {
+  hasWiki: false,
+  hasBudgets: false,
+  hasCycles: false,
+  hasBaselines: false,
+  hasHillChart: false,
+  hasTriage: false,
+  hasCheckIns: false,
+};
 
 describe("sanitizeEnabledModules", () => {
   it("always includes tasks even if not selected", () => {
@@ -34,5 +42,11 @@ describe("computeEffectiveModules", () => {
 
   it("always includes tasks regardless of storage", () => {
     expect(computeEffectiveModules([], NO_DATA).has("tasks")).toBe(true);
+  });
+
+  it("keeps hill_chart and triage visible when the project already has that data", () => {
+    const effective = computeEffectiveModules(["tasks"], { ...NO_DATA, hasHillChart: true, hasTriage: true });
+    expect(effective.has("hill_chart")).toBe(true);
+    expect(effective.has("triage")).toBe(true);
   });
 });

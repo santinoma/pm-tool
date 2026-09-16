@@ -20,6 +20,8 @@ export const MODULE_CATALOG: ModuleCatalogEntry[] = [
   { key: "time", label: "Time", group: "Financials", real: true },
   { key: "cycles", label: "Cycles", group: "More", real: true, requiresFeature: "cycles_sprints" },
   { key: "baselines", label: "Baselines", group: "More", real: true, requiresFeature: "baseline_diffing" },
+  { key: "hill_chart", label: "Hill Chart", group: "More", real: true },
+  { key: "triage", label: "Triage", group: "More", real: true },
   { key: "check_ins", label: "Check-ins", group: "More", real: true },
   { key: "dashboard", label: "Dashboard", group: "More", real: false },
   { key: "resource_planning", label: "Resource planning", group: "More", real: false },
@@ -46,6 +48,8 @@ export interface ProjectDataFlags {
   hasBudgets: boolean;
   hasCycles: boolean;
   hasBaselines: boolean;
+  hasHillChart: boolean;
+  hasTriage: boolean;
   hasCheckIns: boolean;
 }
 
@@ -53,8 +57,9 @@ export interface ProjectDataFlags {
  * Die tatsächlich sichtbaren Module = ausgewählte Module ∪ Module, für die das
  * Projekt bereits echte Daten hat. Verhindert, dass Projekte, die vor dieser
  * Funktion angelegt wurden (und daher nur `enabledModules: ["tasks"]` haben),
- * plötzlich ihre existierenden Wiki-Seiten/Budgets/Cycles/Baselines/Check-ins
- * verstecken — selbstheilend, ohne Backfill-Migration nötig.
+ * plötzlich ihre existierenden Wiki-Seiten/Budgets/Cycles/Baselines/Hill-Chart-
+ * Positionen/Triage-Tasks/Check-ins verstecken — selbstheilend, ohne
+ * Backfill-Migration nötig.
  */
 export function computeEffectiveModules(storedModules: string[], dataFlags: ProjectDataFlags): Set<string> {
   const effective = new Set(storedModules);
@@ -62,6 +67,8 @@ export function computeEffectiveModules(storedModules: string[], dataFlags: Proj
   if (dataFlags.hasBudgets) effective.add("budgets");
   if (dataFlags.hasCycles) effective.add("cycles");
   if (dataFlags.hasBaselines) effective.add("baselines");
+  if (dataFlags.hasHillChart) effective.add("hill_chart");
+  if (dataFlags.hasTriage) effective.add("triage");
   if (dataFlags.hasCheckIns) effective.add("check_ins");
   effective.add("tasks");
   return effective;

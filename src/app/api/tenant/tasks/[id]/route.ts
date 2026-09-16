@@ -245,6 +245,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
             ? null
             : undefined,
       inTriage: typeof body.inTriage === "boolean" ? body.inTriage : undefined,
+      priority: typeof body.priority === "string" ? body.priority : undefined,
+      tShirtSize: body.tShirtSize === null ? null : typeof body.tShirtSize === "string" ? body.tShirtSize : undefined,
       isKeyTask: typeof body.isKeyTask === "boolean" ? body.isKeyTask : undefined,
       isPrivate: typeof body.isPrivate === "boolean" ? body.isPrivate : undefined,
       isTemplate: typeof body.isTemplate === "boolean" ? body.isTemplate : undefined,

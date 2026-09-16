@@ -20,15 +20,18 @@ export default async function ProjectLayout({
     redirect("/login");
   }
 
-  const [project, settings, wikiCount, budgetCount, cycleCount, baselineCount, checkInCount] = await Promise.all([
-    context.tenantDb.project.findUnique({ where: { id } }),
-    getOrCreateTenantSettings(context.tenantDb),
-    context.tenantDb.wikiPage.count({ where: { projectId: id } }),
-    context.tenantDb.budget.count({ where: { projectId: id } }),
-    context.tenantDb.cycle.count({ where: { projectId: id } }),
-    context.tenantDb.baseline.count({ where: { projectId: id } }),
-    context.tenantDb.checkInSchedule.count({ where: { projectId: id } }),
-  ]);
+  const [project, settings, wikiCount, budgetCount, cycleCount, baselineCount, hillChartCount, triageCount, checkInCount] =
+    await Promise.all([
+      context.tenantDb.project.findUnique({ where: { id } }),
+      getOrCreateTenantSettings(context.tenantDb),
+      context.tenantDb.wikiPage.count({ where: { projectId: id } }),
+      context.tenantDb.budget.count({ where: { projectId: id } }),
+      context.tenantDb.cycle.count({ where: { projectId: id } }),
+      context.tenantDb.baseline.count({ where: { projectId: id } }),
+      context.tenantDb.task.count({ where: { projects: { some: { projectId: id } }, hillPosition: { not: null } } }),
+      context.tenantDb.task.count({ where: { projects: { some: { projectId: id } }, inTriage: true } }),
+      context.tenantDb.checkInSchedule.count({ where: { projectId: id } }),
+    ]);
   if (!project) {
     redirect("/projects");
   }
@@ -39,6 +42,8 @@ export default async function ProjectLayout({
       hasBudgets: budgetCount > 0,
       hasCycles: cycleCount > 0,
       hasBaselines: baselineCount > 0,
+      hasHillChart: hillChartCount > 0,
+      hasTriage: triageCount > 0,
       hasCheckIns: checkInCount > 0,
     }),
   );

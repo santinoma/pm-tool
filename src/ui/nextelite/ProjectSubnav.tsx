@@ -8,11 +8,12 @@ import { cn } from "@/ui/shadcn/lib/utils";
 // Productive-Paritäts-Audit (Roadmap #13): Productive kennt 8 addierbare Tab-Typen
 // (Tasks, Dashboard, Bookings, Time, Invoices, Docs, Reports, Budgets) — Liste/Board/
 // Kalender/Gantt/Hill-Chart sind dort *Ansichten innerhalb eines* Tasks-Tabs, nicht
-// eigene Tabs. Hill Chart, Baselines und Check-ins haben in Productive gar kein
-// Pendant. Bewusst NICHT entfernt: alle drei sind echte, funktionierende Features
-// (siehe hill-chart/page.tsx, Baseline-Modell, check-ins/page.tsx + 2 API-Routen) —
-// ihre Entfernung wäre ein Funktionsverlust, keine reine Aufräumarbeit, und bleibt
-// eine bewusste Produktentscheidung statt eines automatischen Cleanups.
+// eigene Tabs. Cycles, Baselines, Hill Chart, Triage und Check-ins haben in Productive
+// gar kein Pendant. Bewusst NICHT entfernt: alle fünf sind echte, funktionierende
+// Features — ihre Entfernung wäre ein Funktionsverlust, keine reine Aufräumarbeit.
+// Stattdessen sind alle fünf explizit abwählbare Module (siehe moduleCatalog.ts und
+// den "Module"-Schritt der Projekterstellung), statt Nutzern Productive-Parität
+// vorzutäuschen, wo keine besteht.
 const TABS = [
   { segment: "list", label: "Liste" },
   { segment: "board", label: "Board" },
@@ -21,8 +22,8 @@ const TABS = [
   { segment: "gantt", label: "Gantt" },
   { segment: "timeline", label: "Timeline" },
   { segment: "workload", label: "Workload" },
-  { segment: "hill-chart", label: "Hill Chart" },
-  { segment: "triage", label: "Triage" },
+  { segment: "hill-chart", label: "Hill Chart", module: "hill_chart" },
+  { segment: "triage", label: "Triage", module: "triage" },
   { segment: "cycles", label: "Cycles", feature: "cycles_sprints", module: "cycles" },
   { segment: "baselines", label: "Baselines", feature: "baseline_diffing", module: "baselines" },
   { segment: "budget", label: "Budget", feature: "budgets_financials", module: "budgets" },
