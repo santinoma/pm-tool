@@ -84,6 +84,7 @@ model User {
   timesheetLocks             TimesheetLock[]
   lockedTimesheets           TimesheetLock[]             @relation("TimesheetLockedBy")
   lockedFinancialPeriods     FinancialPeriodLock[]
+  teamMemberships            TeamMember[]
   holidayCalendar            HolidayCalendar?            @relation(fields: [holidayCalendarId], references: [id])
   holidayCalendarId          String?
   resourceBookings           ResourceBooking[]
@@ -895,6 +896,32 @@ model TimesheetLock {
   createdAt   DateTime @default(now())
 
   @@unique([userId, periodStart, periodEnd])
+}
+
+/**
+ * Team (T314, Productive "Managing Teams"): benannte Gruppe von Nutzern,
+ * many-to-many über `TeamMember` — eine Person kann in mehreren Teams sein.
+ * Productive nutzt Teams zum gemeinsamen Teilen von Budgets/Dashboards/Docs/
+ * Views sowie als Filter/Feld in Resourcing und Reports. Bewusst KEIN
+ * separates "Department"-Modell: laut Productive-Doku ist "Department" nur
+ * ein Beispiel-Einsatzzweck eines normalen Employee Field (Single-Select),
+ * kein eigenständiges Datenmodell — dafür reicht das bereits vorhandene
+ * Employee-Fields-Feature (T216).
+ */
+model Team {
+  id        String       @id @default(uuid())
+  name      String
+  createdAt DateTime     @default(now())
+  members   TeamMember[]
+}
+
+model TeamMember {
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  teamId String
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  @@id([teamId, userId])
 }
 
 model TimeTrackingPolicy {

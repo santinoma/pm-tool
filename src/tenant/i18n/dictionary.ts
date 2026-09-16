@@ -170,6 +170,8 @@ const STRINGS = {
   "settings.financialMonthClosing.desc": { de: "Zeiteinträge, Ausgaben und Services abgeschlossener Monate sperren.", en: "Lock time entries, expenses and services for closed months." },
   "settings.budgetTemplates.title": { de: "Budget Templates", en: "Budget templates" },
   "settings.budgetTemplates.desc": { de: "Organisationsweiter Katalog wiederverwendbarer Budget-Vorlagen.", en: "Organization-wide catalog of reusable budget templates." },
+  "settings.teams.title": { de: "Teams", en: "Teams" },
+  "settings.teams.desc": { de: "Benannte Mitgliedergruppen für Resourcing- und Report-Filter.", en: "Named member groups for Resourcing and Report filters." },
 
   "settings.modules.title": { de: "Module", en: "Modules" },
   "settings.modules.desc": { de: "CRM, Reports und Resourcing organisationsweit aktivieren oder deaktivieren.", en: "Enable or disable CRM, Reports and Resourcing organization-wide." },

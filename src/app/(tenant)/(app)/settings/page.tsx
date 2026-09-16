@@ -92,6 +92,7 @@ function getGroups(locale: Locale) {
       items: [
         { href: "/members", label: t(locale, "settings.membersLink.title"), desc: t(locale, "settings.membersLink.desc"), icon: Users },
         { href: "/settings/users/employee-fields", label: t(locale, "settings.employeeFields.title"), desc: t(locale, "settings.employeeFields.desc"), icon: IdCard },
+        { href: "/settings/organization/teams", label: t(locale, "settings.teams.title"), desc: t(locale, "settings.teams.desc"), icon: Users },
       ],
     },
   ];

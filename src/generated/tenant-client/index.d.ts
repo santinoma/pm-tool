@@ -254,6 +254,24 @@ export type TimeEntryApproverDecision = $Result.DefaultSelection<Prisma.$TimeEnt
  */
 export type TimesheetLock = $Result.DefaultSelection<Prisma.$TimesheetLockPayload>
 /**
+ * Model Team
+ * *
+ *  * Team (T314, Productive "Managing Teams"): benannte Gruppe von Nutzern,
+ *  * many-to-many über `TeamMember` — eine Person kann in mehreren Teams sein.
+ *  * Productive nutzt Teams zum gemeinsamen Teilen von Budgets/Dashboards/Docs/
+ *  * Views sowie als Filter/Feld in Resourcing und Reports. Bewusst KEIN
+ *  * separates "Department"-Modell: laut Productive-Doku ist "Department" nur
+ *  * ein Beispiel-Einsatzzweck eines normalen Employee Field (Single-Select),
+ *  * kein eigenständiges Datenmodell — dafür reicht das bereits vorhandene
+ *  * Employee-Fields-Feature (T216).
+ */
+export type Team = $Result.DefaultSelection<Prisma.$TeamPayload>
+/**
+ * Model TeamMember
+ * 
+ */
+export type TeamMember = $Result.DefaultSelection<Prisma.$TeamMemberPayload>
+/**
  * Model TimeTrackingPolicy
  * 
  */
@@ -1589,6 +1607,26 @@ export class PrismaClient<
   get timesheetLock(): Prisma.TimesheetLockDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.team`: Exposes CRUD operations for the **Team** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Teams
+    * const teams = await prisma.team.findMany()
+    * ```
+    */
+  get team(): Prisma.TeamDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.teamMember`: Exposes CRUD operations for the **TeamMember** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TeamMembers
+    * const teamMembers = await prisma.teamMember.findMany()
+    * ```
+    */
+  get teamMember(): Prisma.TeamMemberDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.timeTrackingPolicy`: Exposes CRUD operations for the **TimeTrackingPolicy** model.
     * Example usage:
     * ```ts
@@ -2491,6 +2529,8 @@ export namespace Prisma {
     ApprovalPolicyApprover: 'ApprovalPolicyApprover',
     TimeEntryApproverDecision: 'TimeEntryApproverDecision',
     TimesheetLock: 'TimesheetLock',
+    Team: 'Team',
+    TeamMember: 'TeamMember',
     TimeTrackingPolicy: 'TimeTrackingPolicy',
     HolidayCalendar: 'HolidayCalendar',
     Holiday: 'Holiday',
@@ -2547,7 +2587,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "client" | "clientContact" | "pipeline" | "dealStatus" | "lostReason" | "deal" | "projectMember" | "customRole" | "projectRoleOverride" | "absenceRequest" | "session" | "favorite" | "auditLogEntry" | "invite" | "projectClientAccess" | "slackCaptureConfig" | "project" | "taskFolder" | "taskListGroup" | "baseline" | "baselineTaskSnapshot" | "portfolio" | "goal" | "cycle" | "transitionRule" | "sharedView" | "savedView" | "workflow" | "workflowStatus" | "task" | "tag" | "taskTag" | "taskSubscriber" | "todo" | "comment" | "mention" | "attachment" | "wikiPage" | "tenantSettings" | "financialPeriodLock" | "pendingLogin" | "timeEntry" | "approvalPolicy" | "approvalPolicyApprover" | "timeEntryApproverDecision" | "timesheetLock" | "timeTrackingPolicy" | "holidayCalendar" | "holiday" | "resourceBooking" | "taskProject" | "taskDependency" | "taskLink" | "customFieldDef" | "projectCustomField" | "customFieldValue" | "budgetCustomFieldValue" | "wikiPageCustomFieldValue" | "userCustomFieldValue" | "sharedWikiLink" | "activityEvent" | "notificationPreference" | "notification" | "automationRule" | "automationAction" | "dashboard" | "dashboardWidget" | "webhookEndpoint" | "ssoConfig" | "apiKey" | "webhookDelivery" | "checkInSchedule" | "checkInResponse" | "budget" | "serviceType" | "budgetSection" | "rateCard" | "rateCardItem" | "invoice" | "invoiceLineItem" | "invoicePayment" | "creditNote" | "meeting" | "expense" | "purchaseOrder" | "savedReport" | "budgetSectionAssignee"
+      modelProps: "user" | "client" | "clientContact" | "pipeline" | "dealStatus" | "lostReason" | "deal" | "projectMember" | "customRole" | "projectRoleOverride" | "absenceRequest" | "session" | "favorite" | "auditLogEntry" | "invite" | "projectClientAccess" | "slackCaptureConfig" | "project" | "taskFolder" | "taskListGroup" | "baseline" | "baselineTaskSnapshot" | "portfolio" | "goal" | "cycle" | "transitionRule" | "sharedView" | "savedView" | "workflow" | "workflowStatus" | "task" | "tag" | "taskTag" | "taskSubscriber" | "todo" | "comment" | "mention" | "attachment" | "wikiPage" | "tenantSettings" | "financialPeriodLock" | "pendingLogin" | "timeEntry" | "approvalPolicy" | "approvalPolicyApprover" | "timeEntryApproverDecision" | "timesheetLock" | "team" | "teamMember" | "timeTrackingPolicy" | "holidayCalendar" | "holiday" | "resourceBooking" | "taskProject" | "taskDependency" | "taskLink" | "customFieldDef" | "projectCustomField" | "customFieldValue" | "budgetCustomFieldValue" | "wikiPageCustomFieldValue" | "userCustomFieldValue" | "sharedWikiLink" | "activityEvent" | "notificationPreference" | "notification" | "automationRule" | "automationAction" | "dashboard" | "dashboardWidget" | "webhookEndpoint" | "ssoConfig" | "apiKey" | "webhookDelivery" | "checkInSchedule" | "checkInResponse" | "budget" | "serviceType" | "budgetSection" | "rateCard" | "rateCardItem" | "invoice" | "invoiceLineItem" | "invoicePayment" | "creditNote" | "meeting" | "expense" | "purchaseOrder" | "savedReport" | "budgetSectionAssignee"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -6029,6 +6069,154 @@ export namespace Prisma {
           }
         }
       }
+      Team: {
+        payload: Prisma.$TeamPayload<ExtArgs>
+        fields: Prisma.TeamFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TeamFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TeamFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamPayload>
+          }
+          findFirst: {
+            args: Prisma.TeamFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TeamFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamPayload>
+          }
+          findMany: {
+            args: Prisma.TeamFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamPayload>[]
+          }
+          create: {
+            args: Prisma.TeamCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamPayload>
+          }
+          createMany: {
+            args: Prisma.TeamCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TeamCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamPayload>[]
+          }
+          delete: {
+            args: Prisma.TeamDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamPayload>
+          }
+          update: {
+            args: Prisma.TeamUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamPayload>
+          }
+          deleteMany: {
+            args: Prisma.TeamDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TeamUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TeamUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamPayload>[]
+          }
+          upsert: {
+            args: Prisma.TeamUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamPayload>
+          }
+          aggregate: {
+            args: Prisma.TeamAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTeam>
+          }
+          groupBy: {
+            args: Prisma.TeamGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TeamGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TeamCountArgs<ExtArgs>
+            result: $Utils.Optional<TeamCountAggregateOutputType> | number
+          }
+        }
+      }
+      TeamMember: {
+        payload: Prisma.$TeamMemberPayload<ExtArgs>
+        fields: Prisma.TeamMemberFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TeamMemberFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMemberPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TeamMemberFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMemberPayload>
+          }
+          findFirst: {
+            args: Prisma.TeamMemberFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMemberPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TeamMemberFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMemberPayload>
+          }
+          findMany: {
+            args: Prisma.TeamMemberFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMemberPayload>[]
+          }
+          create: {
+            args: Prisma.TeamMemberCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMemberPayload>
+          }
+          createMany: {
+            args: Prisma.TeamMemberCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TeamMemberCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMemberPayload>[]
+          }
+          delete: {
+            args: Prisma.TeamMemberDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMemberPayload>
+          }
+          update: {
+            args: Prisma.TeamMemberUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMemberPayload>
+          }
+          deleteMany: {
+            args: Prisma.TeamMemberDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TeamMemberUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TeamMemberUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMemberPayload>[]
+          }
+          upsert: {
+            args: Prisma.TeamMemberUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMemberPayload>
+          }
+          aggregate: {
+            args: Prisma.TeamMemberAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTeamMember>
+          }
+          groupBy: {
+            args: Prisma.TeamMemberGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TeamMemberGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TeamMemberCountArgs<ExtArgs>
+            result: $Utils.Optional<TeamMemberCountAggregateOutputType> | number
+          }
+        }
+      }
       TimeTrackingPolicy: {
         payload: Prisma.$TimeTrackingPolicyPayload<ExtArgs>
         fields: Prisma.TimeTrackingPolicyFieldRefs
@@ -9233,6 +9421,8 @@ export namespace Prisma {
     approvalPolicyApprover?: ApprovalPolicyApproverOmit
     timeEntryApproverDecision?: TimeEntryApproverDecisionOmit
     timesheetLock?: TimesheetLockOmit
+    team?: TeamOmit
+    teamMember?: TeamMemberOmit
     timeTrackingPolicy?: TimeTrackingPolicyOmit
     holidayCalendar?: HolidayCalendarOmit
     holiday?: HolidayOmit
@@ -9395,6 +9585,7 @@ export namespace Prisma {
     timesheetLocks: number
     lockedTimesheets: number
     lockedFinancialPeriods: number
+    teamMemberships: number
     resourceBookings: number
     createdResourceBookings: number
     createdMeetings: number
@@ -9451,6 +9642,7 @@ export namespace Prisma {
     timesheetLocks?: boolean | UserCountOutputTypeCountTimesheetLocksArgs
     lockedTimesheets?: boolean | UserCountOutputTypeCountLockedTimesheetsArgs
     lockedFinancialPeriods?: boolean | UserCountOutputTypeCountLockedFinancialPeriodsArgs
+    teamMemberships?: boolean | UserCountOutputTypeCountTeamMembershipsArgs
     resourceBookings?: boolean | UserCountOutputTypeCountResourceBookingsArgs
     createdResourceBookings?: boolean | UserCountOutputTypeCountCreatedResourceBookingsArgs
     createdMeetings?: boolean | UserCountOutputTypeCountCreatedMeetingsArgs
@@ -9761,6 +9953,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountLockedFinancialPeriodsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FinancialPeriodLockWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountTeamMembershipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TeamMemberWhereInput
   }
 
   /**
@@ -10888,6 +11087,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type TeamCountOutputType
+   */
+
+  export type TeamCountOutputType = {
+    members: number
+  }
+
+  export type TeamCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    members?: boolean | TeamCountOutputTypeCountMembersArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TeamCountOutputType without action
+   */
+  export type TeamCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamCountOutputType
+     */
+    select?: TeamCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TeamCountOutputType without action
+   */
+  export type TeamCountOutputTypeCountMembersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TeamMemberWhereInput
+  }
+
+
+  /**
    * Count Type HolidayCalendarCountOutputType
    */
 
@@ -11814,6 +12044,7 @@ export namespace Prisma {
     timesheetLocks?: boolean | User$timesheetLocksArgs<ExtArgs>
     lockedTimesheets?: boolean | User$lockedTimesheetsArgs<ExtArgs>
     lockedFinancialPeriods?: boolean | User$lockedFinancialPeriodsArgs<ExtArgs>
+    teamMemberships?: boolean | User$teamMembershipsArgs<ExtArgs>
     holidayCalendar?: boolean | User$holidayCalendarArgs<ExtArgs>
     resourceBookings?: boolean | User$resourceBookingsArgs<ExtArgs>
     createdResourceBookings?: boolean | User$createdResourceBookingsArgs<ExtArgs>
@@ -11944,6 +12175,7 @@ export namespace Prisma {
     timesheetLocks?: boolean | User$timesheetLocksArgs<ExtArgs>
     lockedTimesheets?: boolean | User$lockedTimesheetsArgs<ExtArgs>
     lockedFinancialPeriods?: boolean | User$lockedFinancialPeriodsArgs<ExtArgs>
+    teamMemberships?: boolean | User$teamMembershipsArgs<ExtArgs>
     holidayCalendar?: boolean | User$holidayCalendarArgs<ExtArgs>
     resourceBookings?: boolean | User$resourceBookingsArgs<ExtArgs>
     createdResourceBookings?: boolean | User$createdResourceBookingsArgs<ExtArgs>
@@ -12016,6 +12248,7 @@ export namespace Prisma {
       timesheetLocks: Prisma.$TimesheetLockPayload<ExtArgs>[]
       lockedTimesheets: Prisma.$TimesheetLockPayload<ExtArgs>[]
       lockedFinancialPeriods: Prisma.$FinancialPeriodLockPayload<ExtArgs>[]
+      teamMemberships: Prisma.$TeamMemberPayload<ExtArgs>[]
       holidayCalendar: Prisma.$HolidayCalendarPayload<ExtArgs> | null
       resourceBookings: Prisma.$ResourceBookingPayload<ExtArgs>[]
       createdResourceBookings: Prisma.$ResourceBookingPayload<ExtArgs>[]
@@ -12486,6 +12719,7 @@ export namespace Prisma {
     timesheetLocks<T extends User$timesheetLocksArgs<ExtArgs> = {}>(args?: Subset<T, User$timesheetLocksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimesheetLockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     lockedTimesheets<T extends User$lockedTimesheetsArgs<ExtArgs> = {}>(args?: Subset<T, User$lockedTimesheetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimesheetLockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     lockedFinancialPeriods<T extends User$lockedFinancialPeriodsArgs<ExtArgs> = {}>(args?: Subset<T, User$lockedFinancialPeriodsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FinancialPeriodLockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    teamMemberships<T extends User$teamMembershipsArgs<ExtArgs> = {}>(args?: Subset<T, User$teamMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     holidayCalendar<T extends User$holidayCalendarArgs<ExtArgs> = {}>(args?: Subset<T, User$holidayCalendarArgs<ExtArgs>>): Prisma__HolidayCalendarClient<$Result.GetResult<Prisma.$HolidayCalendarPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     resourceBookings<T extends User$resourceBookingsArgs<ExtArgs> = {}>(args?: Subset<T, User$resourceBookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceBookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     createdResourceBookings<T extends User$createdResourceBookingsArgs<ExtArgs> = {}>(args?: Subset<T, User$createdResourceBookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceBookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -13966,6 +14200,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: FinancialPeriodLockScalarFieldEnum | FinancialPeriodLockScalarFieldEnum[]
+  }
+
+  /**
+   * User.teamMemberships
+   */
+  export type User$teamMembershipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberInclude<ExtArgs> | null
+    where?: TeamMemberWhereInput
+    orderBy?: TeamMemberOrderByWithRelationInput | TeamMemberOrderByWithRelationInput[]
+    cursor?: TeamMemberWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TeamMemberScalarFieldEnum | TeamMemberScalarFieldEnum[]
   }
 
   /**
@@ -67541,6 +67799,2087 @@ export namespace Prisma {
 
 
   /**
+   * Model Team
+   */
+
+  export type AggregateTeam = {
+    _count: TeamCountAggregateOutputType | null
+    _min: TeamMinAggregateOutputType | null
+    _max: TeamMaxAggregateOutputType | null
+  }
+
+  export type TeamMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    createdAt: Date | null
+  }
+
+  export type TeamMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    createdAt: Date | null
+  }
+
+  export type TeamCountAggregateOutputType = {
+    id: number
+    name: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type TeamMinAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+  }
+
+  export type TeamMaxAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+  }
+
+  export type TeamCountAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type TeamAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Team to aggregate.
+     */
+    where?: TeamWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Teams to fetch.
+     */
+    orderBy?: TeamOrderByWithRelationInput | TeamOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TeamWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Teams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Teams.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Teams
+    **/
+    _count?: true | TeamCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TeamMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TeamMaxAggregateInputType
+  }
+
+  export type GetTeamAggregateType<T extends TeamAggregateArgs> = {
+        [P in keyof T & keyof AggregateTeam]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTeam[P]>
+      : GetScalarType<T[P], AggregateTeam[P]>
+  }
+
+
+
+
+  export type TeamGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TeamWhereInput
+    orderBy?: TeamOrderByWithAggregationInput | TeamOrderByWithAggregationInput[]
+    by: TeamScalarFieldEnum[] | TeamScalarFieldEnum
+    having?: TeamScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TeamCountAggregateInputType | true
+    _min?: TeamMinAggregateInputType
+    _max?: TeamMaxAggregateInputType
+  }
+
+  export type TeamGroupByOutputType = {
+    id: string
+    name: string
+    createdAt: Date
+    _count: TeamCountAggregateOutputType | null
+    _min: TeamMinAggregateOutputType | null
+    _max: TeamMaxAggregateOutputType | null
+  }
+
+  type GetTeamGroupByPayload<T extends TeamGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TeamGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TeamGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TeamGroupByOutputType[P]>
+            : GetScalarType<T[P], TeamGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TeamSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    members?: boolean | Team$membersArgs<ExtArgs>
+    _count?: boolean | TeamCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["team"]>
+
+  export type TeamSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["team"]>
+
+  export type TeamSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["team"]>
+
+  export type TeamSelectScalar = {
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+  }
+
+  export type TeamOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "createdAt", ExtArgs["result"]["team"]>
+  export type TeamInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    members?: boolean | Team$membersArgs<ExtArgs>
+    _count?: boolean | TeamCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type TeamIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type TeamIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $TeamPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Team"
+    objects: {
+      members: Prisma.$TeamMemberPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      createdAt: Date
+    }, ExtArgs["result"]["team"]>
+    composites: {}
+  }
+
+  type TeamGetPayload<S extends boolean | null | undefined | TeamDefaultArgs> = $Result.GetResult<Prisma.$TeamPayload, S>
+
+  type TeamCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TeamFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TeamCountAggregateInputType | true
+    }
+
+  export interface TeamDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Team'], meta: { name: 'Team' } }
+    /**
+     * Find zero or one Team that matches the filter.
+     * @param {TeamFindUniqueArgs} args - Arguments to find a Team
+     * @example
+     * // Get one Team
+     * const team = await prisma.team.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TeamFindUniqueArgs>(args: SelectSubset<T, TeamFindUniqueArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Team that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TeamFindUniqueOrThrowArgs} args - Arguments to find a Team
+     * @example
+     * // Get one Team
+     * const team = await prisma.team.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TeamFindUniqueOrThrowArgs>(args: SelectSubset<T, TeamFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Team that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamFindFirstArgs} args - Arguments to find a Team
+     * @example
+     * // Get one Team
+     * const team = await prisma.team.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TeamFindFirstArgs>(args?: SelectSubset<T, TeamFindFirstArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Team that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamFindFirstOrThrowArgs} args - Arguments to find a Team
+     * @example
+     * // Get one Team
+     * const team = await prisma.team.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TeamFindFirstOrThrowArgs>(args?: SelectSubset<T, TeamFindFirstOrThrowArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Teams that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Teams
+     * const teams = await prisma.team.findMany()
+     * 
+     * // Get first 10 Teams
+     * const teams = await prisma.team.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const teamWithIdOnly = await prisma.team.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TeamFindManyArgs>(args?: SelectSubset<T, TeamFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Team.
+     * @param {TeamCreateArgs} args - Arguments to create a Team.
+     * @example
+     * // Create one Team
+     * const Team = await prisma.team.create({
+     *   data: {
+     *     // ... data to create a Team
+     *   }
+     * })
+     * 
+     */
+    create<T extends TeamCreateArgs>(args: SelectSubset<T, TeamCreateArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Teams.
+     * @param {TeamCreateManyArgs} args - Arguments to create many Teams.
+     * @example
+     * // Create many Teams
+     * const team = await prisma.team.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TeamCreateManyArgs>(args?: SelectSubset<T, TeamCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Teams and returns the data saved in the database.
+     * @param {TeamCreateManyAndReturnArgs} args - Arguments to create many Teams.
+     * @example
+     * // Create many Teams
+     * const team = await prisma.team.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Teams and only return the `id`
+     * const teamWithIdOnly = await prisma.team.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TeamCreateManyAndReturnArgs>(args?: SelectSubset<T, TeamCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Team.
+     * @param {TeamDeleteArgs} args - Arguments to delete one Team.
+     * @example
+     * // Delete one Team
+     * const Team = await prisma.team.delete({
+     *   where: {
+     *     // ... filter to delete one Team
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TeamDeleteArgs>(args: SelectSubset<T, TeamDeleteArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Team.
+     * @param {TeamUpdateArgs} args - Arguments to update one Team.
+     * @example
+     * // Update one Team
+     * const team = await prisma.team.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TeamUpdateArgs>(args: SelectSubset<T, TeamUpdateArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Teams.
+     * @param {TeamDeleteManyArgs} args - Arguments to filter Teams to delete.
+     * @example
+     * // Delete a few Teams
+     * const { count } = await prisma.team.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TeamDeleteManyArgs>(args?: SelectSubset<T, TeamDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Teams.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Teams
+     * const team = await prisma.team.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TeamUpdateManyArgs>(args: SelectSubset<T, TeamUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Teams and returns the data updated in the database.
+     * @param {TeamUpdateManyAndReturnArgs} args - Arguments to update many Teams.
+     * @example
+     * // Update many Teams
+     * const team = await prisma.team.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Teams and only return the `id`
+     * const teamWithIdOnly = await prisma.team.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TeamUpdateManyAndReturnArgs>(args: SelectSubset<T, TeamUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Team.
+     * @param {TeamUpsertArgs} args - Arguments to update or create a Team.
+     * @example
+     * // Update or create a Team
+     * const team = await prisma.team.upsert({
+     *   create: {
+     *     // ... data to create a Team
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Team we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TeamUpsertArgs>(args: SelectSubset<T, TeamUpsertArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Teams.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamCountArgs} args - Arguments to filter Teams to count.
+     * @example
+     * // Count the number of Teams
+     * const count = await prisma.team.count({
+     *   where: {
+     *     // ... the filter for the Teams we want to count
+     *   }
+     * })
+    **/
+    count<T extends TeamCountArgs>(
+      args?: Subset<T, TeamCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TeamCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Team.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TeamAggregateArgs>(args: Subset<T, TeamAggregateArgs>): Prisma.PrismaPromise<GetTeamAggregateType<T>>
+
+    /**
+     * Group by Team.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TeamGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TeamGroupByArgs['orderBy'] }
+        : { orderBy?: TeamGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TeamGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTeamGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Team model
+   */
+  readonly fields: TeamFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Team.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TeamClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    members<T extends Team$membersArgs<ExtArgs> = {}>(args?: Subset<T, Team$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Team model
+   */
+  interface TeamFieldRefs {
+    readonly id: FieldRef<"Team", 'String'>
+    readonly name: FieldRef<"Team", 'String'>
+    readonly createdAt: FieldRef<"Team", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Team findUnique
+   */
+  export type TeamFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamInclude<ExtArgs> | null
+    /**
+     * Filter, which Team to fetch.
+     */
+    where: TeamWhereUniqueInput
+  }
+
+  /**
+   * Team findUniqueOrThrow
+   */
+  export type TeamFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamInclude<ExtArgs> | null
+    /**
+     * Filter, which Team to fetch.
+     */
+    where: TeamWhereUniqueInput
+  }
+
+  /**
+   * Team findFirst
+   */
+  export type TeamFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamInclude<ExtArgs> | null
+    /**
+     * Filter, which Team to fetch.
+     */
+    where?: TeamWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Teams to fetch.
+     */
+    orderBy?: TeamOrderByWithRelationInput | TeamOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Teams.
+     */
+    cursor?: TeamWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Teams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Teams.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Teams.
+     */
+    distinct?: TeamScalarFieldEnum | TeamScalarFieldEnum[]
+  }
+
+  /**
+   * Team findFirstOrThrow
+   */
+  export type TeamFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamInclude<ExtArgs> | null
+    /**
+     * Filter, which Team to fetch.
+     */
+    where?: TeamWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Teams to fetch.
+     */
+    orderBy?: TeamOrderByWithRelationInput | TeamOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Teams.
+     */
+    cursor?: TeamWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Teams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Teams.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Teams.
+     */
+    distinct?: TeamScalarFieldEnum | TeamScalarFieldEnum[]
+  }
+
+  /**
+   * Team findMany
+   */
+  export type TeamFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamInclude<ExtArgs> | null
+    /**
+     * Filter, which Teams to fetch.
+     */
+    where?: TeamWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Teams to fetch.
+     */
+    orderBy?: TeamOrderByWithRelationInput | TeamOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Teams.
+     */
+    cursor?: TeamWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Teams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Teams.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Teams.
+     */
+    distinct?: TeamScalarFieldEnum | TeamScalarFieldEnum[]
+  }
+
+  /**
+   * Team create
+   */
+  export type TeamCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Team.
+     */
+    data: XOR<TeamCreateInput, TeamUncheckedCreateInput>
+  }
+
+  /**
+   * Team createMany
+   */
+  export type TeamCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Teams.
+     */
+    data: TeamCreateManyInput | TeamCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Team createManyAndReturn
+   */
+  export type TeamCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * The data used to create many Teams.
+     */
+    data: TeamCreateManyInput | TeamCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Team update
+   */
+  export type TeamUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Team.
+     */
+    data: XOR<TeamUpdateInput, TeamUncheckedUpdateInput>
+    /**
+     * Choose, which Team to update.
+     */
+    where: TeamWhereUniqueInput
+  }
+
+  /**
+   * Team updateMany
+   */
+  export type TeamUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Teams.
+     */
+    data: XOR<TeamUpdateManyMutationInput, TeamUncheckedUpdateManyInput>
+    /**
+     * Filter which Teams to update
+     */
+    where?: TeamWhereInput
+    /**
+     * Limit how many Teams to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Team updateManyAndReturn
+   */
+  export type TeamUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * The data used to update Teams.
+     */
+    data: XOR<TeamUpdateManyMutationInput, TeamUncheckedUpdateManyInput>
+    /**
+     * Filter which Teams to update
+     */
+    where?: TeamWhereInput
+    /**
+     * Limit how many Teams to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Team upsert
+   */
+  export type TeamUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Team to update in case it exists.
+     */
+    where: TeamWhereUniqueInput
+    /**
+     * In case the Team found by the `where` argument doesn't exist, create a new Team with this data.
+     */
+    create: XOR<TeamCreateInput, TeamUncheckedCreateInput>
+    /**
+     * In case the Team was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TeamUpdateInput, TeamUncheckedUpdateInput>
+  }
+
+  /**
+   * Team delete
+   */
+  export type TeamDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamInclude<ExtArgs> | null
+    /**
+     * Filter which Team to delete.
+     */
+    where: TeamWhereUniqueInput
+  }
+
+  /**
+   * Team deleteMany
+   */
+  export type TeamDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Teams to delete
+     */
+    where?: TeamWhereInput
+    /**
+     * Limit how many Teams to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Team.members
+   */
+  export type Team$membersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberInclude<ExtArgs> | null
+    where?: TeamMemberWhereInput
+    orderBy?: TeamMemberOrderByWithRelationInput | TeamMemberOrderByWithRelationInput[]
+    cursor?: TeamMemberWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TeamMemberScalarFieldEnum | TeamMemberScalarFieldEnum[]
+  }
+
+  /**
+   * Team without action
+   */
+  export type TeamDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TeamMember
+   */
+
+  export type AggregateTeamMember = {
+    _count: TeamMemberCountAggregateOutputType | null
+    _min: TeamMemberMinAggregateOutputType | null
+    _max: TeamMemberMaxAggregateOutputType | null
+  }
+
+  export type TeamMemberMinAggregateOutputType = {
+    teamId: string | null
+    userId: string | null
+  }
+
+  export type TeamMemberMaxAggregateOutputType = {
+    teamId: string | null
+    userId: string | null
+  }
+
+  export type TeamMemberCountAggregateOutputType = {
+    teamId: number
+    userId: number
+    _all: number
+  }
+
+
+  export type TeamMemberMinAggregateInputType = {
+    teamId?: true
+    userId?: true
+  }
+
+  export type TeamMemberMaxAggregateInputType = {
+    teamId?: true
+    userId?: true
+  }
+
+  export type TeamMemberCountAggregateInputType = {
+    teamId?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type TeamMemberAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TeamMember to aggregate.
+     */
+    where?: TeamMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TeamMembers to fetch.
+     */
+    orderBy?: TeamMemberOrderByWithRelationInput | TeamMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TeamMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TeamMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TeamMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TeamMembers
+    **/
+    _count?: true | TeamMemberCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TeamMemberMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TeamMemberMaxAggregateInputType
+  }
+
+  export type GetTeamMemberAggregateType<T extends TeamMemberAggregateArgs> = {
+        [P in keyof T & keyof AggregateTeamMember]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTeamMember[P]>
+      : GetScalarType<T[P], AggregateTeamMember[P]>
+  }
+
+
+
+
+  export type TeamMemberGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TeamMemberWhereInput
+    orderBy?: TeamMemberOrderByWithAggregationInput | TeamMemberOrderByWithAggregationInput[]
+    by: TeamMemberScalarFieldEnum[] | TeamMemberScalarFieldEnum
+    having?: TeamMemberScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TeamMemberCountAggregateInputType | true
+    _min?: TeamMemberMinAggregateInputType
+    _max?: TeamMemberMaxAggregateInputType
+  }
+
+  export type TeamMemberGroupByOutputType = {
+    teamId: string
+    userId: string
+    _count: TeamMemberCountAggregateOutputType | null
+    _min: TeamMemberMinAggregateOutputType | null
+    _max: TeamMemberMaxAggregateOutputType | null
+  }
+
+  type GetTeamMemberGroupByPayload<T extends TeamMemberGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TeamMemberGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TeamMemberGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TeamMemberGroupByOutputType[P]>
+            : GetScalarType<T[P], TeamMemberGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TeamMemberSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    teamId?: boolean
+    userId?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["teamMember"]>
+
+  export type TeamMemberSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    teamId?: boolean
+    userId?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["teamMember"]>
+
+  export type TeamMemberSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    teamId?: boolean
+    userId?: boolean
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["teamMember"]>
+
+  export type TeamMemberSelectScalar = {
+    teamId?: boolean
+    userId?: boolean
+  }
+
+  export type TeamMemberOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"teamId" | "userId", ExtArgs["result"]["teamMember"]>
+  export type TeamMemberInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type TeamMemberIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type TeamMemberIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $TeamMemberPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TeamMember"
+    objects: {
+      team: Prisma.$TeamPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      teamId: string
+      userId: string
+    }, ExtArgs["result"]["teamMember"]>
+    composites: {}
+  }
+
+  type TeamMemberGetPayload<S extends boolean | null | undefined | TeamMemberDefaultArgs> = $Result.GetResult<Prisma.$TeamMemberPayload, S>
+
+  type TeamMemberCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TeamMemberFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TeamMemberCountAggregateInputType | true
+    }
+
+  export interface TeamMemberDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TeamMember'], meta: { name: 'TeamMember' } }
+    /**
+     * Find zero or one TeamMember that matches the filter.
+     * @param {TeamMemberFindUniqueArgs} args - Arguments to find a TeamMember
+     * @example
+     * // Get one TeamMember
+     * const teamMember = await prisma.teamMember.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TeamMemberFindUniqueArgs>(args: SelectSubset<T, TeamMemberFindUniqueArgs<ExtArgs>>): Prisma__TeamMemberClient<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TeamMember that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TeamMemberFindUniqueOrThrowArgs} args - Arguments to find a TeamMember
+     * @example
+     * // Get one TeamMember
+     * const teamMember = await prisma.teamMember.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TeamMemberFindUniqueOrThrowArgs>(args: SelectSubset<T, TeamMemberFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TeamMemberClient<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TeamMember that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamMemberFindFirstArgs} args - Arguments to find a TeamMember
+     * @example
+     * // Get one TeamMember
+     * const teamMember = await prisma.teamMember.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TeamMemberFindFirstArgs>(args?: SelectSubset<T, TeamMemberFindFirstArgs<ExtArgs>>): Prisma__TeamMemberClient<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TeamMember that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamMemberFindFirstOrThrowArgs} args - Arguments to find a TeamMember
+     * @example
+     * // Get one TeamMember
+     * const teamMember = await prisma.teamMember.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TeamMemberFindFirstOrThrowArgs>(args?: SelectSubset<T, TeamMemberFindFirstOrThrowArgs<ExtArgs>>): Prisma__TeamMemberClient<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TeamMembers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamMemberFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TeamMembers
+     * const teamMembers = await prisma.teamMember.findMany()
+     * 
+     * // Get first 10 TeamMembers
+     * const teamMembers = await prisma.teamMember.findMany({ take: 10 })
+     * 
+     * // Only select the `teamId`
+     * const teamMemberWithTeamIdOnly = await prisma.teamMember.findMany({ select: { teamId: true } })
+     * 
+     */
+    findMany<T extends TeamMemberFindManyArgs>(args?: SelectSubset<T, TeamMemberFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TeamMember.
+     * @param {TeamMemberCreateArgs} args - Arguments to create a TeamMember.
+     * @example
+     * // Create one TeamMember
+     * const TeamMember = await prisma.teamMember.create({
+     *   data: {
+     *     // ... data to create a TeamMember
+     *   }
+     * })
+     * 
+     */
+    create<T extends TeamMemberCreateArgs>(args: SelectSubset<T, TeamMemberCreateArgs<ExtArgs>>): Prisma__TeamMemberClient<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TeamMembers.
+     * @param {TeamMemberCreateManyArgs} args - Arguments to create many TeamMembers.
+     * @example
+     * // Create many TeamMembers
+     * const teamMember = await prisma.teamMember.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TeamMemberCreateManyArgs>(args?: SelectSubset<T, TeamMemberCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TeamMembers and returns the data saved in the database.
+     * @param {TeamMemberCreateManyAndReturnArgs} args - Arguments to create many TeamMembers.
+     * @example
+     * // Create many TeamMembers
+     * const teamMember = await prisma.teamMember.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TeamMembers and only return the `teamId`
+     * const teamMemberWithTeamIdOnly = await prisma.teamMember.createManyAndReturn({
+     *   select: { teamId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TeamMemberCreateManyAndReturnArgs>(args?: SelectSubset<T, TeamMemberCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TeamMember.
+     * @param {TeamMemberDeleteArgs} args - Arguments to delete one TeamMember.
+     * @example
+     * // Delete one TeamMember
+     * const TeamMember = await prisma.teamMember.delete({
+     *   where: {
+     *     // ... filter to delete one TeamMember
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TeamMemberDeleteArgs>(args: SelectSubset<T, TeamMemberDeleteArgs<ExtArgs>>): Prisma__TeamMemberClient<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TeamMember.
+     * @param {TeamMemberUpdateArgs} args - Arguments to update one TeamMember.
+     * @example
+     * // Update one TeamMember
+     * const teamMember = await prisma.teamMember.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TeamMemberUpdateArgs>(args: SelectSubset<T, TeamMemberUpdateArgs<ExtArgs>>): Prisma__TeamMemberClient<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TeamMembers.
+     * @param {TeamMemberDeleteManyArgs} args - Arguments to filter TeamMembers to delete.
+     * @example
+     * // Delete a few TeamMembers
+     * const { count } = await prisma.teamMember.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TeamMemberDeleteManyArgs>(args?: SelectSubset<T, TeamMemberDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TeamMembers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamMemberUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TeamMembers
+     * const teamMember = await prisma.teamMember.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TeamMemberUpdateManyArgs>(args: SelectSubset<T, TeamMemberUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TeamMembers and returns the data updated in the database.
+     * @param {TeamMemberUpdateManyAndReturnArgs} args - Arguments to update many TeamMembers.
+     * @example
+     * // Update many TeamMembers
+     * const teamMember = await prisma.teamMember.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TeamMembers and only return the `teamId`
+     * const teamMemberWithTeamIdOnly = await prisma.teamMember.updateManyAndReturn({
+     *   select: { teamId: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TeamMemberUpdateManyAndReturnArgs>(args: SelectSubset<T, TeamMemberUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TeamMember.
+     * @param {TeamMemberUpsertArgs} args - Arguments to update or create a TeamMember.
+     * @example
+     * // Update or create a TeamMember
+     * const teamMember = await prisma.teamMember.upsert({
+     *   create: {
+     *     // ... data to create a TeamMember
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TeamMember we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TeamMemberUpsertArgs>(args: SelectSubset<T, TeamMemberUpsertArgs<ExtArgs>>): Prisma__TeamMemberClient<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TeamMembers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamMemberCountArgs} args - Arguments to filter TeamMembers to count.
+     * @example
+     * // Count the number of TeamMembers
+     * const count = await prisma.teamMember.count({
+     *   where: {
+     *     // ... the filter for the TeamMembers we want to count
+     *   }
+     * })
+    **/
+    count<T extends TeamMemberCountArgs>(
+      args?: Subset<T, TeamMemberCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TeamMemberCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TeamMember.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamMemberAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TeamMemberAggregateArgs>(args: Subset<T, TeamMemberAggregateArgs>): Prisma.PrismaPromise<GetTeamMemberAggregateType<T>>
+
+    /**
+     * Group by TeamMember.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamMemberGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TeamMemberGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TeamMemberGroupByArgs['orderBy'] }
+        : { orderBy?: TeamMemberGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TeamMemberGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTeamMemberGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TeamMember model
+   */
+  readonly fields: TeamMemberFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TeamMember.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TeamMemberClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    team<T extends TeamDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TeamDefaultArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TeamMember model
+   */
+  interface TeamMemberFieldRefs {
+    readonly teamId: FieldRef<"TeamMember", 'String'>
+    readonly userId: FieldRef<"TeamMember", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TeamMember findUnique
+   */
+  export type TeamMemberFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which TeamMember to fetch.
+     */
+    where: TeamMemberWhereUniqueInput
+  }
+
+  /**
+   * TeamMember findUniqueOrThrow
+   */
+  export type TeamMemberFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which TeamMember to fetch.
+     */
+    where: TeamMemberWhereUniqueInput
+  }
+
+  /**
+   * TeamMember findFirst
+   */
+  export type TeamMemberFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which TeamMember to fetch.
+     */
+    where?: TeamMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TeamMembers to fetch.
+     */
+    orderBy?: TeamMemberOrderByWithRelationInput | TeamMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TeamMembers.
+     */
+    cursor?: TeamMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TeamMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TeamMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TeamMembers.
+     */
+    distinct?: TeamMemberScalarFieldEnum | TeamMemberScalarFieldEnum[]
+  }
+
+  /**
+   * TeamMember findFirstOrThrow
+   */
+  export type TeamMemberFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which TeamMember to fetch.
+     */
+    where?: TeamMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TeamMembers to fetch.
+     */
+    orderBy?: TeamMemberOrderByWithRelationInput | TeamMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TeamMembers.
+     */
+    cursor?: TeamMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TeamMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TeamMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TeamMembers.
+     */
+    distinct?: TeamMemberScalarFieldEnum | TeamMemberScalarFieldEnum[]
+  }
+
+  /**
+   * TeamMember findMany
+   */
+  export type TeamMemberFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which TeamMembers to fetch.
+     */
+    where?: TeamMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TeamMembers to fetch.
+     */
+    orderBy?: TeamMemberOrderByWithRelationInput | TeamMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TeamMembers.
+     */
+    cursor?: TeamMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TeamMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TeamMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TeamMembers.
+     */
+    distinct?: TeamMemberScalarFieldEnum | TeamMemberScalarFieldEnum[]
+  }
+
+  /**
+   * TeamMember create
+   */
+  export type TeamMemberCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TeamMember.
+     */
+    data: XOR<TeamMemberCreateInput, TeamMemberUncheckedCreateInput>
+  }
+
+  /**
+   * TeamMember createMany
+   */
+  export type TeamMemberCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TeamMembers.
+     */
+    data: TeamMemberCreateManyInput | TeamMemberCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TeamMember createManyAndReturn
+   */
+  export type TeamMemberCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * The data used to create many TeamMembers.
+     */
+    data: TeamMemberCreateManyInput | TeamMemberCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TeamMember update
+   */
+  export type TeamMemberUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TeamMember.
+     */
+    data: XOR<TeamMemberUpdateInput, TeamMemberUncheckedUpdateInput>
+    /**
+     * Choose, which TeamMember to update.
+     */
+    where: TeamMemberWhereUniqueInput
+  }
+
+  /**
+   * TeamMember updateMany
+   */
+  export type TeamMemberUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TeamMembers.
+     */
+    data: XOR<TeamMemberUpdateManyMutationInput, TeamMemberUncheckedUpdateManyInput>
+    /**
+     * Filter which TeamMembers to update
+     */
+    where?: TeamMemberWhereInput
+    /**
+     * Limit how many TeamMembers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TeamMember updateManyAndReturn
+   */
+  export type TeamMemberUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * The data used to update TeamMembers.
+     */
+    data: XOR<TeamMemberUpdateManyMutationInput, TeamMemberUncheckedUpdateManyInput>
+    /**
+     * Filter which TeamMembers to update
+     */
+    where?: TeamMemberWhereInput
+    /**
+     * Limit how many TeamMembers to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TeamMember upsert
+   */
+  export type TeamMemberUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TeamMember to update in case it exists.
+     */
+    where: TeamMemberWhereUniqueInput
+    /**
+     * In case the TeamMember found by the `where` argument doesn't exist, create a new TeamMember with this data.
+     */
+    create: XOR<TeamMemberCreateInput, TeamMemberUncheckedCreateInput>
+    /**
+     * In case the TeamMember was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TeamMemberUpdateInput, TeamMemberUncheckedUpdateInput>
+  }
+
+  /**
+   * TeamMember delete
+   */
+  export type TeamMemberDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberInclude<ExtArgs> | null
+    /**
+     * Filter which TeamMember to delete.
+     */
+    where: TeamMemberWhereUniqueInput
+  }
+
+  /**
+   * TeamMember deleteMany
+   */
+  export type TeamMemberDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TeamMembers to delete
+     */
+    where?: TeamMemberWhereInput
+    /**
+     * Limit how many TeamMembers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TeamMember without action
+   */
+  export type TeamMemberDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model TimeTrackingPolicy
    */
 
@@ -115299,6 +117638,23 @@ export namespace Prisma {
   export type TimesheetLockScalarFieldEnum = (typeof TimesheetLockScalarFieldEnum)[keyof typeof TimesheetLockScalarFieldEnum]
 
 
+  export const TeamScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    createdAt: 'createdAt'
+  };
+
+  export type TeamScalarFieldEnum = (typeof TeamScalarFieldEnum)[keyof typeof TeamScalarFieldEnum]
+
+
+  export const TeamMemberScalarFieldEnum: {
+    teamId: 'teamId',
+    userId: 'userId'
+  };
+
+  export type TeamMemberScalarFieldEnum = (typeof TeamMemberScalarFieldEnum)[keyof typeof TeamMemberScalarFieldEnum]
+
+
   export const TimeTrackingPolicyScalarFieldEnum: {
     id: 'id',
     maxDailyHours: 'maxDailyHours',
@@ -116601,6 +118957,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockListRelationFilter
     lockedTimesheets?: TimesheetLockListRelationFilter
     lockedFinancialPeriods?: FinancialPeriodLockListRelationFilter
+    teamMemberships?: TeamMemberListRelationFilter
     holidayCalendar?: XOR<HolidayCalendarNullableScalarRelationFilter, HolidayCalendarWhereInput> | null
     resourceBookings?: ResourceBookingListRelationFilter
     createdResourceBookings?: ResourceBookingListRelationFilter
@@ -116678,6 +119035,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockOrderByRelationAggregateInput
     lockedTimesheets?: TimesheetLockOrderByRelationAggregateInput
     lockedFinancialPeriods?: FinancialPeriodLockOrderByRelationAggregateInput
+    teamMemberships?: TeamMemberOrderByRelationAggregateInput
     holidayCalendar?: HolidayCalendarOrderByWithRelationInput
     resourceBookings?: ResourceBookingOrderByRelationAggregateInput
     createdResourceBookings?: ResourceBookingOrderByRelationAggregateInput
@@ -116758,6 +119116,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockListRelationFilter
     lockedTimesheets?: TimesheetLockListRelationFilter
     lockedFinancialPeriods?: FinancialPeriodLockListRelationFilter
+    teamMemberships?: TeamMemberListRelationFilter
     holidayCalendar?: XOR<HolidayCalendarNullableScalarRelationFilter, HolidayCalendarWhereInput> | null
     resourceBookings?: ResourceBookingListRelationFilter
     createdResourceBookings?: ResourceBookingListRelationFilter
@@ -120215,6 +122574,95 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"TimesheetLock"> | Date | string
   }
 
+  export type TeamWhereInput = {
+    AND?: TeamWhereInput | TeamWhereInput[]
+    OR?: TeamWhereInput[]
+    NOT?: TeamWhereInput | TeamWhereInput[]
+    id?: StringFilter<"Team"> | string
+    name?: StringFilter<"Team"> | string
+    createdAt?: DateTimeFilter<"Team"> | Date | string
+    members?: TeamMemberListRelationFilter
+  }
+
+  export type TeamOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    members?: TeamMemberOrderByRelationAggregateInput
+  }
+
+  export type TeamWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: TeamWhereInput | TeamWhereInput[]
+    OR?: TeamWhereInput[]
+    NOT?: TeamWhereInput | TeamWhereInput[]
+    name?: StringFilter<"Team"> | string
+    createdAt?: DateTimeFilter<"Team"> | Date | string
+    members?: TeamMemberListRelationFilter
+  }, "id">
+
+  export type TeamOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    _count?: TeamCountOrderByAggregateInput
+    _max?: TeamMaxOrderByAggregateInput
+    _min?: TeamMinOrderByAggregateInput
+  }
+
+  export type TeamScalarWhereWithAggregatesInput = {
+    AND?: TeamScalarWhereWithAggregatesInput | TeamScalarWhereWithAggregatesInput[]
+    OR?: TeamScalarWhereWithAggregatesInput[]
+    NOT?: TeamScalarWhereWithAggregatesInput | TeamScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Team"> | string
+    name?: StringWithAggregatesFilter<"Team"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Team"> | Date | string
+  }
+
+  export type TeamMemberWhereInput = {
+    AND?: TeamMemberWhereInput | TeamMemberWhereInput[]
+    OR?: TeamMemberWhereInput[]
+    NOT?: TeamMemberWhereInput | TeamMemberWhereInput[]
+    teamId?: StringFilter<"TeamMember"> | string
+    userId?: StringFilter<"TeamMember"> | string
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type TeamMemberOrderByWithRelationInput = {
+    teamId?: SortOrder
+    userId?: SortOrder
+    team?: TeamOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type TeamMemberWhereUniqueInput = Prisma.AtLeast<{
+    teamId_userId?: TeamMemberTeamIdUserIdCompoundUniqueInput
+    AND?: TeamMemberWhereInput | TeamMemberWhereInput[]
+    OR?: TeamMemberWhereInput[]
+    NOT?: TeamMemberWhereInput | TeamMemberWhereInput[]
+    teamId?: StringFilter<"TeamMember"> | string
+    userId?: StringFilter<"TeamMember"> | string
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "teamId_userId">
+
+  export type TeamMemberOrderByWithAggregationInput = {
+    teamId?: SortOrder
+    userId?: SortOrder
+    _count?: TeamMemberCountOrderByAggregateInput
+    _max?: TeamMemberMaxOrderByAggregateInput
+    _min?: TeamMemberMinOrderByAggregateInput
+  }
+
+  export type TeamMemberScalarWhereWithAggregatesInput = {
+    AND?: TeamMemberScalarWhereWithAggregatesInput | TeamMemberScalarWhereWithAggregatesInput[]
+    OR?: TeamMemberScalarWhereWithAggregatesInput[]
+    NOT?: TeamMemberScalarWhereWithAggregatesInput | TeamMemberScalarWhereWithAggregatesInput[]
+    teamId?: StringWithAggregatesFilter<"TeamMember"> | string
+    userId?: StringWithAggregatesFilter<"TeamMember"> | string
+  }
+
   export type TimeTrackingPolicyWhereInput = {
     AND?: TimeTrackingPolicyWhereInput | TimeTrackingPolicyWhereInput[]
     OR?: TimeTrackingPolicyWhereInput[]
@@ -123314,6 +125762,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -123389,6 +125838,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -123462,6 +125912,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -123537,6 +125988,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -127132,6 +129584,86 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type TeamCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    members?: TeamMemberCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamUncheckedCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    members?: TeamMemberUncheckedCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: TeamMemberUpdateManyWithoutTeamNestedInput
+  }
+
+  export type TeamUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
+  }
+
+  export type TeamCreateManyInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type TeamUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeamUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeamMemberCreateInput = {
+    team: TeamCreateNestedOneWithoutMembersInput
+    user: UserCreateNestedOneWithoutTeamMembershipsInput
+  }
+
+  export type TeamMemberUncheckedCreateInput = {
+    teamId: string
+    userId: string
+  }
+
+  export type TeamMemberUpdateInput = {
+    team?: TeamUpdateOneRequiredWithoutMembersNestedInput
+    user?: UserUpdateOneRequiredWithoutTeamMembershipsNestedInput
+  }
+
+  export type TeamMemberUncheckedUpdateInput = {
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TeamMemberCreateManyInput = {
+    teamId: string
+    userId: string
+  }
+
+  export type TeamMemberUpdateManyMutationInput = {
+
+  }
+
+  export type TeamMemberUncheckedUpdateManyInput = {
+    teamId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type TimeTrackingPolicyCreateInput = {
     id?: string
     maxDailyHours?: number | null
@@ -130543,6 +133075,12 @@ export namespace Prisma {
     none?: FinancialPeriodLockWhereInput
   }
 
+  export type TeamMemberListRelationFilter = {
+    every?: TeamMemberWhereInput
+    some?: TeamMemberWhereInput
+    none?: TeamMemberWhereInput
+  }
+
   export type HolidayCalendarNullableScalarRelationFilter = {
     is?: HolidayCalendarWhereInput | null
     isNot?: HolidayCalendarWhereInput | null
@@ -130758,6 +133296,10 @@ export namespace Prisma {
   }
 
   export type FinancialPeriodLockOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TeamMemberOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -133434,6 +135976,49 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type TeamCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TeamMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TeamMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TeamScalarRelationFilter = {
+    is?: TeamWhereInput
+    isNot?: TeamWhereInput
+  }
+
+  export type TeamMemberTeamIdUserIdCompoundUniqueInput = {
+    teamId: string
+    userId: string
+  }
+
+  export type TeamMemberCountOrderByAggregateInput = {
+    teamId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type TeamMemberMaxOrderByAggregateInput = {
+    teamId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type TeamMemberMinOrderByAggregateInput = {
+    teamId?: SortOrder
+    userId?: SortOrder
+  }
+
   export type TimeTrackingPolicyCountOrderByAggregateInput = {
     id?: SortOrder
     maxDailyHours?: SortOrder
@@ -135730,6 +138315,13 @@ export namespace Prisma {
     connect?: FinancialPeriodLockWhereUniqueInput | FinancialPeriodLockWhereUniqueInput[]
   }
 
+  export type TeamMemberCreateNestedManyWithoutUserInput = {
+    create?: XOR<TeamMemberCreateWithoutUserInput, TeamMemberUncheckedCreateWithoutUserInput> | TeamMemberCreateWithoutUserInput[] | TeamMemberUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TeamMemberCreateOrConnectWithoutUserInput | TeamMemberCreateOrConnectWithoutUserInput[]
+    createMany?: TeamMemberCreateManyUserInputEnvelope
+    connect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+  }
+
   export type HolidayCalendarCreateNestedOneWithoutUsersInput = {
     create?: XOR<HolidayCalendarCreateWithoutUsersInput, HolidayCalendarUncheckedCreateWithoutUsersInput>
     connectOrCreate?: HolidayCalendarCreateOrConnectWithoutUsersInput
@@ -136105,6 +138697,13 @@ export namespace Prisma {
     connectOrCreate?: FinancialPeriodLockCreateOrConnectWithoutLockedByInput | FinancialPeriodLockCreateOrConnectWithoutLockedByInput[]
     createMany?: FinancialPeriodLockCreateManyLockedByInputEnvelope
     connect?: FinancialPeriodLockWhereUniqueInput | FinancialPeriodLockWhereUniqueInput[]
+  }
+
+  export type TeamMemberUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<TeamMemberCreateWithoutUserInput, TeamMemberUncheckedCreateWithoutUserInput> | TeamMemberCreateWithoutUserInput[] | TeamMemberUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TeamMemberCreateOrConnectWithoutUserInput | TeamMemberCreateOrConnectWithoutUserInput[]
+    createMany?: TeamMemberCreateManyUserInputEnvelope
+    connect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
   }
 
   export type ResourceBookingUncheckedCreateNestedManyWithoutUserInput = {
@@ -136823,6 +139422,20 @@ export namespace Prisma {
     update?: FinancialPeriodLockUpdateWithWhereUniqueWithoutLockedByInput | FinancialPeriodLockUpdateWithWhereUniqueWithoutLockedByInput[]
     updateMany?: FinancialPeriodLockUpdateManyWithWhereWithoutLockedByInput | FinancialPeriodLockUpdateManyWithWhereWithoutLockedByInput[]
     deleteMany?: FinancialPeriodLockScalarWhereInput | FinancialPeriodLockScalarWhereInput[]
+  }
+
+  export type TeamMemberUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TeamMemberCreateWithoutUserInput, TeamMemberUncheckedCreateWithoutUserInput> | TeamMemberCreateWithoutUserInput[] | TeamMemberUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TeamMemberCreateOrConnectWithoutUserInput | TeamMemberCreateOrConnectWithoutUserInput[]
+    upsert?: TeamMemberUpsertWithWhereUniqueWithoutUserInput | TeamMemberUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TeamMemberCreateManyUserInputEnvelope
+    set?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    disconnect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    delete?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    connect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    update?: TeamMemberUpdateWithWhereUniqueWithoutUserInput | TeamMemberUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TeamMemberUpdateManyWithWhereWithoutUserInput | TeamMemberUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TeamMemberScalarWhereInput | TeamMemberScalarWhereInput[]
   }
 
   export type HolidayCalendarUpdateOneWithoutUsersNestedInput = {
@@ -137575,6 +140188,20 @@ export namespace Prisma {
     update?: FinancialPeriodLockUpdateWithWhereUniqueWithoutLockedByInput | FinancialPeriodLockUpdateWithWhereUniqueWithoutLockedByInput[]
     updateMany?: FinancialPeriodLockUpdateManyWithWhereWithoutLockedByInput | FinancialPeriodLockUpdateManyWithWhereWithoutLockedByInput[]
     deleteMany?: FinancialPeriodLockScalarWhereInput | FinancialPeriodLockScalarWhereInput[]
+  }
+
+  export type TeamMemberUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TeamMemberCreateWithoutUserInput, TeamMemberUncheckedCreateWithoutUserInput> | TeamMemberCreateWithoutUserInput[] | TeamMemberUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TeamMemberCreateOrConnectWithoutUserInput | TeamMemberCreateOrConnectWithoutUserInput[]
+    upsert?: TeamMemberUpsertWithWhereUniqueWithoutUserInput | TeamMemberUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TeamMemberCreateManyUserInputEnvelope
+    set?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    disconnect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    delete?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    connect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    update?: TeamMemberUpdateWithWhereUniqueWithoutUserInput | TeamMemberUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TeamMemberUpdateManyWithWhereWithoutUserInput | TeamMemberUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TeamMemberScalarWhereInput | TeamMemberScalarWhereInput[]
   }
 
   export type ResourceBookingUncheckedUpdateManyWithoutUserNestedInput = {
@@ -141884,6 +144511,76 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutLockedTimesheetsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLockedTimesheetsInput, UserUpdateWithoutLockedTimesheetsInput>, UserUncheckedUpdateWithoutLockedTimesheetsInput>
+  }
+
+  export type TeamMemberCreateNestedManyWithoutTeamInput = {
+    create?: XOR<TeamMemberCreateWithoutTeamInput, TeamMemberUncheckedCreateWithoutTeamInput> | TeamMemberCreateWithoutTeamInput[] | TeamMemberUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: TeamMemberCreateOrConnectWithoutTeamInput | TeamMemberCreateOrConnectWithoutTeamInput[]
+    createMany?: TeamMemberCreateManyTeamInputEnvelope
+    connect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+  }
+
+  export type TeamMemberUncheckedCreateNestedManyWithoutTeamInput = {
+    create?: XOR<TeamMemberCreateWithoutTeamInput, TeamMemberUncheckedCreateWithoutTeamInput> | TeamMemberCreateWithoutTeamInput[] | TeamMemberUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: TeamMemberCreateOrConnectWithoutTeamInput | TeamMemberCreateOrConnectWithoutTeamInput[]
+    createMany?: TeamMemberCreateManyTeamInputEnvelope
+    connect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+  }
+
+  export type TeamMemberUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<TeamMemberCreateWithoutTeamInput, TeamMemberUncheckedCreateWithoutTeamInput> | TeamMemberCreateWithoutTeamInput[] | TeamMemberUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: TeamMemberCreateOrConnectWithoutTeamInput | TeamMemberCreateOrConnectWithoutTeamInput[]
+    upsert?: TeamMemberUpsertWithWhereUniqueWithoutTeamInput | TeamMemberUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: TeamMemberCreateManyTeamInputEnvelope
+    set?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    disconnect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    delete?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    connect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    update?: TeamMemberUpdateWithWhereUniqueWithoutTeamInput | TeamMemberUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: TeamMemberUpdateManyWithWhereWithoutTeamInput | TeamMemberUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: TeamMemberScalarWhereInput | TeamMemberScalarWhereInput[]
+  }
+
+  export type TeamMemberUncheckedUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<TeamMemberCreateWithoutTeamInput, TeamMemberUncheckedCreateWithoutTeamInput> | TeamMemberCreateWithoutTeamInput[] | TeamMemberUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: TeamMemberCreateOrConnectWithoutTeamInput | TeamMemberCreateOrConnectWithoutTeamInput[]
+    upsert?: TeamMemberUpsertWithWhereUniqueWithoutTeamInput | TeamMemberUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: TeamMemberCreateManyTeamInputEnvelope
+    set?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    disconnect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    delete?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    connect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    update?: TeamMemberUpdateWithWhereUniqueWithoutTeamInput | TeamMemberUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: TeamMemberUpdateManyWithWhereWithoutTeamInput | TeamMemberUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: TeamMemberScalarWhereInput | TeamMemberScalarWhereInput[]
+  }
+
+  export type TeamCreateNestedOneWithoutMembersInput = {
+    create?: XOR<TeamCreateWithoutMembersInput, TeamUncheckedCreateWithoutMembersInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutMembersInput
+    connect?: TeamWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutTeamMembershipsInput = {
+    create?: XOR<UserCreateWithoutTeamMembershipsInput, UserUncheckedCreateWithoutTeamMembershipsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTeamMembershipsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type TeamUpdateOneRequiredWithoutMembersNestedInput = {
+    create?: XOR<TeamCreateWithoutMembersInput, TeamUncheckedCreateWithoutMembersInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutMembersInput
+    upsert?: TeamUpsertWithoutMembersInput
+    connect?: TeamWhereUniqueInput
+    update?: XOR<XOR<TeamUpdateToOneWithWhereWithoutMembersInput, TeamUpdateWithoutMembersInput>, TeamUncheckedUpdateWithoutMembersInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutTeamMembershipsNestedInput = {
+    create?: XOR<UserCreateWithoutTeamMembershipsInput, UserUncheckedCreateWithoutTeamMembershipsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTeamMembershipsInput
+    upsert?: UserUpsertWithoutTeamMembershipsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTeamMembershipsInput, UserUpdateWithoutTeamMembershipsInput>, UserUncheckedUpdateWithoutTeamMembershipsInput>
   }
 
   export type HolidayCreateNestedManyWithoutCalendarInput = {
@@ -146495,6 +149192,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -146569,6 +149267,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -146646,6 +149345,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -146720,6 +149420,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -147061,6 +149762,24 @@ export namespace Prisma {
 
   export type FinancialPeriodLockCreateManyLockedByInputEnvelope = {
     data: FinancialPeriodLockCreateManyLockedByInput | FinancialPeriodLockCreateManyLockedByInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TeamMemberCreateWithoutUserInput = {
+    team: TeamCreateNestedOneWithoutMembersInput
+  }
+
+  export type TeamMemberUncheckedCreateWithoutUserInput = {
+    teamId: string
+  }
+
+  export type TeamMemberCreateOrConnectWithoutUserInput = {
+    where: TeamMemberWhereUniqueInput
+    create: XOR<TeamMemberCreateWithoutUserInput, TeamMemberUncheckedCreateWithoutUserInput>
+  }
+
+  export type TeamMemberCreateManyUserInputEnvelope = {
+    data: TeamMemberCreateManyUserInput | TeamMemberCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -148499,6 +151218,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -148573,6 +151293,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -148873,6 +151594,30 @@ export namespace Prisma {
     locked?: BoolFilter<"FinancialPeriodLock"> | boolean
     lockedById?: StringNullableFilter<"FinancialPeriodLock"> | string | null
     updatedAt?: DateTimeFilter<"FinancialPeriodLock"> | Date | string
+  }
+
+  export type TeamMemberUpsertWithWhereUniqueWithoutUserInput = {
+    where: TeamMemberWhereUniqueInput
+    update: XOR<TeamMemberUpdateWithoutUserInput, TeamMemberUncheckedUpdateWithoutUserInput>
+    create: XOR<TeamMemberCreateWithoutUserInput, TeamMemberUncheckedCreateWithoutUserInput>
+  }
+
+  export type TeamMemberUpdateWithWhereUniqueWithoutUserInput = {
+    where: TeamMemberWhereUniqueInput
+    data: XOR<TeamMemberUpdateWithoutUserInput, TeamMemberUncheckedUpdateWithoutUserInput>
+  }
+
+  export type TeamMemberUpdateManyWithWhereWithoutUserInput = {
+    where: TeamMemberScalarWhereInput
+    data: XOR<TeamMemberUpdateManyMutationInput, TeamMemberUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type TeamMemberScalarWhereInput = {
+    AND?: TeamMemberScalarWhereInput | TeamMemberScalarWhereInput[]
+    OR?: TeamMemberScalarWhereInput[]
+    NOT?: TeamMemberScalarWhereInput | TeamMemberScalarWhereInput[]
+    teamId?: StringFilter<"TeamMember"> | string
+    userId?: StringFilter<"TeamMember"> | string
   }
 
   export type HolidayCalendarUpsertWithoutUsersInput = {
@@ -149304,6 +152049,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -149378,6 +152124,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -149749,6 +152496,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -149823,6 +152571,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -150430,6 +153179,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -150504,6 +153254,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -150788,6 +153539,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -150862,6 +153614,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -151150,6 +153903,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -151224,6 +153978,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -151411,6 +154166,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -151485,6 +154241,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -151557,6 +154314,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -151631,6 +154389,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -151862,6 +154621,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -151936,6 +154696,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -152144,6 +154905,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -152218,6 +154980,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -152317,6 +155080,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -152391,6 +155155,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -152468,6 +155233,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -152542,6 +155308,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -152630,6 +155397,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -152704,6 +155472,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -152787,6 +155556,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -152861,6 +155631,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -152933,6 +155704,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -153007,6 +155779,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -153095,6 +155868,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -153169,6 +155943,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -153241,6 +156016,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -153315,6 +156091,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -153403,6 +156180,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -153477,6 +156255,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -153549,6 +156328,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -153623,6 +156403,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -153711,6 +156492,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -153785,6 +156567,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -153950,6 +156733,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -154024,6 +156808,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -154211,6 +156996,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -154285,6 +157071,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -155110,6 +157897,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -155184,6 +157972,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -156024,6 +158813,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -156098,6 +158888,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -157993,6 +160784,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -158067,6 +160859,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -158254,6 +161047,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -158328,6 +161122,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -158493,6 +161288,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -158567,6 +161363,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -158754,6 +161551,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -158828,6 +161626,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -159393,6 +162192,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -159467,6 +162267,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -160338,6 +163139,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -160412,6 +163214,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -161344,6 +164147,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -161418,6 +164222,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -161601,6 +164406,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -161675,6 +164481,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -161836,6 +164643,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -161910,6 +164718,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -162093,6 +164902,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -162167,6 +164977,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -162328,6 +165139,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -162402,6 +165214,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -162605,6 +165418,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -162679,6 +165493,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -162788,6 +165603,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -162862,6 +165678,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -162977,6 +165794,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -163051,6 +165869,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -163212,6 +166031,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -163286,6 +166106,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -163469,6 +166290,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -163543,6 +166365,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -163709,6 +166532,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -163783,6 +166607,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -164018,6 +166843,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -164092,6 +166918,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -164205,6 +167032,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -164279,6 +167107,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -164367,6 +167196,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -164441,6 +167271,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -164513,6 +167344,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -164587,6 +167419,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -164675,6 +167508,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -164749,6 +167583,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -164821,6 +167656,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -164895,6 +167731,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -165264,6 +168101,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -165338,6 +168176,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -165415,6 +168254,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -165489,6 +168329,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -165603,6 +168444,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -165677,6 +168519,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -166076,6 +168919,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -166150,6 +168994,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -166233,6 +169078,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -166307,6 +169153,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -166545,6 +169392,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -166619,6 +169467,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -166742,6 +169591,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -166816,6 +169666,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -166935,6 +169786,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -167009,6 +169861,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -167150,6 +170003,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -167224,6 +170078,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -167295,6 +170150,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -167369,6 +170225,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -167446,6 +170303,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -167520,6 +170378,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -167608,6 +170467,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -167682,6 +170542,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -167765,6 +170626,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -167838,6 +170700,393 @@ export namespace Prisma {
     approvedTimeEntries?: TimeEntryUncheckedUpdateManyWithoutApprovedByNestedInput
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
+    createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdExpenses?: ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdPurchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutCreatedByNestedInput
+    approvedExpenses?: ExpenseUncheckedUpdateManyWithoutApprovedByNestedInput
+    createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
+    accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
+    ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type TeamMemberCreateWithoutTeamInput = {
+    user: UserCreateNestedOneWithoutTeamMembershipsInput
+  }
+
+  export type TeamMemberUncheckedCreateWithoutTeamInput = {
+    userId: string
+  }
+
+  export type TeamMemberCreateOrConnectWithoutTeamInput = {
+    where: TeamMemberWhereUniqueInput
+    create: XOR<TeamMemberCreateWithoutTeamInput, TeamMemberUncheckedCreateWithoutTeamInput>
+  }
+
+  export type TeamMemberCreateManyTeamInputEnvelope = {
+    data: TeamMemberCreateManyTeamInput | TeamMemberCreateManyTeamInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TeamMemberUpsertWithWhereUniqueWithoutTeamInput = {
+    where: TeamMemberWhereUniqueInput
+    update: XOR<TeamMemberUpdateWithoutTeamInput, TeamMemberUncheckedUpdateWithoutTeamInput>
+    create: XOR<TeamMemberCreateWithoutTeamInput, TeamMemberUncheckedCreateWithoutTeamInput>
+  }
+
+  export type TeamMemberUpdateWithWhereUniqueWithoutTeamInput = {
+    where: TeamMemberWhereUniqueInput
+    data: XOR<TeamMemberUpdateWithoutTeamInput, TeamMemberUncheckedUpdateWithoutTeamInput>
+  }
+
+  export type TeamMemberUpdateManyWithWhereWithoutTeamInput = {
+    where: TeamMemberScalarWhereInput
+    data: XOR<TeamMemberUpdateManyMutationInput, TeamMemberUncheckedUpdateManyWithoutTeamInput>
+  }
+
+  export type TeamCreateWithoutMembersInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type TeamUncheckedCreateWithoutMembersInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+  }
+
+  export type TeamCreateOrConnectWithoutMembersInput = {
+    where: TeamWhereUniqueInput
+    create: XOR<TeamCreateWithoutMembersInput, TeamUncheckedCreateWithoutMembersInput>
+  }
+
+  export type UserCreateWithoutTeamMembershipsInput = {
+    id?: string
+    email: string
+    passwordHash?: string | null
+    name?: string | null
+    role?: $Enums.Role
+    weeklyCapacityHours?: number
+    isActive?: boolean
+    avatarUrl?: string | null
+    avatarStoragePath?: string | null
+    avatarMimeType?: string | null
+    internalCostRate?: number | null
+    totpSecret?: string | null
+    totpEnabled?: boolean
+    locale?: $Enums.Locale
+    createdAt?: Date | string
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    assignedTasks?: TaskCreateNestedManyWithoutAssigneeInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    mentions?: MentionCreateNestedManyWithoutUserInput
+    attachments?: AttachmentCreateNestedManyWithoutUploadedByInput
+    activityEvents?: ActivityEventCreateNestedManyWithoutActorInput
+    notificationPreferences?: NotificationPreferenceCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    dashboards?: DashboardCreateNestedManyWithoutOwnerInput
+    checkInResponses?: CheckInResponseCreateNestedManyWithoutUserInput
+    ownedBudgets?: BudgetCreateNestedManyWithoutOwnerInput
+    budgetSectionAssignments?: BudgetSectionAssigneeCreateNestedManyWithoutUserInput
+    absenceRequests?: AbsenceRequestCreateNestedManyWithoutUserInput
+    reviewedAbsenceRequests?: AbsenceRequestCreateNestedManyWithoutReviewedByInput
+    createdAutomationRules?: AutomationRuleCreateNestedManyWithoutCreatedByInput
+    automationActionTargets?: AutomationActionCreateNestedManyWithoutTargetUserInput
+    createdInvoices?: InvoiceCreateNestedManyWithoutCreatedByInput
+    projectClientAccess?: ProjectClientAccessCreateNestedManyWithoutUserInput
+    createdSharedViews?: SharedViewCreateNestedManyWithoutCreatedByInput
+    createdTaskLinks?: TaskLinkCreateNestedManyWithoutCreatedByInput
+    pendingLogins?: PendingLoginCreateNestedManyWithoutUserInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
+    customRole?: CustomRoleCreateNestedOneWithoutUsersInput
+    projectRoleOverrides?: ProjectRoleOverrideCreateNestedManyWithoutUserInput
+    managedProjects?: ProjectCreateNestedManyWithoutProjectManagerInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    taskSubscriptions?: TaskSubscriberCreateNestedManyWithoutUserInput
+    assignedTodos?: TodoCreateNestedManyWithoutAssigneeInput
+    savedViews?: SavedViewCreateNestedManyWithoutOwnerInput
+    sharedWikiLinks?: SharedWikiLinkCreateNestedManyWithoutCreatedByInput
+    manager?: UserCreateNestedOneWithoutDirectReportsInput
+    directReports?: UserCreateNestedManyWithoutManagerInput
+    favorites?: FavoriteCreateNestedManyWithoutUserInput
+    auditLogEntries?: AuditLogEntryCreateNestedManyWithoutActorInput
+    invoicePayments?: InvoicePaymentCreateNestedManyWithoutCreatedByInput
+    creditNotes?: CreditNoteCreateNestedManyWithoutCreatedByInput
+    savedReports?: SavedReportCreateNestedManyWithoutOwnerInput
+    approvedTimeEntries?: TimeEntryCreateNestedManyWithoutApprovedByInput
+    loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
+    timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
+    lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
+    resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
+    createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
+    createdMeetings?: MeetingCreateNestedManyWithoutCreatedByInput
+    createdExpenses?: ExpenseCreateNestedManyWithoutCreatedByInput
+    createdPurchaseOrders?: PurchaseOrderCreateNestedManyWithoutCreatedByInput
+    approvedExpenses?: ExpenseCreateNestedManyWithoutApprovedByInput
+    createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
+    accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
+    ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutTeamMembershipsInput = {
+    id?: string
+    email: string
+    passwordHash?: string | null
+    name?: string | null
+    role?: $Enums.Role
+    weeklyCapacityHours?: number
+    isActive?: boolean
+    avatarUrl?: string | null
+    avatarStoragePath?: string | null
+    avatarMimeType?: string | null
+    internalCostRate?: number | null
+    totpSecret?: string | null
+    totpEnabled?: boolean
+    locale?: $Enums.Locale
+    createdAt?: Date | string
+    customRoleId?: string | null
+    managerId?: string | null
+    holidayCalendarId?: string | null
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    mentions?: MentionUncheckedCreateNestedManyWithoutUserInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutUploadedByInput
+    activityEvents?: ActivityEventUncheckedCreateNestedManyWithoutActorInput
+    notificationPreferences?: NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    dashboards?: DashboardUncheckedCreateNestedManyWithoutOwnerInput
+    checkInResponses?: CheckInResponseUncheckedCreateNestedManyWithoutUserInput
+    ownedBudgets?: BudgetUncheckedCreateNestedManyWithoutOwnerInput
+    budgetSectionAssignments?: BudgetSectionAssigneeUncheckedCreateNestedManyWithoutUserInput
+    absenceRequests?: AbsenceRequestUncheckedCreateNestedManyWithoutUserInput
+    reviewedAbsenceRequests?: AbsenceRequestUncheckedCreateNestedManyWithoutReviewedByInput
+    createdAutomationRules?: AutomationRuleUncheckedCreateNestedManyWithoutCreatedByInput
+    automationActionTargets?: AutomationActionUncheckedCreateNestedManyWithoutTargetUserInput
+    createdInvoices?: InvoiceUncheckedCreateNestedManyWithoutCreatedByInput
+    projectClientAccess?: ProjectClientAccessUncheckedCreateNestedManyWithoutUserInput
+    createdSharedViews?: SharedViewUncheckedCreateNestedManyWithoutCreatedByInput
+    createdTaskLinks?: TaskLinkUncheckedCreateNestedManyWithoutCreatedByInput
+    pendingLogins?: PendingLoginUncheckedCreateNestedManyWithoutUserInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
+    projectRoleOverrides?: ProjectRoleOverrideUncheckedCreateNestedManyWithoutUserInput
+    managedProjects?: ProjectUncheckedCreateNestedManyWithoutProjectManagerInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    taskSubscriptions?: TaskSubscriberUncheckedCreateNestedManyWithoutUserInput
+    assignedTodos?: TodoUncheckedCreateNestedManyWithoutAssigneeInput
+    savedViews?: SavedViewUncheckedCreateNestedManyWithoutOwnerInput
+    sharedWikiLinks?: SharedWikiLinkUncheckedCreateNestedManyWithoutCreatedByInput
+    directReports?: UserUncheckedCreateNestedManyWithoutManagerInput
+    favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
+    auditLogEntries?: AuditLogEntryUncheckedCreateNestedManyWithoutActorInput
+    invoicePayments?: InvoicePaymentUncheckedCreateNestedManyWithoutCreatedByInput
+    creditNotes?: CreditNoteUncheckedCreateNestedManyWithoutCreatedByInput
+    savedReports?: SavedReportUncheckedCreateNestedManyWithoutOwnerInput
+    approvedTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutApprovedByInput
+    loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
+    timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
+    lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
+    createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
+    createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
+    createdExpenses?: ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
+    createdPurchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutCreatedByInput
+    approvedExpenses?: ExpenseUncheckedCreateNestedManyWithoutApprovedByInput
+    createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
+    accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
+    ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutTeamMembershipsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutTeamMembershipsInput, UserUncheckedCreateWithoutTeamMembershipsInput>
+  }
+
+  export type TeamUpsertWithoutMembersInput = {
+    update: XOR<TeamUpdateWithoutMembersInput, TeamUncheckedUpdateWithoutMembersInput>
+    create: XOR<TeamCreateWithoutMembersInput, TeamUncheckedCreateWithoutMembersInput>
+    where?: TeamWhereInput
+  }
+
+  export type TeamUpdateToOneWithWhereWithoutMembersInput = {
+    where?: TeamWhereInput
+    data: XOR<TeamUpdateWithoutMembersInput, TeamUncheckedUpdateWithoutMembersInput>
+  }
+
+  export type TeamUpdateWithoutMembersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeamUncheckedUpdateWithoutMembersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpsertWithoutTeamMembershipsInput = {
+    update: XOR<UserUpdateWithoutTeamMembershipsInput, UserUncheckedUpdateWithoutTeamMembershipsInput>
+    create: XOR<UserCreateWithoutTeamMembershipsInput, UserUncheckedCreateWithoutTeamMembershipsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutTeamMembershipsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutTeamMembershipsInput, UserUncheckedUpdateWithoutTeamMembershipsInput>
+  }
+
+  export type UserUpdateWithoutTeamMembershipsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarStoragePath?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarMimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    internalCostRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    totpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    locale?: EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    assignedTasks?: TaskUpdateManyWithoutAssigneeNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    mentions?: MentionUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUpdateManyWithoutUploadedByNestedInput
+    activityEvents?: ActivityEventUpdateManyWithoutActorNestedInput
+    notificationPreferences?: NotificationPreferenceUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    dashboards?: DashboardUpdateManyWithoutOwnerNestedInput
+    checkInResponses?: CheckInResponseUpdateManyWithoutUserNestedInput
+    ownedBudgets?: BudgetUpdateManyWithoutOwnerNestedInput
+    budgetSectionAssignments?: BudgetSectionAssigneeUpdateManyWithoutUserNestedInput
+    absenceRequests?: AbsenceRequestUpdateManyWithoutUserNestedInput
+    reviewedAbsenceRequests?: AbsenceRequestUpdateManyWithoutReviewedByNestedInput
+    createdAutomationRules?: AutomationRuleUpdateManyWithoutCreatedByNestedInput
+    automationActionTargets?: AutomationActionUpdateManyWithoutTargetUserNestedInput
+    createdInvoices?: InvoiceUpdateManyWithoutCreatedByNestedInput
+    projectClientAccess?: ProjectClientAccessUpdateManyWithoutUserNestedInput
+    createdSharedViews?: SharedViewUpdateManyWithoutCreatedByNestedInput
+    createdTaskLinks?: TaskLinkUpdateManyWithoutCreatedByNestedInput
+    pendingLogins?: PendingLoginUpdateManyWithoutUserNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
+    customRole?: CustomRoleUpdateOneWithoutUsersNestedInput
+    projectRoleOverrides?: ProjectRoleOverrideUpdateManyWithoutUserNestedInput
+    managedProjects?: ProjectUpdateManyWithoutProjectManagerNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    taskSubscriptions?: TaskSubscriberUpdateManyWithoutUserNestedInput
+    assignedTodos?: TodoUpdateManyWithoutAssigneeNestedInput
+    savedViews?: SavedViewUpdateManyWithoutOwnerNestedInput
+    sharedWikiLinks?: SharedWikiLinkUpdateManyWithoutCreatedByNestedInput
+    manager?: UserUpdateOneWithoutDirectReportsNestedInput
+    directReports?: UserUpdateManyWithoutManagerNestedInput
+    favorites?: FavoriteUpdateManyWithoutUserNestedInput
+    auditLogEntries?: AuditLogEntryUpdateManyWithoutActorNestedInput
+    invoicePayments?: InvoicePaymentUpdateManyWithoutCreatedByNestedInput
+    creditNotes?: CreditNoteUpdateManyWithoutCreatedByNestedInput
+    savedReports?: SavedReportUpdateManyWithoutOwnerNestedInput
+    approvedTimeEntries?: TimeEntryUpdateManyWithoutApprovedByNestedInput
+    loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
+    timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
+    lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
+    resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
+    createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
+    createdMeetings?: MeetingUpdateManyWithoutCreatedByNestedInput
+    createdExpenses?: ExpenseUpdateManyWithoutCreatedByNestedInput
+    createdPurchaseOrders?: PurchaseOrderUpdateManyWithoutCreatedByNestedInput
+    approvedExpenses?: ExpenseUpdateManyWithoutApprovedByNestedInput
+    createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
+    accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
+    ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutTeamMembershipsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarStoragePath?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarMimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    internalCostRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    totpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    locale?: EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customRoleId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    holidayCalendarId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    assignedTasks?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    mentions?: MentionUncheckedUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput
+    activityEvents?: ActivityEventUncheckedUpdateManyWithoutActorNestedInput
+    notificationPreferences?: NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    dashboards?: DashboardUncheckedUpdateManyWithoutOwnerNestedInput
+    checkInResponses?: CheckInResponseUncheckedUpdateManyWithoutUserNestedInput
+    ownedBudgets?: BudgetUncheckedUpdateManyWithoutOwnerNestedInput
+    budgetSectionAssignments?: BudgetSectionAssigneeUncheckedUpdateManyWithoutUserNestedInput
+    absenceRequests?: AbsenceRequestUncheckedUpdateManyWithoutUserNestedInput
+    reviewedAbsenceRequests?: AbsenceRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+    createdAutomationRules?: AutomationRuleUncheckedUpdateManyWithoutCreatedByNestedInput
+    automationActionTargets?: AutomationActionUncheckedUpdateManyWithoutTargetUserNestedInput
+    createdInvoices?: InvoiceUncheckedUpdateManyWithoutCreatedByNestedInput
+    projectClientAccess?: ProjectClientAccessUncheckedUpdateManyWithoutUserNestedInput
+    createdSharedViews?: SharedViewUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdTaskLinks?: TaskLinkUncheckedUpdateManyWithoutCreatedByNestedInput
+    pendingLogins?: PendingLoginUncheckedUpdateManyWithoutUserNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
+    projectRoleOverrides?: ProjectRoleOverrideUncheckedUpdateManyWithoutUserNestedInput
+    managedProjects?: ProjectUncheckedUpdateManyWithoutProjectManagerNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    taskSubscriptions?: TaskSubscriberUncheckedUpdateManyWithoutUserNestedInput
+    assignedTodos?: TodoUncheckedUpdateManyWithoutAssigneeNestedInput
+    savedViews?: SavedViewUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedWikiLinks?: SharedWikiLinkUncheckedUpdateManyWithoutCreatedByNestedInput
+    directReports?: UserUncheckedUpdateManyWithoutManagerNestedInput
+    favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
+    auditLogEntries?: AuditLogEntryUncheckedUpdateManyWithoutActorNestedInput
+    invoicePayments?: InvoicePaymentUncheckedUpdateManyWithoutCreatedByNestedInput
+    creditNotes?: CreditNoteUncheckedUpdateManyWithoutCreatedByNestedInput
+    savedReports?: SavedReportUncheckedUpdateManyWithoutOwnerNestedInput
+    approvedTimeEntries?: TimeEntryUncheckedUpdateManyWithoutApprovedByNestedInput
+    loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
+    timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
+    lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -167934,6 +171183,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingCreateNestedManyWithoutCreatedByInput
@@ -168007,6 +171257,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -168176,6 +171427,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingCreateNestedManyWithoutCreatedByInput
@@ -168250,6 +171502,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
     createdExpenses?: ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
@@ -168487,6 +171740,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdMeetings?: MeetingCreateNestedManyWithoutCreatedByInput
@@ -168561,6 +171815,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
     createdExpenses?: ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
@@ -168649,6 +171904,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUpdateManyWithoutCreatedByNestedInput
@@ -168723,6 +171979,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdExpenses?: ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -168978,6 +172235,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdMeetings?: MeetingUpdateManyWithoutCreatedByNestedInput
@@ -169052,6 +172310,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdExpenses?: ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -170045,6 +173304,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -170119,6 +173379,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -170397,6 +173658,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -170471,6 +173733,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -171893,6 +175156,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -171967,6 +175231,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -172102,6 +175367,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -172176,6 +175442,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -172276,6 +175543,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -172350,6 +175618,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -172473,6 +175742,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -172547,6 +175817,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -172712,6 +175983,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -172786,6 +176058,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -173145,6 +176418,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -173219,6 +176493,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -173467,6 +176742,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -173541,6 +176817,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -173722,6 +176999,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -173796,6 +177074,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -173967,6 +177246,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -174041,6 +177321,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -174156,6 +177437,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -174230,6 +177512,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -174335,6 +177618,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -174409,6 +177693,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -174527,6 +177812,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -174601,6 +177887,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -174724,6 +178011,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -174798,6 +178086,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -174956,6 +178245,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -175030,6 +178320,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -175137,6 +178428,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -175211,6 +178503,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -175331,6 +178624,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -175405,6 +178699,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -175797,6 +179092,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -175871,6 +179167,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -175959,6 +179256,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -176033,6 +179331,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -176422,6 +179721,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -176496,6 +179796,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -176615,6 +179916,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -176689,6 +179991,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -176854,6 +180157,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -176928,6 +180232,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -177489,6 +180794,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -177563,6 +180869,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -178758,6 +182065,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -178832,6 +182140,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -179171,6 +182480,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -179245,6 +182555,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -179764,6 +183075,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -179838,6 +183150,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -179975,6 +183288,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -180049,6 +183363,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -180164,6 +183479,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -180238,6 +183554,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -180375,6 +183692,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -180449,6 +183767,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -180615,6 +183934,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -180689,6 +184009,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdExpenses?: ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
@@ -180876,6 +184197,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -180950,6 +184272,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdExpenses?: ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -181195,6 +184518,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -181269,6 +184593,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -181346,6 +184671,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -181420,6 +184746,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -181774,6 +185101,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -181848,6 +185176,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -181931,6 +185260,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -182005,6 +185335,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -182235,6 +185566,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -182309,6 +185641,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -182496,6 +185829,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -182570,6 +185904,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -182641,6 +185976,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -182715,6 +186051,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -182803,6 +186140,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -182877,6 +186215,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -183016,6 +186355,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -183090,6 +186430,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -183251,6 +186592,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -183325,6 +186667,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -183775,6 +187118,10 @@ export namespace Prisma {
     periodKey: string
     locked: boolean
     updatedAt?: Date | string
+  }
+
+  export type TeamMemberCreateManyUserInput = {
+    teamId: string
   }
 
   export type ResourceBookingCreateManyUserInput = {
@@ -185021,6 +188368,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -185095,6 +188443,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -185455,6 +188804,18 @@ export namespace Prisma {
     periodKey?: StringFieldUpdateOperationsInput | string
     locked?: BoolFieldUpdateOperationsInput | boolean
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeamMemberUpdateWithoutUserInput = {
+    team?: TeamUpdateOneRequiredWithoutMembersNestedInput
+  }
+
+  export type TeamMemberUncheckedUpdateWithoutUserInput = {
+    teamId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TeamMemberUncheckedUpdateManyWithoutUserInput = {
+    teamId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ResourceBookingUpdateWithoutUserInput = {
@@ -186468,6 +189829,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -186542,6 +189904,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -189499,6 +192862,22 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type TeamMemberCreateManyTeamInput = {
+    userId: string
+  }
+
+  export type TeamMemberUpdateWithoutTeamInput = {
+    user?: UserUpdateOneRequiredWithoutTeamMembershipsNestedInput
+  }
+
+  export type TeamMemberUncheckedUpdateWithoutTeamInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TeamMemberUncheckedUpdateManyWithoutTeamInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type HolidayCreateManyCalendarInput = {
     id?: string
     date: Date | string
@@ -189602,6 +192981,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUpdateManyWithoutCreatedByNestedInput
@@ -189675,6 +193055,7 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput

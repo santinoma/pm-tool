@@ -615,6 +615,17 @@ exports.Prisma.TimesheetLockScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.TeamScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.TeamMemberScalarFieldEnum = {
+  teamId: 'teamId',
+  userId: 'userId'
+};
+
 exports.Prisma.TimeTrackingPolicyScalarFieldEnum = {
   id: 'id',
   maxDailyHours: 'maxDailyHours',
@@ -1387,6 +1398,8 @@ exports.Prisma.ModelName = {
   ApprovalPolicyApprover: 'ApprovalPolicyApprover',
   TimeEntryApproverDecision: 'TimeEntryApproverDecision',
   TimesheetLock: 'TimesheetLock',
+  Team: 'Team',
+  TeamMember: 'TeamMember',
   TimeTrackingPolicy: 'TimeTrackingPolicy',
   HolidayCalendar: 'HolidayCalendar',
   Holiday: 'Holiday',

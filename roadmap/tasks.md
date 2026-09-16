@@ -207,7 +207,22 @@ Task weitermachen — nicht die ganze Phase anhalten.
       funktional korrekt aufgelöst und bedienbar gemacht, die pixelgenaue
       Tabellenumschaltung wäre ein rein kosmetischer Zusatzaufwand ohne
       neue Funktionalität.
-- [ ] T314 User Management: Teams/Departments-Modell
+- [x] T314 User Management: Teams/Departments-Modell — Recherche zeigt:
+      Productive kennt kein eigenständiges "Department"-Datenmodell;
+      "Department" ist dort nur ein Beispiel-Einsatzzweck eines normalen
+      Employee Field (Single-Select) — bereits über das bestehende
+      Employee-Fields-Feature (T216) abgedeckt, kein neuer Code nötig.
+      Das reale, fehlende Modell ist **Teams** ("Managing Teams"): benannte
+      Nutzergruppen, many-to-many, als Filter/Feld in Resourcing/Reports und
+      zum Teilen von Budgets/Dashboards/Docs/Views genutzt. Neu:
+      `Team`/`TeamMember`-Modelle, `/settings/organization/teams`
+      (Team anlegen/löschen, Mitglieder hinzufügen/entfernen, Admin-only
+      wie in der Productive-Doku). Bewusst NICHT umgesetzt: die Team-basierte
+      Sharing-Integration selbst (Budgets/Dashboards/Docs/Views mit einem
+      ganzen Team statt einzelnen Personen teilen) — jedes dieser
+      Sharing-Modelle ist ein eigener, unabhängiger Umbau je Objekttyp,
+      analog zur bewussten Zurückstellung von T305 (Automations auf weitere
+      Objekttypen).
 - [ ] T315 User Management: Employee-vs-Contractor-Unterscheidung
 - [ ] T316 User Management: Kostensatz-Historie
 
