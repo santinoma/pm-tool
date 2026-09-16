@@ -19,6 +19,10 @@ const DATA_SOURCE_LABELS: Record<string, string> = {
   tasks: "Tasks",
   time_entries: "Zeiteinträge",
   budgets: "Budgets",
+  deals: "Deals",
+  invoices: "Rechnungen",
+  expenses: "Ausgaben",
+  people: "People / Auslastung",
 };
 
 export function ReportsClient({ reports }: { reports: ReportRow[] }) {

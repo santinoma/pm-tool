@@ -1,19 +1,17 @@
 import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
-import { canManageMembers } from "@/tenant/auth/roleGuard";
 import { getEntryDate, findCoveringLock } from "@/tenant/timeTracking/approval";
+import { recordApprovalDecision } from "@/tenant/timeTracking/approvalPolicy";
 
-// Hinweis: Ablehnungsgründe werden derzeit nicht persistiert — das Prisma-Schema
-// besitzt kein Feld dafür (siehe Aufgabenbeschreibung: schema.prisma nicht anfassen).
-// Ein optionales `reason` im Body wird entgegengenommen, aber verworfen.
+// "Requesting Changes to Time Entries": rejecting an entry sends it back to
+// the submitter as a Draft (submittedAt cleared) with the approver's reason
+// attached, so they can fix it and manually resubmit via the normal Submit
+// action.
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const context = await getTenantContext();
   if (!context?.currentUser) {
     return NextResponse.json({ error: "Nicht angemeldet." }, { status: 401 });
-  }
-  if (!canManageMembers(context.currentUser.role)) {
-    return NextResponse.json({ error: "Keine Berechtigung." }, { status: 403 });
   }
 
   const existing = await context.tenantDb.timeEntry.findUnique({ where: { id } });
@@ -30,13 +28,17 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     return NextResponse.json({ error: "Zeiterfassungsperiode ist gesperrt." }, { status: 409 });
   }
 
+  const body = await request.json().catch(() => ({}));
+  const reason = typeof body?.reason === "string" && body.reason.trim() ? body.reason.trim() : null;
+
+  const result = await recordApprovalDecision(context.tenantDb, id, context.currentUser, "rejected");
+  if (!result.ok) {
+    return NextResponse.json({ error: result.error }, { status: result.status ?? 400 });
+  }
+
   const entry = await context.tenantDb.timeEntry.update({
     where: { id },
-    data: {
-      approvalStatus: "rejected",
-      approvedById: context.currentUser.id,
-      approvedAt: new Date(),
-    },
+    data: { rejectionReason: reason, submittedAt: null },
   });
   return NextResponse.json({ entry });
 }

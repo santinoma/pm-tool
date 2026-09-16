@@ -27,6 +27,7 @@ interface BudgetRow {
   expenseApprovalRequired: boolean;
   invoicedPercent: number;
   revenue: number;
+  recognizedRevenue: number;
   budgetedTimeHours: number;
   usedTimeHours: number;
 }
@@ -95,10 +96,11 @@ export function FinancialsClient({ budgets, projects }: { budgets: BudgetRow[]; 
   // portfolio-at-a-glance, shown as a stat row above the table.
   const totals = useMemo(() => {
     const revenue = budgets.reduce((sum, b) => sum + b.revenue, 0);
+    const recognizedRevenue = budgets.reduce((sum, b) => sum + b.recognizedRevenue, 0);
     const usedTimeHours = budgets.reduce((sum, b) => sum + b.usedTimeHours, 0);
     const budgetedTimeHours = budgets.reduce((sum, b) => sum + b.budgetedTimeHours, 0);
     const avgInvoicedPercent = budgets.length > 0 ? budgets.reduce((sum, b) => sum + b.invoicedPercent, 0) / budgets.length : 0;
-    return { revenue, usedTimeHours, budgetedTimeHours, avgInvoicedPercent };
+    return { revenue, recognizedRevenue, usedTimeHours, budgetedTimeHours, avgInvoicedPercent };
   }, [budgets]);
 
   function toggleGroup(key: string) {
@@ -151,8 +153,12 @@ export function FinancialsClient({ budgets, projects }: { budgets: BudgetRow[]; 
               <div className="mt-1 font-mono text-xl tabular-nums">{totals.avgInvoicedPercent.toFixed(0)}%</div>
             </div>
             <div className="rounded-lg border p-4">
-              <div className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">Revenue</div>
+              <div className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">Revenue (invoiced)</div>
               <div className="mt-1 font-mono text-xl tabular-nums">{currencyFormat(totals.revenue)}</div>
+            </div>
+            <div className="rounded-lg border p-4">
+              <div className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">Revenue (recognized)</div>
+              <div className="mt-1 font-mono text-xl tabular-nums">{currencyFormat(totals.recognizedRevenue)}</div>
             </div>
             <div className="rounded-lg border p-4">
               <div className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">Budgeted time</div>
@@ -174,7 +180,8 @@ export function FinancialsClient({ budgets, projects }: { budgets: BudgetRow[]; 
                 <TableHead>Time approval</TableHead>
                 <TableHead>Expense approval</TableHead>
                 <TableHead>Invoiced %</TableHead>
-                <TableHead>Revenue</TableHead>
+                <TableHead>Revenue (invoiced)</TableHead>
+                <TableHead>Revenue (recognized)</TableHead>
                 <TableHead>Budgeted time usage</TableHead>
               </TableRow>
             </TableHeader>
@@ -184,7 +191,7 @@ export function FinancialsClient({ budgets, projects }: { budgets: BudgetRow[]; 
                 return (
                   <Fragment key={group.key}>
                     <TableRow className="bg-muted/40 hover:bg-muted/40">
-                      <TableCell colSpan={7} className="p-0">
+                      <TableCell colSpan={8} className="p-0">
                         <button
                           type="button"
                           onClick={() => toggleGroup(group.key)}
@@ -222,6 +229,7 @@ export function FinancialsClient({ budgets, projects }: { budgets: BudgetRow[]; 
                             </div>
                           </TableCell>
                           <TableCell className="font-mono tabular-nums text-muted-foreground">{currencyFormat(budget.revenue)}</TableCell>
+                          <TableCell className="font-mono tabular-nums text-muted-foreground">{currencyFormat(budget.recognizedRevenue)}</TableCell>
                           <TableCell className="w-40">
                             <div className="flex items-center gap-2">
                               <Progress

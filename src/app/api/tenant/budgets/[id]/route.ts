@@ -47,6 +47,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       endDate: body.endDate === null ? null : endDate,
       color: typeof body.color === "string" ? body.color : body.color === null ? null : undefined,
       isTemplate: typeof body.isTemplate === "boolean" ? body.isTemplate : undefined,
+      approvalPolicyId:
+        typeof body.approvalPolicyId === "string" ? body.approvalPolicyId : body.approvalPolicyId === null ? null : undefined,
     },
   });
 

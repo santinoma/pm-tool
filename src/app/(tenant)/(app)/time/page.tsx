@@ -107,6 +107,7 @@ export default async function TimePage() {
         description: entry.description,
         approvalStatus: entry.approvalStatus,
         submitted: entry.submittedAt !== null,
+        rejectionReason: entry.rejectionReason,
         locked: isDateLocked(getEntryDate(entry), myLocks),
         date: getEntryDate(entry).toISOString(),
         taskId: entry.taskId,

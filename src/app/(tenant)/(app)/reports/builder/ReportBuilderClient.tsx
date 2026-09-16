@@ -38,6 +38,10 @@ const DATA_SOURCE_LABELS: Record<ReportDataSource, string> = {
   tasks: "Tasks",
   time_entries: "Zeiteinträge",
   budgets: "Budgets",
+  deals: "Deals",
+  invoices: "Rechnungen",
+  expenses: "Ausgaben",
+  people: "People / Auslastung",
 };
 
 const OPERATOR_LABELS: Record<ReportFilterOperator, string> = {
@@ -48,11 +52,14 @@ const OPERATOR_LABELS: Record<ReportFilterOperator, string> = {
   lt: "kleiner als",
 };
 
+const TEMPLATE_CATEGORIES = ["Tasks", "Zeit", "Budgets", "CRM", "Finanzen", "People"] as const;
+type TemplateCategory = (typeof TEMPLATE_CATEGORIES)[number];
+
 interface ReportTemplate {
   key: string;
   title: string;
   description: string;
-  category: "Tasks" | "Zeit" | "Budgets";
+  category: TemplateCategory;
   dataSource: ReportDataSource;
   filters?: (today: string) => ReportFilterConfig[];
   groupByField: string;
@@ -175,6 +182,81 @@ const REPORT_TEMPLATES: ReportTemplate[] = [
     dataSource: "budgets",
     groupByField: "title",
     chartType: "none",
+  },
+  {
+    key: "deals-by-status",
+    title: "Deals nach Pipeline-Status",
+    description: "Sales-Funnel: alle Deals gruppiert nach Status.",
+    category: "CRM",
+    dataSource: "deals",
+    groupByField: "status",
+    chartType: "bar",
+  },
+  {
+    key: "open-deals-by-owner",
+    title: "Offene Deals nach Owner",
+    description: "Deals im open-Status, gruppiert nach Owner.",
+    category: "CRM",
+    dataSource: "deals",
+    filters: () => [{ field: "statusCategory", operator: "eq", value: "open" }],
+    groupByField: "owner",
+    chartType: "bar",
+  },
+  {
+    key: "lost-deals-by-reason",
+    title: "Verlorene Deals nach Grund",
+    description: "Deals im lost-Status, gruppiert nach Lost Reason.",
+    category: "CRM",
+    dataSource: "deals",
+    filters: () => [{ field: "statusCategory", operator: "eq", value: "lost" }],
+    groupByField: "lostReason",
+    chartType: "pie",
+  },
+  {
+    key: "invoices-by-status",
+    title: "Rechnungen nach Status",
+    description: "Alle Rechnungen, gruppiert nach Status.",
+    category: "Finanzen",
+    dataSource: "invoices",
+    groupByField: "status",
+    chartType: "bar",
+  },
+  {
+    key: "invoices-by-project",
+    title: "Rechnungen nach Projekt",
+    description: "Rechnungssumme, gruppiert nach Projekt.",
+    category: "Finanzen",
+    dataSource: "invoices",
+    groupByField: "project",
+    chartType: "pie",
+  },
+  {
+    key: "expenses-by-project",
+    title: "Ausgaben nach Projekt",
+    description: "Alle Ausgaben, gruppiert nach Projekt.",
+    category: "Finanzen",
+    dataSource: "expenses",
+    groupByField: "project",
+    chartType: "bar",
+  },
+  {
+    key: "billable-expenses",
+    title: "Abrechenbare Ausgaben",
+    description: "Nur abrechenbare Ausgaben, gruppiert nach Projekt.",
+    category: "Finanzen",
+    dataSource: "expenses",
+    filters: () => [{ field: "billable", operator: "eq", value: "true" }],
+    groupByField: "project",
+    chartType: "bar",
+  },
+  {
+    key: "utilization-by-person",
+    title: "Auslastung nach Person",
+    description: "Erfasste Stunden der letzten 30 Tage vs. Wochenkapazität.",
+    category: "People",
+    dataSource: "people",
+    groupByField: "name",
+    chartType: "bar",
   },
 ];
 
@@ -346,7 +428,7 @@ export function ReportBuilderClient({
         starten oder anpassen.
       </p>
       <div className="mb-8 flex flex-col gap-5">
-        {(["Tasks", "Zeit", "Budgets"] as const).map((category) => (
+        {TEMPLATE_CATEGORIES.map((category) => (
           <div key={category}>
             <div className="mb-2 text-xs font-semibold tracking-wide text-muted-foreground uppercase">{category}</div>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">

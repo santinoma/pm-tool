@@ -160,6 +160,8 @@ const STRINGS = {
   "settings.rateCards.desc": { de: "Benannte Preis-Kataloge für Budgets, optional pro Company.", en: "Named pricing catalogs for budgets, optionally per company." },
   "settings.customFields.title": { de: "Custom Fields", en: "Custom fields" },
   "settings.customFields.desc": { de: "Wiederverwendbare Felder, an mehrere Projekte anhängbar.", en: "Reusable fields, attachable to multiple projects." },
+  "settings.approvalPolicies.title": { de: "Approval Policies", en: "Approval policies" },
+  "settings.approvalPolicies.desc": { de: "Wer Zeit/Ausgaben auf Budgets genehmigen muss.", en: "Who must approve time/expenses on budgets." },
   "settings.holidayCalendars.title": { de: "Feiertagskalender", en: "Holiday calendars" },
   "settings.holidayCalendars.desc": { de: "Feiertagskalender anlegen und Mitgliedern zuweisen.", en: "Create holiday calendars and assign them to members." },
   "settings.recycleBin.title": { de: "Papierkorb", en: "Recycle bin" },
