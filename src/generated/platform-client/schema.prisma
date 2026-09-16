@@ -33,6 +33,10 @@ model Tenant {
   tier          TenantTier   @default(shared)
   plan          TenantPlan   @default(small)
   addOnFeatures String[]     @default([])
+  /// Anzahl bezahlter Sitzplätze (Rollen owner/admin/member — client-Rolle ist
+  /// kostenlos). `null` = kein Limit. Wird beim Einladen in `invites/route.ts`
+  /// geprüft (siehe tenant/billing/seats.ts).
+  seatLimit     Int?
   dbUrl         String
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt

@@ -68,8 +68,8 @@ Task weitermachen — nicht die ganze Phase anhalten.
       Zurückstellung wie T223)
 
 ### Billing & Account Management (Grundstufe)
-- [ ] T230 Sitzplatz-Feld auf Tenant/TenantSettings, bezahlt vs. kostenlos
-- [ ] T231 Sitzplatz-Limit-Prüfung in `invites/route.ts`
+- [x] T230 Sitzplatz-Feld auf Tenant/TenantSettings, bezahlt vs. kostenlos
+- [x] T231 Sitzplatz-Limit-Prüfung in `invites/route.ts`
 
 ## Phase 3 — Bestehendes verbreitern
 

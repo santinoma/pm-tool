@@ -4,6 +4,8 @@ import { type RoleName } from "@/tenant/auth/roleGuard";
 import { buildInviteUrl, computeInviteExpiry, generateInviteToken } from "@/tenant/auth/invite";
 import { hasFeature } from "@/tenant/entitlements/features";
 import { hasEffectivePermission } from "@/tenant/permissions/resolvePermissions";
+import { getTenantById } from "@/platform/tenantRegistry";
+import { PAID_SEAT_ROLES, countPaidSeats } from "@/tenant/billing/seats";
 
 const INVITABLE_ROLES: RoleName[] = ["admin", "member", "client"];
 
@@ -37,6 +39,20 @@ export async function POST(request: Request) {
   }
   if (body.role === "client" && !hasFeature(context.entitledFeatures, "client_portal")) {
     return NextResponse.json({ error: "Client-Portal ist im aktuellen Plan nicht enthalten." }, { status: 403 });
+  }
+
+  if (PAID_SEAT_ROLES.includes(body.role as RoleName)) {
+    const tenantId = request.headers.get("x-tenant-id");
+    const tenant = tenantId ? await getTenantById(tenantId) : null;
+    if (tenant?.seatLimit != null) {
+      const usedSeats = await countPaidSeats(context.tenantDb);
+      if (usedSeats >= tenant.seatLimit) {
+        return NextResponse.json(
+          { error: `Sitzplatz-Limit erreicht (${tenant.seatLimit}). Bitte ein bestehendes Mitglied deaktivieren oder das Limit erhöhen lassen.` },
+          { status: 402 },
+        );
+      }
+    }
   }
 
   const headerSubdomain = request.headers.get("x-tenant-subdomain") ?? "";

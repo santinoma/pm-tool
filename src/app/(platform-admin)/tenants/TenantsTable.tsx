@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Building2, CheckCircle2, MoreHorizontal, Power, Search, Server, Trash2 } from "lucide-react";
+import { Building2, CheckCircle2, MoreHorizontal, Power, Search, Server, Trash2, Users } from "lucide-react";
 import Link from "next/link";
 
 import { Badge } from "@/ui/shadcn/components/badge";
@@ -10,6 +10,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Input } from "@/ui/shadcn/components/input";
 import { DeleteTenantDialog } from "./DeleteTenantButton";
 import { ToggleTenantStatusDialog } from "./ToggleTenantStatusButton";
+import { SeatLimitDialog } from "./SeatLimitButton";
 
 const PLAN_LABELS: Record<string, string> = {
   small: "Klein",
@@ -24,6 +25,7 @@ export interface TenantRow {
   status: "active" | "disabled" | string;
   plan: string;
   tier: string;
+  seatLimit: number | null;
   createdAtLabel: string;
 }
 
@@ -71,7 +73,7 @@ function initials(name: string) {
 }
 
 function TenantRowActions({ tenant }: { tenant: TenantRow }) {
-  const [confirmAction, setConfirmAction] = useState<null | "toggle" | "delete">(null);
+  const [confirmAction, setConfirmAction] = useState<null | "toggle" | "delete" | "seatLimit">(null);
 
   return (
     <>
@@ -82,6 +84,10 @@ function TenantRowActions({ tenant }: { tenant: TenantRow }) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
+          <DropdownMenuItem onSelect={() => setConfirmAction("seatLimit")}>
+            <Users />
+            Sitzplatz-Limit
+          </DropdownMenuItem>
           {(tenant.status === "active" || tenant.status === "disabled") && (
             <DropdownMenuItem onSelect={() => setConfirmAction("toggle")}>
               <Power />
@@ -104,6 +110,13 @@ function TenantRowActions({ tenant }: { tenant: TenantRow }) {
           status={tenant.status as "active" | "disabled"}
         />
       )}
+      <SeatLimitDialog
+        open={confirmAction === "seatLimit"}
+        onOpenChange={(open) => setConfirmAction(open ? "seatLimit" : null)}
+        tenantId={tenant.id}
+        tenantName={tenant.name}
+        seatLimit={tenant.seatLimit}
+      />
       <DeleteTenantDialog
         open={confirmAction === "delete"}
         onOpenChange={(open) => setConfirmAction(open ? "delete" : null)}
@@ -172,7 +185,7 @@ export function TenantsTable({
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b bg-muted/40">
-                      {["Name", "Subdomain", "Status", "Plan", "Infrastruktur", "Erstellt", ""].map((head) => (
+                      {["Name", "Subdomain", "Status", "Plan", "Sitzplätze", "Infrastruktur", "Erstellt", ""].map((head) => (
                         <th key={head} className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-muted-foreground uppercase">
                           {head}
                         </th>
@@ -199,6 +212,9 @@ export function TenantsTable({
                         </td>
                         <td className="px-4 py-3">
                           <Badge variant="secondary">{PLAN_LABELS[tenant.plan] ?? tenant.plan}</Badge>
+                        </td>
+                        <td className="px-4 py-3 text-muted-foreground">
+                          {tenant.seatLimit === null ? "Kein Limit" : tenant.seatLimit}
                         </td>
                         <td className="px-4 py-3">
                           <Badge variant={tenant.tier === "dedicated" ? "destructiveOutline" : "outline"}>

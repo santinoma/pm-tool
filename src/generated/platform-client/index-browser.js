@@ -128,6 +128,7 @@ exports.Prisma.TenantScalarFieldEnum = {
   tier: 'tier',
   plan: 'plan',
   addOnFeatures: 'addOnFeatures',
+  seatLimit: 'seatLimit',
   dbUrl: 'dbUrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -141,6 +142,11 @@ exports.Prisma.SortOrder = {
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 exports.TenantStatus = exports.$Enums.TenantStatus = {
   provisioning: 'provisioning',
