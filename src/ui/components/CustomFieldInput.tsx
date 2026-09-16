@@ -1,7 +1,17 @@
 "use client";
 
+import { Checkbox } from "@/ui/shadcn/components/checkbox";
 import { Input } from "@/ui/shadcn/components/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
+
+function parseMultiSelectValue(value: string): string[] {
+  try {
+    const parsed = JSON.parse(value || "[]");
+    return Array.isArray(parsed) ? parsed.filter((entry): entry is string => typeof entry === "string") : [];
+  } catch {
+    return [];
+  }
+}
 
 export type CustomFieldInputType = "text" | "number" | "select" | "multi_select" | "date" | "person" | "url" | "percent";
 
@@ -59,6 +69,25 @@ export function CustomFieldInput({
     );
   }
 
+  if (field.type === "multi_select") {
+    const selected = parseMultiSelectValue(value);
+    function toggle(option: string) {
+      const next = selected.includes(option) ? selected.filter((entry) => entry !== option) : [...selected, option];
+      onChange(JSON.stringify(next));
+    }
+    return (
+      <div id={id} className="flex flex-col gap-1.5 rounded-md border p-2.5">
+        {field.options.length === 0 && <span className="text-sm text-muted-foreground">Keine Optionen definiert.</span>}
+        {field.options.map((option) => (
+          <label key={option} className="flex cursor-pointer items-center gap-2 text-sm">
+            <Checkbox checked={selected.includes(option)} onCheckedChange={() => toggle(option)} />
+            {option}
+          </label>
+        ))}
+      </div>
+    );
+  }
+
   if (field.type === "date") {
     return <Input id={id} type="date" value={value} onChange={(event) => onChange(event.target.value)} />;
   }
@@ -98,6 +127,10 @@ export function CustomFieldValueDisplay({ type, value }: { type: CustomFieldInpu
   }
   if (type === "percent") {
     return <span>{value}%</span>;
+  }
+  if (type === "multi_select") {
+    const selected = parseMultiSelectValue(value);
+    return <span>{selected.length > 0 ? selected.join(", ") : "—"}</span>;
   }
   return <span>{value}</span>;
 }

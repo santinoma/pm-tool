@@ -20,7 +20,7 @@ Task weitermachen — nicht die ganze Phase anhalten.
 - [x] T104 Offboarding: `Deal.ownerId` reassignen
 - [x] T105 Offboarding: `AbsenceRequest.reviewedById` reassignen
 - [x] T106 Invoicing "uninvoiced_time_expenses": Expenses tatsächlich einbeziehen
-- [ ] T107 `multi_select` Custom Fields in `CustomFieldInput.tsx` render-/auswählbar
+- [x] T107 `multi_select` Custom Fields in `CustomFieldInput.tsx` render-/auswählbar
       machen
 - [ ] T108 Automations: Fehler in einer Aktion bricht nicht die ganze Regel ab
 
