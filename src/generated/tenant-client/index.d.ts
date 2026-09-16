@@ -59575,6 +59575,7 @@ export namespace Prisma {
     approvedById: string | null
     approvedAt: Date | null
     loggedForUserId: string | null
+    submittedAt: Date | null
   }
 
   export type TimeEntryMaxAggregateOutputType = {
@@ -59594,6 +59595,7 @@ export namespace Prisma {
     approvedById: string | null
     approvedAt: Date | null
     loggedForUserId: string | null
+    submittedAt: Date | null
   }
 
   export type TimeEntryCountAggregateOutputType = {
@@ -59613,6 +59615,7 @@ export namespace Prisma {
     approvedById: number
     approvedAt: number
     loggedForUserId: number
+    submittedAt: number
     _all: number
   }
 
@@ -59644,6 +59647,7 @@ export namespace Prisma {
     approvedById?: true
     approvedAt?: true
     loggedForUserId?: true
+    submittedAt?: true
   }
 
   export type TimeEntryMaxAggregateInputType = {
@@ -59663,6 +59667,7 @@ export namespace Prisma {
     approvedById?: true
     approvedAt?: true
     loggedForUserId?: true
+    submittedAt?: true
   }
 
   export type TimeEntryCountAggregateInputType = {
@@ -59682,6 +59687,7 @@ export namespace Prisma {
     approvedById?: true
     approvedAt?: true
     loggedForUserId?: true
+    submittedAt?: true
     _all?: true
   }
 
@@ -59788,6 +59794,7 @@ export namespace Prisma {
     approvedById: string | null
     approvedAt: Date | null
     loggedForUserId: string | null
+    submittedAt: Date | null
     _count: TimeEntryCountAggregateOutputType | null
     _avg: TimeEntryAvgAggregateOutputType | null
     _sum: TimeEntrySumAggregateOutputType | null
@@ -59826,6 +59833,7 @@ export namespace Prisma {
     approvedById?: boolean
     approvedAt?: boolean
     loggedForUserId?: boolean
+    submittedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     task?: boolean | TimeEntry$taskArgs<ExtArgs>
     project?: boolean | TimeEntry$projectArgs<ExtArgs>
@@ -59852,6 +59860,7 @@ export namespace Prisma {
     approvedById?: boolean
     approvedAt?: boolean
     loggedForUserId?: boolean
+    submittedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     task?: boolean | TimeEntry$taskArgs<ExtArgs>
     project?: boolean | TimeEntry$projectArgs<ExtArgs>
@@ -59878,6 +59887,7 @@ export namespace Prisma {
     approvedById?: boolean
     approvedAt?: boolean
     loggedForUserId?: boolean
+    submittedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     task?: boolean | TimeEntry$taskArgs<ExtArgs>
     project?: boolean | TimeEntry$projectArgs<ExtArgs>
@@ -59904,9 +59914,10 @@ export namespace Prisma {
     approvedById?: boolean
     approvedAt?: boolean
     loggedForUserId?: boolean
+    submittedAt?: boolean
   }
 
-  export type TimeEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "taskId" | "projectId" | "budgetSectionId" | "amount" | "description" | "startedAt" | "endedAt" | "durationMinutes" | "createdAt" | "invoiceId" | "approvalStatus" | "approvedById" | "approvedAt" | "loggedForUserId", ExtArgs["result"]["timeEntry"]>
+  export type TimeEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "taskId" | "projectId" | "budgetSectionId" | "amount" | "description" | "startedAt" | "endedAt" | "durationMinutes" | "createdAt" | "invoiceId" | "approvalStatus" | "approvedById" | "approvedAt" | "loggedForUserId" | "submittedAt", ExtArgs["result"]["timeEntry"]>
   export type TimeEntryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     task?: boolean | TimeEntry$taskArgs<ExtArgs>
@@ -59963,6 +59974,7 @@ export namespace Prisma {
       approvedById: string | null
       approvedAt: Date | null
       loggedForUserId: string | null
+      submittedAt: Date | null
     }, ExtArgs["result"]["timeEntry"]>
     composites: {}
   }
@@ -60409,6 +60421,7 @@ export namespace Prisma {
     readonly approvedById: FieldRef<"TimeEntry", 'String'>
     readonly approvedAt: FieldRef<"TimeEntry", 'DateTime'>
     readonly loggedForUserId: FieldRef<"TimeEntry", 'String'>
+    readonly submittedAt: FieldRef<"TimeEntry", 'DateTime'>
   }
     
 
@@ -108225,7 +108238,8 @@ export namespace Prisma {
     approvalStatus: 'approvalStatus',
     approvedById: 'approvedById',
     approvedAt: 'approvedAt',
-    loggedForUserId: 'loggedForUserId'
+    loggedForUserId: 'loggedForUserId',
+    submittedAt: 'submittedAt'
   };
 
   export type TimeEntryScalarFieldEnum = (typeof TimeEntryScalarFieldEnum)[keyof typeof TimeEntryScalarFieldEnum]
@@ -112497,6 +112511,7 @@ export namespace Prisma {
     approvedById?: StringNullableFilter<"TimeEntry"> | string | null
     approvedAt?: DateTimeNullableFilter<"TimeEntry"> | Date | string | null
     loggedForUserId?: StringNullableFilter<"TimeEntry"> | string | null
+    submittedAt?: DateTimeNullableFilter<"TimeEntry"> | Date | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     task?: XOR<TaskNullableScalarRelationFilter, TaskWhereInput> | null
     project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
@@ -112523,6 +112538,7 @@ export namespace Prisma {
     approvedById?: SortOrderInput | SortOrder
     approvedAt?: SortOrderInput | SortOrder
     loggedForUserId?: SortOrderInput | SortOrder
+    submittedAt?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
     task?: TaskOrderByWithRelationInput
     project?: ProjectOrderByWithRelationInput
@@ -112552,6 +112568,7 @@ export namespace Prisma {
     approvedById?: StringNullableFilter<"TimeEntry"> | string | null
     approvedAt?: DateTimeNullableFilter<"TimeEntry"> | Date | string | null
     loggedForUserId?: StringNullableFilter<"TimeEntry"> | string | null
+    submittedAt?: DateTimeNullableFilter<"TimeEntry"> | Date | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     task?: XOR<TaskNullableScalarRelationFilter, TaskWhereInput> | null
     project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
@@ -112578,6 +112595,7 @@ export namespace Prisma {
     approvedById?: SortOrderInput | SortOrder
     approvedAt?: SortOrderInput | SortOrder
     loggedForUserId?: SortOrderInput | SortOrder
+    submittedAt?: SortOrderInput | SortOrder
     _count?: TimeEntryCountOrderByAggregateInput
     _avg?: TimeEntryAvgOrderByAggregateInput
     _max?: TimeEntryMaxOrderByAggregateInput
@@ -112605,6 +112623,7 @@ export namespace Prisma {
     approvedById?: StringNullableWithAggregatesFilter<"TimeEntry"> | string | null
     approvedAt?: DateTimeNullableWithAggregatesFilter<"TimeEntry"> | Date | string | null
     loggedForUserId?: StringNullableWithAggregatesFilter<"TimeEntry"> | string | null
+    submittedAt?: DateTimeNullableWithAggregatesFilter<"TimeEntry"> | Date | string | null
   }
 
   export type TimesheetLockWhereInput = {
@@ -118905,6 +118924,7 @@ export namespace Prisma {
     createdAt?: Date | string
     approvalStatus?: $Enums.TimeEntryApprovalStatus
     approvedAt?: Date | string | null
+    submittedAt?: Date | string | null
     user: UserCreateNestedOneWithoutTimeEntriesInput
     task?: TaskCreateNestedOneWithoutTimeEntriesInput
     project?: ProjectCreateNestedOneWithoutTimeEntriesInput
@@ -118931,6 +118951,7 @@ export namespace Prisma {
     approvedById?: string | null
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
+    submittedAt?: Date | string | null
   }
 
   export type TimeEntryUpdateInput = {
@@ -118943,6 +118964,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvalStatus?: EnumTimeEntryApprovalStatusFieldUpdateOperationsInput | $Enums.TimeEntryApprovalStatus
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutTimeEntriesNestedInput
     task?: TaskUpdateOneWithoutTimeEntriesNestedInput
     project?: ProjectUpdateOneWithoutTimeEntriesNestedInput
@@ -118969,6 +118991,7 @@ export namespace Prisma {
     approvedById?: NullableStringFieldUpdateOperationsInput | string | null
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TimeEntryCreateManyInput = {
@@ -118988,6 +119011,7 @@ export namespace Prisma {
     approvedById?: string | null
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
+    submittedAt?: Date | string | null
   }
 
   export type TimeEntryUpdateManyMutationInput = {
@@ -119000,6 +119024,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvalStatus?: EnumTimeEntryApprovalStatusFieldUpdateOperationsInput | $Enums.TimeEntryApprovalStatus
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TimeEntryUncheckedUpdateManyInput = {
@@ -119019,6 +119044,7 @@ export namespace Prisma {
     approvedById?: NullableStringFieldUpdateOperationsInput | string | null
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TimesheetLockCreateInput = {
@@ -124817,6 +124843,7 @@ export namespace Prisma {
     approvedById?: SortOrder
     approvedAt?: SortOrder
     loggedForUserId?: SortOrder
+    submittedAt?: SortOrder
   }
 
   export type TimeEntryAvgOrderByAggregateInput = {
@@ -124841,6 +124868,7 @@ export namespace Prisma {
     approvedById?: SortOrder
     approvedAt?: SortOrder
     loggedForUserId?: SortOrder
+    submittedAt?: SortOrder
   }
 
   export type TimeEntryMinOrderByAggregateInput = {
@@ -124860,6 +124888,7 @@ export namespace Prisma {
     approvedById?: SortOrder
     approvedAt?: SortOrder
     loggedForUserId?: SortOrder
+    submittedAt?: SortOrder
   }
 
   export type TimeEntrySumOrderByAggregateInput = {
@@ -136106,6 +136135,7 @@ export namespace Prisma {
     createdAt?: Date | string
     approvalStatus?: $Enums.TimeEntryApprovalStatus
     approvedAt?: Date | string | null
+    submittedAt?: Date | string | null
     task?: TaskCreateNestedOneWithoutTimeEntriesInput
     project?: ProjectCreateNestedOneWithoutTimeEntriesInput
     budgetSection?: BudgetSectionCreateNestedOneWithoutTimeEntriesInput
@@ -136130,6 +136160,7 @@ export namespace Prisma {
     approvedById?: string | null
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
+    submittedAt?: Date | string | null
   }
 
   export type TimeEntryCreateOrConnectWithoutUserInput = {
@@ -137454,6 +137485,7 @@ export namespace Prisma {
     createdAt?: Date | string
     approvalStatus?: $Enums.TimeEntryApprovalStatus
     approvedAt?: Date | string | null
+    submittedAt?: Date | string | null
     user: UserCreateNestedOneWithoutTimeEntriesInput
     task?: TaskCreateNestedOneWithoutTimeEntriesInput
     project?: ProjectCreateNestedOneWithoutTimeEntriesInput
@@ -137478,6 +137510,7 @@ export namespace Prisma {
     approvalStatus?: $Enums.TimeEntryApprovalStatus
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
+    submittedAt?: Date | string | null
   }
 
   export type TimeEntryCreateOrConnectWithoutApprovedByInput = {
@@ -137500,6 +137533,7 @@ export namespace Prisma {
     createdAt?: Date | string
     approvalStatus?: $Enums.TimeEntryApprovalStatus
     approvedAt?: Date | string | null
+    submittedAt?: Date | string | null
     user: UserCreateNestedOneWithoutTimeEntriesInput
     task?: TaskCreateNestedOneWithoutTimeEntriesInput
     project?: ProjectCreateNestedOneWithoutTimeEntriesInput
@@ -137524,6 +137558,7 @@ export namespace Prisma {
     approvalStatus?: $Enums.TimeEntryApprovalStatus
     approvedById?: string | null
     approvedAt?: Date | string | null
+    submittedAt?: Date | string | null
   }
 
   export type TimeEntryCreateOrConnectWithoutLoggedForUserInput = {
@@ -138064,6 +138099,7 @@ export namespace Prisma {
     approvedById?: StringNullableFilter<"TimeEntry"> | string | null
     approvedAt?: DateTimeNullableFilter<"TimeEntry"> | Date | string | null
     loggedForUserId?: StringNullableFilter<"TimeEntry"> | string | null
+    submittedAt?: DateTimeNullableFilter<"TimeEntry"> | Date | string | null
   }
 
   export type CommentUpsertWithWhereUniqueWithoutAuthorInput = {
@@ -144733,6 +144769,7 @@ export namespace Prisma {
     createdAt?: Date | string
     approvalStatus?: $Enums.TimeEntryApprovalStatus
     approvedAt?: Date | string | null
+    submittedAt?: Date | string | null
     user: UserCreateNestedOneWithoutTimeEntriesInput
     task?: TaskCreateNestedOneWithoutTimeEntriesInput
     budgetSection?: BudgetSectionCreateNestedOneWithoutTimeEntriesInput
@@ -144757,6 +144794,7 @@ export namespace Prisma {
     approvedById?: string | null
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
+    submittedAt?: Date | string | null
   }
 
   export type TimeEntryCreateOrConnectWithoutProjectInput = {
@@ -150106,6 +150144,7 @@ export namespace Prisma {
     createdAt?: Date | string
     approvalStatus?: $Enums.TimeEntryApprovalStatus
     approvedAt?: Date | string | null
+    submittedAt?: Date | string | null
     user: UserCreateNestedOneWithoutTimeEntriesInput
     project?: ProjectCreateNestedOneWithoutTimeEntriesInput
     budgetSection?: BudgetSectionCreateNestedOneWithoutTimeEntriesInput
@@ -150130,6 +150169,7 @@ export namespace Prisma {
     approvedById?: string | null
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
+    submittedAt?: Date | string | null
   }
 
   export type TimeEntryCreateOrConnectWithoutTaskInput = {
@@ -165885,6 +165925,7 @@ export namespace Prisma {
     createdAt?: Date | string
     approvalStatus?: $Enums.TimeEntryApprovalStatus
     approvedAt?: Date | string | null
+    submittedAt?: Date | string | null
     user: UserCreateNestedOneWithoutTimeEntriesInput
     task?: TaskCreateNestedOneWithoutTimeEntriesInput
     project?: ProjectCreateNestedOneWithoutTimeEntriesInput
@@ -165909,6 +165950,7 @@ export namespace Prisma {
     approvedById?: string | null
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
+    submittedAt?: Date | string | null
   }
 
   export type TimeEntryCreateOrConnectWithoutBudgetSectionInput = {
@@ -166621,6 +166663,7 @@ export namespace Prisma {
     createdAt?: Date | string
     approvalStatus?: $Enums.TimeEntryApprovalStatus
     approvedAt?: Date | string | null
+    submittedAt?: Date | string | null
     user: UserCreateNestedOneWithoutTimeEntriesInput
     task?: TaskCreateNestedOneWithoutTimeEntriesInput
     project?: ProjectCreateNestedOneWithoutTimeEntriesInput
@@ -166645,6 +166688,7 @@ export namespace Prisma {
     approvedById?: string | null
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
+    submittedAt?: Date | string | null
   }
 
   export type TimeEntryCreateOrConnectWithoutInvoiceInput = {
@@ -170642,6 +170686,7 @@ export namespace Prisma {
     approvedById?: string | null
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
+    submittedAt?: Date | string | null
   }
 
   export type CommentCreateManyAuthorInput = {
@@ -170976,6 +171021,7 @@ export namespace Prisma {
     approvalStatus?: $Enums.TimeEntryApprovalStatus
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
+    submittedAt?: Date | string | null
   }
 
   export type TimeEntryCreateManyLoggedForUserInput = {
@@ -170994,6 +171040,7 @@ export namespace Prisma {
     approvalStatus?: $Enums.TimeEntryApprovalStatus
     approvedById?: string | null
     approvedAt?: Date | string | null
+    submittedAt?: Date | string | null
   }
 
   export type TimesheetLockCreateManyUserInput = {
@@ -171278,6 +171325,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvalStatus?: EnumTimeEntryApprovalStatusFieldUpdateOperationsInput | $Enums.TimeEntryApprovalStatus
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     task?: TaskUpdateOneWithoutTimeEntriesNestedInput
     project?: ProjectUpdateOneWithoutTimeEntriesNestedInput
     budgetSection?: BudgetSectionUpdateOneWithoutTimeEntriesNestedInput
@@ -171302,6 +171350,7 @@ export namespace Prisma {
     approvedById?: NullableStringFieldUpdateOperationsInput | string | null
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TimeEntryUncheckedUpdateManyWithoutUserInput = {
@@ -171320,6 +171369,7 @@ export namespace Prisma {
     approvedById?: NullableStringFieldUpdateOperationsInput | string | null
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CommentUpdateWithoutAuthorInput = {
@@ -172456,6 +172506,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvalStatus?: EnumTimeEntryApprovalStatusFieldUpdateOperationsInput | $Enums.TimeEntryApprovalStatus
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutTimeEntriesNestedInput
     task?: TaskUpdateOneWithoutTimeEntriesNestedInput
     project?: ProjectUpdateOneWithoutTimeEntriesNestedInput
@@ -172480,6 +172531,7 @@ export namespace Prisma {
     approvalStatus?: EnumTimeEntryApprovalStatusFieldUpdateOperationsInput | $Enums.TimeEntryApprovalStatus
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TimeEntryUncheckedUpdateManyWithoutApprovedByInput = {
@@ -172498,6 +172550,7 @@ export namespace Prisma {
     approvalStatus?: EnumTimeEntryApprovalStatusFieldUpdateOperationsInput | $Enums.TimeEntryApprovalStatus
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TimeEntryUpdateWithoutLoggedForUserInput = {
@@ -172510,6 +172563,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvalStatus?: EnumTimeEntryApprovalStatusFieldUpdateOperationsInput | $Enums.TimeEntryApprovalStatus
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutTimeEntriesNestedInput
     task?: TaskUpdateOneWithoutTimeEntriesNestedInput
     project?: ProjectUpdateOneWithoutTimeEntriesNestedInput
@@ -172534,6 +172588,7 @@ export namespace Prisma {
     approvalStatus?: EnumTimeEntryApprovalStatusFieldUpdateOperationsInput | $Enums.TimeEntryApprovalStatus
     approvedById?: NullableStringFieldUpdateOperationsInput | string | null
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TimeEntryUncheckedUpdateManyWithoutLoggedForUserInput = {
@@ -172552,6 +172607,7 @@ export namespace Prisma {
     approvalStatus?: EnumTimeEntryApprovalStatusFieldUpdateOperationsInput | $Enums.TimeEntryApprovalStatus
     approvedById?: NullableStringFieldUpdateOperationsInput | string | null
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TimesheetLockUpdateWithoutUserInput = {
@@ -173692,6 +173748,7 @@ export namespace Prisma {
     approvedById?: string | null
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
+    submittedAt?: Date | string | null
   }
 
   export type WikiPageCreateManyProjectInput = {
@@ -173970,6 +174027,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvalStatus?: EnumTimeEntryApprovalStatusFieldUpdateOperationsInput | $Enums.TimeEntryApprovalStatus
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutTimeEntriesNestedInput
     task?: TaskUpdateOneWithoutTimeEntriesNestedInput
     budgetSection?: BudgetSectionUpdateOneWithoutTimeEntriesNestedInput
@@ -173994,6 +174052,7 @@ export namespace Prisma {
     approvedById?: NullableStringFieldUpdateOperationsInput | string | null
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TimeEntryUncheckedUpdateManyWithoutProjectInput = {
@@ -174012,6 +174071,7 @@ export namespace Prisma {
     approvedById?: NullableStringFieldUpdateOperationsInput | string | null
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type WikiPageUpdateWithoutProjectInput = {
@@ -175692,6 +175752,7 @@ export namespace Prisma {
     approvedById?: string | null
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
+    submittedAt?: Date | string | null
   }
 
   export type CommentCreateManyTaskInput = {
@@ -176077,6 +176138,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvalStatus?: EnumTimeEntryApprovalStatusFieldUpdateOperationsInput | $Enums.TimeEntryApprovalStatus
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutTimeEntriesNestedInput
     project?: ProjectUpdateOneWithoutTimeEntriesNestedInput
     budgetSection?: BudgetSectionUpdateOneWithoutTimeEntriesNestedInput
@@ -176101,6 +176163,7 @@ export namespace Prisma {
     approvedById?: NullableStringFieldUpdateOperationsInput | string | null
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TimeEntryUncheckedUpdateManyWithoutTaskInput = {
@@ -176119,6 +176182,7 @@ export namespace Prisma {
     approvedById?: NullableStringFieldUpdateOperationsInput | string | null
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CommentUpdateWithoutTaskInput = {
@@ -177475,6 +177539,7 @@ export namespace Prisma {
     approvedById?: string | null
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
+    submittedAt?: Date | string | null
   }
 
   export type InvoiceLineItemCreateManyBudgetSectionInput = {
@@ -177522,6 +177587,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvalStatus?: EnumTimeEntryApprovalStatusFieldUpdateOperationsInput | $Enums.TimeEntryApprovalStatus
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutTimeEntriesNestedInput
     task?: TaskUpdateOneWithoutTimeEntriesNestedInput
     project?: ProjectUpdateOneWithoutTimeEntriesNestedInput
@@ -177546,6 +177612,7 @@ export namespace Prisma {
     approvedById?: NullableStringFieldUpdateOperationsInput | string | null
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TimeEntryUncheckedUpdateManyWithoutBudgetSectionInput = {
@@ -177564,6 +177631,7 @@ export namespace Prisma {
     approvedById?: NullableStringFieldUpdateOperationsInput | string | null
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type InvoiceLineItemUpdateWithoutBudgetSectionInput = {
@@ -177701,6 +177769,7 @@ export namespace Prisma {
     approvedById?: string | null
     approvedAt?: Date | string | null
     loggedForUserId?: string | null
+    submittedAt?: Date | string | null
   }
 
   export type InvoicePaymentCreateManyInvoiceInput = {
@@ -177760,6 +177829,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     approvalStatus?: EnumTimeEntryApprovalStatusFieldUpdateOperationsInput | $Enums.TimeEntryApprovalStatus
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutTimeEntriesNestedInput
     task?: TaskUpdateOneWithoutTimeEntriesNestedInput
     project?: ProjectUpdateOneWithoutTimeEntriesNestedInput
@@ -177784,6 +177854,7 @@ export namespace Prisma {
     approvedById?: NullableStringFieldUpdateOperationsInput | string | null
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TimeEntryUncheckedUpdateManyWithoutInvoiceInput = {
@@ -177802,6 +177873,7 @@ export namespace Prisma {
     approvedById?: NullableStringFieldUpdateOperationsInput | string | null
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loggedForUserId?: NullableStringFieldUpdateOperationsInput | string | null
+    submittedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type InvoicePaymentUpdateWithoutInvoiceInput = {

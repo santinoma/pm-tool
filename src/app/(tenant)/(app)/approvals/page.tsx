@@ -20,7 +20,7 @@ export default async function ApprovalsPage() {
 
   const [timeEntries, expenses, absenceRequests] = await Promise.all([
     context.tenantDb.timeEntry.findMany({
-      where: { approvalStatus: "pending" },
+      where: { approvalStatus: "pending", submittedAt: { not: null } },
       include: { user: true, task: { select: { title: true } }, project: { select: { name: true } } },
       orderBy: { createdAt: "desc" },
     }),

@@ -16,6 +16,7 @@ export async function GET(request: Request) {
   const entries = await context.tenantDb.timeEntry.findMany({
     where: {
       approvalStatus: "pending",
+      submittedAt: { not: null },
       ...(projectId ? { projectId } : {}),
     },
     include: { user: true, task: true, project: true },

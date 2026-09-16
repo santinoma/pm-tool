@@ -8,8 +8,8 @@ describe("buildWeekSummary", () => {
     const summary = buildWeekSummary(
       [{ id: "u1", name: "Anna", email: "anna@example.com", weeklyCapacityHours: 40 }],
       [
-        { userId: "u1", date: "2026-08-24", durationMinutes: 60, serviceLabel: null, timeRange: null, description: null },
-        { userId: "u1", date: "2026-08-24", durationMinutes: 30, serviceLabel: null, timeRange: null, description: null },
+        { userId: "u1", date: "2026-08-24", durationMinutes: 60, serviceLabel: null, timeRange: null, description: null, submitted: true },
+        { userId: "u1", date: "2026-08-24", durationMinutes: 30, serviceLabel: null, timeRange: null, description: null, submitted: true },
       ],
       [],
       WEEK,
@@ -34,7 +34,7 @@ describe("buildWeekSummary", () => {
   it("adds absence credit on top of any booked hours on the same day", () => {
     const summary = buildWeekSummary(
       [{ id: "u1", name: "Anna", email: "anna@example.com", weeklyCapacityHours: 40 }],
-      [{ userId: "u1", date: "2026-08-24", durationMinutes: 60, serviceLabel: null, timeRange: null, description: null }],
+      [{ userId: "u1", date: "2026-08-24", durationMinutes: 60, serviceLabel: null, timeRange: null, description: null, submitted: true }],
       [{ userId: "u1", startDate: "2026-08-24", endDate: "2026-08-24" }],
       WEEK,
     );
@@ -47,11 +47,39 @@ describe("buildWeekSummary", () => {
         { id: "u1", name: "Anna", email: "a@example.com", weeklyCapacityHours: 40 },
         { id: "u2", name: "Ben", email: "b@example.com", weeklyCapacityHours: 20 },
       ],
-      [{ userId: "u1", date: "2026-08-24", durationMinutes: 120, serviceLabel: null, timeRange: null, description: null }],
+      [{ userId: "u1", date: "2026-08-24", durationMinutes: 120, serviceLabel: null, timeRange: null, description: null, submitted: true }],
       [],
       WEEK,
     );
     expect(summary[0].totalHours).toBe(2);
     expect(summary[1].totalHours).toBe(0);
+  });
+
+  it("derives timesheetStatus from how many of a user's entries are submitted", () => {
+    const summary = buildWeekSummary(
+      [{ id: "u1", name: "Anna", email: "anna@example.com", weeklyCapacityHours: 40 }],
+      [
+        { userId: "u1", date: "2026-08-24", durationMinutes: 60, serviceLabel: null, timeRange: null, description: null, submitted: false },
+        { userId: "u1", date: "2026-08-25", durationMinutes: 60, serviceLabel: null, timeRange: null, description: null, submitted: true },
+      ],
+      [],
+      WEEK,
+    );
+    expect(summary[0].timesheetStatus).toBe("partially_submitted");
+  });
+
+  it("reports not_submitted when a user has no entries at all", () => {
+    const summary = buildWeekSummary([{ id: "u1", name: "Anna", email: "anna@example.com", weeklyCapacityHours: 40 }], [], [], WEEK);
+    expect(summary[0].timesheetStatus).toBe("not_submitted");
+  });
+
+  it("reports submitted when every entry has been submitted", () => {
+    const summary = buildWeekSummary(
+      [{ id: "u1", name: "Anna", email: "anna@example.com", weeklyCapacityHours: 40 }],
+      [{ userId: "u1", date: "2026-08-24", durationMinutes: 60, serviceLabel: null, timeRange: null, description: null, submitted: true }],
+      [],
+      WEEK,
+    );
+    expect(summary[0].timesheetStatus).toBe("submitted");
   });
 });

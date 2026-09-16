@@ -23,6 +23,7 @@ interface EntryRow {
   durationMinutes: number;
   description: string | null;
   approvalStatus: "pending" | "approved" | "rejected";
+  submitted: boolean;
   locked: boolean;
   date: string;
   taskId: string | null;
@@ -59,6 +60,19 @@ const APPROVAL_BADGE_VARIANT: Record<EntryRow["approvalStatus"], "warningOutline
   approved: "successOutline",
   rejected: "destructiveOutline",
 };
+
+function startOfWeekIso(): { weekStart: string; weekEnd: string } {
+  const now = new Date();
+  const day = now.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  const weekStart = new Date(now);
+  weekStart.setDate(weekStart.getDate() + diff);
+  weekStart.setHours(0, 0, 0, 0);
+  const weekEnd = new Date(weekStart);
+  weekEnd.setDate(weekEnd.getDate() + 6);
+  weekEnd.setHours(23, 59, 59, 999);
+  return { weekStart: weekStart.toISOString(), weekEnd: weekEnd.toISOString() };
+}
 
 function formatElapsed(startedAt: string): string {
   const seconds = Math.max(0, Math.floor((Date.now() - new Date(startedAt).getTime()) / 1000));
@@ -98,6 +112,13 @@ export function TimeTrackingClient({
   const [lockPeriodStart, setLockPeriodStart] = useState("");
   const [lockPeriodEnd, setLockPeriodEnd] = useState("");
   const [lockError, setLockError] = useState<string | null>(null);
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  const { weekStart, weekEnd } = startOfWeekIso();
+  const thisWeekEntries = entries.filter((entry) => entry.date >= weekStart && entry.date <= weekEnd);
+  const draftCount = thisWeekEntries.filter((entry) => !entry.submitted).length;
+  const unsubmittableCount = thisWeekEntries.filter((entry) => entry.submitted && entry.approvalStatus !== "approved").length;
 
   useEffect(() => {
     if (!runningEntry) return;
@@ -180,6 +201,40 @@ export function TimeTrackingClient({
     if (!response.ok) {
       const body = await response.json();
       setApprovalError(body.error ?? "Ablehnung fehlgeschlagen.");
+      return;
+    }
+    router.refresh();
+  }
+
+  async function handleSubmitWeek() {
+    setSubmissionError(null);
+    setSubmitting(true);
+    const response = await fetch("/api/tenant/time-entries/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ weekStart, weekEnd }),
+    });
+    setSubmitting(false);
+    if (!response.ok) {
+      const body = await response.json();
+      setSubmissionError(body.error ?? "Woche konnte nicht eingereicht werden.");
+      return;
+    }
+    router.refresh();
+  }
+
+  async function handleUnsubmitWeek() {
+    setSubmissionError(null);
+    setSubmitting(true);
+    const response = await fetch("/api/tenant/time-entries/unsubmit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ weekStart, weekEnd }),
+    });
+    setSubmitting(false);
+    if (!response.ok) {
+      const body = await response.json();
+      setSubmissionError(body.error ?? "Woche konnte nicht zurückgezogen werden.");
       return;
     }
     router.refresh();
@@ -286,6 +341,21 @@ export function TimeTrackingClient({
         </Button>
       </form>
 
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-lg border px-4 py-3">
+        <span className="text-sm text-muted-foreground">
+          Diese Woche: {draftCount > 0 ? `${draftCount} Entwurf/Entwürfe noch nicht eingereicht` : "alles eingereicht"}
+        </span>
+        <div className="flex gap-2">
+          <Button size="sm" disabled={submitting || draftCount === 0} onClick={handleSubmitWeek}>
+            Woche einreichen
+          </Button>
+          <Button size="sm" variant="outline" disabled={submitting || unsubmittableCount === 0} onClick={handleUnsubmitWeek}>
+            Woche zurückziehen
+          </Button>
+        </div>
+      </div>
+      {submissionError && <p className="mb-4 text-sm text-destructive">{submissionError}</p>}
+
       <h2 className="mb-3 text-lg font-semibold">Meine letzten Einträge</h2>
       <div className="overflow-hidden rounded-lg border">
         <Table>
@@ -305,7 +375,10 @@ export function TimeTrackingClient({
                 <TableCell className="text-muted-foreground">{entry.description ?? "—"}</TableCell>
                 <TableCell>
                   <div className="flex gap-1.5">
-                    <Badge variant={APPROVAL_BADGE_VARIANT[entry.approvalStatus]}>{APPROVAL_LABEL[entry.approvalStatus]}</Badge>
+                    <Badge variant={entry.submitted ? "outline" : "secondary"}>{entry.submitted ? "Eingereicht" : "Entwurf"}</Badge>
+                    {entry.submitted && (
+                      <Badge variant={APPROVAL_BADGE_VARIANT[entry.approvalStatus]}>{APPROVAL_LABEL[entry.approvalStatus]}</Badge>
+                    )}
                     {entry.locked && <Badge variant="warningOutline">Gesperrt</Badge>}
                   </div>
                 </TableCell>

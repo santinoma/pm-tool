@@ -87,6 +87,7 @@ export default async function CompanyTimePage({
               ? `${entry.startedAt.toISOString().slice(11, 16)}–${entry.endedAt.toISOString().slice(11, 16)}`
               : null,
           description: entry.description,
+          submitted: entry.submittedAt !== null,
         };
       }),
     absences.map((absence) => ({

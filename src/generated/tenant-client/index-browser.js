@@ -552,7 +552,8 @@ exports.Prisma.TimeEntryScalarFieldEnum = {
   approvalStatus: 'approvalStatus',
   approvedById: 'approvedById',
   approvedAt: 'approvedAt',
-  loggedForUserId: 'loggedForUserId'
+  loggedForUserId: 'loggedForUserId',
+  submittedAt: 'submittedAt'
 };
 
 exports.Prisma.TimesheetLockScalarFieldEnum = {

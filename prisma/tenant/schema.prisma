@@ -752,6 +752,7 @@ model TimeEntry {
   approvedAt      DateTime?
   loggedForUser   User?                   @relation("TimeEntryLoggedFor", fields: [loggedForUserId], references: [id])
   loggedForUserId String?
+  submittedAt     DateTime?
 }
 
 model TimesheetLock {
