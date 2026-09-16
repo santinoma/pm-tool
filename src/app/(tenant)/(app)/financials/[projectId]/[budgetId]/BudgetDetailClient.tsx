@@ -354,11 +354,15 @@ function SectionRow({
       <TableCell className="text-right font-mono">{section.price.toFixed(2)}</TableCell>
       <TableCell className="text-right font-mono font-semibold">{totals.budgetTotal.toFixed(2)}</TableCell>
       <TableCell className="text-right font-mono">{section.budgetUsed.toFixed(2)}</TableCell>
-      <TableCell className="text-right font-mono">{totals.budgetRemaining.toFixed(2)}</TableCell>
+      {/* Reference §04: "Budget remaining negativ & rot bei Überschreitung." */}
+      <TableCell className={cn("text-right font-mono", totals.budgetRemaining < 0 && "text-destructive")}>
+        {totals.budgetRemaining.toFixed(2)}
+      </TableCell>
       <TableCell className="min-w-32">
         <div className="flex flex-col gap-1">
           <span className="text-xs text-muted-foreground">{totals.usagePercent.toFixed(0)}%</span>
-          <Progress value={Math.min(totals.usagePercent, 100)} variant={usageOver ? "destructive" : "default"} />
+          {/* RAG kept separate from the brand accent — reference §Farbsemantik. */}
+          <Progress value={Math.min(totals.usagePercent, 100)} variant={usageOver ? "destructive" : "success"} />
         </div>
       </TableCell>
       <TableCell className="text-center">

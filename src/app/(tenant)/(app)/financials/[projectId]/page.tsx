@@ -132,7 +132,8 @@ export default async function ProjectBudgetsPage({
               </div>
               <div>
                 <div className="text-xs text-muted-foreground">Marge</div>
-                <div className="font-mono text-lg font-semibold">
+                {/* Reference §04: "Negativwerte rot." */}
+                <div className={`font-mono text-lg font-semibold ${profitability.margin < 0 ? "text-destructive" : ""}`}>
                   {profitability.margin.toFixed(2)} ({profitability.marginPercent.toFixed(1)}%)
                 </div>
               </div>

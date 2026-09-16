@@ -121,7 +121,7 @@ export async function executeRuleActions(
         // Default-Status zuerst, sonst der erste Status nach Position — es
         // muss immer irgendein Status auf dem Task landen.
         const status = await tenantDb.workflowStatus.findFirst({
-          where: { projectId },
+          where: { workflow: { projects: { some: { id: projectId } } } },
           orderBy: [{ isDefault: "desc" }, { position: "asc" }],
         });
         if (status) {

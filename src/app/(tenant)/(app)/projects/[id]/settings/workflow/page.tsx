@@ -19,7 +19,7 @@ export default async function WorkflowSettingsPage({
 
   const [statuses, customFields, transitionRules, project, members, allUsers] = await Promise.all([
     context.tenantDb.workflowStatus.findMany({
-      where: { projectId: id },
+      where: { workflow: { projects: { some: { id } } } },
       orderBy: { position: "asc" },
     }),
     context.tenantDb.customFieldDef.findMany({ where: { projectId: id } }),
@@ -28,7 +28,10 @@ export default async function WorkflowSettingsPage({
       include: { fromStatus: true, toStatus: true },
       orderBy: { createdAt: "desc" },
     }),
-    context.tenantDb.project.findUnique({ where: { id }, select: { isTemplate: true } }),
+    context.tenantDb.project.findUnique({
+      where: { id },
+      select: { isTemplate: true, workflow: { select: { id: true, name: true, _count: { select: { projects: true } } } } },
+    }),
     context.tenantDb.projectMember.findMany({ where: { projectId: id }, include: { user: true } }),
     context.tenantDb.user.findMany({ where: { isActive: true }, orderBy: { createdAt: "asc" } }),
   ]);
@@ -49,6 +52,8 @@ export default async function WorkflowSettingsPage({
     <WorkflowEditorClient
       projectId={id}
       canManage={canManageMembers(context.currentUser.role)}
+      workflowName={project?.workflow.name ?? ""}
+      sharedProjectCount={project?.workflow._count.projects ?? 1}
       statuses={statuses.map((status) => ({
         id: status.id,
         name: status.name,

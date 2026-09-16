@@ -21,16 +21,16 @@ beforeEach(async () => {
   const owner = await tenantDb.user.create({ data: { email: "owner-real@example.com", role: "owner" } });
   ownerId = owner.id;
 
-  const projectA = await tenantDb.project.create({ data: { name: "Project A" } });
-  const projectB = await tenantDb.project.create({ data: { name: "Project B" } });
+  const projectA = await tenantDb.project.create({ data: { name: "Project A", workflow: { create: { name: "Test Workflow" } } } });
+  const projectB = await tenantDb.project.create({ data: { name: "Project B", workflow: { create: { name: "Test Workflow" } } } });
   const statusA = await tenantDb.workflowStatus.create({
-    data: { projectId: projectA.id, name: "Todo", category: "not_started", position: 0, isDefault: true },
+    data: { workflowId: projectA.workflowId, name: "Todo", category: "not_started", position: 0, isDefault: true },
   });
   const statusB = await tenantDb.workflowStatus.create({
-    data: { projectId: projectB.id, name: "Todo", category: "not_started", position: 0, isDefault: true },
+    data: { workflowId: projectB.workflowId, name: "Todo", category: "not_started", position: 0, isDefault: true },
   });
   const doneStatus = await tenantDb.workflowStatus.create({
-    data: { projectId: projectB.id, name: "Done", category: "done", position: 1 },
+    data: { workflowId: projectB.workflowId, name: "Done", category: "done", position: 1 },
   });
   doneStatusId = doneStatus.id;
 

@@ -123,6 +123,7 @@ model Client {
   projects         Project[]
   contacts         ClientContact[]
   deals            Deal[]
+  rateCards        RateCard[]
 
   @@unique([name])
 }
@@ -139,29 +140,68 @@ model ClientContact {
   createdAt DateTime @default(now())
 }
 
-enum DealStage {
-  lead
-  qualified
-  proposal
+enum DealStatusCategory {
+  open
   won
   lost
 }
 
+// Reference "Setting up Your Sales Pipelines": a Pipeline is an organization-wide,
+// reusable set of deal stages (several sales processes can have their own pipeline),
+// mirroring how Workflow does the same for task statuses. Archiving frees up the
+// plan's pipeline slot without deleting a Pipeline still referenced by a deal.
+model Pipeline {
+  id        String       @id @default(uuid())
+  name      String
+  archived  Boolean      @default(false)
+  createdAt DateTime     @default(now())
+  statuses  DealStatus[]
+}
+
+model DealStatus {
+  id                 String             @id @default(uuid())
+  pipeline           Pipeline           @relation(fields: [pipelineId], references: [id])
+  pipelineId         String
+  name               String
+  category           DealStatusCategory
+  position           Int
+  defaultProbability Int?
+  trackTime          Boolean            @default(true)
+  trackExpenses      Boolean            @default(true)
+  createBookings     Boolean            @default(true)
+  deals              Deal[]
+
+  @@unique([pipelineId, name])
+}
+
+// Reference "General Sales Settings: Pipeline Stages, Lost Reasons...": a managed
+// catalog instead of free text, so lost deals can actually be analyzed by reason.
+model LostReason {
+  id        String   @id @default(uuid())
+  label     String   @unique
+  archived  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  deals     Deal[]
+}
+
 model Deal {
-  id             String    @id @default(uuid())
+  id             String      @id @default(uuid())
   title          String
-  company        Client    @relation(fields: [companyId], references: [id])
+  company        Client      @relation(fields: [companyId], references: [id])
   companyId      String
-  stage          DealStage @default(lead)
-  owner          User      @relation(fields: [ownerId], references: [id])
+  status         DealStatus  @relation(fields: [statusId], references: [id])
+  statusId       String
+  owner          User        @relation(fields: [ownerId], references: [id])
   ownerId        String
   estimatedValue Float?
   probability    Int?
-  lostReason     String?
-  project        Project?  @relation(fields: [projectId], references: [id])
+  lostReason     LostReason? @relation(fields: [lostReasonId], references: [id])
+  lostReasonId   String?
+  lostReasonNote String?
+  project        Project?    @relation(fields: [projectId], references: [id])
   projectId      String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
 }
 
 model ProjectMember {
@@ -306,7 +346,8 @@ model Project {
   timeApprovalRequired    Boolean                  @default(false)
   expenseApprovalRequired Boolean                  @default(false)
   createdAt               DateTime                 @default(now())
-  statuses                WorkflowStatus[]
+  workflow                Workflow                 @relation(fields: [workflowId], references: [id])
+  workflowId              String
   taskLinks               TaskProject[]
   customFields            CustomFieldDef[]
   timeEntries             TimeEntry[]
@@ -464,10 +505,24 @@ enum StatusCategory {
   done
 }
 
+// Reference "Creating and Managing Workflows": a Workflow is an organization-wide,
+// reusable set of task statuses (grouped into not_started/started/done stages) —
+// several projects can point at the same Workflow, and editing it (e.g. moving a
+// status between stages) affects every project using it. Archiving frees up the
+// plan's workflow slot without deleting a Workflow still referenced by a project.
+model Workflow {
+  id        String           @id @default(uuid())
+  name      String
+  archived  Boolean          @default(false)
+  createdAt DateTime         @default(now())
+  statuses  WorkflowStatus[]
+  projects  Project[]
+}
+
 model WorkflowStatus {
   id                String             @id @default(uuid())
-  project           Project            @relation(fields: [projectId], references: [id])
-  projectId         String
+  workflow          Workflow           @relation(fields: [workflowId], references: [id])
+  workflowId        String
   name              String
   category          StatusCategory
   position          Int
@@ -477,7 +532,7 @@ model WorkflowStatus {
   transitionsTo     TransitionRule[]   @relation("TransitionTo")
   automationActions AutomationAction[]
 
-  @@unique([projectId, name])
+  @@unique([workflowId, name])
 }
 
 enum TaskPriority {
@@ -503,6 +558,10 @@ model Task {
   externalSourceUrl   String?
   status              WorkflowStatus     @relation(fields: [statusId], references: [id])
   statusId            String
+  // Reference "prioritize tasks inside a task list" (drag reorder within a status
+  // column/list, persisted and shared between Board and List). Fractional so a drop
+  // between two neighbors only ever rewrites the moved task's row.
+  position            Float              @default(0)
   priority            TaskPriority       @default(no_priority)
   tShirtSize          TaskTShirtSize?
   assignee            User?              @relation(fields: [assigneeId], references: [id])
@@ -1172,8 +1231,20 @@ model BudgetSection {
   resourceBookings        ResourceBooking[]
 }
 
+model RateCard {
+  id        String         @id @default(uuid())
+  name      String
+  client    Client?        @relation(fields: [clientId], references: [id])
+  clientId  String?
+  archived  Boolean        @default(false)
+  createdAt DateTime       @default(now())
+  items     RateCardItem[]
+}
+
 model RateCardItem {
   id            String       @id @default(uuid())
+  rateCard      RateCard     @relation(fields: [rateCardId], references: [id])
+  rateCardId    String
   name          String
   serviceType   ServiceType? @relation(fields: [serviceTypeId], references: [id])
   serviceTypeId String?

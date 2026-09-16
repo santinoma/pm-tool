@@ -29,6 +29,21 @@ export type Client = $Result.DefaultSelection<Prisma.$ClientPayload>
  */
 export type ClientContact = $Result.DefaultSelection<Prisma.$ClientContactPayload>
 /**
+ * Model Pipeline
+ * 
+ */
+export type Pipeline = $Result.DefaultSelection<Prisma.$PipelinePayload>
+/**
+ * Model DealStatus
+ * 
+ */
+export type DealStatus = $Result.DefaultSelection<Prisma.$DealStatusPayload>
+/**
+ * Model LostReason
+ * 
+ */
+export type LostReason = $Result.DefaultSelection<Prisma.$LostReasonPayload>
+/**
  * Model Deal
  * 
  */
@@ -138,6 +153,11 @@ export type SharedView = $Result.DefaultSelection<Prisma.$SharedViewPayload>
  * 
  */
 export type SavedView = $Result.DefaultSelection<Prisma.$SavedViewPayload>
+/**
+ * Model Workflow
+ * 
+ */
+export type Workflow = $Result.DefaultSelection<Prisma.$WorkflowPayload>
 /**
  * Model WorkflowStatus
  * 
@@ -349,6 +369,11 @@ export type ServiceType = $Result.DefaultSelection<Prisma.$ServiceTypePayload>
  */
 export type BudgetSection = $Result.DefaultSelection<Prisma.$BudgetSectionPayload>
 /**
+ * Model RateCard
+ * 
+ */
+export type RateCard = $Result.DefaultSelection<Prisma.$RateCardPayload>
+/**
  * Model RateCardItem
  * 
  */
@@ -432,15 +457,13 @@ export const ClientType: {
 export type ClientType = (typeof ClientType)[keyof typeof ClientType]
 
 
-export const DealStage: {
-  lead: 'lead',
-  qualified: 'qualified',
-  proposal: 'proposal',
+export const DealStatusCategory: {
+  open: 'open',
   won: 'won',
   lost: 'lost'
 };
 
-export type DealStage = (typeof DealStage)[keyof typeof DealStage]
+export type DealStatusCategory = (typeof DealStatusCategory)[keyof typeof DealStatusCategory]
 
 
 export const AbsenceType: {
@@ -714,9 +737,9 @@ export type ClientType = $Enums.ClientType
 
 export const ClientType: typeof $Enums.ClientType
 
-export type DealStage = $Enums.DealStage
+export type DealStatusCategory = $Enums.DealStatusCategory
 
-export const DealStage: typeof $Enums.DealStage
+export const DealStatusCategory: typeof $Enums.DealStatusCategory
 
 export type AbsenceType = $Enums.AbsenceType
 
@@ -974,6 +997,36 @@ export class PrismaClient<
   get clientContact(): Prisma.ClientContactDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.pipeline`: Exposes CRUD operations for the **Pipeline** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Pipelines
+    * const pipelines = await prisma.pipeline.findMany()
+    * ```
+    */
+  get pipeline(): Prisma.PipelineDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.dealStatus`: Exposes CRUD operations for the **DealStatus** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DealStatuses
+    * const dealStatuses = await prisma.dealStatus.findMany()
+    * ```
+    */
+  get dealStatus(): Prisma.DealStatusDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.lostReason`: Exposes CRUD operations for the **LostReason** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LostReasons
+    * const lostReasons = await prisma.lostReason.findMany()
+    * ```
+    */
+  get lostReason(): Prisma.LostReasonDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.deal`: Exposes CRUD operations for the **Deal** model.
     * Example usage:
     * ```ts
@@ -1192,6 +1245,16 @@ export class PrismaClient<
     * ```
     */
   get savedView(): Prisma.SavedViewDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.workflow`: Exposes CRUD operations for the **Workflow** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Workflows
+    * const workflows = await prisma.workflow.findMany()
+    * ```
+    */
+  get workflow(): Prisma.WorkflowDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.workflowStatus`: Exposes CRUD operations for the **WorkflowStatus** model.
@@ -1612,6 +1675,16 @@ export class PrismaClient<
     * ```
     */
   get budgetSection(): Prisma.BudgetSectionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.rateCard`: Exposes CRUD operations for the **RateCard** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RateCards
+    * const rateCards = await prisma.rateCard.findMany()
+    * ```
+    */
+  get rateCard(): Prisma.RateCardDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.rateCardItem`: Exposes CRUD operations for the **RateCardItem** model.
@@ -2162,6 +2235,9 @@ export namespace Prisma {
     User: 'User',
     Client: 'Client',
     ClientContact: 'ClientContact',
+    Pipeline: 'Pipeline',
+    DealStatus: 'DealStatus',
+    LostReason: 'LostReason',
     Deal: 'Deal',
     ProjectMember: 'ProjectMember',
     CustomRole: 'CustomRole',
@@ -2184,6 +2260,7 @@ export namespace Prisma {
     TransitionRule: 'TransitionRule',
     SharedView: 'SharedView',
     SavedView: 'SavedView',
+    Workflow: 'Workflow',
     WorkflowStatus: 'WorkflowStatus',
     Task: 'Task',
     Tag: 'Tag',
@@ -2226,6 +2303,7 @@ export namespace Prisma {
     Budget: 'Budget',
     ServiceType: 'ServiceType',
     BudgetSection: 'BudgetSection',
+    RateCard: 'RateCard',
     RateCardItem: 'RateCardItem',
     Invoice: 'Invoice',
     InvoiceLineItem: 'InvoiceLineItem',
@@ -2251,7 +2329,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "client" | "clientContact" | "deal" | "projectMember" | "customRole" | "projectRoleOverride" | "absenceRequest" | "session" | "favorite" | "auditLogEntry" | "invite" | "projectClientAccess" | "slackCaptureConfig" | "project" | "taskFolder" | "taskListGroup" | "baseline" | "baselineTaskSnapshot" | "portfolio" | "goal" | "cycle" | "transitionRule" | "sharedView" | "savedView" | "workflowStatus" | "task" | "tag" | "taskTag" | "taskSubscriber" | "todo" | "comment" | "mention" | "attachment" | "wikiPage" | "tenantSettings" | "pendingLogin" | "timeEntry" | "timesheetLock" | "timeTrackingPolicy" | "holidayCalendar" | "holiday" | "resourceBooking" | "taskProject" | "taskDependency" | "taskLink" | "customFieldDef" | "customFieldValue" | "budgetCustomFieldValue" | "wikiPageCustomFieldValue" | "sharedWikiLink" | "activityEvent" | "notificationPreference" | "notification" | "automationRule" | "automationAction" | "dashboard" | "dashboardWidget" | "webhookEndpoint" | "ssoConfig" | "apiKey" | "webhookDelivery" | "checkInSchedule" | "checkInResponse" | "budget" | "serviceType" | "budgetSection" | "rateCardItem" | "invoice" | "invoiceLineItem" | "invoicePayment" | "creditNote" | "meeting" | "expense" | "purchaseOrder" | "savedReport" | "budgetSectionAssignee"
+      modelProps: "user" | "client" | "clientContact" | "pipeline" | "dealStatus" | "lostReason" | "deal" | "projectMember" | "customRole" | "projectRoleOverride" | "absenceRequest" | "session" | "favorite" | "auditLogEntry" | "invite" | "projectClientAccess" | "slackCaptureConfig" | "project" | "taskFolder" | "taskListGroup" | "baseline" | "baselineTaskSnapshot" | "portfolio" | "goal" | "cycle" | "transitionRule" | "sharedView" | "savedView" | "workflow" | "workflowStatus" | "task" | "tag" | "taskTag" | "taskSubscriber" | "todo" | "comment" | "mention" | "attachment" | "wikiPage" | "tenantSettings" | "pendingLogin" | "timeEntry" | "timesheetLock" | "timeTrackingPolicy" | "holidayCalendar" | "holiday" | "resourceBooking" | "taskProject" | "taskDependency" | "taskLink" | "customFieldDef" | "customFieldValue" | "budgetCustomFieldValue" | "wikiPageCustomFieldValue" | "sharedWikiLink" | "activityEvent" | "notificationPreference" | "notification" | "automationRule" | "automationAction" | "dashboard" | "dashboardWidget" | "webhookEndpoint" | "ssoConfig" | "apiKey" | "webhookDelivery" | "checkInSchedule" | "checkInResponse" | "budget" | "serviceType" | "budgetSection" | "rateCard" | "rateCardItem" | "invoice" | "invoiceLineItem" | "invoicePayment" | "creditNote" | "meeting" | "expense" | "purchaseOrder" | "savedReport" | "budgetSectionAssignee"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2474,6 +2552,228 @@ export namespace Prisma {
           count: {
             args: Prisma.ClientContactCountArgs<ExtArgs>
             result: $Utils.Optional<ClientContactCountAggregateOutputType> | number
+          }
+        }
+      }
+      Pipeline: {
+        payload: Prisma.$PipelinePayload<ExtArgs>
+        fields: Prisma.PipelineFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PipelineFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelinePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PipelineFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelinePayload>
+          }
+          findFirst: {
+            args: Prisma.PipelineFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelinePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PipelineFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelinePayload>
+          }
+          findMany: {
+            args: Prisma.PipelineFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelinePayload>[]
+          }
+          create: {
+            args: Prisma.PipelineCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelinePayload>
+          }
+          createMany: {
+            args: Prisma.PipelineCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PipelineCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelinePayload>[]
+          }
+          delete: {
+            args: Prisma.PipelineDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelinePayload>
+          }
+          update: {
+            args: Prisma.PipelineUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelinePayload>
+          }
+          deleteMany: {
+            args: Prisma.PipelineDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PipelineUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PipelineUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelinePayload>[]
+          }
+          upsert: {
+            args: Prisma.PipelineUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PipelinePayload>
+          }
+          aggregate: {
+            args: Prisma.PipelineAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePipeline>
+          }
+          groupBy: {
+            args: Prisma.PipelineGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PipelineGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PipelineCountArgs<ExtArgs>
+            result: $Utils.Optional<PipelineCountAggregateOutputType> | number
+          }
+        }
+      }
+      DealStatus: {
+        payload: Prisma.$DealStatusPayload<ExtArgs>
+        fields: Prisma.DealStatusFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DealStatusFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealStatusPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DealStatusFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealStatusPayload>
+          }
+          findFirst: {
+            args: Prisma.DealStatusFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealStatusPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DealStatusFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealStatusPayload>
+          }
+          findMany: {
+            args: Prisma.DealStatusFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealStatusPayload>[]
+          }
+          create: {
+            args: Prisma.DealStatusCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealStatusPayload>
+          }
+          createMany: {
+            args: Prisma.DealStatusCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DealStatusCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealStatusPayload>[]
+          }
+          delete: {
+            args: Prisma.DealStatusDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealStatusPayload>
+          }
+          update: {
+            args: Prisma.DealStatusUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealStatusPayload>
+          }
+          deleteMany: {
+            args: Prisma.DealStatusDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DealStatusUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DealStatusUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealStatusPayload>[]
+          }
+          upsert: {
+            args: Prisma.DealStatusUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DealStatusPayload>
+          }
+          aggregate: {
+            args: Prisma.DealStatusAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDealStatus>
+          }
+          groupBy: {
+            args: Prisma.DealStatusGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DealStatusGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DealStatusCountArgs<ExtArgs>
+            result: $Utils.Optional<DealStatusCountAggregateOutputType> | number
+          }
+        }
+      }
+      LostReason: {
+        payload: Prisma.$LostReasonPayload<ExtArgs>
+        fields: Prisma.LostReasonFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LostReasonFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LostReasonPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LostReasonFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LostReasonPayload>
+          }
+          findFirst: {
+            args: Prisma.LostReasonFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LostReasonPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LostReasonFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LostReasonPayload>
+          }
+          findMany: {
+            args: Prisma.LostReasonFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LostReasonPayload>[]
+          }
+          create: {
+            args: Prisma.LostReasonCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LostReasonPayload>
+          }
+          createMany: {
+            args: Prisma.LostReasonCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LostReasonCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LostReasonPayload>[]
+          }
+          delete: {
+            args: Prisma.LostReasonDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LostReasonPayload>
+          }
+          update: {
+            args: Prisma.LostReasonUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LostReasonPayload>
+          }
+          deleteMany: {
+            args: Prisma.LostReasonDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LostReasonUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LostReasonUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LostReasonPayload>[]
+          }
+          upsert: {
+            args: Prisma.LostReasonUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LostReasonPayload>
+          }
+          aggregate: {
+            args: Prisma.LostReasonAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLostReason>
+          }
+          groupBy: {
+            args: Prisma.LostReasonGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LostReasonGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LostReasonCountArgs<ExtArgs>
+            result: $Utils.Optional<LostReasonCountAggregateOutputType> | number
           }
         }
       }
@@ -4102,6 +4402,80 @@ export namespace Prisma {
           count: {
             args: Prisma.SavedViewCountArgs<ExtArgs>
             result: $Utils.Optional<SavedViewCountAggregateOutputType> | number
+          }
+        }
+      }
+      Workflow: {
+        payload: Prisma.$WorkflowPayload<ExtArgs>
+        fields: Prisma.WorkflowFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WorkflowFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkflowPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WorkflowFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkflowPayload>
+          }
+          findFirst: {
+            args: Prisma.WorkflowFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkflowPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WorkflowFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkflowPayload>
+          }
+          findMany: {
+            args: Prisma.WorkflowFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkflowPayload>[]
+          }
+          create: {
+            args: Prisma.WorkflowCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkflowPayload>
+          }
+          createMany: {
+            args: Prisma.WorkflowCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WorkflowCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkflowPayload>[]
+          }
+          delete: {
+            args: Prisma.WorkflowDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkflowPayload>
+          }
+          update: {
+            args: Prisma.WorkflowUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkflowPayload>
+          }
+          deleteMany: {
+            args: Prisma.WorkflowDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WorkflowUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WorkflowUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkflowPayload>[]
+          }
+          upsert: {
+            args: Prisma.WorkflowUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkflowPayload>
+          }
+          aggregate: {
+            args: Prisma.WorkflowAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWorkflow>
+          }
+          groupBy: {
+            args: Prisma.WorkflowGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WorkflowGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WorkflowCountArgs<ExtArgs>
+            result: $Utils.Optional<WorkflowCountAggregateOutputType> | number
           }
         }
       }
@@ -7213,6 +7587,80 @@ export namespace Prisma {
           }
         }
       }
+      RateCard: {
+        payload: Prisma.$RateCardPayload<ExtArgs>
+        fields: Prisma.RateCardFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RateCardFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RateCardFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>
+          }
+          findFirst: {
+            args: Prisma.RateCardFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RateCardFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>
+          }
+          findMany: {
+            args: Prisma.RateCardFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>[]
+          }
+          create: {
+            args: Prisma.RateCardCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>
+          }
+          createMany: {
+            args: Prisma.RateCardCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RateCardCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>[]
+          }
+          delete: {
+            args: Prisma.RateCardDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>
+          }
+          update: {
+            args: Prisma.RateCardUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>
+          }
+          deleteMany: {
+            args: Prisma.RateCardDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RateCardUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RateCardUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>[]
+          }
+          upsert: {
+            args: Prisma.RateCardUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>
+          }
+          aggregate: {
+            args: Prisma.RateCardAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRateCard>
+          }
+          groupBy: {
+            args: Prisma.RateCardGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RateCardGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RateCardCountArgs<ExtArgs>
+            result: $Utils.Optional<RateCardCountAggregateOutputType> | number
+          }
+        }
+      }
       RateCardItem: {
         payload: Prisma.$RateCardItemPayload<ExtArgs>
         fields: Prisma.RateCardItemFieldRefs
@@ -8079,6 +8527,9 @@ export namespace Prisma {
     user?: UserOmit
     client?: ClientOmit
     clientContact?: ClientContactOmit
+    pipeline?: PipelineOmit
+    dealStatus?: DealStatusOmit
+    lostReason?: LostReasonOmit
     deal?: DealOmit
     projectMember?: ProjectMemberOmit
     customRole?: CustomRoleOmit
@@ -8101,6 +8552,7 @@ export namespace Prisma {
     transitionRule?: TransitionRuleOmit
     sharedView?: SharedViewOmit
     savedView?: SavedViewOmit
+    workflow?: WorkflowOmit
     workflowStatus?: WorkflowStatusOmit
     task?: TaskOmit
     tag?: TagOmit
@@ -8143,6 +8595,7 @@ export namespace Prisma {
     budget?: BudgetOmit
     serviceType?: ServiceTypeOmit
     budgetSection?: BudgetSectionOmit
+    rateCard?: RateCardOmit
     rateCardItem?: RateCardItemOmit
     invoice?: InvoiceOmit
     invoiceLineItem?: InvoiceLineItemOmit
@@ -8700,6 +9153,7 @@ export namespace Prisma {
     projects: number
     contacts: number
     deals: number
+    rateCards: number
   }
 
   export type ClientCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8707,6 +9161,7 @@ export namespace Prisma {
     projects?: boolean | ClientCountOutputTypeCountProjectsArgs
     contacts?: boolean | ClientCountOutputTypeCountContactsArgs
     deals?: boolean | ClientCountOutputTypeCountDealsArgs
+    rateCards?: boolean | ClientCountOutputTypeCountRateCardsArgs
   }
 
   // Custom InputTypes
@@ -8745,6 +9200,106 @@ export namespace Prisma {
    * ClientCountOutputType without action
    */
   export type ClientCountOutputTypeCountDealsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DealWhereInput
+  }
+
+  /**
+   * ClientCountOutputType without action
+   */
+  export type ClientCountOutputTypeCountRateCardsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RateCardWhereInput
+  }
+
+
+  /**
+   * Count Type PipelineCountOutputType
+   */
+
+  export type PipelineCountOutputType = {
+    statuses: number
+  }
+
+  export type PipelineCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    statuses?: boolean | PipelineCountOutputTypeCountStatusesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PipelineCountOutputType without action
+   */
+  export type PipelineCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PipelineCountOutputType
+     */
+    select?: PipelineCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PipelineCountOutputType without action
+   */
+  export type PipelineCountOutputTypeCountStatusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DealStatusWhereInput
+  }
+
+
+  /**
+   * Count Type DealStatusCountOutputType
+   */
+
+  export type DealStatusCountOutputType = {
+    deals: number
+  }
+
+  export type DealStatusCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    deals?: boolean | DealStatusCountOutputTypeCountDealsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * DealStatusCountOutputType without action
+   */
+  export type DealStatusCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatusCountOutputType
+     */
+    select?: DealStatusCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * DealStatusCountOutputType without action
+   */
+  export type DealStatusCountOutputTypeCountDealsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DealWhereInput
+  }
+
+
+  /**
+   * Count Type LostReasonCountOutputType
+   */
+
+  export type LostReasonCountOutputType = {
+    deals: number
+  }
+
+  export type LostReasonCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    deals?: boolean | LostReasonCountOutputTypeCountDealsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * LostReasonCountOutputType without action
+   */
+  export type LostReasonCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReasonCountOutputType
+     */
+    select?: LostReasonCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * LostReasonCountOutputType without action
+   */
+  export type LostReasonCountOutputTypeCountDealsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DealWhereInput
   }
 
@@ -8794,7 +9349,6 @@ export namespace Prisma {
    */
 
   export type ProjectCountOutputType = {
-    statuses: number
     taskLinks: number
     customFields: number
     timeEntries: number
@@ -8822,7 +9376,6 @@ export namespace Prisma {
   }
 
   export type ProjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    statuses?: boolean | ProjectCountOutputTypeCountStatusesArgs
     taskLinks?: boolean | ProjectCountOutputTypeCountTaskLinksArgs
     customFields?: boolean | ProjectCountOutputTypeCountCustomFieldsArgs
     timeEntries?: boolean | ProjectCountOutputTypeCountTimeEntriesArgs
@@ -8858,13 +9411,6 @@ export namespace Prisma {
      * Select specific fields to fetch from the ProjectCountOutputType
      */
     select?: ProjectCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * ProjectCountOutputType without action
-   */
-  export type ProjectCountOutputTypeCountStatusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: WorkflowStatusWhereInput
   }
 
   /**
@@ -9197,6 +9743,46 @@ export namespace Prisma {
    */
   export type CycleCountOutputTypeCountTasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TaskWhereInput
+  }
+
+
+  /**
+   * Count Type WorkflowCountOutputType
+   */
+
+  export type WorkflowCountOutputType = {
+    statuses: number
+    projects: number
+  }
+
+  export type WorkflowCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    statuses?: boolean | WorkflowCountOutputTypeCountStatusesArgs
+    projects?: boolean | WorkflowCountOutputTypeCountProjectsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * WorkflowCountOutputType without action
+   */
+  export type WorkflowCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkflowCountOutputType
+     */
+    select?: WorkflowCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * WorkflowCountOutputType without action
+   */
+  export type WorkflowCountOutputTypeCountStatusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkflowStatusWhereInput
+  }
+
+  /**
+   * WorkflowCountOutputType without action
+   */
+  export type WorkflowCountOutputTypeCountProjectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectWhereInput
   }
 
 
@@ -9941,6 +10527,37 @@ export namespace Prisma {
    */
   export type BudgetSectionCountOutputTypeCountResourceBookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ResourceBookingWhereInput
+  }
+
+
+  /**
+   * Count Type RateCardCountOutputType
+   */
+
+  export type RateCardCountOutputType = {
+    items: number
+  }
+
+  export type RateCardCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    items?: boolean | RateCardCountOutputTypeCountItemsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * RateCardCountOutputType without action
+   */
+  export type RateCardCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCardCountOutputType
+     */
+    select?: RateCardCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * RateCardCountOutputType without action
+   */
+  export type RateCardCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RateCardItemWhereInput
   }
 
 
@@ -12983,6 +13600,7 @@ export namespace Prisma {
     projects?: boolean | Client$projectsArgs<ExtArgs>
     contacts?: boolean | Client$contactsArgs<ExtArgs>
     deals?: boolean | Client$dealsArgs<ExtArgs>
+    rateCards?: boolean | Client$rateCardsArgs<ExtArgs>
     _count?: boolean | ClientCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["client"]>
 
@@ -13043,6 +13661,7 @@ export namespace Prisma {
     projects?: boolean | Client$projectsArgs<ExtArgs>
     contacts?: boolean | Client$contactsArgs<ExtArgs>
     deals?: boolean | Client$dealsArgs<ExtArgs>
+    rateCards?: boolean | Client$rateCardsArgs<ExtArgs>
     _count?: boolean | ClientCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ClientIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13063,6 +13682,7 @@ export namespace Prisma {
       projects: Prisma.$ProjectPayload<ExtArgs>[]
       contacts: Prisma.$ClientContactPayload<ExtArgs>[]
       deals: Prisma.$DealPayload<ExtArgs>[]
+      rateCards: Prisma.$RateCardPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -13477,6 +14097,7 @@ export namespace Prisma {
     projects<T extends Client$projectsArgs<ExtArgs> = {}>(args?: Subset<T, Client$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     contacts<T extends Client$contactsArgs<ExtArgs> = {}>(args?: Subset<T, Client$contactsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientContactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     deals<T extends Client$dealsArgs<ExtArgs> = {}>(args?: Subset<T, Client$dealsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    rateCards<T extends Client$rateCardsArgs<ExtArgs> = {}>(args?: Subset<T, Client$rateCardsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14050,6 +14671,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: DealScalarFieldEnum | DealScalarFieldEnum[]
+  }
+
+  /**
+   * Client.rateCards
+   */
+  export type Client$rateCardsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    where?: RateCardWhereInput
+    orderBy?: RateCardOrderByWithRelationInput | RateCardOrderByWithRelationInput[]
+    cursor?: RateCardWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RateCardScalarFieldEnum | RateCardScalarFieldEnum[]
   }
 
   /**
@@ -15174,6 +15819,3313 @@ export namespace Prisma {
 
 
   /**
+   * Model Pipeline
+   */
+
+  export type AggregatePipeline = {
+    _count: PipelineCountAggregateOutputType | null
+    _min: PipelineMinAggregateOutputType | null
+    _max: PipelineMaxAggregateOutputType | null
+  }
+
+  export type PipelineMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    archived: boolean | null
+    createdAt: Date | null
+  }
+
+  export type PipelineMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    archived: boolean | null
+    createdAt: Date | null
+  }
+
+  export type PipelineCountAggregateOutputType = {
+    id: number
+    name: number
+    archived: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PipelineMinAggregateInputType = {
+    id?: true
+    name?: true
+    archived?: true
+    createdAt?: true
+  }
+
+  export type PipelineMaxAggregateInputType = {
+    id?: true
+    name?: true
+    archived?: true
+    createdAt?: true
+  }
+
+  export type PipelineCountAggregateInputType = {
+    id?: true
+    name?: true
+    archived?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PipelineAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Pipeline to aggregate.
+     */
+    where?: PipelineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Pipelines to fetch.
+     */
+    orderBy?: PipelineOrderByWithRelationInput | PipelineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PipelineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Pipelines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Pipelines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Pipelines
+    **/
+    _count?: true | PipelineCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PipelineMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PipelineMaxAggregateInputType
+  }
+
+  export type GetPipelineAggregateType<T extends PipelineAggregateArgs> = {
+        [P in keyof T & keyof AggregatePipeline]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePipeline[P]>
+      : GetScalarType<T[P], AggregatePipeline[P]>
+  }
+
+
+
+
+  export type PipelineGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PipelineWhereInput
+    orderBy?: PipelineOrderByWithAggregationInput | PipelineOrderByWithAggregationInput[]
+    by: PipelineScalarFieldEnum[] | PipelineScalarFieldEnum
+    having?: PipelineScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PipelineCountAggregateInputType | true
+    _min?: PipelineMinAggregateInputType
+    _max?: PipelineMaxAggregateInputType
+  }
+
+  export type PipelineGroupByOutputType = {
+    id: string
+    name: string
+    archived: boolean
+    createdAt: Date
+    _count: PipelineCountAggregateOutputType | null
+    _min: PipelineMinAggregateOutputType | null
+    _max: PipelineMaxAggregateOutputType | null
+  }
+
+  type GetPipelineGroupByPayload<T extends PipelineGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PipelineGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PipelineGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PipelineGroupByOutputType[P]>
+            : GetScalarType<T[P], PipelineGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PipelineSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    archived?: boolean
+    createdAt?: boolean
+    statuses?: boolean | Pipeline$statusesArgs<ExtArgs>
+    _count?: boolean | PipelineCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["pipeline"]>
+
+  export type PipelineSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    archived?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["pipeline"]>
+
+  export type PipelineSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    archived?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["pipeline"]>
+
+  export type PipelineSelectScalar = {
+    id?: boolean
+    name?: boolean
+    archived?: boolean
+    createdAt?: boolean
+  }
+
+  export type PipelineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "archived" | "createdAt", ExtArgs["result"]["pipeline"]>
+  export type PipelineInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    statuses?: boolean | Pipeline$statusesArgs<ExtArgs>
+    _count?: boolean | PipelineCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PipelineIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type PipelineIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $PipelinePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Pipeline"
+    objects: {
+      statuses: Prisma.$DealStatusPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      archived: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["pipeline"]>
+    composites: {}
+  }
+
+  type PipelineGetPayload<S extends boolean | null | undefined | PipelineDefaultArgs> = $Result.GetResult<Prisma.$PipelinePayload, S>
+
+  type PipelineCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PipelineFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PipelineCountAggregateInputType | true
+    }
+
+  export interface PipelineDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Pipeline'], meta: { name: 'Pipeline' } }
+    /**
+     * Find zero or one Pipeline that matches the filter.
+     * @param {PipelineFindUniqueArgs} args - Arguments to find a Pipeline
+     * @example
+     * // Get one Pipeline
+     * const pipeline = await prisma.pipeline.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PipelineFindUniqueArgs>(args: SelectSubset<T, PipelineFindUniqueArgs<ExtArgs>>): Prisma__PipelineClient<$Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Pipeline that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PipelineFindUniqueOrThrowArgs} args - Arguments to find a Pipeline
+     * @example
+     * // Get one Pipeline
+     * const pipeline = await prisma.pipeline.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PipelineFindUniqueOrThrowArgs>(args: SelectSubset<T, PipelineFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PipelineClient<$Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Pipeline that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PipelineFindFirstArgs} args - Arguments to find a Pipeline
+     * @example
+     * // Get one Pipeline
+     * const pipeline = await prisma.pipeline.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PipelineFindFirstArgs>(args?: SelectSubset<T, PipelineFindFirstArgs<ExtArgs>>): Prisma__PipelineClient<$Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Pipeline that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PipelineFindFirstOrThrowArgs} args - Arguments to find a Pipeline
+     * @example
+     * // Get one Pipeline
+     * const pipeline = await prisma.pipeline.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PipelineFindFirstOrThrowArgs>(args?: SelectSubset<T, PipelineFindFirstOrThrowArgs<ExtArgs>>): Prisma__PipelineClient<$Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Pipelines that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PipelineFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Pipelines
+     * const pipelines = await prisma.pipeline.findMany()
+     * 
+     * // Get first 10 Pipelines
+     * const pipelines = await prisma.pipeline.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const pipelineWithIdOnly = await prisma.pipeline.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PipelineFindManyArgs>(args?: SelectSubset<T, PipelineFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Pipeline.
+     * @param {PipelineCreateArgs} args - Arguments to create a Pipeline.
+     * @example
+     * // Create one Pipeline
+     * const Pipeline = await prisma.pipeline.create({
+     *   data: {
+     *     // ... data to create a Pipeline
+     *   }
+     * })
+     * 
+     */
+    create<T extends PipelineCreateArgs>(args: SelectSubset<T, PipelineCreateArgs<ExtArgs>>): Prisma__PipelineClient<$Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Pipelines.
+     * @param {PipelineCreateManyArgs} args - Arguments to create many Pipelines.
+     * @example
+     * // Create many Pipelines
+     * const pipeline = await prisma.pipeline.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PipelineCreateManyArgs>(args?: SelectSubset<T, PipelineCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Pipelines and returns the data saved in the database.
+     * @param {PipelineCreateManyAndReturnArgs} args - Arguments to create many Pipelines.
+     * @example
+     * // Create many Pipelines
+     * const pipeline = await prisma.pipeline.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Pipelines and only return the `id`
+     * const pipelineWithIdOnly = await prisma.pipeline.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PipelineCreateManyAndReturnArgs>(args?: SelectSubset<T, PipelineCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Pipeline.
+     * @param {PipelineDeleteArgs} args - Arguments to delete one Pipeline.
+     * @example
+     * // Delete one Pipeline
+     * const Pipeline = await prisma.pipeline.delete({
+     *   where: {
+     *     // ... filter to delete one Pipeline
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PipelineDeleteArgs>(args: SelectSubset<T, PipelineDeleteArgs<ExtArgs>>): Prisma__PipelineClient<$Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Pipeline.
+     * @param {PipelineUpdateArgs} args - Arguments to update one Pipeline.
+     * @example
+     * // Update one Pipeline
+     * const pipeline = await prisma.pipeline.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PipelineUpdateArgs>(args: SelectSubset<T, PipelineUpdateArgs<ExtArgs>>): Prisma__PipelineClient<$Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Pipelines.
+     * @param {PipelineDeleteManyArgs} args - Arguments to filter Pipelines to delete.
+     * @example
+     * // Delete a few Pipelines
+     * const { count } = await prisma.pipeline.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PipelineDeleteManyArgs>(args?: SelectSubset<T, PipelineDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Pipelines.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PipelineUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Pipelines
+     * const pipeline = await prisma.pipeline.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PipelineUpdateManyArgs>(args: SelectSubset<T, PipelineUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Pipelines and returns the data updated in the database.
+     * @param {PipelineUpdateManyAndReturnArgs} args - Arguments to update many Pipelines.
+     * @example
+     * // Update many Pipelines
+     * const pipeline = await prisma.pipeline.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Pipelines and only return the `id`
+     * const pipelineWithIdOnly = await prisma.pipeline.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PipelineUpdateManyAndReturnArgs>(args: SelectSubset<T, PipelineUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Pipeline.
+     * @param {PipelineUpsertArgs} args - Arguments to update or create a Pipeline.
+     * @example
+     * // Update or create a Pipeline
+     * const pipeline = await prisma.pipeline.upsert({
+     *   create: {
+     *     // ... data to create a Pipeline
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Pipeline we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PipelineUpsertArgs>(args: SelectSubset<T, PipelineUpsertArgs<ExtArgs>>): Prisma__PipelineClient<$Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Pipelines.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PipelineCountArgs} args - Arguments to filter Pipelines to count.
+     * @example
+     * // Count the number of Pipelines
+     * const count = await prisma.pipeline.count({
+     *   where: {
+     *     // ... the filter for the Pipelines we want to count
+     *   }
+     * })
+    **/
+    count<T extends PipelineCountArgs>(
+      args?: Subset<T, PipelineCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PipelineCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Pipeline.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PipelineAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PipelineAggregateArgs>(args: Subset<T, PipelineAggregateArgs>): Prisma.PrismaPromise<GetPipelineAggregateType<T>>
+
+    /**
+     * Group by Pipeline.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PipelineGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PipelineGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PipelineGroupByArgs['orderBy'] }
+        : { orderBy?: PipelineGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PipelineGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPipelineGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Pipeline model
+   */
+  readonly fields: PipelineFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Pipeline.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PipelineClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    statuses<T extends Pipeline$statusesArgs<ExtArgs> = {}>(args?: Subset<T, Pipeline$statusesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Pipeline model
+   */
+  interface PipelineFieldRefs {
+    readonly id: FieldRef<"Pipeline", 'String'>
+    readonly name: FieldRef<"Pipeline", 'String'>
+    readonly archived: FieldRef<"Pipeline", 'Boolean'>
+    readonly createdAt: FieldRef<"Pipeline", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Pipeline findUnique
+   */
+  export type PipelineFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pipeline
+     */
+    select?: PipelineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pipeline
+     */
+    omit?: PipelineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineInclude<ExtArgs> | null
+    /**
+     * Filter, which Pipeline to fetch.
+     */
+    where: PipelineWhereUniqueInput
+  }
+
+  /**
+   * Pipeline findUniqueOrThrow
+   */
+  export type PipelineFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pipeline
+     */
+    select?: PipelineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pipeline
+     */
+    omit?: PipelineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineInclude<ExtArgs> | null
+    /**
+     * Filter, which Pipeline to fetch.
+     */
+    where: PipelineWhereUniqueInput
+  }
+
+  /**
+   * Pipeline findFirst
+   */
+  export type PipelineFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pipeline
+     */
+    select?: PipelineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pipeline
+     */
+    omit?: PipelineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineInclude<ExtArgs> | null
+    /**
+     * Filter, which Pipeline to fetch.
+     */
+    where?: PipelineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Pipelines to fetch.
+     */
+    orderBy?: PipelineOrderByWithRelationInput | PipelineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Pipelines.
+     */
+    cursor?: PipelineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Pipelines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Pipelines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Pipelines.
+     */
+    distinct?: PipelineScalarFieldEnum | PipelineScalarFieldEnum[]
+  }
+
+  /**
+   * Pipeline findFirstOrThrow
+   */
+  export type PipelineFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pipeline
+     */
+    select?: PipelineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pipeline
+     */
+    omit?: PipelineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineInclude<ExtArgs> | null
+    /**
+     * Filter, which Pipeline to fetch.
+     */
+    where?: PipelineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Pipelines to fetch.
+     */
+    orderBy?: PipelineOrderByWithRelationInput | PipelineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Pipelines.
+     */
+    cursor?: PipelineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Pipelines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Pipelines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Pipelines.
+     */
+    distinct?: PipelineScalarFieldEnum | PipelineScalarFieldEnum[]
+  }
+
+  /**
+   * Pipeline findMany
+   */
+  export type PipelineFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pipeline
+     */
+    select?: PipelineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pipeline
+     */
+    omit?: PipelineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineInclude<ExtArgs> | null
+    /**
+     * Filter, which Pipelines to fetch.
+     */
+    where?: PipelineWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Pipelines to fetch.
+     */
+    orderBy?: PipelineOrderByWithRelationInput | PipelineOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Pipelines.
+     */
+    cursor?: PipelineWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Pipelines from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Pipelines.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Pipelines.
+     */
+    distinct?: PipelineScalarFieldEnum | PipelineScalarFieldEnum[]
+  }
+
+  /**
+   * Pipeline create
+   */
+  export type PipelineCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pipeline
+     */
+    select?: PipelineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pipeline
+     */
+    omit?: PipelineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Pipeline.
+     */
+    data: XOR<PipelineCreateInput, PipelineUncheckedCreateInput>
+  }
+
+  /**
+   * Pipeline createMany
+   */
+  export type PipelineCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Pipelines.
+     */
+    data: PipelineCreateManyInput | PipelineCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Pipeline createManyAndReturn
+   */
+  export type PipelineCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pipeline
+     */
+    select?: PipelineSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pipeline
+     */
+    omit?: PipelineOmit<ExtArgs> | null
+    /**
+     * The data used to create many Pipelines.
+     */
+    data: PipelineCreateManyInput | PipelineCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Pipeline update
+   */
+  export type PipelineUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pipeline
+     */
+    select?: PipelineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pipeline
+     */
+    omit?: PipelineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Pipeline.
+     */
+    data: XOR<PipelineUpdateInput, PipelineUncheckedUpdateInput>
+    /**
+     * Choose, which Pipeline to update.
+     */
+    where: PipelineWhereUniqueInput
+  }
+
+  /**
+   * Pipeline updateMany
+   */
+  export type PipelineUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Pipelines.
+     */
+    data: XOR<PipelineUpdateManyMutationInput, PipelineUncheckedUpdateManyInput>
+    /**
+     * Filter which Pipelines to update
+     */
+    where?: PipelineWhereInput
+    /**
+     * Limit how many Pipelines to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Pipeline updateManyAndReturn
+   */
+  export type PipelineUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pipeline
+     */
+    select?: PipelineSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pipeline
+     */
+    omit?: PipelineOmit<ExtArgs> | null
+    /**
+     * The data used to update Pipelines.
+     */
+    data: XOR<PipelineUpdateManyMutationInput, PipelineUncheckedUpdateManyInput>
+    /**
+     * Filter which Pipelines to update
+     */
+    where?: PipelineWhereInput
+    /**
+     * Limit how many Pipelines to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Pipeline upsert
+   */
+  export type PipelineUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pipeline
+     */
+    select?: PipelineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pipeline
+     */
+    omit?: PipelineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Pipeline to update in case it exists.
+     */
+    where: PipelineWhereUniqueInput
+    /**
+     * In case the Pipeline found by the `where` argument doesn't exist, create a new Pipeline with this data.
+     */
+    create: XOR<PipelineCreateInput, PipelineUncheckedCreateInput>
+    /**
+     * In case the Pipeline was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PipelineUpdateInput, PipelineUncheckedUpdateInput>
+  }
+
+  /**
+   * Pipeline delete
+   */
+  export type PipelineDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pipeline
+     */
+    select?: PipelineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pipeline
+     */
+    omit?: PipelineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineInclude<ExtArgs> | null
+    /**
+     * Filter which Pipeline to delete.
+     */
+    where: PipelineWhereUniqueInput
+  }
+
+  /**
+   * Pipeline deleteMany
+   */
+  export type PipelineDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Pipelines to delete
+     */
+    where?: PipelineWhereInput
+    /**
+     * Limit how many Pipelines to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Pipeline.statuses
+   */
+  export type Pipeline$statusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusInclude<ExtArgs> | null
+    where?: DealStatusWhereInput
+    orderBy?: DealStatusOrderByWithRelationInput | DealStatusOrderByWithRelationInput[]
+    cursor?: DealStatusWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DealStatusScalarFieldEnum | DealStatusScalarFieldEnum[]
+  }
+
+  /**
+   * Pipeline without action
+   */
+  export type PipelineDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pipeline
+     */
+    select?: PipelineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pipeline
+     */
+    omit?: PipelineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PipelineInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DealStatus
+   */
+
+  export type AggregateDealStatus = {
+    _count: DealStatusCountAggregateOutputType | null
+    _avg: DealStatusAvgAggregateOutputType | null
+    _sum: DealStatusSumAggregateOutputType | null
+    _min: DealStatusMinAggregateOutputType | null
+    _max: DealStatusMaxAggregateOutputType | null
+  }
+
+  export type DealStatusAvgAggregateOutputType = {
+    position: number | null
+    defaultProbability: number | null
+  }
+
+  export type DealStatusSumAggregateOutputType = {
+    position: number | null
+    defaultProbability: number | null
+  }
+
+  export type DealStatusMinAggregateOutputType = {
+    id: string | null
+    pipelineId: string | null
+    name: string | null
+    category: $Enums.DealStatusCategory | null
+    position: number | null
+    defaultProbability: number | null
+    trackTime: boolean | null
+    trackExpenses: boolean | null
+    createBookings: boolean | null
+  }
+
+  export type DealStatusMaxAggregateOutputType = {
+    id: string | null
+    pipelineId: string | null
+    name: string | null
+    category: $Enums.DealStatusCategory | null
+    position: number | null
+    defaultProbability: number | null
+    trackTime: boolean | null
+    trackExpenses: boolean | null
+    createBookings: boolean | null
+  }
+
+  export type DealStatusCountAggregateOutputType = {
+    id: number
+    pipelineId: number
+    name: number
+    category: number
+    position: number
+    defaultProbability: number
+    trackTime: number
+    trackExpenses: number
+    createBookings: number
+    _all: number
+  }
+
+
+  export type DealStatusAvgAggregateInputType = {
+    position?: true
+    defaultProbability?: true
+  }
+
+  export type DealStatusSumAggregateInputType = {
+    position?: true
+    defaultProbability?: true
+  }
+
+  export type DealStatusMinAggregateInputType = {
+    id?: true
+    pipelineId?: true
+    name?: true
+    category?: true
+    position?: true
+    defaultProbability?: true
+    trackTime?: true
+    trackExpenses?: true
+    createBookings?: true
+  }
+
+  export type DealStatusMaxAggregateInputType = {
+    id?: true
+    pipelineId?: true
+    name?: true
+    category?: true
+    position?: true
+    defaultProbability?: true
+    trackTime?: true
+    trackExpenses?: true
+    createBookings?: true
+  }
+
+  export type DealStatusCountAggregateInputType = {
+    id?: true
+    pipelineId?: true
+    name?: true
+    category?: true
+    position?: true
+    defaultProbability?: true
+    trackTime?: true
+    trackExpenses?: true
+    createBookings?: true
+    _all?: true
+  }
+
+  export type DealStatusAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DealStatus to aggregate.
+     */
+    where?: DealStatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DealStatuses to fetch.
+     */
+    orderBy?: DealStatusOrderByWithRelationInput | DealStatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DealStatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DealStatuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DealStatuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DealStatuses
+    **/
+    _count?: true | DealStatusCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DealStatusAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DealStatusSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DealStatusMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DealStatusMaxAggregateInputType
+  }
+
+  export type GetDealStatusAggregateType<T extends DealStatusAggregateArgs> = {
+        [P in keyof T & keyof AggregateDealStatus]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDealStatus[P]>
+      : GetScalarType<T[P], AggregateDealStatus[P]>
+  }
+
+
+
+
+  export type DealStatusGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DealStatusWhereInput
+    orderBy?: DealStatusOrderByWithAggregationInput | DealStatusOrderByWithAggregationInput[]
+    by: DealStatusScalarFieldEnum[] | DealStatusScalarFieldEnum
+    having?: DealStatusScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DealStatusCountAggregateInputType | true
+    _avg?: DealStatusAvgAggregateInputType
+    _sum?: DealStatusSumAggregateInputType
+    _min?: DealStatusMinAggregateInputType
+    _max?: DealStatusMaxAggregateInputType
+  }
+
+  export type DealStatusGroupByOutputType = {
+    id: string
+    pipelineId: string
+    name: string
+    category: $Enums.DealStatusCategory
+    position: number
+    defaultProbability: number | null
+    trackTime: boolean
+    trackExpenses: boolean
+    createBookings: boolean
+    _count: DealStatusCountAggregateOutputType | null
+    _avg: DealStatusAvgAggregateOutputType | null
+    _sum: DealStatusSumAggregateOutputType | null
+    _min: DealStatusMinAggregateOutputType | null
+    _max: DealStatusMaxAggregateOutputType | null
+  }
+
+  type GetDealStatusGroupByPayload<T extends DealStatusGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DealStatusGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DealStatusGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DealStatusGroupByOutputType[P]>
+            : GetScalarType<T[P], DealStatusGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DealStatusSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pipelineId?: boolean
+    name?: boolean
+    category?: boolean
+    position?: boolean
+    defaultProbability?: boolean
+    trackTime?: boolean
+    trackExpenses?: boolean
+    createBookings?: boolean
+    pipeline?: boolean | PipelineDefaultArgs<ExtArgs>
+    deals?: boolean | DealStatus$dealsArgs<ExtArgs>
+    _count?: boolean | DealStatusCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dealStatus"]>
+
+  export type DealStatusSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pipelineId?: boolean
+    name?: boolean
+    category?: boolean
+    position?: boolean
+    defaultProbability?: boolean
+    trackTime?: boolean
+    trackExpenses?: boolean
+    createBookings?: boolean
+    pipeline?: boolean | PipelineDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dealStatus"]>
+
+  export type DealStatusSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pipelineId?: boolean
+    name?: boolean
+    category?: boolean
+    position?: boolean
+    defaultProbability?: boolean
+    trackTime?: boolean
+    trackExpenses?: boolean
+    createBookings?: boolean
+    pipeline?: boolean | PipelineDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dealStatus"]>
+
+  export type DealStatusSelectScalar = {
+    id?: boolean
+    pipelineId?: boolean
+    name?: boolean
+    category?: boolean
+    position?: boolean
+    defaultProbability?: boolean
+    trackTime?: boolean
+    trackExpenses?: boolean
+    createBookings?: boolean
+  }
+
+  export type DealStatusOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "pipelineId" | "name" | "category" | "position" | "defaultProbability" | "trackTime" | "trackExpenses" | "createBookings", ExtArgs["result"]["dealStatus"]>
+  export type DealStatusInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    pipeline?: boolean | PipelineDefaultArgs<ExtArgs>
+    deals?: boolean | DealStatus$dealsArgs<ExtArgs>
+    _count?: boolean | DealStatusCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type DealStatusIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    pipeline?: boolean | PipelineDefaultArgs<ExtArgs>
+  }
+  export type DealStatusIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    pipeline?: boolean | PipelineDefaultArgs<ExtArgs>
+  }
+
+  export type $DealStatusPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DealStatus"
+    objects: {
+      pipeline: Prisma.$PipelinePayload<ExtArgs>
+      deals: Prisma.$DealPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      pipelineId: string
+      name: string
+      category: $Enums.DealStatusCategory
+      position: number
+      defaultProbability: number | null
+      trackTime: boolean
+      trackExpenses: boolean
+      createBookings: boolean
+    }, ExtArgs["result"]["dealStatus"]>
+    composites: {}
+  }
+
+  type DealStatusGetPayload<S extends boolean | null | undefined | DealStatusDefaultArgs> = $Result.GetResult<Prisma.$DealStatusPayload, S>
+
+  type DealStatusCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DealStatusFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DealStatusCountAggregateInputType | true
+    }
+
+  export interface DealStatusDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DealStatus'], meta: { name: 'DealStatus' } }
+    /**
+     * Find zero or one DealStatus that matches the filter.
+     * @param {DealStatusFindUniqueArgs} args - Arguments to find a DealStatus
+     * @example
+     * // Get one DealStatus
+     * const dealStatus = await prisma.dealStatus.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DealStatusFindUniqueArgs>(args: SelectSubset<T, DealStatusFindUniqueArgs<ExtArgs>>): Prisma__DealStatusClient<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DealStatus that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DealStatusFindUniqueOrThrowArgs} args - Arguments to find a DealStatus
+     * @example
+     * // Get one DealStatus
+     * const dealStatus = await prisma.dealStatus.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DealStatusFindUniqueOrThrowArgs>(args: SelectSubset<T, DealStatusFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DealStatusClient<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DealStatus that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealStatusFindFirstArgs} args - Arguments to find a DealStatus
+     * @example
+     * // Get one DealStatus
+     * const dealStatus = await prisma.dealStatus.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DealStatusFindFirstArgs>(args?: SelectSubset<T, DealStatusFindFirstArgs<ExtArgs>>): Prisma__DealStatusClient<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DealStatus that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealStatusFindFirstOrThrowArgs} args - Arguments to find a DealStatus
+     * @example
+     * // Get one DealStatus
+     * const dealStatus = await prisma.dealStatus.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DealStatusFindFirstOrThrowArgs>(args?: SelectSubset<T, DealStatusFindFirstOrThrowArgs<ExtArgs>>): Prisma__DealStatusClient<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DealStatuses that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealStatusFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DealStatuses
+     * const dealStatuses = await prisma.dealStatus.findMany()
+     * 
+     * // Get first 10 DealStatuses
+     * const dealStatuses = await prisma.dealStatus.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const dealStatusWithIdOnly = await prisma.dealStatus.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DealStatusFindManyArgs>(args?: SelectSubset<T, DealStatusFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DealStatus.
+     * @param {DealStatusCreateArgs} args - Arguments to create a DealStatus.
+     * @example
+     * // Create one DealStatus
+     * const DealStatus = await prisma.dealStatus.create({
+     *   data: {
+     *     // ... data to create a DealStatus
+     *   }
+     * })
+     * 
+     */
+    create<T extends DealStatusCreateArgs>(args: SelectSubset<T, DealStatusCreateArgs<ExtArgs>>): Prisma__DealStatusClient<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DealStatuses.
+     * @param {DealStatusCreateManyArgs} args - Arguments to create many DealStatuses.
+     * @example
+     * // Create many DealStatuses
+     * const dealStatus = await prisma.dealStatus.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DealStatusCreateManyArgs>(args?: SelectSubset<T, DealStatusCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DealStatuses and returns the data saved in the database.
+     * @param {DealStatusCreateManyAndReturnArgs} args - Arguments to create many DealStatuses.
+     * @example
+     * // Create many DealStatuses
+     * const dealStatus = await prisma.dealStatus.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DealStatuses and only return the `id`
+     * const dealStatusWithIdOnly = await prisma.dealStatus.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DealStatusCreateManyAndReturnArgs>(args?: SelectSubset<T, DealStatusCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DealStatus.
+     * @param {DealStatusDeleteArgs} args - Arguments to delete one DealStatus.
+     * @example
+     * // Delete one DealStatus
+     * const DealStatus = await prisma.dealStatus.delete({
+     *   where: {
+     *     // ... filter to delete one DealStatus
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DealStatusDeleteArgs>(args: SelectSubset<T, DealStatusDeleteArgs<ExtArgs>>): Prisma__DealStatusClient<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DealStatus.
+     * @param {DealStatusUpdateArgs} args - Arguments to update one DealStatus.
+     * @example
+     * // Update one DealStatus
+     * const dealStatus = await prisma.dealStatus.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DealStatusUpdateArgs>(args: SelectSubset<T, DealStatusUpdateArgs<ExtArgs>>): Prisma__DealStatusClient<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DealStatuses.
+     * @param {DealStatusDeleteManyArgs} args - Arguments to filter DealStatuses to delete.
+     * @example
+     * // Delete a few DealStatuses
+     * const { count } = await prisma.dealStatus.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DealStatusDeleteManyArgs>(args?: SelectSubset<T, DealStatusDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DealStatuses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealStatusUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DealStatuses
+     * const dealStatus = await prisma.dealStatus.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DealStatusUpdateManyArgs>(args: SelectSubset<T, DealStatusUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DealStatuses and returns the data updated in the database.
+     * @param {DealStatusUpdateManyAndReturnArgs} args - Arguments to update many DealStatuses.
+     * @example
+     * // Update many DealStatuses
+     * const dealStatus = await prisma.dealStatus.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DealStatuses and only return the `id`
+     * const dealStatusWithIdOnly = await prisma.dealStatus.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DealStatusUpdateManyAndReturnArgs>(args: SelectSubset<T, DealStatusUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DealStatus.
+     * @param {DealStatusUpsertArgs} args - Arguments to update or create a DealStatus.
+     * @example
+     * // Update or create a DealStatus
+     * const dealStatus = await prisma.dealStatus.upsert({
+     *   create: {
+     *     // ... data to create a DealStatus
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DealStatus we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DealStatusUpsertArgs>(args: SelectSubset<T, DealStatusUpsertArgs<ExtArgs>>): Prisma__DealStatusClient<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DealStatuses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealStatusCountArgs} args - Arguments to filter DealStatuses to count.
+     * @example
+     * // Count the number of DealStatuses
+     * const count = await prisma.dealStatus.count({
+     *   where: {
+     *     // ... the filter for the DealStatuses we want to count
+     *   }
+     * })
+    **/
+    count<T extends DealStatusCountArgs>(
+      args?: Subset<T, DealStatusCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DealStatusCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DealStatus.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealStatusAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DealStatusAggregateArgs>(args: Subset<T, DealStatusAggregateArgs>): Prisma.PrismaPromise<GetDealStatusAggregateType<T>>
+
+    /**
+     * Group by DealStatus.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DealStatusGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DealStatusGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DealStatusGroupByArgs['orderBy'] }
+        : { orderBy?: DealStatusGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DealStatusGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDealStatusGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DealStatus model
+   */
+  readonly fields: DealStatusFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DealStatus.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DealStatusClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    pipeline<T extends PipelineDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PipelineDefaultArgs<ExtArgs>>): Prisma__PipelineClient<$Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    deals<T extends DealStatus$dealsArgs<ExtArgs> = {}>(args?: Subset<T, DealStatus$dealsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DealStatus model
+   */
+  interface DealStatusFieldRefs {
+    readonly id: FieldRef<"DealStatus", 'String'>
+    readonly pipelineId: FieldRef<"DealStatus", 'String'>
+    readonly name: FieldRef<"DealStatus", 'String'>
+    readonly category: FieldRef<"DealStatus", 'DealStatusCategory'>
+    readonly position: FieldRef<"DealStatus", 'Int'>
+    readonly defaultProbability: FieldRef<"DealStatus", 'Int'>
+    readonly trackTime: FieldRef<"DealStatus", 'Boolean'>
+    readonly trackExpenses: FieldRef<"DealStatus", 'Boolean'>
+    readonly createBookings: FieldRef<"DealStatus", 'Boolean'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DealStatus findUnique
+   */
+  export type DealStatusFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which DealStatus to fetch.
+     */
+    where: DealStatusWhereUniqueInput
+  }
+
+  /**
+   * DealStatus findUniqueOrThrow
+   */
+  export type DealStatusFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which DealStatus to fetch.
+     */
+    where: DealStatusWhereUniqueInput
+  }
+
+  /**
+   * DealStatus findFirst
+   */
+  export type DealStatusFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which DealStatus to fetch.
+     */
+    where?: DealStatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DealStatuses to fetch.
+     */
+    orderBy?: DealStatusOrderByWithRelationInput | DealStatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DealStatuses.
+     */
+    cursor?: DealStatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DealStatuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DealStatuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DealStatuses.
+     */
+    distinct?: DealStatusScalarFieldEnum | DealStatusScalarFieldEnum[]
+  }
+
+  /**
+   * DealStatus findFirstOrThrow
+   */
+  export type DealStatusFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which DealStatus to fetch.
+     */
+    where?: DealStatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DealStatuses to fetch.
+     */
+    orderBy?: DealStatusOrderByWithRelationInput | DealStatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DealStatuses.
+     */
+    cursor?: DealStatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DealStatuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DealStatuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DealStatuses.
+     */
+    distinct?: DealStatusScalarFieldEnum | DealStatusScalarFieldEnum[]
+  }
+
+  /**
+   * DealStatus findMany
+   */
+  export type DealStatusFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusInclude<ExtArgs> | null
+    /**
+     * Filter, which DealStatuses to fetch.
+     */
+    where?: DealStatusWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DealStatuses to fetch.
+     */
+    orderBy?: DealStatusOrderByWithRelationInput | DealStatusOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DealStatuses.
+     */
+    cursor?: DealStatusWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DealStatuses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DealStatuses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DealStatuses.
+     */
+    distinct?: DealStatusScalarFieldEnum | DealStatusScalarFieldEnum[]
+  }
+
+  /**
+   * DealStatus create
+   */
+  export type DealStatusCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DealStatus.
+     */
+    data: XOR<DealStatusCreateInput, DealStatusUncheckedCreateInput>
+  }
+
+  /**
+   * DealStatus createMany
+   */
+  export type DealStatusCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DealStatuses.
+     */
+    data: DealStatusCreateManyInput | DealStatusCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DealStatus createManyAndReturn
+   */
+  export type DealStatusCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * The data used to create many DealStatuses.
+     */
+    data: DealStatusCreateManyInput | DealStatusCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DealStatus update
+   */
+  export type DealStatusUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DealStatus.
+     */
+    data: XOR<DealStatusUpdateInput, DealStatusUncheckedUpdateInput>
+    /**
+     * Choose, which DealStatus to update.
+     */
+    where: DealStatusWhereUniqueInput
+  }
+
+  /**
+   * DealStatus updateMany
+   */
+  export type DealStatusUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DealStatuses.
+     */
+    data: XOR<DealStatusUpdateManyMutationInput, DealStatusUncheckedUpdateManyInput>
+    /**
+     * Filter which DealStatuses to update
+     */
+    where?: DealStatusWhereInput
+    /**
+     * Limit how many DealStatuses to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DealStatus updateManyAndReturn
+   */
+  export type DealStatusUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * The data used to update DealStatuses.
+     */
+    data: XOR<DealStatusUpdateManyMutationInput, DealStatusUncheckedUpdateManyInput>
+    /**
+     * Filter which DealStatuses to update
+     */
+    where?: DealStatusWhereInput
+    /**
+     * Limit how many DealStatuses to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DealStatus upsert
+   */
+  export type DealStatusUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DealStatus to update in case it exists.
+     */
+    where: DealStatusWhereUniqueInput
+    /**
+     * In case the DealStatus found by the `where` argument doesn't exist, create a new DealStatus with this data.
+     */
+    create: XOR<DealStatusCreateInput, DealStatusUncheckedCreateInput>
+    /**
+     * In case the DealStatus was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DealStatusUpdateInput, DealStatusUncheckedUpdateInput>
+  }
+
+  /**
+   * DealStatus delete
+   */
+  export type DealStatusDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusInclude<ExtArgs> | null
+    /**
+     * Filter which DealStatus to delete.
+     */
+    where: DealStatusWhereUniqueInput
+  }
+
+  /**
+   * DealStatus deleteMany
+   */
+  export type DealStatusDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DealStatuses to delete
+     */
+    where?: DealStatusWhereInput
+    /**
+     * Limit how many DealStatuses to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DealStatus.deals
+   */
+  export type DealStatus$dealsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Deal
+     */
+    select?: DealSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Deal
+     */
+    omit?: DealOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealInclude<ExtArgs> | null
+    where?: DealWhereInput
+    orderBy?: DealOrderByWithRelationInput | DealOrderByWithRelationInput[]
+    cursor?: DealWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DealScalarFieldEnum | DealScalarFieldEnum[]
+  }
+
+  /**
+   * DealStatus without action
+   */
+  export type DealStatusDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DealStatus
+     */
+    select?: DealStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DealStatus
+     */
+    omit?: DealStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealStatusInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LostReason
+   */
+
+  export type AggregateLostReason = {
+    _count: LostReasonCountAggregateOutputType | null
+    _min: LostReasonMinAggregateOutputType | null
+    _max: LostReasonMaxAggregateOutputType | null
+  }
+
+  export type LostReasonMinAggregateOutputType = {
+    id: string | null
+    label: string | null
+    archived: boolean | null
+    createdAt: Date | null
+  }
+
+  export type LostReasonMaxAggregateOutputType = {
+    id: string | null
+    label: string | null
+    archived: boolean | null
+    createdAt: Date | null
+  }
+
+  export type LostReasonCountAggregateOutputType = {
+    id: number
+    label: number
+    archived: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type LostReasonMinAggregateInputType = {
+    id?: true
+    label?: true
+    archived?: true
+    createdAt?: true
+  }
+
+  export type LostReasonMaxAggregateInputType = {
+    id?: true
+    label?: true
+    archived?: true
+    createdAt?: true
+  }
+
+  export type LostReasonCountAggregateInputType = {
+    id?: true
+    label?: true
+    archived?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type LostReasonAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LostReason to aggregate.
+     */
+    where?: LostReasonWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LostReasons to fetch.
+     */
+    orderBy?: LostReasonOrderByWithRelationInput | LostReasonOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LostReasonWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LostReasons from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LostReasons.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LostReasons
+    **/
+    _count?: true | LostReasonCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LostReasonMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LostReasonMaxAggregateInputType
+  }
+
+  export type GetLostReasonAggregateType<T extends LostReasonAggregateArgs> = {
+        [P in keyof T & keyof AggregateLostReason]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLostReason[P]>
+      : GetScalarType<T[P], AggregateLostReason[P]>
+  }
+
+
+
+
+  export type LostReasonGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LostReasonWhereInput
+    orderBy?: LostReasonOrderByWithAggregationInput | LostReasonOrderByWithAggregationInput[]
+    by: LostReasonScalarFieldEnum[] | LostReasonScalarFieldEnum
+    having?: LostReasonScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LostReasonCountAggregateInputType | true
+    _min?: LostReasonMinAggregateInputType
+    _max?: LostReasonMaxAggregateInputType
+  }
+
+  export type LostReasonGroupByOutputType = {
+    id: string
+    label: string
+    archived: boolean
+    createdAt: Date
+    _count: LostReasonCountAggregateOutputType | null
+    _min: LostReasonMinAggregateOutputType | null
+    _max: LostReasonMaxAggregateOutputType | null
+  }
+
+  type GetLostReasonGroupByPayload<T extends LostReasonGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LostReasonGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LostReasonGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LostReasonGroupByOutputType[P]>
+            : GetScalarType<T[P], LostReasonGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LostReasonSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    label?: boolean
+    archived?: boolean
+    createdAt?: boolean
+    deals?: boolean | LostReason$dealsArgs<ExtArgs>
+    _count?: boolean | LostReasonCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["lostReason"]>
+
+  export type LostReasonSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    label?: boolean
+    archived?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["lostReason"]>
+
+  export type LostReasonSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    label?: boolean
+    archived?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["lostReason"]>
+
+  export type LostReasonSelectScalar = {
+    id?: boolean
+    label?: boolean
+    archived?: boolean
+    createdAt?: boolean
+  }
+
+  export type LostReasonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "label" | "archived" | "createdAt", ExtArgs["result"]["lostReason"]>
+  export type LostReasonInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    deals?: boolean | LostReason$dealsArgs<ExtArgs>
+    _count?: boolean | LostReasonCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type LostReasonIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type LostReasonIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $LostReasonPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LostReason"
+    objects: {
+      deals: Prisma.$DealPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      label: string
+      archived: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["lostReason"]>
+    composites: {}
+  }
+
+  type LostReasonGetPayload<S extends boolean | null | undefined | LostReasonDefaultArgs> = $Result.GetResult<Prisma.$LostReasonPayload, S>
+
+  type LostReasonCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LostReasonFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LostReasonCountAggregateInputType | true
+    }
+
+  export interface LostReasonDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LostReason'], meta: { name: 'LostReason' } }
+    /**
+     * Find zero or one LostReason that matches the filter.
+     * @param {LostReasonFindUniqueArgs} args - Arguments to find a LostReason
+     * @example
+     * // Get one LostReason
+     * const lostReason = await prisma.lostReason.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LostReasonFindUniqueArgs>(args: SelectSubset<T, LostReasonFindUniqueArgs<ExtArgs>>): Prisma__LostReasonClient<$Result.GetResult<Prisma.$LostReasonPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LostReason that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LostReasonFindUniqueOrThrowArgs} args - Arguments to find a LostReason
+     * @example
+     * // Get one LostReason
+     * const lostReason = await prisma.lostReason.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LostReasonFindUniqueOrThrowArgs>(args: SelectSubset<T, LostReasonFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LostReasonClient<$Result.GetResult<Prisma.$LostReasonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LostReason that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LostReasonFindFirstArgs} args - Arguments to find a LostReason
+     * @example
+     * // Get one LostReason
+     * const lostReason = await prisma.lostReason.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LostReasonFindFirstArgs>(args?: SelectSubset<T, LostReasonFindFirstArgs<ExtArgs>>): Prisma__LostReasonClient<$Result.GetResult<Prisma.$LostReasonPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LostReason that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LostReasonFindFirstOrThrowArgs} args - Arguments to find a LostReason
+     * @example
+     * // Get one LostReason
+     * const lostReason = await prisma.lostReason.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LostReasonFindFirstOrThrowArgs>(args?: SelectSubset<T, LostReasonFindFirstOrThrowArgs<ExtArgs>>): Prisma__LostReasonClient<$Result.GetResult<Prisma.$LostReasonPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LostReasons that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LostReasonFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LostReasons
+     * const lostReasons = await prisma.lostReason.findMany()
+     * 
+     * // Get first 10 LostReasons
+     * const lostReasons = await prisma.lostReason.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const lostReasonWithIdOnly = await prisma.lostReason.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LostReasonFindManyArgs>(args?: SelectSubset<T, LostReasonFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LostReasonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LostReason.
+     * @param {LostReasonCreateArgs} args - Arguments to create a LostReason.
+     * @example
+     * // Create one LostReason
+     * const LostReason = await prisma.lostReason.create({
+     *   data: {
+     *     // ... data to create a LostReason
+     *   }
+     * })
+     * 
+     */
+    create<T extends LostReasonCreateArgs>(args: SelectSubset<T, LostReasonCreateArgs<ExtArgs>>): Prisma__LostReasonClient<$Result.GetResult<Prisma.$LostReasonPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LostReasons.
+     * @param {LostReasonCreateManyArgs} args - Arguments to create many LostReasons.
+     * @example
+     * // Create many LostReasons
+     * const lostReason = await prisma.lostReason.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LostReasonCreateManyArgs>(args?: SelectSubset<T, LostReasonCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LostReasons and returns the data saved in the database.
+     * @param {LostReasonCreateManyAndReturnArgs} args - Arguments to create many LostReasons.
+     * @example
+     * // Create many LostReasons
+     * const lostReason = await prisma.lostReason.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LostReasons and only return the `id`
+     * const lostReasonWithIdOnly = await prisma.lostReason.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LostReasonCreateManyAndReturnArgs>(args?: SelectSubset<T, LostReasonCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LostReasonPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LostReason.
+     * @param {LostReasonDeleteArgs} args - Arguments to delete one LostReason.
+     * @example
+     * // Delete one LostReason
+     * const LostReason = await prisma.lostReason.delete({
+     *   where: {
+     *     // ... filter to delete one LostReason
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LostReasonDeleteArgs>(args: SelectSubset<T, LostReasonDeleteArgs<ExtArgs>>): Prisma__LostReasonClient<$Result.GetResult<Prisma.$LostReasonPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LostReason.
+     * @param {LostReasonUpdateArgs} args - Arguments to update one LostReason.
+     * @example
+     * // Update one LostReason
+     * const lostReason = await prisma.lostReason.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LostReasonUpdateArgs>(args: SelectSubset<T, LostReasonUpdateArgs<ExtArgs>>): Prisma__LostReasonClient<$Result.GetResult<Prisma.$LostReasonPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LostReasons.
+     * @param {LostReasonDeleteManyArgs} args - Arguments to filter LostReasons to delete.
+     * @example
+     * // Delete a few LostReasons
+     * const { count } = await prisma.lostReason.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LostReasonDeleteManyArgs>(args?: SelectSubset<T, LostReasonDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LostReasons.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LostReasonUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LostReasons
+     * const lostReason = await prisma.lostReason.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LostReasonUpdateManyArgs>(args: SelectSubset<T, LostReasonUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LostReasons and returns the data updated in the database.
+     * @param {LostReasonUpdateManyAndReturnArgs} args - Arguments to update many LostReasons.
+     * @example
+     * // Update many LostReasons
+     * const lostReason = await prisma.lostReason.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LostReasons and only return the `id`
+     * const lostReasonWithIdOnly = await prisma.lostReason.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LostReasonUpdateManyAndReturnArgs>(args: SelectSubset<T, LostReasonUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LostReasonPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LostReason.
+     * @param {LostReasonUpsertArgs} args - Arguments to update or create a LostReason.
+     * @example
+     * // Update or create a LostReason
+     * const lostReason = await prisma.lostReason.upsert({
+     *   create: {
+     *     // ... data to create a LostReason
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LostReason we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LostReasonUpsertArgs>(args: SelectSubset<T, LostReasonUpsertArgs<ExtArgs>>): Prisma__LostReasonClient<$Result.GetResult<Prisma.$LostReasonPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LostReasons.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LostReasonCountArgs} args - Arguments to filter LostReasons to count.
+     * @example
+     * // Count the number of LostReasons
+     * const count = await prisma.lostReason.count({
+     *   where: {
+     *     // ... the filter for the LostReasons we want to count
+     *   }
+     * })
+    **/
+    count<T extends LostReasonCountArgs>(
+      args?: Subset<T, LostReasonCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LostReasonCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LostReason.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LostReasonAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LostReasonAggregateArgs>(args: Subset<T, LostReasonAggregateArgs>): Prisma.PrismaPromise<GetLostReasonAggregateType<T>>
+
+    /**
+     * Group by LostReason.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LostReasonGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LostReasonGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LostReasonGroupByArgs['orderBy'] }
+        : { orderBy?: LostReasonGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LostReasonGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLostReasonGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LostReason model
+   */
+  readonly fields: LostReasonFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LostReason.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LostReasonClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    deals<T extends LostReason$dealsArgs<ExtArgs> = {}>(args?: Subset<T, LostReason$dealsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LostReason model
+   */
+  interface LostReasonFieldRefs {
+    readonly id: FieldRef<"LostReason", 'String'>
+    readonly label: FieldRef<"LostReason", 'String'>
+    readonly archived: FieldRef<"LostReason", 'Boolean'>
+    readonly createdAt: FieldRef<"LostReason", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LostReason findUnique
+   */
+  export type LostReasonFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LostReasonInclude<ExtArgs> | null
+    /**
+     * Filter, which LostReason to fetch.
+     */
+    where: LostReasonWhereUniqueInput
+  }
+
+  /**
+   * LostReason findUniqueOrThrow
+   */
+  export type LostReasonFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LostReasonInclude<ExtArgs> | null
+    /**
+     * Filter, which LostReason to fetch.
+     */
+    where: LostReasonWhereUniqueInput
+  }
+
+  /**
+   * LostReason findFirst
+   */
+  export type LostReasonFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LostReasonInclude<ExtArgs> | null
+    /**
+     * Filter, which LostReason to fetch.
+     */
+    where?: LostReasonWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LostReasons to fetch.
+     */
+    orderBy?: LostReasonOrderByWithRelationInput | LostReasonOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LostReasons.
+     */
+    cursor?: LostReasonWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LostReasons from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LostReasons.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LostReasons.
+     */
+    distinct?: LostReasonScalarFieldEnum | LostReasonScalarFieldEnum[]
+  }
+
+  /**
+   * LostReason findFirstOrThrow
+   */
+  export type LostReasonFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LostReasonInclude<ExtArgs> | null
+    /**
+     * Filter, which LostReason to fetch.
+     */
+    where?: LostReasonWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LostReasons to fetch.
+     */
+    orderBy?: LostReasonOrderByWithRelationInput | LostReasonOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LostReasons.
+     */
+    cursor?: LostReasonWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LostReasons from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LostReasons.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LostReasons.
+     */
+    distinct?: LostReasonScalarFieldEnum | LostReasonScalarFieldEnum[]
+  }
+
+  /**
+   * LostReason findMany
+   */
+  export type LostReasonFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LostReasonInclude<ExtArgs> | null
+    /**
+     * Filter, which LostReasons to fetch.
+     */
+    where?: LostReasonWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LostReasons to fetch.
+     */
+    orderBy?: LostReasonOrderByWithRelationInput | LostReasonOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LostReasons.
+     */
+    cursor?: LostReasonWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LostReasons from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LostReasons.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LostReasons.
+     */
+    distinct?: LostReasonScalarFieldEnum | LostReasonScalarFieldEnum[]
+  }
+
+  /**
+   * LostReason create
+   */
+  export type LostReasonCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LostReasonInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LostReason.
+     */
+    data: XOR<LostReasonCreateInput, LostReasonUncheckedCreateInput>
+  }
+
+  /**
+   * LostReason createMany
+   */
+  export type LostReasonCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LostReasons.
+     */
+    data: LostReasonCreateManyInput | LostReasonCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LostReason createManyAndReturn
+   */
+  export type LostReasonCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * The data used to create many LostReasons.
+     */
+    data: LostReasonCreateManyInput | LostReasonCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LostReason update
+   */
+  export type LostReasonUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LostReasonInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LostReason.
+     */
+    data: XOR<LostReasonUpdateInput, LostReasonUncheckedUpdateInput>
+    /**
+     * Choose, which LostReason to update.
+     */
+    where: LostReasonWhereUniqueInput
+  }
+
+  /**
+   * LostReason updateMany
+   */
+  export type LostReasonUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LostReasons.
+     */
+    data: XOR<LostReasonUpdateManyMutationInput, LostReasonUncheckedUpdateManyInput>
+    /**
+     * Filter which LostReasons to update
+     */
+    where?: LostReasonWhereInput
+    /**
+     * Limit how many LostReasons to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LostReason updateManyAndReturn
+   */
+  export type LostReasonUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * The data used to update LostReasons.
+     */
+    data: XOR<LostReasonUpdateManyMutationInput, LostReasonUncheckedUpdateManyInput>
+    /**
+     * Filter which LostReasons to update
+     */
+    where?: LostReasonWhereInput
+    /**
+     * Limit how many LostReasons to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LostReason upsert
+   */
+  export type LostReasonUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LostReasonInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LostReason to update in case it exists.
+     */
+    where: LostReasonWhereUniqueInput
+    /**
+     * In case the LostReason found by the `where` argument doesn't exist, create a new LostReason with this data.
+     */
+    create: XOR<LostReasonCreateInput, LostReasonUncheckedCreateInput>
+    /**
+     * In case the LostReason was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LostReasonUpdateInput, LostReasonUncheckedUpdateInput>
+  }
+
+  /**
+   * LostReason delete
+   */
+  export type LostReasonDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LostReasonInclude<ExtArgs> | null
+    /**
+     * Filter which LostReason to delete.
+     */
+    where: LostReasonWhereUniqueInput
+  }
+
+  /**
+   * LostReason deleteMany
+   */
+  export type LostReasonDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LostReasons to delete
+     */
+    where?: LostReasonWhereInput
+    /**
+     * Limit how many LostReasons to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LostReason.deals
+   */
+  export type LostReason$dealsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Deal
+     */
+    select?: DealSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Deal
+     */
+    omit?: DealOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DealInclude<ExtArgs> | null
+    where?: DealWhereInput
+    orderBy?: DealOrderByWithRelationInput | DealOrderByWithRelationInput[]
+    cursor?: DealWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DealScalarFieldEnum | DealScalarFieldEnum[]
+  }
+
+  /**
+   * LostReason without action
+   */
+  export type LostReasonDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LostReasonInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Deal
    */
 
@@ -15199,11 +19151,12 @@ export namespace Prisma {
     id: string | null
     title: string | null
     companyId: string | null
-    stage: $Enums.DealStage | null
+    statusId: string | null
     ownerId: string | null
     estimatedValue: number | null
     probability: number | null
-    lostReason: string | null
+    lostReasonId: string | null
+    lostReasonNote: string | null
     projectId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -15213,11 +19166,12 @@ export namespace Prisma {
     id: string | null
     title: string | null
     companyId: string | null
-    stage: $Enums.DealStage | null
+    statusId: string | null
     ownerId: string | null
     estimatedValue: number | null
     probability: number | null
-    lostReason: string | null
+    lostReasonId: string | null
+    lostReasonNote: string | null
     projectId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -15227,11 +19181,12 @@ export namespace Prisma {
     id: number
     title: number
     companyId: number
-    stage: number
+    statusId: number
     ownerId: number
     estimatedValue: number
     probability: number
-    lostReason: number
+    lostReasonId: number
+    lostReasonNote: number
     projectId: number
     createdAt: number
     updatedAt: number
@@ -15253,11 +19208,12 @@ export namespace Prisma {
     id?: true
     title?: true
     companyId?: true
-    stage?: true
+    statusId?: true
     ownerId?: true
     estimatedValue?: true
     probability?: true
-    lostReason?: true
+    lostReasonId?: true
+    lostReasonNote?: true
     projectId?: true
     createdAt?: true
     updatedAt?: true
@@ -15267,11 +19223,12 @@ export namespace Prisma {
     id?: true
     title?: true
     companyId?: true
-    stage?: true
+    statusId?: true
     ownerId?: true
     estimatedValue?: true
     probability?: true
-    lostReason?: true
+    lostReasonId?: true
+    lostReasonNote?: true
     projectId?: true
     createdAt?: true
     updatedAt?: true
@@ -15281,11 +19238,12 @@ export namespace Prisma {
     id?: true
     title?: true
     companyId?: true
-    stage?: true
+    statusId?: true
     ownerId?: true
     estimatedValue?: true
     probability?: true
-    lostReason?: true
+    lostReasonId?: true
+    lostReasonNote?: true
     projectId?: true
     createdAt?: true
     updatedAt?: true
@@ -15382,11 +19340,12 @@ export namespace Prisma {
     id: string
     title: string
     companyId: string
-    stage: $Enums.DealStage
+    statusId: string
     ownerId: string
     estimatedValue: number | null
     probability: number | null
-    lostReason: string | null
+    lostReasonId: string | null
+    lostReasonNote: string | null
     projectId: string | null
     createdAt: Date
     updatedAt: Date
@@ -15415,16 +19374,19 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     companyId?: boolean
-    stage?: boolean
+    statusId?: boolean
     ownerId?: boolean
     estimatedValue?: boolean
     probability?: boolean
-    lostReason?: boolean
+    lostReasonId?: boolean
+    lostReasonNote?: boolean
     projectId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | ClientDefaultArgs<ExtArgs>
+    status?: boolean | DealStatusDefaultArgs<ExtArgs>
     owner?: boolean | UserDefaultArgs<ExtArgs>
+    lostReason?: boolean | Deal$lostReasonArgs<ExtArgs>
     project?: boolean | Deal$projectArgs<ExtArgs>
   }, ExtArgs["result"]["deal"]>
 
@@ -15432,16 +19394,19 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     companyId?: boolean
-    stage?: boolean
+    statusId?: boolean
     ownerId?: boolean
     estimatedValue?: boolean
     probability?: boolean
-    lostReason?: boolean
+    lostReasonId?: boolean
+    lostReasonNote?: boolean
     projectId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | ClientDefaultArgs<ExtArgs>
+    status?: boolean | DealStatusDefaultArgs<ExtArgs>
     owner?: boolean | UserDefaultArgs<ExtArgs>
+    lostReason?: boolean | Deal$lostReasonArgs<ExtArgs>
     project?: boolean | Deal$projectArgs<ExtArgs>
   }, ExtArgs["result"]["deal"]>
 
@@ -15449,16 +19414,19 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     companyId?: boolean
-    stage?: boolean
+    statusId?: boolean
     ownerId?: boolean
     estimatedValue?: boolean
     probability?: boolean
-    lostReason?: boolean
+    lostReasonId?: boolean
+    lostReasonNote?: boolean
     projectId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     company?: boolean | ClientDefaultArgs<ExtArgs>
+    status?: boolean | DealStatusDefaultArgs<ExtArgs>
     owner?: boolean | UserDefaultArgs<ExtArgs>
+    lostReason?: boolean | Deal$lostReasonArgs<ExtArgs>
     project?: boolean | Deal$projectArgs<ExtArgs>
   }, ExtArgs["result"]["deal"]>
 
@@ -15466,30 +19434,37 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     companyId?: boolean
-    stage?: boolean
+    statusId?: boolean
     ownerId?: boolean
     estimatedValue?: boolean
     probability?: boolean
-    lostReason?: boolean
+    lostReasonId?: boolean
+    lostReasonNote?: boolean
     projectId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type DealOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "companyId" | "stage" | "ownerId" | "estimatedValue" | "probability" | "lostReason" | "projectId" | "createdAt" | "updatedAt", ExtArgs["result"]["deal"]>
+  export type DealOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "companyId" | "statusId" | "ownerId" | "estimatedValue" | "probability" | "lostReasonId" | "lostReasonNote" | "projectId" | "createdAt" | "updatedAt", ExtArgs["result"]["deal"]>
   export type DealInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | ClientDefaultArgs<ExtArgs>
+    status?: boolean | DealStatusDefaultArgs<ExtArgs>
     owner?: boolean | UserDefaultArgs<ExtArgs>
+    lostReason?: boolean | Deal$lostReasonArgs<ExtArgs>
     project?: boolean | Deal$projectArgs<ExtArgs>
   }
   export type DealIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | ClientDefaultArgs<ExtArgs>
+    status?: boolean | DealStatusDefaultArgs<ExtArgs>
     owner?: boolean | UserDefaultArgs<ExtArgs>
+    lostReason?: boolean | Deal$lostReasonArgs<ExtArgs>
     project?: boolean | Deal$projectArgs<ExtArgs>
   }
   export type DealIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | ClientDefaultArgs<ExtArgs>
+    status?: boolean | DealStatusDefaultArgs<ExtArgs>
     owner?: boolean | UserDefaultArgs<ExtArgs>
+    lostReason?: boolean | Deal$lostReasonArgs<ExtArgs>
     project?: boolean | Deal$projectArgs<ExtArgs>
   }
 
@@ -15497,18 +19472,21 @@ export namespace Prisma {
     name: "Deal"
     objects: {
       company: Prisma.$ClientPayload<ExtArgs>
+      status: Prisma.$DealStatusPayload<ExtArgs>
       owner: Prisma.$UserPayload<ExtArgs>
+      lostReason: Prisma.$LostReasonPayload<ExtArgs> | null
       project: Prisma.$ProjectPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
       companyId: string
-      stage: $Enums.DealStage
+      statusId: string
       ownerId: string
       estimatedValue: number | null
       probability: number | null
-      lostReason: string | null
+      lostReasonId: string | null
+      lostReasonNote: string | null
       projectId: string | null
       createdAt: Date
       updatedAt: Date
@@ -15907,7 +19885,9 @@ export namespace Prisma {
   export interface Prisma__DealClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     company<T extends ClientDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClientDefaultArgs<ExtArgs>>): Prisma__ClientClient<$Result.GetResult<Prisma.$ClientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    status<T extends DealStatusDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DealStatusDefaultArgs<ExtArgs>>): Prisma__DealStatusClient<$Result.GetResult<Prisma.$DealStatusPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    lostReason<T extends Deal$lostReasonArgs<ExtArgs> = {}>(args?: Subset<T, Deal$lostReasonArgs<ExtArgs>>): Prisma__LostReasonClient<$Result.GetResult<Prisma.$LostReasonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     project<T extends Deal$projectArgs<ExtArgs> = {}>(args?: Subset<T, Deal$projectArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -15941,11 +19921,12 @@ export namespace Prisma {
     readonly id: FieldRef<"Deal", 'String'>
     readonly title: FieldRef<"Deal", 'String'>
     readonly companyId: FieldRef<"Deal", 'String'>
-    readonly stage: FieldRef<"Deal", 'DealStage'>
+    readonly statusId: FieldRef<"Deal", 'String'>
     readonly ownerId: FieldRef<"Deal", 'String'>
     readonly estimatedValue: FieldRef<"Deal", 'Float'>
     readonly probability: FieldRef<"Deal", 'Int'>
-    readonly lostReason: FieldRef<"Deal", 'String'>
+    readonly lostReasonId: FieldRef<"Deal", 'String'>
+    readonly lostReasonNote: FieldRef<"Deal", 'String'>
     readonly projectId: FieldRef<"Deal", 'String'>
     readonly createdAt: FieldRef<"Deal", 'DateTime'>
     readonly updatedAt: FieldRef<"Deal", 'DateTime'>
@@ -16347,6 +20328,25 @@ export namespace Prisma {
      * Limit how many Deals to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Deal.lostReason
+   */
+  export type Deal$lostReasonArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LostReason
+     */
+    select?: LostReasonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LostReason
+     */
+    omit?: LostReasonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LostReasonInclude<ExtArgs> | null
+    where?: LostReasonWhereInput
   }
 
   /**
@@ -27192,6 +31192,7 @@ export namespace Prisma {
     timeApprovalRequired: boolean | null
     expenseApprovalRequired: boolean | null
     createdAt: Date | null
+    workflowId: string | null
     portfolioId: string | null
     clientId: string | null
     projectManagerId: string | null
@@ -27210,6 +31211,7 @@ export namespace Prisma {
     timeApprovalRequired: boolean | null
     expenseApprovalRequired: boolean | null
     createdAt: Date | null
+    workflowId: string | null
     portfolioId: string | null
     clientId: string | null
     projectManagerId: string | null
@@ -27229,6 +31231,7 @@ export namespace Prisma {
     timeApprovalRequired: number
     expenseApprovalRequired: number
     createdAt: number
+    workflowId: number
     portfolioId: number
     clientId: number
     projectManagerId: number
@@ -27261,6 +31264,7 @@ export namespace Prisma {
     timeApprovalRequired?: true
     expenseApprovalRequired?: true
     createdAt?: true
+    workflowId?: true
     portfolioId?: true
     clientId?: true
     projectManagerId?: true
@@ -27279,6 +31283,7 @@ export namespace Prisma {
     timeApprovalRequired?: true
     expenseApprovalRequired?: true
     createdAt?: true
+    workflowId?: true
     portfolioId?: true
     clientId?: true
     projectManagerId?: true
@@ -27298,6 +31303,7 @@ export namespace Prisma {
     timeApprovalRequired?: true
     expenseApprovalRequired?: true
     createdAt?: true
+    workflowId?: true
     portfolioId?: true
     clientId?: true
     projectManagerId?: true
@@ -27404,6 +31410,7 @@ export namespace Prisma {
     timeApprovalRequired: boolean
     expenseApprovalRequired: boolean
     createdAt: Date
+    workflowId: string
     portfolioId: string | null
     clientId: string | null
     projectManagerId: string | null
@@ -27442,10 +31449,11 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: boolean
+    workflowId?: boolean
     portfolioId?: boolean
     clientId?: boolean
     projectManagerId?: boolean
-    statuses?: boolean | Project$statusesArgs<ExtArgs>
+    workflow?: boolean | WorkflowDefaultArgs<ExtArgs>
     taskLinks?: boolean | Project$taskLinksArgs<ExtArgs>
     customFields?: boolean | Project$customFieldsArgs<ExtArgs>
     timeEntries?: boolean | Project$timeEntriesArgs<ExtArgs>
@@ -27490,9 +31498,11 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: boolean
+    workflowId?: boolean
     portfolioId?: boolean
     clientId?: boolean
     projectManagerId?: boolean
+    workflow?: boolean | WorkflowDefaultArgs<ExtArgs>
     portfolio?: boolean | Project$portfolioArgs<ExtArgs>
     client?: boolean | Project$clientArgs<ExtArgs>
     projectManager?: boolean | Project$projectManagerArgs<ExtArgs>
@@ -27512,9 +31522,11 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: boolean
+    workflowId?: boolean
     portfolioId?: boolean
     clientId?: boolean
     projectManagerId?: boolean
+    workflow?: boolean | WorkflowDefaultArgs<ExtArgs>
     portfolio?: boolean | Project$portfolioArgs<ExtArgs>
     client?: boolean | Project$clientArgs<ExtArgs>
     projectManager?: boolean | Project$projectManagerArgs<ExtArgs>
@@ -27534,14 +31546,15 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: boolean
+    workflowId?: boolean
     portfolioId?: boolean
     clientId?: boolean
     projectManagerId?: boolean
   }
 
-  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "budgetHours" | "budgetAmount" | "hourlyRate" | "type" | "color" | "isTemplate" | "enabledModules" | "timeApprovalRequired" | "expenseApprovalRequired" | "createdAt" | "portfolioId" | "clientId" | "projectManagerId", ExtArgs["result"]["project"]>
+  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "budgetHours" | "budgetAmount" | "hourlyRate" | "type" | "color" | "isTemplate" | "enabledModules" | "timeApprovalRequired" | "expenseApprovalRequired" | "createdAt" | "workflowId" | "portfolioId" | "clientId" | "projectManagerId", ExtArgs["result"]["project"]>
   export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    statuses?: boolean | Project$statusesArgs<ExtArgs>
+    workflow?: boolean | WorkflowDefaultArgs<ExtArgs>
     taskLinks?: boolean | Project$taskLinksArgs<ExtArgs>
     customFields?: boolean | Project$customFieldsArgs<ExtArgs>
     timeEntries?: boolean | Project$timeEntriesArgs<ExtArgs>
@@ -27572,11 +31585,13 @@ export namespace Prisma {
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workflow?: boolean | WorkflowDefaultArgs<ExtArgs>
     portfolio?: boolean | Project$portfolioArgs<ExtArgs>
     client?: boolean | Project$clientArgs<ExtArgs>
     projectManager?: boolean | Project$projectManagerArgs<ExtArgs>
   }
   export type ProjectIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workflow?: boolean | WorkflowDefaultArgs<ExtArgs>
     portfolio?: boolean | Project$portfolioArgs<ExtArgs>
     client?: boolean | Project$clientArgs<ExtArgs>
     projectManager?: boolean | Project$projectManagerArgs<ExtArgs>
@@ -27585,7 +31600,7 @@ export namespace Prisma {
   export type $ProjectPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Project"
     objects: {
-      statuses: Prisma.$WorkflowStatusPayload<ExtArgs>[]
+      workflow: Prisma.$WorkflowPayload<ExtArgs>
       taskLinks: Prisma.$TaskProjectPayload<ExtArgs>[]
       customFields: Prisma.$CustomFieldDefPayload<ExtArgs>[]
       timeEntries: Prisma.$TimeEntryPayload<ExtArgs>[]
@@ -27628,6 +31643,7 @@ export namespace Prisma {
       timeApprovalRequired: boolean
       expenseApprovalRequired: boolean
       createdAt: Date
+      workflowId: string
       portfolioId: string | null
       clientId: string | null
       projectManagerId: string | null
@@ -28025,7 +32041,7 @@ export namespace Prisma {
    */
   export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    statuses<T extends Project$statusesArgs<ExtArgs> = {}>(args?: Subset<T, Project$statusesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkflowStatusPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    workflow<T extends WorkflowDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WorkflowDefaultArgs<ExtArgs>>): Prisma__WorkflowClient<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     taskLinks<T extends Project$taskLinksArgs<ExtArgs> = {}>(args?: Subset<T, Project$taskLinksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     customFields<T extends Project$customFieldsArgs<ExtArgs> = {}>(args?: Subset<T, Project$customFieldsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomFieldDefPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     timeEntries<T extends Project$timeEntriesArgs<ExtArgs> = {}>(args?: Subset<T, Project$timeEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -28095,6 +32111,7 @@ export namespace Prisma {
     readonly timeApprovalRequired: FieldRef<"Project", 'Boolean'>
     readonly expenseApprovalRequired: FieldRef<"Project", 'Boolean'>
     readonly createdAt: FieldRef<"Project", 'DateTime'>
+    readonly workflowId: FieldRef<"Project", 'String'>
     readonly portfolioId: FieldRef<"Project", 'String'>
     readonly clientId: FieldRef<"Project", 'String'>
     readonly projectManagerId: FieldRef<"Project", 'String'>
@@ -28496,30 +32513,6 @@ export namespace Prisma {
      * Limit how many Projects to delete.
      */
     limit?: number
-  }
-
-  /**
-   * Project.statuses
-   */
-  export type Project$statusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WorkflowStatus
-     */
-    select?: WorkflowStatusSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WorkflowStatus
-     */
-    omit?: WorkflowStatusOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WorkflowStatusInclude<ExtArgs> | null
-    where?: WorkflowStatusWhereInput
-    orderBy?: WorkflowStatusOrderByWithRelationInput | WorkflowStatusOrderByWithRelationInput[]
-    cursor?: WorkflowStatusWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: WorkflowStatusScalarFieldEnum | WorkflowStatusScalarFieldEnum[]
   }
 
   /**
@@ -40268,6 +44261,1096 @@ export namespace Prisma {
 
 
   /**
+   * Model Workflow
+   */
+
+  export type AggregateWorkflow = {
+    _count: WorkflowCountAggregateOutputType | null
+    _min: WorkflowMinAggregateOutputType | null
+    _max: WorkflowMaxAggregateOutputType | null
+  }
+
+  export type WorkflowMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    archived: boolean | null
+    createdAt: Date | null
+  }
+
+  export type WorkflowMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    archived: boolean | null
+    createdAt: Date | null
+  }
+
+  export type WorkflowCountAggregateOutputType = {
+    id: number
+    name: number
+    archived: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type WorkflowMinAggregateInputType = {
+    id?: true
+    name?: true
+    archived?: true
+    createdAt?: true
+  }
+
+  export type WorkflowMaxAggregateInputType = {
+    id?: true
+    name?: true
+    archived?: true
+    createdAt?: true
+  }
+
+  export type WorkflowCountAggregateInputType = {
+    id?: true
+    name?: true
+    archived?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type WorkflowAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Workflow to aggregate.
+     */
+    where?: WorkflowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Workflows to fetch.
+     */
+    orderBy?: WorkflowOrderByWithRelationInput | WorkflowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WorkflowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Workflows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Workflows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Workflows
+    **/
+    _count?: true | WorkflowCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WorkflowMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WorkflowMaxAggregateInputType
+  }
+
+  export type GetWorkflowAggregateType<T extends WorkflowAggregateArgs> = {
+        [P in keyof T & keyof AggregateWorkflow]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWorkflow[P]>
+      : GetScalarType<T[P], AggregateWorkflow[P]>
+  }
+
+
+
+
+  export type WorkflowGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkflowWhereInput
+    orderBy?: WorkflowOrderByWithAggregationInput | WorkflowOrderByWithAggregationInput[]
+    by: WorkflowScalarFieldEnum[] | WorkflowScalarFieldEnum
+    having?: WorkflowScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WorkflowCountAggregateInputType | true
+    _min?: WorkflowMinAggregateInputType
+    _max?: WorkflowMaxAggregateInputType
+  }
+
+  export type WorkflowGroupByOutputType = {
+    id: string
+    name: string
+    archived: boolean
+    createdAt: Date
+    _count: WorkflowCountAggregateOutputType | null
+    _min: WorkflowMinAggregateOutputType | null
+    _max: WorkflowMaxAggregateOutputType | null
+  }
+
+  type GetWorkflowGroupByPayload<T extends WorkflowGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WorkflowGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WorkflowGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WorkflowGroupByOutputType[P]>
+            : GetScalarType<T[P], WorkflowGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WorkflowSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    archived?: boolean
+    createdAt?: boolean
+    statuses?: boolean | Workflow$statusesArgs<ExtArgs>
+    projects?: boolean | Workflow$projectsArgs<ExtArgs>
+    _count?: boolean | WorkflowCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["workflow"]>
+
+  export type WorkflowSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    archived?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["workflow"]>
+
+  export type WorkflowSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    archived?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["workflow"]>
+
+  export type WorkflowSelectScalar = {
+    id?: boolean
+    name?: boolean
+    archived?: boolean
+    createdAt?: boolean
+  }
+
+  export type WorkflowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "archived" | "createdAt", ExtArgs["result"]["workflow"]>
+  export type WorkflowInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    statuses?: boolean | Workflow$statusesArgs<ExtArgs>
+    projects?: boolean | Workflow$projectsArgs<ExtArgs>
+    _count?: boolean | WorkflowCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type WorkflowIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type WorkflowIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $WorkflowPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Workflow"
+    objects: {
+      statuses: Prisma.$WorkflowStatusPayload<ExtArgs>[]
+      projects: Prisma.$ProjectPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      archived: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["workflow"]>
+    composites: {}
+  }
+
+  type WorkflowGetPayload<S extends boolean | null | undefined | WorkflowDefaultArgs> = $Result.GetResult<Prisma.$WorkflowPayload, S>
+
+  type WorkflowCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WorkflowFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WorkflowCountAggregateInputType | true
+    }
+
+  export interface WorkflowDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Workflow'], meta: { name: 'Workflow' } }
+    /**
+     * Find zero or one Workflow that matches the filter.
+     * @param {WorkflowFindUniqueArgs} args - Arguments to find a Workflow
+     * @example
+     * // Get one Workflow
+     * const workflow = await prisma.workflow.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WorkflowFindUniqueArgs>(args: SelectSubset<T, WorkflowFindUniqueArgs<ExtArgs>>): Prisma__WorkflowClient<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Workflow that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WorkflowFindUniqueOrThrowArgs} args - Arguments to find a Workflow
+     * @example
+     * // Get one Workflow
+     * const workflow = await prisma.workflow.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WorkflowFindUniqueOrThrowArgs>(args: SelectSubset<T, WorkflowFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WorkflowClient<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Workflow that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkflowFindFirstArgs} args - Arguments to find a Workflow
+     * @example
+     * // Get one Workflow
+     * const workflow = await prisma.workflow.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WorkflowFindFirstArgs>(args?: SelectSubset<T, WorkflowFindFirstArgs<ExtArgs>>): Prisma__WorkflowClient<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Workflow that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkflowFindFirstOrThrowArgs} args - Arguments to find a Workflow
+     * @example
+     * // Get one Workflow
+     * const workflow = await prisma.workflow.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WorkflowFindFirstOrThrowArgs>(args?: SelectSubset<T, WorkflowFindFirstOrThrowArgs<ExtArgs>>): Prisma__WorkflowClient<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Workflows that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkflowFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Workflows
+     * const workflows = await prisma.workflow.findMany()
+     * 
+     * // Get first 10 Workflows
+     * const workflows = await prisma.workflow.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const workflowWithIdOnly = await prisma.workflow.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WorkflowFindManyArgs>(args?: SelectSubset<T, WorkflowFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Workflow.
+     * @param {WorkflowCreateArgs} args - Arguments to create a Workflow.
+     * @example
+     * // Create one Workflow
+     * const Workflow = await prisma.workflow.create({
+     *   data: {
+     *     // ... data to create a Workflow
+     *   }
+     * })
+     * 
+     */
+    create<T extends WorkflowCreateArgs>(args: SelectSubset<T, WorkflowCreateArgs<ExtArgs>>): Prisma__WorkflowClient<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Workflows.
+     * @param {WorkflowCreateManyArgs} args - Arguments to create many Workflows.
+     * @example
+     * // Create many Workflows
+     * const workflow = await prisma.workflow.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WorkflowCreateManyArgs>(args?: SelectSubset<T, WorkflowCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Workflows and returns the data saved in the database.
+     * @param {WorkflowCreateManyAndReturnArgs} args - Arguments to create many Workflows.
+     * @example
+     * // Create many Workflows
+     * const workflow = await prisma.workflow.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Workflows and only return the `id`
+     * const workflowWithIdOnly = await prisma.workflow.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WorkflowCreateManyAndReturnArgs>(args?: SelectSubset<T, WorkflowCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Workflow.
+     * @param {WorkflowDeleteArgs} args - Arguments to delete one Workflow.
+     * @example
+     * // Delete one Workflow
+     * const Workflow = await prisma.workflow.delete({
+     *   where: {
+     *     // ... filter to delete one Workflow
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WorkflowDeleteArgs>(args: SelectSubset<T, WorkflowDeleteArgs<ExtArgs>>): Prisma__WorkflowClient<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Workflow.
+     * @param {WorkflowUpdateArgs} args - Arguments to update one Workflow.
+     * @example
+     * // Update one Workflow
+     * const workflow = await prisma.workflow.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WorkflowUpdateArgs>(args: SelectSubset<T, WorkflowUpdateArgs<ExtArgs>>): Prisma__WorkflowClient<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Workflows.
+     * @param {WorkflowDeleteManyArgs} args - Arguments to filter Workflows to delete.
+     * @example
+     * // Delete a few Workflows
+     * const { count } = await prisma.workflow.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WorkflowDeleteManyArgs>(args?: SelectSubset<T, WorkflowDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Workflows.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkflowUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Workflows
+     * const workflow = await prisma.workflow.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WorkflowUpdateManyArgs>(args: SelectSubset<T, WorkflowUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Workflows and returns the data updated in the database.
+     * @param {WorkflowUpdateManyAndReturnArgs} args - Arguments to update many Workflows.
+     * @example
+     * // Update many Workflows
+     * const workflow = await prisma.workflow.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Workflows and only return the `id`
+     * const workflowWithIdOnly = await prisma.workflow.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WorkflowUpdateManyAndReturnArgs>(args: SelectSubset<T, WorkflowUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Workflow.
+     * @param {WorkflowUpsertArgs} args - Arguments to update or create a Workflow.
+     * @example
+     * // Update or create a Workflow
+     * const workflow = await prisma.workflow.upsert({
+     *   create: {
+     *     // ... data to create a Workflow
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Workflow we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WorkflowUpsertArgs>(args: SelectSubset<T, WorkflowUpsertArgs<ExtArgs>>): Prisma__WorkflowClient<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Workflows.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkflowCountArgs} args - Arguments to filter Workflows to count.
+     * @example
+     * // Count the number of Workflows
+     * const count = await prisma.workflow.count({
+     *   where: {
+     *     // ... the filter for the Workflows we want to count
+     *   }
+     * })
+    **/
+    count<T extends WorkflowCountArgs>(
+      args?: Subset<T, WorkflowCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WorkflowCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Workflow.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkflowAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WorkflowAggregateArgs>(args: Subset<T, WorkflowAggregateArgs>): Prisma.PrismaPromise<GetWorkflowAggregateType<T>>
+
+    /**
+     * Group by Workflow.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkflowGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WorkflowGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WorkflowGroupByArgs['orderBy'] }
+        : { orderBy?: WorkflowGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WorkflowGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWorkflowGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Workflow model
+   */
+  readonly fields: WorkflowFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Workflow.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WorkflowClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    statuses<T extends Workflow$statusesArgs<ExtArgs> = {}>(args?: Subset<T, Workflow$statusesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkflowStatusPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    projects<T extends Workflow$projectsArgs<ExtArgs> = {}>(args?: Subset<T, Workflow$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Workflow model
+   */
+  interface WorkflowFieldRefs {
+    readonly id: FieldRef<"Workflow", 'String'>
+    readonly name: FieldRef<"Workflow", 'String'>
+    readonly archived: FieldRef<"Workflow", 'Boolean'>
+    readonly createdAt: FieldRef<"Workflow", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Workflow findUnique
+   */
+  export type WorkflowFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workflow
+     */
+    select?: WorkflowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workflow
+     */
+    omit?: WorkflowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkflowInclude<ExtArgs> | null
+    /**
+     * Filter, which Workflow to fetch.
+     */
+    where: WorkflowWhereUniqueInput
+  }
+
+  /**
+   * Workflow findUniqueOrThrow
+   */
+  export type WorkflowFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workflow
+     */
+    select?: WorkflowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workflow
+     */
+    omit?: WorkflowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkflowInclude<ExtArgs> | null
+    /**
+     * Filter, which Workflow to fetch.
+     */
+    where: WorkflowWhereUniqueInput
+  }
+
+  /**
+   * Workflow findFirst
+   */
+  export type WorkflowFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workflow
+     */
+    select?: WorkflowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workflow
+     */
+    omit?: WorkflowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkflowInclude<ExtArgs> | null
+    /**
+     * Filter, which Workflow to fetch.
+     */
+    where?: WorkflowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Workflows to fetch.
+     */
+    orderBy?: WorkflowOrderByWithRelationInput | WorkflowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Workflows.
+     */
+    cursor?: WorkflowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Workflows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Workflows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Workflows.
+     */
+    distinct?: WorkflowScalarFieldEnum | WorkflowScalarFieldEnum[]
+  }
+
+  /**
+   * Workflow findFirstOrThrow
+   */
+  export type WorkflowFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workflow
+     */
+    select?: WorkflowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workflow
+     */
+    omit?: WorkflowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkflowInclude<ExtArgs> | null
+    /**
+     * Filter, which Workflow to fetch.
+     */
+    where?: WorkflowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Workflows to fetch.
+     */
+    orderBy?: WorkflowOrderByWithRelationInput | WorkflowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Workflows.
+     */
+    cursor?: WorkflowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Workflows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Workflows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Workflows.
+     */
+    distinct?: WorkflowScalarFieldEnum | WorkflowScalarFieldEnum[]
+  }
+
+  /**
+   * Workflow findMany
+   */
+  export type WorkflowFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workflow
+     */
+    select?: WorkflowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workflow
+     */
+    omit?: WorkflowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkflowInclude<ExtArgs> | null
+    /**
+     * Filter, which Workflows to fetch.
+     */
+    where?: WorkflowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Workflows to fetch.
+     */
+    orderBy?: WorkflowOrderByWithRelationInput | WorkflowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Workflows.
+     */
+    cursor?: WorkflowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Workflows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Workflows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Workflows.
+     */
+    distinct?: WorkflowScalarFieldEnum | WorkflowScalarFieldEnum[]
+  }
+
+  /**
+   * Workflow create
+   */
+  export type WorkflowCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workflow
+     */
+    select?: WorkflowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workflow
+     */
+    omit?: WorkflowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkflowInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Workflow.
+     */
+    data: XOR<WorkflowCreateInput, WorkflowUncheckedCreateInput>
+  }
+
+  /**
+   * Workflow createMany
+   */
+  export type WorkflowCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Workflows.
+     */
+    data: WorkflowCreateManyInput | WorkflowCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Workflow createManyAndReturn
+   */
+  export type WorkflowCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workflow
+     */
+    select?: WorkflowSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workflow
+     */
+    omit?: WorkflowOmit<ExtArgs> | null
+    /**
+     * The data used to create many Workflows.
+     */
+    data: WorkflowCreateManyInput | WorkflowCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Workflow update
+   */
+  export type WorkflowUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workflow
+     */
+    select?: WorkflowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workflow
+     */
+    omit?: WorkflowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkflowInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Workflow.
+     */
+    data: XOR<WorkflowUpdateInput, WorkflowUncheckedUpdateInput>
+    /**
+     * Choose, which Workflow to update.
+     */
+    where: WorkflowWhereUniqueInput
+  }
+
+  /**
+   * Workflow updateMany
+   */
+  export type WorkflowUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Workflows.
+     */
+    data: XOR<WorkflowUpdateManyMutationInput, WorkflowUncheckedUpdateManyInput>
+    /**
+     * Filter which Workflows to update
+     */
+    where?: WorkflowWhereInput
+    /**
+     * Limit how many Workflows to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Workflow updateManyAndReturn
+   */
+  export type WorkflowUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workflow
+     */
+    select?: WorkflowSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workflow
+     */
+    omit?: WorkflowOmit<ExtArgs> | null
+    /**
+     * The data used to update Workflows.
+     */
+    data: XOR<WorkflowUpdateManyMutationInput, WorkflowUncheckedUpdateManyInput>
+    /**
+     * Filter which Workflows to update
+     */
+    where?: WorkflowWhereInput
+    /**
+     * Limit how many Workflows to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Workflow upsert
+   */
+  export type WorkflowUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workflow
+     */
+    select?: WorkflowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workflow
+     */
+    omit?: WorkflowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkflowInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Workflow to update in case it exists.
+     */
+    where: WorkflowWhereUniqueInput
+    /**
+     * In case the Workflow found by the `where` argument doesn't exist, create a new Workflow with this data.
+     */
+    create: XOR<WorkflowCreateInput, WorkflowUncheckedCreateInput>
+    /**
+     * In case the Workflow was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WorkflowUpdateInput, WorkflowUncheckedUpdateInput>
+  }
+
+  /**
+   * Workflow delete
+   */
+  export type WorkflowDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workflow
+     */
+    select?: WorkflowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workflow
+     */
+    omit?: WorkflowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkflowInclude<ExtArgs> | null
+    /**
+     * Filter which Workflow to delete.
+     */
+    where: WorkflowWhereUniqueInput
+  }
+
+  /**
+   * Workflow deleteMany
+   */
+  export type WorkflowDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Workflows to delete
+     */
+    where?: WorkflowWhereInput
+    /**
+     * Limit how many Workflows to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Workflow.statuses
+   */
+  export type Workflow$statusesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkflowStatus
+     */
+    select?: WorkflowStatusSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WorkflowStatus
+     */
+    omit?: WorkflowStatusOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkflowStatusInclude<ExtArgs> | null
+    where?: WorkflowStatusWhereInput
+    orderBy?: WorkflowStatusOrderByWithRelationInput | WorkflowStatusOrderByWithRelationInput[]
+    cursor?: WorkflowStatusWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WorkflowStatusScalarFieldEnum | WorkflowStatusScalarFieldEnum[]
+  }
+
+  /**
+   * Workflow.projects
+   */
+  export type Workflow$projectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Project
+     */
+    select?: ProjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Project
+     */
+    omit?: ProjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
+    where?: ProjectWhereInput
+    orderBy?: ProjectOrderByWithRelationInput | ProjectOrderByWithRelationInput[]
+    cursor?: ProjectWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProjectScalarFieldEnum | ProjectScalarFieldEnum[]
+  }
+
+  /**
+   * Workflow without action
+   */
+  export type WorkflowDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workflow
+     */
+    select?: WorkflowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workflow
+     */
+    omit?: WorkflowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkflowInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model WorkflowStatus
    */
 
@@ -40289,7 +45372,7 @@ export namespace Prisma {
 
   export type WorkflowStatusMinAggregateOutputType = {
     id: string | null
-    projectId: string | null
+    workflowId: string | null
     name: string | null
     category: $Enums.StatusCategory | null
     position: number | null
@@ -40298,7 +45381,7 @@ export namespace Prisma {
 
   export type WorkflowStatusMaxAggregateOutputType = {
     id: string | null
-    projectId: string | null
+    workflowId: string | null
     name: string | null
     category: $Enums.StatusCategory | null
     position: number | null
@@ -40307,7 +45390,7 @@ export namespace Prisma {
 
   export type WorkflowStatusCountAggregateOutputType = {
     id: number
-    projectId: number
+    workflowId: number
     name: number
     category: number
     position: number
@@ -40326,7 +45409,7 @@ export namespace Prisma {
 
   export type WorkflowStatusMinAggregateInputType = {
     id?: true
-    projectId?: true
+    workflowId?: true
     name?: true
     category?: true
     position?: true
@@ -40335,7 +45418,7 @@ export namespace Prisma {
 
   export type WorkflowStatusMaxAggregateInputType = {
     id?: true
-    projectId?: true
+    workflowId?: true
     name?: true
     category?: true
     position?: true
@@ -40344,7 +45427,7 @@ export namespace Prisma {
 
   export type WorkflowStatusCountAggregateInputType = {
     id?: true
-    projectId?: true
+    workflowId?: true
     name?: true
     category?: true
     position?: true
@@ -40440,7 +45523,7 @@ export namespace Prisma {
 
   export type WorkflowStatusGroupByOutputType = {
     id: string
-    projectId: string
+    workflowId: string
     name: string
     category: $Enums.StatusCategory
     position: number
@@ -40468,12 +45551,12 @@ export namespace Prisma {
 
   export type WorkflowStatusSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    projectId?: boolean
+    workflowId?: boolean
     name?: boolean
     category?: boolean
     position?: boolean
     isDefault?: boolean
-    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    workflow?: boolean | WorkflowDefaultArgs<ExtArgs>
     tasks?: boolean | WorkflowStatus$tasksArgs<ExtArgs>
     transitionsFrom?: boolean | WorkflowStatus$transitionsFromArgs<ExtArgs>
     transitionsTo?: boolean | WorkflowStatus$transitionsToArgs<ExtArgs>
@@ -40483,36 +45566,36 @@ export namespace Prisma {
 
   export type WorkflowStatusSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    projectId?: boolean
+    workflowId?: boolean
     name?: boolean
     category?: boolean
     position?: boolean
     isDefault?: boolean
-    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    workflow?: boolean | WorkflowDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["workflowStatus"]>
 
   export type WorkflowStatusSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    projectId?: boolean
+    workflowId?: boolean
     name?: boolean
     category?: boolean
     position?: boolean
     isDefault?: boolean
-    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    workflow?: boolean | WorkflowDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["workflowStatus"]>
 
   export type WorkflowStatusSelectScalar = {
     id?: boolean
-    projectId?: boolean
+    workflowId?: boolean
     name?: boolean
     category?: boolean
     position?: boolean
     isDefault?: boolean
   }
 
-  export type WorkflowStatusOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "projectId" | "name" | "category" | "position" | "isDefault", ExtArgs["result"]["workflowStatus"]>
+  export type WorkflowStatusOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "workflowId" | "name" | "category" | "position" | "isDefault", ExtArgs["result"]["workflowStatus"]>
   export type WorkflowStatusInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    workflow?: boolean | WorkflowDefaultArgs<ExtArgs>
     tasks?: boolean | WorkflowStatus$tasksArgs<ExtArgs>
     transitionsFrom?: boolean | WorkflowStatus$transitionsFromArgs<ExtArgs>
     transitionsTo?: boolean | WorkflowStatus$transitionsToArgs<ExtArgs>
@@ -40520,16 +45603,16 @@ export namespace Prisma {
     _count?: boolean | WorkflowStatusCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type WorkflowStatusIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    workflow?: boolean | WorkflowDefaultArgs<ExtArgs>
   }
   export type WorkflowStatusIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    workflow?: boolean | WorkflowDefaultArgs<ExtArgs>
   }
 
   export type $WorkflowStatusPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "WorkflowStatus"
     objects: {
-      project: Prisma.$ProjectPayload<ExtArgs>
+      workflow: Prisma.$WorkflowPayload<ExtArgs>
       tasks: Prisma.$TaskPayload<ExtArgs>[]
       transitionsFrom: Prisma.$TransitionRulePayload<ExtArgs>[]
       transitionsTo: Prisma.$TransitionRulePayload<ExtArgs>[]
@@ -40537,7 +45620,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      projectId: string
+      workflowId: string
       name: string
       category: $Enums.StatusCategory
       position: number
@@ -40936,7 +46019,7 @@ export namespace Prisma {
    */
   export interface Prisma__WorkflowStatusClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    project<T extends ProjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectDefaultArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    workflow<T extends WorkflowDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WorkflowDefaultArgs<ExtArgs>>): Prisma__WorkflowClient<$Result.GetResult<Prisma.$WorkflowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     tasks<T extends WorkflowStatus$tasksArgs<ExtArgs> = {}>(args?: Subset<T, WorkflowStatus$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     transitionsFrom<T extends WorkflowStatus$transitionsFromArgs<ExtArgs> = {}>(args?: Subset<T, WorkflowStatus$transitionsFromArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransitionRulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     transitionsTo<T extends WorkflowStatus$transitionsToArgs<ExtArgs> = {}>(args?: Subset<T, WorkflowStatus$transitionsToArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransitionRulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -40971,7 +46054,7 @@ export namespace Prisma {
    */
   interface WorkflowStatusFieldRefs {
     readonly id: FieldRef<"WorkflowStatus", 'String'>
-    readonly projectId: FieldRef<"WorkflowStatus", 'String'>
+    readonly workflowId: FieldRef<"WorkflowStatus", 'String'>
     readonly name: FieldRef<"WorkflowStatus", 'String'>
     readonly category: FieldRef<"WorkflowStatus", 'StatusCategory'>
     readonly position: FieldRef<"WorkflowStatus", 'Int'>
@@ -41504,11 +46587,13 @@ export namespace Prisma {
   }
 
   export type TaskAvgAggregateOutputType = {
+    position: number | null
     estimatedHours: number | null
     hillPosition: number | null
   }
 
   export type TaskSumAggregateOutputType = {
+    position: number | null
     estimatedHours: number | null
     hillPosition: number | null
   }
@@ -41519,6 +46604,7 @@ export namespace Prisma {
     description: string | null
     externalSourceUrl: string | null
     statusId: string | null
+    position: number | null
     priority: $Enums.TaskPriority | null
     tShirtSize: $Enums.TaskTShirtSize | null
     assigneeId: string | null
@@ -41545,6 +46631,7 @@ export namespace Prisma {
     description: string | null
     externalSourceUrl: string | null
     statusId: string | null
+    position: number | null
     priority: $Enums.TaskPriority | null
     tShirtSize: $Enums.TaskTShirtSize | null
     assigneeId: string | null
@@ -41571,6 +46658,7 @@ export namespace Prisma {
     description: number
     externalSourceUrl: number
     statusId: number
+    position: number
     priority: number
     tShirtSize: number
     assigneeId: number
@@ -41595,11 +46683,13 @@ export namespace Prisma {
 
 
   export type TaskAvgAggregateInputType = {
+    position?: true
     estimatedHours?: true
     hillPosition?: true
   }
 
   export type TaskSumAggregateInputType = {
+    position?: true
     estimatedHours?: true
     hillPosition?: true
   }
@@ -41610,6 +46700,7 @@ export namespace Prisma {
     description?: true
     externalSourceUrl?: true
     statusId?: true
+    position?: true
     priority?: true
     tShirtSize?: true
     assigneeId?: true
@@ -41636,6 +46727,7 @@ export namespace Prisma {
     description?: true
     externalSourceUrl?: true
     statusId?: true
+    position?: true
     priority?: true
     tShirtSize?: true
     assigneeId?: true
@@ -41662,6 +46754,7 @@ export namespace Prisma {
     description?: true
     externalSourceUrl?: true
     statusId?: true
+    position?: true
     priority?: true
     tShirtSize?: true
     assigneeId?: true
@@ -41776,6 +46869,7 @@ export namespace Prisma {
     description: string | null
     externalSourceUrl: string | null
     statusId: string
+    position: number
     priority: $Enums.TaskPriority
     tShirtSize: $Enums.TaskTShirtSize | null
     assigneeId: string | null
@@ -41822,6 +46916,7 @@ export namespace Prisma {
     description?: boolean
     externalSourceUrl?: boolean
     statusId?: boolean
+    position?: boolean
     priority?: boolean
     tShirtSize?: boolean
     assigneeId?: boolean
@@ -41871,6 +46966,7 @@ export namespace Prisma {
     description?: boolean
     externalSourceUrl?: boolean
     statusId?: boolean
+    position?: boolean
     priority?: boolean
     tShirtSize?: boolean
     assigneeId?: boolean
@@ -41904,6 +47000,7 @@ export namespace Prisma {
     description?: boolean
     externalSourceUrl?: boolean
     statusId?: boolean
+    position?: boolean
     priority?: boolean
     tShirtSize?: boolean
     assigneeId?: boolean
@@ -41937,6 +47034,7 @@ export namespace Prisma {
     description?: boolean
     externalSourceUrl?: boolean
     statusId?: boolean
+    position?: boolean
     priority?: boolean
     tShirtSize?: boolean
     assigneeId?: boolean
@@ -41958,7 +47056,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "externalSourceUrl" | "statusId" | "priority" | "tShirtSize" | "assigneeId" | "parentTaskId" | "startDate" | "dueDate" | "estimatedHours" | "hillPosition" | "inTriage" | "isKeyTask" | "isPrivate" | "isTemplate" | "taskListGroupId" | "recurrence" | "recurrenceParentId" | "cycleId" | "cycleAssignedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["task"]>
+  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "externalSourceUrl" | "statusId" | "position" | "priority" | "tShirtSize" | "assigneeId" | "parentTaskId" | "startDate" | "dueDate" | "estimatedHours" | "hillPosition" | "inTriage" | "isKeyTask" | "isPrivate" | "isTemplate" | "taskListGroupId" | "recurrence" | "recurrenceParentId" | "cycleId" | "cycleAssignedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["task"]>
   export type TaskInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     status?: boolean | WorkflowStatusDefaultArgs<ExtArgs>
     assignee?: boolean | Task$assigneeArgs<ExtArgs>
@@ -42031,6 +47129,7 @@ export namespace Prisma {
       description: string | null
       externalSourceUrl: string | null
       statusId: string
+      position: number
       priority: $Enums.TaskPriority
       tShirtSize: $Enums.TaskTShirtSize | null
       assigneeId: string | null
@@ -42499,6 +47598,7 @@ export namespace Prisma {
     readonly description: FieldRef<"Task", 'String'>
     readonly externalSourceUrl: FieldRef<"Task", 'String'>
     readonly statusId: FieldRef<"Task", 'String'>
+    readonly position: FieldRef<"Task", 'Float'>
     readonly priority: FieldRef<"Task", 'TaskPriority'>
     readonly tShirtSize: FieldRef<"Task", 'TaskTShirtSize'>
     readonly assigneeId: FieldRef<"Task", 'String'>
@@ -88520,6 +93620,1118 @@ export namespace Prisma {
 
 
   /**
+   * Model RateCard
+   */
+
+  export type AggregateRateCard = {
+    _count: RateCardCountAggregateOutputType | null
+    _min: RateCardMinAggregateOutputType | null
+    _max: RateCardMaxAggregateOutputType | null
+  }
+
+  export type RateCardMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    clientId: string | null
+    archived: boolean | null
+    createdAt: Date | null
+  }
+
+  export type RateCardMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    clientId: string | null
+    archived: boolean | null
+    createdAt: Date | null
+  }
+
+  export type RateCardCountAggregateOutputType = {
+    id: number
+    name: number
+    clientId: number
+    archived: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type RateCardMinAggregateInputType = {
+    id?: true
+    name?: true
+    clientId?: true
+    archived?: true
+    createdAt?: true
+  }
+
+  export type RateCardMaxAggregateInputType = {
+    id?: true
+    name?: true
+    clientId?: true
+    archived?: true
+    createdAt?: true
+  }
+
+  export type RateCardCountAggregateInputType = {
+    id?: true
+    name?: true
+    clientId?: true
+    archived?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type RateCardAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RateCard to aggregate.
+     */
+    where?: RateCardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RateCards to fetch.
+     */
+    orderBy?: RateCardOrderByWithRelationInput | RateCardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RateCardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RateCards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RateCards.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RateCards
+    **/
+    _count?: true | RateCardCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RateCardMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RateCardMaxAggregateInputType
+  }
+
+  export type GetRateCardAggregateType<T extends RateCardAggregateArgs> = {
+        [P in keyof T & keyof AggregateRateCard]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRateCard[P]>
+      : GetScalarType<T[P], AggregateRateCard[P]>
+  }
+
+
+
+
+  export type RateCardGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RateCardWhereInput
+    orderBy?: RateCardOrderByWithAggregationInput | RateCardOrderByWithAggregationInput[]
+    by: RateCardScalarFieldEnum[] | RateCardScalarFieldEnum
+    having?: RateCardScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RateCardCountAggregateInputType | true
+    _min?: RateCardMinAggregateInputType
+    _max?: RateCardMaxAggregateInputType
+  }
+
+  export type RateCardGroupByOutputType = {
+    id: string
+    name: string
+    clientId: string | null
+    archived: boolean
+    createdAt: Date
+    _count: RateCardCountAggregateOutputType | null
+    _min: RateCardMinAggregateOutputType | null
+    _max: RateCardMaxAggregateOutputType | null
+  }
+
+  type GetRateCardGroupByPayload<T extends RateCardGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RateCardGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RateCardGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RateCardGroupByOutputType[P]>
+            : GetScalarType<T[P], RateCardGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RateCardSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    clientId?: boolean
+    archived?: boolean
+    createdAt?: boolean
+    client?: boolean | RateCard$clientArgs<ExtArgs>
+    items?: boolean | RateCard$itemsArgs<ExtArgs>
+    _count?: boolean | RateCardCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["rateCard"]>
+
+  export type RateCardSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    clientId?: boolean
+    archived?: boolean
+    createdAt?: boolean
+    client?: boolean | RateCard$clientArgs<ExtArgs>
+  }, ExtArgs["result"]["rateCard"]>
+
+  export type RateCardSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    clientId?: boolean
+    archived?: boolean
+    createdAt?: boolean
+    client?: boolean | RateCard$clientArgs<ExtArgs>
+  }, ExtArgs["result"]["rateCard"]>
+
+  export type RateCardSelectScalar = {
+    id?: boolean
+    name?: boolean
+    clientId?: boolean
+    archived?: boolean
+    createdAt?: boolean
+  }
+
+  export type RateCardOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "clientId" | "archived" | "createdAt", ExtArgs["result"]["rateCard"]>
+  export type RateCardInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    client?: boolean | RateCard$clientArgs<ExtArgs>
+    items?: boolean | RateCard$itemsArgs<ExtArgs>
+    _count?: boolean | RateCardCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type RateCardIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    client?: boolean | RateCard$clientArgs<ExtArgs>
+  }
+  export type RateCardIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    client?: boolean | RateCard$clientArgs<ExtArgs>
+  }
+
+  export type $RateCardPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RateCard"
+    objects: {
+      client: Prisma.$ClientPayload<ExtArgs> | null
+      items: Prisma.$RateCardItemPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      clientId: string | null
+      archived: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["rateCard"]>
+    composites: {}
+  }
+
+  type RateCardGetPayload<S extends boolean | null | undefined | RateCardDefaultArgs> = $Result.GetResult<Prisma.$RateCardPayload, S>
+
+  type RateCardCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RateCardFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RateCardCountAggregateInputType | true
+    }
+
+  export interface RateCardDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RateCard'], meta: { name: 'RateCard' } }
+    /**
+     * Find zero or one RateCard that matches the filter.
+     * @param {RateCardFindUniqueArgs} args - Arguments to find a RateCard
+     * @example
+     * // Get one RateCard
+     * const rateCard = await prisma.rateCard.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RateCardFindUniqueArgs>(args: SelectSubset<T, RateCardFindUniqueArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one RateCard that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RateCardFindUniqueOrThrowArgs} args - Arguments to find a RateCard
+     * @example
+     * // Get one RateCard
+     * const rateCard = await prisma.rateCard.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RateCardFindUniqueOrThrowArgs>(args: SelectSubset<T, RateCardFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RateCard that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateCardFindFirstArgs} args - Arguments to find a RateCard
+     * @example
+     * // Get one RateCard
+     * const rateCard = await prisma.rateCard.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RateCardFindFirstArgs>(args?: SelectSubset<T, RateCardFindFirstArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RateCard that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateCardFindFirstOrThrowArgs} args - Arguments to find a RateCard
+     * @example
+     * // Get one RateCard
+     * const rateCard = await prisma.rateCard.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RateCardFindFirstOrThrowArgs>(args?: SelectSubset<T, RateCardFindFirstOrThrowArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more RateCards that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateCardFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RateCards
+     * const rateCards = await prisma.rateCard.findMany()
+     * 
+     * // Get first 10 RateCards
+     * const rateCards = await prisma.rateCard.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const rateCardWithIdOnly = await prisma.rateCard.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RateCardFindManyArgs>(args?: SelectSubset<T, RateCardFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a RateCard.
+     * @param {RateCardCreateArgs} args - Arguments to create a RateCard.
+     * @example
+     * // Create one RateCard
+     * const RateCard = await prisma.rateCard.create({
+     *   data: {
+     *     // ... data to create a RateCard
+     *   }
+     * })
+     * 
+     */
+    create<T extends RateCardCreateArgs>(args: SelectSubset<T, RateCardCreateArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many RateCards.
+     * @param {RateCardCreateManyArgs} args - Arguments to create many RateCards.
+     * @example
+     * // Create many RateCards
+     * const rateCard = await prisma.rateCard.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RateCardCreateManyArgs>(args?: SelectSubset<T, RateCardCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RateCards and returns the data saved in the database.
+     * @param {RateCardCreateManyAndReturnArgs} args - Arguments to create many RateCards.
+     * @example
+     * // Create many RateCards
+     * const rateCard = await prisma.rateCard.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RateCards and only return the `id`
+     * const rateCardWithIdOnly = await prisma.rateCard.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RateCardCreateManyAndReturnArgs>(args?: SelectSubset<T, RateCardCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a RateCard.
+     * @param {RateCardDeleteArgs} args - Arguments to delete one RateCard.
+     * @example
+     * // Delete one RateCard
+     * const RateCard = await prisma.rateCard.delete({
+     *   where: {
+     *     // ... filter to delete one RateCard
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RateCardDeleteArgs>(args: SelectSubset<T, RateCardDeleteArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one RateCard.
+     * @param {RateCardUpdateArgs} args - Arguments to update one RateCard.
+     * @example
+     * // Update one RateCard
+     * const rateCard = await prisma.rateCard.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RateCardUpdateArgs>(args: SelectSubset<T, RateCardUpdateArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more RateCards.
+     * @param {RateCardDeleteManyArgs} args - Arguments to filter RateCards to delete.
+     * @example
+     * // Delete a few RateCards
+     * const { count } = await prisma.rateCard.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RateCardDeleteManyArgs>(args?: SelectSubset<T, RateCardDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RateCards.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateCardUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RateCards
+     * const rateCard = await prisma.rateCard.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RateCardUpdateManyArgs>(args: SelectSubset<T, RateCardUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RateCards and returns the data updated in the database.
+     * @param {RateCardUpdateManyAndReturnArgs} args - Arguments to update many RateCards.
+     * @example
+     * // Update many RateCards
+     * const rateCard = await prisma.rateCard.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more RateCards and only return the `id`
+     * const rateCardWithIdOnly = await prisma.rateCard.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RateCardUpdateManyAndReturnArgs>(args: SelectSubset<T, RateCardUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one RateCard.
+     * @param {RateCardUpsertArgs} args - Arguments to update or create a RateCard.
+     * @example
+     * // Update or create a RateCard
+     * const rateCard = await prisma.rateCard.upsert({
+     *   create: {
+     *     // ... data to create a RateCard
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RateCard we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RateCardUpsertArgs>(args: SelectSubset<T, RateCardUpsertArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of RateCards.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateCardCountArgs} args - Arguments to filter RateCards to count.
+     * @example
+     * // Count the number of RateCards
+     * const count = await prisma.rateCard.count({
+     *   where: {
+     *     // ... the filter for the RateCards we want to count
+     *   }
+     * })
+    **/
+    count<T extends RateCardCountArgs>(
+      args?: Subset<T, RateCardCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RateCardCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RateCard.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateCardAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RateCardAggregateArgs>(args: Subset<T, RateCardAggregateArgs>): Prisma.PrismaPromise<GetRateCardAggregateType<T>>
+
+    /**
+     * Group by RateCard.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateCardGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RateCardGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RateCardGroupByArgs['orderBy'] }
+        : { orderBy?: RateCardGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RateCardGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRateCardGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RateCard model
+   */
+  readonly fields: RateCardFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RateCard.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RateCardClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    client<T extends RateCard$clientArgs<ExtArgs> = {}>(args?: Subset<T, RateCard$clientArgs<ExtArgs>>): Prisma__ClientClient<$Result.GetResult<Prisma.$ClientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    items<T extends RateCard$itemsArgs<ExtArgs> = {}>(args?: Subset<T, RateCard$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RateCardItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RateCard model
+   */
+  interface RateCardFieldRefs {
+    readonly id: FieldRef<"RateCard", 'String'>
+    readonly name: FieldRef<"RateCard", 'String'>
+    readonly clientId: FieldRef<"RateCard", 'String'>
+    readonly archived: FieldRef<"RateCard", 'Boolean'>
+    readonly createdAt: FieldRef<"RateCard", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RateCard findUnique
+   */
+  export type RateCardFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * Filter, which RateCard to fetch.
+     */
+    where: RateCardWhereUniqueInput
+  }
+
+  /**
+   * RateCard findUniqueOrThrow
+   */
+  export type RateCardFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * Filter, which RateCard to fetch.
+     */
+    where: RateCardWhereUniqueInput
+  }
+
+  /**
+   * RateCard findFirst
+   */
+  export type RateCardFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * Filter, which RateCard to fetch.
+     */
+    where?: RateCardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RateCards to fetch.
+     */
+    orderBy?: RateCardOrderByWithRelationInput | RateCardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RateCards.
+     */
+    cursor?: RateCardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RateCards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RateCards.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RateCards.
+     */
+    distinct?: RateCardScalarFieldEnum | RateCardScalarFieldEnum[]
+  }
+
+  /**
+   * RateCard findFirstOrThrow
+   */
+  export type RateCardFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * Filter, which RateCard to fetch.
+     */
+    where?: RateCardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RateCards to fetch.
+     */
+    orderBy?: RateCardOrderByWithRelationInput | RateCardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RateCards.
+     */
+    cursor?: RateCardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RateCards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RateCards.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RateCards.
+     */
+    distinct?: RateCardScalarFieldEnum | RateCardScalarFieldEnum[]
+  }
+
+  /**
+   * RateCard findMany
+   */
+  export type RateCardFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * Filter, which RateCards to fetch.
+     */
+    where?: RateCardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RateCards to fetch.
+     */
+    orderBy?: RateCardOrderByWithRelationInput | RateCardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RateCards.
+     */
+    cursor?: RateCardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RateCards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RateCards.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RateCards.
+     */
+    distinct?: RateCardScalarFieldEnum | RateCardScalarFieldEnum[]
+  }
+
+  /**
+   * RateCard create
+   */
+  export type RateCardCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RateCard.
+     */
+    data: XOR<RateCardCreateInput, RateCardUncheckedCreateInput>
+  }
+
+  /**
+   * RateCard createMany
+   */
+  export type RateCardCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RateCards.
+     */
+    data: RateCardCreateManyInput | RateCardCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RateCard createManyAndReturn
+   */
+  export type RateCardCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * The data used to create many RateCards.
+     */
+    data: RateCardCreateManyInput | RateCardCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RateCard update
+   */
+  export type RateCardUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RateCard.
+     */
+    data: XOR<RateCardUpdateInput, RateCardUncheckedUpdateInput>
+    /**
+     * Choose, which RateCard to update.
+     */
+    where: RateCardWhereUniqueInput
+  }
+
+  /**
+   * RateCard updateMany
+   */
+  export type RateCardUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RateCards.
+     */
+    data: XOR<RateCardUpdateManyMutationInput, RateCardUncheckedUpdateManyInput>
+    /**
+     * Filter which RateCards to update
+     */
+    where?: RateCardWhereInput
+    /**
+     * Limit how many RateCards to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * RateCard updateManyAndReturn
+   */
+  export type RateCardUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * The data used to update RateCards.
+     */
+    data: XOR<RateCardUpdateManyMutationInput, RateCardUncheckedUpdateManyInput>
+    /**
+     * Filter which RateCards to update
+     */
+    where?: RateCardWhereInput
+    /**
+     * Limit how many RateCards to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RateCard upsert
+   */
+  export type RateCardUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RateCard to update in case it exists.
+     */
+    where: RateCardWhereUniqueInput
+    /**
+     * In case the RateCard found by the `where` argument doesn't exist, create a new RateCard with this data.
+     */
+    create: XOR<RateCardCreateInput, RateCardUncheckedCreateInput>
+    /**
+     * In case the RateCard was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RateCardUpdateInput, RateCardUncheckedUpdateInput>
+  }
+
+  /**
+   * RateCard delete
+   */
+  export type RateCardDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * Filter which RateCard to delete.
+     */
+    where: RateCardWhereUniqueInput
+  }
+
+  /**
+   * RateCard deleteMany
+   */
+  export type RateCardDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RateCards to delete
+     */
+    where?: RateCardWhereInput
+    /**
+     * Limit how many RateCards to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * RateCard.client
+   */
+  export type RateCard$clientArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Client
+     */
+    select?: ClientSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Client
+     */
+    omit?: ClientOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientInclude<ExtArgs> | null
+    where?: ClientWhereInput
+  }
+
+  /**
+   * RateCard.items
+   */
+  export type RateCard$itemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCardItem
+     */
+    select?: RateCardItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCardItem
+     */
+    omit?: RateCardItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardItemInclude<ExtArgs> | null
+    where?: RateCardItemWhereInput
+    orderBy?: RateCardItemOrderByWithRelationInput | RateCardItemOrderByWithRelationInput[]
+    cursor?: RateCardItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RateCardItemScalarFieldEnum | RateCardItemScalarFieldEnum[]
+  }
+
+  /**
+   * RateCard without action
+   */
+  export type RateCardDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model RateCardItem
    */
 
@@ -88541,6 +94753,7 @@ export namespace Prisma {
 
   export type RateCardItemMinAggregateOutputType = {
     id: string | null
+    rateCardId: string | null
     name: string | null
     serviceTypeId: string | null
     billingType: $Enums.BillingType | null
@@ -88551,6 +94764,7 @@ export namespace Prisma {
 
   export type RateCardItemMaxAggregateOutputType = {
     id: string | null
+    rateCardId: string | null
     name: string | null
     serviceTypeId: string | null
     billingType: $Enums.BillingType | null
@@ -88561,6 +94775,7 @@ export namespace Prisma {
 
   export type RateCardItemCountAggregateOutputType = {
     id: number
+    rateCardId: number
     name: number
     serviceTypeId: number
     billingType: number
@@ -88581,6 +94796,7 @@ export namespace Prisma {
 
   export type RateCardItemMinAggregateInputType = {
     id?: true
+    rateCardId?: true
     name?: true
     serviceTypeId?: true
     billingType?: true
@@ -88591,6 +94807,7 @@ export namespace Prisma {
 
   export type RateCardItemMaxAggregateInputType = {
     id?: true
+    rateCardId?: true
     name?: true
     serviceTypeId?: true
     billingType?: true
@@ -88601,6 +94818,7 @@ export namespace Prisma {
 
   export type RateCardItemCountAggregateInputType = {
     id?: true
+    rateCardId?: true
     name?: true
     serviceTypeId?: true
     billingType?: true
@@ -88698,6 +94916,7 @@ export namespace Prisma {
 
   export type RateCardItemGroupByOutputType = {
     id: string
+    rateCardId: string
     name: string
     serviceTypeId: string | null
     billingType: $Enums.BillingType
@@ -88727,39 +94946,46 @@ export namespace Prisma {
 
   export type RateCardItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    rateCardId?: boolean
     name?: boolean
     serviceTypeId?: boolean
     billingType?: boolean
     trackingUnit?: boolean
     defaultPrice?: boolean
     createdAt?: boolean
+    rateCard?: boolean | RateCardDefaultArgs<ExtArgs>
     serviceType?: boolean | RateCardItem$serviceTypeArgs<ExtArgs>
   }, ExtArgs["result"]["rateCardItem"]>
 
   export type RateCardItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    rateCardId?: boolean
     name?: boolean
     serviceTypeId?: boolean
     billingType?: boolean
     trackingUnit?: boolean
     defaultPrice?: boolean
     createdAt?: boolean
+    rateCard?: boolean | RateCardDefaultArgs<ExtArgs>
     serviceType?: boolean | RateCardItem$serviceTypeArgs<ExtArgs>
   }, ExtArgs["result"]["rateCardItem"]>
 
   export type RateCardItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    rateCardId?: boolean
     name?: boolean
     serviceTypeId?: boolean
     billingType?: boolean
     trackingUnit?: boolean
     defaultPrice?: boolean
     createdAt?: boolean
+    rateCard?: boolean | RateCardDefaultArgs<ExtArgs>
     serviceType?: boolean | RateCardItem$serviceTypeArgs<ExtArgs>
   }, ExtArgs["result"]["rateCardItem"]>
 
   export type RateCardItemSelectScalar = {
     id?: boolean
+    rateCardId?: boolean
     name?: boolean
     serviceTypeId?: boolean
     billingType?: boolean
@@ -88768,24 +94994,29 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type RateCardItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "serviceTypeId" | "billingType" | "trackingUnit" | "defaultPrice" | "createdAt", ExtArgs["result"]["rateCardItem"]>
+  export type RateCardItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "rateCardId" | "name" | "serviceTypeId" | "billingType" | "trackingUnit" | "defaultPrice" | "createdAt", ExtArgs["result"]["rateCardItem"]>
   export type RateCardItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    rateCard?: boolean | RateCardDefaultArgs<ExtArgs>
     serviceType?: boolean | RateCardItem$serviceTypeArgs<ExtArgs>
   }
   export type RateCardItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    rateCard?: boolean | RateCardDefaultArgs<ExtArgs>
     serviceType?: boolean | RateCardItem$serviceTypeArgs<ExtArgs>
   }
   export type RateCardItemIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    rateCard?: boolean | RateCardDefaultArgs<ExtArgs>
     serviceType?: boolean | RateCardItem$serviceTypeArgs<ExtArgs>
   }
 
   export type $RateCardItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "RateCardItem"
     objects: {
+      rateCard: Prisma.$RateCardPayload<ExtArgs>
       serviceType: Prisma.$ServiceTypePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      rateCardId: string
       name: string
       serviceTypeId: string | null
       billingType: $Enums.BillingType
@@ -89186,6 +95417,7 @@ export namespace Prisma {
    */
   export interface Prisma__RateCardItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    rateCard<T extends RateCardDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RateCardDefaultArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     serviceType<T extends RateCardItem$serviceTypeArgs<ExtArgs> = {}>(args?: Subset<T, RateCardItem$serviceTypeArgs<ExtArgs>>): Prisma__ServiceTypeClient<$Result.GetResult<Prisma.$ServiceTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -89217,6 +95449,7 @@ export namespace Prisma {
    */
   interface RateCardItemFieldRefs {
     readonly id: FieldRef<"RateCardItem", 'String'>
+    readonly rateCardId: FieldRef<"RateCardItem", 'String'>
     readonly name: FieldRef<"RateCardItem", 'String'>
     readonly serviceTypeId: FieldRef<"RateCardItem", 'String'>
     readonly billingType: FieldRef<"RateCardItem", 'BillingType'>
@@ -100238,15 +106471,51 @@ export namespace Prisma {
   export type ClientContactScalarFieldEnum = (typeof ClientContactScalarFieldEnum)[keyof typeof ClientContactScalarFieldEnum]
 
 
+  export const PipelineScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    archived: 'archived',
+    createdAt: 'createdAt'
+  };
+
+  export type PipelineScalarFieldEnum = (typeof PipelineScalarFieldEnum)[keyof typeof PipelineScalarFieldEnum]
+
+
+  export const DealStatusScalarFieldEnum: {
+    id: 'id',
+    pipelineId: 'pipelineId',
+    name: 'name',
+    category: 'category',
+    position: 'position',
+    defaultProbability: 'defaultProbability',
+    trackTime: 'trackTime',
+    trackExpenses: 'trackExpenses',
+    createBookings: 'createBookings'
+  };
+
+  export type DealStatusScalarFieldEnum = (typeof DealStatusScalarFieldEnum)[keyof typeof DealStatusScalarFieldEnum]
+
+
+  export const LostReasonScalarFieldEnum: {
+    id: 'id',
+    label: 'label',
+    archived: 'archived',
+    createdAt: 'createdAt'
+  };
+
+  export type LostReasonScalarFieldEnum = (typeof LostReasonScalarFieldEnum)[keyof typeof LostReasonScalarFieldEnum]
+
+
   export const DealScalarFieldEnum: {
     id: 'id',
     title: 'title',
     companyId: 'companyId',
-    stage: 'stage',
+    statusId: 'statusId',
     ownerId: 'ownerId',
     estimatedValue: 'estimatedValue',
     probability: 'probability',
-    lostReason: 'lostReason',
+    lostReasonId: 'lostReasonId',
+    lostReasonNote: 'lostReasonNote',
     projectId: 'projectId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -100386,6 +106655,7 @@ export namespace Prisma {
     timeApprovalRequired: 'timeApprovalRequired',
     expenseApprovalRequired: 'expenseApprovalRequired',
     createdAt: 'createdAt',
+    workflowId: 'workflowId',
     portfolioId: 'portfolioId',
     clientId: 'clientId',
     projectManagerId: 'projectManagerId'
@@ -100515,9 +106785,19 @@ export namespace Prisma {
   export type SavedViewScalarFieldEnum = (typeof SavedViewScalarFieldEnum)[keyof typeof SavedViewScalarFieldEnum]
 
 
+  export const WorkflowScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    archived: 'archived',
+    createdAt: 'createdAt'
+  };
+
+  export type WorkflowScalarFieldEnum = (typeof WorkflowScalarFieldEnum)[keyof typeof WorkflowScalarFieldEnum]
+
+
   export const WorkflowStatusScalarFieldEnum: {
     id: 'id',
-    projectId: 'projectId',
+    workflowId: 'workflowId',
     name: 'name',
     category: 'category',
     position: 'position',
@@ -100533,6 +106813,7 @@ export namespace Prisma {
     description: 'description',
     externalSourceUrl: 'externalSourceUrl',
     statusId: 'statusId',
+    position: 'position',
     priority: 'priority',
     tShirtSize: 'tShirtSize',
     assigneeId: 'assigneeId',
@@ -101076,8 +107357,20 @@ export namespace Prisma {
   export type BudgetSectionScalarFieldEnum = (typeof BudgetSectionScalarFieldEnum)[keyof typeof BudgetSectionScalarFieldEnum]
 
 
+  export const RateCardScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    clientId: 'clientId',
+    archived: 'archived',
+    createdAt: 'createdAt'
+  };
+
+  export type RateCardScalarFieldEnum = (typeof RateCardScalarFieldEnum)[keyof typeof RateCardScalarFieldEnum]
+
+
   export const RateCardItemScalarFieldEnum: {
     id: 'id',
+    rateCardId: 'rateCardId',
     name: 'name',
     serviceTypeId: 'serviceTypeId',
     billingType: 'billingType',
@@ -101381,16 +107674,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'DealStage'
+   * Reference to a field of type 'DealStatusCategory'
    */
-  export type EnumDealStageFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DealStage'>
+  export type EnumDealStatusCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DealStatusCategory'>
     
 
 
   /**
-   * Reference to a field of type 'DealStage[]'
+   * Reference to a field of type 'DealStatusCategory[]'
    */
-  export type ListEnumDealStageFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DealStage[]'>
+  export type ListEnumDealStatusCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DealStatusCategory[]'>
     
 
 
@@ -102072,6 +108365,7 @@ export namespace Prisma {
     projects?: ProjectListRelationFilter
     contacts?: ClientContactListRelationFilter
     deals?: DealListRelationFilter
+    rateCards?: RateCardListRelationFilter
   }
 
   export type ClientOrderByWithRelationInput = {
@@ -102093,6 +108387,7 @@ export namespace Prisma {
     projects?: ProjectOrderByRelationAggregateInput
     contacts?: ClientContactOrderByRelationAggregateInput
     deals?: DealOrderByRelationAggregateInput
+    rateCards?: RateCardOrderByRelationAggregateInput
   }
 
   export type ClientWhereUniqueInput = Prisma.AtLeast<{
@@ -102117,6 +108412,7 @@ export namespace Prisma {
     projects?: ProjectListRelationFilter
     contacts?: ClientContactListRelationFilter
     deals?: DealListRelationFilter
+    rateCards?: RateCardListRelationFilter
   }, "id" | "name">
 
   export type ClientOrderByWithAggregationInput = {
@@ -102227,6 +108523,187 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"ClientContact"> | Date | string
   }
 
+  export type PipelineWhereInput = {
+    AND?: PipelineWhereInput | PipelineWhereInput[]
+    OR?: PipelineWhereInput[]
+    NOT?: PipelineWhereInput | PipelineWhereInput[]
+    id?: StringFilter<"Pipeline"> | string
+    name?: StringFilter<"Pipeline"> | string
+    archived?: BoolFilter<"Pipeline"> | boolean
+    createdAt?: DateTimeFilter<"Pipeline"> | Date | string
+    statuses?: DealStatusListRelationFilter
+  }
+
+  export type PipelineOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+    statuses?: DealStatusOrderByRelationAggregateInput
+  }
+
+  export type PipelineWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PipelineWhereInput | PipelineWhereInput[]
+    OR?: PipelineWhereInput[]
+    NOT?: PipelineWhereInput | PipelineWhereInput[]
+    name?: StringFilter<"Pipeline"> | string
+    archived?: BoolFilter<"Pipeline"> | boolean
+    createdAt?: DateTimeFilter<"Pipeline"> | Date | string
+    statuses?: DealStatusListRelationFilter
+  }, "id">
+
+  export type PipelineOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+    _count?: PipelineCountOrderByAggregateInput
+    _max?: PipelineMaxOrderByAggregateInput
+    _min?: PipelineMinOrderByAggregateInput
+  }
+
+  export type PipelineScalarWhereWithAggregatesInput = {
+    AND?: PipelineScalarWhereWithAggregatesInput | PipelineScalarWhereWithAggregatesInput[]
+    OR?: PipelineScalarWhereWithAggregatesInput[]
+    NOT?: PipelineScalarWhereWithAggregatesInput | PipelineScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Pipeline"> | string
+    name?: StringWithAggregatesFilter<"Pipeline"> | string
+    archived?: BoolWithAggregatesFilter<"Pipeline"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Pipeline"> | Date | string
+  }
+
+  export type DealStatusWhereInput = {
+    AND?: DealStatusWhereInput | DealStatusWhereInput[]
+    OR?: DealStatusWhereInput[]
+    NOT?: DealStatusWhereInput | DealStatusWhereInput[]
+    id?: StringFilter<"DealStatus"> | string
+    pipelineId?: StringFilter<"DealStatus"> | string
+    name?: StringFilter<"DealStatus"> | string
+    category?: EnumDealStatusCategoryFilter<"DealStatus"> | $Enums.DealStatusCategory
+    position?: IntFilter<"DealStatus"> | number
+    defaultProbability?: IntNullableFilter<"DealStatus"> | number | null
+    trackTime?: BoolFilter<"DealStatus"> | boolean
+    trackExpenses?: BoolFilter<"DealStatus"> | boolean
+    createBookings?: BoolFilter<"DealStatus"> | boolean
+    pipeline?: XOR<PipelineScalarRelationFilter, PipelineWhereInput>
+    deals?: DealListRelationFilter
+  }
+
+  export type DealStatusOrderByWithRelationInput = {
+    id?: SortOrder
+    pipelineId?: SortOrder
+    name?: SortOrder
+    category?: SortOrder
+    position?: SortOrder
+    defaultProbability?: SortOrderInput | SortOrder
+    trackTime?: SortOrder
+    trackExpenses?: SortOrder
+    createBookings?: SortOrder
+    pipeline?: PipelineOrderByWithRelationInput
+    deals?: DealOrderByRelationAggregateInput
+  }
+
+  export type DealStatusWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    pipelineId_name?: DealStatusPipelineIdNameCompoundUniqueInput
+    AND?: DealStatusWhereInput | DealStatusWhereInput[]
+    OR?: DealStatusWhereInput[]
+    NOT?: DealStatusWhereInput | DealStatusWhereInput[]
+    pipelineId?: StringFilter<"DealStatus"> | string
+    name?: StringFilter<"DealStatus"> | string
+    category?: EnumDealStatusCategoryFilter<"DealStatus"> | $Enums.DealStatusCategory
+    position?: IntFilter<"DealStatus"> | number
+    defaultProbability?: IntNullableFilter<"DealStatus"> | number | null
+    trackTime?: BoolFilter<"DealStatus"> | boolean
+    trackExpenses?: BoolFilter<"DealStatus"> | boolean
+    createBookings?: BoolFilter<"DealStatus"> | boolean
+    pipeline?: XOR<PipelineScalarRelationFilter, PipelineWhereInput>
+    deals?: DealListRelationFilter
+  }, "id" | "pipelineId_name">
+
+  export type DealStatusOrderByWithAggregationInput = {
+    id?: SortOrder
+    pipelineId?: SortOrder
+    name?: SortOrder
+    category?: SortOrder
+    position?: SortOrder
+    defaultProbability?: SortOrderInput | SortOrder
+    trackTime?: SortOrder
+    trackExpenses?: SortOrder
+    createBookings?: SortOrder
+    _count?: DealStatusCountOrderByAggregateInput
+    _avg?: DealStatusAvgOrderByAggregateInput
+    _max?: DealStatusMaxOrderByAggregateInput
+    _min?: DealStatusMinOrderByAggregateInput
+    _sum?: DealStatusSumOrderByAggregateInput
+  }
+
+  export type DealStatusScalarWhereWithAggregatesInput = {
+    AND?: DealStatusScalarWhereWithAggregatesInput | DealStatusScalarWhereWithAggregatesInput[]
+    OR?: DealStatusScalarWhereWithAggregatesInput[]
+    NOT?: DealStatusScalarWhereWithAggregatesInput | DealStatusScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DealStatus"> | string
+    pipelineId?: StringWithAggregatesFilter<"DealStatus"> | string
+    name?: StringWithAggregatesFilter<"DealStatus"> | string
+    category?: EnumDealStatusCategoryWithAggregatesFilter<"DealStatus"> | $Enums.DealStatusCategory
+    position?: IntWithAggregatesFilter<"DealStatus"> | number
+    defaultProbability?: IntNullableWithAggregatesFilter<"DealStatus"> | number | null
+    trackTime?: BoolWithAggregatesFilter<"DealStatus"> | boolean
+    trackExpenses?: BoolWithAggregatesFilter<"DealStatus"> | boolean
+    createBookings?: BoolWithAggregatesFilter<"DealStatus"> | boolean
+  }
+
+  export type LostReasonWhereInput = {
+    AND?: LostReasonWhereInput | LostReasonWhereInput[]
+    OR?: LostReasonWhereInput[]
+    NOT?: LostReasonWhereInput | LostReasonWhereInput[]
+    id?: StringFilter<"LostReason"> | string
+    label?: StringFilter<"LostReason"> | string
+    archived?: BoolFilter<"LostReason"> | boolean
+    createdAt?: DateTimeFilter<"LostReason"> | Date | string
+    deals?: DealListRelationFilter
+  }
+
+  export type LostReasonOrderByWithRelationInput = {
+    id?: SortOrder
+    label?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+    deals?: DealOrderByRelationAggregateInput
+  }
+
+  export type LostReasonWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    label?: string
+    AND?: LostReasonWhereInput | LostReasonWhereInput[]
+    OR?: LostReasonWhereInput[]
+    NOT?: LostReasonWhereInput | LostReasonWhereInput[]
+    archived?: BoolFilter<"LostReason"> | boolean
+    createdAt?: DateTimeFilter<"LostReason"> | Date | string
+    deals?: DealListRelationFilter
+  }, "id" | "label">
+
+  export type LostReasonOrderByWithAggregationInput = {
+    id?: SortOrder
+    label?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+    _count?: LostReasonCountOrderByAggregateInput
+    _max?: LostReasonMaxOrderByAggregateInput
+    _min?: LostReasonMinOrderByAggregateInput
+  }
+
+  export type LostReasonScalarWhereWithAggregatesInput = {
+    AND?: LostReasonScalarWhereWithAggregatesInput | LostReasonScalarWhereWithAggregatesInput[]
+    OR?: LostReasonScalarWhereWithAggregatesInput[]
+    NOT?: LostReasonScalarWhereWithAggregatesInput | LostReasonScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LostReason"> | string
+    label?: StringWithAggregatesFilter<"LostReason"> | string
+    archived?: BoolWithAggregatesFilter<"LostReason"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"LostReason"> | Date | string
+  }
+
   export type DealWhereInput = {
     AND?: DealWhereInput | DealWhereInput[]
     OR?: DealWhereInput[]
@@ -102234,16 +108711,19 @@ export namespace Prisma {
     id?: StringFilter<"Deal"> | string
     title?: StringFilter<"Deal"> | string
     companyId?: StringFilter<"Deal"> | string
-    stage?: EnumDealStageFilter<"Deal"> | $Enums.DealStage
+    statusId?: StringFilter<"Deal"> | string
     ownerId?: StringFilter<"Deal"> | string
     estimatedValue?: FloatNullableFilter<"Deal"> | number | null
     probability?: IntNullableFilter<"Deal"> | number | null
-    lostReason?: StringNullableFilter<"Deal"> | string | null
+    lostReasonId?: StringNullableFilter<"Deal"> | string | null
+    lostReasonNote?: StringNullableFilter<"Deal"> | string | null
     projectId?: StringNullableFilter<"Deal"> | string | null
     createdAt?: DateTimeFilter<"Deal"> | Date | string
     updatedAt?: DateTimeFilter<"Deal"> | Date | string
     company?: XOR<ClientScalarRelationFilter, ClientWhereInput>
+    status?: XOR<DealStatusScalarRelationFilter, DealStatusWhereInput>
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+    lostReason?: XOR<LostReasonNullableScalarRelationFilter, LostReasonWhereInput> | null
     project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
   }
 
@@ -102251,16 +108731,19 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     companyId?: SortOrder
-    stage?: SortOrder
+    statusId?: SortOrder
     ownerId?: SortOrder
     estimatedValue?: SortOrderInput | SortOrder
     probability?: SortOrderInput | SortOrder
-    lostReason?: SortOrderInput | SortOrder
+    lostReasonId?: SortOrderInput | SortOrder
+    lostReasonNote?: SortOrderInput | SortOrder
     projectId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     company?: ClientOrderByWithRelationInput
+    status?: DealStatusOrderByWithRelationInput
     owner?: UserOrderByWithRelationInput
+    lostReason?: LostReasonOrderByWithRelationInput
     project?: ProjectOrderByWithRelationInput
   }
 
@@ -102271,16 +108754,19 @@ export namespace Prisma {
     NOT?: DealWhereInput | DealWhereInput[]
     title?: StringFilter<"Deal"> | string
     companyId?: StringFilter<"Deal"> | string
-    stage?: EnumDealStageFilter<"Deal"> | $Enums.DealStage
+    statusId?: StringFilter<"Deal"> | string
     ownerId?: StringFilter<"Deal"> | string
     estimatedValue?: FloatNullableFilter<"Deal"> | number | null
     probability?: IntNullableFilter<"Deal"> | number | null
-    lostReason?: StringNullableFilter<"Deal"> | string | null
+    lostReasonId?: StringNullableFilter<"Deal"> | string | null
+    lostReasonNote?: StringNullableFilter<"Deal"> | string | null
     projectId?: StringNullableFilter<"Deal"> | string | null
     createdAt?: DateTimeFilter<"Deal"> | Date | string
     updatedAt?: DateTimeFilter<"Deal"> | Date | string
     company?: XOR<ClientScalarRelationFilter, ClientWhereInput>
+    status?: XOR<DealStatusScalarRelationFilter, DealStatusWhereInput>
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+    lostReason?: XOR<LostReasonNullableScalarRelationFilter, LostReasonWhereInput> | null
     project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
   }, "id">
 
@@ -102288,11 +108774,12 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     companyId?: SortOrder
-    stage?: SortOrder
+    statusId?: SortOrder
     ownerId?: SortOrder
     estimatedValue?: SortOrderInput | SortOrder
     probability?: SortOrderInput | SortOrder
-    lostReason?: SortOrderInput | SortOrder
+    lostReasonId?: SortOrderInput | SortOrder
+    lostReasonNote?: SortOrderInput | SortOrder
     projectId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -102310,11 +108797,12 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Deal"> | string
     title?: StringWithAggregatesFilter<"Deal"> | string
     companyId?: StringWithAggregatesFilter<"Deal"> | string
-    stage?: EnumDealStageWithAggregatesFilter<"Deal"> | $Enums.DealStage
+    statusId?: StringWithAggregatesFilter<"Deal"> | string
     ownerId?: StringWithAggregatesFilter<"Deal"> | string
     estimatedValue?: FloatNullableWithAggregatesFilter<"Deal"> | number | null
     probability?: IntNullableWithAggregatesFilter<"Deal"> | number | null
-    lostReason?: StringNullableWithAggregatesFilter<"Deal"> | string | null
+    lostReasonId?: StringNullableWithAggregatesFilter<"Deal"> | string | null
+    lostReasonNote?: StringNullableWithAggregatesFilter<"Deal"> | string | null
     projectId?: StringNullableWithAggregatesFilter<"Deal"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Deal"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Deal"> | Date | string
@@ -102941,10 +109429,11 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFilter<"Project"> | boolean
     expenseApprovalRequired?: BoolFilter<"Project"> | boolean
     createdAt?: DateTimeFilter<"Project"> | Date | string
+    workflowId?: StringFilter<"Project"> | string
     portfolioId?: StringNullableFilter<"Project"> | string | null
     clientId?: StringNullableFilter<"Project"> | string | null
     projectManagerId?: StringNullableFilter<"Project"> | string | null
-    statuses?: WorkflowStatusListRelationFilter
+    workflow?: XOR<WorkflowScalarRelationFilter, WorkflowWhereInput>
     taskLinks?: TaskProjectListRelationFilter
     customFields?: CustomFieldDefListRelationFilter
     timeEntries?: TimeEntryListRelationFilter
@@ -102988,10 +109477,11 @@ export namespace Prisma {
     timeApprovalRequired?: SortOrder
     expenseApprovalRequired?: SortOrder
     createdAt?: SortOrder
+    workflowId?: SortOrder
     portfolioId?: SortOrderInput | SortOrder
     clientId?: SortOrderInput | SortOrder
     projectManagerId?: SortOrderInput | SortOrder
-    statuses?: WorkflowStatusOrderByRelationAggregateInput
+    workflow?: WorkflowOrderByWithRelationInput
     taskLinks?: TaskProjectOrderByRelationAggregateInput
     customFields?: CustomFieldDefOrderByRelationAggregateInput
     timeEntries?: TimeEntryOrderByRelationAggregateInput
@@ -103038,10 +109528,11 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFilter<"Project"> | boolean
     expenseApprovalRequired?: BoolFilter<"Project"> | boolean
     createdAt?: DateTimeFilter<"Project"> | Date | string
+    workflowId?: StringFilter<"Project"> | string
     portfolioId?: StringNullableFilter<"Project"> | string | null
     clientId?: StringNullableFilter<"Project"> | string | null
     projectManagerId?: StringNullableFilter<"Project"> | string | null
-    statuses?: WorkflowStatusListRelationFilter
+    workflow?: XOR<WorkflowScalarRelationFilter, WorkflowWhereInput>
     taskLinks?: TaskProjectListRelationFilter
     customFields?: CustomFieldDefListRelationFilter
     timeEntries?: TimeEntryListRelationFilter
@@ -103085,6 +109576,7 @@ export namespace Prisma {
     timeApprovalRequired?: SortOrder
     expenseApprovalRequired?: SortOrder
     createdAt?: SortOrder
+    workflowId?: SortOrder
     portfolioId?: SortOrderInput | SortOrder
     clientId?: SortOrderInput | SortOrder
     projectManagerId?: SortOrderInput | SortOrder
@@ -103112,6 +109604,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolWithAggregatesFilter<"Project"> | boolean
     expenseApprovalRequired?: BoolWithAggregatesFilter<"Project"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
+    workflowId?: StringWithAggregatesFilter<"Project"> | string
     portfolioId?: StringNullableWithAggregatesFilter<"Project"> | string | null
     clientId?: StringNullableWithAggregatesFilter<"Project"> | string | null
     projectManagerId?: StringNullableWithAggregatesFilter<"Project"> | string | null
@@ -103756,17 +110249,70 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"SavedView"> | Date | string
   }
 
+  export type WorkflowWhereInput = {
+    AND?: WorkflowWhereInput | WorkflowWhereInput[]
+    OR?: WorkflowWhereInput[]
+    NOT?: WorkflowWhereInput | WorkflowWhereInput[]
+    id?: StringFilter<"Workflow"> | string
+    name?: StringFilter<"Workflow"> | string
+    archived?: BoolFilter<"Workflow"> | boolean
+    createdAt?: DateTimeFilter<"Workflow"> | Date | string
+    statuses?: WorkflowStatusListRelationFilter
+    projects?: ProjectListRelationFilter
+  }
+
+  export type WorkflowOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+    statuses?: WorkflowStatusOrderByRelationAggregateInput
+    projects?: ProjectOrderByRelationAggregateInput
+  }
+
+  export type WorkflowWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: WorkflowWhereInput | WorkflowWhereInput[]
+    OR?: WorkflowWhereInput[]
+    NOT?: WorkflowWhereInput | WorkflowWhereInput[]
+    name?: StringFilter<"Workflow"> | string
+    archived?: BoolFilter<"Workflow"> | boolean
+    createdAt?: DateTimeFilter<"Workflow"> | Date | string
+    statuses?: WorkflowStatusListRelationFilter
+    projects?: ProjectListRelationFilter
+  }, "id">
+
+  export type WorkflowOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+    _count?: WorkflowCountOrderByAggregateInput
+    _max?: WorkflowMaxOrderByAggregateInput
+    _min?: WorkflowMinOrderByAggregateInput
+  }
+
+  export type WorkflowScalarWhereWithAggregatesInput = {
+    AND?: WorkflowScalarWhereWithAggregatesInput | WorkflowScalarWhereWithAggregatesInput[]
+    OR?: WorkflowScalarWhereWithAggregatesInput[]
+    NOT?: WorkflowScalarWhereWithAggregatesInput | WorkflowScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Workflow"> | string
+    name?: StringWithAggregatesFilter<"Workflow"> | string
+    archived?: BoolWithAggregatesFilter<"Workflow"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Workflow"> | Date | string
+  }
+
   export type WorkflowStatusWhereInput = {
     AND?: WorkflowStatusWhereInput | WorkflowStatusWhereInput[]
     OR?: WorkflowStatusWhereInput[]
     NOT?: WorkflowStatusWhereInput | WorkflowStatusWhereInput[]
     id?: StringFilter<"WorkflowStatus"> | string
-    projectId?: StringFilter<"WorkflowStatus"> | string
+    workflowId?: StringFilter<"WorkflowStatus"> | string
     name?: StringFilter<"WorkflowStatus"> | string
     category?: EnumStatusCategoryFilter<"WorkflowStatus"> | $Enums.StatusCategory
     position?: IntFilter<"WorkflowStatus"> | number
     isDefault?: BoolFilter<"WorkflowStatus"> | boolean
-    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
+    workflow?: XOR<WorkflowScalarRelationFilter, WorkflowWhereInput>
     tasks?: TaskListRelationFilter
     transitionsFrom?: TransitionRuleListRelationFilter
     transitionsTo?: TransitionRuleListRelationFilter
@@ -103775,12 +110321,12 @@ export namespace Prisma {
 
   export type WorkflowStatusOrderByWithRelationInput = {
     id?: SortOrder
-    projectId?: SortOrder
+    workflowId?: SortOrder
     name?: SortOrder
     category?: SortOrder
     position?: SortOrder
     isDefault?: SortOrder
-    project?: ProjectOrderByWithRelationInput
+    workflow?: WorkflowOrderByWithRelationInput
     tasks?: TaskOrderByRelationAggregateInput
     transitionsFrom?: TransitionRuleOrderByRelationAggregateInput
     transitionsTo?: TransitionRuleOrderByRelationAggregateInput
@@ -103789,25 +110335,25 @@ export namespace Prisma {
 
   export type WorkflowStatusWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    projectId_name?: WorkflowStatusProjectIdNameCompoundUniqueInput
+    workflowId_name?: WorkflowStatusWorkflowIdNameCompoundUniqueInput
     AND?: WorkflowStatusWhereInput | WorkflowStatusWhereInput[]
     OR?: WorkflowStatusWhereInput[]
     NOT?: WorkflowStatusWhereInput | WorkflowStatusWhereInput[]
-    projectId?: StringFilter<"WorkflowStatus"> | string
+    workflowId?: StringFilter<"WorkflowStatus"> | string
     name?: StringFilter<"WorkflowStatus"> | string
     category?: EnumStatusCategoryFilter<"WorkflowStatus"> | $Enums.StatusCategory
     position?: IntFilter<"WorkflowStatus"> | number
     isDefault?: BoolFilter<"WorkflowStatus"> | boolean
-    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
+    workflow?: XOR<WorkflowScalarRelationFilter, WorkflowWhereInput>
     tasks?: TaskListRelationFilter
     transitionsFrom?: TransitionRuleListRelationFilter
     transitionsTo?: TransitionRuleListRelationFilter
     automationActions?: AutomationActionListRelationFilter
-  }, "id" | "projectId_name">
+  }, "id" | "workflowId_name">
 
   export type WorkflowStatusOrderByWithAggregationInput = {
     id?: SortOrder
-    projectId?: SortOrder
+    workflowId?: SortOrder
     name?: SortOrder
     category?: SortOrder
     position?: SortOrder
@@ -103824,7 +110370,7 @@ export namespace Prisma {
     OR?: WorkflowStatusScalarWhereWithAggregatesInput[]
     NOT?: WorkflowStatusScalarWhereWithAggregatesInput | WorkflowStatusScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"WorkflowStatus"> | string
-    projectId?: StringWithAggregatesFilter<"WorkflowStatus"> | string
+    workflowId?: StringWithAggregatesFilter<"WorkflowStatus"> | string
     name?: StringWithAggregatesFilter<"WorkflowStatus"> | string
     category?: EnumStatusCategoryWithAggregatesFilter<"WorkflowStatus"> | $Enums.StatusCategory
     position?: IntWithAggregatesFilter<"WorkflowStatus"> | number
@@ -103840,6 +110386,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Task"> | string | null
     externalSourceUrl?: StringNullableFilter<"Task"> | string | null
     statusId?: StringFilter<"Task"> | string
+    position?: FloatFilter<"Task"> | number
     priority?: EnumTaskPriorityFilter<"Task"> | $Enums.TaskPriority
     tShirtSize?: EnumTaskTShirtSizeNullableFilter<"Task"> | $Enums.TaskTShirtSize | null
     assigneeId?: StringNullableFilter<"Task"> | string | null
@@ -103888,6 +110435,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     externalSourceUrl?: SortOrderInput | SortOrder
     statusId?: SortOrder
+    position?: SortOrder
     priority?: SortOrder
     tShirtSize?: SortOrderInput | SortOrder
     assigneeId?: SortOrderInput | SortOrder
@@ -103939,6 +110487,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Task"> | string | null
     externalSourceUrl?: StringNullableFilter<"Task"> | string | null
     statusId?: StringFilter<"Task"> | string
+    position?: FloatFilter<"Task"> | number
     priority?: EnumTaskPriorityFilter<"Task"> | $Enums.TaskPriority
     tShirtSize?: EnumTaskTShirtSizeNullableFilter<"Task"> | $Enums.TaskTShirtSize | null
     assigneeId?: StringNullableFilter<"Task"> | string | null
@@ -103987,6 +110536,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     externalSourceUrl?: SortOrderInput | SortOrder
     statusId?: SortOrder
+    position?: SortOrder
     priority?: SortOrder
     tShirtSize?: SortOrderInput | SortOrder
     assigneeId?: SortOrderInput | SortOrder
@@ -104022,6 +110572,7 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"Task"> | string | null
     externalSourceUrl?: StringNullableWithAggregatesFilter<"Task"> | string | null
     statusId?: StringWithAggregatesFilter<"Task"> | string
+    position?: FloatWithAggregatesFilter<"Task"> | number
     priority?: EnumTaskPriorityWithAggregatesFilter<"Task"> | $Enums.TaskPriority
     tShirtSize?: EnumTaskTShirtSizeNullableWithAggregatesFilter<"Task"> | $Enums.TaskTShirtSize | null
     assigneeId?: StringNullableWithAggregatesFilter<"Task"> | string | null
@@ -106847,28 +113398,90 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"BudgetSection"> | Date | string
   }
 
+  export type RateCardWhereInput = {
+    AND?: RateCardWhereInput | RateCardWhereInput[]
+    OR?: RateCardWhereInput[]
+    NOT?: RateCardWhereInput | RateCardWhereInput[]
+    id?: StringFilter<"RateCard"> | string
+    name?: StringFilter<"RateCard"> | string
+    clientId?: StringNullableFilter<"RateCard"> | string | null
+    archived?: BoolFilter<"RateCard"> | boolean
+    createdAt?: DateTimeFilter<"RateCard"> | Date | string
+    client?: XOR<ClientNullableScalarRelationFilter, ClientWhereInput> | null
+    items?: RateCardItemListRelationFilter
+  }
+
+  export type RateCardOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    clientId?: SortOrderInput | SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+    client?: ClientOrderByWithRelationInput
+    items?: RateCardItemOrderByRelationAggregateInput
+  }
+
+  export type RateCardWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RateCardWhereInput | RateCardWhereInput[]
+    OR?: RateCardWhereInput[]
+    NOT?: RateCardWhereInput | RateCardWhereInput[]
+    name?: StringFilter<"RateCard"> | string
+    clientId?: StringNullableFilter<"RateCard"> | string | null
+    archived?: BoolFilter<"RateCard"> | boolean
+    createdAt?: DateTimeFilter<"RateCard"> | Date | string
+    client?: XOR<ClientNullableScalarRelationFilter, ClientWhereInput> | null
+    items?: RateCardItemListRelationFilter
+  }, "id">
+
+  export type RateCardOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    clientId?: SortOrderInput | SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+    _count?: RateCardCountOrderByAggregateInput
+    _max?: RateCardMaxOrderByAggregateInput
+    _min?: RateCardMinOrderByAggregateInput
+  }
+
+  export type RateCardScalarWhereWithAggregatesInput = {
+    AND?: RateCardScalarWhereWithAggregatesInput | RateCardScalarWhereWithAggregatesInput[]
+    OR?: RateCardScalarWhereWithAggregatesInput[]
+    NOT?: RateCardScalarWhereWithAggregatesInput | RateCardScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"RateCard"> | string
+    name?: StringWithAggregatesFilter<"RateCard"> | string
+    clientId?: StringNullableWithAggregatesFilter<"RateCard"> | string | null
+    archived?: BoolWithAggregatesFilter<"RateCard"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"RateCard"> | Date | string
+  }
+
   export type RateCardItemWhereInput = {
     AND?: RateCardItemWhereInput | RateCardItemWhereInput[]
     OR?: RateCardItemWhereInput[]
     NOT?: RateCardItemWhereInput | RateCardItemWhereInput[]
     id?: StringFilter<"RateCardItem"> | string
+    rateCardId?: StringFilter<"RateCardItem"> | string
     name?: StringFilter<"RateCardItem"> | string
     serviceTypeId?: StringNullableFilter<"RateCardItem"> | string | null
     billingType?: EnumBillingTypeFilter<"RateCardItem"> | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFilter<"RateCardItem"> | $Enums.TrackingUnit
     defaultPrice?: FloatFilter<"RateCardItem"> | number
     createdAt?: DateTimeFilter<"RateCardItem"> | Date | string
+    rateCard?: XOR<RateCardScalarRelationFilter, RateCardWhereInput>
     serviceType?: XOR<ServiceTypeNullableScalarRelationFilter, ServiceTypeWhereInput> | null
   }
 
   export type RateCardItemOrderByWithRelationInput = {
     id?: SortOrder
+    rateCardId?: SortOrder
     name?: SortOrder
     serviceTypeId?: SortOrderInput | SortOrder
     billingType?: SortOrder
     trackingUnit?: SortOrder
     defaultPrice?: SortOrder
     createdAt?: SortOrder
+    rateCard?: RateCardOrderByWithRelationInput
     serviceType?: ServiceTypeOrderByWithRelationInput
   }
 
@@ -106877,17 +113490,20 @@ export namespace Prisma {
     AND?: RateCardItemWhereInput | RateCardItemWhereInput[]
     OR?: RateCardItemWhereInput[]
     NOT?: RateCardItemWhereInput | RateCardItemWhereInput[]
+    rateCardId?: StringFilter<"RateCardItem"> | string
     name?: StringFilter<"RateCardItem"> | string
     serviceTypeId?: StringNullableFilter<"RateCardItem"> | string | null
     billingType?: EnumBillingTypeFilter<"RateCardItem"> | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFilter<"RateCardItem"> | $Enums.TrackingUnit
     defaultPrice?: FloatFilter<"RateCardItem"> | number
     createdAt?: DateTimeFilter<"RateCardItem"> | Date | string
+    rateCard?: XOR<RateCardScalarRelationFilter, RateCardWhereInput>
     serviceType?: XOR<ServiceTypeNullableScalarRelationFilter, ServiceTypeWhereInput> | null
   }, "id">
 
   export type RateCardItemOrderByWithAggregationInput = {
     id?: SortOrder
+    rateCardId?: SortOrder
     name?: SortOrder
     serviceTypeId?: SortOrderInput | SortOrder
     billingType?: SortOrder
@@ -106906,6 +113522,7 @@ export namespace Prisma {
     OR?: RateCardItemScalarWhereWithAggregatesInput[]
     NOT?: RateCardItemScalarWhereWithAggregatesInput | RateCardItemScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"RateCardItem"> | string
+    rateCardId?: StringWithAggregatesFilter<"RateCardItem"> | string
     name?: StringWithAggregatesFilter<"RateCardItem"> | string
     serviceTypeId?: StringNullableWithAggregatesFilter<"RateCardItem"> | string | null
     billingType?: EnumBillingTypeWithAggregatesFilter<"RateCardItem"> | $Enums.BillingType
@@ -107994,6 +114611,7 @@ export namespace Prisma {
     projects?: ProjectCreateNestedManyWithoutClientInput
     contacts?: ClientContactCreateNestedManyWithoutClientInput
     deals?: DealCreateNestedManyWithoutCompanyInput
+    rateCards?: RateCardCreateNestedManyWithoutClientInput
   }
 
   export type ClientUncheckedCreateInput = {
@@ -108013,6 +114631,7 @@ export namespace Prisma {
     projects?: ProjectUncheckedCreateNestedManyWithoutClientInput
     contacts?: ClientContactUncheckedCreateNestedManyWithoutClientInput
     deals?: DealUncheckedCreateNestedManyWithoutCompanyInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type ClientUpdateInput = {
@@ -108032,6 +114651,7 @@ export namespace Prisma {
     projects?: ProjectUpdateManyWithoutClientNestedInput
     contacts?: ClientContactUpdateManyWithoutClientNestedInput
     deals?: DealUpdateManyWithoutCompanyNestedInput
+    rateCards?: RateCardUpdateManyWithoutClientNestedInput
   }
 
   export type ClientUncheckedUpdateInput = {
@@ -108051,6 +114671,7 @@ export namespace Prisma {
     projects?: ProjectUncheckedUpdateManyWithoutClientNestedInput
     contacts?: ClientContactUncheckedUpdateManyWithoutClientNestedInput
     deals?: DealUncheckedUpdateManyWithoutCompanyNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutClientNestedInput
   }
 
   export type ClientCreateManyInput = {
@@ -108172,17 +114793,211 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PipelineCreateInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+    statuses?: DealStatusCreateNestedManyWithoutPipelineInput
+  }
+
+  export type PipelineUncheckedCreateInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+    statuses?: DealStatusUncheckedCreateNestedManyWithoutPipelineInput
+  }
+
+  export type PipelineUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    statuses?: DealStatusUpdateManyWithoutPipelineNestedInput
+  }
+
+  export type PipelineUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    statuses?: DealStatusUncheckedUpdateManyWithoutPipelineNestedInput
+  }
+
+  export type PipelineCreateManyInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+  }
+
+  export type PipelineUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PipelineUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealStatusCreateInput = {
+    id?: string
+    name: string
+    category: $Enums.DealStatusCategory
+    position: number
+    defaultProbability?: number | null
+    trackTime?: boolean
+    trackExpenses?: boolean
+    createBookings?: boolean
+    pipeline: PipelineCreateNestedOneWithoutStatusesInput
+    deals?: DealCreateNestedManyWithoutStatusInput
+  }
+
+  export type DealStatusUncheckedCreateInput = {
+    id?: string
+    pipelineId: string
+    name: string
+    category: $Enums.DealStatusCategory
+    position: number
+    defaultProbability?: number | null
+    trackTime?: boolean
+    trackExpenses?: boolean
+    createBookings?: boolean
+    deals?: DealUncheckedCreateNestedManyWithoutStatusInput
+  }
+
+  export type DealStatusUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: EnumDealStatusCategoryFieldUpdateOperationsInput | $Enums.DealStatusCategory
+    position?: IntFieldUpdateOperationsInput | number
+    defaultProbability?: NullableIntFieldUpdateOperationsInput | number | null
+    trackTime?: BoolFieldUpdateOperationsInput | boolean
+    trackExpenses?: BoolFieldUpdateOperationsInput | boolean
+    createBookings?: BoolFieldUpdateOperationsInput | boolean
+    pipeline?: PipelineUpdateOneRequiredWithoutStatusesNestedInput
+    deals?: DealUpdateManyWithoutStatusNestedInput
+  }
+
+  export type DealStatusUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pipelineId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: EnumDealStatusCategoryFieldUpdateOperationsInput | $Enums.DealStatusCategory
+    position?: IntFieldUpdateOperationsInput | number
+    defaultProbability?: NullableIntFieldUpdateOperationsInput | number | null
+    trackTime?: BoolFieldUpdateOperationsInput | boolean
+    trackExpenses?: BoolFieldUpdateOperationsInput | boolean
+    createBookings?: BoolFieldUpdateOperationsInput | boolean
+    deals?: DealUncheckedUpdateManyWithoutStatusNestedInput
+  }
+
+  export type DealStatusCreateManyInput = {
+    id?: string
+    pipelineId: string
+    name: string
+    category: $Enums.DealStatusCategory
+    position: number
+    defaultProbability?: number | null
+    trackTime?: boolean
+    trackExpenses?: boolean
+    createBookings?: boolean
+  }
+
+  export type DealStatusUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: EnumDealStatusCategoryFieldUpdateOperationsInput | $Enums.DealStatusCategory
+    position?: IntFieldUpdateOperationsInput | number
+    defaultProbability?: NullableIntFieldUpdateOperationsInput | number | null
+    trackTime?: BoolFieldUpdateOperationsInput | boolean
+    trackExpenses?: BoolFieldUpdateOperationsInput | boolean
+    createBookings?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type DealStatusUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pipelineId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: EnumDealStatusCategoryFieldUpdateOperationsInput | $Enums.DealStatusCategory
+    position?: IntFieldUpdateOperationsInput | number
+    defaultProbability?: NullableIntFieldUpdateOperationsInput | number | null
+    trackTime?: BoolFieldUpdateOperationsInput | boolean
+    trackExpenses?: BoolFieldUpdateOperationsInput | boolean
+    createBookings?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type LostReasonCreateInput = {
+    id?: string
+    label: string
+    archived?: boolean
+    createdAt?: Date | string
+    deals?: DealCreateNestedManyWithoutLostReasonInput
+  }
+
+  export type LostReasonUncheckedCreateInput = {
+    id?: string
+    label: string
+    archived?: boolean
+    createdAt?: Date | string
+    deals?: DealUncheckedCreateNestedManyWithoutLostReasonInput
+  }
+
+  export type LostReasonUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deals?: DealUpdateManyWithoutLostReasonNestedInput
+  }
+
+  export type LostReasonUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deals?: DealUncheckedUpdateManyWithoutLostReasonNestedInput
+  }
+
+  export type LostReasonCreateManyInput = {
+    id?: string
+    label: string
+    archived?: boolean
+    createdAt?: Date | string
+  }
+
+  export type LostReasonUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LostReasonUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type DealCreateInput = {
     id?: string
     title: string
-    stage?: $Enums.DealStage
     estimatedValue?: number | null
     probability?: number | null
-    lostReason?: string | null
+    lostReasonNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: ClientCreateNestedOneWithoutDealsInput
+    status: DealStatusCreateNestedOneWithoutDealsInput
     owner: UserCreateNestedOneWithoutOwnedDealsInput
+    lostReason?: LostReasonCreateNestedOneWithoutDealsInput
     project?: ProjectCreateNestedOneWithoutDealsInput
   }
 
@@ -108190,11 +115005,12 @@ export namespace Prisma {
     id?: string
     title: string
     companyId: string
-    stage?: $Enums.DealStage
+    statusId: string
     ownerId: string
     estimatedValue?: number | null
     probability?: number | null
-    lostReason?: string | null
+    lostReasonId?: string | null
+    lostReasonNote?: string | null
     projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -108203,14 +115019,15 @@ export namespace Prisma {
   export type DealUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: ClientUpdateOneRequiredWithoutDealsNestedInput
+    status?: DealStatusUpdateOneRequiredWithoutDealsNestedInput
     owner?: UserUpdateOneRequiredWithoutOwnedDealsNestedInput
+    lostReason?: LostReasonUpdateOneWithoutDealsNestedInput
     project?: ProjectUpdateOneWithoutDealsNestedInput
   }
 
@@ -108218,11 +115035,12 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
+    statusId?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -108232,11 +115050,12 @@ export namespace Prisma {
     id?: string
     title: string
     companyId: string
-    stage?: $Enums.DealStage
+    statusId: string
     ownerId: string
     estimatedValue?: number | null
     probability?: number | null
-    lostReason?: string | null
+    lostReasonId?: string | null
+    lostReasonNote?: string | null
     projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -108245,10 +115064,9 @@ export namespace Prisma {
   export type DealUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -108257,11 +115075,12 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
+    statusId?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -108886,7 +115705,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -108930,10 +115749,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -108974,7 +115793,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -109018,10 +115837,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -109062,6 +115881,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
@@ -109097,6 +115917,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -109750,13 +116571,70 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type WorkflowCreateInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+    statuses?: WorkflowStatusCreateNestedManyWithoutWorkflowInput
+    projects?: ProjectCreateNestedManyWithoutWorkflowInput
+  }
+
+  export type WorkflowUncheckedCreateInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutWorkflowInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutWorkflowInput
+  }
+
+  export type WorkflowUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    statuses?: WorkflowStatusUpdateManyWithoutWorkflowNestedInput
+    projects?: ProjectUpdateManyWithoutWorkflowNestedInput
+  }
+
+  export type WorkflowUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    statuses?: WorkflowStatusUncheckedUpdateManyWithoutWorkflowNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutWorkflowNestedInput
+  }
+
+  export type WorkflowCreateManyInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+  }
+
+  export type WorkflowUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkflowUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type WorkflowStatusCreateInput = {
     id?: string
     name: string
     category: $Enums.StatusCategory
     position: number
     isDefault?: boolean
-    project: ProjectCreateNestedOneWithoutStatusesInput
+    workflow: WorkflowCreateNestedOneWithoutStatusesInput
     tasks?: TaskCreateNestedManyWithoutStatusInput
     transitionsFrom?: TransitionRuleCreateNestedManyWithoutFromStatusInput
     transitionsTo?: TransitionRuleCreateNestedManyWithoutToStatusInput
@@ -109765,7 +116643,7 @@ export namespace Prisma {
 
   export type WorkflowStatusUncheckedCreateInput = {
     id?: string
-    projectId: string
+    workflowId: string
     name: string
     category: $Enums.StatusCategory
     position: number
@@ -109782,7 +116660,7 @@ export namespace Prisma {
     category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
     position?: IntFieldUpdateOperationsInput | number
     isDefault?: BoolFieldUpdateOperationsInput | boolean
-    project?: ProjectUpdateOneRequiredWithoutStatusesNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutStatusesNestedInput
     tasks?: TaskUpdateManyWithoutStatusNestedInput
     transitionsFrom?: TransitionRuleUpdateManyWithoutFromStatusNestedInput
     transitionsTo?: TransitionRuleUpdateManyWithoutToStatusNestedInput
@@ -109791,7 +116669,7 @@ export namespace Prisma {
 
   export type WorkflowStatusUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    projectId?: StringFieldUpdateOperationsInput | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
     position?: IntFieldUpdateOperationsInput | number
@@ -109804,7 +116682,7 @@ export namespace Prisma {
 
   export type WorkflowStatusCreateManyInput = {
     id?: string
-    projectId: string
+    workflowId: string
     name: string
     category: $Enums.StatusCategory
     position: number
@@ -109821,7 +116699,7 @@ export namespace Prisma {
 
   export type WorkflowStatusUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    projectId?: StringFieldUpdateOperationsInput | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
     position?: IntFieldUpdateOperationsInput | number
@@ -109833,6 +116711,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -109876,6 +116755,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -109917,6 +116797,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -109960,6 +116841,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -110002,6 +116884,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -110028,6 +116911,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -110050,6 +116934,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -112903,6 +119788,65 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RateCardCreateInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+    client?: ClientCreateNestedOneWithoutRateCardsInput
+    items?: RateCardItemCreateNestedManyWithoutRateCardInput
+  }
+
+  export type RateCardUncheckedCreateInput = {
+    id?: string
+    name: string
+    clientId?: string | null
+    archived?: boolean
+    createdAt?: Date | string
+    items?: RateCardItemUncheckedCreateNestedManyWithoutRateCardInput
+  }
+
+  export type RateCardUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    client?: ClientUpdateOneWithoutRateCardsNestedInput
+    items?: RateCardItemUpdateManyWithoutRateCardNestedInput
+  }
+
+  export type RateCardUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    clientId?: NullableStringFieldUpdateOperationsInput | string | null
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: RateCardItemUncheckedUpdateManyWithoutRateCardNestedInput
+  }
+
+  export type RateCardCreateManyInput = {
+    id?: string
+    name: string
+    clientId?: string | null
+    archived?: boolean
+    createdAt?: Date | string
+  }
+
+  export type RateCardUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RateCardUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    clientId?: NullableStringFieldUpdateOperationsInput | string | null
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type RateCardItemCreateInput = {
     id?: string
     name: string
@@ -112910,11 +119854,13 @@ export namespace Prisma {
     trackingUnit?: $Enums.TrackingUnit
     defaultPrice: number
     createdAt?: Date | string
+    rateCard: RateCardCreateNestedOneWithoutItemsInput
     serviceType?: ServiceTypeCreateNestedOneWithoutRateCardItemsInput
   }
 
   export type RateCardItemUncheckedCreateInput = {
     id?: string
+    rateCardId: string
     name: string
     serviceTypeId?: string | null
     billingType?: $Enums.BillingType
@@ -112930,11 +119876,13 @@ export namespace Prisma {
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
     defaultPrice?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rateCard?: RateCardUpdateOneRequiredWithoutItemsNestedInput
     serviceType?: ServiceTypeUpdateOneWithoutRateCardItemsNestedInput
   }
 
   export type RateCardItemUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    rateCardId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     serviceTypeId?: NullableStringFieldUpdateOperationsInput | string | null
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
@@ -112945,6 +119893,7 @@ export namespace Prisma {
 
   export type RateCardItemCreateManyInput = {
     id?: string
+    rateCardId: string
     name: string
     serviceTypeId?: string | null
     billingType?: $Enums.BillingType
@@ -112964,6 +119913,7 @@ export namespace Prisma {
 
   export type RateCardItemUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    rateCardId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     serviceTypeId?: NullableStringFieldUpdateOperationsInput | string | null
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
@@ -114466,7 +121416,17 @@ export namespace Prisma {
     none?: ClientContactWhereInput
   }
 
+  export type RateCardListRelationFilter = {
+    every?: RateCardWhereInput
+    some?: RateCardWhereInput
+    none?: RateCardWhereInput
+  }
+
   export type ClientContactOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RateCardOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -114601,16 +121561,171 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
-  export type EnumDealStageFilter<$PrismaModel = never> = {
-    equals?: $Enums.DealStage | EnumDealStageFieldRefInput<$PrismaModel>
-    in?: $Enums.DealStage[] | ListEnumDealStageFieldRefInput<$PrismaModel>
-    notIn?: $Enums.DealStage[] | ListEnumDealStageFieldRefInput<$PrismaModel>
-    not?: NestedEnumDealStageFilter<$PrismaModel> | $Enums.DealStage
+  export type DealStatusListRelationFilter = {
+    every?: DealStatusWhereInput
+    some?: DealStatusWhereInput
+    none?: DealStatusWhereInput
+  }
+
+  export type DealStatusOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PipelineCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PipelineMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PipelineMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumDealStatusCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.DealStatusCategory | EnumDealStatusCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.DealStatusCategory[] | ListEnumDealStatusCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DealStatusCategory[] | ListEnumDealStatusCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumDealStatusCategoryFilter<$PrismaModel> | $Enums.DealStatusCategory
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type PipelineScalarRelationFilter = {
+    is?: PipelineWhereInput
+    isNot?: PipelineWhereInput
+  }
+
+  export type DealStatusPipelineIdNameCompoundUniqueInput = {
+    pipelineId: string
+    name: string
+  }
+
+  export type DealStatusCountOrderByAggregateInput = {
+    id?: SortOrder
+    pipelineId?: SortOrder
+    name?: SortOrder
+    category?: SortOrder
+    position?: SortOrder
+    defaultProbability?: SortOrder
+    trackTime?: SortOrder
+    trackExpenses?: SortOrder
+    createBookings?: SortOrder
+  }
+
+  export type DealStatusAvgOrderByAggregateInput = {
+    position?: SortOrder
+    defaultProbability?: SortOrder
+  }
+
+  export type DealStatusMaxOrderByAggregateInput = {
+    id?: SortOrder
+    pipelineId?: SortOrder
+    name?: SortOrder
+    category?: SortOrder
+    position?: SortOrder
+    defaultProbability?: SortOrder
+    trackTime?: SortOrder
+    trackExpenses?: SortOrder
+    createBookings?: SortOrder
+  }
+
+  export type DealStatusMinOrderByAggregateInput = {
+    id?: SortOrder
+    pipelineId?: SortOrder
+    name?: SortOrder
+    category?: SortOrder
+    position?: SortOrder
+    defaultProbability?: SortOrder
+    trackTime?: SortOrder
+    trackExpenses?: SortOrder
+    createBookings?: SortOrder
+  }
+
+  export type DealStatusSumOrderByAggregateInput = {
+    position?: SortOrder
+    defaultProbability?: SortOrder
+  }
+
+  export type EnumDealStatusCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DealStatusCategory | EnumDealStatusCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.DealStatusCategory[] | ListEnumDealStatusCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DealStatusCategory[] | ListEnumDealStatusCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumDealStatusCategoryWithAggregatesFilter<$PrismaModel> | $Enums.DealStatusCategory
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDealStatusCategoryFilter<$PrismaModel>
+    _max?: NestedEnumDealStatusCategoryFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type LostReasonCountOrderByAggregateInput = {
+    id?: SortOrder
+    label?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LostReasonMaxOrderByAggregateInput = {
+    id?: SortOrder
+    label?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LostReasonMinOrderByAggregateInput = {
+    id?: SortOrder
+    label?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DealStatusScalarRelationFilter = {
+    is?: DealStatusWhereInput
+    isNot?: DealStatusWhereInput
   }
 
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
+  }
+
+  export type LostReasonNullableScalarRelationFilter = {
+    is?: LostReasonWhereInput | null
+    isNot?: LostReasonWhereInput | null
   }
 
   export type ProjectNullableScalarRelationFilter = {
@@ -114622,11 +121737,12 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     companyId?: SortOrder
-    stage?: SortOrder
+    statusId?: SortOrder
     ownerId?: SortOrder
     estimatedValue?: SortOrder
     probability?: SortOrder
-    lostReason?: SortOrder
+    lostReasonId?: SortOrder
+    lostReasonNote?: SortOrder
     projectId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -114641,11 +121757,12 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     companyId?: SortOrder
-    stage?: SortOrder
+    statusId?: SortOrder
     ownerId?: SortOrder
     estimatedValue?: SortOrder
     probability?: SortOrder
-    lostReason?: SortOrder
+    lostReasonId?: SortOrder
+    lostReasonNote?: SortOrder
     projectId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -114655,11 +121772,12 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     companyId?: SortOrder
-    stage?: SortOrder
+    statusId?: SortOrder
     ownerId?: SortOrder
     estimatedValue?: SortOrder
     probability?: SortOrder
-    lostReason?: SortOrder
+    lostReasonId?: SortOrder
+    lostReasonNote?: SortOrder
     projectId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -114668,16 +121786,6 @@ export namespace Prisma {
   export type DealSumOrderByAggregateInput = {
     estimatedValue?: SortOrder
     probability?: SortOrder
-  }
-
-  export type EnumDealStageWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.DealStage | EnumDealStageFieldRefInput<$PrismaModel>
-    in?: $Enums.DealStage[] | ListEnumDealStageFieldRefInput<$PrismaModel>
-    notIn?: $Enums.DealStage[] | ListEnumDealStageFieldRefInput<$PrismaModel>
-    not?: NestedEnumDealStageWithAggregatesFilter<$PrismaModel> | $Enums.DealStage
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumDealStageFilter<$PrismaModel>
-    _max?: NestedEnumDealStageFilter<$PrismaModel>
   }
 
   export type ProjectScalarRelationFilter = {
@@ -115017,10 +122125,9 @@ export namespace Prisma {
     not?: NestedEnumProjectTypeFilter<$PrismaModel> | $Enums.ProjectType
   }
 
-  export type WorkflowStatusListRelationFilter = {
-    every?: WorkflowStatusWhereInput
-    some?: WorkflowStatusWhereInput
-    none?: WorkflowStatusWhereInput
+  export type WorkflowScalarRelationFilter = {
+    is?: WorkflowWhereInput
+    isNot?: WorkflowWhereInput
   }
 
   export type TaskProjectListRelationFilter = {
@@ -115082,10 +122189,6 @@ export namespace Prisma {
     none?: DashboardWidgetWhereInput
   }
 
-  export type WorkflowStatusOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type TaskProjectOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -115136,6 +122239,7 @@ export namespace Prisma {
     timeApprovalRequired?: SortOrder
     expenseApprovalRequired?: SortOrder
     createdAt?: SortOrder
+    workflowId?: SortOrder
     portfolioId?: SortOrder
     clientId?: SortOrder
     projectManagerId?: SortOrder
@@ -115160,6 +122264,7 @@ export namespace Prisma {
     timeApprovalRequired?: SortOrder
     expenseApprovalRequired?: SortOrder
     createdAt?: SortOrder
+    workflowId?: SortOrder
     portfolioId?: SortOrder
     clientId?: SortOrder
     projectManagerId?: SortOrder
@@ -115178,6 +122283,7 @@ export namespace Prisma {
     timeApprovalRequired?: SortOrder
     expenseApprovalRequired?: SortOrder
     createdAt?: SortOrder
+    workflowId?: SortOrder
     portfolioId?: SortOrder
     clientId?: SortOrder
     projectManagerId?: SortOrder
@@ -115197,17 +122303,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumProjectTypeFilter<$PrismaModel>
     _max?: NestedEnumProjectTypeFilter<$PrismaModel>
-  }
-
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type TaskListGroupListRelationFilter = {
@@ -115250,22 +122345,6 @@ export namespace Prisma {
 
   export type TaskFolderSumOrderByAggregateInput = {
     position?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type TaskFolderScalarRelationFilter = {
@@ -115726,14 +122805,45 @@ export namespace Prisma {
     _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
-  export type WorkflowStatusProjectIdNameCompoundUniqueInput = {
-    projectId: string
+  export type WorkflowStatusListRelationFilter = {
+    every?: WorkflowStatusWhereInput
+    some?: WorkflowStatusWhereInput
+    none?: WorkflowStatusWhereInput
+  }
+
+  export type WorkflowStatusOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WorkflowCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type WorkflowMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type WorkflowMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type WorkflowStatusWorkflowIdNameCompoundUniqueInput = {
+    workflowId: string
     name: string
   }
 
   export type WorkflowStatusCountOrderByAggregateInput = {
     id?: SortOrder
-    projectId?: SortOrder
+    workflowId?: SortOrder
     name?: SortOrder
     category?: SortOrder
     position?: SortOrder
@@ -115746,7 +122856,7 @@ export namespace Prisma {
 
   export type WorkflowStatusMaxOrderByAggregateInput = {
     id?: SortOrder
-    projectId?: SortOrder
+    workflowId?: SortOrder
     name?: SortOrder
     category?: SortOrder
     position?: SortOrder
@@ -115755,7 +122865,7 @@ export namespace Prisma {
 
   export type WorkflowStatusMinOrderByAggregateInput = {
     id?: SortOrder
-    projectId?: SortOrder
+    workflowId?: SortOrder
     name?: SortOrder
     category?: SortOrder
     position?: SortOrder
@@ -115831,6 +122941,7 @@ export namespace Prisma {
     description?: SortOrder
     externalSourceUrl?: SortOrder
     statusId?: SortOrder
+    position?: SortOrder
     priority?: SortOrder
     tShirtSize?: SortOrder
     assigneeId?: SortOrder
@@ -115853,6 +122964,7 @@ export namespace Prisma {
   }
 
   export type TaskAvgOrderByAggregateInput = {
+    position?: SortOrder
     estimatedHours?: SortOrder
     hillPosition?: SortOrder
   }
@@ -115863,6 +122975,7 @@ export namespace Prisma {
     description?: SortOrder
     externalSourceUrl?: SortOrder
     statusId?: SortOrder
+    position?: SortOrder
     priority?: SortOrder
     tShirtSize?: SortOrder
     assigneeId?: SortOrder
@@ -115889,6 +123002,7 @@ export namespace Prisma {
     description?: SortOrder
     externalSourceUrl?: SortOrder
     statusId?: SortOrder
+    position?: SortOrder
     priority?: SortOrder
     tShirtSize?: SortOrder
     assigneeId?: SortOrder
@@ -115910,6 +123024,7 @@ export namespace Prisma {
   }
 
   export type TaskSumOrderByAggregateInput = {
+    position?: SortOrder
     estimatedHours?: SortOrder
     hillPosition?: SortOrder
   }
@@ -117685,8 +124800,38 @@ export namespace Prisma {
     _max?: NestedEnumTrackingUnitFilter<$PrismaModel>
   }
 
+  export type RateCardCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    clientId?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RateCardMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    clientId?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RateCardMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    clientId?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RateCardScalarRelationFilter = {
+    is?: RateCardWhereInput
+    isNot?: RateCardWhereInput
+  }
+
   export type RateCardItemCountOrderByAggregateInput = {
     id?: SortOrder
+    rateCardId?: SortOrder
     name?: SortOrder
     serviceTypeId?: SortOrder
     billingType?: SortOrder
@@ -117701,6 +124846,7 @@ export namespace Prisma {
 
   export type RateCardItemMaxOrderByAggregateInput = {
     id?: SortOrder
+    rateCardId?: SortOrder
     name?: SortOrder
     serviceTypeId?: SortOrder
     billingType?: SortOrder
@@ -117711,6 +124857,7 @@ export namespace Prisma {
 
   export type RateCardItemMinOrderByAggregateInput = {
     id?: SortOrder
+    rateCardId?: SortOrder
     name?: SortOrder
     serviceTypeId?: SortOrder
     billingType?: SortOrder
@@ -120400,6 +127547,13 @@ export namespace Prisma {
     connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
   }
 
+  export type RateCardCreateNestedManyWithoutClientInput = {
+    create?: XOR<RateCardCreateWithoutClientInput, RateCardUncheckedCreateWithoutClientInput> | RateCardCreateWithoutClientInput[] | RateCardUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: RateCardCreateOrConnectWithoutClientInput | RateCardCreateOrConnectWithoutClientInput[]
+    createMany?: RateCardCreateManyClientInputEnvelope
+    connect?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+  }
+
   export type ClientUncheckedCreateNestedManyWithoutParentInput = {
     create?: XOR<ClientCreateWithoutParentInput, ClientUncheckedCreateWithoutParentInput> | ClientCreateWithoutParentInput[] | ClientUncheckedCreateWithoutParentInput[]
     connectOrCreate?: ClientCreateOrConnectWithoutParentInput | ClientCreateOrConnectWithoutParentInput[]
@@ -120426,6 +127580,13 @@ export namespace Prisma {
     connectOrCreate?: DealCreateOrConnectWithoutCompanyInput | DealCreateOrConnectWithoutCompanyInput[]
     createMany?: DealCreateManyCompanyInputEnvelope
     connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+  }
+
+  export type RateCardUncheckedCreateNestedManyWithoutClientInput = {
+    create?: XOR<RateCardCreateWithoutClientInput, RateCardUncheckedCreateWithoutClientInput> | RateCardCreateWithoutClientInput[] | RateCardUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: RateCardCreateOrConnectWithoutClientInput | RateCardCreateOrConnectWithoutClientInput[]
+    createMany?: RateCardCreateManyClientInputEnvelope
+    connect?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
   }
 
   export type NullableEnumClientTypeFieldUpdateOperationsInput = {
@@ -120520,6 +127681,20 @@ export namespace Prisma {
     deleteMany?: DealScalarWhereInput | DealScalarWhereInput[]
   }
 
+  export type RateCardUpdateManyWithoutClientNestedInput = {
+    create?: XOR<RateCardCreateWithoutClientInput, RateCardUncheckedCreateWithoutClientInput> | RateCardCreateWithoutClientInput[] | RateCardUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: RateCardCreateOrConnectWithoutClientInput | RateCardCreateOrConnectWithoutClientInput[]
+    upsert?: RateCardUpsertWithWhereUniqueWithoutClientInput | RateCardUpsertWithWhereUniqueWithoutClientInput[]
+    createMany?: RateCardCreateManyClientInputEnvelope
+    set?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+    disconnect?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+    delete?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+    connect?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+    update?: RateCardUpdateWithWhereUniqueWithoutClientInput | RateCardUpdateWithWhereUniqueWithoutClientInput[]
+    updateMany?: RateCardUpdateManyWithWhereWithoutClientInput | RateCardUpdateManyWithWhereWithoutClientInput[]
+    deleteMany?: RateCardScalarWhereInput | RateCardScalarWhereInput[]
+  }
+
   export type ClientUncheckedUpdateManyWithoutParentNestedInput = {
     create?: XOR<ClientCreateWithoutParentInput, ClientUncheckedCreateWithoutParentInput> | ClientCreateWithoutParentInput[] | ClientUncheckedCreateWithoutParentInput[]
     connectOrCreate?: ClientCreateOrConnectWithoutParentInput | ClientCreateOrConnectWithoutParentInput[]
@@ -120576,6 +127751,20 @@ export namespace Prisma {
     deleteMany?: DealScalarWhereInput | DealScalarWhereInput[]
   }
 
+  export type RateCardUncheckedUpdateManyWithoutClientNestedInput = {
+    create?: XOR<RateCardCreateWithoutClientInput, RateCardUncheckedCreateWithoutClientInput> | RateCardCreateWithoutClientInput[] | RateCardUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: RateCardCreateOrConnectWithoutClientInput | RateCardCreateOrConnectWithoutClientInput[]
+    upsert?: RateCardUpsertWithWhereUniqueWithoutClientInput | RateCardUpsertWithWhereUniqueWithoutClientInput[]
+    createMany?: RateCardCreateManyClientInputEnvelope
+    set?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+    disconnect?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+    delete?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+    connect?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+    update?: RateCardUpdateWithWhereUniqueWithoutClientInput | RateCardUpdateWithWhereUniqueWithoutClientInput[]
+    updateMany?: RateCardUpdateManyWithWhereWithoutClientInput | RateCardUpdateManyWithWhereWithoutClientInput[]
+    deleteMany?: RateCardScalarWhereInput | RateCardScalarWhereInput[]
+  }
+
   export type ClientCreateNestedOneWithoutContactsInput = {
     create?: XOR<ClientCreateWithoutContactsInput, ClientUncheckedCreateWithoutContactsInput>
     connectOrCreate?: ClientCreateOrConnectWithoutContactsInput
@@ -120590,10 +127779,168 @@ export namespace Prisma {
     update?: XOR<XOR<ClientUpdateToOneWithWhereWithoutContactsInput, ClientUpdateWithoutContactsInput>, ClientUncheckedUpdateWithoutContactsInput>
   }
 
+  export type DealStatusCreateNestedManyWithoutPipelineInput = {
+    create?: XOR<DealStatusCreateWithoutPipelineInput, DealStatusUncheckedCreateWithoutPipelineInput> | DealStatusCreateWithoutPipelineInput[] | DealStatusUncheckedCreateWithoutPipelineInput[]
+    connectOrCreate?: DealStatusCreateOrConnectWithoutPipelineInput | DealStatusCreateOrConnectWithoutPipelineInput[]
+    createMany?: DealStatusCreateManyPipelineInputEnvelope
+    connect?: DealStatusWhereUniqueInput | DealStatusWhereUniqueInput[]
+  }
+
+  export type DealStatusUncheckedCreateNestedManyWithoutPipelineInput = {
+    create?: XOR<DealStatusCreateWithoutPipelineInput, DealStatusUncheckedCreateWithoutPipelineInput> | DealStatusCreateWithoutPipelineInput[] | DealStatusUncheckedCreateWithoutPipelineInput[]
+    connectOrCreate?: DealStatusCreateOrConnectWithoutPipelineInput | DealStatusCreateOrConnectWithoutPipelineInput[]
+    createMany?: DealStatusCreateManyPipelineInputEnvelope
+    connect?: DealStatusWhereUniqueInput | DealStatusWhereUniqueInput[]
+  }
+
+  export type DealStatusUpdateManyWithoutPipelineNestedInput = {
+    create?: XOR<DealStatusCreateWithoutPipelineInput, DealStatusUncheckedCreateWithoutPipelineInput> | DealStatusCreateWithoutPipelineInput[] | DealStatusUncheckedCreateWithoutPipelineInput[]
+    connectOrCreate?: DealStatusCreateOrConnectWithoutPipelineInput | DealStatusCreateOrConnectWithoutPipelineInput[]
+    upsert?: DealStatusUpsertWithWhereUniqueWithoutPipelineInput | DealStatusUpsertWithWhereUniqueWithoutPipelineInput[]
+    createMany?: DealStatusCreateManyPipelineInputEnvelope
+    set?: DealStatusWhereUniqueInput | DealStatusWhereUniqueInput[]
+    disconnect?: DealStatusWhereUniqueInput | DealStatusWhereUniqueInput[]
+    delete?: DealStatusWhereUniqueInput | DealStatusWhereUniqueInput[]
+    connect?: DealStatusWhereUniqueInput | DealStatusWhereUniqueInput[]
+    update?: DealStatusUpdateWithWhereUniqueWithoutPipelineInput | DealStatusUpdateWithWhereUniqueWithoutPipelineInput[]
+    updateMany?: DealStatusUpdateManyWithWhereWithoutPipelineInput | DealStatusUpdateManyWithWhereWithoutPipelineInput[]
+    deleteMany?: DealStatusScalarWhereInput | DealStatusScalarWhereInput[]
+  }
+
+  export type DealStatusUncheckedUpdateManyWithoutPipelineNestedInput = {
+    create?: XOR<DealStatusCreateWithoutPipelineInput, DealStatusUncheckedCreateWithoutPipelineInput> | DealStatusCreateWithoutPipelineInput[] | DealStatusUncheckedCreateWithoutPipelineInput[]
+    connectOrCreate?: DealStatusCreateOrConnectWithoutPipelineInput | DealStatusCreateOrConnectWithoutPipelineInput[]
+    upsert?: DealStatusUpsertWithWhereUniqueWithoutPipelineInput | DealStatusUpsertWithWhereUniqueWithoutPipelineInput[]
+    createMany?: DealStatusCreateManyPipelineInputEnvelope
+    set?: DealStatusWhereUniqueInput | DealStatusWhereUniqueInput[]
+    disconnect?: DealStatusWhereUniqueInput | DealStatusWhereUniqueInput[]
+    delete?: DealStatusWhereUniqueInput | DealStatusWhereUniqueInput[]
+    connect?: DealStatusWhereUniqueInput | DealStatusWhereUniqueInput[]
+    update?: DealStatusUpdateWithWhereUniqueWithoutPipelineInput | DealStatusUpdateWithWhereUniqueWithoutPipelineInput[]
+    updateMany?: DealStatusUpdateManyWithWhereWithoutPipelineInput | DealStatusUpdateManyWithWhereWithoutPipelineInput[]
+    deleteMany?: DealStatusScalarWhereInput | DealStatusScalarWhereInput[]
+  }
+
+  export type PipelineCreateNestedOneWithoutStatusesInput = {
+    create?: XOR<PipelineCreateWithoutStatusesInput, PipelineUncheckedCreateWithoutStatusesInput>
+    connectOrCreate?: PipelineCreateOrConnectWithoutStatusesInput
+    connect?: PipelineWhereUniqueInput
+  }
+
+  export type DealCreateNestedManyWithoutStatusInput = {
+    create?: XOR<DealCreateWithoutStatusInput, DealUncheckedCreateWithoutStatusInput> | DealCreateWithoutStatusInput[] | DealUncheckedCreateWithoutStatusInput[]
+    connectOrCreate?: DealCreateOrConnectWithoutStatusInput | DealCreateOrConnectWithoutStatusInput[]
+    createMany?: DealCreateManyStatusInputEnvelope
+    connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+  }
+
+  export type DealUncheckedCreateNestedManyWithoutStatusInput = {
+    create?: XOR<DealCreateWithoutStatusInput, DealUncheckedCreateWithoutStatusInput> | DealCreateWithoutStatusInput[] | DealUncheckedCreateWithoutStatusInput[]
+    connectOrCreate?: DealCreateOrConnectWithoutStatusInput | DealCreateOrConnectWithoutStatusInput[]
+    createMany?: DealCreateManyStatusInputEnvelope
+    connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+  }
+
+  export type EnumDealStatusCategoryFieldUpdateOperationsInput = {
+    set?: $Enums.DealStatusCategory
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type PipelineUpdateOneRequiredWithoutStatusesNestedInput = {
+    create?: XOR<PipelineCreateWithoutStatusesInput, PipelineUncheckedCreateWithoutStatusesInput>
+    connectOrCreate?: PipelineCreateOrConnectWithoutStatusesInput
+    upsert?: PipelineUpsertWithoutStatusesInput
+    connect?: PipelineWhereUniqueInput
+    update?: XOR<XOR<PipelineUpdateToOneWithWhereWithoutStatusesInput, PipelineUpdateWithoutStatusesInput>, PipelineUncheckedUpdateWithoutStatusesInput>
+  }
+
+  export type DealUpdateManyWithoutStatusNestedInput = {
+    create?: XOR<DealCreateWithoutStatusInput, DealUncheckedCreateWithoutStatusInput> | DealCreateWithoutStatusInput[] | DealUncheckedCreateWithoutStatusInput[]
+    connectOrCreate?: DealCreateOrConnectWithoutStatusInput | DealCreateOrConnectWithoutStatusInput[]
+    upsert?: DealUpsertWithWhereUniqueWithoutStatusInput | DealUpsertWithWhereUniqueWithoutStatusInput[]
+    createMany?: DealCreateManyStatusInputEnvelope
+    set?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    disconnect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    delete?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    update?: DealUpdateWithWhereUniqueWithoutStatusInput | DealUpdateWithWhereUniqueWithoutStatusInput[]
+    updateMany?: DealUpdateManyWithWhereWithoutStatusInput | DealUpdateManyWithWhereWithoutStatusInput[]
+    deleteMany?: DealScalarWhereInput | DealScalarWhereInput[]
+  }
+
+  export type DealUncheckedUpdateManyWithoutStatusNestedInput = {
+    create?: XOR<DealCreateWithoutStatusInput, DealUncheckedCreateWithoutStatusInput> | DealCreateWithoutStatusInput[] | DealUncheckedCreateWithoutStatusInput[]
+    connectOrCreate?: DealCreateOrConnectWithoutStatusInput | DealCreateOrConnectWithoutStatusInput[]
+    upsert?: DealUpsertWithWhereUniqueWithoutStatusInput | DealUpsertWithWhereUniqueWithoutStatusInput[]
+    createMany?: DealCreateManyStatusInputEnvelope
+    set?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    disconnect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    delete?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    update?: DealUpdateWithWhereUniqueWithoutStatusInput | DealUpdateWithWhereUniqueWithoutStatusInput[]
+    updateMany?: DealUpdateManyWithWhereWithoutStatusInput | DealUpdateManyWithWhereWithoutStatusInput[]
+    deleteMany?: DealScalarWhereInput | DealScalarWhereInput[]
+  }
+
+  export type DealCreateNestedManyWithoutLostReasonInput = {
+    create?: XOR<DealCreateWithoutLostReasonInput, DealUncheckedCreateWithoutLostReasonInput> | DealCreateWithoutLostReasonInput[] | DealUncheckedCreateWithoutLostReasonInput[]
+    connectOrCreate?: DealCreateOrConnectWithoutLostReasonInput | DealCreateOrConnectWithoutLostReasonInput[]
+    createMany?: DealCreateManyLostReasonInputEnvelope
+    connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+  }
+
+  export type DealUncheckedCreateNestedManyWithoutLostReasonInput = {
+    create?: XOR<DealCreateWithoutLostReasonInput, DealUncheckedCreateWithoutLostReasonInput> | DealCreateWithoutLostReasonInput[] | DealUncheckedCreateWithoutLostReasonInput[]
+    connectOrCreate?: DealCreateOrConnectWithoutLostReasonInput | DealCreateOrConnectWithoutLostReasonInput[]
+    createMany?: DealCreateManyLostReasonInputEnvelope
+    connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+  }
+
+  export type DealUpdateManyWithoutLostReasonNestedInput = {
+    create?: XOR<DealCreateWithoutLostReasonInput, DealUncheckedCreateWithoutLostReasonInput> | DealCreateWithoutLostReasonInput[] | DealUncheckedCreateWithoutLostReasonInput[]
+    connectOrCreate?: DealCreateOrConnectWithoutLostReasonInput | DealCreateOrConnectWithoutLostReasonInput[]
+    upsert?: DealUpsertWithWhereUniqueWithoutLostReasonInput | DealUpsertWithWhereUniqueWithoutLostReasonInput[]
+    createMany?: DealCreateManyLostReasonInputEnvelope
+    set?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    disconnect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    delete?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    update?: DealUpdateWithWhereUniqueWithoutLostReasonInput | DealUpdateWithWhereUniqueWithoutLostReasonInput[]
+    updateMany?: DealUpdateManyWithWhereWithoutLostReasonInput | DealUpdateManyWithWhereWithoutLostReasonInput[]
+    deleteMany?: DealScalarWhereInput | DealScalarWhereInput[]
+  }
+
+  export type DealUncheckedUpdateManyWithoutLostReasonNestedInput = {
+    create?: XOR<DealCreateWithoutLostReasonInput, DealUncheckedCreateWithoutLostReasonInput> | DealCreateWithoutLostReasonInput[] | DealUncheckedCreateWithoutLostReasonInput[]
+    connectOrCreate?: DealCreateOrConnectWithoutLostReasonInput | DealCreateOrConnectWithoutLostReasonInput[]
+    upsert?: DealUpsertWithWhereUniqueWithoutLostReasonInput | DealUpsertWithWhereUniqueWithoutLostReasonInput[]
+    createMany?: DealCreateManyLostReasonInputEnvelope
+    set?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    disconnect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    delete?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+    update?: DealUpdateWithWhereUniqueWithoutLostReasonInput | DealUpdateWithWhereUniqueWithoutLostReasonInput[]
+    updateMany?: DealUpdateManyWithWhereWithoutLostReasonInput | DealUpdateManyWithWhereWithoutLostReasonInput[]
+    deleteMany?: DealScalarWhereInput | DealScalarWhereInput[]
+  }
+
   export type ClientCreateNestedOneWithoutDealsInput = {
     create?: XOR<ClientCreateWithoutDealsInput, ClientUncheckedCreateWithoutDealsInput>
     connectOrCreate?: ClientCreateOrConnectWithoutDealsInput
     connect?: ClientWhereUniqueInput
+  }
+
+  export type DealStatusCreateNestedOneWithoutDealsInput = {
+    create?: XOR<DealStatusCreateWithoutDealsInput, DealStatusUncheckedCreateWithoutDealsInput>
+    connectOrCreate?: DealStatusCreateOrConnectWithoutDealsInput
+    connect?: DealStatusWhereUniqueInput
   }
 
   export type UserCreateNestedOneWithoutOwnedDealsInput = {
@@ -120602,14 +127949,16 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type LostReasonCreateNestedOneWithoutDealsInput = {
+    create?: XOR<LostReasonCreateWithoutDealsInput, LostReasonUncheckedCreateWithoutDealsInput>
+    connectOrCreate?: LostReasonCreateOrConnectWithoutDealsInput
+    connect?: LostReasonWhereUniqueInput
+  }
+
   export type ProjectCreateNestedOneWithoutDealsInput = {
     create?: XOR<ProjectCreateWithoutDealsInput, ProjectUncheckedCreateWithoutDealsInput>
     connectOrCreate?: ProjectCreateOrConnectWithoutDealsInput
     connect?: ProjectWhereUniqueInput
-  }
-
-  export type EnumDealStageFieldUpdateOperationsInput = {
-    set?: $Enums.DealStage
   }
 
   export type ClientUpdateOneRequiredWithoutDealsNestedInput = {
@@ -120620,12 +127969,30 @@ export namespace Prisma {
     update?: XOR<XOR<ClientUpdateToOneWithWhereWithoutDealsInput, ClientUpdateWithoutDealsInput>, ClientUncheckedUpdateWithoutDealsInput>
   }
 
+  export type DealStatusUpdateOneRequiredWithoutDealsNestedInput = {
+    create?: XOR<DealStatusCreateWithoutDealsInput, DealStatusUncheckedCreateWithoutDealsInput>
+    connectOrCreate?: DealStatusCreateOrConnectWithoutDealsInput
+    upsert?: DealStatusUpsertWithoutDealsInput
+    connect?: DealStatusWhereUniqueInput
+    update?: XOR<XOR<DealStatusUpdateToOneWithWhereWithoutDealsInput, DealStatusUpdateWithoutDealsInput>, DealStatusUncheckedUpdateWithoutDealsInput>
+  }
+
   export type UserUpdateOneRequiredWithoutOwnedDealsNestedInput = {
     create?: XOR<UserCreateWithoutOwnedDealsInput, UserUncheckedCreateWithoutOwnedDealsInput>
     connectOrCreate?: UserCreateOrConnectWithoutOwnedDealsInput
     upsert?: UserUpsertWithoutOwnedDealsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutOwnedDealsInput, UserUpdateWithoutOwnedDealsInput>, UserUncheckedUpdateWithoutOwnedDealsInput>
+  }
+
+  export type LostReasonUpdateOneWithoutDealsNestedInput = {
+    create?: XOR<LostReasonCreateWithoutDealsInput, LostReasonUncheckedCreateWithoutDealsInput>
+    connectOrCreate?: LostReasonCreateOrConnectWithoutDealsInput
+    upsert?: LostReasonUpsertWithoutDealsInput
+    disconnect?: LostReasonWhereInput | boolean
+    delete?: LostReasonWhereInput | boolean
+    connect?: LostReasonWhereUniqueInput
+    update?: XOR<XOR<LostReasonUpdateToOneWithWhereWithoutDealsInput, LostReasonUpdateWithoutDealsInput>, LostReasonUncheckedUpdateWithoutDealsInput>
   }
 
   export type ProjectUpdateOneWithoutDealsNestedInput = {
@@ -120938,11 +128305,10 @@ export namespace Prisma {
     set: string[]
   }
 
-  export type WorkflowStatusCreateNestedManyWithoutProjectInput = {
-    create?: XOR<WorkflowStatusCreateWithoutProjectInput, WorkflowStatusUncheckedCreateWithoutProjectInput> | WorkflowStatusCreateWithoutProjectInput[] | WorkflowStatusUncheckedCreateWithoutProjectInput[]
-    connectOrCreate?: WorkflowStatusCreateOrConnectWithoutProjectInput | WorkflowStatusCreateOrConnectWithoutProjectInput[]
-    createMany?: WorkflowStatusCreateManyProjectInputEnvelope
-    connect?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
+  export type WorkflowCreateNestedOneWithoutProjectsInput = {
+    create?: XOR<WorkflowCreateWithoutProjectsInput, WorkflowUncheckedCreateWithoutProjectsInput>
+    connectOrCreate?: WorkflowCreateOrConnectWithoutProjectsInput
+    connect?: WorkflowWhereUniqueInput
   }
 
   export type TaskProjectCreateNestedManyWithoutProjectInput = {
@@ -121131,13 +128497,6 @@ export namespace Prisma {
     connect?: DashboardWidgetWhereUniqueInput | DashboardWidgetWhereUniqueInput[]
   }
 
-  export type WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput = {
-    create?: XOR<WorkflowStatusCreateWithoutProjectInput, WorkflowStatusUncheckedCreateWithoutProjectInput> | WorkflowStatusCreateWithoutProjectInput[] | WorkflowStatusUncheckedCreateWithoutProjectInput[]
-    connectOrCreate?: WorkflowStatusCreateOrConnectWithoutProjectInput | WorkflowStatusCreateOrConnectWithoutProjectInput[]
-    createMany?: WorkflowStatusCreateManyProjectInputEnvelope
-    connect?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
-  }
-
   export type TaskProjectUncheckedCreateNestedManyWithoutProjectInput = {
     create?: XOR<TaskProjectCreateWithoutProjectInput, TaskProjectUncheckedCreateWithoutProjectInput> | TaskProjectCreateWithoutProjectInput[] | TaskProjectUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: TaskProjectCreateOrConnectWithoutProjectInput | TaskProjectCreateOrConnectWithoutProjectInput[]
@@ -121315,18 +128674,12 @@ export namespace Prisma {
     push?: string | string[]
   }
 
-  export type WorkflowStatusUpdateManyWithoutProjectNestedInput = {
-    create?: XOR<WorkflowStatusCreateWithoutProjectInput, WorkflowStatusUncheckedCreateWithoutProjectInput> | WorkflowStatusCreateWithoutProjectInput[] | WorkflowStatusUncheckedCreateWithoutProjectInput[]
-    connectOrCreate?: WorkflowStatusCreateOrConnectWithoutProjectInput | WorkflowStatusCreateOrConnectWithoutProjectInput[]
-    upsert?: WorkflowStatusUpsertWithWhereUniqueWithoutProjectInput | WorkflowStatusUpsertWithWhereUniqueWithoutProjectInput[]
-    createMany?: WorkflowStatusCreateManyProjectInputEnvelope
-    set?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
-    disconnect?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
-    delete?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
-    connect?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
-    update?: WorkflowStatusUpdateWithWhereUniqueWithoutProjectInput | WorkflowStatusUpdateWithWhereUniqueWithoutProjectInput[]
-    updateMany?: WorkflowStatusUpdateManyWithWhereWithoutProjectInput | WorkflowStatusUpdateManyWithWhereWithoutProjectInput[]
-    deleteMany?: WorkflowStatusScalarWhereInput | WorkflowStatusScalarWhereInput[]
+  export type WorkflowUpdateOneRequiredWithoutProjectsNestedInput = {
+    create?: XOR<WorkflowCreateWithoutProjectsInput, WorkflowUncheckedCreateWithoutProjectsInput>
+    connectOrCreate?: WorkflowCreateOrConnectWithoutProjectsInput
+    upsert?: WorkflowUpsertWithoutProjectsInput
+    connect?: WorkflowWhereUniqueInput
+    update?: XOR<XOR<WorkflowUpdateToOneWithWhereWithoutProjectsInput, WorkflowUpdateWithoutProjectsInput>, WorkflowUncheckedUpdateWithoutProjectsInput>
   }
 
   export type TaskProjectUpdateManyWithoutProjectNestedInput = {
@@ -121695,20 +129048,6 @@ export namespace Prisma {
     deleteMany?: DashboardWidgetScalarWhereInput | DashboardWidgetScalarWhereInput[]
   }
 
-  export type WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput = {
-    create?: XOR<WorkflowStatusCreateWithoutProjectInput, WorkflowStatusUncheckedCreateWithoutProjectInput> | WorkflowStatusCreateWithoutProjectInput[] | WorkflowStatusUncheckedCreateWithoutProjectInput[]
-    connectOrCreate?: WorkflowStatusCreateOrConnectWithoutProjectInput | WorkflowStatusCreateOrConnectWithoutProjectInput[]
-    upsert?: WorkflowStatusUpsertWithWhereUniqueWithoutProjectInput | WorkflowStatusUpsertWithWhereUniqueWithoutProjectInput[]
-    createMany?: WorkflowStatusCreateManyProjectInputEnvelope
-    set?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
-    disconnect?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
-    delete?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
-    connect?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
-    update?: WorkflowStatusUpdateWithWhereUniqueWithoutProjectInput | WorkflowStatusUpdateWithWhereUniqueWithoutProjectInput[]
-    updateMany?: WorkflowStatusUpdateManyWithWhereWithoutProjectInput | WorkflowStatusUpdateManyWithWhereWithoutProjectInput[]
-    deleteMany?: WorkflowStatusScalarWhereInput | WorkflowStatusScalarWhereInput[]
-  }
-
   export type TaskProjectUncheckedUpdateManyWithoutProjectNestedInput = {
     create?: XOR<TaskProjectCreateWithoutProjectInput, TaskProjectUncheckedCreateWithoutProjectInput> | TaskProjectCreateWithoutProjectInput[] | TaskProjectUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: TaskProjectCreateOrConnectWithoutProjectInput | TaskProjectCreateOrConnectWithoutProjectInput[]
@@ -122063,14 +129402,6 @@ export namespace Prisma {
     connectOrCreate?: TaskListGroupCreateOrConnectWithoutFolderInput | TaskListGroupCreateOrConnectWithoutFolderInput[]
     createMany?: TaskListGroupCreateManyFolderInputEnvelope
     connect?: TaskListGroupWhereUniqueInput | TaskListGroupWhereUniqueInput[]
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type ProjectUpdateOneRequiredWithoutTaskFoldersNestedInput = {
@@ -122512,10 +129843,94 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSavedViewsInput, UserUpdateWithoutSavedViewsInput>, UserUncheckedUpdateWithoutSavedViewsInput>
   }
 
-  export type ProjectCreateNestedOneWithoutStatusesInput = {
-    create?: XOR<ProjectCreateWithoutStatusesInput, ProjectUncheckedCreateWithoutStatusesInput>
-    connectOrCreate?: ProjectCreateOrConnectWithoutStatusesInput
-    connect?: ProjectWhereUniqueInput
+  export type WorkflowStatusCreateNestedManyWithoutWorkflowInput = {
+    create?: XOR<WorkflowStatusCreateWithoutWorkflowInput, WorkflowStatusUncheckedCreateWithoutWorkflowInput> | WorkflowStatusCreateWithoutWorkflowInput[] | WorkflowStatusUncheckedCreateWithoutWorkflowInput[]
+    connectOrCreate?: WorkflowStatusCreateOrConnectWithoutWorkflowInput | WorkflowStatusCreateOrConnectWithoutWorkflowInput[]
+    createMany?: WorkflowStatusCreateManyWorkflowInputEnvelope
+    connect?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
+  }
+
+  export type ProjectCreateNestedManyWithoutWorkflowInput = {
+    create?: XOR<ProjectCreateWithoutWorkflowInput, ProjectUncheckedCreateWithoutWorkflowInput> | ProjectCreateWithoutWorkflowInput[] | ProjectUncheckedCreateWithoutWorkflowInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutWorkflowInput | ProjectCreateOrConnectWithoutWorkflowInput[]
+    createMany?: ProjectCreateManyWorkflowInputEnvelope
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+  }
+
+  export type WorkflowStatusUncheckedCreateNestedManyWithoutWorkflowInput = {
+    create?: XOR<WorkflowStatusCreateWithoutWorkflowInput, WorkflowStatusUncheckedCreateWithoutWorkflowInput> | WorkflowStatusCreateWithoutWorkflowInput[] | WorkflowStatusUncheckedCreateWithoutWorkflowInput[]
+    connectOrCreate?: WorkflowStatusCreateOrConnectWithoutWorkflowInput | WorkflowStatusCreateOrConnectWithoutWorkflowInput[]
+    createMany?: WorkflowStatusCreateManyWorkflowInputEnvelope
+    connect?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
+  }
+
+  export type ProjectUncheckedCreateNestedManyWithoutWorkflowInput = {
+    create?: XOR<ProjectCreateWithoutWorkflowInput, ProjectUncheckedCreateWithoutWorkflowInput> | ProjectCreateWithoutWorkflowInput[] | ProjectUncheckedCreateWithoutWorkflowInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutWorkflowInput | ProjectCreateOrConnectWithoutWorkflowInput[]
+    createMany?: ProjectCreateManyWorkflowInputEnvelope
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+  }
+
+  export type WorkflowStatusUpdateManyWithoutWorkflowNestedInput = {
+    create?: XOR<WorkflowStatusCreateWithoutWorkflowInput, WorkflowStatusUncheckedCreateWithoutWorkflowInput> | WorkflowStatusCreateWithoutWorkflowInput[] | WorkflowStatusUncheckedCreateWithoutWorkflowInput[]
+    connectOrCreate?: WorkflowStatusCreateOrConnectWithoutWorkflowInput | WorkflowStatusCreateOrConnectWithoutWorkflowInput[]
+    upsert?: WorkflowStatusUpsertWithWhereUniqueWithoutWorkflowInput | WorkflowStatusUpsertWithWhereUniqueWithoutWorkflowInput[]
+    createMany?: WorkflowStatusCreateManyWorkflowInputEnvelope
+    set?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
+    disconnect?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
+    delete?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
+    connect?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
+    update?: WorkflowStatusUpdateWithWhereUniqueWithoutWorkflowInput | WorkflowStatusUpdateWithWhereUniqueWithoutWorkflowInput[]
+    updateMany?: WorkflowStatusUpdateManyWithWhereWithoutWorkflowInput | WorkflowStatusUpdateManyWithWhereWithoutWorkflowInput[]
+    deleteMany?: WorkflowStatusScalarWhereInput | WorkflowStatusScalarWhereInput[]
+  }
+
+  export type ProjectUpdateManyWithoutWorkflowNestedInput = {
+    create?: XOR<ProjectCreateWithoutWorkflowInput, ProjectUncheckedCreateWithoutWorkflowInput> | ProjectCreateWithoutWorkflowInput[] | ProjectUncheckedCreateWithoutWorkflowInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutWorkflowInput | ProjectCreateOrConnectWithoutWorkflowInput[]
+    upsert?: ProjectUpsertWithWhereUniqueWithoutWorkflowInput | ProjectUpsertWithWhereUniqueWithoutWorkflowInput[]
+    createMany?: ProjectCreateManyWorkflowInputEnvelope
+    set?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    disconnect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    delete?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    update?: ProjectUpdateWithWhereUniqueWithoutWorkflowInput | ProjectUpdateWithWhereUniqueWithoutWorkflowInput[]
+    updateMany?: ProjectUpdateManyWithWhereWithoutWorkflowInput | ProjectUpdateManyWithWhereWithoutWorkflowInput[]
+    deleteMany?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
+  }
+
+  export type WorkflowStatusUncheckedUpdateManyWithoutWorkflowNestedInput = {
+    create?: XOR<WorkflowStatusCreateWithoutWorkflowInput, WorkflowStatusUncheckedCreateWithoutWorkflowInput> | WorkflowStatusCreateWithoutWorkflowInput[] | WorkflowStatusUncheckedCreateWithoutWorkflowInput[]
+    connectOrCreate?: WorkflowStatusCreateOrConnectWithoutWorkflowInput | WorkflowStatusCreateOrConnectWithoutWorkflowInput[]
+    upsert?: WorkflowStatusUpsertWithWhereUniqueWithoutWorkflowInput | WorkflowStatusUpsertWithWhereUniqueWithoutWorkflowInput[]
+    createMany?: WorkflowStatusCreateManyWorkflowInputEnvelope
+    set?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
+    disconnect?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
+    delete?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
+    connect?: WorkflowStatusWhereUniqueInput | WorkflowStatusWhereUniqueInput[]
+    update?: WorkflowStatusUpdateWithWhereUniqueWithoutWorkflowInput | WorkflowStatusUpdateWithWhereUniqueWithoutWorkflowInput[]
+    updateMany?: WorkflowStatusUpdateManyWithWhereWithoutWorkflowInput | WorkflowStatusUpdateManyWithWhereWithoutWorkflowInput[]
+    deleteMany?: WorkflowStatusScalarWhereInput | WorkflowStatusScalarWhereInput[]
+  }
+
+  export type ProjectUncheckedUpdateManyWithoutWorkflowNestedInput = {
+    create?: XOR<ProjectCreateWithoutWorkflowInput, ProjectUncheckedCreateWithoutWorkflowInput> | ProjectCreateWithoutWorkflowInput[] | ProjectUncheckedCreateWithoutWorkflowInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutWorkflowInput | ProjectCreateOrConnectWithoutWorkflowInput[]
+    upsert?: ProjectUpsertWithWhereUniqueWithoutWorkflowInput | ProjectUpsertWithWhereUniqueWithoutWorkflowInput[]
+    createMany?: ProjectCreateManyWorkflowInputEnvelope
+    set?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    disconnect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    delete?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    update?: ProjectUpdateWithWhereUniqueWithoutWorkflowInput | ProjectUpdateWithWhereUniqueWithoutWorkflowInput[]
+    updateMany?: ProjectUpdateManyWithWhereWithoutWorkflowInput | ProjectUpdateManyWithWhereWithoutWorkflowInput[]
+    deleteMany?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
+  }
+
+  export type WorkflowCreateNestedOneWithoutStatusesInput = {
+    create?: XOR<WorkflowCreateWithoutStatusesInput, WorkflowUncheckedCreateWithoutStatusesInput>
+    connectOrCreate?: WorkflowCreateOrConnectWithoutStatusesInput
+    connect?: WorkflowWhereUniqueInput
   }
 
   export type TaskCreateNestedManyWithoutStatusInput = {
@@ -122574,12 +129989,12 @@ export namespace Prisma {
     connect?: AutomationActionWhereUniqueInput | AutomationActionWhereUniqueInput[]
   }
 
-  export type ProjectUpdateOneRequiredWithoutStatusesNestedInput = {
-    create?: XOR<ProjectCreateWithoutStatusesInput, ProjectUncheckedCreateWithoutStatusesInput>
-    connectOrCreate?: ProjectCreateOrConnectWithoutStatusesInput
-    upsert?: ProjectUpsertWithoutStatusesInput
-    connect?: ProjectWhereUniqueInput
-    update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutStatusesInput, ProjectUpdateWithoutStatusesInput>, ProjectUncheckedUpdateWithoutStatusesInput>
+  export type WorkflowUpdateOneRequiredWithoutStatusesNestedInput = {
+    create?: XOR<WorkflowCreateWithoutStatusesInput, WorkflowUncheckedCreateWithoutStatusesInput>
+    connectOrCreate?: WorkflowCreateOrConnectWithoutStatusesInput
+    upsert?: WorkflowUpsertWithoutStatusesInput
+    connect?: WorkflowWhereUniqueInput
+    update?: XOR<XOR<WorkflowUpdateToOneWithWhereWithoutStatusesInput, WorkflowUpdateWithoutStatusesInput>, WorkflowUncheckedUpdateWithoutStatusesInput>
   }
 
   export type TaskUpdateManyWithoutStatusNestedInput = {
@@ -125658,10 +133073,82 @@ export namespace Prisma {
     deleteMany?: ResourceBookingScalarWhereInput | ResourceBookingScalarWhereInput[]
   }
 
+  export type ClientCreateNestedOneWithoutRateCardsInput = {
+    create?: XOR<ClientCreateWithoutRateCardsInput, ClientUncheckedCreateWithoutRateCardsInput>
+    connectOrCreate?: ClientCreateOrConnectWithoutRateCardsInput
+    connect?: ClientWhereUniqueInput
+  }
+
+  export type RateCardItemCreateNestedManyWithoutRateCardInput = {
+    create?: XOR<RateCardItemCreateWithoutRateCardInput, RateCardItemUncheckedCreateWithoutRateCardInput> | RateCardItemCreateWithoutRateCardInput[] | RateCardItemUncheckedCreateWithoutRateCardInput[]
+    connectOrCreate?: RateCardItemCreateOrConnectWithoutRateCardInput | RateCardItemCreateOrConnectWithoutRateCardInput[]
+    createMany?: RateCardItemCreateManyRateCardInputEnvelope
+    connect?: RateCardItemWhereUniqueInput | RateCardItemWhereUniqueInput[]
+  }
+
+  export type RateCardItemUncheckedCreateNestedManyWithoutRateCardInput = {
+    create?: XOR<RateCardItemCreateWithoutRateCardInput, RateCardItemUncheckedCreateWithoutRateCardInput> | RateCardItemCreateWithoutRateCardInput[] | RateCardItemUncheckedCreateWithoutRateCardInput[]
+    connectOrCreate?: RateCardItemCreateOrConnectWithoutRateCardInput | RateCardItemCreateOrConnectWithoutRateCardInput[]
+    createMany?: RateCardItemCreateManyRateCardInputEnvelope
+    connect?: RateCardItemWhereUniqueInput | RateCardItemWhereUniqueInput[]
+  }
+
+  export type ClientUpdateOneWithoutRateCardsNestedInput = {
+    create?: XOR<ClientCreateWithoutRateCardsInput, ClientUncheckedCreateWithoutRateCardsInput>
+    connectOrCreate?: ClientCreateOrConnectWithoutRateCardsInput
+    upsert?: ClientUpsertWithoutRateCardsInput
+    disconnect?: ClientWhereInput | boolean
+    delete?: ClientWhereInput | boolean
+    connect?: ClientWhereUniqueInput
+    update?: XOR<XOR<ClientUpdateToOneWithWhereWithoutRateCardsInput, ClientUpdateWithoutRateCardsInput>, ClientUncheckedUpdateWithoutRateCardsInput>
+  }
+
+  export type RateCardItemUpdateManyWithoutRateCardNestedInput = {
+    create?: XOR<RateCardItemCreateWithoutRateCardInput, RateCardItemUncheckedCreateWithoutRateCardInput> | RateCardItemCreateWithoutRateCardInput[] | RateCardItemUncheckedCreateWithoutRateCardInput[]
+    connectOrCreate?: RateCardItemCreateOrConnectWithoutRateCardInput | RateCardItemCreateOrConnectWithoutRateCardInput[]
+    upsert?: RateCardItemUpsertWithWhereUniqueWithoutRateCardInput | RateCardItemUpsertWithWhereUniqueWithoutRateCardInput[]
+    createMany?: RateCardItemCreateManyRateCardInputEnvelope
+    set?: RateCardItemWhereUniqueInput | RateCardItemWhereUniqueInput[]
+    disconnect?: RateCardItemWhereUniqueInput | RateCardItemWhereUniqueInput[]
+    delete?: RateCardItemWhereUniqueInput | RateCardItemWhereUniqueInput[]
+    connect?: RateCardItemWhereUniqueInput | RateCardItemWhereUniqueInput[]
+    update?: RateCardItemUpdateWithWhereUniqueWithoutRateCardInput | RateCardItemUpdateWithWhereUniqueWithoutRateCardInput[]
+    updateMany?: RateCardItemUpdateManyWithWhereWithoutRateCardInput | RateCardItemUpdateManyWithWhereWithoutRateCardInput[]
+    deleteMany?: RateCardItemScalarWhereInput | RateCardItemScalarWhereInput[]
+  }
+
+  export type RateCardItemUncheckedUpdateManyWithoutRateCardNestedInput = {
+    create?: XOR<RateCardItemCreateWithoutRateCardInput, RateCardItemUncheckedCreateWithoutRateCardInput> | RateCardItemCreateWithoutRateCardInput[] | RateCardItemUncheckedCreateWithoutRateCardInput[]
+    connectOrCreate?: RateCardItemCreateOrConnectWithoutRateCardInput | RateCardItemCreateOrConnectWithoutRateCardInput[]
+    upsert?: RateCardItemUpsertWithWhereUniqueWithoutRateCardInput | RateCardItemUpsertWithWhereUniqueWithoutRateCardInput[]
+    createMany?: RateCardItemCreateManyRateCardInputEnvelope
+    set?: RateCardItemWhereUniqueInput | RateCardItemWhereUniqueInput[]
+    disconnect?: RateCardItemWhereUniqueInput | RateCardItemWhereUniqueInput[]
+    delete?: RateCardItemWhereUniqueInput | RateCardItemWhereUniqueInput[]
+    connect?: RateCardItemWhereUniqueInput | RateCardItemWhereUniqueInput[]
+    update?: RateCardItemUpdateWithWhereUniqueWithoutRateCardInput | RateCardItemUpdateWithWhereUniqueWithoutRateCardInput[]
+    updateMany?: RateCardItemUpdateManyWithWhereWithoutRateCardInput | RateCardItemUpdateManyWithWhereWithoutRateCardInput[]
+    deleteMany?: RateCardItemScalarWhereInput | RateCardItemScalarWhereInput[]
+  }
+
+  export type RateCardCreateNestedOneWithoutItemsInput = {
+    create?: XOR<RateCardCreateWithoutItemsInput, RateCardUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: RateCardCreateOrConnectWithoutItemsInput
+    connect?: RateCardWhereUniqueInput
+  }
+
   export type ServiceTypeCreateNestedOneWithoutRateCardItemsInput = {
     create?: XOR<ServiceTypeCreateWithoutRateCardItemsInput, ServiceTypeUncheckedCreateWithoutRateCardItemsInput>
     connectOrCreate?: ServiceTypeCreateOrConnectWithoutRateCardItemsInput
     connect?: ServiceTypeWhereUniqueInput
+  }
+
+  export type RateCardUpdateOneRequiredWithoutItemsNestedInput = {
+    create?: XOR<RateCardCreateWithoutItemsInput, RateCardUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: RateCardCreateOrConnectWithoutItemsInput
+    upsert?: RateCardUpsertWithoutItemsInput
+    connect?: RateCardWhereUniqueInput
+    update?: XOR<XOR<RateCardUpdateToOneWithWhereWithoutItemsInput, RateCardUpdateWithoutItemsInput>, RateCardUncheckedUpdateWithoutItemsInput>
   }
 
   export type ServiceTypeUpdateOneWithoutRateCardItemsNestedInput = {
@@ -126422,21 +133909,37 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type NestedEnumDealStageFilter<$PrismaModel = never> = {
-    equals?: $Enums.DealStage | EnumDealStageFieldRefInput<$PrismaModel>
-    in?: $Enums.DealStage[] | ListEnumDealStageFieldRefInput<$PrismaModel>
-    notIn?: $Enums.DealStage[] | ListEnumDealStageFieldRefInput<$PrismaModel>
-    not?: NestedEnumDealStageFilter<$PrismaModel> | $Enums.DealStage
+  export type NestedEnumDealStatusCategoryFilter<$PrismaModel = never> = {
+    equals?: $Enums.DealStatusCategory | EnumDealStatusCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.DealStatusCategory[] | ListEnumDealStatusCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DealStatusCategory[] | ListEnumDealStatusCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumDealStatusCategoryFilter<$PrismaModel> | $Enums.DealStatusCategory
   }
 
-  export type NestedEnumDealStageWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.DealStage | EnumDealStageFieldRefInput<$PrismaModel>
-    in?: $Enums.DealStage[] | ListEnumDealStageFieldRefInput<$PrismaModel>
-    notIn?: $Enums.DealStage[] | ListEnumDealStageFieldRefInput<$PrismaModel>
-    not?: NestedEnumDealStageWithAggregatesFilter<$PrismaModel> | $Enums.DealStage
+  export type NestedEnumDealStatusCategoryWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DealStatusCategory | EnumDealStatusCategoryFieldRefInput<$PrismaModel>
+    in?: $Enums.DealStatusCategory[] | ListEnumDealStatusCategoryFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DealStatusCategory[] | ListEnumDealStatusCategoryFieldRefInput<$PrismaModel>
+    not?: NestedEnumDealStatusCategoryWithAggregatesFilter<$PrismaModel> | $Enums.DealStatusCategory
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumDealStageFilter<$PrismaModel>
-    _max?: NestedEnumDealStageFilter<$PrismaModel>
+    _min?: NestedEnumDealStatusCategoryFilter<$PrismaModel>
+    _max?: NestedEnumDealStatusCategoryFilter<$PrismaModel>
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type NestedEnumAbsenceTypeFilter<$PrismaModel = never> = {
@@ -126488,22 +133991,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumProjectTypeFilter<$PrismaModel>
     _max?: NestedEnumProjectTypeFilter<$PrismaModel>
-  }
-
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type NestedEnumStatusCategoryFilter<$PrismaModel = never> = {
@@ -126974,6 +134461,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -127016,6 +134504,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     parentTaskId?: string | null
@@ -127762,7 +135251,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -127805,9 +135294,9 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -128846,6 +136335,7 @@ export namespace Prisma {
     projects?: ProjectCreateNestedManyWithoutClientInput
     contacts?: ClientContactCreateNestedManyWithoutClientInput
     deals?: DealCreateNestedManyWithoutCompanyInput
+    rateCards?: RateCardCreateNestedManyWithoutClientInput
   }
 
   export type ClientUncheckedCreateWithoutAccountOwnerInput = {
@@ -128864,6 +136354,7 @@ export namespace Prisma {
     projects?: ProjectUncheckedCreateNestedManyWithoutClientInput
     contacts?: ClientContactUncheckedCreateNestedManyWithoutClientInput
     deals?: DealUncheckedCreateNestedManyWithoutCompanyInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type ClientCreateOrConnectWithoutAccountOwnerInput = {
@@ -128879,13 +136370,14 @@ export namespace Prisma {
   export type DealCreateWithoutOwnerInput = {
     id?: string
     title: string
-    stage?: $Enums.DealStage
     estimatedValue?: number | null
     probability?: number | null
-    lostReason?: string | null
+    lostReasonNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: ClientCreateNestedOneWithoutDealsInput
+    status: DealStatusCreateNestedOneWithoutDealsInput
+    lostReason?: LostReasonCreateNestedOneWithoutDealsInput
     project?: ProjectCreateNestedOneWithoutDealsInput
   }
 
@@ -128893,10 +136385,11 @@ export namespace Prisma {
     id?: string
     title: string
     companyId: string
-    stage?: $Enums.DealStage
+    statusId: string
     estimatedValue?: number | null
     probability?: number | null
-    lostReason?: string | null
+    lostReasonId?: string | null
+    lostReasonNote?: string | null
     projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -128965,6 +136458,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Task"> | string | null
     externalSourceUrl?: StringNullableFilter<"Task"> | string | null
     statusId?: StringFilter<"Task"> | string
+    position?: FloatFilter<"Task"> | number
     priority?: EnumTaskPriorityFilter<"Task"> | $Enums.TaskPriority
     tShirtSize?: EnumTaskTShirtSizeNullableFilter<"Task"> | $Enums.TaskTShirtSize | null
     assigneeId?: StringNullableFilter<"Task"> | string | null
@@ -129679,6 +137173,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFilter<"Project"> | boolean
     expenseApprovalRequired?: BoolFilter<"Project"> | boolean
     createdAt?: DateTimeFilter<"Project"> | Date | string
+    workflowId?: StringFilter<"Project"> | string
     portfolioId?: StringNullableFilter<"Project"> | string | null
     clientId?: StringNullableFilter<"Project"> | string | null
     projectManagerId?: StringNullableFilter<"Project"> | string | null
@@ -130512,11 +138007,12 @@ export namespace Prisma {
     id?: StringFilter<"Deal"> | string
     title?: StringFilter<"Deal"> | string
     companyId?: StringFilter<"Deal"> | string
-    stage?: EnumDealStageFilter<"Deal"> | $Enums.DealStage
+    statusId?: StringFilter<"Deal"> | string
     ownerId?: StringFilter<"Deal"> | string
     estimatedValue?: FloatNullableFilter<"Deal"> | number | null
     probability?: IntNullableFilter<"Deal"> | number | null
-    lostReason?: StringNullableFilter<"Deal"> | string | null
+    lostReasonId?: StringNullableFilter<"Deal"> | string | null
+    lostReasonNote?: StringNullableFilter<"Deal"> | string | null
     projectId?: StringNullableFilter<"Deal"> | string | null
     createdAt?: DateTimeFilter<"Deal"> | Date | string
     updatedAt?: DateTimeFilter<"Deal"> | Date | string
@@ -130681,6 +138177,7 @@ export namespace Prisma {
     projects?: ProjectCreateNestedManyWithoutClientInput
     contacts?: ClientContactCreateNestedManyWithoutClientInput
     deals?: DealCreateNestedManyWithoutCompanyInput
+    rateCards?: RateCardCreateNestedManyWithoutClientInput
   }
 
   export type ClientUncheckedCreateWithoutChildrenInput = {
@@ -130699,6 +138196,7 @@ export namespace Prisma {
     projects?: ProjectUncheckedCreateNestedManyWithoutClientInput
     contacts?: ClientContactUncheckedCreateNestedManyWithoutClientInput
     deals?: DealUncheckedCreateNestedManyWithoutCompanyInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type ClientCreateOrConnectWithoutChildrenInput = {
@@ -130722,6 +138220,7 @@ export namespace Prisma {
     projects?: ProjectCreateNestedManyWithoutClientInput
     contacts?: ClientContactCreateNestedManyWithoutClientInput
     deals?: DealCreateNestedManyWithoutCompanyInput
+    rateCards?: RateCardCreateNestedManyWithoutClientInput
   }
 
   export type ClientUncheckedCreateWithoutParentInput = {
@@ -130740,6 +138239,7 @@ export namespace Prisma {
     projects?: ProjectUncheckedCreateNestedManyWithoutClientInput
     contacts?: ClientContactUncheckedCreateNestedManyWithoutClientInput
     deals?: DealUncheckedCreateNestedManyWithoutCompanyInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type ClientCreateOrConnectWithoutParentInput = {
@@ -130766,7 +138266,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -130809,9 +138309,9 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -130881,24 +138381,26 @@ export namespace Prisma {
   export type DealCreateWithoutCompanyInput = {
     id?: string
     title: string
-    stage?: $Enums.DealStage
     estimatedValue?: number | null
     probability?: number | null
-    lostReason?: string | null
+    lostReasonNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    status: DealStatusCreateNestedOneWithoutDealsInput
     owner: UserCreateNestedOneWithoutOwnedDealsInput
+    lostReason?: LostReasonCreateNestedOneWithoutDealsInput
     project?: ProjectCreateNestedOneWithoutDealsInput
   }
 
   export type DealUncheckedCreateWithoutCompanyInput = {
     id?: string
     title: string
-    stage?: $Enums.DealStage
+    statusId: string
     ownerId: string
     estimatedValue?: number | null
     probability?: number | null
-    lostReason?: string | null
+    lostReasonId?: string | null
+    lostReasonNote?: string | null
     projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -130911,6 +138413,32 @@ export namespace Prisma {
 
   export type DealCreateManyCompanyInputEnvelope = {
     data: DealCreateManyCompanyInput | DealCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RateCardCreateWithoutClientInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+    items?: RateCardItemCreateNestedManyWithoutRateCardInput
+  }
+
+  export type RateCardUncheckedCreateWithoutClientInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+    items?: RateCardItemUncheckedCreateNestedManyWithoutRateCardInput
+  }
+
+  export type RateCardCreateOrConnectWithoutClientInput = {
+    where: RateCardWhereUniqueInput
+    create: XOR<RateCardCreateWithoutClientInput, RateCardUncheckedCreateWithoutClientInput>
+  }
+
+  export type RateCardCreateManyClientInputEnvelope = {
+    data: RateCardCreateManyClientInput | RateCardCreateManyClientInput[]
     skipDuplicates?: boolean
   }
 
@@ -131090,6 +138618,7 @@ export namespace Prisma {
     projects?: ProjectUpdateManyWithoutClientNestedInput
     contacts?: ClientContactUpdateManyWithoutClientNestedInput
     deals?: DealUpdateManyWithoutCompanyNestedInput
+    rateCards?: RateCardUpdateManyWithoutClientNestedInput
   }
 
   export type ClientUncheckedUpdateWithoutChildrenInput = {
@@ -131108,6 +138637,7 @@ export namespace Prisma {
     projects?: ProjectUncheckedUpdateManyWithoutClientNestedInput
     contacts?: ClientContactUncheckedUpdateManyWithoutClientNestedInput
     deals?: DealUncheckedUpdateManyWithoutCompanyNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutClientNestedInput
   }
 
   export type ClientUpsertWithWhereUniqueWithoutParentInput = {
@@ -131188,6 +138718,33 @@ export namespace Prisma {
     data: XOR<DealUpdateManyMutationInput, DealUncheckedUpdateManyWithoutCompanyInput>
   }
 
+  export type RateCardUpsertWithWhereUniqueWithoutClientInput = {
+    where: RateCardWhereUniqueInput
+    update: XOR<RateCardUpdateWithoutClientInput, RateCardUncheckedUpdateWithoutClientInput>
+    create: XOR<RateCardCreateWithoutClientInput, RateCardUncheckedCreateWithoutClientInput>
+  }
+
+  export type RateCardUpdateWithWhereUniqueWithoutClientInput = {
+    where: RateCardWhereUniqueInput
+    data: XOR<RateCardUpdateWithoutClientInput, RateCardUncheckedUpdateWithoutClientInput>
+  }
+
+  export type RateCardUpdateManyWithWhereWithoutClientInput = {
+    where: RateCardScalarWhereInput
+    data: XOR<RateCardUpdateManyMutationInput, RateCardUncheckedUpdateManyWithoutClientInput>
+  }
+
+  export type RateCardScalarWhereInput = {
+    AND?: RateCardScalarWhereInput | RateCardScalarWhereInput[]
+    OR?: RateCardScalarWhereInput[]
+    NOT?: RateCardScalarWhereInput | RateCardScalarWhereInput[]
+    id?: StringFilter<"RateCard"> | string
+    name?: StringFilter<"RateCard"> | string
+    clientId?: StringNullableFilter<"RateCard"> | string | null
+    archived?: BoolFilter<"RateCard"> | boolean
+    createdAt?: DateTimeFilter<"RateCard"> | Date | string
+  }
+
   export type ClientCreateWithoutContactsInput = {
     id?: string
     name: string
@@ -131204,6 +138761,7 @@ export namespace Prisma {
     children?: ClientCreateNestedManyWithoutParentInput
     projects?: ProjectCreateNestedManyWithoutClientInput
     deals?: DealCreateNestedManyWithoutCompanyInput
+    rateCards?: RateCardCreateNestedManyWithoutClientInput
   }
 
   export type ClientUncheckedCreateWithoutContactsInput = {
@@ -131222,6 +138780,7 @@ export namespace Prisma {
     children?: ClientUncheckedCreateNestedManyWithoutParentInput
     projects?: ProjectUncheckedCreateNestedManyWithoutClientInput
     deals?: DealUncheckedCreateNestedManyWithoutCompanyInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type ClientCreateOrConnectWithoutContactsInput = {
@@ -131256,6 +138815,7 @@ export namespace Prisma {
     children?: ClientUpdateManyWithoutParentNestedInput
     projects?: ProjectUpdateManyWithoutClientNestedInput
     deals?: DealUpdateManyWithoutCompanyNestedInput
+    rateCards?: RateCardUpdateManyWithoutClientNestedInput
   }
 
   export type ClientUncheckedUpdateWithoutContactsInput = {
@@ -131274,6 +138834,224 @@ export namespace Prisma {
     children?: ClientUncheckedUpdateManyWithoutParentNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutClientNestedInput
     deals?: DealUncheckedUpdateManyWithoutCompanyNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutClientNestedInput
+  }
+
+  export type DealStatusCreateWithoutPipelineInput = {
+    id?: string
+    name: string
+    category: $Enums.DealStatusCategory
+    position: number
+    defaultProbability?: number | null
+    trackTime?: boolean
+    trackExpenses?: boolean
+    createBookings?: boolean
+    deals?: DealCreateNestedManyWithoutStatusInput
+  }
+
+  export type DealStatusUncheckedCreateWithoutPipelineInput = {
+    id?: string
+    name: string
+    category: $Enums.DealStatusCategory
+    position: number
+    defaultProbability?: number | null
+    trackTime?: boolean
+    trackExpenses?: boolean
+    createBookings?: boolean
+    deals?: DealUncheckedCreateNestedManyWithoutStatusInput
+  }
+
+  export type DealStatusCreateOrConnectWithoutPipelineInput = {
+    where: DealStatusWhereUniqueInput
+    create: XOR<DealStatusCreateWithoutPipelineInput, DealStatusUncheckedCreateWithoutPipelineInput>
+  }
+
+  export type DealStatusCreateManyPipelineInputEnvelope = {
+    data: DealStatusCreateManyPipelineInput | DealStatusCreateManyPipelineInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DealStatusUpsertWithWhereUniqueWithoutPipelineInput = {
+    where: DealStatusWhereUniqueInput
+    update: XOR<DealStatusUpdateWithoutPipelineInput, DealStatusUncheckedUpdateWithoutPipelineInput>
+    create: XOR<DealStatusCreateWithoutPipelineInput, DealStatusUncheckedCreateWithoutPipelineInput>
+  }
+
+  export type DealStatusUpdateWithWhereUniqueWithoutPipelineInput = {
+    where: DealStatusWhereUniqueInput
+    data: XOR<DealStatusUpdateWithoutPipelineInput, DealStatusUncheckedUpdateWithoutPipelineInput>
+  }
+
+  export type DealStatusUpdateManyWithWhereWithoutPipelineInput = {
+    where: DealStatusScalarWhereInput
+    data: XOR<DealStatusUpdateManyMutationInput, DealStatusUncheckedUpdateManyWithoutPipelineInput>
+  }
+
+  export type DealStatusScalarWhereInput = {
+    AND?: DealStatusScalarWhereInput | DealStatusScalarWhereInput[]
+    OR?: DealStatusScalarWhereInput[]
+    NOT?: DealStatusScalarWhereInput | DealStatusScalarWhereInput[]
+    id?: StringFilter<"DealStatus"> | string
+    pipelineId?: StringFilter<"DealStatus"> | string
+    name?: StringFilter<"DealStatus"> | string
+    category?: EnumDealStatusCategoryFilter<"DealStatus"> | $Enums.DealStatusCategory
+    position?: IntFilter<"DealStatus"> | number
+    defaultProbability?: IntNullableFilter<"DealStatus"> | number | null
+    trackTime?: BoolFilter<"DealStatus"> | boolean
+    trackExpenses?: BoolFilter<"DealStatus"> | boolean
+    createBookings?: BoolFilter<"DealStatus"> | boolean
+  }
+
+  export type PipelineCreateWithoutStatusesInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+  }
+
+  export type PipelineUncheckedCreateWithoutStatusesInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+  }
+
+  export type PipelineCreateOrConnectWithoutStatusesInput = {
+    where: PipelineWhereUniqueInput
+    create: XOR<PipelineCreateWithoutStatusesInput, PipelineUncheckedCreateWithoutStatusesInput>
+  }
+
+  export type DealCreateWithoutStatusInput = {
+    id?: string
+    title: string
+    estimatedValue?: number | null
+    probability?: number | null
+    lostReasonNote?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: ClientCreateNestedOneWithoutDealsInput
+    owner: UserCreateNestedOneWithoutOwnedDealsInput
+    lostReason?: LostReasonCreateNestedOneWithoutDealsInput
+    project?: ProjectCreateNestedOneWithoutDealsInput
+  }
+
+  export type DealUncheckedCreateWithoutStatusInput = {
+    id?: string
+    title: string
+    companyId: string
+    ownerId: string
+    estimatedValue?: number | null
+    probability?: number | null
+    lostReasonId?: string | null
+    lostReasonNote?: string | null
+    projectId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DealCreateOrConnectWithoutStatusInput = {
+    where: DealWhereUniqueInput
+    create: XOR<DealCreateWithoutStatusInput, DealUncheckedCreateWithoutStatusInput>
+  }
+
+  export type DealCreateManyStatusInputEnvelope = {
+    data: DealCreateManyStatusInput | DealCreateManyStatusInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PipelineUpsertWithoutStatusesInput = {
+    update: XOR<PipelineUpdateWithoutStatusesInput, PipelineUncheckedUpdateWithoutStatusesInput>
+    create: XOR<PipelineCreateWithoutStatusesInput, PipelineUncheckedCreateWithoutStatusesInput>
+    where?: PipelineWhereInput
+  }
+
+  export type PipelineUpdateToOneWithWhereWithoutStatusesInput = {
+    where?: PipelineWhereInput
+    data: XOR<PipelineUpdateWithoutStatusesInput, PipelineUncheckedUpdateWithoutStatusesInput>
+  }
+
+  export type PipelineUpdateWithoutStatusesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PipelineUncheckedUpdateWithoutStatusesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealUpsertWithWhereUniqueWithoutStatusInput = {
+    where: DealWhereUniqueInput
+    update: XOR<DealUpdateWithoutStatusInput, DealUncheckedUpdateWithoutStatusInput>
+    create: XOR<DealCreateWithoutStatusInput, DealUncheckedCreateWithoutStatusInput>
+  }
+
+  export type DealUpdateWithWhereUniqueWithoutStatusInput = {
+    where: DealWhereUniqueInput
+    data: XOR<DealUpdateWithoutStatusInput, DealUncheckedUpdateWithoutStatusInput>
+  }
+
+  export type DealUpdateManyWithWhereWithoutStatusInput = {
+    where: DealScalarWhereInput
+    data: XOR<DealUpdateManyMutationInput, DealUncheckedUpdateManyWithoutStatusInput>
+  }
+
+  export type DealCreateWithoutLostReasonInput = {
+    id?: string
+    title: string
+    estimatedValue?: number | null
+    probability?: number | null
+    lostReasonNote?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: ClientCreateNestedOneWithoutDealsInput
+    status: DealStatusCreateNestedOneWithoutDealsInput
+    owner: UserCreateNestedOneWithoutOwnedDealsInput
+    project?: ProjectCreateNestedOneWithoutDealsInput
+  }
+
+  export type DealUncheckedCreateWithoutLostReasonInput = {
+    id?: string
+    title: string
+    companyId: string
+    statusId: string
+    ownerId: string
+    estimatedValue?: number | null
+    probability?: number | null
+    lostReasonNote?: string | null
+    projectId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DealCreateOrConnectWithoutLostReasonInput = {
+    where: DealWhereUniqueInput
+    create: XOR<DealCreateWithoutLostReasonInput, DealUncheckedCreateWithoutLostReasonInput>
+  }
+
+  export type DealCreateManyLostReasonInputEnvelope = {
+    data: DealCreateManyLostReasonInput | DealCreateManyLostReasonInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DealUpsertWithWhereUniqueWithoutLostReasonInput = {
+    where: DealWhereUniqueInput
+    update: XOR<DealUpdateWithoutLostReasonInput, DealUncheckedUpdateWithoutLostReasonInput>
+    create: XOR<DealCreateWithoutLostReasonInput, DealUncheckedCreateWithoutLostReasonInput>
+  }
+
+  export type DealUpdateWithWhereUniqueWithoutLostReasonInput = {
+    where: DealWhereUniqueInput
+    data: XOR<DealUpdateWithoutLostReasonInput, DealUncheckedUpdateWithoutLostReasonInput>
+  }
+
+  export type DealUpdateManyWithWhereWithoutLostReasonInput = {
+    where: DealScalarWhereInput
+    data: XOR<DealUpdateManyMutationInput, DealUncheckedUpdateManyWithoutLostReasonInput>
   }
 
   export type ClientCreateWithoutDealsInput = {
@@ -131292,6 +139070,7 @@ export namespace Prisma {
     children?: ClientCreateNestedManyWithoutParentInput
     projects?: ProjectCreateNestedManyWithoutClientInput
     contacts?: ClientContactCreateNestedManyWithoutClientInput
+    rateCards?: RateCardCreateNestedManyWithoutClientInput
   }
 
   export type ClientUncheckedCreateWithoutDealsInput = {
@@ -131310,11 +139089,41 @@ export namespace Prisma {
     children?: ClientUncheckedCreateNestedManyWithoutParentInput
     projects?: ProjectUncheckedCreateNestedManyWithoutClientInput
     contacts?: ClientContactUncheckedCreateNestedManyWithoutClientInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type ClientCreateOrConnectWithoutDealsInput = {
     where: ClientWhereUniqueInput
     create: XOR<ClientCreateWithoutDealsInput, ClientUncheckedCreateWithoutDealsInput>
+  }
+
+  export type DealStatusCreateWithoutDealsInput = {
+    id?: string
+    name: string
+    category: $Enums.DealStatusCategory
+    position: number
+    defaultProbability?: number | null
+    trackTime?: boolean
+    trackExpenses?: boolean
+    createBookings?: boolean
+    pipeline: PipelineCreateNestedOneWithoutStatusesInput
+  }
+
+  export type DealStatusUncheckedCreateWithoutDealsInput = {
+    id?: string
+    pipelineId: string
+    name: string
+    category: $Enums.DealStatusCategory
+    position: number
+    defaultProbability?: number | null
+    trackTime?: boolean
+    trackExpenses?: boolean
+    createBookings?: boolean
+  }
+
+  export type DealStatusCreateOrConnectWithoutDealsInput = {
+    where: DealStatusWhereUniqueInput
+    create: XOR<DealStatusCreateWithoutDealsInput, DealStatusUncheckedCreateWithoutDealsInput>
   }
 
   export type UserCreateWithoutOwnedDealsInput = {
@@ -131460,6 +139269,25 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutOwnedDealsInput, UserUncheckedCreateWithoutOwnedDealsInput>
   }
 
+  export type LostReasonCreateWithoutDealsInput = {
+    id?: string
+    label: string
+    archived?: boolean
+    createdAt?: Date | string
+  }
+
+  export type LostReasonUncheckedCreateWithoutDealsInput = {
+    id?: string
+    label: string
+    archived?: boolean
+    createdAt?: Date | string
+  }
+
+  export type LostReasonCreateOrConnectWithoutDealsInput = {
+    where: LostReasonWhereUniqueInput
+    create: XOR<LostReasonCreateWithoutDealsInput, LostReasonUncheckedCreateWithoutDealsInput>
+  }
+
   export type ProjectCreateWithoutDealsInput = {
     id?: string
     name: string
@@ -131474,7 +139302,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -131517,10 +139345,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -131578,6 +139406,7 @@ export namespace Prisma {
     children?: ClientUpdateManyWithoutParentNestedInput
     projects?: ProjectUpdateManyWithoutClientNestedInput
     contacts?: ClientContactUpdateManyWithoutClientNestedInput
+    rateCards?: RateCardUpdateManyWithoutClientNestedInput
   }
 
   export type ClientUncheckedUpdateWithoutDealsInput = {
@@ -131596,6 +139425,42 @@ export namespace Prisma {
     children?: ClientUncheckedUpdateManyWithoutParentNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutClientNestedInput
     contacts?: ClientContactUncheckedUpdateManyWithoutClientNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutClientNestedInput
+  }
+
+  export type DealStatusUpsertWithoutDealsInput = {
+    update: XOR<DealStatusUpdateWithoutDealsInput, DealStatusUncheckedUpdateWithoutDealsInput>
+    create: XOR<DealStatusCreateWithoutDealsInput, DealStatusUncheckedCreateWithoutDealsInput>
+    where?: DealStatusWhereInput
+  }
+
+  export type DealStatusUpdateToOneWithWhereWithoutDealsInput = {
+    where?: DealStatusWhereInput
+    data: XOR<DealStatusUpdateWithoutDealsInput, DealStatusUncheckedUpdateWithoutDealsInput>
+  }
+
+  export type DealStatusUpdateWithoutDealsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: EnumDealStatusCategoryFieldUpdateOperationsInput | $Enums.DealStatusCategory
+    position?: IntFieldUpdateOperationsInput | number
+    defaultProbability?: NullableIntFieldUpdateOperationsInput | number | null
+    trackTime?: BoolFieldUpdateOperationsInput | boolean
+    trackExpenses?: BoolFieldUpdateOperationsInput | boolean
+    createBookings?: BoolFieldUpdateOperationsInput | boolean
+    pipeline?: PipelineUpdateOneRequiredWithoutStatusesNestedInput
+  }
+
+  export type DealStatusUncheckedUpdateWithoutDealsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pipelineId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: EnumDealStatusCategoryFieldUpdateOperationsInput | $Enums.DealStatusCategory
+    position?: IntFieldUpdateOperationsInput | number
+    defaultProbability?: NullableIntFieldUpdateOperationsInput | number | null
+    trackTime?: BoolFieldUpdateOperationsInput | boolean
+    trackExpenses?: BoolFieldUpdateOperationsInput | boolean
+    createBookings?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUpsertWithoutOwnedDealsInput = {
@@ -131747,6 +139612,31 @@ export namespace Prisma {
     accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
   }
 
+  export type LostReasonUpsertWithoutDealsInput = {
+    update: XOR<LostReasonUpdateWithoutDealsInput, LostReasonUncheckedUpdateWithoutDealsInput>
+    create: XOR<LostReasonCreateWithoutDealsInput, LostReasonUncheckedCreateWithoutDealsInput>
+    where?: LostReasonWhereInput
+  }
+
+  export type LostReasonUpdateToOneWithWhereWithoutDealsInput = {
+    where?: LostReasonWhereInput
+    data: XOR<LostReasonUpdateWithoutDealsInput, LostReasonUncheckedUpdateWithoutDealsInput>
+  }
+
+  export type LostReasonUpdateWithoutDealsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LostReasonUncheckedUpdateWithoutDealsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ProjectUpsertWithoutDealsInput = {
     update: XOR<ProjectUpdateWithoutDealsInput, ProjectUncheckedUpdateWithoutDealsInput>
     create: XOR<ProjectCreateWithoutDealsInput, ProjectUncheckedCreateWithoutDealsInput>
@@ -131772,7 +139662,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -131815,10 +139705,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -131858,7 +139748,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -131901,10 +139791,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -132103,7 +139993,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -132146,10 +140036,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -132542,7 +140432,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -132585,10 +140475,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -132808,7 +140698,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -132851,10 +140741,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -134530,7 +142420,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -134573,10 +142463,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -134775,7 +142665,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -134818,10 +142708,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -135010,7 +142900,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -135053,10 +142943,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -135112,7 +143002,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -135155,10 +143045,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -135184,38 +143074,25 @@ export namespace Prisma {
     dashboardWidgetFilters?: DashboardWidgetUncheckedUpdateManyWithoutFilterProjectNestedInput
   }
 
-  export type WorkflowStatusCreateWithoutProjectInput = {
+  export type WorkflowCreateWithoutProjectsInput = {
     id?: string
     name: string
-    category: $Enums.StatusCategory
-    position: number
-    isDefault?: boolean
-    tasks?: TaskCreateNestedManyWithoutStatusInput
-    transitionsFrom?: TransitionRuleCreateNestedManyWithoutFromStatusInput
-    transitionsTo?: TransitionRuleCreateNestedManyWithoutToStatusInput
-    automationActions?: AutomationActionCreateNestedManyWithoutTargetStatusInput
+    archived?: boolean
+    createdAt?: Date | string
+    statuses?: WorkflowStatusCreateNestedManyWithoutWorkflowInput
   }
 
-  export type WorkflowStatusUncheckedCreateWithoutProjectInput = {
+  export type WorkflowUncheckedCreateWithoutProjectsInput = {
     id?: string
     name: string
-    category: $Enums.StatusCategory
-    position: number
-    isDefault?: boolean
-    tasks?: TaskUncheckedCreateNestedManyWithoutStatusInput
-    transitionsFrom?: TransitionRuleUncheckedCreateNestedManyWithoutFromStatusInput
-    transitionsTo?: TransitionRuleUncheckedCreateNestedManyWithoutToStatusInput
-    automationActions?: AutomationActionUncheckedCreateNestedManyWithoutTargetStatusInput
+    archived?: boolean
+    createdAt?: Date | string
+    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutWorkflowInput
   }
 
-  export type WorkflowStatusCreateOrConnectWithoutProjectInput = {
-    where: WorkflowStatusWhereUniqueInput
-    create: XOR<WorkflowStatusCreateWithoutProjectInput, WorkflowStatusUncheckedCreateWithoutProjectInput>
-  }
-
-  export type WorkflowStatusCreateManyProjectInputEnvelope = {
-    data: WorkflowStatusCreateManyProjectInput | WorkflowStatusCreateManyProjectInput[]
-    skipDuplicates?: boolean
+  export type WorkflowCreateOrConnectWithoutProjectsInput = {
+    where: WorkflowWhereUniqueInput
+    create: XOR<WorkflowCreateWithoutProjectsInput, WorkflowUncheckedCreateWithoutProjectsInput>
   }
 
   export type TaskProjectCreateWithoutProjectInput = {
@@ -135707,6 +143584,7 @@ export namespace Prisma {
     children?: ClientCreateNestedManyWithoutParentInput
     contacts?: ClientContactCreateNestedManyWithoutClientInput
     deals?: DealCreateNestedManyWithoutCompanyInput
+    rateCards?: RateCardCreateNestedManyWithoutClientInput
   }
 
   export type ClientUncheckedCreateWithoutProjectsInput = {
@@ -135725,6 +143603,7 @@ export namespace Prisma {
     children?: ClientUncheckedCreateNestedManyWithoutParentInput
     contacts?: ClientContactUncheckedCreateNestedManyWithoutClientInput
     deals?: DealUncheckedCreateNestedManyWithoutCompanyInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type ClientCreateOrConnectWithoutProjectsInput = {
@@ -136106,25 +143985,27 @@ export namespace Prisma {
   export type DealCreateWithoutProjectInput = {
     id?: string
     title: string
-    stage?: $Enums.DealStage
     estimatedValue?: number | null
     probability?: number | null
-    lostReason?: string | null
+    lostReasonNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     company: ClientCreateNestedOneWithoutDealsInput
+    status: DealStatusCreateNestedOneWithoutDealsInput
     owner: UserCreateNestedOneWithoutOwnedDealsInput
+    lostReason?: LostReasonCreateNestedOneWithoutDealsInput
   }
 
   export type DealUncheckedCreateWithoutProjectInput = {
     id?: string
     title: string
     companyId: string
-    stage?: $Enums.DealStage
+    statusId: string
     ownerId: string
     estimatedValue?: number | null
     probability?: number | null
-    lostReason?: string | null
+    lostReasonId?: string | null
+    lostReasonNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -136171,32 +144052,31 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type WorkflowStatusUpsertWithWhereUniqueWithoutProjectInput = {
-    where: WorkflowStatusWhereUniqueInput
-    update: XOR<WorkflowStatusUpdateWithoutProjectInput, WorkflowStatusUncheckedUpdateWithoutProjectInput>
-    create: XOR<WorkflowStatusCreateWithoutProjectInput, WorkflowStatusUncheckedCreateWithoutProjectInput>
+  export type WorkflowUpsertWithoutProjectsInput = {
+    update: XOR<WorkflowUpdateWithoutProjectsInput, WorkflowUncheckedUpdateWithoutProjectsInput>
+    create: XOR<WorkflowCreateWithoutProjectsInput, WorkflowUncheckedCreateWithoutProjectsInput>
+    where?: WorkflowWhereInput
   }
 
-  export type WorkflowStatusUpdateWithWhereUniqueWithoutProjectInput = {
-    where: WorkflowStatusWhereUniqueInput
-    data: XOR<WorkflowStatusUpdateWithoutProjectInput, WorkflowStatusUncheckedUpdateWithoutProjectInput>
+  export type WorkflowUpdateToOneWithWhereWithoutProjectsInput = {
+    where?: WorkflowWhereInput
+    data: XOR<WorkflowUpdateWithoutProjectsInput, WorkflowUncheckedUpdateWithoutProjectsInput>
   }
 
-  export type WorkflowStatusUpdateManyWithWhereWithoutProjectInput = {
-    where: WorkflowStatusScalarWhereInput
-    data: XOR<WorkflowStatusUpdateManyMutationInput, WorkflowStatusUncheckedUpdateManyWithoutProjectInput>
+  export type WorkflowUpdateWithoutProjectsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    statuses?: WorkflowStatusUpdateManyWithoutWorkflowNestedInput
   }
 
-  export type WorkflowStatusScalarWhereInput = {
-    AND?: WorkflowStatusScalarWhereInput | WorkflowStatusScalarWhereInput[]
-    OR?: WorkflowStatusScalarWhereInput[]
-    NOT?: WorkflowStatusScalarWhereInput | WorkflowStatusScalarWhereInput[]
-    id?: StringFilter<"WorkflowStatus"> | string
-    projectId?: StringFilter<"WorkflowStatus"> | string
-    name?: StringFilter<"WorkflowStatus"> | string
-    category?: EnumStatusCategoryFilter<"WorkflowStatus"> | $Enums.StatusCategory
-    position?: IntFilter<"WorkflowStatus"> | number
-    isDefault?: BoolFilter<"WorkflowStatus"> | boolean
+  export type WorkflowUncheckedUpdateWithoutProjectsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    statuses?: WorkflowStatusUncheckedUpdateManyWithoutWorkflowNestedInput
   }
 
   export type TaskProjectUpsertWithWhereUniqueWithoutProjectInput = {
@@ -136574,6 +144454,7 @@ export namespace Prisma {
     children?: ClientUpdateManyWithoutParentNestedInput
     contacts?: ClientContactUpdateManyWithoutClientNestedInput
     deals?: DealUpdateManyWithoutCompanyNestedInput
+    rateCards?: RateCardUpdateManyWithoutClientNestedInput
   }
 
   export type ClientUncheckedUpdateWithoutProjectsInput = {
@@ -136592,6 +144473,7 @@ export namespace Prisma {
     children?: ClientUncheckedUpdateManyWithoutParentNestedInput
     contacts?: ClientContactUncheckedUpdateManyWithoutClientNestedInput
     deals?: DealUncheckedUpdateManyWithoutCompanyNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutClientNestedInput
   }
 
   export type UserUpsertWithoutManagedProjectsInput = {
@@ -136927,7 +144809,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -136970,10 +144852,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -137055,7 +144937,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -137098,10 +144980,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -137180,6 +145062,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -137222,6 +145105,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -137324,7 +145208,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -137367,10 +145251,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -137454,7 +145338,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -137497,10 +145381,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -137613,7 +145497,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -137656,9 +145540,9 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -137827,7 +145711,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -137870,10 +145754,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -137909,6 +145793,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -137951,6 +145836,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -138021,7 +145907,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -138064,10 +145950,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -138123,7 +146009,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -138166,10 +146052,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -138206,7 +146092,7 @@ export namespace Prisma {
     category: $Enums.StatusCategory
     position: number
     isDefault?: boolean
-    project: ProjectCreateNestedOneWithoutStatusesInput
+    workflow: WorkflowCreateNestedOneWithoutStatusesInput
     tasks?: TaskCreateNestedManyWithoutStatusInput
     transitionsTo?: TransitionRuleCreateNestedManyWithoutToStatusInput
     automationActions?: AutomationActionCreateNestedManyWithoutTargetStatusInput
@@ -138214,7 +146100,7 @@ export namespace Prisma {
 
   export type WorkflowStatusUncheckedCreateWithoutTransitionsFromInput = {
     id?: string
-    projectId: string
+    workflowId: string
     name: string
     category: $Enums.StatusCategory
     position: number
@@ -138235,7 +146121,7 @@ export namespace Prisma {
     category: $Enums.StatusCategory
     position: number
     isDefault?: boolean
-    project: ProjectCreateNestedOneWithoutStatusesInput
+    workflow: WorkflowCreateNestedOneWithoutStatusesInput
     tasks?: TaskCreateNestedManyWithoutStatusInput
     transitionsFrom?: TransitionRuleCreateNestedManyWithoutFromStatusInput
     automationActions?: AutomationActionCreateNestedManyWithoutTargetStatusInput
@@ -138243,7 +146129,7 @@ export namespace Prisma {
 
   export type WorkflowStatusUncheckedCreateWithoutTransitionsToInput = {
     id?: string
-    projectId: string
+    workflowId: string
     name: string
     category: $Enums.StatusCategory
     position: number
@@ -138283,7 +146169,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -138326,10 +146212,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -138372,7 +146258,7 @@ export namespace Prisma {
     category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
     position?: IntFieldUpdateOperationsInput | number
     isDefault?: BoolFieldUpdateOperationsInput | boolean
-    project?: ProjectUpdateOneRequiredWithoutStatusesNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutStatusesNestedInput
     tasks?: TaskUpdateManyWithoutStatusNestedInput
     transitionsTo?: TransitionRuleUpdateManyWithoutToStatusNestedInput
     automationActions?: AutomationActionUpdateManyWithoutTargetStatusNestedInput
@@ -138380,7 +146266,7 @@ export namespace Prisma {
 
   export type WorkflowStatusUncheckedUpdateWithoutTransitionsFromInput = {
     id?: StringFieldUpdateOperationsInput | string
-    projectId?: StringFieldUpdateOperationsInput | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
     position?: IntFieldUpdateOperationsInput | number
@@ -138407,7 +146293,7 @@ export namespace Prisma {
     category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
     position?: IntFieldUpdateOperationsInput | number
     isDefault?: BoolFieldUpdateOperationsInput | boolean
-    project?: ProjectUpdateOneRequiredWithoutStatusesNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutStatusesNestedInput
     tasks?: TaskUpdateManyWithoutStatusNestedInput
     transitionsFrom?: TransitionRuleUpdateManyWithoutFromStatusNestedInput
     automationActions?: AutomationActionUpdateManyWithoutTargetStatusNestedInput
@@ -138415,7 +146301,7 @@ export namespace Prisma {
 
   export type WorkflowStatusUncheckedUpdateWithoutTransitionsToInput = {
     id?: StringFieldUpdateOperationsInput | string
-    projectId?: StringFieldUpdateOperationsInput | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
     position?: IntFieldUpdateOperationsInput | number
@@ -138439,7 +146325,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -138482,10 +146368,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -138684,7 +146570,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -138727,10 +146613,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -138919,7 +146805,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -138962,10 +146848,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -139164,7 +147050,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -139207,10 +147093,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -139385,7 +147271,41 @@ export namespace Prisma {
     ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
-  export type ProjectCreateWithoutStatusesInput = {
+  export type WorkflowStatusCreateWithoutWorkflowInput = {
+    id?: string
+    name: string
+    category: $Enums.StatusCategory
+    position: number
+    isDefault?: boolean
+    tasks?: TaskCreateNestedManyWithoutStatusInput
+    transitionsFrom?: TransitionRuleCreateNestedManyWithoutFromStatusInput
+    transitionsTo?: TransitionRuleCreateNestedManyWithoutToStatusInput
+    automationActions?: AutomationActionCreateNestedManyWithoutTargetStatusInput
+  }
+
+  export type WorkflowStatusUncheckedCreateWithoutWorkflowInput = {
+    id?: string
+    name: string
+    category: $Enums.StatusCategory
+    position: number
+    isDefault?: boolean
+    tasks?: TaskUncheckedCreateNestedManyWithoutStatusInput
+    transitionsFrom?: TransitionRuleUncheckedCreateNestedManyWithoutFromStatusInput
+    transitionsTo?: TransitionRuleUncheckedCreateNestedManyWithoutToStatusInput
+    automationActions?: AutomationActionUncheckedCreateNestedManyWithoutTargetStatusInput
+  }
+
+  export type WorkflowStatusCreateOrConnectWithoutWorkflowInput = {
+    where: WorkflowStatusWhereUniqueInput
+    create: XOR<WorkflowStatusCreateWithoutWorkflowInput, WorkflowStatusUncheckedCreateWithoutWorkflowInput>
+  }
+
+  export type WorkflowStatusCreateManyWorkflowInputEnvelope = {
+    data: WorkflowStatusCreateManyWorkflowInput | WorkflowStatusCreateManyWorkflowInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ProjectCreateWithoutWorkflowInput = {
     id?: string
     name: string
     description?: string | null
@@ -139428,7 +147348,7 @@ export namespace Prisma {
     dashboardWidgetFilters?: DashboardWidgetCreateNestedManyWithoutFilterProjectInput
   }
 
-  export type ProjectUncheckedCreateWithoutStatusesInput = {
+  export type ProjectUncheckedCreateWithoutWorkflowInput = {
     id?: string
     name: string
     description?: string | null
@@ -139471,9 +147391,79 @@ export namespace Prisma {
     dashboardWidgetFilters?: DashboardWidgetUncheckedCreateNestedManyWithoutFilterProjectInput
   }
 
-  export type ProjectCreateOrConnectWithoutStatusesInput = {
+  export type ProjectCreateOrConnectWithoutWorkflowInput = {
     where: ProjectWhereUniqueInput
-    create: XOR<ProjectCreateWithoutStatusesInput, ProjectUncheckedCreateWithoutStatusesInput>
+    create: XOR<ProjectCreateWithoutWorkflowInput, ProjectUncheckedCreateWithoutWorkflowInput>
+  }
+
+  export type ProjectCreateManyWorkflowInputEnvelope = {
+    data: ProjectCreateManyWorkflowInput | ProjectCreateManyWorkflowInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type WorkflowStatusUpsertWithWhereUniqueWithoutWorkflowInput = {
+    where: WorkflowStatusWhereUniqueInput
+    update: XOR<WorkflowStatusUpdateWithoutWorkflowInput, WorkflowStatusUncheckedUpdateWithoutWorkflowInput>
+    create: XOR<WorkflowStatusCreateWithoutWorkflowInput, WorkflowStatusUncheckedCreateWithoutWorkflowInput>
+  }
+
+  export type WorkflowStatusUpdateWithWhereUniqueWithoutWorkflowInput = {
+    where: WorkflowStatusWhereUniqueInput
+    data: XOR<WorkflowStatusUpdateWithoutWorkflowInput, WorkflowStatusUncheckedUpdateWithoutWorkflowInput>
+  }
+
+  export type WorkflowStatusUpdateManyWithWhereWithoutWorkflowInput = {
+    where: WorkflowStatusScalarWhereInput
+    data: XOR<WorkflowStatusUpdateManyMutationInput, WorkflowStatusUncheckedUpdateManyWithoutWorkflowInput>
+  }
+
+  export type WorkflowStatusScalarWhereInput = {
+    AND?: WorkflowStatusScalarWhereInput | WorkflowStatusScalarWhereInput[]
+    OR?: WorkflowStatusScalarWhereInput[]
+    NOT?: WorkflowStatusScalarWhereInput | WorkflowStatusScalarWhereInput[]
+    id?: StringFilter<"WorkflowStatus"> | string
+    workflowId?: StringFilter<"WorkflowStatus"> | string
+    name?: StringFilter<"WorkflowStatus"> | string
+    category?: EnumStatusCategoryFilter<"WorkflowStatus"> | $Enums.StatusCategory
+    position?: IntFilter<"WorkflowStatus"> | number
+    isDefault?: BoolFilter<"WorkflowStatus"> | boolean
+  }
+
+  export type ProjectUpsertWithWhereUniqueWithoutWorkflowInput = {
+    where: ProjectWhereUniqueInput
+    update: XOR<ProjectUpdateWithoutWorkflowInput, ProjectUncheckedUpdateWithoutWorkflowInput>
+    create: XOR<ProjectCreateWithoutWorkflowInput, ProjectUncheckedCreateWithoutWorkflowInput>
+  }
+
+  export type ProjectUpdateWithWhereUniqueWithoutWorkflowInput = {
+    where: ProjectWhereUniqueInput
+    data: XOR<ProjectUpdateWithoutWorkflowInput, ProjectUncheckedUpdateWithoutWorkflowInput>
+  }
+
+  export type ProjectUpdateManyWithWhereWithoutWorkflowInput = {
+    where: ProjectScalarWhereInput
+    data: XOR<ProjectUpdateManyMutationInput, ProjectUncheckedUpdateManyWithoutWorkflowInput>
+  }
+
+  export type WorkflowCreateWithoutStatusesInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+    projects?: ProjectCreateNestedManyWithoutWorkflowInput
+  }
+
+  export type WorkflowUncheckedCreateWithoutStatusesInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+    projects?: ProjectUncheckedCreateNestedManyWithoutWorkflowInput
+  }
+
+  export type WorkflowCreateOrConnectWithoutStatusesInput = {
+    where: WorkflowWhereUniqueInput
+    create: XOR<WorkflowCreateWithoutStatusesInput, WorkflowUncheckedCreateWithoutStatusesInput>
   }
 
   export type TaskCreateWithoutStatusInput = {
@@ -139481,6 +147471,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -139522,6 +147513,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -139650,101 +147642,31 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ProjectUpsertWithoutStatusesInput = {
-    update: XOR<ProjectUpdateWithoutStatusesInput, ProjectUncheckedUpdateWithoutStatusesInput>
-    create: XOR<ProjectCreateWithoutStatusesInput, ProjectUncheckedCreateWithoutStatusesInput>
-    where?: ProjectWhereInput
+  export type WorkflowUpsertWithoutStatusesInput = {
+    update: XOR<WorkflowUpdateWithoutStatusesInput, WorkflowUncheckedUpdateWithoutStatusesInput>
+    create: XOR<WorkflowCreateWithoutStatusesInput, WorkflowUncheckedCreateWithoutStatusesInput>
+    where?: WorkflowWhereInput
   }
 
-  export type ProjectUpdateToOneWithWhereWithoutStatusesInput = {
-    where?: ProjectWhereInput
-    data: XOR<ProjectUpdateWithoutStatusesInput, ProjectUncheckedUpdateWithoutStatusesInput>
+  export type WorkflowUpdateToOneWithWhereWithoutStatusesInput = {
+    where?: WorkflowWhereInput
+    data: XOR<WorkflowUpdateWithoutStatusesInput, WorkflowUncheckedUpdateWithoutStatusesInput>
   }
 
-  export type ProjectUpdateWithoutStatusesInput = {
+  export type WorkflowUpdateWithoutStatusesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    budgetHours?: NullableFloatFieldUpdateOperationsInput | number | null
-    budgetAmount?: NullableFloatFieldUpdateOperationsInput | number | null
-    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
-    type?: EnumProjectTypeFieldUpdateOperationsInput | $Enums.ProjectType
-    color?: StringFieldUpdateOperationsInput | string
-    isTemplate?: BoolFieldUpdateOperationsInput | boolean
-    enabledModules?: ProjectUpdateenabledModulesInput | string[]
-    timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
-    expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
-    customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
-    timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
-    wikiPages?: WikiPageUpdateManyWithoutProjectNestedInput
-    activityEvents?: ActivityEventUpdateManyWithoutProjectNestedInput
-    notificationPreferences?: NotificationPreferenceUpdateManyWithoutProjectNestedInput
-    checkInSchedules?: CheckInScheduleUpdateManyWithoutProjectNestedInput
-    budgets?: BudgetUpdateManyWithoutProjectNestedInput
-    transitionRules?: TransitionRuleUpdateManyWithoutProjectNestedInput
-    cycles?: CycleUpdateManyWithoutProjectNestedInput
-    clientAccess?: ProjectClientAccessUpdateManyWithoutProjectNestedInput
-    sharedViews?: SharedViewUpdateManyWithoutProjectNestedInput
-    slackCaptureConfigs?: SlackCaptureConfigUpdateManyWithoutDefaultProjectNestedInput
-    portfolio?: PortfolioUpdateOneWithoutProjectsNestedInput
-    baselines?: BaselineUpdateManyWithoutProjectNestedInput
-    roleOverrides?: ProjectRoleOverrideUpdateManyWithoutProjectNestedInput
-    client?: ClientUpdateOneWithoutProjectsNestedInput
-    projectManager?: UserUpdateOneWithoutManagedProjectsNestedInput
-    members?: ProjectMemberUpdateManyWithoutProjectNestedInput
-    taskFolders?: TaskFolderUpdateManyWithoutProjectNestedInput
-    savedViews?: SavedViewUpdateManyWithoutProjectNestedInput
-    resourceBookings?: ResourceBookingUpdateManyWithoutProjectNestedInput
-    meetings?: MeetingUpdateManyWithoutProjectNestedInput
-    expenses?: ExpenseUpdateManyWithoutProjectNestedInput
-    purchaseOrders?: PurchaseOrderUpdateManyWithoutProjectNestedInput
-    deals?: DealUpdateManyWithoutProjectNestedInput
-    dashboardWidgetFilters?: DashboardWidgetUpdateManyWithoutFilterProjectNestedInput
+    projects?: ProjectUpdateManyWithoutWorkflowNestedInput
   }
 
-  export type ProjectUncheckedUpdateWithoutStatusesInput = {
+  export type WorkflowUncheckedUpdateWithoutStatusesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    budgetHours?: NullableFloatFieldUpdateOperationsInput | number | null
-    budgetAmount?: NullableFloatFieldUpdateOperationsInput | number | null
-    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
-    type?: EnumProjectTypeFieldUpdateOperationsInput | $Enums.ProjectType
-    color?: StringFieldUpdateOperationsInput | string
-    isTemplate?: BoolFieldUpdateOperationsInput | boolean
-    enabledModules?: ProjectUpdateenabledModulesInput | string[]
-    timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
-    expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
+    archived?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
-    clientId?: NullableStringFieldUpdateOperationsInput | string | null
-    projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
-    customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
-    timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
-    wikiPages?: WikiPageUncheckedUpdateManyWithoutProjectNestedInput
-    activityEvents?: ActivityEventUncheckedUpdateManyWithoutProjectNestedInput
-    notificationPreferences?: NotificationPreferenceUncheckedUpdateManyWithoutProjectNestedInput
-    checkInSchedules?: CheckInScheduleUncheckedUpdateManyWithoutProjectNestedInput
-    budgets?: BudgetUncheckedUpdateManyWithoutProjectNestedInput
-    transitionRules?: TransitionRuleUncheckedUpdateManyWithoutProjectNestedInput
-    cycles?: CycleUncheckedUpdateManyWithoutProjectNestedInput
-    clientAccess?: ProjectClientAccessUncheckedUpdateManyWithoutProjectNestedInput
-    sharedViews?: SharedViewUncheckedUpdateManyWithoutProjectNestedInput
-    slackCaptureConfigs?: SlackCaptureConfigUncheckedUpdateManyWithoutDefaultProjectNestedInput
-    baselines?: BaselineUncheckedUpdateManyWithoutProjectNestedInput
-    roleOverrides?: ProjectRoleOverrideUncheckedUpdateManyWithoutProjectNestedInput
-    members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
-    taskFolders?: TaskFolderUncheckedUpdateManyWithoutProjectNestedInput
-    savedViews?: SavedViewUncheckedUpdateManyWithoutProjectNestedInput
-    resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutProjectNestedInput
-    meetings?: MeetingUncheckedUpdateManyWithoutProjectNestedInput
-    expenses?: ExpenseUncheckedUpdateManyWithoutProjectNestedInput
-    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutProjectNestedInput
-    deals?: DealUncheckedUpdateManyWithoutProjectNestedInput
-    dashboardWidgetFilters?: DashboardWidgetUncheckedUpdateManyWithoutFilterProjectNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutWorkflowNestedInput
   }
 
   export type TaskUpsertWithWhereUniqueWithoutStatusInput = {
@@ -139817,7 +147739,7 @@ export namespace Prisma {
     category: $Enums.StatusCategory
     position: number
     isDefault?: boolean
-    project: ProjectCreateNestedOneWithoutStatusesInput
+    workflow: WorkflowCreateNestedOneWithoutStatusesInput
     transitionsFrom?: TransitionRuleCreateNestedManyWithoutFromStatusInput
     transitionsTo?: TransitionRuleCreateNestedManyWithoutToStatusInput
     automationActions?: AutomationActionCreateNestedManyWithoutTargetStatusInput
@@ -139825,7 +147747,7 @@ export namespace Prisma {
 
   export type WorkflowStatusUncheckedCreateWithoutTasksInput = {
     id?: string
-    projectId: string
+    workflowId: string
     name: string
     category: $Enums.StatusCategory
     position: number
@@ -139988,6 +147910,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -140030,6 +147953,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -140075,6 +147999,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -140117,6 +148042,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -140188,6 +148114,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -140230,6 +148157,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -140275,6 +148203,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -140317,6 +148246,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -140734,7 +148664,7 @@ export namespace Prisma {
     category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
     position?: IntFieldUpdateOperationsInput | number
     isDefault?: BoolFieldUpdateOperationsInput | boolean
-    project?: ProjectUpdateOneRequiredWithoutStatusesNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutStatusesNestedInput
     transitionsFrom?: TransitionRuleUpdateManyWithoutFromStatusNestedInput
     transitionsTo?: TransitionRuleUpdateManyWithoutToStatusNestedInput
     automationActions?: AutomationActionUpdateManyWithoutTargetStatusNestedInput
@@ -140742,7 +148672,7 @@ export namespace Prisma {
 
   export type WorkflowStatusUncheckedUpdateWithoutTasksInput = {
     id?: StringFieldUpdateOperationsInput | string
-    projectId?: StringFieldUpdateOperationsInput | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
     position?: IntFieldUpdateOperationsInput | number
@@ -140917,6 +148847,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -140959,6 +148890,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -141053,6 +148985,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -141095,6 +149028,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -141449,6 +149383,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -141491,6 +149426,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -141564,6 +149500,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -141606,6 +149543,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -141669,6 +149607,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -141711,6 +149650,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -141910,6 +149850,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -141952,6 +149893,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -142141,6 +150083,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -142183,6 +150126,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -142382,6 +150326,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -142424,6 +150369,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -142613,6 +150559,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -142655,6 +150602,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -142874,6 +150822,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -142916,6 +150865,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -143461,6 +151411,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -143503,6 +151454,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -143702,6 +151654,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -143744,6 +151697,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -143942,7 +151896,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -143985,10 +151939,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -144235,7 +152189,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -144278,10 +152232,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -144938,6 +152892,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -144980,6 +152935,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -145034,7 +152990,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     wikiPages?: WikiPageCreateNestedManyWithoutProjectInput
@@ -145077,10 +153033,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     wikiPages?: WikiPageUncheckedCreateNestedManyWithoutProjectInput
@@ -145668,6 +153624,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -145710,6 +153667,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -145770,7 +153728,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     wikiPages?: WikiPageUpdateManyWithoutProjectNestedInput
@@ -145813,10 +153771,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     wikiPages?: WikiPageUncheckedUpdateManyWithoutProjectNestedInput
@@ -147255,7 +155213,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -147298,10 +155256,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -147714,7 +155672,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -147757,10 +155715,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -148011,6 +155969,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -148053,6 +156012,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -148107,7 +156067,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
     wikiPages?: WikiPageCreateNestedManyWithoutProjectInput
@@ -148150,10 +156110,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
     wikiPages?: WikiPageUncheckedCreateNestedManyWithoutProjectInput
@@ -148200,6 +156160,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -148242,6 +156203,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -148302,7 +156264,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
     wikiPages?: WikiPageUpdateManyWithoutProjectNestedInput
@@ -148345,10 +156307,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
     wikiPages?: WikiPageUncheckedUpdateManyWithoutProjectNestedInput
@@ -148379,6 +156341,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -148421,6 +156384,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -148466,6 +156430,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -148508,6 +156473,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -148564,6 +156530,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -148606,6 +156573,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -148657,6 +156625,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -148699,6 +156668,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -148739,6 +156709,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -148781,6 +156752,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -148826,6 +156798,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -148868,6 +156841,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -149067,6 +157041,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -149109,6 +157084,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -149160,6 +157136,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -149202,6 +157179,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -149400,7 +157378,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
     wikiPages?: WikiPageCreateNestedManyWithoutProjectInput
@@ -149443,10 +157421,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
     wikiPages?: WikiPageUncheckedCreateNestedManyWithoutProjectInput
@@ -149568,7 +157546,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
     wikiPages?: WikiPageUpdateManyWithoutProjectNestedInput
@@ -149611,10 +157589,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
     wikiPages?: WikiPageUncheckedUpdateManyWithoutProjectNestedInput
@@ -149732,6 +157710,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -149774,6 +157753,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -149865,6 +157845,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -149907,6 +157888,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -150616,7 +158598,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -150659,10 +158641,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -150841,6 +158823,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     startDate?: Date | string | null
@@ -150883,6 +158866,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -151025,7 +159009,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -151068,10 +159052,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -151262,6 +159246,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -151304,6 +159289,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -151571,7 +159557,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -151614,10 +159600,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -151822,7 +159808,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -151865,10 +159851,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -152768,7 +160754,7 @@ export namespace Prisma {
     category: $Enums.StatusCategory
     position: number
     isDefault?: boolean
-    project: ProjectCreateNestedOneWithoutStatusesInput
+    workflow: WorkflowCreateNestedOneWithoutStatusesInput
     tasks?: TaskCreateNestedManyWithoutStatusInput
     transitionsFrom?: TransitionRuleCreateNestedManyWithoutFromStatusInput
     transitionsTo?: TransitionRuleCreateNestedManyWithoutToStatusInput
@@ -152776,7 +160762,7 @@ export namespace Prisma {
 
   export type WorkflowStatusUncheckedCreateWithoutAutomationActionsInput = {
     id?: string
-    projectId: string
+    workflowId: string
     name: string
     category: $Enums.StatusCategory
     position: number
@@ -152998,7 +160984,7 @@ export namespace Prisma {
     category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
     position?: IntFieldUpdateOperationsInput | number
     isDefault?: BoolFieldUpdateOperationsInput | boolean
-    project?: ProjectUpdateOneRequiredWithoutStatusesNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutStatusesNestedInput
     tasks?: TaskUpdateManyWithoutStatusNestedInput
     transitionsFrom?: TransitionRuleUpdateManyWithoutFromStatusNestedInput
     transitionsTo?: TransitionRuleUpdateManyWithoutToStatusNestedInput
@@ -153006,7 +160992,7 @@ export namespace Prisma {
 
   export type WorkflowStatusUncheckedUpdateWithoutAutomationActionsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    projectId?: StringFieldUpdateOperationsInput | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
     position?: IntFieldUpdateOperationsInput | number
@@ -153393,7 +161379,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -153436,10 +161422,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -153524,7 +161510,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -153567,10 +161553,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -154018,7 +162004,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -154061,10 +162047,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -154148,7 +162134,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -154191,10 +162177,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -154598,7 +162584,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -154641,10 +162627,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -155168,7 +163154,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -155211,10 +163197,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -155651,10 +163637,12 @@ export namespace Prisma {
     trackingUnit?: $Enums.TrackingUnit
     defaultPrice: number
     createdAt?: Date | string
+    rateCard: RateCardCreateNestedOneWithoutItemsInput
   }
 
   export type RateCardItemUncheckedCreateWithoutServiceTypeInput = {
     id?: string
+    rateCardId: string
     name: string
     billingType?: $Enums.BillingType
     trackingUnit?: $Enums.TrackingUnit
@@ -155753,6 +163741,7 @@ export namespace Prisma {
     OR?: RateCardItemScalarWhereInput[]
     NOT?: RateCardItemScalarWhereInput | RateCardItemScalarWhereInput[]
     id?: StringFilter<"RateCardItem"> | string
+    rateCardId?: StringFilter<"RateCardItem"> | string
     name?: StringFilter<"RateCardItem"> | string
     serviceTypeId?: StringNullableFilter<"RateCardItem"> | string | null
     billingType?: EnumBillingTypeFilter<"RateCardItem"> | $Enums.BillingType
@@ -156145,6 +164134,165 @@ export namespace Prisma {
     data: XOR<ResourceBookingUpdateManyMutationInput, ResourceBookingUncheckedUpdateManyWithoutBudgetSectionInput>
   }
 
+  export type ClientCreateWithoutRateCardsInput = {
+    id?: string
+    name: string
+    note?: string | null
+    taxId?: string | null
+    website?: string | null
+    billingAddress?: string | null
+    type?: $Enums.ClientType | null
+    paymentTermsDays?: number | null
+    archivedAt?: Date | string | null
+    createdAt?: Date | string
+    accountOwner?: UserCreateNestedOneWithoutAccountOwnedClientsInput
+    parent?: ClientCreateNestedOneWithoutChildrenInput
+    children?: ClientCreateNestedManyWithoutParentInput
+    projects?: ProjectCreateNestedManyWithoutClientInput
+    contacts?: ClientContactCreateNestedManyWithoutClientInput
+    deals?: DealCreateNestedManyWithoutCompanyInput
+  }
+
+  export type ClientUncheckedCreateWithoutRateCardsInput = {
+    id?: string
+    name: string
+    note?: string | null
+    taxId?: string | null
+    website?: string | null
+    billingAddress?: string | null
+    type?: $Enums.ClientType | null
+    accountOwnerId?: string | null
+    paymentTermsDays?: number | null
+    archivedAt?: Date | string | null
+    parentId?: string | null
+    createdAt?: Date | string
+    children?: ClientUncheckedCreateNestedManyWithoutParentInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutClientInput
+    contacts?: ClientContactUncheckedCreateNestedManyWithoutClientInput
+    deals?: DealUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type ClientCreateOrConnectWithoutRateCardsInput = {
+    where: ClientWhereUniqueInput
+    create: XOR<ClientCreateWithoutRateCardsInput, ClientUncheckedCreateWithoutRateCardsInput>
+  }
+
+  export type RateCardItemCreateWithoutRateCardInput = {
+    id?: string
+    name: string
+    billingType?: $Enums.BillingType
+    trackingUnit?: $Enums.TrackingUnit
+    defaultPrice: number
+    createdAt?: Date | string
+    serviceType?: ServiceTypeCreateNestedOneWithoutRateCardItemsInput
+  }
+
+  export type RateCardItemUncheckedCreateWithoutRateCardInput = {
+    id?: string
+    name: string
+    serviceTypeId?: string | null
+    billingType?: $Enums.BillingType
+    trackingUnit?: $Enums.TrackingUnit
+    defaultPrice: number
+    createdAt?: Date | string
+  }
+
+  export type RateCardItemCreateOrConnectWithoutRateCardInput = {
+    where: RateCardItemWhereUniqueInput
+    create: XOR<RateCardItemCreateWithoutRateCardInput, RateCardItemUncheckedCreateWithoutRateCardInput>
+  }
+
+  export type RateCardItemCreateManyRateCardInputEnvelope = {
+    data: RateCardItemCreateManyRateCardInput | RateCardItemCreateManyRateCardInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ClientUpsertWithoutRateCardsInput = {
+    update: XOR<ClientUpdateWithoutRateCardsInput, ClientUncheckedUpdateWithoutRateCardsInput>
+    create: XOR<ClientCreateWithoutRateCardsInput, ClientUncheckedCreateWithoutRateCardsInput>
+    where?: ClientWhereInput
+  }
+
+  export type ClientUpdateToOneWithWhereWithoutRateCardsInput = {
+    where?: ClientWhereInput
+    data: XOR<ClientUpdateWithoutRateCardsInput, ClientUncheckedUpdateWithoutRateCardsInput>
+  }
+
+  export type ClientUpdateWithoutRateCardsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType | null
+    paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accountOwner?: UserUpdateOneWithoutAccountOwnedClientsNestedInput
+    parent?: ClientUpdateOneWithoutChildrenNestedInput
+    children?: ClientUpdateManyWithoutParentNestedInput
+    projects?: ProjectUpdateManyWithoutClientNestedInput
+    contacts?: ClientContactUpdateManyWithoutClientNestedInput
+    deals?: DealUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type ClientUncheckedUpdateWithoutRateCardsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType | null
+    accountOwnerId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: ClientUncheckedUpdateManyWithoutParentNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutClientNestedInput
+    contacts?: ClientContactUncheckedUpdateManyWithoutClientNestedInput
+    deals?: DealUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type RateCardItemUpsertWithWhereUniqueWithoutRateCardInput = {
+    where: RateCardItemWhereUniqueInput
+    update: XOR<RateCardItemUpdateWithoutRateCardInput, RateCardItemUncheckedUpdateWithoutRateCardInput>
+    create: XOR<RateCardItemCreateWithoutRateCardInput, RateCardItemUncheckedCreateWithoutRateCardInput>
+  }
+
+  export type RateCardItemUpdateWithWhereUniqueWithoutRateCardInput = {
+    where: RateCardItemWhereUniqueInput
+    data: XOR<RateCardItemUpdateWithoutRateCardInput, RateCardItemUncheckedUpdateWithoutRateCardInput>
+  }
+
+  export type RateCardItemUpdateManyWithWhereWithoutRateCardInput = {
+    where: RateCardItemScalarWhereInput
+    data: XOR<RateCardItemUpdateManyMutationInput, RateCardItemUncheckedUpdateManyWithoutRateCardInput>
+  }
+
+  export type RateCardCreateWithoutItemsInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+    client?: ClientCreateNestedOneWithoutRateCardsInput
+  }
+
+  export type RateCardUncheckedCreateWithoutItemsInput = {
+    id?: string
+    name: string
+    clientId?: string | null
+    archived?: boolean
+    createdAt?: Date | string
+  }
+
+  export type RateCardCreateOrConnectWithoutItemsInput = {
+    where: RateCardWhereUniqueInput
+    create: XOR<RateCardCreateWithoutItemsInput, RateCardUncheckedCreateWithoutItemsInput>
+  }
+
   export type ServiceTypeCreateWithoutRateCardItemsInput = {
     id?: string
     name: string
@@ -156164,6 +164312,33 @@ export namespace Prisma {
   export type ServiceTypeCreateOrConnectWithoutRateCardItemsInput = {
     where: ServiceTypeWhereUniqueInput
     create: XOR<ServiceTypeCreateWithoutRateCardItemsInput, ServiceTypeUncheckedCreateWithoutRateCardItemsInput>
+  }
+
+  export type RateCardUpsertWithoutItemsInput = {
+    update: XOR<RateCardUpdateWithoutItemsInput, RateCardUncheckedUpdateWithoutItemsInput>
+    create: XOR<RateCardCreateWithoutItemsInput, RateCardUncheckedCreateWithoutItemsInput>
+    where?: RateCardWhereInput
+  }
+
+  export type RateCardUpdateToOneWithWhereWithoutItemsInput = {
+    where?: RateCardWhereInput
+    data: XOR<RateCardUpdateWithoutItemsInput, RateCardUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type RateCardUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    client?: ClientUpdateOneWithoutRateCardsNestedInput
+  }
+
+  export type RateCardUncheckedUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    clientId?: NullableStringFieldUpdateOperationsInput | string | null
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ServiceTypeUpsertWithoutRateCardItemsInput = {
@@ -157789,7 +165964,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -157832,10 +166007,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -158034,7 +166209,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -158077,10 +166252,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -158269,7 +166444,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -158312,10 +166487,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -158731,7 +166906,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -158774,10 +166949,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -159201,7 +167376,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
-    statuses?: WorkflowStatusCreateNestedManyWithoutProjectInput
+    workflow: WorkflowCreateNestedOneWithoutProjectsInput
     taskLinks?: TaskProjectCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryCreateNestedManyWithoutProjectInput
@@ -159244,10 +167419,10 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
     projectManagerId?: string | null
-    statuses?: WorkflowStatusUncheckedCreateNestedManyWithoutProjectInput
     taskLinks?: TaskProjectUncheckedCreateNestedManyWithoutProjectInput
     customFields?: CustomFieldDefUncheckedCreateNestedManyWithoutProjectInput
     timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutProjectInput
@@ -159446,7 +167621,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -159489,10 +167664,10 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -160401,6 +168576,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     parentTaskId?: string | null
@@ -160644,6 +168820,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     clientId?: string | null
   }
@@ -160917,10 +169094,11 @@ export namespace Prisma {
     id?: string
     title: string
     companyId: string
-    stage?: $Enums.DealStage
+    statusId: string
     estimatedValue?: number | null
     probability?: number | null
-    lostReason?: string | null
+    lostReasonId?: string | null
+    lostReasonNote?: string | null
     projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -160955,6 +169133,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -160997,6 +169176,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     parentTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -161038,6 +169218,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     parentTaskId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -161727,7 +169908,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -161770,9 +169951,9 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -161813,6 +169994,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -162688,6 +170870,7 @@ export namespace Prisma {
     projects?: ProjectUpdateManyWithoutClientNestedInput
     contacts?: ClientContactUpdateManyWithoutClientNestedInput
     deals?: DealUpdateManyWithoutCompanyNestedInput
+    rateCards?: RateCardUpdateManyWithoutClientNestedInput
   }
 
   export type ClientUncheckedUpdateWithoutAccountOwnerInput = {
@@ -162706,6 +170889,7 @@ export namespace Prisma {
     projects?: ProjectUncheckedUpdateManyWithoutClientNestedInput
     contacts?: ClientContactUncheckedUpdateManyWithoutClientNestedInput
     deals?: DealUncheckedUpdateManyWithoutCompanyNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutClientNestedInput
   }
 
   export type ClientUncheckedUpdateManyWithoutAccountOwnerInput = {
@@ -162725,13 +170909,14 @@ export namespace Prisma {
   export type DealUpdateWithoutOwnerInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: ClientUpdateOneRequiredWithoutDealsNestedInput
+    status?: DealStatusUpdateOneRequiredWithoutDealsNestedInput
+    lostReason?: LostReasonUpdateOneWithoutDealsNestedInput
     project?: ProjectUpdateOneWithoutDealsNestedInput
   }
 
@@ -162739,10 +170924,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
+    statusId?: StringFieldUpdateOperationsInput | string
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -162752,10 +170938,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
+    statusId?: StringFieldUpdateOperationsInput | string
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -162789,6 +170976,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     portfolioId?: string | null
     projectManagerId?: string | null
   }
@@ -162806,14 +170994,22 @@ export namespace Prisma {
   export type DealCreateManyCompanyInput = {
     id?: string
     title: string
-    stage?: $Enums.DealStage
+    statusId: string
     ownerId: string
     estimatedValue?: number | null
     probability?: number | null
-    lostReason?: string | null
+    lostReasonId?: string | null
+    lostReasonNote?: string | null
     projectId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type RateCardCreateManyClientInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
   }
 
   export type ClientUpdateWithoutParentInput = {
@@ -162832,6 +171028,7 @@ export namespace Prisma {
     projects?: ProjectUpdateManyWithoutClientNestedInput
     contacts?: ClientContactUpdateManyWithoutClientNestedInput
     deals?: DealUpdateManyWithoutCompanyNestedInput
+    rateCards?: RateCardUpdateManyWithoutClientNestedInput
   }
 
   export type ClientUncheckedUpdateWithoutParentInput = {
@@ -162850,6 +171047,7 @@ export namespace Prisma {
     projects?: ProjectUncheckedUpdateManyWithoutClientNestedInput
     contacts?: ClientContactUncheckedUpdateManyWithoutClientNestedInput
     deals?: DealUncheckedUpdateManyWithoutCompanyNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutClientNestedInput
   }
 
   export type ClientUncheckedUpdateManyWithoutParentInput = {
@@ -162880,7 +171078,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -162923,9 +171121,9 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -162966,6 +171164,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -163003,24 +171202,26 @@ export namespace Prisma {
   export type DealUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: DealStatusUpdateOneRequiredWithoutDealsNestedInput
     owner?: UserUpdateOneRequiredWithoutOwnedDealsNestedInput
+    lostReason?: LostReasonUpdateOneWithoutDealsNestedInput
     project?: ProjectUpdateOneWithoutDealsNestedInput
   }
 
   export type DealUncheckedUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
+    statusId?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -163029,11 +171230,193 @@ export namespace Prisma {
   export type DealUncheckedUpdateManyWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
+    statusId?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RateCardUpdateWithoutClientInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: RateCardItemUpdateManyWithoutRateCardNestedInput
+  }
+
+  export type RateCardUncheckedUpdateWithoutClientInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: RateCardItemUncheckedUpdateManyWithoutRateCardNestedInput
+  }
+
+  export type RateCardUncheckedUpdateManyWithoutClientInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealStatusCreateManyPipelineInput = {
+    id?: string
+    name: string
+    category: $Enums.DealStatusCategory
+    position: number
+    defaultProbability?: number | null
+    trackTime?: boolean
+    trackExpenses?: boolean
+    createBookings?: boolean
+  }
+
+  export type DealStatusUpdateWithoutPipelineInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: EnumDealStatusCategoryFieldUpdateOperationsInput | $Enums.DealStatusCategory
+    position?: IntFieldUpdateOperationsInput | number
+    defaultProbability?: NullableIntFieldUpdateOperationsInput | number | null
+    trackTime?: BoolFieldUpdateOperationsInput | boolean
+    trackExpenses?: BoolFieldUpdateOperationsInput | boolean
+    createBookings?: BoolFieldUpdateOperationsInput | boolean
+    deals?: DealUpdateManyWithoutStatusNestedInput
+  }
+
+  export type DealStatusUncheckedUpdateWithoutPipelineInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: EnumDealStatusCategoryFieldUpdateOperationsInput | $Enums.DealStatusCategory
+    position?: IntFieldUpdateOperationsInput | number
+    defaultProbability?: NullableIntFieldUpdateOperationsInput | number | null
+    trackTime?: BoolFieldUpdateOperationsInput | boolean
+    trackExpenses?: BoolFieldUpdateOperationsInput | boolean
+    createBookings?: BoolFieldUpdateOperationsInput | boolean
+    deals?: DealUncheckedUpdateManyWithoutStatusNestedInput
+  }
+
+  export type DealStatusUncheckedUpdateManyWithoutPipelineInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: EnumDealStatusCategoryFieldUpdateOperationsInput | $Enums.DealStatusCategory
+    position?: IntFieldUpdateOperationsInput | number
+    defaultProbability?: NullableIntFieldUpdateOperationsInput | number | null
+    trackTime?: BoolFieldUpdateOperationsInput | boolean
+    trackExpenses?: BoolFieldUpdateOperationsInput | boolean
+    createBookings?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type DealCreateManyStatusInput = {
+    id?: string
+    title: string
+    companyId: string
+    ownerId: string
+    estimatedValue?: number | null
+    probability?: number | null
+    lostReasonId?: string | null
+    lostReasonNote?: string | null
+    projectId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DealUpdateWithoutStatusInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
+    probability?: NullableIntFieldUpdateOperationsInput | number | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: ClientUpdateOneRequiredWithoutDealsNestedInput
+    owner?: UserUpdateOneRequiredWithoutOwnedDealsNestedInput
+    lostReason?: LostReasonUpdateOneWithoutDealsNestedInput
+    project?: ProjectUpdateOneWithoutDealsNestedInput
+  }
+
+  export type DealUncheckedUpdateWithoutStatusInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
+    probability?: NullableIntFieldUpdateOperationsInput | number | null
+    lostReasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealUncheckedUpdateManyWithoutStatusInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
+    probability?: NullableIntFieldUpdateOperationsInput | number | null
+    lostReasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealCreateManyLostReasonInput = {
+    id?: string
+    title: string
+    companyId: string
+    statusId: string
+    ownerId: string
+    estimatedValue?: number | null
+    probability?: number | null
+    lostReasonNote?: string | null
+    projectId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DealUpdateWithoutLostReasonInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
+    probability?: NullableIntFieldUpdateOperationsInput | number | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: ClientUpdateOneRequiredWithoutDealsNestedInput
+    status?: DealStatusUpdateOneRequiredWithoutDealsNestedInput
+    owner?: UserUpdateOneRequiredWithoutOwnedDealsNestedInput
+    project?: ProjectUpdateOneWithoutDealsNestedInput
+  }
+
+  export type DealUncheckedUpdateWithoutLostReasonInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    statusId?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
+    probability?: NullableIntFieldUpdateOperationsInput | number | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DealUncheckedUpdateManyWithoutLostReasonInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    statusId?: StringFieldUpdateOperationsInput | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
+    probability?: NullableIntFieldUpdateOperationsInput | number | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -163243,14 +171626,6 @@ export namespace Prisma {
     projectId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type WorkflowStatusCreateManyProjectInput = {
-    id?: string
-    name: string
-    category: $Enums.StatusCategory
-    position: number
-    isDefault?: boolean
   }
 
   export type TaskProjectCreateManyProjectInput = {
@@ -163471,11 +171846,12 @@ export namespace Prisma {
     id?: string
     title: string
     companyId: string
-    stage?: $Enums.DealStage
+    statusId: string
     ownerId: string
     estimatedValue?: number | null
     probability?: number | null
-    lostReason?: string | null
+    lostReasonId?: string | null
+    lostReasonNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -163489,38 +171865,6 @@ export namespace Prisma {
     position: number
     span?: number
     createdAt?: Date | string
-  }
-
-  export type WorkflowStatusUpdateWithoutProjectInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
-    position?: IntFieldUpdateOperationsInput | number
-    isDefault?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TaskUpdateManyWithoutStatusNestedInput
-    transitionsFrom?: TransitionRuleUpdateManyWithoutFromStatusNestedInput
-    transitionsTo?: TransitionRuleUpdateManyWithoutToStatusNestedInput
-    automationActions?: AutomationActionUpdateManyWithoutTargetStatusNestedInput
-  }
-
-  export type WorkflowStatusUncheckedUpdateWithoutProjectInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
-    position?: IntFieldUpdateOperationsInput | number
-    isDefault?: BoolFieldUpdateOperationsInput | boolean
-    tasks?: TaskUncheckedUpdateManyWithoutStatusNestedInput
-    transitionsFrom?: TransitionRuleUncheckedUpdateManyWithoutFromStatusNestedInput
-    transitionsTo?: TransitionRuleUncheckedUpdateManyWithoutToStatusNestedInput
-    automationActions?: AutomationActionUncheckedUpdateManyWithoutTargetStatusNestedInput
-  }
-
-  export type WorkflowStatusUncheckedUpdateManyWithoutProjectInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
-    position?: IntFieldUpdateOperationsInput | number
-    isDefault?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type TaskProjectUpdateWithoutProjectInput = {
@@ -164200,25 +172544,27 @@ export namespace Prisma {
   export type DealUpdateWithoutProjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: ClientUpdateOneRequiredWithoutDealsNestedInput
+    status?: DealStatusUpdateOneRequiredWithoutDealsNestedInput
     owner?: UserUpdateOneRequiredWithoutOwnedDealsNestedInput
+    lostReason?: LostReasonUpdateOneWithoutDealsNestedInput
   }
 
   export type DealUncheckedUpdateWithoutProjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
+    statusId?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -164227,11 +172573,12 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
-    stage?: EnumDealStageFieldUpdateOperationsInput | $Enums.DealStage
+    statusId?: StringFieldUpdateOperationsInput | string
     ownerId?: StringFieldUpdateOperationsInput | string
     estimatedValue?: NullableFloatFieldUpdateOperationsInput | number | null
     probability?: NullableIntFieldUpdateOperationsInput | number | null
-    lostReason?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonId?: NullableStringFieldUpdateOperationsInput | string | null
+    lostReasonNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -164305,6 +172652,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -164330,6 +172678,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -164372,6 +172721,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -164413,6 +172763,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -164483,6 +172834,7 @@ export namespace Prisma {
     timeApprovalRequired?: boolean
     expenseApprovalRequired?: boolean
     createdAt?: Date | string
+    workflowId: string
     clientId?: string | null
     projectManagerId?: string | null
   }
@@ -164509,7 +172861,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    statuses?: WorkflowStatusUpdateManyWithoutProjectNestedInput
+    workflow?: WorkflowUpdateOneRequiredWithoutProjectsNestedInput
     taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
@@ -164552,9 +172904,9 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
-    statuses?: WorkflowStatusUncheckedUpdateManyWithoutProjectNestedInput
     taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
     customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
     timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
@@ -164595,6 +172947,7 @@ export namespace Prisma {
     timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workflowId?: StringFieldUpdateOperationsInput | string
     clientId?: NullableStringFieldUpdateOperationsInput | string | null
     projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -164629,6 +172982,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -164654,6 +173008,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -164696,6 +173051,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -164737,6 +173093,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -164757,11 +173114,176 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type WorkflowStatusCreateManyWorkflowInput = {
+    id?: string
+    name: string
+    category: $Enums.StatusCategory
+    position: number
+    isDefault?: boolean
+  }
+
+  export type ProjectCreateManyWorkflowInput = {
+    id?: string
+    name: string
+    description?: string | null
+    budgetHours?: number | null
+    budgetAmount?: number | null
+    hourlyRate?: number | null
+    type?: $Enums.ProjectType
+    color?: string
+    isTemplate?: boolean
+    enabledModules?: ProjectCreateenabledModulesInput | string[]
+    timeApprovalRequired?: boolean
+    expenseApprovalRequired?: boolean
+    createdAt?: Date | string
+    portfolioId?: string | null
+    clientId?: string | null
+    projectManagerId?: string | null
+  }
+
+  export type WorkflowStatusUpdateWithoutWorkflowInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
+    position?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    tasks?: TaskUpdateManyWithoutStatusNestedInput
+    transitionsFrom?: TransitionRuleUpdateManyWithoutFromStatusNestedInput
+    transitionsTo?: TransitionRuleUpdateManyWithoutToStatusNestedInput
+    automationActions?: AutomationActionUpdateManyWithoutTargetStatusNestedInput
+  }
+
+  export type WorkflowStatusUncheckedUpdateWithoutWorkflowInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
+    position?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    tasks?: TaskUncheckedUpdateManyWithoutStatusNestedInput
+    transitionsFrom?: TransitionRuleUncheckedUpdateManyWithoutFromStatusNestedInput
+    transitionsTo?: TransitionRuleUncheckedUpdateManyWithoutToStatusNestedInput
+    automationActions?: AutomationActionUncheckedUpdateManyWithoutTargetStatusNestedInput
+  }
+
+  export type WorkflowStatusUncheckedUpdateManyWithoutWorkflowInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    category?: EnumStatusCategoryFieldUpdateOperationsInput | $Enums.StatusCategory
+    position?: IntFieldUpdateOperationsInput | number
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type ProjectUpdateWithoutWorkflowInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetHours?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    type?: EnumProjectTypeFieldUpdateOperationsInput | $Enums.ProjectType
+    color?: StringFieldUpdateOperationsInput | string
+    isTemplate?: BoolFieldUpdateOperationsInput | boolean
+    enabledModules?: ProjectUpdateenabledModulesInput | string[]
+    timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
+    expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    taskLinks?: TaskProjectUpdateManyWithoutProjectNestedInput
+    customFields?: CustomFieldDefUpdateManyWithoutProjectNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutProjectNestedInput
+    wikiPages?: WikiPageUpdateManyWithoutProjectNestedInput
+    activityEvents?: ActivityEventUpdateManyWithoutProjectNestedInput
+    notificationPreferences?: NotificationPreferenceUpdateManyWithoutProjectNestedInput
+    checkInSchedules?: CheckInScheduleUpdateManyWithoutProjectNestedInput
+    budgets?: BudgetUpdateManyWithoutProjectNestedInput
+    transitionRules?: TransitionRuleUpdateManyWithoutProjectNestedInput
+    cycles?: CycleUpdateManyWithoutProjectNestedInput
+    clientAccess?: ProjectClientAccessUpdateManyWithoutProjectNestedInput
+    sharedViews?: SharedViewUpdateManyWithoutProjectNestedInput
+    slackCaptureConfigs?: SlackCaptureConfigUpdateManyWithoutDefaultProjectNestedInput
+    portfolio?: PortfolioUpdateOneWithoutProjectsNestedInput
+    baselines?: BaselineUpdateManyWithoutProjectNestedInput
+    roleOverrides?: ProjectRoleOverrideUpdateManyWithoutProjectNestedInput
+    client?: ClientUpdateOneWithoutProjectsNestedInput
+    projectManager?: UserUpdateOneWithoutManagedProjectsNestedInput
+    members?: ProjectMemberUpdateManyWithoutProjectNestedInput
+    taskFolders?: TaskFolderUpdateManyWithoutProjectNestedInput
+    savedViews?: SavedViewUpdateManyWithoutProjectNestedInput
+    resourceBookings?: ResourceBookingUpdateManyWithoutProjectNestedInput
+    meetings?: MeetingUpdateManyWithoutProjectNestedInput
+    expenses?: ExpenseUpdateManyWithoutProjectNestedInput
+    purchaseOrders?: PurchaseOrderUpdateManyWithoutProjectNestedInput
+    deals?: DealUpdateManyWithoutProjectNestedInput
+    dashboardWidgetFilters?: DashboardWidgetUpdateManyWithoutFilterProjectNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutWorkflowInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetHours?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    type?: EnumProjectTypeFieldUpdateOperationsInput | $Enums.ProjectType
+    color?: StringFieldUpdateOperationsInput | string
+    isTemplate?: BoolFieldUpdateOperationsInput | boolean
+    enabledModules?: ProjectUpdateenabledModulesInput | string[]
+    timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
+    expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
+    taskLinks?: TaskProjectUncheckedUpdateManyWithoutProjectNestedInput
+    customFields?: CustomFieldDefUncheckedUpdateManyWithoutProjectNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
+    wikiPages?: WikiPageUncheckedUpdateManyWithoutProjectNestedInput
+    activityEvents?: ActivityEventUncheckedUpdateManyWithoutProjectNestedInput
+    notificationPreferences?: NotificationPreferenceUncheckedUpdateManyWithoutProjectNestedInput
+    checkInSchedules?: CheckInScheduleUncheckedUpdateManyWithoutProjectNestedInput
+    budgets?: BudgetUncheckedUpdateManyWithoutProjectNestedInput
+    transitionRules?: TransitionRuleUncheckedUpdateManyWithoutProjectNestedInput
+    cycles?: CycleUncheckedUpdateManyWithoutProjectNestedInput
+    clientAccess?: ProjectClientAccessUncheckedUpdateManyWithoutProjectNestedInput
+    sharedViews?: SharedViewUncheckedUpdateManyWithoutProjectNestedInput
+    slackCaptureConfigs?: SlackCaptureConfigUncheckedUpdateManyWithoutDefaultProjectNestedInput
+    baselines?: BaselineUncheckedUpdateManyWithoutProjectNestedInput
+    roleOverrides?: ProjectRoleOverrideUncheckedUpdateManyWithoutProjectNestedInput
+    members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
+    taskFolders?: TaskFolderUncheckedUpdateManyWithoutProjectNestedInput
+    savedViews?: SavedViewUncheckedUpdateManyWithoutProjectNestedInput
+    resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutProjectNestedInput
+    meetings?: MeetingUncheckedUpdateManyWithoutProjectNestedInput
+    expenses?: ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+    purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutProjectNestedInput
+    deals?: DealUncheckedUpdateManyWithoutProjectNestedInput
+    dashboardWidgetFilters?: DashboardWidgetUncheckedUpdateManyWithoutFilterProjectNestedInput
+  }
+
+  export type ProjectUncheckedUpdateManyWithoutWorkflowInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    budgetHours?: NullableFloatFieldUpdateOperationsInput | number | null
+    budgetAmount?: NullableFloatFieldUpdateOperationsInput | number | null
+    hourlyRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    type?: EnumProjectTypeFieldUpdateOperationsInput | $Enums.ProjectType
+    color?: StringFieldUpdateOperationsInput | string
+    isTemplate?: BoolFieldUpdateOperationsInput | boolean
+    enabledModules?: ProjectUpdateenabledModulesInput | string[]
+    timeApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
+    expenseApprovalRequired?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    portfolioId?: NullableStringFieldUpdateOperationsInput | string | null
+    clientId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectManagerId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type TaskCreateManyStatusInput = {
     id?: string
     title: string
     description?: string | null
     externalSourceUrl?: string | null
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -164814,6 +173336,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -164855,6 +173378,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -164896,6 +173420,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -165001,6 +173526,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -165027,6 +173553,7 @@ export namespace Prisma {
     description?: string | null
     externalSourceUrl?: string | null
     statusId: string
+    position?: number
     priority?: $Enums.TaskPriority
     tShirtSize?: $Enums.TaskTShirtSize | null
     assigneeId?: string | null
@@ -165151,6 +173678,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -165193,6 +173721,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -165234,6 +173763,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -165259,6 +173789,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -165301,6 +173832,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -165342,6 +173874,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     externalSourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     statusId?: StringFieldUpdateOperationsInput | string
+    position?: FloatFieldUpdateOperationsInput | number
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
     tShirtSize?: NullableEnumTaskTShirtSizeFieldUpdateOperationsInput | $Enums.TaskTShirtSize | null
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -166639,6 +175172,7 @@ export namespace Prisma {
 
   export type RateCardItemCreateManyServiceTypeInput = {
     id?: string
+    rateCardId: string
     name: string
     billingType?: $Enums.BillingType
     trackingUnit?: $Enums.TrackingUnit
@@ -166756,10 +175290,12 @@ export namespace Prisma {
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
     defaultPrice?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rateCard?: RateCardUpdateOneRequiredWithoutItemsNestedInput
   }
 
   export type RateCardItemUncheckedUpdateWithoutServiceTypeInput = {
     id?: StringFieldUpdateOperationsInput | string
+    rateCardId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
@@ -166769,6 +175305,7 @@ export namespace Prisma {
 
   export type RateCardItemUncheckedUpdateManyWithoutServiceTypeInput = {
     id?: StringFieldUpdateOperationsInput | string
+    rateCardId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
@@ -167004,6 +175541,46 @@ export namespace Prisma {
     hoursPerDay?: FloatFieldUpdateOperationsInput | number
     isTentative?: BoolFieldUpdateOperationsInput | boolean
     createdById?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RateCardItemCreateManyRateCardInput = {
+    id?: string
+    name: string
+    serviceTypeId?: string | null
+    billingType?: $Enums.BillingType
+    trackingUnit?: $Enums.TrackingUnit
+    defaultPrice: number
+    createdAt?: Date | string
+  }
+
+  export type RateCardItemUpdateWithoutRateCardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
+    trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
+    defaultPrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceType?: ServiceTypeUpdateOneWithoutRateCardItemsNestedInput
+  }
+
+  export type RateCardItemUncheckedUpdateWithoutRateCardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    serviceTypeId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
+    trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
+    defaultPrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RateCardItemUncheckedUpdateManyWithoutRateCardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    serviceTypeId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
+    trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
+    defaultPrice?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

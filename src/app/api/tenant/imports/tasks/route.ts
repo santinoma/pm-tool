@@ -42,7 +42,7 @@ export async function POST(request: Request) {
   const records = rowsToRecords(rows);
 
   const [statuses, users] = await Promise.all([
-    context.tenantDb.workflowStatus.findMany({ where: { projectId: projectId! } }),
+    context.tenantDb.workflowStatus.findMany({ where: { workflow: { projects: { some: { id: projectId! } } } } }),
     context.tenantDb.user.findMany({ where: { isActive: true } }),
   ]);
   const validStatusNames = statuses.map((s) => s.name);

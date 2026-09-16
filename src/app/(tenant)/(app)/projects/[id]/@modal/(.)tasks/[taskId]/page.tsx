@@ -2,7 +2,6 @@ import { redirect } from "next/navigation";
 import { getTenantContext } from "@/tenant/context";
 import { loadTaskDetail } from "../../../tasks/[taskId]/loadTaskDetail";
 import { TaskDetailClient } from "../../../tasks/[taskId]/TaskDetailClient";
-import { TaskLinksPanel } from "../../../tasks/[taskId]/TaskLinksPanel";
 import { TaskSlideOver } from "@/ui/nextelite/TaskSlideOver";
 
 export const dynamic = "force-dynamic";
@@ -33,8 +32,9 @@ export default async function TaskDetailModal({
         customFieldDefs={data.customFieldDefs}
         taskLists={data.taskLists}
         isFavorite={data.isFavorite}
+        currentUserId={context.currentUser.id}
+        linkedTasks={data.linkedTasks}
       />
-      <TaskLinksPanel taskId={taskId} links={data.linkedTasks} />
     </TaskSlideOver>
   );
 }

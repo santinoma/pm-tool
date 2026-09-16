@@ -35,7 +35,7 @@ export async function POST(request: Request) {
   }
 
   const defaultStatus = await auth.tenantDb.workflowStatus.findFirst({
-    where: { projectId: body.projectId, isDefault: true },
+    where: { workflow: { projects: { some: { id: body.projectId } } }, isDefault: true },
   });
   if (!defaultStatus) {
     return NextResponse.json({ error: "Projekt hat keinen Default-Status." }, { status: 409 });

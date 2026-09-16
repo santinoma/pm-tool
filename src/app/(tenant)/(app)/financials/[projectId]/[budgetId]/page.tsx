@@ -8,6 +8,7 @@ import { InvoicesClient } from "./InvoicesClient";
 import { RetainerBurnPanel } from "./RetainerBurnPanel";
 import { computeCurrentPeriod } from "@/tenant/retainer/period";
 import { computeSectionBurn } from "@/tenant/retainer/burn";
+import { getEffectiveRateCardItems } from "@/tenant/financials/rateCards";
 
 export const dynamic = "force-dynamic";
 
@@ -24,6 +25,8 @@ export default async function BudgetDetailPage({
   if (!(await hasProjectMemberAccess(context.tenantDb, context.currentUser, projectId))) {
     redirect("/financials");
   }
+
+  const project = await context.tenantDb.project.findUnique({ where: { id: projectId }, select: { clientId: true } });
 
   const [budget, users, invoices, serviceTypes, rateCardItems, customFieldDefs, scenarios, feedEvents, timeEntries] =
     await Promise.all([
@@ -46,7 +49,7 @@ export default async function BudgetDetailPage({
         orderBy: { createdAt: "desc" },
       }),
       context.tenantDb.serviceType.findMany({ orderBy: { name: "asc" } }),
-      context.tenantDb.rateCardItem.findMany({ include: { serviceType: true }, orderBy: { name: "asc" } }),
+      getEffectiveRateCardItems(context.tenantDb, project?.clientId ?? null),
       context.tenantDb.customFieldDef.findMany({ where: { projectId, entityType: "budget" } }),
       context.tenantDb.budget.findMany({
         where: { scenarioOfId: budgetId },

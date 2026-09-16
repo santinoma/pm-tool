@@ -18,7 +18,7 @@ beforeEach(async () => {
   const owner = await tenantDb.user.create({ data: { email: "owner-real@example.com", role: "owner" } });
   ownerId = owner.id;
 
-  const project = await tenantDb.project.create({ data: { name: "Financials Project" } });
+  const project = await tenantDb.project.create({ data: { name: "Financials Project", workflow: { create: { name: "Test Workflow" } } } });
   projectId = project.id;
 });
 
@@ -30,8 +30,16 @@ describe("rate card items", () => {
   it("stores reusable service templates independent of any budget", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
     const serviceType = await tenantDb.serviceType.create({ data: { name: "Programming" } });
+    const rateCard = await tenantDb.rateCard.create({ data: { name: "Default Rate Card" } });
     const item = await tenantDb.rateCardItem.create({
-      data: { name: "Senior Developer", serviceTypeId: serviceType.id, billingType: "time_and_materials", trackingUnit: "hours", defaultPrice: 150 },
+      data: {
+        rateCardId: rateCard.id,
+        name: "Senior Developer",
+        serviceTypeId: serviceType.id,
+        billingType: "time_and_materials",
+        trackingUnit: "hours",
+        defaultPrice: 150,
+      },
     });
     expect(item.defaultPrice).toBe(150);
     expect(item.serviceTypeId).toBe(serviceType.id);

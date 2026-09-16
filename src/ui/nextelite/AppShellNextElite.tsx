@@ -11,24 +11,30 @@ import {
   Briefcase,
   Building2,
   CalendarOff,
+  CheckCircle2,
   Clock,
   Contact2,
   FileText,
   FolderKanban,
   Gauge,
   HandCoins,
+  HelpCircle,
   Landmark,
   LayoutDashboard,
   ListChecks,
   LogOut,
+  Mail,
   Menu,
   Network,
   NotebookText,
+  Plus,
   Receipt,
   Search,
   Settings,
   ShoppingCart,
+  Square,
   Star,
+  Timer as TimerIcon,
   TrendingUp,
   Users,
   Users2,
@@ -288,6 +294,91 @@ function MobileNav({ groups, pathname, onNavigate }: { groups: NavGroup[]; pathn
         </div>
       ))}
     </nav>
+  );
+}
+
+interface RunningTimerEntry {
+  id: string;
+  startedAt: string;
+  label: string;
+}
+
+function formatElapsed(startedAt: string): string {
+  const totalSeconds = Math.max(0, Math.floor((Date.now() - new Date(startedAt).getTime()) / 1000));
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+}
+
+// Global Timer widget — reference: "Immer erreichbar in der globalen Aktionsleiste
+// (⏱) — Start/Stop unabhängig vom aktuellen Screen." Reuses the existing
+// /api/tenant/timer(/stop) endpoints the Time module already runs on.
+function GlobalTimer({ locale }: { locale: Locale }) {
+  const router = useRouter();
+  const [entry, setEntry] = useState<RunningTimerEntry | null>(null);
+  const [elapsed, setElapsed] = useState("");
+
+  useEffect(() => {
+    let cancelled = false;
+    function load() {
+      fetch("/api/tenant/timer")
+        .then((response) => (response.ok ? response.json() : { entry: null }))
+        .then((data) => {
+          if (!cancelled) setEntry(data.entry ?? null);
+        })
+        .catch(() => undefined);
+    }
+    load();
+    const pollInterval = setInterval(load, 30_000);
+    return () => {
+      cancelled = true;
+      clearInterval(pollInterval);
+    };
+  }, []);
+
+  useEffect(() => {
+    // `elapsed` is only rendered while `entry` is set (see below), so there's
+    // nothing to reset when it isn't — just don't start the ticking interval.
+    if (!entry) return;
+    const tickInterval = setInterval(() => setElapsed(formatElapsed(entry.startedAt)), 1000);
+    return () => clearInterval(tickInterval);
+  }, [entry]);
+
+  async function handleStop() {
+    await fetch("/api/tenant/timer/stop", { method: "POST" });
+    setEntry(null);
+    router.refresh();
+  }
+
+  if (entry) {
+    return (
+      <Button
+        type="button"
+        variant="outlineDestructive"
+        size="sm"
+        onClick={handleStop}
+        className="hidden font-mono tabular-nums md:inline-flex"
+        title={`${entry.label} — ${t(locale, "nav.stopTimer")}`}
+      >
+        <Square className="size-3 fill-current" />
+        {elapsed || formatElapsed(entry.startedAt)}
+      </Button>
+    );
+  }
+
+  return (
+    <Button
+      type="button"
+      variant="ghost"
+      size="icon-sm"
+      className="hidden text-muted-foreground md:inline-flex"
+      onClick={() => router.push("/time")}
+      aria-label={t(locale, "nav.startTimer")}
+      title={t(locale, "nav.startTimer")}
+    >
+      <TimerIcon className="size-4" />
+    </Button>
   );
 }
 
@@ -637,16 +728,69 @@ export function AppShellNextElite({
             </Breadcrumb>
           </div>
 
+          {/* Global action bar, reference order: Quick add / Timer / Email inbox / Approvals / Search / Help / Account. */}
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-sm"
+            className="text-muted-foreground"
+            onClick={() => window.dispatchEvent(new CustomEvent("open-command-palette", { detail: "create" }))}
+            aria-label={t(locale, "nav.quickAdd")}
+            title={t(locale, "nav.quickAdd")}
+          >
+            <Plus className="size-4" />
+          </Button>
+
+          <GlobalTimer locale={locale} />
+
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-sm"
+            disabled
+            className="hidden text-muted-foreground/50 md:inline-flex"
+            aria-label={t(locale, "nav.emailInboxComingSoon")}
+            title={t(locale, "nav.emailInboxComingSoon")}
+          >
+            <Mail className="size-4" />
+          </Button>
+
+          {isManager && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-sm"
+              className="hidden text-muted-foreground md:inline-flex"
+              asChild
+            >
+              <Link href="/approvals" aria-label={t(locale, "nav.approvals")} title={t(locale, "nav.approvals")}>
+                <CheckCircle2 className="size-4" />
+              </Link>
+            </Button>
+          )}
+
           <Button
             type="button"
             variant="ghost"
             size="icon-sm"
             className="hidden text-muted-foreground md:inline-flex"
-            onClick={() => window.dispatchEvent(new CustomEvent("open-command-palette"))}
+            onClick={() => window.dispatchEvent(new CustomEvent("open-command-palette", { detail: "search" }))}
             aria-label={t(locale, "nav.search")}
             title={t(locale, "nav.search")}
           >
             <Search className="size-4" />
+          </Button>
+
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-sm"
+            className="hidden text-muted-foreground md:inline-flex"
+            asChild
+          >
+            <Link href="/settings/organization/api-docs" aria-label={t(locale, "nav.help")} title={t(locale, "nav.help")}>
+              <HelpCircle className="size-4" />
+            </Link>
           </Button>
 
           <DropdownMenu>

@@ -25,32 +25,37 @@ describe("Project template cloning (data layer)", () => {
       data: {
         name: "Template Project",
         isTemplate: true,
-        statuses: {
-          create: [
-            { name: "Backlog", category: "not_started", position: 0, isDefault: true },
-            { name: "Review", category: "started", position: 1, isDefault: false },
-            { name: "Shipped", category: "done", position: 2, isDefault: false },
-          ],
+        workflow: {
+          create: {
+            name: "Template Workflow",
+            statuses: {
+              create: [
+                { name: "Backlog", category: "not_started", position: 0, isDefault: true },
+                { name: "Review", category: "started", position: 1, isDefault: false },
+                { name: "Shipped", category: "done", position: 2, isDefault: false },
+              ],
+            },
+          },
         },
       },
-      include: { statuses: true },
+      include: { workflow: { include: { statuses: true } } },
     });
 
-    const clonedStatuses = buildClonedStatuses(template.statuses);
+    const clonedStatuses = buildClonedStatuses(template.workflow.statuses);
     const newProject = await tenantDb.project.create({
-      data: { name: "Cloned Project", statuses: { create: clonedStatuses } },
-      include: { statuses: true },
+      data: { name: "Cloned Project", workflow: { create: { name: "Test Workflow", statuses: { create: clonedStatuses } } } },
+      include: { workflow: { include: { statuses: true } } },
     });
 
-    expect(newProject.statuses.map((s) => s.name)).toEqual(["Backlog", "Review", "Shipped"]);
-    expect(newProject.statuses[0].isDefault).toBe(true);
+    expect(newProject.workflow.statuses.map((s) => s.name)).toEqual(["Backlog", "Review", "Shipped"]);
+    expect(newProject.workflow.statuses[0].isDefault).toBe(true);
   });
 
   it("creating a project always adds the creator as a member, avoiding self-lockout", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
     const member = await tenantDb.user.create({ data: { email: "creator@example.com", role: "member" } });
     const project = await tenantDb.project.create({
-      data: { name: "Alpha", members: { create: { userId: member.id } } },
+      data: { name: "Alpha", workflow: { create: { name: "Test Workflow" } }, members: { create: { userId: member.id } } },
       include: { members: true },
     });
 

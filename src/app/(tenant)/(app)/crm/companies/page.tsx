@@ -27,6 +27,7 @@ export default async function CompaniesPage() {
           id: company.id,
           name: company.name,
           type: company.type,
+          taxId: company.taxId,
           accountOwnerLabel: company.accountOwner?.name ?? company.accountOwner?.email ?? null,
           paymentTermsDays: company.paymentTermsDays,
           archived: company.archivedAt !== null,

@@ -14,6 +14,7 @@ interface Company {
   id: string;
   name: string;
   type: string | null;
+  taxId: string | null;
   accountOwnerLabel: string | null;
   paymentTermsDays: number | null;
   archived: boolean;
@@ -114,6 +115,7 @@ export function CompaniesClient({ companies }: { companies: Company[] }) {
               <TableRow>
                 <TableHead>Name</TableHead>
                 <TableHead>Type</TableHead>
+                <TableHead>Tax ID</TableHead>
                 <TableHead>Account owner</TableHead>
                 <TableHead>Payment terms</TableHead>
                 <TableHead>Status</TableHead>
@@ -126,7 +128,7 @@ export function CompaniesClient({ companies }: { companies: Company[] }) {
                   <Fragment key={group.key}>
                     {group.label && (
                       <TableRow className="bg-muted/40 hover:bg-muted/40">
-                        <TableCell colSpan={5} className="p-0">
+                        <TableCell colSpan={6} className="p-0">
                           <button
                             type="button"
                             onClick={() => toggleGroup(group.key)}
@@ -148,6 +150,7 @@ export function CompaniesClient({ companies }: { companies: Company[] }) {
                             </Link>
                           </TableCell>
                           <TableCell className="text-muted-foreground">{company.type ? TYPE_LABELS[company.type] : "—"}</TableCell>
+                          <TableCell className="font-mono text-xs text-muted-foreground">{company.taxId ?? "—"}</TableCell>
                           <TableCell className="text-muted-foreground">{company.accountOwnerLabel ?? "—"}</TableCell>
                           <TableCell className="text-muted-foreground">
                             {company.paymentTermsDays !== null ? `${company.paymentTermsDays} Tage` : "—"}

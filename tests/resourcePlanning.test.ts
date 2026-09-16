@@ -25,25 +25,25 @@ beforeEach(async () => {
   userId = user.id;
 
   const projectA = await tenantDb.project.create({
-    data: { name: "Project A", statuses: { create: defaultWorkflowStatuses() } },
-    include: { statuses: true },
+    data: { name: "Project A", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
+    include: { workflow: { include: { statuses: true } } },
   });
   projectAId = projectA.id;
   const projectB = await tenantDb.project.create({
-    data: { name: "Project B", statuses: { create: defaultWorkflowStatuses() } },
-    include: { statuses: true },
+    data: { name: "Project B", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
+    include: { workflow: { include: { statuses: true } } },
   });
   projectBId = projectB.id;
 
   const thisWeek = getCurrentWeekRange(new Date());
   const dueThisWeek = new Date(thisWeek.start.getTime() + 24 * 60 * 60 * 1000);
   const dueNextWeek = new Date(thisWeek.end.getTime() + 24 * 60 * 60 * 1000);
-  const doneStatus = projectA.statuses.find((s) => s.category === "done")!;
+  const doneStatus = projectA.workflow.statuses.find((s) => s.category === "done")!;
 
   await tenantDb.task.create({
     data: {
       title: "Task in Project A, due this week",
-      statusId: projectA.statuses[0].id,
+      statusId: projectA.workflow.statuses[0].id,
       assigneeId: userId,
       estimatedHours: 4,
       dueDate: dueThisWeek,
@@ -53,7 +53,7 @@ beforeEach(async () => {
   await tenantDb.task.create({
     data: {
       title: "Task in Project B, due this week",
-      statusId: projectB.statuses[0].id,
+      statusId: projectB.workflow.statuses[0].id,
       assigneeId: userId,
       estimatedHours: 6,
       dueDate: dueThisWeek,
@@ -63,7 +63,7 @@ beforeEach(async () => {
   await tenantDb.task.create({
     data: {
       title: "Task without dueDate",
-      statusId: projectA.statuses[0].id,
+      statusId: projectA.workflow.statuses[0].id,
       assigneeId: userId,
       estimatedHours: 99,
       projects: { create: { projectId: projectAId } },
@@ -72,7 +72,7 @@ beforeEach(async () => {
   await tenantDb.task.create({
     data: {
       title: "Task due next week",
-      statusId: projectA.statuses[0].id,
+      statusId: projectA.workflow.statuses[0].id,
       assigneeId: userId,
       estimatedHours: 99,
       dueDate: dueNextWeek,

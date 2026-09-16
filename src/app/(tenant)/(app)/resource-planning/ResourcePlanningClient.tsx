@@ -9,6 +9,7 @@ import { Button } from "@/ui/shadcn/components/button";
 import { Checkbox } from "@/ui/shadcn/components/checkbox";
 import { Input } from "@/ui/shadcn/components/input";
 import { Label } from "@/ui/shadcn/components/label";
+import { Progress } from "@/ui/shadcn/components/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
 import { ToggleGroup, ToggleGroupItem } from "@/ui/shadcn/components/toggle-group";
@@ -274,7 +275,16 @@ export function ResourcePlanningClient({
                       </span>
                     )}
                   </TableCell>
-                  <TableCell className="text-right">{person.utilizationPercent.toFixed(0)}%</TableCell>
+                  <TableCell>
+                    <div className="flex items-center justify-end gap-2">
+                      <Progress
+                        value={Math.min(person.utilizationPercent, 100)}
+                        variant={person.utilizationPercent > 100 ? "destructive" : "success"}
+                        className="h-1.5 w-16"
+                      />
+                      <span className="w-10 text-right font-mono text-xs tabular-nums">{person.utilizationPercent.toFixed(0)}%</span>
+                    </div>
+                  </TableCell>
                   <TableCell className="text-right">
                     <Button variant="ghost" size="sm" onClick={() => setExpanded(expanded === person.id ? null : person.id)}>
                       {expanded === person.id ? "Weniger" : `${person.tasks.length} Tasks`}
@@ -421,11 +431,17 @@ export function ResourcePlanningClient({
           <TableHeader>
             <TableRow>
               <TableHead>Person / Platzhalter</TableHead>
-              {weekDays.map((day) => (
-                <TableHead key={day.toISOString()} className="text-center">
-                  {day.toLocaleDateString("de-DE", { weekday: "short", day: "2-digit", month: "2-digit" })}
-                </TableHead>
-              ))}
+              {weekDays.map((day) => {
+                const isToday = day.toDateString() === new Date().toDateString();
+                return (
+                  <TableHead
+                    key={day.toISOString()}
+                    className={cn("text-center", isToday && "bg-primary/10 text-primary")}
+                  >
+                    {day.toLocaleDateString("de-DE", { weekday: "short", day: "2-digit", month: "2-digit" })}
+                  </TableHead>
+                );
+              })}
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -437,18 +453,29 @@ export function ResourcePlanningClient({
                     {row.label}
                     {row.isPlaceholder && <span className="text-muted-foreground"> (offen)</span>}
                   </TableCell>
-                  {entries.map((entry) => (
-                    <TableCell
-                      key={entry.date.toISOString()}
-                      className={cn(
-                        "text-center",
-                        entry.isTentative && "border-dashed",
-                        entry.bookedHours > 0 && (entry.isOver ? "bg-destructive/10 text-destructive" : "bg-success/10 text-success"),
-                      )}
-                    >
-                      {entry.bookedHours > 0 ? `${entry.bookedHours}h` : "—"}
-                    </TableCell>
-                  ))}
+                  {entries.map((entry) => {
+                    const isToday = entry.date.toDateString() === new Date().toDateString();
+                    return (
+                      <TableCell key={entry.date.toISOString()} className={cn("text-center", isToday && "bg-primary/5")}>
+                        {entry.bookedHours > 0 ? (
+                          // Reference §05: the row bar's RAG color encodes day-level over-/under-booking.
+                          <span
+                            className={cn(
+                              "inline-flex min-w-12 items-center justify-center rounded-full border px-2 py-0.5 font-mono text-xs tabular-nums",
+                              entry.isTentative && "border-dashed",
+                              entry.isOver
+                                ? "border-destructive/30 bg-destructive/10 text-destructive"
+                                : "border-success/30 bg-success/10 text-success",
+                            )}
+                          >
+                            {entry.bookedHours}h
+                          </span>
+                        ) : (
+                          <span className="text-muted-foreground">—</span>
+                        )}
+                      </TableCell>
+                    );
+                  })}
                 </TableRow>
               );
             })}

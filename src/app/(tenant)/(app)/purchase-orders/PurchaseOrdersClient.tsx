@@ -181,7 +181,7 @@ export function PurchaseOrdersClient({ projects, purchaseOrders }: { projects: P
                 <TableHead>Status</TableHead>
                 <TableHead>Sent status</TableHead>
                 <TableHead>Payment status</TableHead>
-                <TableHead>Betrag</TableHead>
+                <TableHead className="text-right">Betrag</TableHead>
                 <TableHead>Datum</TableHead>
               </TableRow>
             </TableHeader>
@@ -199,7 +199,7 @@ export function PurchaseOrdersClient({ projects, purchaseOrders }: { projects: P
                   <TableCell>
                     <LegendKey label={PAYMENT_STATUS_LABELS[po.paymentStatus]} variant={PAYMENT_STATUS_VARIANT[po.paymentStatus]} />
                   </TableCell>
-                  <TableCell className="text-muted-foreground">{po.amount.toFixed(2)}</TableCell>
+                  <TableCell className="text-right font-mono tabular-nums text-muted-foreground">{po.amount.toFixed(2)}</TableCell>
                   <TableCell className="text-muted-foreground">{new Date(po.orderedAt).toLocaleDateString("de-DE")}</TableCell>
                 </TableRow>
               ))}

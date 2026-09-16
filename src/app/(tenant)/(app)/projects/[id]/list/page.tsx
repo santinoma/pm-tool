@@ -24,12 +24,15 @@ export default async function ListPage({ params }: { params: Promise<{ id: strin
         ],
       },
       include: { status: true, assignee: true },
-      orderBy: { createdAt: "desc" },
+      orderBy: { position: "asc" },
     }),
     canManage
       ? context.tenantDb.sharedView.findMany({ where: { projectId: id }, orderBy: { createdAt: "desc" } })
       : Promise.resolve([]),
-    context.tenantDb.workflowStatus.findMany({ where: { projectId: id }, orderBy: { position: "asc" } }),
+    context.tenantDb.workflowStatus.findMany({
+      where: { workflow: { projects: { some: { id } } } },
+      orderBy: { position: "asc" },
+    }),
     context.tenantDb.user.findMany({ where: { isActive: true }, orderBy: { createdAt: "asc" } }),
     context.tenantDb.customFieldDef.findMany({ where: { projectId: id, entityType: "task" } }),
     context.tenantDb.taskFolder.findMany({

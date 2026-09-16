@@ -107,6 +107,9 @@ export default async function TimePage() {
         description: entry.description,
         approvalStatus: entry.approvalStatus,
         locked: isDateLocked(getEntryDate(entry), myLocks),
+        date: getEntryDate(entry).toISOString(),
+        taskId: entry.taskId,
+        projectId: entry.projectId,
       }))}
       pendingEntries={pendingEntries.map((entry) => ({
         id: entry.id,

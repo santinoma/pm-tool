@@ -94,7 +94,7 @@ export function InvoicesClient({ invoices }: { invoices: InvoiceRow[] }) {
                 <TableHead>Projekt</TableHead>
                 <TableHead>Budget</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead>Betrag</TableHead>
+                <TableHead className="text-right">Betrag</TableHead>
                 <TableHead>Erstellt</TableHead>
               </TableRow>
             </TableHeader>
@@ -131,7 +131,7 @@ export function InvoicesClient({ invoices }: { invoices: InvoiceRow[] }) {
                           </TableCell>
                           <TableCell className="text-muted-foreground">{invoice.budgetTitle}</TableCell>
                           <TableCell className="text-muted-foreground">{invoice.status}</TableCell>
-                          <TableCell className="text-muted-foreground">{invoice.totalAmount.toFixed(2)}</TableCell>
+                          <TableCell className="text-right font-mono tabular-nums text-muted-foreground">{invoice.totalAmount.toFixed(2)}</TableCell>
                           <TableCell className="text-muted-foreground">
                             {new Date(invoice.createdAt).toLocaleDateString("de-DE")}
                           </TableCell>

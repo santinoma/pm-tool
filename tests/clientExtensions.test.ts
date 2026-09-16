@@ -94,9 +94,9 @@ describe("client — activity feed", () => {
   it("aggregates activity events across multiple projects of the same client", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
     const client = await tenantDb.client.create({ data: { name: "Gamma Inc" } });
-    const projectOne = await tenantDb.project.create({ data: { name: "Project One", clientId: client.id } });
-    const projectTwo = await tenantDb.project.create({ data: { name: "Project Two", clientId: client.id } });
-    const unrelatedProject = await tenantDb.project.create({ data: { name: "Unrelated Project" } });
+    const projectOne = await tenantDb.project.create({ data: { name: "Project One", client: { connect: { id: client.id } }, workflow: { create: { name: "Test Workflow" } } } });
+    const projectTwo = await tenantDb.project.create({ data: { name: "Project Two", client: { connect: { id: client.id } }, workflow: { create: { name: "Test Workflow" } } } });
+    const unrelatedProject = await tenantDb.project.create({ data: { name: "Unrelated Project", workflow: { create: { name: "Test Workflow" } } } });
 
     await tenantDb.activityEvent.create({
       data: { projectId: projectOne.id, actorId: userId, type: "task_created", summary: "Task A erstellt" },

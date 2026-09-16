@@ -14,7 +14,7 @@ export default async function BoardPage({ params }: { params: Promise<{ id: stri
 
   const [statuses, tasks, users, customFields, templates] = await Promise.all([
     context.tenantDb.workflowStatus.findMany({
-      where: { projectId: id },
+      where: { workflow: { projects: { some: { id } } } },
       orderBy: { position: "asc" },
     }),
     context.tenantDb.task.findMany({
@@ -25,6 +25,7 @@ export default async function BoardPage({ params }: { params: Promise<{ id: stri
         ],
       },
       include: { assignee: true },
+      orderBy: { position: "asc" },
     }),
     context.tenantDb.user.findMany({ where: { isActive: true }, orderBy: { createdAt: "asc" } }),
     context.tenantDb.customFieldDef.findMany({ where: { projectId: id, entityType: "task" } }),
@@ -42,7 +43,11 @@ export default async function BoardPage({ params }: { params: Promise<{ id: stri
         id: task.id,
         title: task.title,
         statusId: task.statusId,
+        position: task.position,
         assignee: task.assignee?.name ?? task.assignee?.email ?? null,
+        priority: task.priority,
+        tShirtSize: task.tShirtSize,
+        estimatedHours: task.estimatedHours,
       }))}
       users={users.map((user) => ({ id: user.id, label: user.name ?? user.email }))}
       customFields={customFields.map((field) => ({

@@ -42,12 +42,12 @@ beforeEach(async () => {
 
   owner = await tenantDb.user.create({ data: { email: "owner@example.com", role: "owner" } });
   const project = await tenantDb.project.create({
-    data: { name: "Manual Entry Project", statuses: { create: defaultWorkflowStatuses() } },
-    include: { statuses: true },
+    data: { name: "Manual Entry Project", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
+    include: { workflow: { include: { statuses: true } } },
   });
   projectId = project.id;
   const task = await tenantDb.task.create({
-    data: { title: "Task", statusId: project.statuses[0].id, projects: { create: { projectId } } },
+    data: { title: "Task", statusId: project.workflow.statuses[0].id, projects: { create: { projectId } } },
   });
   taskId = task.id;
   setCurrentUser(owner);

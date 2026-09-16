@@ -6,6 +6,12 @@ http://admin.localhost, http://localhost {
 	reverse_proxy app:3000
 }
 
+# Postgres web UI (Adminer) — kept out of the tenant-subdomain wildcard below
+# so it doesn't get mistaken for a tenant.
+http://db.localhost {
+	reverse_proxy adminer:8080
+}
+
 http://*.localhost {
 	reverse_proxy app:3000
 }

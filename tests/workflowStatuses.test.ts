@@ -22,10 +22,10 @@ describe("workflow status deletion guard", () => {
   it("prevents deleting a status that still has tasks (via count check, mirrors the API route)", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
     const project = await tenantDb.project.create({
-      data: { name: "Guarded Project", statuses: { create: defaultWorkflowStatuses() } },
-      include: { statuses: true },
+      data: { name: "Guarded Project", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
+      include: { workflow: { include: { statuses: true } } },
     });
-    const status = project.statuses[0];
+    const status = project.workflow.statuses[0];
 
     await tenantDb.task.create({
       data: { title: "Blocking task", statusId: status.id, projects: { create: { projectId: project.id } } },
@@ -38,16 +38,16 @@ describe("workflow status deletion guard", () => {
   it("allows deleting a status with no tasks", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
     const project = await tenantDb.project.create({
-      data: { name: "Deletable Status Project", statuses: { create: defaultWorkflowStatuses() } },
-      include: { statuses: true },
+      data: { name: "Deletable Status Project", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
+      include: { workflow: { include: { statuses: true } } },
     });
-    const status = project.statuses[2];
+    const status = project.workflow.statuses[2];
 
     const taskCount = await tenantDb.task.count({ where: { statusId: status.id } });
     expect(taskCount).toBe(0);
 
     await tenantDb.workflowStatus.delete({ where: { id: status.id } });
-    const remaining = await tenantDb.workflowStatus.findMany({ where: { projectId: project.id } });
+    const remaining = await tenantDb.workflowStatus.findMany({ where: { workflowId: project.workflowId } });
     expect(remaining).toHaveLength(2);
   });
 });

@@ -23,7 +23,7 @@ describe("custom fields", () => {
   it("defines all four field types on a project", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
     const project = await tenantDb.project.create({
-      data: { name: "CF Project", statuses: { create: defaultWorkflowStatuses() } },
+      data: { name: "CF Project", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
     });
 
     const fields = await Promise.all([
@@ -53,8 +53,8 @@ describe("custom fields", () => {
   it("sets and upserts a value on a task, validated against its type", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
     const project = await tenantDb.project.create({
-      data: { name: "Value Project", statuses: { create: defaultWorkflowStatuses() } },
-      include: { statuses: true },
+      data: { name: "Value Project", workflow: { create: { name: "Test Workflow", statuses: { create: defaultWorkflowStatuses() } } } },
+      include: { workflow: { include: { statuses: true } } },
     });
     const field = await tenantDb.customFieldDef.create({
       data: {
@@ -68,7 +68,7 @@ describe("custom fields", () => {
     const task = await tenantDb.task.create({
       data: {
         title: "Task with CF",
-        statusId: project.statuses[0].id,
+        statusId: project.workflow.statuses[0].id,
         projects: { create: { projectId: project.id } },
       },
     });

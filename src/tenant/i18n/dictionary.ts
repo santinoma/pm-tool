@@ -34,6 +34,15 @@ const STRINGS = {
   "nav.reportsProgress": { de: "Fortschritt", en: "Progress" },
   "nav.reportsBuilder": { de: "Berichte erstellen", en: "Create report" },
   "nav.nothingRecent": { de: "Nichts Aktuelles.", en: "Nothing recent." },
+  // Nav — global action bar (reference: Quick add / Timer / Email Inbox / Approvals / Search / Help / Account)
+  "nav.quickAdd": { de: "Schnell hinzufügen", en: "Quick add" },
+  "nav.timer": { de: "Timer", en: "Timer" },
+  "nav.startTimer": { de: "Timer starten", en: "Start timer" },
+  "nav.stopTimer": { de: "Timer stoppen", en: "Stop timer" },
+  "nav.emailInbox": { de: "E-Mail-Postfach", en: "Email inbox" },
+  "nav.emailInboxComingSoon": { de: "E-Mail-Postfach — bald verfügbar", en: "Email inbox — coming soon" },
+  "nav.approvals": { de: "Freigaben", en: "Approvals" },
+  "nav.help": { de: "Hilfe", en: "Help" },
 
   // Nav — Projektmanagement sub-items + recent panels
   "nav.tasks": { de: "Tasks", en: "Tasks" },
@@ -148,7 +157,7 @@ const STRINGS = {
   "settings.serviceTypes.title": { de: "Leistungstypen", en: "Service types" },
   "settings.serviceTypes.desc": { de: "Verwalte Leistungstypen, die dein Unternehmen anbietet.", en: "Manage the service types your company offers." },
   "settings.rateCards.title": { de: "Rate Cards", en: "Rate cards" },
-  "settings.rateCards.desc": { de: "Wiederverwendbare Service-Vorlagen für Budgets.", en: "Reusable service templates for budgets." },
+  "settings.rateCards.desc": { de: "Benannte Preis-Kataloge für Budgets, optional pro Company.", en: "Named pricing catalogs for budgets, optionally per company." },
   "settings.holidayCalendars.title": { de: "Feiertagskalender", en: "Holiday calendars" },
   "settings.holidayCalendars.desc": { de: "Feiertagskalender anlegen und Mitgliedern zuweisen.", en: "Create holiday calendars and assign them to members." },
   "settings.recycleBin.title": { de: "Papierkorb", en: "Recycle bin" },
@@ -158,6 +167,8 @@ const STRINGS = {
   "settings.modules.desc": { de: "CRM, Reports und Resourcing organisationsweit aktivieren oder deaktivieren.", en: "Enable or disable CRM, Reports and Resourcing organization-wide." },
   "settings.workflows.title": { de: "Workflows", en: "Workflows" },
   "settings.workflows.desc": { de: "Erstelle und bearbeite Gruppen von Task-Status.", en: "Create and edit groups of task statuses." },
+  "settings.pipelines.title": { de: "Pipelines", en: "Pipelines" },
+  "settings.pipelines.desc": { de: "Verwalte Sales-Pipelines, Stages und Lost-Reasons.", en: "Manage sales pipelines, stages, and lost reasons." },
   "settings.automations.title": { de: "Automatisierungen", en: "Automations" },
   "settings.automations.desc": { de: "Erstelle Automationen für Updates, Benachrichtigungen oder Zuweisungen.", en: "Create automations for updates, notifications, or assignments." },
   "settings.webhooks.title": { de: "Webhooks", en: "Webhooks" },

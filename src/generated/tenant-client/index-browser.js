@@ -167,15 +167,42 @@ exports.Prisma.ClientContactScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.PipelineScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  archived: 'archived',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.DealStatusScalarFieldEnum = {
+  id: 'id',
+  pipelineId: 'pipelineId',
+  name: 'name',
+  category: 'category',
+  position: 'position',
+  defaultProbability: 'defaultProbability',
+  trackTime: 'trackTime',
+  trackExpenses: 'trackExpenses',
+  createBookings: 'createBookings'
+};
+
+exports.Prisma.LostReasonScalarFieldEnum = {
+  id: 'id',
+  label: 'label',
+  archived: 'archived',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.DealScalarFieldEnum = {
   id: 'id',
   title: 'title',
   companyId: 'companyId',
-  stage: 'stage',
+  statusId: 'statusId',
   ownerId: 'ownerId',
   estimatedValue: 'estimatedValue',
   probability: 'probability',
-  lostReason: 'lostReason',
+  lostReasonId: 'lostReasonId',
+  lostReasonNote: 'lostReasonNote',
   projectId: 'projectId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -282,6 +309,7 @@ exports.Prisma.ProjectScalarFieldEnum = {
   timeApprovalRequired: 'timeApprovalRequired',
   expenseApprovalRequired: 'expenseApprovalRequired',
   createdAt: 'createdAt',
+  workflowId: 'workflowId',
   portfolioId: 'portfolioId',
   clientId: 'clientId',
   projectManagerId: 'projectManagerId'
@@ -378,9 +406,16 @@ exports.Prisma.SavedViewScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.WorkflowScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  archived: 'archived',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.WorkflowStatusScalarFieldEnum = {
   id: 'id',
-  projectId: 'projectId',
+  workflowId: 'workflowId',
   name: 'name',
   category: 'category',
   position: 'position',
@@ -393,6 +428,7 @@ exports.Prisma.TaskScalarFieldEnum = {
   description: 'description',
   externalSourceUrl: 'externalSourceUrl',
   statusId: 'statusId',
+  position: 'position',
   priority: 'priority',
   tShirtSize: 'tShirtSize',
   assigneeId: 'assigneeId',
@@ -813,8 +849,17 @@ exports.Prisma.BudgetSectionScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.RateCardScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  clientId: 'clientId',
+  archived: 'archived',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.RateCardItemScalarFieldEnum = {
   id: 'id',
+  rateCardId: 'rateCardId',
   name: 'name',
   serviceTypeId: 'serviceTypeId',
   billingType: 'billingType',
@@ -978,10 +1023,8 @@ exports.ClientType = exports.$Enums.ClientType = {
   recruitment: 'recruitment'
 };
 
-exports.DealStage = exports.$Enums.DealStage = {
-  lead: 'lead',
-  qualified: 'qualified',
-  proposal: 'proposal',
+exports.DealStatusCategory = exports.$Enums.DealStatusCategory = {
+  open: 'open',
   won: 'won',
   lost: 'lost'
 };
@@ -1170,6 +1213,9 @@ exports.Prisma.ModelName = {
   User: 'User',
   Client: 'Client',
   ClientContact: 'ClientContact',
+  Pipeline: 'Pipeline',
+  DealStatus: 'DealStatus',
+  LostReason: 'LostReason',
   Deal: 'Deal',
   ProjectMember: 'ProjectMember',
   CustomRole: 'CustomRole',
@@ -1192,6 +1238,7 @@ exports.Prisma.ModelName = {
   TransitionRule: 'TransitionRule',
   SharedView: 'SharedView',
   SavedView: 'SavedView',
+  Workflow: 'Workflow',
   WorkflowStatus: 'WorkflowStatus',
   Task: 'Task',
   Tag: 'Tag',
@@ -1234,6 +1281,7 @@ exports.Prisma.ModelName = {
   Budget: 'Budget',
   ServiceType: 'ServiceType',
   BudgetSection: 'BudgetSection',
+  RateCard: 'RateCard',
   RateCardItem: 'RateCardItem',
   Invoice: 'Invoice',
   InvoiceLineItem: 'InvoiceLineItem',

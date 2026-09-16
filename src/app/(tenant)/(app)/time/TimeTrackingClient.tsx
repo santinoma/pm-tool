@@ -8,6 +8,8 @@ import { Button } from "@/ui/shadcn/components/button";
 import { Input } from "@/ui/shadcn/components/input";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/shadcn/components/tabs";
+import { TimesheetMatrixClient } from "./TimesheetMatrixClient";
 
 interface ProjectOption {
   id: string;
@@ -22,6 +24,9 @@ interface EntryRow {
   description: string | null;
   approvalStatus: "pending" | "approved" | "rejected";
   locked: boolean;
+  date: string;
+  taskId: string | null;
+  projectId: string | null;
 }
 
 interface PendingEntryRow {
@@ -208,7 +213,22 @@ export function TimeTrackingClient({
   }
 
   return (
-    <div className="pb-10">
+    <Tabs defaultValue="overview" className="pb-10">
+      {/* Reference §02: Day/Timesheet/Calendar/Work log as tabs on the same
+          Time Entry data. This app's "timer" tracking mode only had the
+          Work-log-style flat list before; Timesheet is new, Day/Calendar
+          live under the separate "entries" tracking mode (see
+          TenantSettings.timeTrackingMode) and aren't merged in here. */}
+      <TabsList className="mb-6">
+        <TabsTrigger value="overview">Übersicht</TabsTrigger>
+        <TabsTrigger value="timesheet">Timesheet</TabsTrigger>
+      </TabsList>
+
+      <TabsContent value="timesheet">
+        <TimesheetMatrixClient projects={projects} entries={entries} allowProjectLevelTimeEntries={allowProjectLevelTimeEntries} />
+      </TabsContent>
+
+      <TabsContent value="overview">
       {runningEntry ? (
         <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-primary/40 bg-primary/5 px-5 py-4">
           <span className="text-sm">
@@ -359,6 +379,7 @@ export function TimeTrackingClient({
           {lockError && <p className="text-sm text-destructive">{lockError}</p>}
         </>
       )}
-    </div>
+      </TabsContent>
+    </Tabs>
   );
 }

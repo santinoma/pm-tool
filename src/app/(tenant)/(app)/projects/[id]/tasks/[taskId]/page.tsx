@@ -2,7 +2,6 @@ import { redirect } from "next/navigation";
 import { getTenantContext } from "@/tenant/context";
 import { loadTaskDetail } from "./loadTaskDetail";
 import { TaskDetailClient } from "./TaskDetailClient";
-import { TaskLinksPanel } from "./TaskLinksPanel";
 
 export const dynamic = "force-dynamic";
 
@@ -23,17 +22,16 @@ export default async function TaskDetailPage({
   }
 
   return (
-    <>
-      <TaskDetailClient
-        projectId={id}
-        task={data.task}
-        statuses={data.statuses}
-        users={data.users}
-        customFieldDefs={data.customFieldDefs}
-        taskLists={data.taskLists}
-        isFavorite={data.isFavorite}
-      />
-      <TaskLinksPanel taskId={taskId} links={data.linkedTasks} />
-    </>
+    <TaskDetailClient
+      projectId={id}
+      task={data.task}
+      statuses={data.statuses}
+      users={data.users}
+      customFieldDefs={data.customFieldDefs}
+      taskLists={data.taskLists}
+      isFavorite={data.isFavorite}
+      currentUserId={context.currentUser.id}
+      linkedTasks={data.linkedTasks}
+    />
   );
 }

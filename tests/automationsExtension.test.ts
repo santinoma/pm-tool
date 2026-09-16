@@ -22,13 +22,13 @@ beforeEach(async () => {
   const owner = await tenantDb.user.create({ data: { email: "owner-real@example.com", role: "owner" } });
   ownerId = owner.id;
 
-  const project = await tenantDb.project.create({ data: { name: "Project" } });
+  const project = await tenantDb.project.create({ data: { name: "Project", workflow: { create: { name: "Test Workflow" } } } });
   projectId = project.id;
   const todo = await tenantDb.workflowStatus.create({
-    data: { projectId, name: "Todo", category: "not_started", position: 0, isDefault: true },
+    data: { workflowId: project.workflowId, name: "Todo", category: "not_started", position: 0, isDefault: true },
   });
   const done = await tenantDb.workflowStatus.create({
-    data: { projectId, name: "Done", category: "done", position: 1 },
+    data: { workflowId: project.workflowId, name: "Done", category: "done", position: 1 },
   });
   todoStatusId = todo.id;
   doneStatusId = done.id;

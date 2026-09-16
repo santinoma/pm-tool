@@ -66,12 +66,14 @@
   --input: #e7e3f0;
   --ring: #6c58e0;
 
-  /* Chart Colors */
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  /* Chart Colors — reference: "Konsistente Farb-/Legenden-Sprache über alle
+     Widgets (dieselbe Palette wie Inline-Donuts der Listen)". Reuses the
+     Accent + RAG + Info tokens rather than an unrelated rainbow palette. */
+  --chart-1: var(--primary);
+  --chart-2: var(--success);
+  --chart-3: var(--info);
+  --chart-4: var(--warning);
+  --chart-5: var(--destructive);
 
   /* Sidebar Colors */
   --sidebar: oklch(0.985 0 0);
@@ -160,12 +162,12 @@
   --input: #29242f;
   --ring: #8a78ef;
 
-  /* Chart Colors */
-  --chart-1: oklch(0.68 0.2 275);
-  --chart-2: oklch(0.72 0.17 162);
-  --chart-3: oklch(0.78 0.14 70);
-  --chart-4: oklch(0.65 0.22 303);
-  --chart-5: oklch(0.68 0.2 16);
+  /* Chart Colors — same Accent + RAG + Info reuse as light mode. */
+  --chart-1: var(--primary);
+  --chart-2: var(--success);
+  --chart-3: var(--info);
+  --chart-4: var(--warning);
+  --chart-5: var(--destructive);
 
   /* Sidebar Colors */
   --sidebar: #09090b;

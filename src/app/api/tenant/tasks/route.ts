@@ -5,6 +5,7 @@ import { getOrCreateTenantSettings } from "@/tenant/timeTracking/tenantSettings"
 import { resolveInitialTriageState } from "@/tenant/projects/triageState";
 import { assertSingleProjectAccess } from "@/tenant/projectAccess/assertProjectAccess";
 import { applyTaskTemplateContent, resolveTaskTemplate } from "@/tenant/tasks/taskTemplates";
+import { nextAppendPosition } from "@/tenant/tasks/position";
 
 export async function GET(request: Request) {
   const context = await getTenantContext();
@@ -22,7 +23,7 @@ export async function GET(request: Request) {
   const tasks = await context.tenantDb.task.findMany({
     where: { projects: { some: { projectId } } },
     include: { status: true, assignee: true },
-    orderBy: { createdAt: "desc" },
+    orderBy: { position: "asc" },
   });
   return NextResponse.json({ tasks });
 }
@@ -55,10 +56,12 @@ export async function POST(request: Request) {
 
   const [requestedStatus, defaultStatus, settings] = await Promise.all([
     typeof body.statusId === "string"
-      ? context.tenantDb.workflowStatus.findFirst({ where: { id: body.statusId, projectId: body.projectId } })
+      ? context.tenantDb.workflowStatus.findFirst({
+          where: { id: body.statusId, workflow: { projects: { some: { id: body.projectId } } } },
+        })
       : Promise.resolve(null),
     context.tenantDb.workflowStatus.findFirst({
-      where: { projectId: body.projectId, isDefault: true },
+      where: { workflow: { projects: { some: { id: body.projectId } } }, isDefault: true },
     }),
     getOrCreateTenantSettings(context.tenantDb),
   ]);
@@ -70,12 +73,15 @@ export async function POST(request: Request) {
     );
   }
 
+  const position = await nextAppendPosition(context.tenantDb, resolvedStatus.id);
+
   const task = await context.tenantDb.task.create({
     data: {
       title: hasExplicitTitle ? body.title : template!.title,
       description:
         typeof body.description === "string" ? body.description : (template?.description ?? null),
       statusId: resolvedStatus.id,
+      position,
       assigneeId: typeof body.assigneeId === "string" ? body.assigneeId : null,
       startDate: typeof body.startDate === "string" ? new Date(body.startDate) : null,
       dueDate: typeof body.dueDate === "string" ? new Date(body.dueDate) : null,
