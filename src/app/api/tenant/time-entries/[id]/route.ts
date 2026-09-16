@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
 import { canManageMembers } from "@/tenant/auth/roleGuard";
 import { getEntryDate, findCoveringLock } from "@/tenant/timeTracking/approval";
+import { resolveTimeApprovalContext } from "@/tenant/timeTracking/approvalPolicy";
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -16,6 +17,9 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   }
   if (existing.userId !== context.currentUser.id && !canManageMembers(context.currentUser.role)) {
     return NextResponse.json({ error: "Keine Berechtigung." }, { status: 403 });
+  }
+  if (existing.approvalStatus === "approved") {
+    return NextResponse.json({ error: "Freigegebene Zeiteinträge können nicht mehr geändert werden." }, { status: 409 });
   }
 
   const locks = await context.tenantDb.timesheetLock.findMany({ where: { userId: existing.userId } });
@@ -39,6 +43,26 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     return NextResponse.json({ error: "Ende muss nach dem Start liegen." }, { status: 400 });
   }
 
+  const changesTarget = typeof body.taskId === "string" || typeof body.projectId === "string";
+
+  // Editing a rejected ("Änderung angefordert") entry is how the submitter
+  // acts on it: fixing it and saving sends it straight back into the
+  // approval queue, mirroring the batch "Woche einreichen" resubmit flow —
+  // no separate manual submit step is required.
+  const wasRejected = existing.approvalStatus === "rejected";
+  let resubmitData: Record<string, unknown> = {};
+  if (wasRejected) {
+    // Same per-budget "no approval required" resolution the batch "Woche
+    // einreichen" resubmit flow uses, so an edited entry doesn't get stuck
+    // pending when its budget's policy would have auto-approved it anyway.
+    const approvalContext = existing.budgetSectionId ? await resolveTimeApprovalContext(context.tenantDb, id) : null;
+    const now = new Date();
+    resubmitData =
+      approvalContext?.mode === "none"
+        ? { approvalStatus: "approved", submittedAt: now, approvedAt: now, rejectionReason: null }
+        : { approvalStatus: "pending", submittedAt: now, rejectionReason: null, approvedById: null, approvedAt: null };
+  }
+
   const entry = await context.tenantDb.timeEntry.update({
     where: { id },
     data: {
@@ -51,6 +75,10 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
             : undefined,
       startedAt,
       endedAt,
+      ...(typeof body.taskId === "string" ? { taskId: body.taskId, projectId: null } : {}),
+      ...(typeof body.projectId === "string" ? { projectId: body.projectId, taskId: null } : {}),
+      ...(changesTarget ? { budgetSectionId: null } : {}),
+      ...resubmitData,
     },
   });
   return NextResponse.json({ entry });
@@ -69,6 +97,9 @@ export async function DELETE(_request: Request, { params }: { params: Promise<{ 
   }
   if (existing.userId !== context.currentUser.id && !canManageMembers(context.currentUser.role)) {
     return NextResponse.json({ error: "Keine Berechtigung." }, { status: 403 });
+  }
+  if (existing.approvalStatus === "approved") {
+    return NextResponse.json({ error: "Freigegebene Zeiteinträge können nicht mehr gelöscht werden." }, { status: 409 });
   }
 
   const locks = await context.tenantDb.timesheetLock.findMany({ where: { userId: existing.userId } });

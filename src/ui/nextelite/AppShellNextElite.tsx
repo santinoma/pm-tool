@@ -382,6 +382,38 @@ function GlobalTimer({ locale }: { locale: Locale }) {
   );
 }
 
+function ApprovalsBadge() {
+  const pathname = usePathname();
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let cancelled = false;
+    function load() {
+      fetch("/api/tenant/approvals/pending-count")
+        .then((response) => (response.ok ? response.json() : { count: 0 }))
+        .then((data) => {
+          if (!cancelled) setCount(data.count ?? 0);
+        })
+        .catch(() => undefined);
+    }
+    load();
+    const pollInterval = setInterval(load, 30_000);
+    return () => {
+      cancelled = true;
+      clearInterval(pollInterval);
+    };
+    // Re-poll immediately on navigation too, so approving/rejecting from the
+    // inbox and coming back updates the badge without waiting for the timer.
+  }, [pathname]);
+
+  if (count <= 0) return null;
+  return (
+    <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-destructive px-1 text-[10px] font-semibold leading-none text-destructive-foreground">
+      {count > 99 ? "99+" : count}
+    </span>
+  );
+}
+
 export function AppShellNextElite({
   currentUser,
   entitledFeatures = [],
@@ -760,11 +792,12 @@ export function AppShellNextElite({
               type="button"
               variant="ghost"
               size="icon-sm"
-              className="hidden text-muted-foreground md:inline-flex"
+              className="relative hidden text-muted-foreground md:inline-flex"
               asChild
             >
               <Link href="/approvals" aria-label={t(locale, "nav.approvals")} title={t(locale, "nav.approvals")}>
                 <CheckCircle2 className="size-4" />
+                <ApprovalsBadge />
               </Link>
             </Button>
           )}

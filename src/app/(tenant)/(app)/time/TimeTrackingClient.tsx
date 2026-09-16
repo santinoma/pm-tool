@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { CheckCircle2 } from "lucide-react";
 
 import { Badge } from "@/ui/shadcn/components/badge";
 import { Button } from "@/ui/shadcn/components/button";
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/ui/shadcn/components/dialog";
 import { Input } from "@/ui/shadcn/components/input";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
@@ -23,6 +25,7 @@ interface EntryRow {
   durationMinutes: number;
   description: string | null;
   approvalStatus: "pending" | "approved" | "rejected";
+  approvedByLabel: string | null;
   submitted: boolean;
   rejectionReason: string | null;
   locked: boolean;
@@ -106,6 +109,12 @@ export function TimeTrackingClient({
   const [lockError, setLockError] = useState<string | null>(null);
   const [submissionError, setSubmissionError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [editingEntry, setEditingEntry] = useState<EntryRow | null>(null);
+  const [editTarget, setEditTarget] = useState("__none__");
+  const [editDuration, setEditDuration] = useState("");
+  const [editDescription, setEditDescription] = useState("");
+  const [editError, setEditError] = useState<string | null>(null);
+  const [editSaving, setEditSaving] = useState(false);
 
   const { weekStart, weekEnd } = startOfWeekIso();
   const thisWeekEntries = entries.filter((entry) => entry.date >= weekStart && entry.date <= weekEnd);
@@ -207,6 +216,44 @@ export function TimeTrackingClient({
       setSubmissionError(body.error ?? "Woche konnte nicht zurückgezogen werden.");
       return;
     }
+    router.refresh();
+  }
+
+  function openEditDialog(entry: EntryRow) {
+    setEditingEntry(entry);
+    setEditTarget(entry.taskId ? `task:${entry.taskId}` : entry.projectId ? `project:${entry.projectId}` : "__none__");
+    setEditDuration(String(entry.durationMinutes));
+    setEditDescription(entry.description ?? "");
+    setEditError(null);
+  }
+
+  // Same fields as "Manueller Eintrag" above, reused for editing a rejected
+  // entry: saving here fixes the entry and resubmits it into the approval
+  // queue in one step (the server resets approvalStatus back to "pending").
+  async function handleEditSave() {
+    if (!editingEntry) return;
+    setEditError(null);
+    if (editTarget === "__none__") {
+      setEditError("Bitte einen Task oder ein Projekt auswählen.");
+      return;
+    }
+    setEditSaving(true);
+    const response = await fetch(`/api/tenant/time-entries/${editingEntry.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...parseTarget(editTarget),
+        durationMinutes: Number(editDuration),
+        description: editDescription,
+      }),
+    });
+    setEditSaving(false);
+    if (!response.ok) {
+      const body = await response.json();
+      setEditError(body.error ?? "Eintrag konnte nicht gespeichert werden.");
+      return;
+    }
+    setEditingEntry(null);
     router.refresh();
   }
 
@@ -339,6 +386,7 @@ export function TimeTrackingClient({
               <TableHead>Dauer</TableHead>
               <TableHead>Beschreibung</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead />
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -361,11 +409,23 @@ export function TimeTrackingClient({
                       {entry.submitted && (
                         <Badge variant={APPROVAL_BADGE_VARIANT[entry.approvalStatus]}>{APPROVAL_LABEL[entry.approvalStatus]}</Badge>
                       )}
+                      {entry.approvalStatus === "approved" && (
+                        <span title={entry.approvedByLabel ? `Freigegeben von ${entry.approvedByLabel}` : "Freigegeben"}>
+                          <CheckCircle2 aria-label="Freigegeben" className="h-4 w-4 text-green-600" />
+                        </span>
+                      )}
                       {entry.locked && <Badge variant="warningOutline">Gesperrt</Badge>}
                       {needsChanges && entry.rejectionReason && (
                         <span className="text-xs text-muted-foreground">— {entry.rejectionReason}</span>
                       )}
                     </div>
+                  </TableCell>
+                  <TableCell>
+                    {needsChanges && (
+                      <Button size="sm" variant="outline" onClick={() => openEditDialog(entry)}>
+                        Bearbeiten
+                      </Button>
+                    )}
                   </TableCell>
                 </TableRow>
               );
@@ -373,6 +433,57 @@ export function TimeTrackingClient({
           </TableBody>
         </Table>
       </div>
+
+      {editingEntry && (
+        <Dialog open onOpenChange={(open) => !open && setEditingEntry(null)}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Zeiteintrag bearbeiten</DialogTitle>
+            </DialogHeader>
+
+            <Select value={editTarget} onValueChange={setEditTarget}>
+              <SelectTrigger className="w-full"><SelectValue placeholder="Task/Projekt wählen…" /></SelectTrigger>
+              <SelectContent>
+                {projects.map((project) => (
+                  <SelectGroup key={project.id}>
+                    <SelectLabel>{project.name}</SelectLabel>
+                    {allowProjectLevelTimeEntries && <SelectItem value={`project:${project.id}`}>(ganzes Projekt)</SelectItem>}
+                    {project.tasks.map((task) => (
+                      <SelectItem key={task.id} value={`task:${task.id}`}>
+                        {task.title}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                ))}
+              </SelectContent>
+            </Select>
+            <Input
+              type="number"
+              placeholder="Minuten"
+              value={editDuration}
+              onChange={(event) => setEditDuration(event.target.value)}
+            />
+            <Input
+              placeholder="Beschreibung (optional)"
+              value={editDescription}
+              onChange={(event) => setEditDescription(event.target.value)}
+            />
+
+            {editError && <p className="text-sm text-destructive">{editError}</p>}
+
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="outline" disabled={editSaving}>
+                  Abbrechen
+                </Button>
+              </DialogClose>
+              <Button onClick={handleEditSave} loading={editSaving}>
+                Speichern &amp; erneut einreichen
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
 
       {isPrivileged && (
         <>

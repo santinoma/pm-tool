@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { CheckCircle2, ChevronLeft, ChevronRight } from "lucide-react";
 import {
   formatMinutesAsTime,
   minutesSinceMidnight,
@@ -34,7 +34,13 @@ interface EntryItem {
   startedAt: string;
   endedAt: string;
   description: string | null;
+  approvalStatus: "pending" | "approved" | "rejected";
+  approvedByLabel: string | null;
 }
+
+type DialogState =
+  | { mode: "create"; date: string; startMinutes: number; endMinutes: number }
+  | { mode: "edit"; entry: EntryItem };
 
 const DAY_LABELS = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
 const VISIBLE_START_HOUR = 6;
@@ -83,9 +89,7 @@ export function EntriesCalendarClient({
 }) {
   const router = useRouter();
   const [weekStart, setWeekStart] = useState(() => startOfWeek(new Date()));
-  const [modalPrefill, setModalPrefill] = useState<{ date: string; startMinutes: number; endMinutes: number } | null>(
-    null,
-  );
+  const [dialogState, setDialogState] = useState<DialogState | null>(null);
   const [drag, setDrag] = useState<DragState | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -146,6 +150,8 @@ export function EntriesCalendarClient({
     mode: "move" | "resize-start" | "resize-end",
   ) {
     event.stopPropagation();
+    // Approved entries are locked — neither draggable nor editable anymore.
+    if (entry.approvalStatus === "approved") return;
     const column = (event.currentTarget as HTMLElement).closest("[data-day-column]") as HTMLElement | null;
     const rect = column?.getBoundingClientRect();
     const startMinutes = minutesSinceMidnight(new Date(entry.startedAt));
@@ -186,24 +192,31 @@ export function EntriesCalendarClient({
       });
     }
 
-    function handleMouseUp() {
+    function handleMouseUp(event: MouseEvent) {
       setDrag((current) => {
         if (!current) return null;
         if (current.kind === "create") {
           const { startMinutes, endMinutes } = resolveDragRange(current.startMinutes, current.currentMinutes);
           const dateValue = toDateInputValue(days[current.dayIndex]);
-          setModalPrefill({ date: dateValue, startMinutes, endMinutes });
-        } else {
-          const dateValue = toDateInputValue(days[current.dayIndex]);
-          fetch(`/api/tenant/time-entries/${current.entryId}`, {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              startedAt: combineDateAndMinutes(dateValue, current.liveStartMinutes).toISOString(),
-              endedAt: combineDateAndMinutes(dateValue, current.liveEndMinutes).toISOString(),
-            }),
-          }).then(() => router.refresh());
+          setDialogState({ mode: "create", date: dateValue, startMinutes, endMinutes });
+          return null;
         }
+        // A "move" drag that barely moved is really just a click — open the
+        // edit dialog instead of PATCHing the entry back to its own values.
+        if (current.kind === "move" && Math.abs(event.clientY - current.initialMouseY) < 4) {
+          const entry = entries.find((candidate) => candidate.id === current.entryId);
+          if (entry) setDialogState({ mode: "edit", entry });
+          return null;
+        }
+        const dateValue = toDateInputValue(days[current.dayIndex]);
+        fetch(`/api/tenant/time-entries/${current.entryId}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            startedAt: combineDateAndMinutes(dateValue, current.liveStartMinutes).toISOString(),
+            endedAt: combineDateAndMinutes(dateValue, current.liveEndMinutes).toISOString(),
+          }),
+        }).then(() => router.refresh());
         return null;
       });
     }
@@ -214,7 +227,7 @@ export function EntriesCalendarClient({
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [drag !== null, days, router]);
+  }, [drag !== null, days, router, entries]);
 
   return (
     <div className="pb-10">
@@ -279,24 +292,37 @@ export function EntriesCalendarClient({
                     const isDraggingThis = drag && drag.kind !== "create" && drag.entryId === entry.id;
                     const startMinutes = isDraggingThis ? drag.liveStartMinutes : minutesSinceMidnight(new Date(entry.startedAt));
                     const endMinutes = isDraggingThis ? drag.liveEndMinutes : minutesSinceMidnight(new Date(entry.endedAt));
+                    const isApproved = entry.approvalStatus === "approved";
                     return (
                       <div
                         key={entry.id}
                         data-time-block
                         className={cn(
-                          "absolute right-1 left-1 flex cursor-grab flex-col overflow-hidden rounded-md border border-primary bg-primary/15 px-2 py-0.5 text-primary",
+                          "absolute right-1 left-1 flex flex-col overflow-hidden rounded-md border px-2 py-0.5",
+                          isApproved
+                            ? "cursor-default border-foreground/20 bg-foreground/10 text-foreground/80"
+                            : "cursor-grab border-primary bg-primary/15 text-primary",
                           isDraggingThis && "z-10 opacity-90 shadow-lg",
                         )}
                         style={{ top: minutesToTopPx(startMinutes), height: minutesToHeightPx(endMinutes - startMinutes) }}
                         onMouseDown={(event) => handleBlockMouseDown(event, entry, dayIndex, "move")}
                         title={entry.description ?? entry.serviceLabel}
                       >
-                        <div className="absolute inset-x-0 top-0 h-1.5 cursor-ns-resize" onMouseDown={(event) => handleBlockMouseDown(event, entry, dayIndex, "resize-start")} />
-                        <span className="font-mono text-xs">
+                        {!isApproved && (
+                          <>
+                            <div className="absolute inset-x-0 top-0 h-1.5 cursor-ns-resize" onMouseDown={(event) => handleBlockMouseDown(event, entry, dayIndex, "resize-start")} />
+                            <div className="absolute inset-x-0 bottom-0 h-1.5 cursor-ns-resize" onMouseDown={(event) => handleBlockMouseDown(event, entry, dayIndex, "resize-end")} />
+                          </>
+                        )}
+                        <span className="flex items-center gap-1 font-mono text-xs">
                           {formatMinutesAsTime(startMinutes)}–{formatMinutesAsTime(endMinutes)}
+                          {isApproved && (
+                            <span title={entry.approvedByLabel ? `Freigegeben von ${entry.approvedByLabel}` : "Freigegeben"}>
+                              <CheckCircle2 className="size-3.5 shrink-0 text-green-600" />
+                            </span>
+                          )}
                         </span>
                         <span className="truncate text-xs font-medium">{entry.serviceLabel}</span>
-                        <div className="absolute inset-x-0 bottom-0 h-1.5 cursor-ns-resize" onMouseDown={(event) => handleBlockMouseDown(event, entry, dayIndex, "resize-end")} />
                       </div>
                     );
                   })}
@@ -317,15 +343,13 @@ export function EntriesCalendarClient({
         </div>
       </div>
 
-      {modalPrefill && (
-        <NewTimeEntryDialog
-          date={modalPrefill.date}
-          startMinutes={modalPrefill.startMinutes}
-          endMinutes={modalPrefill.endMinutes}
+      {dialogState && (
+        <TimeEntryDialog
+          state={dialogState}
           services={services}
-          onClose={() => setModalPrefill(null)}
+          onClose={() => setDialogState(null)}
           onSaved={() => {
-            setModalPrefill(null);
+            setDialogState(null);
             router.refresh();
           }}
         />
@@ -334,26 +358,33 @@ export function EntriesCalendarClient({
   );
 }
 
-function NewTimeEntryDialog({
-  date,
-  startMinutes,
-  endMinutes,
+function TimeEntryDialog({
+  state,
   services,
   onClose,
   onSaved,
 }: {
-  date: string;
-  startMinutes: number;
-  endMinutes: number;
+  state: DialogState;
   services: ServiceOption[];
   onClose: () => void;
   onSaved: () => void;
 }) {
-  const [entryDate, setEntryDate] = useState(date);
-  const [budgetSectionId, setBudgetSectionId] = useState(services[0]?.id ?? "__none__");
-  const [startTime, setStartTime] = useState(formatMinutesAsTime(startMinutes));
-  const [endTime, setEndTime] = useState(formatMinutesAsTime(endMinutes));
-  const [note, setNote] = useState("");
+  const isEdit = state.mode === "edit";
+  const initial = isEdit
+    ? {
+        date: toDateInputValue(new Date(state.entry.startedAt)),
+        budgetSectionId: state.entry.budgetSectionId,
+        startMinutes: minutesSinceMidnight(new Date(state.entry.startedAt)),
+        endMinutes: minutesSinceMidnight(new Date(state.entry.endedAt)),
+        note: state.entry.description ?? "",
+      }
+    : { date: state.date, budgetSectionId: services[0]?.id ?? "__none__", startMinutes: state.startMinutes, endMinutes: state.endMinutes, note: "" };
+
+  const [entryDate, setEntryDate] = useState(initial.date);
+  const [budgetSectionId, setBudgetSectionId] = useState(initial.budgetSectionId);
+  const [startTime, setStartTime] = useState(formatMinutesAsTime(initial.startMinutes));
+  const [endTime, setEndTime] = useState(formatMinutesAsTime(initial.endMinutes));
+  const [note, setNote] = useState(initial.note);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
@@ -364,8 +395,8 @@ function NewTimeEntryDialog({
       return;
     }
     setSaving(true);
-    const response = await fetch("/api/tenant/time-entries", {
-      method: "POST",
+    const response = await fetch(isEdit ? `/api/tenant/time-entries/${state.entry.id}` : "/api/tenant/time-entries", {
+      method: isEdit ? "PATCH" : "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         budgetSectionId,
@@ -387,7 +418,7 @@ function NewTimeEntryDialog({
     <Dialog open onOpenChange={(open) => !open && onClose()}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>New time entry</DialogTitle>
+          <DialogTitle>{isEdit ? "Edit time entry" : "New time entry"}</DialogTitle>
         </DialogHeader>
 
         <div className="flex flex-col gap-2">
