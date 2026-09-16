@@ -55,6 +55,7 @@ function getGroups(locale: Locale) {
         { href: "/settings/organization/rate-cards", label: t(locale, "settings.rateCards.title"), desc: t(locale, "settings.rateCards.desc"), icon: CreditCard },
         { href: "/settings/organization/holiday-calendars", label: t(locale, "settings.holidayCalendars.title"), desc: t(locale, "settings.holidayCalendars.desc"), icon: CalendarDays },
         { href: "/settings/organization/recycle-bin", label: t(locale, "settings.recycleBin.title"), desc: t(locale, "settings.recycleBin.desc"), icon: Trash2, placeholder: true },
+        { href: "/settings/organization/financial-month-closing", label: t(locale, "settings.financialMonthClosing.title"), desc: t(locale, "settings.financialMonthClosing.desc"), icon: Lock },
       ],
     },
     {

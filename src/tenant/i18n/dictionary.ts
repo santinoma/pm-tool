@@ -166,6 +166,8 @@ const STRINGS = {
   "settings.holidayCalendars.desc": { de: "Feiertagskalender anlegen und Mitgliedern zuweisen.", en: "Create holiday calendars and assign them to members." },
   "settings.recycleBin.title": { de: "Papierkorb", en: "Recycle bin" },
   "settings.recycleBin.desc": { de: "Finde und stelle gelöschte Elemente wieder her.", en: "Find and restore deleted items." },
+  "settings.financialMonthClosing.title": { de: "Financial Month Closing", en: "Financial month closing" },
+  "settings.financialMonthClosing.desc": { de: "Zeiteinträge, Ausgaben und Services abgeschlossener Monate sperren.", en: "Lock time entries, expenses and services for closed months." },
 
   "settings.modules.title": { de: "Module", en: "Modules" },
   "settings.modules.desc": { de: "CRM, Reports und Resourcing organisationsweit aktivieren oder deaktivieren.", en: "Enable or disable CRM, Reports and Resourcing organization-wide." },

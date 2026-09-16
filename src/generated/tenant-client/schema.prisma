@@ -83,6 +83,7 @@ model User {
   loggedForTimeEntries       TimeEntry[]                 @relation("TimeEntryLoggedFor")
   timesheetLocks             TimesheetLock[]
   lockedTimesheets           TimesheetLock[]             @relation("TimesheetLockedBy")
+  lockedFinancialPeriods     FinancialPeriodLock[]
   holidayCalendar            HolidayCalendar?            @relation(fields: [holidayCalendarId], references: [id])
   holidayCalendarId          String?
   resourceBookings           ResourceBooking[]
@@ -727,8 +728,32 @@ model TenantSettings {
   // Fiscal Year (Productive: Settings > General > Fiscal Year).
   fiscalYearEnabled            Boolean          @default(false)
   fiscalYearStartMonth         Int              @default(1) // 1 = Januar … 12 = Dezember
+  // Financial Month Closing (T312, Productive: Settings > Financial Month
+  // Closing). Getrennt von TimesheetLock (personenbezogenes Sperren) —
+  // organisationsweite Sperre für Zeiteinträge/Ausgaben je Kalendermonat.
+  financialMonthClosingEnabled Boolean          @default(false)
+  // Tag im Monat, ab dem der VORHERIGE Kalendermonat automatisch gesperrt
+  // wird (Productive-Beispiel: Closing Date = 5 → ab dem 5. eines Monats
+  // gilt der vorangegangene Monat als automatisch gesperrt).
+  financialMonthClosingDay     Int              @default(1)
   createdAt                    DateTime         @default(now())
   updatedAt                    DateTime         @updatedAt
+}
+
+/**
+ * Explizite Übersteuerung des Auto-Sperr-Regels aus
+ * `TenantSettings.financialMonthClosingEnabled/-Day` für einen einzelnen
+ * Kalendermonat (Productive: manuelles Sperren/Entsperren im "Month
+ * Overview"). `periodKey` im Format "YYYY-MM" (UTC). Fehlt für einen Monat
+ * ein Eintrag, gilt ausschließlich die Auto-Regel.
+ */
+model FinancialPeriodLock {
+  id         String   @id @default(uuid())
+  periodKey  String   @unique
+  locked     Boolean
+  lockedBy   User?    @relation(fields: [lockedById], references: [id])
+  lockedById String?
+  updatedAt  DateTime @updatedAt
 }
 
 enum TimeFormat {

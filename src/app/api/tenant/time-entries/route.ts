@@ -11,6 +11,7 @@ import { resolveProjectIdsForTask } from "@/tenant/projectAccess/resolveProjectM
 import { assertSingleProjectAccess, assertAnyProjectAccess } from "@/tenant/projectAccess/assertProjectAccess";
 import { recordActivity } from "@/tenant/notifications/recordActivity";
 import { resolveInitialTimeEntryState } from "@/tenant/timeTracking/entryLifecycle";
+import { assertPeriodNotLocked } from "@/tenant/financials/monthClosing";
 import type { PrismaClient } from "@/generated/tenant-client/client.js";
 
 /**
@@ -170,6 +171,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: policyError }, { status: 400 });
   }
 
+  const lockError = await assertPeriodNotLocked(context.tenantDb, entryDate ?? new Date());
+  if (lockError) {
+    return NextResponse.json({ error: lockError }, { status: 409 });
+  }
+
   const initialState = await resolveInitialTimeEntryState(context.tenantDb);
   const entry = await context.tenantDb.timeEntry.create({
     data: {
@@ -228,6 +234,11 @@ export async function handleSectionEntry(
       { error: "Du bist dieser Section nicht zugeordnet." },
       { status: 403 },
     );
+  }
+
+  const lockError = await assertPeriodNotLocked(tenantDb, startedAt);
+  if (lockError) {
+    return NextResponse.json({ error: lockError }, { status: 409 });
   }
 
   const durationMinutes = computeDurationMinutes(startedAt, endedAt);

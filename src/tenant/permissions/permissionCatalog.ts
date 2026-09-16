@@ -7,6 +7,7 @@ export const PERMISSION_KEYS = [
   "budgets_manage",
   "invoicing_manage",
   "cost_rates_manage",
+  "financial_month_closing_manage",
   "employee_fields_sensitive_view",
   "automations_manage",
   "workflows_manage",
@@ -19,7 +20,7 @@ export type PermissionKey = (typeof PERMISSION_KEYS)[number];
 export const PERMISSION_GROUPS: { label: string; keys: PermissionKey[] }[] = [
   { label: "Team", keys: ["members_invite", "members_manage_roles", "employee_fields_sensitive_view"] },
   { label: "Projekte", keys: ["projects_manage", "tasks_manage_all"] },
-  { label: "Financials", keys: ["budgets_manage", "invoicing_manage", "cost_rates_manage"] },
+  { label: "Financials", keys: ["budgets_manage", "invoicing_manage", "cost_rates_manage", "financial_month_closing_manage"] },
   { label: "Automatisierung", keys: ["automations_manage", "workflows_manage", "integrations_manage"] },
   { label: "Organisation", keys: ["organization_settings_manage", "portfolios_manage"] },
 ];
@@ -33,6 +34,7 @@ export const PERMISSION_LABELS: Record<PermissionKey, string> = {
   budgets_manage: "Budgets & Financials verwalten",
   invoicing_manage: "Rechnungen, Gutschriften & Zahlungen verwalten",
   cost_rates_manage: "Kostensätze & Profitabilität einsehen/verwalten (Profitability Manager)",
+  financial_month_closing_manage: "Financial Month Closing verwalten (Monate sperren/entsperren)",
   employee_fields_sensitive_view: "Sensible Employee Fields einsehen",
   automations_manage: "Automations verwalten",
   workflows_manage: "Workflow-Übergangsregeln verwalten",
@@ -76,6 +78,10 @@ export const PERMISSION_LABELS: Record<PermissionKey, string> = {
  * - employee_fields_sensitive_view → members_invite: sensible Employee
  *   Fields sind Mitgliederdaten — ohne die niedrigstschwellige Team-
  *   Berechtigung kein sinnvoller Zugriffspfad.
+ * - financial_month_closing_manage → budgets_manage: Financial Month
+ *   Closing sperrt/entsperrt Zeiteinträge, Ausgaben und Services, die alle
+ *   an Budgets hängen — ohne Budget-Zugriff kein sinnvoller Kontext
+ *   (Productive: systemseitiges Äquivalent ist die Admin-Berechtigung).
  *
  * `members_invite`, `projects_manage` und `organization_settings_manage`
  * selbst haben keine Voraussetzungen — sie sind die "Basis-Level" pro Gruppe.
@@ -86,6 +92,7 @@ export const PERMISSION_DEPENDENCIES: Partial<Record<PermissionKey, PermissionKe
   budgets_manage: ["projects_manage"],
   invoicing_manage: ["budgets_manage"],
   cost_rates_manage: ["budgets_manage"],
+  financial_month_closing_manage: ["budgets_manage"],
   employee_fields_sensitive_view: ["members_invite"],
   workflows_manage: ["projects_manage"],
   automations_manage: ["workflows_manage"],

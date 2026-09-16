@@ -214,6 +214,16 @@ export type WikiPage = $Result.DefaultSelection<Prisma.$WikiPagePayload>
  */
 export type TenantSettings = $Result.DefaultSelection<Prisma.$TenantSettingsPayload>
 /**
+ * Model FinancialPeriodLock
+ * *
+ *  * Explizite Übersteuerung des Auto-Sperr-Regels aus
+ *  * `TenantSettings.financialMonthClosingEnabled/-Day` für einen einzelnen
+ *  * Kalendermonat (Productive: manuelles Sperren/Entsperren im "Month
+ *  * Overview"). `periodKey` im Format "YYYY-MM" (UTC). Fehlt für einen Monat
+ *  * ein Eintrag, gilt ausschließlich die Auto-Regel.
+ */
+export type FinancialPeriodLock = $Result.DefaultSelection<Prisma.$FinancialPeriodLockPayload>
+/**
  * Model PendingLogin
  * 
  */
@@ -1509,6 +1519,16 @@ export class PrismaClient<
   get tenantSettings(): Prisma.TenantSettingsDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.financialPeriodLock`: Exposes CRUD operations for the **FinancialPeriodLock** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more FinancialPeriodLocks
+    * const financialPeriodLocks = await prisma.financialPeriodLock.findMany()
+    * ```
+    */
+  get financialPeriodLock(): Prisma.FinancialPeriodLockDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.pendingLogin`: Exposes CRUD operations for the **PendingLogin** model.
     * Example usage:
     * ```ts
@@ -2464,6 +2484,7 @@ export namespace Prisma {
     Attachment: 'Attachment',
     WikiPage: 'WikiPage',
     TenantSettings: 'TenantSettings',
+    FinancialPeriodLock: 'FinancialPeriodLock',
     PendingLogin: 'PendingLogin',
     TimeEntry: 'TimeEntry',
     ApprovalPolicy: 'ApprovalPolicy',
@@ -2526,7 +2547,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "client" | "clientContact" | "pipeline" | "dealStatus" | "lostReason" | "deal" | "projectMember" | "customRole" | "projectRoleOverride" | "absenceRequest" | "session" | "favorite" | "auditLogEntry" | "invite" | "projectClientAccess" | "slackCaptureConfig" | "project" | "taskFolder" | "taskListGroup" | "baseline" | "baselineTaskSnapshot" | "portfolio" | "goal" | "cycle" | "transitionRule" | "sharedView" | "savedView" | "workflow" | "workflowStatus" | "task" | "tag" | "taskTag" | "taskSubscriber" | "todo" | "comment" | "mention" | "attachment" | "wikiPage" | "tenantSettings" | "pendingLogin" | "timeEntry" | "approvalPolicy" | "approvalPolicyApprover" | "timeEntryApproverDecision" | "timesheetLock" | "timeTrackingPolicy" | "holidayCalendar" | "holiday" | "resourceBooking" | "taskProject" | "taskDependency" | "taskLink" | "customFieldDef" | "projectCustomField" | "customFieldValue" | "budgetCustomFieldValue" | "wikiPageCustomFieldValue" | "userCustomFieldValue" | "sharedWikiLink" | "activityEvent" | "notificationPreference" | "notification" | "automationRule" | "automationAction" | "dashboard" | "dashboardWidget" | "webhookEndpoint" | "ssoConfig" | "apiKey" | "webhookDelivery" | "checkInSchedule" | "checkInResponse" | "budget" | "serviceType" | "budgetSection" | "rateCard" | "rateCardItem" | "invoice" | "invoiceLineItem" | "invoicePayment" | "creditNote" | "meeting" | "expense" | "purchaseOrder" | "savedReport" | "budgetSectionAssignee"
+      modelProps: "user" | "client" | "clientContact" | "pipeline" | "dealStatus" | "lostReason" | "deal" | "projectMember" | "customRole" | "projectRoleOverride" | "absenceRequest" | "session" | "favorite" | "auditLogEntry" | "invite" | "projectClientAccess" | "slackCaptureConfig" | "project" | "taskFolder" | "taskListGroup" | "baseline" | "baselineTaskSnapshot" | "portfolio" | "goal" | "cycle" | "transitionRule" | "sharedView" | "savedView" | "workflow" | "workflowStatus" | "task" | "tag" | "taskTag" | "taskSubscriber" | "todo" | "comment" | "mention" | "attachment" | "wikiPage" | "tenantSettings" | "financialPeriodLock" | "pendingLogin" | "timeEntry" | "approvalPolicy" | "approvalPolicyApprover" | "timeEntryApproverDecision" | "timesheetLock" | "timeTrackingPolicy" | "holidayCalendar" | "holiday" | "resourceBooking" | "taskProject" | "taskDependency" | "taskLink" | "customFieldDef" | "projectCustomField" | "customFieldValue" | "budgetCustomFieldValue" | "wikiPageCustomFieldValue" | "userCustomFieldValue" | "sharedWikiLink" | "activityEvent" | "notificationPreference" | "notification" | "automationRule" | "automationAction" | "dashboard" | "dashboardWidget" | "webhookEndpoint" | "ssoConfig" | "apiKey" | "webhookDelivery" | "checkInSchedule" | "checkInResponse" | "budget" | "serviceType" | "budgetSection" | "rateCard" | "rateCardItem" | "invoice" | "invoiceLineItem" | "invoicePayment" | "creditNote" | "meeting" | "expense" | "purchaseOrder" | "savedReport" | "budgetSectionAssignee"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -5487,6 +5508,80 @@ export namespace Prisma {
           count: {
             args: Prisma.TenantSettingsCountArgs<ExtArgs>
             result: $Utils.Optional<TenantSettingsCountAggregateOutputType> | number
+          }
+        }
+      }
+      FinancialPeriodLock: {
+        payload: Prisma.$FinancialPeriodLockPayload<ExtArgs>
+        fields: Prisma.FinancialPeriodLockFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FinancialPeriodLockFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FinancialPeriodLockPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FinancialPeriodLockFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FinancialPeriodLockPayload>
+          }
+          findFirst: {
+            args: Prisma.FinancialPeriodLockFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FinancialPeriodLockPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FinancialPeriodLockFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FinancialPeriodLockPayload>
+          }
+          findMany: {
+            args: Prisma.FinancialPeriodLockFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FinancialPeriodLockPayload>[]
+          }
+          create: {
+            args: Prisma.FinancialPeriodLockCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FinancialPeriodLockPayload>
+          }
+          createMany: {
+            args: Prisma.FinancialPeriodLockCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FinancialPeriodLockCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FinancialPeriodLockPayload>[]
+          }
+          delete: {
+            args: Prisma.FinancialPeriodLockDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FinancialPeriodLockPayload>
+          }
+          update: {
+            args: Prisma.FinancialPeriodLockUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FinancialPeriodLockPayload>
+          }
+          deleteMany: {
+            args: Prisma.FinancialPeriodLockDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FinancialPeriodLockUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.FinancialPeriodLockUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FinancialPeriodLockPayload>[]
+          }
+          upsert: {
+            args: Prisma.FinancialPeriodLockUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FinancialPeriodLockPayload>
+          }
+          aggregate: {
+            args: Prisma.FinancialPeriodLockAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFinancialPeriodLock>
+          }
+          groupBy: {
+            args: Prisma.FinancialPeriodLockGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FinancialPeriodLockGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FinancialPeriodLockCountArgs<ExtArgs>
+            result: $Utils.Optional<FinancialPeriodLockCountAggregateOutputType> | number
           }
         }
       }
@@ -9131,6 +9226,7 @@ export namespace Prisma {
     attachment?: AttachmentOmit
     wikiPage?: WikiPageOmit
     tenantSettings?: TenantSettingsOmit
+    financialPeriodLock?: FinancialPeriodLockOmit
     pendingLogin?: PendingLoginOmit
     timeEntry?: TimeEntryOmit
     approvalPolicy?: ApprovalPolicyOmit
@@ -9298,6 +9394,7 @@ export namespace Prisma {
     loggedForTimeEntries: number
     timesheetLocks: number
     lockedTimesheets: number
+    lockedFinancialPeriods: number
     resourceBookings: number
     createdResourceBookings: number
     createdMeetings: number
@@ -9353,6 +9450,7 @@ export namespace Prisma {
     loggedForTimeEntries?: boolean | UserCountOutputTypeCountLoggedForTimeEntriesArgs
     timesheetLocks?: boolean | UserCountOutputTypeCountTimesheetLocksArgs
     lockedTimesheets?: boolean | UserCountOutputTypeCountLockedTimesheetsArgs
+    lockedFinancialPeriods?: boolean | UserCountOutputTypeCountLockedFinancialPeriodsArgs
     resourceBookings?: boolean | UserCountOutputTypeCountResourceBookingsArgs
     createdResourceBookings?: boolean | UserCountOutputTypeCountCreatedResourceBookingsArgs
     createdMeetings?: boolean | UserCountOutputTypeCountCreatedMeetingsArgs
@@ -9656,6 +9754,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountLockedTimesheetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TimesheetLockWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountLockedFinancialPeriodsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FinancialPeriodLockWhereInput
   }
 
   /**
@@ -11708,6 +11813,7 @@ export namespace Prisma {
     loggedForTimeEntries?: boolean | User$loggedForTimeEntriesArgs<ExtArgs>
     timesheetLocks?: boolean | User$timesheetLocksArgs<ExtArgs>
     lockedTimesheets?: boolean | User$lockedTimesheetsArgs<ExtArgs>
+    lockedFinancialPeriods?: boolean | User$lockedFinancialPeriodsArgs<ExtArgs>
     holidayCalendar?: boolean | User$holidayCalendarArgs<ExtArgs>
     resourceBookings?: boolean | User$resourceBookingsArgs<ExtArgs>
     createdResourceBookings?: boolean | User$createdResourceBookingsArgs<ExtArgs>
@@ -11837,6 +11943,7 @@ export namespace Prisma {
     loggedForTimeEntries?: boolean | User$loggedForTimeEntriesArgs<ExtArgs>
     timesheetLocks?: boolean | User$timesheetLocksArgs<ExtArgs>
     lockedTimesheets?: boolean | User$lockedTimesheetsArgs<ExtArgs>
+    lockedFinancialPeriods?: boolean | User$lockedFinancialPeriodsArgs<ExtArgs>
     holidayCalendar?: boolean | User$holidayCalendarArgs<ExtArgs>
     resourceBookings?: boolean | User$resourceBookingsArgs<ExtArgs>
     createdResourceBookings?: boolean | User$createdResourceBookingsArgs<ExtArgs>
@@ -11908,6 +12015,7 @@ export namespace Prisma {
       loggedForTimeEntries: Prisma.$TimeEntryPayload<ExtArgs>[]
       timesheetLocks: Prisma.$TimesheetLockPayload<ExtArgs>[]
       lockedTimesheets: Prisma.$TimesheetLockPayload<ExtArgs>[]
+      lockedFinancialPeriods: Prisma.$FinancialPeriodLockPayload<ExtArgs>[]
       holidayCalendar: Prisma.$HolidayCalendarPayload<ExtArgs> | null
       resourceBookings: Prisma.$ResourceBookingPayload<ExtArgs>[]
       createdResourceBookings: Prisma.$ResourceBookingPayload<ExtArgs>[]
@@ -12377,6 +12485,7 @@ export namespace Prisma {
     loggedForTimeEntries<T extends User$loggedForTimeEntriesArgs<ExtArgs> = {}>(args?: Subset<T, User$loggedForTimeEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     timesheetLocks<T extends User$timesheetLocksArgs<ExtArgs> = {}>(args?: Subset<T, User$timesheetLocksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimesheetLockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     lockedTimesheets<T extends User$lockedTimesheetsArgs<ExtArgs> = {}>(args?: Subset<T, User$lockedTimesheetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimesheetLockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    lockedFinancialPeriods<T extends User$lockedFinancialPeriodsArgs<ExtArgs> = {}>(args?: Subset<T, User$lockedFinancialPeriodsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FinancialPeriodLockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     holidayCalendar<T extends User$holidayCalendarArgs<ExtArgs> = {}>(args?: Subset<T, User$holidayCalendarArgs<ExtArgs>>): Prisma__HolidayCalendarClient<$Result.GetResult<Prisma.$HolidayCalendarPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     resourceBookings<T extends User$resourceBookingsArgs<ExtArgs> = {}>(args?: Subset<T, User$resourceBookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceBookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     createdResourceBookings<T extends User$createdResourceBookingsArgs<ExtArgs> = {}>(args?: Subset<T, User$createdResourceBookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceBookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -13833,6 +13942,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TimesheetLockScalarFieldEnum | TimesheetLockScalarFieldEnum[]
+  }
+
+  /**
+   * User.lockedFinancialPeriods
+   */
+  export type User$lockedFinancialPeriodsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinancialPeriodLock
+     */
+    select?: FinancialPeriodLockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FinancialPeriodLock
+     */
+    omit?: FinancialPeriodLockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FinancialPeriodLockInclude<ExtArgs> | null
+    where?: FinancialPeriodLockWhereInput
+    orderBy?: FinancialPeriodLockOrderByWithRelationInput | FinancialPeriodLockOrderByWithRelationInput[]
+    cursor?: FinancialPeriodLockWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FinancialPeriodLockScalarFieldEnum | FinancialPeriodLockScalarFieldEnum[]
   }
 
   /**
@@ -58124,6 +58257,7 @@ export namespace Prisma {
     workingDays: number | null
     personDayHours: number | null
     fiscalYearStartMonth: number | null
+    financialMonthClosingDay: number | null
   }
 
   export type TenantSettingsSumAggregateOutputType = {
@@ -58131,6 +58265,7 @@ export namespace Prisma {
     workingDays: number[]
     personDayHours: number | null
     fiscalYearStartMonth: number | null
+    financialMonthClosingDay: number | null
   }
 
   export type TenantSettingsMinAggregateOutputType = {
@@ -58154,6 +58289,8 @@ export namespace Prisma {
     personDayHours: number | null
     fiscalYearEnabled: boolean | null
     fiscalYearStartMonth: number | null
+    financialMonthClosingEnabled: boolean | null
+    financialMonthClosingDay: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -58179,6 +58316,8 @@ export namespace Prisma {
     personDayHours: number | null
     fiscalYearEnabled: boolean | null
     fiscalYearStartMonth: number | null
+    financialMonthClosingEnabled: boolean | null
+    financialMonthClosingDay: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -58205,6 +58344,8 @@ export namespace Prisma {
     personDayHours: number
     fiscalYearEnabled: number
     fiscalYearStartMonth: number
+    financialMonthClosingEnabled: number
+    financialMonthClosingDay: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -58216,6 +58357,7 @@ export namespace Prisma {
     workingDays?: true
     personDayHours?: true
     fiscalYearStartMonth?: true
+    financialMonthClosingDay?: true
   }
 
   export type TenantSettingsSumAggregateInputType = {
@@ -58223,6 +58365,7 @@ export namespace Prisma {
     workingDays?: true
     personDayHours?: true
     fiscalYearStartMonth?: true
+    financialMonthClosingDay?: true
   }
 
   export type TenantSettingsMinAggregateInputType = {
@@ -58246,6 +58389,8 @@ export namespace Prisma {
     personDayHours?: true
     fiscalYearEnabled?: true
     fiscalYearStartMonth?: true
+    financialMonthClosingEnabled?: true
+    financialMonthClosingDay?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -58271,6 +58416,8 @@ export namespace Prisma {
     personDayHours?: true
     fiscalYearEnabled?: true
     fiscalYearStartMonth?: true
+    financialMonthClosingEnabled?: true
+    financialMonthClosingDay?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -58297,6 +58444,8 @@ export namespace Prisma {
     personDayHours?: true
     fiscalYearEnabled?: true
     fiscalYearStartMonth?: true
+    financialMonthClosingEnabled?: true
+    financialMonthClosingDay?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -58410,6 +58559,8 @@ export namespace Prisma {
     personDayHours: number
     fiscalYearEnabled: boolean
     fiscalYearStartMonth: number
+    financialMonthClosingEnabled: boolean
+    financialMonthClosingDay: number
     createdAt: Date
     updatedAt: Date
     _count: TenantSettingsCountAggregateOutputType | null
@@ -58455,6 +58606,8 @@ export namespace Prisma {
     personDayHours?: boolean
     fiscalYearEnabled?: boolean
     fiscalYearStartMonth?: boolean
+    financialMonthClosingEnabled?: boolean
+    financialMonthClosingDay?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["tenantSettings"]>
@@ -58481,6 +58634,8 @@ export namespace Prisma {
     personDayHours?: boolean
     fiscalYearEnabled?: boolean
     fiscalYearStartMonth?: boolean
+    financialMonthClosingEnabled?: boolean
+    financialMonthClosingDay?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["tenantSettings"]>
@@ -58507,6 +58662,8 @@ export namespace Prisma {
     personDayHours?: boolean
     fiscalYearEnabled?: boolean
     fiscalYearStartMonth?: boolean
+    financialMonthClosingEnabled?: boolean
+    financialMonthClosingDay?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["tenantSettings"]>
@@ -58533,11 +58690,13 @@ export namespace Prisma {
     personDayHours?: boolean
     fiscalYearEnabled?: boolean
     fiscalYearStartMonth?: boolean
+    financialMonthClosingEnabled?: boolean
+    financialMonthClosingDay?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TenantSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "allowProjectLevelTimeEntries" | "currency" | "triageEnabled" | "timeTrackingMode" | "require2fa" | "scimBearerToken" | "crmEnabled" | "reportsEnabled" | "resourcingEnabled" | "timeApprovalEnabled" | "timeEntrySubmissionEnabled" | "timeZone" | "timeFormat" | "dateFormat" | "numberFormat" | "weekStartDay" | "workingDays" | "personDayHours" | "fiscalYearEnabled" | "fiscalYearStartMonth" | "createdAt" | "updatedAt", ExtArgs["result"]["tenantSettings"]>
+  export type TenantSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "allowProjectLevelTimeEntries" | "currency" | "triageEnabled" | "timeTrackingMode" | "require2fa" | "scimBearerToken" | "crmEnabled" | "reportsEnabled" | "resourcingEnabled" | "timeApprovalEnabled" | "timeEntrySubmissionEnabled" | "timeZone" | "timeFormat" | "dateFormat" | "numberFormat" | "weekStartDay" | "workingDays" | "personDayHours" | "fiscalYearEnabled" | "fiscalYearStartMonth" | "financialMonthClosingEnabled" | "financialMonthClosingDay" | "createdAt" | "updatedAt", ExtArgs["result"]["tenantSettings"]>
 
   export type $TenantSettingsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "TenantSettings"
@@ -58564,6 +58723,8 @@ export namespace Prisma {
       personDayHours: number
       fiscalYearEnabled: boolean
       fiscalYearStartMonth: number
+      financialMonthClosingEnabled: boolean
+      financialMonthClosingDay: number
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["tenantSettings"]>
@@ -59010,6 +59171,8 @@ export namespace Prisma {
     readonly personDayHours: FieldRef<"TenantSettings", 'Float'>
     readonly fiscalYearEnabled: FieldRef<"TenantSettings", 'Boolean'>
     readonly fiscalYearStartMonth: FieldRef<"TenantSettings", 'Int'>
+    readonly financialMonthClosingEnabled: FieldRef<"TenantSettings", 'Boolean'>
+    readonly financialMonthClosingDay: FieldRef<"TenantSettings", 'Int'>
     readonly createdAt: FieldRef<"TenantSettings", 'DateTime'>
     readonly updatedAt: FieldRef<"TenantSettings", 'DateTime'>
   }
@@ -59380,6 +59543,1088 @@ export namespace Prisma {
      * Omit specific fields from the TenantSettings
      */
     omit?: TenantSettingsOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model FinancialPeriodLock
+   */
+
+  export type AggregateFinancialPeriodLock = {
+    _count: FinancialPeriodLockCountAggregateOutputType | null
+    _min: FinancialPeriodLockMinAggregateOutputType | null
+    _max: FinancialPeriodLockMaxAggregateOutputType | null
+  }
+
+  export type FinancialPeriodLockMinAggregateOutputType = {
+    id: string | null
+    periodKey: string | null
+    locked: boolean | null
+    lockedById: string | null
+    updatedAt: Date | null
+  }
+
+  export type FinancialPeriodLockMaxAggregateOutputType = {
+    id: string | null
+    periodKey: string | null
+    locked: boolean | null
+    lockedById: string | null
+    updatedAt: Date | null
+  }
+
+  export type FinancialPeriodLockCountAggregateOutputType = {
+    id: number
+    periodKey: number
+    locked: number
+    lockedById: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type FinancialPeriodLockMinAggregateInputType = {
+    id?: true
+    periodKey?: true
+    locked?: true
+    lockedById?: true
+    updatedAt?: true
+  }
+
+  export type FinancialPeriodLockMaxAggregateInputType = {
+    id?: true
+    periodKey?: true
+    locked?: true
+    lockedById?: true
+    updatedAt?: true
+  }
+
+  export type FinancialPeriodLockCountAggregateInputType = {
+    id?: true
+    periodKey?: true
+    locked?: true
+    lockedById?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type FinancialPeriodLockAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FinancialPeriodLock to aggregate.
+     */
+    where?: FinancialPeriodLockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FinancialPeriodLocks to fetch.
+     */
+    orderBy?: FinancialPeriodLockOrderByWithRelationInput | FinancialPeriodLockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FinancialPeriodLockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FinancialPeriodLocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FinancialPeriodLocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned FinancialPeriodLocks
+    **/
+    _count?: true | FinancialPeriodLockCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FinancialPeriodLockMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FinancialPeriodLockMaxAggregateInputType
+  }
+
+  export type GetFinancialPeriodLockAggregateType<T extends FinancialPeriodLockAggregateArgs> = {
+        [P in keyof T & keyof AggregateFinancialPeriodLock]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFinancialPeriodLock[P]>
+      : GetScalarType<T[P], AggregateFinancialPeriodLock[P]>
+  }
+
+
+
+
+  export type FinancialPeriodLockGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FinancialPeriodLockWhereInput
+    orderBy?: FinancialPeriodLockOrderByWithAggregationInput | FinancialPeriodLockOrderByWithAggregationInput[]
+    by: FinancialPeriodLockScalarFieldEnum[] | FinancialPeriodLockScalarFieldEnum
+    having?: FinancialPeriodLockScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FinancialPeriodLockCountAggregateInputType | true
+    _min?: FinancialPeriodLockMinAggregateInputType
+    _max?: FinancialPeriodLockMaxAggregateInputType
+  }
+
+  export type FinancialPeriodLockGroupByOutputType = {
+    id: string
+    periodKey: string
+    locked: boolean
+    lockedById: string | null
+    updatedAt: Date
+    _count: FinancialPeriodLockCountAggregateOutputType | null
+    _min: FinancialPeriodLockMinAggregateOutputType | null
+    _max: FinancialPeriodLockMaxAggregateOutputType | null
+  }
+
+  type GetFinancialPeriodLockGroupByPayload<T extends FinancialPeriodLockGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FinancialPeriodLockGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FinancialPeriodLockGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FinancialPeriodLockGroupByOutputType[P]>
+            : GetScalarType<T[P], FinancialPeriodLockGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FinancialPeriodLockSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    periodKey?: boolean
+    locked?: boolean
+    lockedById?: boolean
+    updatedAt?: boolean
+    lockedBy?: boolean | FinancialPeriodLock$lockedByArgs<ExtArgs>
+  }, ExtArgs["result"]["financialPeriodLock"]>
+
+  export type FinancialPeriodLockSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    periodKey?: boolean
+    locked?: boolean
+    lockedById?: boolean
+    updatedAt?: boolean
+    lockedBy?: boolean | FinancialPeriodLock$lockedByArgs<ExtArgs>
+  }, ExtArgs["result"]["financialPeriodLock"]>
+
+  export type FinancialPeriodLockSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    periodKey?: boolean
+    locked?: boolean
+    lockedById?: boolean
+    updatedAt?: boolean
+    lockedBy?: boolean | FinancialPeriodLock$lockedByArgs<ExtArgs>
+  }, ExtArgs["result"]["financialPeriodLock"]>
+
+  export type FinancialPeriodLockSelectScalar = {
+    id?: boolean
+    periodKey?: boolean
+    locked?: boolean
+    lockedById?: boolean
+    updatedAt?: boolean
+  }
+
+  export type FinancialPeriodLockOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "periodKey" | "locked" | "lockedById" | "updatedAt", ExtArgs["result"]["financialPeriodLock"]>
+  export type FinancialPeriodLockInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lockedBy?: boolean | FinancialPeriodLock$lockedByArgs<ExtArgs>
+  }
+  export type FinancialPeriodLockIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lockedBy?: boolean | FinancialPeriodLock$lockedByArgs<ExtArgs>
+  }
+  export type FinancialPeriodLockIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lockedBy?: boolean | FinancialPeriodLock$lockedByArgs<ExtArgs>
+  }
+
+  export type $FinancialPeriodLockPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "FinancialPeriodLock"
+    objects: {
+      lockedBy: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      periodKey: string
+      locked: boolean
+      lockedById: string | null
+      updatedAt: Date
+    }, ExtArgs["result"]["financialPeriodLock"]>
+    composites: {}
+  }
+
+  type FinancialPeriodLockGetPayload<S extends boolean | null | undefined | FinancialPeriodLockDefaultArgs> = $Result.GetResult<Prisma.$FinancialPeriodLockPayload, S>
+
+  type FinancialPeriodLockCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FinancialPeriodLockFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FinancialPeriodLockCountAggregateInputType | true
+    }
+
+  export interface FinancialPeriodLockDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['FinancialPeriodLock'], meta: { name: 'FinancialPeriodLock' } }
+    /**
+     * Find zero or one FinancialPeriodLock that matches the filter.
+     * @param {FinancialPeriodLockFindUniqueArgs} args - Arguments to find a FinancialPeriodLock
+     * @example
+     * // Get one FinancialPeriodLock
+     * const financialPeriodLock = await prisma.financialPeriodLock.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FinancialPeriodLockFindUniqueArgs>(args: SelectSubset<T, FinancialPeriodLockFindUniqueArgs<ExtArgs>>): Prisma__FinancialPeriodLockClient<$Result.GetResult<Prisma.$FinancialPeriodLockPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one FinancialPeriodLock that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FinancialPeriodLockFindUniqueOrThrowArgs} args - Arguments to find a FinancialPeriodLock
+     * @example
+     * // Get one FinancialPeriodLock
+     * const financialPeriodLock = await prisma.financialPeriodLock.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FinancialPeriodLockFindUniqueOrThrowArgs>(args: SelectSubset<T, FinancialPeriodLockFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FinancialPeriodLockClient<$Result.GetResult<Prisma.$FinancialPeriodLockPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FinancialPeriodLock that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FinancialPeriodLockFindFirstArgs} args - Arguments to find a FinancialPeriodLock
+     * @example
+     * // Get one FinancialPeriodLock
+     * const financialPeriodLock = await prisma.financialPeriodLock.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FinancialPeriodLockFindFirstArgs>(args?: SelectSubset<T, FinancialPeriodLockFindFirstArgs<ExtArgs>>): Prisma__FinancialPeriodLockClient<$Result.GetResult<Prisma.$FinancialPeriodLockPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FinancialPeriodLock that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FinancialPeriodLockFindFirstOrThrowArgs} args - Arguments to find a FinancialPeriodLock
+     * @example
+     * // Get one FinancialPeriodLock
+     * const financialPeriodLock = await prisma.financialPeriodLock.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FinancialPeriodLockFindFirstOrThrowArgs>(args?: SelectSubset<T, FinancialPeriodLockFindFirstOrThrowArgs<ExtArgs>>): Prisma__FinancialPeriodLockClient<$Result.GetResult<Prisma.$FinancialPeriodLockPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more FinancialPeriodLocks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FinancialPeriodLockFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all FinancialPeriodLocks
+     * const financialPeriodLocks = await prisma.financialPeriodLock.findMany()
+     * 
+     * // Get first 10 FinancialPeriodLocks
+     * const financialPeriodLocks = await prisma.financialPeriodLock.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const financialPeriodLockWithIdOnly = await prisma.financialPeriodLock.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FinancialPeriodLockFindManyArgs>(args?: SelectSubset<T, FinancialPeriodLockFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FinancialPeriodLockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a FinancialPeriodLock.
+     * @param {FinancialPeriodLockCreateArgs} args - Arguments to create a FinancialPeriodLock.
+     * @example
+     * // Create one FinancialPeriodLock
+     * const FinancialPeriodLock = await prisma.financialPeriodLock.create({
+     *   data: {
+     *     // ... data to create a FinancialPeriodLock
+     *   }
+     * })
+     * 
+     */
+    create<T extends FinancialPeriodLockCreateArgs>(args: SelectSubset<T, FinancialPeriodLockCreateArgs<ExtArgs>>): Prisma__FinancialPeriodLockClient<$Result.GetResult<Prisma.$FinancialPeriodLockPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many FinancialPeriodLocks.
+     * @param {FinancialPeriodLockCreateManyArgs} args - Arguments to create many FinancialPeriodLocks.
+     * @example
+     * // Create many FinancialPeriodLocks
+     * const financialPeriodLock = await prisma.financialPeriodLock.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FinancialPeriodLockCreateManyArgs>(args?: SelectSubset<T, FinancialPeriodLockCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many FinancialPeriodLocks and returns the data saved in the database.
+     * @param {FinancialPeriodLockCreateManyAndReturnArgs} args - Arguments to create many FinancialPeriodLocks.
+     * @example
+     * // Create many FinancialPeriodLocks
+     * const financialPeriodLock = await prisma.financialPeriodLock.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many FinancialPeriodLocks and only return the `id`
+     * const financialPeriodLockWithIdOnly = await prisma.financialPeriodLock.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FinancialPeriodLockCreateManyAndReturnArgs>(args?: SelectSubset<T, FinancialPeriodLockCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FinancialPeriodLockPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a FinancialPeriodLock.
+     * @param {FinancialPeriodLockDeleteArgs} args - Arguments to delete one FinancialPeriodLock.
+     * @example
+     * // Delete one FinancialPeriodLock
+     * const FinancialPeriodLock = await prisma.financialPeriodLock.delete({
+     *   where: {
+     *     // ... filter to delete one FinancialPeriodLock
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FinancialPeriodLockDeleteArgs>(args: SelectSubset<T, FinancialPeriodLockDeleteArgs<ExtArgs>>): Prisma__FinancialPeriodLockClient<$Result.GetResult<Prisma.$FinancialPeriodLockPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one FinancialPeriodLock.
+     * @param {FinancialPeriodLockUpdateArgs} args - Arguments to update one FinancialPeriodLock.
+     * @example
+     * // Update one FinancialPeriodLock
+     * const financialPeriodLock = await prisma.financialPeriodLock.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FinancialPeriodLockUpdateArgs>(args: SelectSubset<T, FinancialPeriodLockUpdateArgs<ExtArgs>>): Prisma__FinancialPeriodLockClient<$Result.GetResult<Prisma.$FinancialPeriodLockPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more FinancialPeriodLocks.
+     * @param {FinancialPeriodLockDeleteManyArgs} args - Arguments to filter FinancialPeriodLocks to delete.
+     * @example
+     * // Delete a few FinancialPeriodLocks
+     * const { count } = await prisma.financialPeriodLock.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FinancialPeriodLockDeleteManyArgs>(args?: SelectSubset<T, FinancialPeriodLockDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FinancialPeriodLocks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FinancialPeriodLockUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many FinancialPeriodLocks
+     * const financialPeriodLock = await prisma.financialPeriodLock.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FinancialPeriodLockUpdateManyArgs>(args: SelectSubset<T, FinancialPeriodLockUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FinancialPeriodLocks and returns the data updated in the database.
+     * @param {FinancialPeriodLockUpdateManyAndReturnArgs} args - Arguments to update many FinancialPeriodLocks.
+     * @example
+     * // Update many FinancialPeriodLocks
+     * const financialPeriodLock = await prisma.financialPeriodLock.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more FinancialPeriodLocks and only return the `id`
+     * const financialPeriodLockWithIdOnly = await prisma.financialPeriodLock.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends FinancialPeriodLockUpdateManyAndReturnArgs>(args: SelectSubset<T, FinancialPeriodLockUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FinancialPeriodLockPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one FinancialPeriodLock.
+     * @param {FinancialPeriodLockUpsertArgs} args - Arguments to update or create a FinancialPeriodLock.
+     * @example
+     * // Update or create a FinancialPeriodLock
+     * const financialPeriodLock = await prisma.financialPeriodLock.upsert({
+     *   create: {
+     *     // ... data to create a FinancialPeriodLock
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the FinancialPeriodLock we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FinancialPeriodLockUpsertArgs>(args: SelectSubset<T, FinancialPeriodLockUpsertArgs<ExtArgs>>): Prisma__FinancialPeriodLockClient<$Result.GetResult<Prisma.$FinancialPeriodLockPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of FinancialPeriodLocks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FinancialPeriodLockCountArgs} args - Arguments to filter FinancialPeriodLocks to count.
+     * @example
+     * // Count the number of FinancialPeriodLocks
+     * const count = await prisma.financialPeriodLock.count({
+     *   where: {
+     *     // ... the filter for the FinancialPeriodLocks we want to count
+     *   }
+     * })
+    **/
+    count<T extends FinancialPeriodLockCountArgs>(
+      args?: Subset<T, FinancialPeriodLockCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FinancialPeriodLockCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a FinancialPeriodLock.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FinancialPeriodLockAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FinancialPeriodLockAggregateArgs>(args: Subset<T, FinancialPeriodLockAggregateArgs>): Prisma.PrismaPromise<GetFinancialPeriodLockAggregateType<T>>
+
+    /**
+     * Group by FinancialPeriodLock.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FinancialPeriodLockGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FinancialPeriodLockGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FinancialPeriodLockGroupByArgs['orderBy'] }
+        : { orderBy?: FinancialPeriodLockGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FinancialPeriodLockGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFinancialPeriodLockGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the FinancialPeriodLock model
+   */
+  readonly fields: FinancialPeriodLockFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for FinancialPeriodLock.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FinancialPeriodLockClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    lockedBy<T extends FinancialPeriodLock$lockedByArgs<ExtArgs> = {}>(args?: Subset<T, FinancialPeriodLock$lockedByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the FinancialPeriodLock model
+   */
+  interface FinancialPeriodLockFieldRefs {
+    readonly id: FieldRef<"FinancialPeriodLock", 'String'>
+    readonly periodKey: FieldRef<"FinancialPeriodLock", 'String'>
+    readonly locked: FieldRef<"FinancialPeriodLock", 'Boolean'>
+    readonly lockedById: FieldRef<"FinancialPeriodLock", 'String'>
+    readonly updatedAt: FieldRef<"FinancialPeriodLock", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * FinancialPeriodLock findUnique
+   */
+  export type FinancialPeriodLockFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinancialPeriodLock
+     */
+    select?: FinancialPeriodLockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FinancialPeriodLock
+     */
+    omit?: FinancialPeriodLockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FinancialPeriodLockInclude<ExtArgs> | null
+    /**
+     * Filter, which FinancialPeriodLock to fetch.
+     */
+    where: FinancialPeriodLockWhereUniqueInput
+  }
+
+  /**
+   * FinancialPeriodLock findUniqueOrThrow
+   */
+  export type FinancialPeriodLockFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinancialPeriodLock
+     */
+    select?: FinancialPeriodLockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FinancialPeriodLock
+     */
+    omit?: FinancialPeriodLockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FinancialPeriodLockInclude<ExtArgs> | null
+    /**
+     * Filter, which FinancialPeriodLock to fetch.
+     */
+    where: FinancialPeriodLockWhereUniqueInput
+  }
+
+  /**
+   * FinancialPeriodLock findFirst
+   */
+  export type FinancialPeriodLockFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinancialPeriodLock
+     */
+    select?: FinancialPeriodLockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FinancialPeriodLock
+     */
+    omit?: FinancialPeriodLockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FinancialPeriodLockInclude<ExtArgs> | null
+    /**
+     * Filter, which FinancialPeriodLock to fetch.
+     */
+    where?: FinancialPeriodLockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FinancialPeriodLocks to fetch.
+     */
+    orderBy?: FinancialPeriodLockOrderByWithRelationInput | FinancialPeriodLockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FinancialPeriodLocks.
+     */
+    cursor?: FinancialPeriodLockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FinancialPeriodLocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FinancialPeriodLocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FinancialPeriodLocks.
+     */
+    distinct?: FinancialPeriodLockScalarFieldEnum | FinancialPeriodLockScalarFieldEnum[]
+  }
+
+  /**
+   * FinancialPeriodLock findFirstOrThrow
+   */
+  export type FinancialPeriodLockFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinancialPeriodLock
+     */
+    select?: FinancialPeriodLockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FinancialPeriodLock
+     */
+    omit?: FinancialPeriodLockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FinancialPeriodLockInclude<ExtArgs> | null
+    /**
+     * Filter, which FinancialPeriodLock to fetch.
+     */
+    where?: FinancialPeriodLockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FinancialPeriodLocks to fetch.
+     */
+    orderBy?: FinancialPeriodLockOrderByWithRelationInput | FinancialPeriodLockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FinancialPeriodLocks.
+     */
+    cursor?: FinancialPeriodLockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FinancialPeriodLocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FinancialPeriodLocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FinancialPeriodLocks.
+     */
+    distinct?: FinancialPeriodLockScalarFieldEnum | FinancialPeriodLockScalarFieldEnum[]
+  }
+
+  /**
+   * FinancialPeriodLock findMany
+   */
+  export type FinancialPeriodLockFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinancialPeriodLock
+     */
+    select?: FinancialPeriodLockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FinancialPeriodLock
+     */
+    omit?: FinancialPeriodLockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FinancialPeriodLockInclude<ExtArgs> | null
+    /**
+     * Filter, which FinancialPeriodLocks to fetch.
+     */
+    where?: FinancialPeriodLockWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FinancialPeriodLocks to fetch.
+     */
+    orderBy?: FinancialPeriodLockOrderByWithRelationInput | FinancialPeriodLockOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing FinancialPeriodLocks.
+     */
+    cursor?: FinancialPeriodLockWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FinancialPeriodLocks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FinancialPeriodLocks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FinancialPeriodLocks.
+     */
+    distinct?: FinancialPeriodLockScalarFieldEnum | FinancialPeriodLockScalarFieldEnum[]
+  }
+
+  /**
+   * FinancialPeriodLock create
+   */
+  export type FinancialPeriodLockCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinancialPeriodLock
+     */
+    select?: FinancialPeriodLockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FinancialPeriodLock
+     */
+    omit?: FinancialPeriodLockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FinancialPeriodLockInclude<ExtArgs> | null
+    /**
+     * The data needed to create a FinancialPeriodLock.
+     */
+    data: XOR<FinancialPeriodLockCreateInput, FinancialPeriodLockUncheckedCreateInput>
+  }
+
+  /**
+   * FinancialPeriodLock createMany
+   */
+  export type FinancialPeriodLockCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many FinancialPeriodLocks.
+     */
+    data: FinancialPeriodLockCreateManyInput | FinancialPeriodLockCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * FinancialPeriodLock createManyAndReturn
+   */
+  export type FinancialPeriodLockCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinancialPeriodLock
+     */
+    select?: FinancialPeriodLockSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the FinancialPeriodLock
+     */
+    omit?: FinancialPeriodLockOmit<ExtArgs> | null
+    /**
+     * The data used to create many FinancialPeriodLocks.
+     */
+    data: FinancialPeriodLockCreateManyInput | FinancialPeriodLockCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FinancialPeriodLockIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * FinancialPeriodLock update
+   */
+  export type FinancialPeriodLockUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinancialPeriodLock
+     */
+    select?: FinancialPeriodLockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FinancialPeriodLock
+     */
+    omit?: FinancialPeriodLockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FinancialPeriodLockInclude<ExtArgs> | null
+    /**
+     * The data needed to update a FinancialPeriodLock.
+     */
+    data: XOR<FinancialPeriodLockUpdateInput, FinancialPeriodLockUncheckedUpdateInput>
+    /**
+     * Choose, which FinancialPeriodLock to update.
+     */
+    where: FinancialPeriodLockWhereUniqueInput
+  }
+
+  /**
+   * FinancialPeriodLock updateMany
+   */
+  export type FinancialPeriodLockUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update FinancialPeriodLocks.
+     */
+    data: XOR<FinancialPeriodLockUpdateManyMutationInput, FinancialPeriodLockUncheckedUpdateManyInput>
+    /**
+     * Filter which FinancialPeriodLocks to update
+     */
+    where?: FinancialPeriodLockWhereInput
+    /**
+     * Limit how many FinancialPeriodLocks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * FinancialPeriodLock updateManyAndReturn
+   */
+  export type FinancialPeriodLockUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinancialPeriodLock
+     */
+    select?: FinancialPeriodLockSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the FinancialPeriodLock
+     */
+    omit?: FinancialPeriodLockOmit<ExtArgs> | null
+    /**
+     * The data used to update FinancialPeriodLocks.
+     */
+    data: XOR<FinancialPeriodLockUpdateManyMutationInput, FinancialPeriodLockUncheckedUpdateManyInput>
+    /**
+     * Filter which FinancialPeriodLocks to update
+     */
+    where?: FinancialPeriodLockWhereInput
+    /**
+     * Limit how many FinancialPeriodLocks to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FinancialPeriodLockIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * FinancialPeriodLock upsert
+   */
+  export type FinancialPeriodLockUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinancialPeriodLock
+     */
+    select?: FinancialPeriodLockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FinancialPeriodLock
+     */
+    omit?: FinancialPeriodLockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FinancialPeriodLockInclude<ExtArgs> | null
+    /**
+     * The filter to search for the FinancialPeriodLock to update in case it exists.
+     */
+    where: FinancialPeriodLockWhereUniqueInput
+    /**
+     * In case the FinancialPeriodLock found by the `where` argument doesn't exist, create a new FinancialPeriodLock with this data.
+     */
+    create: XOR<FinancialPeriodLockCreateInput, FinancialPeriodLockUncheckedCreateInput>
+    /**
+     * In case the FinancialPeriodLock was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FinancialPeriodLockUpdateInput, FinancialPeriodLockUncheckedUpdateInput>
+  }
+
+  /**
+   * FinancialPeriodLock delete
+   */
+  export type FinancialPeriodLockDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinancialPeriodLock
+     */
+    select?: FinancialPeriodLockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FinancialPeriodLock
+     */
+    omit?: FinancialPeriodLockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FinancialPeriodLockInclude<ExtArgs> | null
+    /**
+     * Filter which FinancialPeriodLock to delete.
+     */
+    where: FinancialPeriodLockWhereUniqueInput
+  }
+
+  /**
+   * FinancialPeriodLock deleteMany
+   */
+  export type FinancialPeriodLockDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FinancialPeriodLocks to delete
+     */
+    where?: FinancialPeriodLockWhereInput
+    /**
+     * Limit how many FinancialPeriodLocks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * FinancialPeriodLock.lockedBy
+   */
+  export type FinancialPeriodLock$lockedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * FinancialPeriodLock without action
+   */
+  export type FinancialPeriodLockDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FinancialPeriodLock
+     */
+    select?: FinancialPeriodLockSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FinancialPeriodLock
+     */
+    omit?: FinancialPeriodLockOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FinancialPeriodLockInclude<ExtArgs> | null
   }
 
 
@@ -113951,11 +115196,24 @@ export namespace Prisma {
     personDayHours: 'personDayHours',
     fiscalYearEnabled: 'fiscalYearEnabled',
     fiscalYearStartMonth: 'fiscalYearStartMonth',
+    financialMonthClosingEnabled: 'financialMonthClosingEnabled',
+    financialMonthClosingDay: 'financialMonthClosingDay',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
   export type TenantSettingsScalarFieldEnum = (typeof TenantSettingsScalarFieldEnum)[keyof typeof TenantSettingsScalarFieldEnum]
+
+
+  export const FinancialPeriodLockScalarFieldEnum: {
+    id: 'id',
+    periodKey: 'periodKey',
+    locked: 'locked',
+    lockedById: 'lockedById',
+    updatedAt: 'updatedAt'
+  };
+
+  export type FinancialPeriodLockScalarFieldEnum = (typeof FinancialPeriodLockScalarFieldEnum)[keyof typeof FinancialPeriodLockScalarFieldEnum]
 
 
   export const PendingLoginScalarFieldEnum: {
@@ -115342,6 +116600,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryListRelationFilter
     timesheetLocks?: TimesheetLockListRelationFilter
     lockedTimesheets?: TimesheetLockListRelationFilter
+    lockedFinancialPeriods?: FinancialPeriodLockListRelationFilter
     holidayCalendar?: XOR<HolidayCalendarNullableScalarRelationFilter, HolidayCalendarWhereInput> | null
     resourceBookings?: ResourceBookingListRelationFilter
     createdResourceBookings?: ResourceBookingListRelationFilter
@@ -115418,6 +116677,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryOrderByRelationAggregateInput
     timesheetLocks?: TimesheetLockOrderByRelationAggregateInput
     lockedTimesheets?: TimesheetLockOrderByRelationAggregateInput
+    lockedFinancialPeriods?: FinancialPeriodLockOrderByRelationAggregateInput
     holidayCalendar?: HolidayCalendarOrderByWithRelationInput
     resourceBookings?: ResourceBookingOrderByRelationAggregateInput
     createdResourceBookings?: ResourceBookingOrderByRelationAggregateInput
@@ -115497,6 +116757,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryListRelationFilter
     timesheetLocks?: TimesheetLockListRelationFilter
     lockedTimesheets?: TimesheetLockListRelationFilter
+    lockedFinancialPeriods?: FinancialPeriodLockListRelationFilter
     holidayCalendar?: XOR<HolidayCalendarNullableScalarRelationFilter, HolidayCalendarWhereInput> | null
     resourceBookings?: ResourceBookingListRelationFilter
     createdResourceBookings?: ResourceBookingListRelationFilter
@@ -118318,6 +119579,8 @@ export namespace Prisma {
     personDayHours?: FloatFilter<"TenantSettings"> | number
     fiscalYearEnabled?: BoolFilter<"TenantSettings"> | boolean
     fiscalYearStartMonth?: IntFilter<"TenantSettings"> | number
+    financialMonthClosingEnabled?: BoolFilter<"TenantSettings"> | boolean
+    financialMonthClosingDay?: IntFilter<"TenantSettings"> | number
     createdAt?: DateTimeFilter<"TenantSettings"> | Date | string
     updatedAt?: DateTimeFilter<"TenantSettings"> | Date | string
   }
@@ -118344,6 +119607,8 @@ export namespace Prisma {
     personDayHours?: SortOrder
     fiscalYearEnabled?: SortOrder
     fiscalYearStartMonth?: SortOrder
+    financialMonthClosingEnabled?: SortOrder
+    financialMonthClosingDay?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -118373,6 +119638,8 @@ export namespace Prisma {
     personDayHours?: FloatFilter<"TenantSettings"> | number
     fiscalYearEnabled?: BoolFilter<"TenantSettings"> | boolean
     fiscalYearStartMonth?: IntFilter<"TenantSettings"> | number
+    financialMonthClosingEnabled?: BoolFilter<"TenantSettings"> | boolean
+    financialMonthClosingDay?: IntFilter<"TenantSettings"> | number
     createdAt?: DateTimeFilter<"TenantSettings"> | Date | string
     updatedAt?: DateTimeFilter<"TenantSettings"> | Date | string
   }, "id">
@@ -118399,6 +119666,8 @@ export namespace Prisma {
     personDayHours?: SortOrder
     fiscalYearEnabled?: SortOrder
     fiscalYearStartMonth?: SortOrder
+    financialMonthClosingEnabled?: SortOrder
+    financialMonthClosingDay?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: TenantSettingsCountOrderByAggregateInput
@@ -118433,8 +119702,65 @@ export namespace Prisma {
     personDayHours?: FloatWithAggregatesFilter<"TenantSettings"> | number
     fiscalYearEnabled?: BoolWithAggregatesFilter<"TenantSettings"> | boolean
     fiscalYearStartMonth?: IntWithAggregatesFilter<"TenantSettings"> | number
+    financialMonthClosingEnabled?: BoolWithAggregatesFilter<"TenantSettings"> | boolean
+    financialMonthClosingDay?: IntWithAggregatesFilter<"TenantSettings"> | number
     createdAt?: DateTimeWithAggregatesFilter<"TenantSettings"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"TenantSettings"> | Date | string
+  }
+
+  export type FinancialPeriodLockWhereInput = {
+    AND?: FinancialPeriodLockWhereInput | FinancialPeriodLockWhereInput[]
+    OR?: FinancialPeriodLockWhereInput[]
+    NOT?: FinancialPeriodLockWhereInput | FinancialPeriodLockWhereInput[]
+    id?: StringFilter<"FinancialPeriodLock"> | string
+    periodKey?: StringFilter<"FinancialPeriodLock"> | string
+    locked?: BoolFilter<"FinancialPeriodLock"> | boolean
+    lockedById?: StringNullableFilter<"FinancialPeriodLock"> | string | null
+    updatedAt?: DateTimeFilter<"FinancialPeriodLock"> | Date | string
+    lockedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type FinancialPeriodLockOrderByWithRelationInput = {
+    id?: SortOrder
+    periodKey?: SortOrder
+    locked?: SortOrder
+    lockedById?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    lockedBy?: UserOrderByWithRelationInput
+  }
+
+  export type FinancialPeriodLockWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    periodKey?: string
+    AND?: FinancialPeriodLockWhereInput | FinancialPeriodLockWhereInput[]
+    OR?: FinancialPeriodLockWhereInput[]
+    NOT?: FinancialPeriodLockWhereInput | FinancialPeriodLockWhereInput[]
+    locked?: BoolFilter<"FinancialPeriodLock"> | boolean
+    lockedById?: StringNullableFilter<"FinancialPeriodLock"> | string | null
+    updatedAt?: DateTimeFilter<"FinancialPeriodLock"> | Date | string
+    lockedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id" | "periodKey">
+
+  export type FinancialPeriodLockOrderByWithAggregationInput = {
+    id?: SortOrder
+    periodKey?: SortOrder
+    locked?: SortOrder
+    lockedById?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    _count?: FinancialPeriodLockCountOrderByAggregateInput
+    _max?: FinancialPeriodLockMaxOrderByAggregateInput
+    _min?: FinancialPeriodLockMinOrderByAggregateInput
+  }
+
+  export type FinancialPeriodLockScalarWhereWithAggregatesInput = {
+    AND?: FinancialPeriodLockScalarWhereWithAggregatesInput | FinancialPeriodLockScalarWhereWithAggregatesInput[]
+    OR?: FinancialPeriodLockScalarWhereWithAggregatesInput[]
+    NOT?: FinancialPeriodLockScalarWhereWithAggregatesInput | FinancialPeriodLockScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"FinancialPeriodLock"> | string
+    periodKey?: StringWithAggregatesFilter<"FinancialPeriodLock"> | string
+    locked?: BoolWithAggregatesFilter<"FinancialPeriodLock"> | boolean
+    lockedById?: StringNullableWithAggregatesFilter<"FinancialPeriodLock"> | string | null
+    updatedAt?: DateTimeWithAggregatesFilter<"FinancialPeriodLock"> | Date | string
   }
 
   export type PendingLoginWhereInput = {
@@ -121987,6 +123313,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -122061,6 +123388,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -122133,6 +123461,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -122207,6 +123536,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -125120,6 +126450,8 @@ export namespace Prisma {
     personDayHours?: number
     fiscalYearEnabled?: boolean
     fiscalYearStartMonth?: number
+    financialMonthClosingEnabled?: boolean
+    financialMonthClosingDay?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -125146,6 +126478,8 @@ export namespace Prisma {
     personDayHours?: number
     fiscalYearEnabled?: boolean
     fiscalYearStartMonth?: number
+    financialMonthClosingEnabled?: boolean
+    financialMonthClosingDay?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -125172,6 +126506,8 @@ export namespace Prisma {
     personDayHours?: FloatFieldUpdateOperationsInput | number
     fiscalYearEnabled?: BoolFieldUpdateOperationsInput | boolean
     fiscalYearStartMonth?: IntFieldUpdateOperationsInput | number
+    financialMonthClosingEnabled?: BoolFieldUpdateOperationsInput | boolean
+    financialMonthClosingDay?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -125198,6 +126534,8 @@ export namespace Prisma {
     personDayHours?: FloatFieldUpdateOperationsInput | number
     fiscalYearEnabled?: BoolFieldUpdateOperationsInput | boolean
     fiscalYearStartMonth?: IntFieldUpdateOperationsInput | number
+    financialMonthClosingEnabled?: BoolFieldUpdateOperationsInput | boolean
+    financialMonthClosingDay?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -125224,6 +126562,8 @@ export namespace Prisma {
     personDayHours?: number
     fiscalYearEnabled?: boolean
     fiscalYearStartMonth?: number
+    financialMonthClosingEnabled?: boolean
+    financialMonthClosingDay?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -125250,6 +126590,8 @@ export namespace Prisma {
     personDayHours?: FloatFieldUpdateOperationsInput | number
     fiscalYearEnabled?: BoolFieldUpdateOperationsInput | boolean
     fiscalYearStartMonth?: IntFieldUpdateOperationsInput | number
+    financialMonthClosingEnabled?: BoolFieldUpdateOperationsInput | boolean
+    financialMonthClosingDay?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -125276,7 +126618,64 @@ export namespace Prisma {
     personDayHours?: FloatFieldUpdateOperationsInput | number
     fiscalYearEnabled?: BoolFieldUpdateOperationsInput | boolean
     fiscalYearStartMonth?: IntFieldUpdateOperationsInput | number
+    financialMonthClosingEnabled?: BoolFieldUpdateOperationsInput | boolean
+    financialMonthClosingDay?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FinancialPeriodLockCreateInput = {
+    id?: string
+    periodKey: string
+    locked: boolean
+    updatedAt?: Date | string
+    lockedBy?: UserCreateNestedOneWithoutLockedFinancialPeriodsInput
+  }
+
+  export type FinancialPeriodLockUncheckedCreateInput = {
+    id?: string
+    periodKey: string
+    locked: boolean
+    lockedById?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type FinancialPeriodLockUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    periodKey?: StringFieldUpdateOperationsInput | string
+    locked?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lockedBy?: UserUpdateOneWithoutLockedFinancialPeriodsNestedInput
+  }
+
+  export type FinancialPeriodLockUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    periodKey?: StringFieldUpdateOperationsInput | string
+    locked?: BoolFieldUpdateOperationsInput | boolean
+    lockedById?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FinancialPeriodLockCreateManyInput = {
+    id?: string
+    periodKey: string
+    locked: boolean
+    lockedById?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type FinancialPeriodLockUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    periodKey?: StringFieldUpdateOperationsInput | string
+    locked?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FinancialPeriodLockUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    periodKey?: StringFieldUpdateOperationsInput | string
+    locked?: BoolFieldUpdateOperationsInput | boolean
+    lockedById?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -129138,6 +130537,12 @@ export namespace Prisma {
     none?: TimesheetLockWhereInput
   }
 
+  export type FinancialPeriodLockListRelationFilter = {
+    every?: FinancialPeriodLockWhereInput
+    some?: FinancialPeriodLockWhereInput
+    none?: FinancialPeriodLockWhereInput
+  }
+
   export type HolidayCalendarNullableScalarRelationFilter = {
     is?: HolidayCalendarWhereInput | null
     isNot?: HolidayCalendarWhereInput | null
@@ -129349,6 +130754,10 @@ export namespace Prisma {
   }
 
   export type TimesheetLockOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type FinancialPeriodLockOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -131564,6 +132973,8 @@ export namespace Prisma {
     personDayHours?: SortOrder
     fiscalYearEnabled?: SortOrder
     fiscalYearStartMonth?: SortOrder
+    financialMonthClosingEnabled?: SortOrder
+    financialMonthClosingDay?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -131573,6 +132984,7 @@ export namespace Prisma {
     workingDays?: SortOrder
     personDayHours?: SortOrder
     fiscalYearStartMonth?: SortOrder
+    financialMonthClosingDay?: SortOrder
   }
 
   export type TenantSettingsMaxOrderByAggregateInput = {
@@ -131596,6 +133008,8 @@ export namespace Prisma {
     personDayHours?: SortOrder
     fiscalYearEnabled?: SortOrder
     fiscalYearStartMonth?: SortOrder
+    financialMonthClosingEnabled?: SortOrder
+    financialMonthClosingDay?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -131621,6 +133035,8 @@ export namespace Prisma {
     personDayHours?: SortOrder
     fiscalYearEnabled?: SortOrder
     fiscalYearStartMonth?: SortOrder
+    financialMonthClosingEnabled?: SortOrder
+    financialMonthClosingDay?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -131630,6 +133046,7 @@ export namespace Prisma {
     workingDays?: SortOrder
     personDayHours?: SortOrder
     fiscalYearStartMonth?: SortOrder
+    financialMonthClosingDay?: SortOrder
   }
 
   export type EnumTimeTrackingModeWithAggregatesFilter<$PrismaModel = never> = {
@@ -131670,6 +133087,30 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumNumberFormatFilter<$PrismaModel>
     _max?: NestedEnumNumberFormatFilter<$PrismaModel>
+  }
+
+  export type FinancialPeriodLockCountOrderByAggregateInput = {
+    id?: SortOrder
+    periodKey?: SortOrder
+    locked?: SortOrder
+    lockedById?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FinancialPeriodLockMaxOrderByAggregateInput = {
+    id?: SortOrder
+    periodKey?: SortOrder
+    locked?: SortOrder
+    lockedById?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FinancialPeriodLockMinOrderByAggregateInput = {
+    id?: SortOrder
+    periodKey?: SortOrder
+    locked?: SortOrder
+    lockedById?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type PendingLoginCountOrderByAggregateInput = {
@@ -134282,6 +135723,13 @@ export namespace Prisma {
     connect?: TimesheetLockWhereUniqueInput | TimesheetLockWhereUniqueInput[]
   }
 
+  export type FinancialPeriodLockCreateNestedManyWithoutLockedByInput = {
+    create?: XOR<FinancialPeriodLockCreateWithoutLockedByInput, FinancialPeriodLockUncheckedCreateWithoutLockedByInput> | FinancialPeriodLockCreateWithoutLockedByInput[] | FinancialPeriodLockUncheckedCreateWithoutLockedByInput[]
+    connectOrCreate?: FinancialPeriodLockCreateOrConnectWithoutLockedByInput | FinancialPeriodLockCreateOrConnectWithoutLockedByInput[]
+    createMany?: FinancialPeriodLockCreateManyLockedByInputEnvelope
+    connect?: FinancialPeriodLockWhereUniqueInput | FinancialPeriodLockWhereUniqueInput[]
+  }
+
   export type HolidayCalendarCreateNestedOneWithoutUsersInput = {
     create?: XOR<HolidayCalendarCreateWithoutUsersInput, HolidayCalendarUncheckedCreateWithoutUsersInput>
     connectOrCreate?: HolidayCalendarCreateOrConnectWithoutUsersInput
@@ -134650,6 +136098,13 @@ export namespace Prisma {
     connectOrCreate?: TimesheetLockCreateOrConnectWithoutLockedByInput | TimesheetLockCreateOrConnectWithoutLockedByInput[]
     createMany?: TimesheetLockCreateManyLockedByInputEnvelope
     connect?: TimesheetLockWhereUniqueInput | TimesheetLockWhereUniqueInput[]
+  }
+
+  export type FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput = {
+    create?: XOR<FinancialPeriodLockCreateWithoutLockedByInput, FinancialPeriodLockUncheckedCreateWithoutLockedByInput> | FinancialPeriodLockCreateWithoutLockedByInput[] | FinancialPeriodLockUncheckedCreateWithoutLockedByInput[]
+    connectOrCreate?: FinancialPeriodLockCreateOrConnectWithoutLockedByInput | FinancialPeriodLockCreateOrConnectWithoutLockedByInput[]
+    createMany?: FinancialPeriodLockCreateManyLockedByInputEnvelope
+    connect?: FinancialPeriodLockWhereUniqueInput | FinancialPeriodLockWhereUniqueInput[]
   }
 
   export type ResourceBookingUncheckedCreateNestedManyWithoutUserInput = {
@@ -135354,6 +136809,20 @@ export namespace Prisma {
     update?: TimesheetLockUpdateWithWhereUniqueWithoutLockedByInput | TimesheetLockUpdateWithWhereUniqueWithoutLockedByInput[]
     updateMany?: TimesheetLockUpdateManyWithWhereWithoutLockedByInput | TimesheetLockUpdateManyWithWhereWithoutLockedByInput[]
     deleteMany?: TimesheetLockScalarWhereInput | TimesheetLockScalarWhereInput[]
+  }
+
+  export type FinancialPeriodLockUpdateManyWithoutLockedByNestedInput = {
+    create?: XOR<FinancialPeriodLockCreateWithoutLockedByInput, FinancialPeriodLockUncheckedCreateWithoutLockedByInput> | FinancialPeriodLockCreateWithoutLockedByInput[] | FinancialPeriodLockUncheckedCreateWithoutLockedByInput[]
+    connectOrCreate?: FinancialPeriodLockCreateOrConnectWithoutLockedByInput | FinancialPeriodLockCreateOrConnectWithoutLockedByInput[]
+    upsert?: FinancialPeriodLockUpsertWithWhereUniqueWithoutLockedByInput | FinancialPeriodLockUpsertWithWhereUniqueWithoutLockedByInput[]
+    createMany?: FinancialPeriodLockCreateManyLockedByInputEnvelope
+    set?: FinancialPeriodLockWhereUniqueInput | FinancialPeriodLockWhereUniqueInput[]
+    disconnect?: FinancialPeriodLockWhereUniqueInput | FinancialPeriodLockWhereUniqueInput[]
+    delete?: FinancialPeriodLockWhereUniqueInput | FinancialPeriodLockWhereUniqueInput[]
+    connect?: FinancialPeriodLockWhereUniqueInput | FinancialPeriodLockWhereUniqueInput[]
+    update?: FinancialPeriodLockUpdateWithWhereUniqueWithoutLockedByInput | FinancialPeriodLockUpdateWithWhereUniqueWithoutLockedByInput[]
+    updateMany?: FinancialPeriodLockUpdateManyWithWhereWithoutLockedByInput | FinancialPeriodLockUpdateManyWithWhereWithoutLockedByInput[]
+    deleteMany?: FinancialPeriodLockScalarWhereInput | FinancialPeriodLockScalarWhereInput[]
   }
 
   export type HolidayCalendarUpdateOneWithoutUsersNestedInput = {
@@ -136092,6 +137561,20 @@ export namespace Prisma {
     update?: TimesheetLockUpdateWithWhereUniqueWithoutLockedByInput | TimesheetLockUpdateWithWhereUniqueWithoutLockedByInput[]
     updateMany?: TimesheetLockUpdateManyWithWhereWithoutLockedByInput | TimesheetLockUpdateManyWithWhereWithoutLockedByInput[]
     deleteMany?: TimesheetLockScalarWhereInput | TimesheetLockScalarWhereInput[]
+  }
+
+  export type FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput = {
+    create?: XOR<FinancialPeriodLockCreateWithoutLockedByInput, FinancialPeriodLockUncheckedCreateWithoutLockedByInput> | FinancialPeriodLockCreateWithoutLockedByInput[] | FinancialPeriodLockUncheckedCreateWithoutLockedByInput[]
+    connectOrCreate?: FinancialPeriodLockCreateOrConnectWithoutLockedByInput | FinancialPeriodLockCreateOrConnectWithoutLockedByInput[]
+    upsert?: FinancialPeriodLockUpsertWithWhereUniqueWithoutLockedByInput | FinancialPeriodLockUpsertWithWhereUniqueWithoutLockedByInput[]
+    createMany?: FinancialPeriodLockCreateManyLockedByInputEnvelope
+    set?: FinancialPeriodLockWhereUniqueInput | FinancialPeriodLockWhereUniqueInput[]
+    disconnect?: FinancialPeriodLockWhereUniqueInput | FinancialPeriodLockWhereUniqueInput[]
+    delete?: FinancialPeriodLockWhereUniqueInput | FinancialPeriodLockWhereUniqueInput[]
+    connect?: FinancialPeriodLockWhereUniqueInput | FinancialPeriodLockWhereUniqueInput[]
+    update?: FinancialPeriodLockUpdateWithWhereUniqueWithoutLockedByInput | FinancialPeriodLockUpdateWithWhereUniqueWithoutLockedByInput[]
+    updateMany?: FinancialPeriodLockUpdateManyWithWhereWithoutLockedByInput | FinancialPeriodLockUpdateManyWithWhereWithoutLockedByInput[]
+    deleteMany?: FinancialPeriodLockScalarWhereInput | FinancialPeriodLockScalarWhereInput[]
   }
 
   export type ResourceBookingUncheckedUpdateManyWithoutUserNestedInput = {
@@ -140029,6 +141512,22 @@ export namespace Prisma {
   export type TenantSettingsUpdateworkingDaysInput = {
     set?: number[]
     push?: number | number[]
+  }
+
+  export type UserCreateNestedOneWithoutLockedFinancialPeriodsInput = {
+    create?: XOR<UserCreateWithoutLockedFinancialPeriodsInput, UserUncheckedCreateWithoutLockedFinancialPeriodsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLockedFinancialPeriodsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneWithoutLockedFinancialPeriodsNestedInput = {
+    create?: XOR<UserCreateWithoutLockedFinancialPeriodsInput, UserUncheckedCreateWithoutLockedFinancialPeriodsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLockedFinancialPeriodsInput
+    upsert?: UserUpsertWithoutLockedFinancialPeriodsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLockedFinancialPeriodsInput, UserUpdateWithoutLockedFinancialPeriodsInput>, UserUncheckedUpdateWithoutLockedFinancialPeriodsInput>
   }
 
   export type UserCreateNestedOneWithoutPendingLoginsInput = {
@@ -144995,6 +146494,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -145068,6 +146568,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -145144,6 +146645,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -145217,6 +146719,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -145534,6 +147037,30 @@ export namespace Prisma {
 
   export type TimesheetLockCreateManyLockedByInputEnvelope = {
     data: TimesheetLockCreateManyLockedByInput | TimesheetLockCreateManyLockedByInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FinancialPeriodLockCreateWithoutLockedByInput = {
+    id?: string
+    periodKey: string
+    locked: boolean
+    updatedAt?: Date | string
+  }
+
+  export type FinancialPeriodLockUncheckedCreateWithoutLockedByInput = {
+    id?: string
+    periodKey: string
+    locked: boolean
+    updatedAt?: Date | string
+  }
+
+  export type FinancialPeriodLockCreateOrConnectWithoutLockedByInput = {
+    where: FinancialPeriodLockWhereUniqueInput
+    create: XOR<FinancialPeriodLockCreateWithoutLockedByInput, FinancialPeriodLockUncheckedCreateWithoutLockedByInput>
+  }
+
+  export type FinancialPeriodLockCreateManyLockedByInputEnvelope = {
+    data: FinancialPeriodLockCreateManyLockedByInput | FinancialPeriodLockCreateManyLockedByInput[]
     skipDuplicates?: boolean
   }
 
@@ -146971,6 +148498,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -147044,6 +148572,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -147317,6 +148846,33 @@ export namespace Prisma {
   export type TimesheetLockUpdateManyWithWhereWithoutLockedByInput = {
     where: TimesheetLockScalarWhereInput
     data: XOR<TimesheetLockUpdateManyMutationInput, TimesheetLockUncheckedUpdateManyWithoutLockedByInput>
+  }
+
+  export type FinancialPeriodLockUpsertWithWhereUniqueWithoutLockedByInput = {
+    where: FinancialPeriodLockWhereUniqueInput
+    update: XOR<FinancialPeriodLockUpdateWithoutLockedByInput, FinancialPeriodLockUncheckedUpdateWithoutLockedByInput>
+    create: XOR<FinancialPeriodLockCreateWithoutLockedByInput, FinancialPeriodLockUncheckedCreateWithoutLockedByInput>
+  }
+
+  export type FinancialPeriodLockUpdateWithWhereUniqueWithoutLockedByInput = {
+    where: FinancialPeriodLockWhereUniqueInput
+    data: XOR<FinancialPeriodLockUpdateWithoutLockedByInput, FinancialPeriodLockUncheckedUpdateWithoutLockedByInput>
+  }
+
+  export type FinancialPeriodLockUpdateManyWithWhereWithoutLockedByInput = {
+    where: FinancialPeriodLockScalarWhereInput
+    data: XOR<FinancialPeriodLockUpdateManyMutationInput, FinancialPeriodLockUncheckedUpdateManyWithoutLockedByInput>
+  }
+
+  export type FinancialPeriodLockScalarWhereInput = {
+    AND?: FinancialPeriodLockScalarWhereInput | FinancialPeriodLockScalarWhereInput[]
+    OR?: FinancialPeriodLockScalarWhereInput[]
+    NOT?: FinancialPeriodLockScalarWhereInput | FinancialPeriodLockScalarWhereInput[]
+    id?: StringFilter<"FinancialPeriodLock"> | string
+    periodKey?: StringFilter<"FinancialPeriodLock"> | string
+    locked?: BoolFilter<"FinancialPeriodLock"> | boolean
+    lockedById?: StringNullableFilter<"FinancialPeriodLock"> | string | null
+    updatedAt?: DateTimeFilter<"FinancialPeriodLock"> | Date | string
   }
 
   export type HolidayCalendarUpsertWithoutUsersInput = {
@@ -147747,6 +149303,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -147820,6 +149377,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -148190,6 +149748,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -148263,6 +149822,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -148869,6 +150429,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -148942,6 +150503,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -149225,6 +150787,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -149298,6 +150861,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -149585,6 +151149,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -149658,6 +151223,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -149844,6 +151410,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -149917,6 +151484,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -149988,6 +151556,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -150061,6 +151630,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -150291,6 +151861,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -150364,6 +151935,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -150571,6 +152143,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -150644,6 +152217,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -150742,6 +152316,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -150815,6 +152390,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -150891,6 +152467,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -150964,6 +152541,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -151051,6 +152629,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -151124,6 +152703,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -151206,6 +152786,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -151279,6 +152860,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -151350,6 +152932,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -151423,6 +153006,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -151510,6 +153094,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -151583,6 +153168,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -151654,6 +153240,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -151727,6 +153314,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -151814,6 +153402,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -151887,6 +153476,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -151958,6 +153548,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -152031,6 +153622,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -152118,6 +153710,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -152191,6 +153784,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -152355,6 +153949,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -152428,6 +154023,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -152614,6 +154210,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -152687,6 +154284,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -153511,6 +155109,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -153584,6 +155183,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -154423,6 +156023,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -154496,6 +156097,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -156390,6 +157992,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -156463,6 +158066,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -156649,6 +158253,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -156722,6 +158327,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -156886,6 +158492,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -156959,6 +158566,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -157145,6 +158753,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -157218,6 +158827,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -157782,6 +159392,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -157855,6 +159466,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -158725,6 +160337,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -158798,6 +160411,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -159729,6 +161343,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -159802,6 +161417,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -159984,6 +161600,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -160057,6 +161674,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -160217,6 +161835,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -160290,6 +161909,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -160472,6 +162092,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -160545,6 +162166,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -160705,6 +162327,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -160778,6 +162401,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -160980,6 +162604,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -161053,6 +162678,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -161161,6 +162787,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -161234,6 +162861,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -161348,6 +162976,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -161421,6 +163050,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -161581,6 +163211,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -161654,6 +163285,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -161836,6 +163468,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -161909,6 +163542,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -162074,6 +163708,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -162147,6 +163782,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -162381,6 +164017,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -162454,6 +164091,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -162507,6 +164145,314 @@ export namespace Prisma {
   export type SharedWikiLinkUpdateManyWithWhereWithoutWikiPageInput = {
     where: SharedWikiLinkScalarWhereInput
     data: XOR<SharedWikiLinkUpdateManyMutationInput, SharedWikiLinkUncheckedUpdateManyWithoutWikiPageInput>
+  }
+
+  export type UserCreateWithoutLockedFinancialPeriodsInput = {
+    id?: string
+    email: string
+    passwordHash?: string | null
+    name?: string | null
+    role?: $Enums.Role
+    weeklyCapacityHours?: number
+    isActive?: boolean
+    avatarUrl?: string | null
+    avatarStoragePath?: string | null
+    avatarMimeType?: string | null
+    internalCostRate?: number | null
+    totpSecret?: string | null
+    totpEnabled?: boolean
+    locale?: $Enums.Locale
+    createdAt?: Date | string
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    assignedTasks?: TaskCreateNestedManyWithoutAssigneeInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    mentions?: MentionCreateNestedManyWithoutUserInput
+    attachments?: AttachmentCreateNestedManyWithoutUploadedByInput
+    activityEvents?: ActivityEventCreateNestedManyWithoutActorInput
+    notificationPreferences?: NotificationPreferenceCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    dashboards?: DashboardCreateNestedManyWithoutOwnerInput
+    checkInResponses?: CheckInResponseCreateNestedManyWithoutUserInput
+    ownedBudgets?: BudgetCreateNestedManyWithoutOwnerInput
+    budgetSectionAssignments?: BudgetSectionAssigneeCreateNestedManyWithoutUserInput
+    absenceRequests?: AbsenceRequestCreateNestedManyWithoutUserInput
+    reviewedAbsenceRequests?: AbsenceRequestCreateNestedManyWithoutReviewedByInput
+    createdAutomationRules?: AutomationRuleCreateNestedManyWithoutCreatedByInput
+    automationActionTargets?: AutomationActionCreateNestedManyWithoutTargetUserInput
+    createdInvoices?: InvoiceCreateNestedManyWithoutCreatedByInput
+    projectClientAccess?: ProjectClientAccessCreateNestedManyWithoutUserInput
+    createdSharedViews?: SharedViewCreateNestedManyWithoutCreatedByInput
+    createdTaskLinks?: TaskLinkCreateNestedManyWithoutCreatedByInput
+    pendingLogins?: PendingLoginCreateNestedManyWithoutUserInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
+    customRole?: CustomRoleCreateNestedOneWithoutUsersInput
+    projectRoleOverrides?: ProjectRoleOverrideCreateNestedManyWithoutUserInput
+    managedProjects?: ProjectCreateNestedManyWithoutProjectManagerInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    taskSubscriptions?: TaskSubscriberCreateNestedManyWithoutUserInput
+    assignedTodos?: TodoCreateNestedManyWithoutAssigneeInput
+    savedViews?: SavedViewCreateNestedManyWithoutOwnerInput
+    sharedWikiLinks?: SharedWikiLinkCreateNestedManyWithoutCreatedByInput
+    manager?: UserCreateNestedOneWithoutDirectReportsInput
+    directReports?: UserCreateNestedManyWithoutManagerInput
+    favorites?: FavoriteCreateNestedManyWithoutUserInput
+    auditLogEntries?: AuditLogEntryCreateNestedManyWithoutActorInput
+    invoicePayments?: InvoicePaymentCreateNestedManyWithoutCreatedByInput
+    creditNotes?: CreditNoteCreateNestedManyWithoutCreatedByInput
+    savedReports?: SavedReportCreateNestedManyWithoutOwnerInput
+    approvedTimeEntries?: TimeEntryCreateNestedManyWithoutApprovedByInput
+    loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
+    timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
+    lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
+    resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
+    createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
+    createdMeetings?: MeetingCreateNestedManyWithoutCreatedByInput
+    createdExpenses?: ExpenseCreateNestedManyWithoutCreatedByInput
+    createdPurchaseOrders?: PurchaseOrderCreateNestedManyWithoutCreatedByInput
+    approvedExpenses?: ExpenseCreateNestedManyWithoutApprovedByInput
+    createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
+    accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
+    ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutLockedFinancialPeriodsInput = {
+    id?: string
+    email: string
+    passwordHash?: string | null
+    name?: string | null
+    role?: $Enums.Role
+    weeklyCapacityHours?: number
+    isActive?: boolean
+    avatarUrl?: string | null
+    avatarStoragePath?: string | null
+    avatarMimeType?: string | null
+    internalCostRate?: number | null
+    totpSecret?: string | null
+    totpEnabled?: boolean
+    locale?: $Enums.Locale
+    createdAt?: Date | string
+    customRoleId?: string | null
+    managerId?: string | null
+    holidayCalendarId?: string | null
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    mentions?: MentionUncheckedCreateNestedManyWithoutUserInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutUploadedByInput
+    activityEvents?: ActivityEventUncheckedCreateNestedManyWithoutActorInput
+    notificationPreferences?: NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    dashboards?: DashboardUncheckedCreateNestedManyWithoutOwnerInput
+    checkInResponses?: CheckInResponseUncheckedCreateNestedManyWithoutUserInput
+    ownedBudgets?: BudgetUncheckedCreateNestedManyWithoutOwnerInput
+    budgetSectionAssignments?: BudgetSectionAssigneeUncheckedCreateNestedManyWithoutUserInput
+    absenceRequests?: AbsenceRequestUncheckedCreateNestedManyWithoutUserInput
+    reviewedAbsenceRequests?: AbsenceRequestUncheckedCreateNestedManyWithoutReviewedByInput
+    createdAutomationRules?: AutomationRuleUncheckedCreateNestedManyWithoutCreatedByInput
+    automationActionTargets?: AutomationActionUncheckedCreateNestedManyWithoutTargetUserInput
+    createdInvoices?: InvoiceUncheckedCreateNestedManyWithoutCreatedByInput
+    projectClientAccess?: ProjectClientAccessUncheckedCreateNestedManyWithoutUserInput
+    createdSharedViews?: SharedViewUncheckedCreateNestedManyWithoutCreatedByInput
+    createdTaskLinks?: TaskLinkUncheckedCreateNestedManyWithoutCreatedByInput
+    pendingLogins?: PendingLoginUncheckedCreateNestedManyWithoutUserInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
+    projectRoleOverrides?: ProjectRoleOverrideUncheckedCreateNestedManyWithoutUserInput
+    managedProjects?: ProjectUncheckedCreateNestedManyWithoutProjectManagerInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    taskSubscriptions?: TaskSubscriberUncheckedCreateNestedManyWithoutUserInput
+    assignedTodos?: TodoUncheckedCreateNestedManyWithoutAssigneeInput
+    savedViews?: SavedViewUncheckedCreateNestedManyWithoutOwnerInput
+    sharedWikiLinks?: SharedWikiLinkUncheckedCreateNestedManyWithoutCreatedByInput
+    directReports?: UserUncheckedCreateNestedManyWithoutManagerInput
+    favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
+    auditLogEntries?: AuditLogEntryUncheckedCreateNestedManyWithoutActorInput
+    invoicePayments?: InvoicePaymentUncheckedCreateNestedManyWithoutCreatedByInput
+    creditNotes?: CreditNoteUncheckedCreateNestedManyWithoutCreatedByInput
+    savedReports?: SavedReportUncheckedCreateNestedManyWithoutOwnerInput
+    approvedTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutApprovedByInput
+    loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
+    timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
+    lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
+    createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
+    createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
+    createdExpenses?: ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
+    createdPurchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutCreatedByInput
+    approvedExpenses?: ExpenseUncheckedCreateNestedManyWithoutApprovedByInput
+    createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
+    accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
+    ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutLockedFinancialPeriodsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutLockedFinancialPeriodsInput, UserUncheckedCreateWithoutLockedFinancialPeriodsInput>
+  }
+
+  export type UserUpsertWithoutLockedFinancialPeriodsInput = {
+    update: XOR<UserUpdateWithoutLockedFinancialPeriodsInput, UserUncheckedUpdateWithoutLockedFinancialPeriodsInput>
+    create: XOR<UserCreateWithoutLockedFinancialPeriodsInput, UserUncheckedCreateWithoutLockedFinancialPeriodsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutLockedFinancialPeriodsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutLockedFinancialPeriodsInput, UserUncheckedUpdateWithoutLockedFinancialPeriodsInput>
+  }
+
+  export type UserUpdateWithoutLockedFinancialPeriodsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarStoragePath?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarMimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    internalCostRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    totpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    locale?: EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    assignedTasks?: TaskUpdateManyWithoutAssigneeNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    mentions?: MentionUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUpdateManyWithoutUploadedByNestedInput
+    activityEvents?: ActivityEventUpdateManyWithoutActorNestedInput
+    notificationPreferences?: NotificationPreferenceUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    dashboards?: DashboardUpdateManyWithoutOwnerNestedInput
+    checkInResponses?: CheckInResponseUpdateManyWithoutUserNestedInput
+    ownedBudgets?: BudgetUpdateManyWithoutOwnerNestedInput
+    budgetSectionAssignments?: BudgetSectionAssigneeUpdateManyWithoutUserNestedInput
+    absenceRequests?: AbsenceRequestUpdateManyWithoutUserNestedInput
+    reviewedAbsenceRequests?: AbsenceRequestUpdateManyWithoutReviewedByNestedInput
+    createdAutomationRules?: AutomationRuleUpdateManyWithoutCreatedByNestedInput
+    automationActionTargets?: AutomationActionUpdateManyWithoutTargetUserNestedInput
+    createdInvoices?: InvoiceUpdateManyWithoutCreatedByNestedInput
+    projectClientAccess?: ProjectClientAccessUpdateManyWithoutUserNestedInput
+    createdSharedViews?: SharedViewUpdateManyWithoutCreatedByNestedInput
+    createdTaskLinks?: TaskLinkUpdateManyWithoutCreatedByNestedInput
+    pendingLogins?: PendingLoginUpdateManyWithoutUserNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
+    customRole?: CustomRoleUpdateOneWithoutUsersNestedInput
+    projectRoleOverrides?: ProjectRoleOverrideUpdateManyWithoutUserNestedInput
+    managedProjects?: ProjectUpdateManyWithoutProjectManagerNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    taskSubscriptions?: TaskSubscriberUpdateManyWithoutUserNestedInput
+    assignedTodos?: TodoUpdateManyWithoutAssigneeNestedInput
+    savedViews?: SavedViewUpdateManyWithoutOwnerNestedInput
+    sharedWikiLinks?: SharedWikiLinkUpdateManyWithoutCreatedByNestedInput
+    manager?: UserUpdateOneWithoutDirectReportsNestedInput
+    directReports?: UserUpdateManyWithoutManagerNestedInput
+    favorites?: FavoriteUpdateManyWithoutUserNestedInput
+    auditLogEntries?: AuditLogEntryUpdateManyWithoutActorNestedInput
+    invoicePayments?: InvoicePaymentUpdateManyWithoutCreatedByNestedInput
+    creditNotes?: CreditNoteUpdateManyWithoutCreatedByNestedInput
+    savedReports?: SavedReportUpdateManyWithoutOwnerNestedInput
+    approvedTimeEntries?: TimeEntryUpdateManyWithoutApprovedByNestedInput
+    loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
+    timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
+    lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
+    resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
+    createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
+    createdMeetings?: MeetingUpdateManyWithoutCreatedByNestedInput
+    createdExpenses?: ExpenseUpdateManyWithoutCreatedByNestedInput
+    createdPurchaseOrders?: PurchaseOrderUpdateManyWithoutCreatedByNestedInput
+    approvedExpenses?: ExpenseUpdateManyWithoutApprovedByNestedInput
+    createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
+    accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
+    ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutLockedFinancialPeriodsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarStoragePath?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarMimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    internalCostRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    totpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    locale?: EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customRoleId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    holidayCalendarId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    assignedTasks?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    mentions?: MentionUncheckedUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput
+    activityEvents?: ActivityEventUncheckedUpdateManyWithoutActorNestedInput
+    notificationPreferences?: NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    dashboards?: DashboardUncheckedUpdateManyWithoutOwnerNestedInput
+    checkInResponses?: CheckInResponseUncheckedUpdateManyWithoutUserNestedInput
+    ownedBudgets?: BudgetUncheckedUpdateManyWithoutOwnerNestedInput
+    budgetSectionAssignments?: BudgetSectionAssigneeUncheckedUpdateManyWithoutUserNestedInput
+    absenceRequests?: AbsenceRequestUncheckedUpdateManyWithoutUserNestedInput
+    reviewedAbsenceRequests?: AbsenceRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+    createdAutomationRules?: AutomationRuleUncheckedUpdateManyWithoutCreatedByNestedInput
+    automationActionTargets?: AutomationActionUncheckedUpdateManyWithoutTargetUserNestedInput
+    createdInvoices?: InvoiceUncheckedUpdateManyWithoutCreatedByNestedInput
+    projectClientAccess?: ProjectClientAccessUncheckedUpdateManyWithoutUserNestedInput
+    createdSharedViews?: SharedViewUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdTaskLinks?: TaskLinkUncheckedUpdateManyWithoutCreatedByNestedInput
+    pendingLogins?: PendingLoginUncheckedUpdateManyWithoutUserNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
+    projectRoleOverrides?: ProjectRoleOverrideUncheckedUpdateManyWithoutUserNestedInput
+    managedProjects?: ProjectUncheckedUpdateManyWithoutProjectManagerNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    taskSubscriptions?: TaskSubscriberUncheckedUpdateManyWithoutUserNestedInput
+    assignedTodos?: TodoUncheckedUpdateManyWithoutAssigneeNestedInput
+    savedViews?: SavedViewUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedWikiLinks?: SharedWikiLinkUncheckedUpdateManyWithoutCreatedByNestedInput
+    directReports?: UserUncheckedUpdateManyWithoutManagerNestedInput
+    favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
+    auditLogEntries?: AuditLogEntryUncheckedUpdateManyWithoutActorNestedInput
+    invoicePayments?: InvoicePaymentUncheckedUpdateManyWithoutCreatedByNestedInput
+    creditNotes?: CreditNoteUncheckedUpdateManyWithoutCreatedByNestedInput
+    savedReports?: SavedReportUncheckedUpdateManyWithoutOwnerNestedInput
+    approvedTimeEntries?: TimeEntryUncheckedUpdateManyWithoutApprovedByNestedInput
+    loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
+    timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
+    lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
+    createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdExpenses?: ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdPurchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutCreatedByNestedInput
+    approvedExpenses?: ExpenseUncheckedUpdateManyWithoutApprovedByNestedInput
+    createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
+    accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
+    ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPendingLoginsInput = {
@@ -162566,6 +164512,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -162639,6 +164586,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -162726,6 +164674,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -162799,6 +164748,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -162870,6 +164820,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -162943,6 +164894,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -163311,6 +165263,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -163384,6 +165337,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -163460,6 +165414,7 @@ export namespace Prisma {
     approvedTimeEntries?: TimeEntryCreateNestedManyWithoutApprovedByInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -163533,6 +165488,7 @@ export namespace Prisma {
     approvedTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutApprovedByInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -163646,6 +165602,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -163719,6 +165676,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -164117,6 +166075,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -164190,6 +166149,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -164272,6 +166232,7 @@ export namespace Prisma {
     approvedTimeEntries?: TimeEntryUpdateManyWithoutApprovedByNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -164345,6 +166306,7 @@ export namespace Prisma {
     approvedTimeEntries?: TimeEntryUncheckedUpdateManyWithoutApprovedByNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -164582,6 +166544,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -164655,6 +166618,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -164777,6 +166741,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -164850,6 +166815,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -164968,6 +166934,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -165041,6 +167008,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -165181,6 +167149,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -165254,6 +167223,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -165324,6 +167294,7 @@ export namespace Prisma {
     approvedTimeEntries?: TimeEntryCreateNestedManyWithoutApprovedByInput
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -165397,6 +167368,7 @@ export namespace Prisma {
     approvedTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutApprovedByInput
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -165473,6 +167445,7 @@ export namespace Prisma {
     approvedTimeEntries?: TimeEntryCreateNestedManyWithoutApprovedByInput
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -165546,6 +167519,7 @@ export namespace Prisma {
     approvedTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutApprovedByInput
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -165633,6 +167607,7 @@ export namespace Prisma {
     approvedTimeEntries?: TimeEntryUpdateManyWithoutApprovedByNestedInput
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -165706,6 +167681,7 @@ export namespace Prisma {
     approvedTimeEntries?: TimeEntryUncheckedUpdateManyWithoutApprovedByNestedInput
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -165788,6 +167764,7 @@ export namespace Prisma {
     approvedTimeEntries?: TimeEntryUpdateManyWithoutApprovedByNestedInput
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -165861,6 +167838,7 @@ export namespace Prisma {
     approvedTimeEntries?: TimeEntryUncheckedUpdateManyWithoutApprovedByNestedInput
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -165955,6 +167933,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingCreateNestedManyWithoutCreatedByInput
@@ -166027,6 +168006,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -166195,6 +168175,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingCreateNestedManyWithoutCreatedByInput
@@ -166268,6 +168249,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
     createdExpenses?: ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
@@ -166504,6 +168486,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdMeetings?: MeetingCreateNestedManyWithoutCreatedByInput
@@ -166577,6 +168560,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
     createdExpenses?: ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
@@ -166664,6 +168648,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUpdateManyWithoutCreatedByNestedInput
@@ -166737,6 +168722,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdExpenses?: ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -166991,6 +168977,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdMeetings?: MeetingUpdateManyWithoutCreatedByNestedInput
@@ -167064,6 +169051,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdExpenses?: ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -168056,6 +170044,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -168129,6 +170118,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -168406,6 +170396,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -168479,6 +170470,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -169900,6 +171892,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -169973,6 +171966,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -170107,6 +172101,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -170180,6 +172175,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -170279,6 +172275,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -170352,6 +172349,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -170474,6 +172472,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -170547,6 +172546,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -170711,6 +172711,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -170784,6 +172785,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -171142,6 +173144,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -171215,6 +173218,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -171462,6 +173466,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -171535,6 +173540,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -171715,6 +173721,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -171788,6 +173795,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -171958,6 +173966,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -172031,6 +174040,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -172145,6 +174155,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -172218,6 +174229,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -172322,6 +174334,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -172395,6 +174408,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -172512,6 +174526,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -172585,6 +174600,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -172707,6 +174723,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -172780,6 +174797,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -172937,6 +174955,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -173010,6 +175029,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -173116,6 +175136,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -173189,6 +175210,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -173308,6 +175330,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -173381,6 +175404,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -173772,6 +175796,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -173845,6 +175870,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -173932,6 +175958,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -174005,6 +176032,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -174393,6 +176421,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -174466,6 +176495,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -174584,6 +176614,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -174657,6 +176688,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -174821,6 +176853,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -174894,6 +176927,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -175454,6 +177488,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -175527,6 +177562,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -176721,6 +178757,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -176794,6 +178831,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -177132,6 +179170,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -177205,6 +179244,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -177723,6 +179763,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -177796,6 +179837,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -177932,6 +179974,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -178005,6 +180048,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -178119,6 +180163,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -178192,6 +180237,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -178328,6 +180374,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -178401,6 +180448,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -178566,6 +180614,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -178639,6 +180688,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdExpenses?: ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
@@ -178825,6 +180875,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -178898,6 +180949,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdExpenses?: ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -179142,6 +181194,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -179215,6 +181268,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -179291,6 +181345,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -179364,6 +181419,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -179717,6 +181773,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -179790,6 +181847,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -179872,6 +181930,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -179945,6 +182004,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -180174,6 +182234,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -180247,6 +182308,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -180433,6 +182495,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -180506,6 +182569,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -180576,6 +182640,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -180649,6 +182714,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -180736,6 +182802,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -180809,6 +182876,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -180947,6 +183015,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -181020,6 +183089,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -181180,6 +183250,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -181253,6 +183324,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -181696,6 +183768,13 @@ export namespace Prisma {
     periodStart: Date | string
     periodEnd: Date | string
     createdAt?: Date | string
+  }
+
+  export type FinancialPeriodLockCreateManyLockedByInput = {
+    id?: string
+    periodKey: string
+    locked: boolean
+    updatedAt?: Date | string
   }
 
   export type ResourceBookingCreateManyUserInput = {
@@ -182941,6 +185020,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -183014,6 +185094,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -183353,6 +185434,27 @@ export namespace Prisma {
     periodStart?: DateTimeFieldUpdateOperationsInput | Date | string
     periodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FinancialPeriodLockUpdateWithoutLockedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    periodKey?: StringFieldUpdateOperationsInput | string
+    locked?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FinancialPeriodLockUncheckedUpdateWithoutLockedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    periodKey?: StringFieldUpdateOperationsInput | string
+    locked?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FinancialPeriodLockUncheckedUpdateManyWithoutLockedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    periodKey?: StringFieldUpdateOperationsInput | string
+    locked?: BoolFieldUpdateOperationsInput | boolean
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ResourceBookingUpdateWithoutUserInput = {
@@ -184365,6 +186467,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -184438,6 +186541,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -187497,6 +189601,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUpdateManyWithoutCreatedByNestedInput
@@ -187569,6 +189674,7 @@ export namespace Prisma {
     loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput

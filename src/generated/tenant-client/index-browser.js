@@ -536,7 +536,17 @@ exports.Prisma.TenantSettingsScalarFieldEnum = {
   personDayHours: 'personDayHours',
   fiscalYearEnabled: 'fiscalYearEnabled',
   fiscalYearStartMonth: 'fiscalYearStartMonth',
+  financialMonthClosingEnabled: 'financialMonthClosingEnabled',
+  financialMonthClosingDay: 'financialMonthClosingDay',
   createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.FinancialPeriodLockScalarFieldEnum = {
+  id: 'id',
+  periodKey: 'periodKey',
+  locked: 'locked',
+  lockedById: 'lockedById',
   updatedAt: 'updatedAt'
 };
 
@@ -1370,6 +1380,7 @@ exports.Prisma.ModelName = {
   Attachment: 'Attachment',
   WikiPage: 'WikiPage',
   TenantSettings: 'TenantSettings',
+  FinancialPeriodLock: 'FinancialPeriodLock',
   PendingLogin: 'PendingLogin',
   TimeEntry: 'TimeEntry',
   ApprovalPolicy: 'ApprovalPolicy',

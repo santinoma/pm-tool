@@ -3,6 +3,7 @@ import { getTenantContext } from "@/tenant/context";
 import { getOrCreateTenantSettings } from "@/tenant/timeTracking/tenantSettings";
 import { canManageMembers } from "@/tenant/auth/roleGuard";
 import { hasFeature } from "@/tenant/entitlements/features";
+import { hasEffectivePermission } from "@/tenant/permissions/resolvePermissions";
 
 const VALID_TIME_TRACKING_MODES = ["timer", "entries"];
 const VALID_TIME_FORMATS = ["h12", "h24"];
@@ -34,6 +35,8 @@ export async function PATCH(request: Request) {
   const hasWorkTime = workTimeKeys.some((key) => body?.[key] !== undefined);
   const fiscalYearKeys = ["fiscalYearEnabled", "fiscalYearStartMonth"] as const;
   const hasFiscalYear = fiscalYearKeys.some((key) => body?.[key] !== undefined);
+  const financialMonthClosingKeys = ["financialMonthClosingEnabled", "financialMonthClosingDay"] as const;
+  const hasFinancialMonthClosing = financialMonthClosingKeys.some((key) => body?.[key] !== undefined);
   if (
     !body ||
     (body.allowProjectLevelTimeEntries === undefined &&
@@ -46,12 +49,13 @@ export async function PATCH(request: Request) {
       !hasModuleToggle &&
       !hasLocationFormat &&
       !hasWorkTime &&
-      !hasFiscalYear)
+      !hasFiscalYear &&
+      !hasFinancialMonthClosing)
   ) {
     return NextResponse.json(
       {
         error:
-          "allowProjectLevelTimeEntries (boolean), currency (string), triageEnabled (boolean), timeTrackingMode ('timer'|'entries'), require2fa (boolean), timeApprovalEnabled (boolean), timeEntrySubmissionEnabled (boolean), ein Modul-Flag (crmEnabled/reportsEnabled/resourcingEnabled, boolean), Location & Format (timeZone/timeFormat/dateFormat/numberFormat), Work Time (weekStartDay/workingDays/personDayHours) oder Fiscal Year (fiscalYearEnabled/fiscalYearStartMonth) ist erforderlich.",
+          "allowProjectLevelTimeEntries (boolean), currency (string), triageEnabled (boolean), timeTrackingMode ('timer'|'entries'), require2fa (boolean), timeApprovalEnabled (boolean), timeEntrySubmissionEnabled (boolean), ein Modul-Flag (crmEnabled/reportsEnabled/resourcingEnabled, boolean), Location & Format (timeZone/timeFormat/dateFormat/numberFormat), Work Time (weekStartDay/workingDays/personDayHours), Fiscal Year (fiscalYearEnabled/fiscalYearStartMonth) oder Financial Month Closing (financialMonthClosingEnabled/financialMonthClosingDay) ist erforderlich.",
       },
       { status: 400 },
     );
@@ -108,6 +112,18 @@ export async function PATCH(request: Request) {
   ) {
     return NextResponse.json({ error: "fiscalYearStartMonth muss zwischen 1 und 12 liegen." }, { status: 400 });
   }
+  if (
+    hasFinancialMonthClosing &&
+    !(await hasEffectivePermission(context.tenantDb, context.currentUser, context.entitledFeatures, "financial_month_closing_manage"))
+  ) {
+    return NextResponse.json({ error: "Keine Berechtigung." }, { status: 403 });
+  }
+  if (
+    body.financialMonthClosingDay !== undefined &&
+    (typeof body.financialMonthClosingDay !== "number" || body.financialMonthClosingDay < 1 || body.financialMonthClosingDay > 31)
+  ) {
+    return NextResponse.json({ error: "financialMonthClosingDay muss zwischen 1 und 31 liegen." }, { status: 400 });
+  }
 
   const current = await getOrCreateTenantSettings(context.tenantDb);
   const updated = await context.tenantDb.tenantSettings.update({
@@ -137,6 +153,10 @@ export async function PATCH(request: Request) {
       personDayHours: typeof body.personDayHours === "number" ? body.personDayHours : undefined,
       fiscalYearEnabled: typeof body.fiscalYearEnabled === "boolean" ? body.fiscalYearEnabled : undefined,
       fiscalYearStartMonth: typeof body.fiscalYearStartMonth === "number" ? body.fiscalYearStartMonth : undefined,
+      financialMonthClosingEnabled:
+        typeof body.financialMonthClosingEnabled === "boolean" ? body.financialMonthClosingEnabled : undefined,
+      financialMonthClosingDay:
+        typeof body.financialMonthClosingDay === "number" ? body.financialMonthClosingDay : undefined,
     },
   });
 

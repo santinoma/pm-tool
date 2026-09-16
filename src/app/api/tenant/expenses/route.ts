@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
 import { canManageMembers } from "@/tenant/auth/roleGuard";
+import { assertPeriodNotLocked } from "@/tenant/financials/monthClosing";
 
 export async function GET() {
   const context = await getTenantContext();
@@ -40,6 +41,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "amount muss eine Zahl sein." }, { status: 400 });
   }
   const incurredAt = typeof body.incurredAt === "string" && !Number.isNaN(Date.parse(body.incurredAt)) ? new Date(body.incurredAt) : new Date();
+
+  const lockError = await assertPeriodNotLocked(context.tenantDb, incurredAt);
+  if (lockError) {
+    return NextResponse.json({ error: lockError }, { status: 409 });
+  }
 
   const expense = await context.tenantDb.expense.create({
     data: {

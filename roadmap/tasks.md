@@ -146,13 +146,40 @@ Task weitermachen — nicht die ganze Phase anhalten.
       möglich (unterschiedliche Trigger-Zeitpunkte: Value-Write vs.
       Status-Übergang), final als eigenständiges Feature ohne Productive-
       Entsprechung gekennzeichnet, siehe `EIGENENTWICKLUNGEN.md`
-- [ ] T309 Budgets: Deliverables
+- [x] T309 Budgets: Deliverables — Productive-Doku-Recherche (Help Center)
+      zeigt: "Deliverables" ist **kein eigenständiges Datenmodell** in
+      Productive, auch nicht budget-gebunden. Der Begriff taucht nur
+      informell auf, als Synonym für (a) **Key Tasks** ("mark specific
+      points in time or important deliverables") — bereits als
+      `Task.isKeyTask` implementiert — und (b) **Milestone Billing**, das
+      Productive über mehrere Budgets/Draft-Invoices pro Projektphase
+      abbildet, nicht über eine separate "Deliverable"-Entität — ebenfalls
+      bereits abgedeckt (mehrere Budgets pro Projekt, Percentage-Billing
+      T310, mehrere Draft-Invoices je Budget). Keine neue Entität gebaut,
+      um keine Eigenentwicklung ohne Productive-Entsprechung zu schaffen.
 - [x] T310 Budgets: Percentage-Billing-Berechnung — bereits vorhanden
       (`buildPercentageLineItems` in `generateInvoice.ts`, verdrahtet über
       `budgets/[id]/invoices/route.ts` als Invoicing-Methode "percentage").
       Im Audit übersehen/vor dieser Session entstanden. Kein neuer Code nötig.
 - [ ] T311 Budgets: Budget-Template-Center
-- [ ] T312 Budgets: Financial Month Closing
+- [x] T312 Budgets: Financial Month Closing — `TenantSettings.financialMonthClosingEnabled/-Day`
+      + `FinancialPeriodLock` (explizite Monats-Übersteuerung, gewinnt immer
+      gegen die Auto-Regel); `src/tenant/financials/monthClosing.ts`
+      zentralisiert Periodenschlüssel/Auto-Sperr-Berechnung/Statusauflösung.
+      Durchgesetzt in Zeiteintrag-Erstellung (Budget-Section- und manueller
+      Pfad), -Bearbeitung/-Löschung sowie Ausgaben-Erstellung — jeweils mit
+      Productives Original-Fehlertext. Neue Berechtigung
+      `financial_month_closing_manage` (Financials-Gruppe, hängt von
+      `budgets_manage` ab, Productive-Äquivalent: Admin-Berechtigung).
+      Settings-Seite mit Toggle/Closing-Date sowie "Month Overview" (12
+      Monate, Sperren/Entsperren-Button). Getrennt von `TimesheetLock`
+      (personenbezogenes Sperren, bereits vorhanden) — beide Features
+      existieren in Productive parallel und unabhängig voneinander.
+      Bewusst NICHT umgesetzt: die granulare "Editable Fields in Locked
+      Periods"-Ausnahmeliste (z. B. Beschreibung/Custom Fields bleiben
+      änderbar) — Sperre ist aktuell blockweise pro Monat, keine
+      feldweise Differenzierung. Ausgaben haben in dieser Codebase ohnehin
+      keine PATCH/DELETE-Route, daher dort nur die Erstellung zu sperren.
 - [x] T313 Budgets: Billable-Rate-Strategie (Person/Service/Single/No Rate) —
       `Budget.billableRateStrategy` (Enum) + `Budget.billableRate` (für
       "single") + `BudgetSectionAssignee.hourlyRate` (für "person");
