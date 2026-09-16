@@ -3,9 +3,17 @@ import {
   runTasksReport,
   runTimeEntriesReport,
   runBudgetsReport,
+  runDealsReport,
+  runInvoicesReport,
+  runExpensesReport,
+  runPeopleReport,
   type TaskRow,
   type TimeEntryRow,
   type BudgetRow,
+  type DealRow,
+  type InvoiceRow,
+  type ExpenseRow,
+  type PersonRow,
 } from "../src/tenant/reporting/reportQuery";
 
 const tasks: TaskRow[] = [
@@ -178,5 +186,83 @@ describe("runBudgetsReport", () => {
   it("groups budgets by project", () => {
     const result = runBudgetsReport(budgets, [], { field: "project" });
     expect(result.groups.map((g) => g.key)).toEqual(["Mobile App", "Website"]);
+  });
+});
+
+describe("runDealsReport", () => {
+  const deals: DealRow[] = [
+    { id: "d1", title: "Acme Rollout", company: "Acme GmbH", status: "Lead", statusCategory: "open", owner: "Alice", estimatedValue: 45000, probability: 10, lostReason: null },
+    { id: "d2", title: "Acme Migration", company: "Acme GmbH", status: "Won", statusCategory: "won", owner: "Bob", estimatedValue: 20000, probability: 100, lostReason: null },
+    { id: "d3", title: "Contoso Deal", company: "Contoso", status: "Lost", statusCategory: "lost", owner: "Alice", estimatedValue: 8000, probability: 0, lostReason: "Preis zu hoch" },
+  ];
+
+  it("filters deals by status category", () => {
+    const result = runDealsReport(deals, [{ field: "statusCategory", operator: "eq", value: "open" }]);
+    expect(result.groups[0].rows.map((r) => r.id)).toEqual(["d1"]);
+  });
+
+  it("groups deals by owner", () => {
+    const result = runDealsReport(deals, [], { field: "owner" });
+    expect(result.groups.map((g) => g.key)).toEqual(["Alice", "Bob"]);
+    expect(result.groups.find((g) => g.key === "Alice")?.rows).toHaveLength(2);
+  });
+
+  it("groups lost deals by lost reason, bucketing rows without one under the placeholder key", () => {
+    const result = runDealsReport(deals, [], { field: "lostReason" });
+    expect(result.groups.find((g) => g.key === "Preis zu hoch")?.rows.map((r) => r.id)).toEqual(["d3"]);
+    expect(result.groups.find((g) => g.key === "—")?.rows.map((r) => r.id).sort()).toEqual(["d1", "d2"]);
+  });
+});
+
+describe("runInvoicesReport", () => {
+  const invoices: InvoiceRow[] = [
+    { id: "i1", project: "Website", budget: "Retainer Q3", status: "paid", totalAmount: 5000, paidAmount: 5000, createdAt: "2026-08-01" },
+    { id: "i2", project: "Website", budget: "Retainer Q3", status: "sent", totalAmount: 3000, paidAmount: 0, createdAt: "2026-09-01" },
+    { id: "i3", project: "Mobile App", budget: "Launch Campaign", status: "draft", totalAmount: 1000, paidAmount: 0, createdAt: "2026-09-05" },
+  ];
+
+  it("filters invoices by status", () => {
+    const result = runInvoicesReport(invoices, [{ field: "status", operator: "neq", value: "draft" }]);
+    expect(result.groups[0].rows.map((r) => r.id).sort()).toEqual(["i1", "i2"]);
+  });
+
+  it("groups invoices by project", () => {
+    const result = runInvoicesReport(invoices, [], { field: "project" });
+    expect(result.groups.map((g) => g.key)).toEqual(["Mobile App", "Website"]);
+  });
+});
+
+describe("runExpensesReport", () => {
+  const expenses: ExpenseRow[] = [
+    { id: "x1", description: "Flights", project: "Website", amount: 400, billable: true, approvalStatus: "approved", incurredAt: "2026-08-01" },
+    { id: "x2", description: "Software License", project: "Website", amount: 99, billable: false, approvalStatus: "approved", incurredAt: "2026-08-05" },
+    { id: "x3", description: "Hotel", project: "Mobile App", amount: 250, billable: true, approvalStatus: "pending", incurredAt: "2026-09-01" },
+  ];
+
+  it("filters expenses to billable only", () => {
+    const result = runExpensesReport(expenses, [{ field: "billable", operator: "eq", value: "true" }]);
+    expect(result.groups[0].rows.map((r) => r.id).sort()).toEqual(["x1", "x3"]);
+  });
+
+  it("groups expenses by project", () => {
+    const result = runExpensesReport(expenses, [], { field: "project" });
+    expect(result.groups.map((g) => g.key)).toEqual(["Mobile App", "Website"]);
+  });
+});
+
+describe("runPeopleReport", () => {
+  const people: PersonRow[] = [
+    { id: "u1", name: "Alice", role: "member", weeklyCapacityHours: 40, loggedHoursTotal: 400, loggedHoursLast30Days: 150, utilizationPercent: 87.5 },
+    { id: "u2", name: "Bob", role: "member", weeklyCapacityHours: 20, loggedHoursTotal: 100, loggedHoursLast30Days: 20, utilizationPercent: 23.3 },
+  ];
+
+  it("filters people over a utilization threshold", () => {
+    const result = runPeopleReport(people, [{ field: "utilizationPercent", operator: "gt", value: 50 }]);
+    expect(result.groups[0].rows.map((r) => r.id)).toEqual(["u1"]);
+  });
+
+  it("groups people by name", () => {
+    const result = runPeopleReport(people, [], { field: "name" });
+    expect(result.groups.map((g) => g.key)).toEqual(["Alice", "Bob"]);
   });
 });

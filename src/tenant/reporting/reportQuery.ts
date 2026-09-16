@@ -1,9 +1,9 @@
 /**
  * Report-Builder-Kern: reine Filter-/Gruppierungslogik über bereits geladene
  * Zeilen-Arrays (kein Prisma-Zugriff hier — die API-Route holt die Rohdaten,
- * dieses Modul filtert/gruppiert im Speicher). Bewusst klein gehalten: drei
- * feste Datenquellen (tasks, time_entries, budgets) statt einer generischen
- * Query-Engine — für ein Small-Team-Tool reicht das.
+ * dieses Modul filtert/gruppiert im Speicher). Feste Datenquellen (tasks,
+ * time_entries, budgets, deals, invoices, expenses, people) statt einer
+ * generischen Query-Engine — für ein Small-Team-Tool reicht das.
  */
 
 export type ReportFilterOperator = "eq" | "neq" | "contains" | "gt" | "lt";
@@ -50,6 +50,48 @@ export interface BudgetRow {
   budgetUsed: number;
   budgetRemaining: number;
   usagePercent: number;
+}
+
+export interface DealRow {
+  id: string;
+  title: string;
+  company: string;
+  status: string;
+  statusCategory: string;
+  owner: string;
+  estimatedValue: number | null;
+  probability: number | null;
+  lostReason: string | null;
+}
+
+export interface InvoiceRow {
+  id: string;
+  project: string;
+  budget: string;
+  status: string;
+  totalAmount: number;
+  paidAmount: number;
+  createdAt: string;
+}
+
+export interface ExpenseRow {
+  id: string;
+  description: string;
+  project: string;
+  amount: number;
+  billable: boolean;
+  approvalStatus: string;
+  incurredAt: string;
+}
+
+export interface PersonRow {
+  id: string;
+  name: string;
+  role: string;
+  weeklyCapacityHours: number;
+  loggedHoursTotal: number;
+  loggedHoursLast30Days: number;
+  utilizationPercent: number;
 }
 
 function normalizeForEquality(value: unknown): string {
@@ -154,7 +196,39 @@ export function runBudgetsReport(
   return runReport(rows, filters, groupBy);
 }
 
-export const REPORT_DATA_SOURCES = ["tasks", "time_entries", "budgets"] as const;
+export function runDealsReport(
+  rows: DealRow[],
+  filters: ReportFilterConfig[],
+  groupBy?: ReportGroupByConfig,
+): ReportResult<DealRow> {
+  return runReport(rows, filters, groupBy);
+}
+
+export function runInvoicesReport(
+  rows: InvoiceRow[],
+  filters: ReportFilterConfig[],
+  groupBy?: ReportGroupByConfig,
+): ReportResult<InvoiceRow> {
+  return runReport(rows, filters, groupBy);
+}
+
+export function runExpensesReport(
+  rows: ExpenseRow[],
+  filters: ReportFilterConfig[],
+  groupBy?: ReportGroupByConfig,
+): ReportResult<ExpenseRow> {
+  return runReport(rows, filters, groupBy);
+}
+
+export function runPeopleReport(
+  rows: PersonRow[],
+  filters: ReportFilterConfig[],
+  groupBy?: ReportGroupByConfig,
+): ReportResult<PersonRow> {
+  return runReport(rows, filters, groupBy);
+}
+
+export const REPORT_DATA_SOURCES = ["tasks", "time_entries", "budgets", "deals", "invoices", "expenses", "people"] as const;
 export type ReportDataSource = (typeof REPORT_DATA_SOURCES)[number];
 
 export const REPORT_FIELDS: Record<ReportDataSource, { field: string; label: string }[]> = {
@@ -181,5 +255,39 @@ export const REPORT_FIELDS: Record<ReportDataSource, { field: string; label: str
     { field: "budgetUsed", label: "Budget verbraucht" },
     { field: "budgetRemaining", label: "Budget verbleibend" },
     { field: "usagePercent", label: "Auslastung %" },
+  ],
+  deals: [
+    { field: "title", label: "Titel" },
+    { field: "company", label: "Company" },
+    { field: "status", label: "Status" },
+    { field: "statusCategory", label: "Status-Kategorie" },
+    { field: "owner", label: "Owner" },
+    { field: "estimatedValue", label: "Geschätzter Wert" },
+    { field: "probability", label: "Wahrscheinlichkeit %" },
+    { field: "lostReason", label: "Lost Reason" },
+  ],
+  invoices: [
+    { field: "project", label: "Projekt" },
+    { field: "budget", label: "Budget" },
+    { field: "status", label: "Status" },
+    { field: "totalAmount", label: "Betrag gesamt" },
+    { field: "paidAmount", label: "Bezahlt" },
+    { field: "createdAt", label: "Erstellt" },
+  ],
+  expenses: [
+    { field: "description", label: "Beschreibung" },
+    { field: "project", label: "Projekt" },
+    { field: "amount", label: "Betrag" },
+    { field: "billable", label: "Abrechenbar" },
+    { field: "approvalStatus", label: "Freigabe-Status" },
+    { field: "incurredAt", label: "Datum" },
+  ],
+  people: [
+    { field: "name", label: "Name" },
+    { field: "role", label: "Rolle" },
+    { field: "weeklyCapacityHours", label: "Wochenkapazität (h)" },
+    { field: "loggedHoursTotal", label: "Erfasste Stunden (gesamt)" },
+    { field: "loggedHoursLast30Days", label: "Erfasste Stunden (30 Tage)" },
+    { field: "utilizationPercent", label: "Auslastung % (30 Tage)" },
   ],
 };
