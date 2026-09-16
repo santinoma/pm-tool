@@ -11,9 +11,9 @@ die korrekte Productive-Umsetzung **ersetzt**, statt nur markiert zu werden. Nur
 keine solche Entsprechung gibt, bleibt sie als eigenständiges, klar gekennzeichnetes
 Feature bestehen.
 
-## Offen — noch zu entscheiden
+## Bewusst behalten (entschieden, keine weitere Aktion nötig)
 
-### `TransitionRule` ("Übergangsregeln")
+### `TransitionRule` ("Übergangsregeln") — final bewertet (T308, 16.09.2026)
 - **Wo:** `prisma/tenant/schema.prisma` (`model TransitionRule`),
   `src/tenant/workflow/transitionValidation.ts`,
   `src/app/(tenant)/(app)/projects/[id]/settings/workflow/WorkflowEditorClient.tsx`
@@ -21,13 +21,20 @@ Feature bestehen.
   beim Statuswechsel).
 - **Befund:** Productive kennt Pflichtfelder nur objektweit bei Erstellung (Required
   Custom Fields für Budgets/Bookings/Deals/Companies) — nicht pro Status-Übergang.
-- **Mögliche Entsprechung:** Required Custom Fields (Phase 2/3, zusammen mit
-  Custom-Fields-Ausbau). Wenn dieses Feature kommt, prüfen ob `TransitionRule` dadurch
-  ersetzt werden kann/soll, oder ob beides nebeneinander bestehen bleibt (unterschiedliche
-  Trigger-Zeitpunkte: Erstellung vs. Status-Übergang).
-- **Entscheidung:** noch offen.
-
-## Bewusst behalten (entschieden, keine weitere Aktion nötig)
+- **Erneute Bewertung (jetzt, da Required Custom Fields aus T220 stehen):** kein Ersatz
+  möglich — die beiden Features lösen unterschiedliche Probleme. Required Custom Fields
+  (T220) verhindert nur, einen bereits gesetzten Wert über die Value-Write-Route auf
+  leer zu setzen; es prüft nie bei einem Status-Wechsel. `TransitionRule` prüft genau
+  das: "bevor ein Task nach 'Done' wechselt, müssen Assignee/Fälligkeitsdatum/Custom
+  Field X gesetzt sein" — ein Workflow-Gate zum Übergangszeitpunkt, das es in Productive
+  so nicht gibt, aber das Required Custom Fields strukturell nicht abdecken kann (auch
+  mit `required: true` bliebe ein Task ohne Assignee weiterhin frei nach 'Done'
+  verschiebbar).
+- **Entscheidung:** `TransitionRule` bleibt als eigenständiges, funktionierendes
+  Feature ohne Productive-Entsprechung bestehen (mischt eingebaute Felder wie
+  Assignee/Fälligkeitsdatum mit `custom:<fieldId>`-Referenzen generisch) — kein
+  Funktionsverlust durch Entfernung riskieren für eine Productive-Parität, die es
+  strukturell nicht geben kann. Keine weitere Aktion nötig.
 
 ### Cycles, Baselines, Hill Chart, Triage, Check-ins
 - **Wo:** `src/tenant/projects/moduleCatalog.ts`, jeweilige Feature-Ordner unter

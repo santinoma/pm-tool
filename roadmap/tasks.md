@@ -129,7 +129,10 @@ Task weitermachen — nicht die ganze Phase anhalten.
 - [ ] T305 Automations: weitere Objekttypen (Budget, Deal, Invoice)
 - [ ] T306 Automations: echtes Attribut/Vergleichsoperator-Bedingungssystem
 - [ ] T307 Automations: echter Scheduler statt Pull-on-Page-Load
-- [ ] T308 TransitionRule erneut bewerten (nach T220-T222)
+- [x] T308 TransitionRule erneut bewerten (nach T220-T222) — kein Ersatz
+      möglich (unterschiedliche Trigger-Zeitpunkte: Value-Write vs.
+      Status-Übergang), final als eigenständiges Feature ohne Productive-
+      Entsprechung gekennzeichnet, siehe `EIGENENTWICKLUNGEN.md`
 - [ ] T309 Budgets: Deliverables
 - [ ] T310 Budgets: Percentage-Billing-Berechnung
 - [ ] T311 Budgets: Budget-Template-Center
