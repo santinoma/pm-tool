@@ -2,6 +2,7 @@ import { canViewPrivateTask } from "@/tenant/projectAccess/privateTaskFilter";
 import { canManageMembers } from "@/tenant/auth/roleGuard";
 import { resolveLinkedTasks } from "@/tenant/taskLinks/taskLinkView";
 import { getEffectiveCustomFields } from "@/tenant/customFields/library";
+import { getOrCreateSystemTaskFields } from "@/tenant/customFields/systemTaskFields";
 import type { getTenantContext } from "@/tenant/context";
 
 type TenantContext = NonNullable<Awaited<ReturnType<typeof getTenantContext>>>;
@@ -11,6 +12,8 @@ export async function loadTaskDetail(context: TenantContext, projectId: string, 
   if (!currentUser) {
     return { notFound: true as const };
   }
+
+  await getOrCreateSystemTaskFields(context.tenantDb);
 
   const [task, statuses, users, folders, customFieldDefRecords] = await Promise.all([
     context.tenantDb.task.findUnique({
@@ -99,8 +102,6 @@ export async function loadTaskDetail(context: TenantContext, projectId: string, 
       title: task.title,
       description: task.description,
       statusId: task.statusId,
-      priority: task.priority,
-      tShirtSize: task.tShirtSize,
       assigneeId: task.assigneeId,
       taskListGroupId: task.taskListGroupId,
       isKeyTask: task.isKeyTask,

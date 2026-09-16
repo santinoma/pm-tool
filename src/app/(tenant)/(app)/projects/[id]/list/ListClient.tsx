@@ -44,14 +44,6 @@ const DEFAULT_VISIBLE_COLUMNS: Record<ColumnKey, boolean> = {
 };
 const COLUMN_LABEL: Record<ColumnKey, string> = Object.fromEntries(ALL_COLUMNS.map((c) => [c.key, c.label])) as Record<ColumnKey, string>;
 
-const PRIORITY_LABELS: Record<string, string> = {
-  no_priority: "—",
-  low: "Niedrig",
-  medium: "Mittel",
-  high: "Hoch",
-  urgent: "Dringend",
-};
-
 interface ListTask {
   id: string;
   title: string;
@@ -85,7 +77,7 @@ function renderColumnValue(key: ColumnKey, task: ListTask) {
     case "dueDate":
       return task.dueDate ? new Date(task.dueDate).toLocaleDateString("de-DE") : "—";
     case "priority":
-      return PRIORITY_LABELS[task.priority] ?? task.priority;
+      return task.priority || "—";
   }
 }
 
@@ -99,6 +91,7 @@ export function ListClient({
   taskLists = [],
   savedViews = [],
   currentUserId,
+  priorityOptions,
 }: {
   projectId: string;
   tasks: ListTask[];
@@ -109,6 +102,7 @@ export function ListClient({
   taskLists?: ListTaskListOption[];
   savedViews?: SavedViewRecord[];
   currentUserId: string;
+  priorityOptions: string[];
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -171,10 +165,10 @@ export function ListClient({
         value: "priority",
         label: "Priorität",
         type: "select",
-        options: Object.entries(PRIORITY_LABELS).map(([value, label]) => ({ value, label })),
+        options: priorityOptions.map((option) => ({ value: option, label: option })),
       },
     ],
-    [statuses, users],
+    [statuses, users, priorityOptions],
   );
 
   function getTaskFieldValue(task: ListTask, field: string): unknown {

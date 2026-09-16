@@ -42,17 +42,25 @@ Feature bestehen.
 
 ## Ersetzt statt nur markiert (Beispiel-Fall aus der Chat-Anweisung)
 
-### `TaskPriority` / `TaskTShirtSize`
-- **Wo:** `prisma/tenant/schema.prisma` (`enum TaskPriority`, `enum TaskTShirtSize`,
-  `Task.priority`, `Task.tShirtSize`), ca. 8 Verwendungsstellen (Board/Tabelle/
-  Task-Detail/New-Task-Modal/Server-Loader/Creation-Route — siehe Exploration vom
-  16.09.2026 im Chat-Verlauf).
+### `TaskPriority` / `TaskTShirtSize` — ERSETZT (T223/T224, 16.09.2026)
+- **Wo (vorher):** `prisma/tenant/schema.prisma` (`enum TaskPriority`,
+  `enum TaskTShirtSize`, `Task.priority`, `Task.tShirtSize`), Board/Tabelle/
+  Task-Detail/New-Task-Modal/Server-Loader/Creation-Route.
 - **Befund:** Productive hat kein natives Prioritätsfeld — immer ein Custom Field
   (Artikel "Task Prioritization With Custom Fields").
-- **Mögliche Entsprechung:** Custom-Fields-Ausbau (Phase 2/3): sobald Custom-Field-
-  Filter/Sort und ein Auto-Attach-Mechanismus existieren, `priority`/`tShirtSize` als
-  echte `select`-Custom-Fields migrieren und die nativen Enum-Felder entfernen.
-- **Status:** noch nicht umgesetzt (Migration jetzt zu riskant — siehe Plan vom
-  16.09.2026: kein Auto-Attach, würde Sortierbarkeit in der Tabellenansicht ersatzlos
-  entfernen). Bugfix (PATCH-Route übernahm `priority`/`tShirtSize` nicht) bereits
-  erledigt, unabhängig von der Migration.
+- **Umsetzung:** Custom-Field-Filter/Sort (T201-T208) und Auto-Attach (T222) standen,
+  daher migriert statt weiter zurückgestellt: `src/tenant/customFields/systemTaskFields.ts`
+  legt zwei System-Library-Felder ("Priority", "T-Shirt Size", beide `select`,
+  `autoAttach: true`) an, backfillt jeden Task aus dem alten Enum-Wert in eine
+  `CustomFieldValue`-Zeile und setzt die Legacy-Spalte danach auf ihren Leerzustand
+  zurück (verhindert, dass ein später über das Custom Field gelöschter Wert aus der
+  inzwischen veralteten Spalte wieder auftaucht). Alle Lese-/Schreibstellen
+  (New-Task-Modal, Board/Tabelle/Liste/Task-Detail, Creation-/PATCH-Route) migriert;
+  Priorität/T-Shirt-Size laufen jetzt vollständig über den generischen
+  Custom-Field-Mechanismus (gleiche `CustomFieldInput`-Komponente, gleiche
+  Filter/Sort-UI wie jedes andere Custom Field).
+- **Bewusst nicht Teil dieser Änderung:** die `TaskPriority`/`TaskTShirtSize`-Spalten
+  bleiben vorerst im Schema (nur noch ungenutzt, durch das Backfill immer auf ihrem
+  Leerzustand) — ein tatsächliches `DROP COLUMN` ist eine separate, risikoärmere
+  Aufräum-Migration für einen Review-Zeitpunkt bei Tageslicht, keine, die man nachts
+  ohne Rückfrage fahren sollte.

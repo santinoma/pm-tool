@@ -92,14 +92,14 @@ Task weitermachen — nicht die ganze Phase anhalten.
 - [x] T220 `CustomFieldDef.required` + serverseitige Erzwingung
 - [x] T221 `CustomFieldDef.sensitive` + sichtbarkeitsbeschränkte Auslieferung
 - [x] T222 Auto-Attach-Mechanismus für Library-Felder an neue Projekte
-- [ ] T223 `TaskPriority` → echtes `select`-Custom-Field migrieren (ersetzt
-      Eigenentwicklung, alle 8 Lese-/Schreibstellen umstellen, siehe plan.md).
-      **Zurückgestellt bis T201-T208 (Filter/Sort-Builder) stehen** — plan.md
-      verlangt ausdrücklich Einbindung ins neue Sortier-/Filtersystem, das ohne
-      Custom-Field-Sort/Filter-Unterstützung sonst ersatzlos verloren ginge
-      (siehe TableViewClient.tsx-Sortierung im Audit).
-- [ ] T224 `TaskTShirtSize` → echtes `select`-Custom-Field migrieren (selbe
-      Zurückstellung wie T223)
+- [x] T223 `TaskPriority` → echtes `select`-Custom-Field migrieren — T201-T208
+      standen, daher umgesetzt statt weiter zurückgestellt. Siehe
+      `EIGENENTWICKLUNGEN.md` für die Details (System-Felder, Backfill,
+      migrierte Stellen). Legacy-Spalte bleibt im Schema (ungenutzt, auf
+      Leerzustand zurückgesetzt) — `DROP COLUMN` bewusst als eigene,
+      risikoärmere Aufräum-Migration für Tageslicht zurückgestellt.
+- [x] T224 `TaskTShirtSize` → echtes `select`-Custom-Field migrieren (im
+      selben Zug wie T223 erledigt, siehe dort)
 
 ### Billing & Account Management (Grundstufe)
 - [x] T230 Sitzplatz-Feld auf Tenant/TenantSettings, bezahlt vs. kostenlos

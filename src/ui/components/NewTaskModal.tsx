@@ -36,16 +36,6 @@ export interface NewTaskModalTaskListOption {
   label: string;
 }
 
-const PRIORITY_OPTIONS: { value: string; label: string }[] = [
-  { value: "no_priority", label: "Keine Priorität" },
-  { value: "low", label: "Niedrig" },
-  { value: "medium", label: "Mittel" },
-  { value: "high", label: "Hoch" },
-  { value: "urgent", label: "Dringend" },
-];
-
-const T_SHIRT_SIZE_OPTIONS = ["XS", "S", "M", "L", "XL"];
-
 export function NewTaskModal({
   projectId,
   statuses,
@@ -73,8 +63,6 @@ export function NewTaskModal({
   const [statusId, setStatusId] = useState(statuses.find((s) => s.name)?.id ?? statuses[0]?.id ?? "");
   const [assigneeId, setAssigneeId] = useState("__none__");
   const [taskListGroupId, setTaskListGroupId] = useState("__none__");
-  const [priority, setPriority] = useState("no_priority");
-  const [tShirtSize, setTShirtSize] = useState("__none__");
   const [startDate, setStartDate] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [estimatedHours, setEstimatedHours] = useState("");
@@ -100,8 +88,6 @@ export function NewTaskModal({
         statusId: statusId || undefined,
         assigneeId: assigneeId !== "__none__" ? assigneeId : undefined,
         taskListGroupId: taskListGroupId !== "__none__" ? taskListGroupId : undefined,
-        priority,
-        tShirtSize: tShirtSize !== "__none__" ? tShirtSize : undefined,
         startDate: startDate || undefined,
         dueDate: dueDate || undefined,
         estimatedHours: estimatedHours ? Number(estimatedHours) : undefined,
@@ -235,43 +221,6 @@ export function NewTaskModal({
             </div>
           </div>
 
-          <div className="flex gap-3">
-            <div className="flex-1">
-              <Label htmlFor="new-task-priority" className="mb-2 block">
-                Priorität
-              </Label>
-              <Select value={priority} onValueChange={setPriority}>
-                <SelectTrigger id="new-task-priority" className="w-full">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {PRIORITY_OPTIONS.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex-1">
-              <Label htmlFor="new-task-tshirt" className="mb-2 block">
-                T-Shirt Size
-              </Label>
-              <Select value={tShirtSize} onValueChange={setTShirtSize}>
-                <SelectTrigger id="new-task-tshirt" className="w-full">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="__none__">—</SelectItem>
-                  {T_SHIRT_SIZE_OPTIONS.map((size) => (
-                    <SelectItem key={size} value={size}>
-                      {size}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
 
           <div className="flex gap-3">
             <div className="flex-1">
