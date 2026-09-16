@@ -239,7 +239,24 @@ Task weitermachen — nicht die ganze Phase anhalten.
       Productives "one default permission set"). UI: Typ-Spalte/-Filter in
       der Mitgliederliste, Typ-Auswahl im Einladungsformular (blendet
       "admin" aus, sobald Contractor gewählt ist).
-- [ ] T316 User Management: Kostensatz-Historie
+- [x] T316 User Management: Kostensatz-Historie — Productive-Doku
+      ("Understanding and Setting Up Cost Rates") zeigt: Cost Rates sind
+      keine einzelne Zahl, sondern eine datierte Historie mehrerer Einträge
+      (Gehaltsänderungen etc.), von denen je Zeitpunkt höchstens einer aktiv
+      ist; "Current Hourly Cost" wird durch Teilen des Betrags durch die
+      volle Perioden-Kapazität (Kalendermonat/-jahr an Arbeitstagen)
+      berechnet. Neu: `CostRateHistoryEntry`-Modell (rateType
+      hourly/weekly/biweekly/monthly/annual, amount, workHoursPerDay,
+      startDate/endDate) + `resolveCurrentHourlyCost()`
+      (`src/tenant/costRates/costRateHistory.ts`, exakte Arbeitstage-Zählung
+      pro Monat/Jahr über `TenantSettings.workingDays`). `User.
+      internalCostRate` bleibt als synchron gepflegter Cache bestehen (von
+      praktisch jeder Profitabilitäts-Berechnung gelesen — vollständiges
+      Ersetzen wäre ein eigener, viel größerer Umbau aller Lesestellen) und
+      wird bei jedem Historie-Eintrag/-Löschen neu aufgelöst. Ein neuer
+      Eintrag schließt automatisch den zuvor offen laufenden Eintrag am
+      Vortag seines Starts (keine Überlappungen, wie in Productive). UI:
+      "Historie"-Dialog pro Mitglied in der Mitgliederliste.
 
 ## Log (kurz, nur bemerkenswerte Entscheidungen während der Umsetzung)
 

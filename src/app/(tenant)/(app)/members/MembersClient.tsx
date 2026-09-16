@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { LegendKey } from "@/ui/components/LegendKey";
 import { Avatar } from "@/ui/components/Avatar";
+import { CostRateHistoryDialog, type CostRateEntry } from "./CostRateHistoryDialog";
 
 import { Button } from "@/ui/shadcn/components/button";
 import { Card } from "@/ui/shadcn/components/card";
@@ -219,6 +220,15 @@ export function MembersClient({
   const [inviteLink, setInviteLink] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [offboardTarget, setOffboardTarget] = useState<MemberUser | null>(null);
+  const [costRateHistoryTarget, setCostRateHistoryTarget] = useState<MemberUser | null>(null);
+  const [costRateHistoryEntries, setCostRateHistoryEntries] = useState<CostRateEntry[]>([]);
+
+  async function openCostRateHistory(user: MemberUser) {
+    const response = await fetch(`/api/tenant/users/${user.id}/cost-rate-history`);
+    const data = await response.json();
+    setCostRateHistoryEntries(data.entries ?? []);
+    setCostRateHistoryTarget(user);
+  }
 
   async function handleCustomRoleChange(userId: string, customRoleId: string) {
     setError(null);
@@ -445,18 +455,25 @@ export function MembersClient({
                   <LegendKey label={user.isActive ? "aktiv" : "deaktiviert"} variant={user.isActive ? "done" : "default"} />
                 </TableCell>
                 <TableCell>
-                  {canManage ? (
-                    <Input
-                      type="number"
-                      step="0.01"
-                      defaultValue={user.internalCostRate ?? ""}
-                      onBlur={(event) => handleCostRateChange(user.id, event.target.value)}
-                      className="h-8 w-24"
-                      placeholder="—"
-                    />
-                  ) : (
-                    <span className="text-muted-foreground">{user.internalCostRate ?? "—"}</span>
-                  )}
+                  <div className="flex items-center gap-1.5">
+                    {canManage ? (
+                      <Input
+                        type="number"
+                        step="0.01"
+                        defaultValue={user.internalCostRate ?? ""}
+                        onBlur={(event) => handleCostRateChange(user.id, event.target.value)}
+                        className="h-8 w-24"
+                        placeholder="—"
+                      />
+                    ) : (
+                      <span className="text-muted-foreground">{user.internalCostRate ?? "—"}</span>
+                    )}
+                    {canManage && (
+                      <Button variant="ghost" size="sm" onClick={() => openCostRateHistory(user)} title="Kostensatz-Historie">
+                        Historie
+                      </Button>
+                    )}
+                  </div>
                 </TableCell>
                 <TableCell>
                   {canManage ? (
@@ -603,6 +620,19 @@ export function MembersClient({
           onOffboarded={() => {
             setOffboardTarget(null);
             router.refresh();
+          }}
+        />
+      )}
+
+      {costRateHistoryTarget && (
+        <CostRateHistoryDialog
+          key={costRateHistoryTarget.id}
+          userId={costRateHistoryTarget.id}
+          userLabel={costRateHistoryTarget.name ?? costRateHistoryTarget.email}
+          initialEntries={costRateHistoryEntries}
+          open={costRateHistoryTarget !== null}
+          onOpenChange={(open) => {
+            if (!open) setCostRateHistoryTarget(null);
           }}
         />
       )}

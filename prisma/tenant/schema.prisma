@@ -104,6 +104,8 @@ model User {
   lockedTimesheets           TimesheetLock[]             @relation("TimesheetLockedBy")
   lockedFinancialPeriods     FinancialPeriodLock[]
   teamMemberships            TeamMember[]
+  costRateHistory            CostRateHistoryEntry[]
+  createdCostRateEntries     CostRateHistoryEntry[]      @relation("CostRateHistoryCreatedBy")
   holidayCalendar            HolidayCalendar?            @relation(fields: [holidayCalendarId], references: [id])
   holidayCalendarId          String?
   resourceBookings           ResourceBooking[]
@@ -942,6 +944,41 @@ model TeamMember {
   userId String
 
   @@id([teamId, userId])
+}
+
+enum CostRateType {
+  hourly
+  weekly
+  biweekly
+  monthly
+  annual
+}
+
+/**
+ * T316 (Productive "Understanding and Setting Up Cost Rates"): Cost Rates
+ * sind in Productive keine einzelne Zahl, sondern eine datierte Historie
+ * mehrerer Einträge (Gehaltsänderungen, Beförderungen etc.), von denen zu
+ * jedem Zeitpunkt höchstens einer aktiv ist (`startDate`..`endDate`, offenes
+ * Ende = aktuell laufend). `User.internalCostRate` bleibt als synchron
+ * gepflegter Cache des aktuell aufgelösten Stundensatzes bestehen (von
+ * praktisch jeder Profitabilitäts-Berechnung in dieser Codebase gelesen) —
+ * ihn durch diese Tabelle vollständig zu ersetzen wäre ein eigener, viel
+ * größerer Umbau aller Lesestellen; diese Tabelle ist die neue Quelle der
+ * Wahrheit, aus der der Cache abgeleitet wird.
+ */
+model CostRateHistoryEntry {
+  id              String       @id @default(uuid())
+  user            User         @relation(fields: [userId], references: [id])
+  userId          String
+  rateType        CostRateType
+  amount          Float
+  currency        String       @default("EUR")
+  workHoursPerDay Float        @default(8)
+  startDate       DateTime
+  endDate         DateTime?
+  createdAt       DateTime     @default(now())
+  createdBy       User?        @relation("CostRateHistoryCreatedBy", fields: [createdById], references: [id])
+  createdById     String?
 }
 
 model TimeTrackingPolicy {

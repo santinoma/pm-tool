@@ -628,6 +628,19 @@ exports.Prisma.TeamMemberScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.CostRateHistoryEntryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  rateType: 'rateType',
+  amount: 'amount',
+  currency: 'currency',
+  workHoursPerDay: 'workHoursPerDay',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  createdAt: 'createdAt',
+  createdById: 'createdById'
+};
+
 exports.Prisma.TimeTrackingPolicyScalarFieldEnum = {
   id: 'id',
   maxDailyHours: 'maxDailyHours',
@@ -1219,6 +1232,14 @@ exports.ApprovalDecisionStatus = exports.$Enums.ApprovalDecisionStatus = {
   rejected: 'rejected'
 };
 
+exports.CostRateType = exports.$Enums.CostRateType = {
+  hourly: 'hourly',
+  weekly: 'weekly',
+  biweekly: 'biweekly',
+  monthly: 'monthly',
+  annual: 'annual'
+};
+
 exports.CustomFieldEntityType = exports.$Enums.CustomFieldEntityType = {
   task: 'task',
   budget: 'budget',
@@ -1407,6 +1428,7 @@ exports.Prisma.ModelName = {
   TimesheetLock: 'TimesheetLock',
   Team: 'Team',
   TeamMember: 'TeamMember',
+  CostRateHistoryEntry: 'CostRateHistoryEntry',
   TimeTrackingPolicy: 'TimeTrackingPolicy',
   HolidayCalendar: 'HolidayCalendar',
   Holiday: 'Holiday',

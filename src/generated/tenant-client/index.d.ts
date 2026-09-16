@@ -272,6 +272,21 @@ export type Team = $Result.DefaultSelection<Prisma.$TeamPayload>
  */
 export type TeamMember = $Result.DefaultSelection<Prisma.$TeamMemberPayload>
 /**
+ * Model CostRateHistoryEntry
+ * *
+ *  * T316 (Productive "Understanding and Setting Up Cost Rates"): Cost Rates
+ *  * sind in Productive keine einzelne Zahl, sondern eine datierte Historie
+ *  * mehrerer Einträge (Gehaltsänderungen, Beförderungen etc.), von denen zu
+ *  * jedem Zeitpunkt höchstens einer aktiv ist (`startDate`..`endDate`, offenes
+ *  * Ende = aktuell laufend). `User.internalCostRate` bleibt als synchron
+ *  * gepflegter Cache des aktuell aufgelösten Stundensatzes bestehen (von
+ *  * praktisch jeder Profitabilitäts-Berechnung in dieser Codebase gelesen) —
+ *  * ihn durch diese Tabelle vollständig zu ersetzen wäre ein eigener, viel
+ *  * größerer Umbau aller Lesestellen; diese Tabelle ist die neue Quelle der
+ *  * Wahrheit, aus der der Cache abgeleitet wird.
+ */
+export type CostRateHistoryEntry = $Result.DefaultSelection<Prisma.$CostRateHistoryEntryPayload>
+/**
  * Model TimeTrackingPolicy
  * 
  */
@@ -671,6 +686,17 @@ export const ApprovalDecisionStatus: {
 export type ApprovalDecisionStatus = (typeof ApprovalDecisionStatus)[keyof typeof ApprovalDecisionStatus]
 
 
+export const CostRateType: {
+  hourly: 'hourly',
+  weekly: 'weekly',
+  biweekly: 'biweekly',
+  monthly: 'monthly',
+  annual: 'annual'
+};
+
+export type CostRateType = (typeof CostRateType)[keyof typeof CostRateType]
+
+
 export const CustomFieldType: {
   text: 'text',
   number: 'number',
@@ -950,6 +976,10 @@ export const ApprovalKind: typeof $Enums.ApprovalKind
 export type ApprovalDecisionStatus = $Enums.ApprovalDecisionStatus
 
 export const ApprovalDecisionStatus: typeof $Enums.ApprovalDecisionStatus
+
+export type CostRateType = $Enums.CostRateType
+
+export const CostRateType: typeof $Enums.CostRateType
 
 export type CustomFieldType = $Enums.CustomFieldType
 
@@ -1637,6 +1667,16 @@ export class PrismaClient<
     * ```
     */
   get teamMember(): Prisma.TeamMemberDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.costRateHistoryEntry`: Exposes CRUD operations for the **CostRateHistoryEntry** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CostRateHistoryEntries
+    * const costRateHistoryEntries = await prisma.costRateHistoryEntry.findMany()
+    * ```
+    */
+  get costRateHistoryEntry(): Prisma.CostRateHistoryEntryDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.timeTrackingPolicy`: Exposes CRUD operations for the **TimeTrackingPolicy** model.
@@ -2543,6 +2583,7 @@ export namespace Prisma {
     TimesheetLock: 'TimesheetLock',
     Team: 'Team',
     TeamMember: 'TeamMember',
+    CostRateHistoryEntry: 'CostRateHistoryEntry',
     TimeTrackingPolicy: 'TimeTrackingPolicy',
     HolidayCalendar: 'HolidayCalendar',
     Holiday: 'Holiday',
@@ -2599,7 +2640,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "client" | "clientContact" | "pipeline" | "dealStatus" | "lostReason" | "deal" | "projectMember" | "customRole" | "projectRoleOverride" | "absenceRequest" | "session" | "favorite" | "auditLogEntry" | "invite" | "projectClientAccess" | "slackCaptureConfig" | "project" | "taskFolder" | "taskListGroup" | "baseline" | "baselineTaskSnapshot" | "portfolio" | "goal" | "cycle" | "transitionRule" | "sharedView" | "savedView" | "workflow" | "workflowStatus" | "task" | "tag" | "taskTag" | "taskSubscriber" | "todo" | "comment" | "mention" | "attachment" | "wikiPage" | "tenantSettings" | "financialPeriodLock" | "pendingLogin" | "timeEntry" | "approvalPolicy" | "approvalPolicyApprover" | "timeEntryApproverDecision" | "timesheetLock" | "team" | "teamMember" | "timeTrackingPolicy" | "holidayCalendar" | "holiday" | "resourceBooking" | "taskProject" | "taskDependency" | "taskLink" | "customFieldDef" | "projectCustomField" | "customFieldValue" | "budgetCustomFieldValue" | "wikiPageCustomFieldValue" | "userCustomFieldValue" | "sharedWikiLink" | "activityEvent" | "notificationPreference" | "notification" | "automationRule" | "automationAction" | "dashboard" | "dashboardWidget" | "webhookEndpoint" | "ssoConfig" | "apiKey" | "webhookDelivery" | "checkInSchedule" | "checkInResponse" | "budget" | "serviceType" | "budgetSection" | "rateCard" | "rateCardItem" | "invoice" | "invoiceLineItem" | "invoicePayment" | "creditNote" | "meeting" | "expense" | "purchaseOrder" | "savedReport" | "budgetSectionAssignee"
+      modelProps: "user" | "client" | "clientContact" | "pipeline" | "dealStatus" | "lostReason" | "deal" | "projectMember" | "customRole" | "projectRoleOverride" | "absenceRequest" | "session" | "favorite" | "auditLogEntry" | "invite" | "projectClientAccess" | "slackCaptureConfig" | "project" | "taskFolder" | "taskListGroup" | "baseline" | "baselineTaskSnapshot" | "portfolio" | "goal" | "cycle" | "transitionRule" | "sharedView" | "savedView" | "workflow" | "workflowStatus" | "task" | "tag" | "taskTag" | "taskSubscriber" | "todo" | "comment" | "mention" | "attachment" | "wikiPage" | "tenantSettings" | "financialPeriodLock" | "pendingLogin" | "timeEntry" | "approvalPolicy" | "approvalPolicyApprover" | "timeEntryApproverDecision" | "timesheetLock" | "team" | "teamMember" | "costRateHistoryEntry" | "timeTrackingPolicy" | "holidayCalendar" | "holiday" | "resourceBooking" | "taskProject" | "taskDependency" | "taskLink" | "customFieldDef" | "projectCustomField" | "customFieldValue" | "budgetCustomFieldValue" | "wikiPageCustomFieldValue" | "userCustomFieldValue" | "sharedWikiLink" | "activityEvent" | "notificationPreference" | "notification" | "automationRule" | "automationAction" | "dashboard" | "dashboardWidget" | "webhookEndpoint" | "ssoConfig" | "apiKey" | "webhookDelivery" | "checkInSchedule" | "checkInResponse" | "budget" | "serviceType" | "budgetSection" | "rateCard" | "rateCardItem" | "invoice" | "invoiceLineItem" | "invoicePayment" | "creditNote" | "meeting" | "expense" | "purchaseOrder" | "savedReport" | "budgetSectionAssignee"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -6229,6 +6270,80 @@ export namespace Prisma {
           }
         }
       }
+      CostRateHistoryEntry: {
+        payload: Prisma.$CostRateHistoryEntryPayload<ExtArgs>
+        fields: Prisma.CostRateHistoryEntryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CostRateHistoryEntryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostRateHistoryEntryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CostRateHistoryEntryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostRateHistoryEntryPayload>
+          }
+          findFirst: {
+            args: Prisma.CostRateHistoryEntryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostRateHistoryEntryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CostRateHistoryEntryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostRateHistoryEntryPayload>
+          }
+          findMany: {
+            args: Prisma.CostRateHistoryEntryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostRateHistoryEntryPayload>[]
+          }
+          create: {
+            args: Prisma.CostRateHistoryEntryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostRateHistoryEntryPayload>
+          }
+          createMany: {
+            args: Prisma.CostRateHistoryEntryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CostRateHistoryEntryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostRateHistoryEntryPayload>[]
+          }
+          delete: {
+            args: Prisma.CostRateHistoryEntryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostRateHistoryEntryPayload>
+          }
+          update: {
+            args: Prisma.CostRateHistoryEntryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostRateHistoryEntryPayload>
+          }
+          deleteMany: {
+            args: Prisma.CostRateHistoryEntryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CostRateHistoryEntryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CostRateHistoryEntryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostRateHistoryEntryPayload>[]
+          }
+          upsert: {
+            args: Prisma.CostRateHistoryEntryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CostRateHistoryEntryPayload>
+          }
+          aggregate: {
+            args: Prisma.CostRateHistoryEntryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCostRateHistoryEntry>
+          }
+          groupBy: {
+            args: Prisma.CostRateHistoryEntryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CostRateHistoryEntryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CostRateHistoryEntryCountArgs<ExtArgs>
+            result: $Utils.Optional<CostRateHistoryEntryCountAggregateOutputType> | number
+          }
+        }
+      }
       TimeTrackingPolicy: {
         payload: Prisma.$TimeTrackingPolicyPayload<ExtArgs>
         fields: Prisma.TimeTrackingPolicyFieldRefs
@@ -9435,6 +9550,7 @@ export namespace Prisma {
     timesheetLock?: TimesheetLockOmit
     team?: TeamOmit
     teamMember?: TeamMemberOmit
+    costRateHistoryEntry?: CostRateHistoryEntryOmit
     timeTrackingPolicy?: TimeTrackingPolicyOmit
     holidayCalendar?: HolidayCalendarOmit
     holiday?: HolidayOmit
@@ -9598,6 +9714,8 @@ export namespace Prisma {
     lockedTimesheets: number
     lockedFinancialPeriods: number
     teamMemberships: number
+    costRateHistory: number
+    createdCostRateEntries: number
     resourceBookings: number
     createdResourceBookings: number
     createdMeetings: number
@@ -9655,6 +9773,8 @@ export namespace Prisma {
     lockedTimesheets?: boolean | UserCountOutputTypeCountLockedTimesheetsArgs
     lockedFinancialPeriods?: boolean | UserCountOutputTypeCountLockedFinancialPeriodsArgs
     teamMemberships?: boolean | UserCountOutputTypeCountTeamMembershipsArgs
+    costRateHistory?: boolean | UserCountOutputTypeCountCostRateHistoryArgs
+    createdCostRateEntries?: boolean | UserCountOutputTypeCountCreatedCostRateEntriesArgs
     resourceBookings?: boolean | UserCountOutputTypeCountResourceBookingsArgs
     createdResourceBookings?: boolean | UserCountOutputTypeCountCreatedResourceBookingsArgs
     createdMeetings?: boolean | UserCountOutputTypeCountCreatedMeetingsArgs
@@ -9972,6 +10092,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountTeamMembershipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TeamMemberWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCostRateHistoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CostRateHistoryEntryWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCreatedCostRateEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CostRateHistoryEntryWhereInput
   }
 
   /**
@@ -12065,6 +12199,8 @@ export namespace Prisma {
     lockedTimesheets?: boolean | User$lockedTimesheetsArgs<ExtArgs>
     lockedFinancialPeriods?: boolean | User$lockedFinancialPeriodsArgs<ExtArgs>
     teamMemberships?: boolean | User$teamMembershipsArgs<ExtArgs>
+    costRateHistory?: boolean | User$costRateHistoryArgs<ExtArgs>
+    createdCostRateEntries?: boolean | User$createdCostRateEntriesArgs<ExtArgs>
     holidayCalendar?: boolean | User$holidayCalendarArgs<ExtArgs>
     resourceBookings?: boolean | User$resourceBookingsArgs<ExtArgs>
     createdResourceBookings?: boolean | User$createdResourceBookingsArgs<ExtArgs>
@@ -12199,6 +12335,8 @@ export namespace Prisma {
     lockedTimesheets?: boolean | User$lockedTimesheetsArgs<ExtArgs>
     lockedFinancialPeriods?: boolean | User$lockedFinancialPeriodsArgs<ExtArgs>
     teamMemberships?: boolean | User$teamMembershipsArgs<ExtArgs>
+    costRateHistory?: boolean | User$costRateHistoryArgs<ExtArgs>
+    createdCostRateEntries?: boolean | User$createdCostRateEntriesArgs<ExtArgs>
     holidayCalendar?: boolean | User$holidayCalendarArgs<ExtArgs>
     resourceBookings?: boolean | User$resourceBookingsArgs<ExtArgs>
     createdResourceBookings?: boolean | User$createdResourceBookingsArgs<ExtArgs>
@@ -12272,6 +12410,8 @@ export namespace Prisma {
       lockedTimesheets: Prisma.$TimesheetLockPayload<ExtArgs>[]
       lockedFinancialPeriods: Prisma.$FinancialPeriodLockPayload<ExtArgs>[]
       teamMemberships: Prisma.$TeamMemberPayload<ExtArgs>[]
+      costRateHistory: Prisma.$CostRateHistoryEntryPayload<ExtArgs>[]
+      createdCostRateEntries: Prisma.$CostRateHistoryEntryPayload<ExtArgs>[]
       holidayCalendar: Prisma.$HolidayCalendarPayload<ExtArgs> | null
       resourceBookings: Prisma.$ResourceBookingPayload<ExtArgs>[]
       createdResourceBookings: Prisma.$ResourceBookingPayload<ExtArgs>[]
@@ -12744,6 +12884,8 @@ export namespace Prisma {
     lockedTimesheets<T extends User$lockedTimesheetsArgs<ExtArgs> = {}>(args?: Subset<T, User$lockedTimesheetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TimesheetLockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     lockedFinancialPeriods<T extends User$lockedFinancialPeriodsArgs<ExtArgs> = {}>(args?: Subset<T, User$lockedFinancialPeriodsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FinancialPeriodLockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     teamMemberships<T extends User$teamMembershipsArgs<ExtArgs> = {}>(args?: Subset<T, User$teamMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    costRateHistory<T extends User$costRateHistoryArgs<ExtArgs> = {}>(args?: Subset<T, User$costRateHistoryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CostRateHistoryEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    createdCostRateEntries<T extends User$createdCostRateEntriesArgs<ExtArgs> = {}>(args?: Subset<T, User$createdCostRateEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CostRateHistoryEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     holidayCalendar<T extends User$holidayCalendarArgs<ExtArgs> = {}>(args?: Subset<T, User$holidayCalendarArgs<ExtArgs>>): Prisma__HolidayCalendarClient<$Result.GetResult<Prisma.$HolidayCalendarPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     resourceBookings<T extends User$resourceBookingsArgs<ExtArgs> = {}>(args?: Subset<T, User$resourceBookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceBookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     createdResourceBookings<T extends User$createdResourceBookingsArgs<ExtArgs> = {}>(args?: Subset<T, User$createdResourceBookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResourceBookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -14249,6 +14391,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TeamMemberScalarFieldEnum | TeamMemberScalarFieldEnum[]
+  }
+
+  /**
+   * User.costRateHistory
+   */
+  export type User$costRateHistoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostRateHistoryEntry
+     */
+    select?: CostRateHistoryEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostRateHistoryEntry
+     */
+    omit?: CostRateHistoryEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostRateHistoryEntryInclude<ExtArgs> | null
+    where?: CostRateHistoryEntryWhereInput
+    orderBy?: CostRateHistoryEntryOrderByWithRelationInput | CostRateHistoryEntryOrderByWithRelationInput[]
+    cursor?: CostRateHistoryEntryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CostRateHistoryEntryScalarFieldEnum | CostRateHistoryEntryScalarFieldEnum[]
+  }
+
+  /**
+   * User.createdCostRateEntries
+   */
+  export type User$createdCostRateEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostRateHistoryEntry
+     */
+    select?: CostRateHistoryEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostRateHistoryEntry
+     */
+    omit?: CostRateHistoryEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostRateHistoryEntryInclude<ExtArgs> | null
+    where?: CostRateHistoryEntryWhereInput
+    orderBy?: CostRateHistoryEntryOrderByWithRelationInput | CostRateHistoryEntryOrderByWithRelationInput[]
+    cursor?: CostRateHistoryEntryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CostRateHistoryEntryScalarFieldEnum | CostRateHistoryEntryScalarFieldEnum[]
   }
 
   /**
@@ -69918,6 +70108,1199 @@ export namespace Prisma {
 
 
   /**
+   * Model CostRateHistoryEntry
+   */
+
+  export type AggregateCostRateHistoryEntry = {
+    _count: CostRateHistoryEntryCountAggregateOutputType | null
+    _avg: CostRateHistoryEntryAvgAggregateOutputType | null
+    _sum: CostRateHistoryEntrySumAggregateOutputType | null
+    _min: CostRateHistoryEntryMinAggregateOutputType | null
+    _max: CostRateHistoryEntryMaxAggregateOutputType | null
+  }
+
+  export type CostRateHistoryEntryAvgAggregateOutputType = {
+    amount: number | null
+    workHoursPerDay: number | null
+  }
+
+  export type CostRateHistoryEntrySumAggregateOutputType = {
+    amount: number | null
+    workHoursPerDay: number | null
+  }
+
+  export type CostRateHistoryEntryMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    rateType: $Enums.CostRateType | null
+    amount: number | null
+    currency: string | null
+    workHoursPerDay: number | null
+    startDate: Date | null
+    endDate: Date | null
+    createdAt: Date | null
+    createdById: string | null
+  }
+
+  export type CostRateHistoryEntryMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    rateType: $Enums.CostRateType | null
+    amount: number | null
+    currency: string | null
+    workHoursPerDay: number | null
+    startDate: Date | null
+    endDate: Date | null
+    createdAt: Date | null
+    createdById: string | null
+  }
+
+  export type CostRateHistoryEntryCountAggregateOutputType = {
+    id: number
+    userId: number
+    rateType: number
+    amount: number
+    currency: number
+    workHoursPerDay: number
+    startDate: number
+    endDate: number
+    createdAt: number
+    createdById: number
+    _all: number
+  }
+
+
+  export type CostRateHistoryEntryAvgAggregateInputType = {
+    amount?: true
+    workHoursPerDay?: true
+  }
+
+  export type CostRateHistoryEntrySumAggregateInputType = {
+    amount?: true
+    workHoursPerDay?: true
+  }
+
+  export type CostRateHistoryEntryMinAggregateInputType = {
+    id?: true
+    userId?: true
+    rateType?: true
+    amount?: true
+    currency?: true
+    workHoursPerDay?: true
+    startDate?: true
+    endDate?: true
+    createdAt?: true
+    createdById?: true
+  }
+
+  export type CostRateHistoryEntryMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    rateType?: true
+    amount?: true
+    currency?: true
+    workHoursPerDay?: true
+    startDate?: true
+    endDate?: true
+    createdAt?: true
+    createdById?: true
+  }
+
+  export type CostRateHistoryEntryCountAggregateInputType = {
+    id?: true
+    userId?: true
+    rateType?: true
+    amount?: true
+    currency?: true
+    workHoursPerDay?: true
+    startDate?: true
+    endDate?: true
+    createdAt?: true
+    createdById?: true
+    _all?: true
+  }
+
+  export type CostRateHistoryEntryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CostRateHistoryEntry to aggregate.
+     */
+    where?: CostRateHistoryEntryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CostRateHistoryEntries to fetch.
+     */
+    orderBy?: CostRateHistoryEntryOrderByWithRelationInput | CostRateHistoryEntryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CostRateHistoryEntryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CostRateHistoryEntries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CostRateHistoryEntries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CostRateHistoryEntries
+    **/
+    _count?: true | CostRateHistoryEntryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CostRateHistoryEntryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CostRateHistoryEntrySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CostRateHistoryEntryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CostRateHistoryEntryMaxAggregateInputType
+  }
+
+  export type GetCostRateHistoryEntryAggregateType<T extends CostRateHistoryEntryAggregateArgs> = {
+        [P in keyof T & keyof AggregateCostRateHistoryEntry]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCostRateHistoryEntry[P]>
+      : GetScalarType<T[P], AggregateCostRateHistoryEntry[P]>
+  }
+
+
+
+
+  export type CostRateHistoryEntryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CostRateHistoryEntryWhereInput
+    orderBy?: CostRateHistoryEntryOrderByWithAggregationInput | CostRateHistoryEntryOrderByWithAggregationInput[]
+    by: CostRateHistoryEntryScalarFieldEnum[] | CostRateHistoryEntryScalarFieldEnum
+    having?: CostRateHistoryEntryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CostRateHistoryEntryCountAggregateInputType | true
+    _avg?: CostRateHistoryEntryAvgAggregateInputType
+    _sum?: CostRateHistoryEntrySumAggregateInputType
+    _min?: CostRateHistoryEntryMinAggregateInputType
+    _max?: CostRateHistoryEntryMaxAggregateInputType
+  }
+
+  export type CostRateHistoryEntryGroupByOutputType = {
+    id: string
+    userId: string
+    rateType: $Enums.CostRateType
+    amount: number
+    currency: string
+    workHoursPerDay: number
+    startDate: Date
+    endDate: Date | null
+    createdAt: Date
+    createdById: string | null
+    _count: CostRateHistoryEntryCountAggregateOutputType | null
+    _avg: CostRateHistoryEntryAvgAggregateOutputType | null
+    _sum: CostRateHistoryEntrySumAggregateOutputType | null
+    _min: CostRateHistoryEntryMinAggregateOutputType | null
+    _max: CostRateHistoryEntryMaxAggregateOutputType | null
+  }
+
+  type GetCostRateHistoryEntryGroupByPayload<T extends CostRateHistoryEntryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CostRateHistoryEntryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CostRateHistoryEntryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CostRateHistoryEntryGroupByOutputType[P]>
+            : GetScalarType<T[P], CostRateHistoryEntryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CostRateHistoryEntrySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    rateType?: boolean
+    amount?: boolean
+    currency?: boolean
+    workHoursPerDay?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    createdAt?: boolean
+    createdById?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    createdBy?: boolean | CostRateHistoryEntry$createdByArgs<ExtArgs>
+  }, ExtArgs["result"]["costRateHistoryEntry"]>
+
+  export type CostRateHistoryEntrySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    rateType?: boolean
+    amount?: boolean
+    currency?: boolean
+    workHoursPerDay?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    createdAt?: boolean
+    createdById?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    createdBy?: boolean | CostRateHistoryEntry$createdByArgs<ExtArgs>
+  }, ExtArgs["result"]["costRateHistoryEntry"]>
+
+  export type CostRateHistoryEntrySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    rateType?: boolean
+    amount?: boolean
+    currency?: boolean
+    workHoursPerDay?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    createdAt?: boolean
+    createdById?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    createdBy?: boolean | CostRateHistoryEntry$createdByArgs<ExtArgs>
+  }, ExtArgs["result"]["costRateHistoryEntry"]>
+
+  export type CostRateHistoryEntrySelectScalar = {
+    id?: boolean
+    userId?: boolean
+    rateType?: boolean
+    amount?: boolean
+    currency?: boolean
+    workHoursPerDay?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    createdAt?: boolean
+    createdById?: boolean
+  }
+
+  export type CostRateHistoryEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "rateType" | "amount" | "currency" | "workHoursPerDay" | "startDate" | "endDate" | "createdAt" | "createdById", ExtArgs["result"]["costRateHistoryEntry"]>
+  export type CostRateHistoryEntryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    createdBy?: boolean | CostRateHistoryEntry$createdByArgs<ExtArgs>
+  }
+  export type CostRateHistoryEntryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    createdBy?: boolean | CostRateHistoryEntry$createdByArgs<ExtArgs>
+  }
+  export type CostRateHistoryEntryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    createdBy?: boolean | CostRateHistoryEntry$createdByArgs<ExtArgs>
+  }
+
+  export type $CostRateHistoryEntryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CostRateHistoryEntry"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      createdBy: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      rateType: $Enums.CostRateType
+      amount: number
+      currency: string
+      workHoursPerDay: number
+      startDate: Date
+      endDate: Date | null
+      createdAt: Date
+      createdById: string | null
+    }, ExtArgs["result"]["costRateHistoryEntry"]>
+    composites: {}
+  }
+
+  type CostRateHistoryEntryGetPayload<S extends boolean | null | undefined | CostRateHistoryEntryDefaultArgs> = $Result.GetResult<Prisma.$CostRateHistoryEntryPayload, S>
+
+  type CostRateHistoryEntryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CostRateHistoryEntryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CostRateHistoryEntryCountAggregateInputType | true
+    }
+
+  export interface CostRateHistoryEntryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CostRateHistoryEntry'], meta: { name: 'CostRateHistoryEntry' } }
+    /**
+     * Find zero or one CostRateHistoryEntry that matches the filter.
+     * @param {CostRateHistoryEntryFindUniqueArgs} args - Arguments to find a CostRateHistoryEntry
+     * @example
+     * // Get one CostRateHistoryEntry
+     * const costRateHistoryEntry = await prisma.costRateHistoryEntry.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CostRateHistoryEntryFindUniqueArgs>(args: SelectSubset<T, CostRateHistoryEntryFindUniqueArgs<ExtArgs>>): Prisma__CostRateHistoryEntryClient<$Result.GetResult<Prisma.$CostRateHistoryEntryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CostRateHistoryEntry that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CostRateHistoryEntryFindUniqueOrThrowArgs} args - Arguments to find a CostRateHistoryEntry
+     * @example
+     * // Get one CostRateHistoryEntry
+     * const costRateHistoryEntry = await prisma.costRateHistoryEntry.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CostRateHistoryEntryFindUniqueOrThrowArgs>(args: SelectSubset<T, CostRateHistoryEntryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CostRateHistoryEntryClient<$Result.GetResult<Prisma.$CostRateHistoryEntryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CostRateHistoryEntry that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CostRateHistoryEntryFindFirstArgs} args - Arguments to find a CostRateHistoryEntry
+     * @example
+     * // Get one CostRateHistoryEntry
+     * const costRateHistoryEntry = await prisma.costRateHistoryEntry.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CostRateHistoryEntryFindFirstArgs>(args?: SelectSubset<T, CostRateHistoryEntryFindFirstArgs<ExtArgs>>): Prisma__CostRateHistoryEntryClient<$Result.GetResult<Prisma.$CostRateHistoryEntryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CostRateHistoryEntry that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CostRateHistoryEntryFindFirstOrThrowArgs} args - Arguments to find a CostRateHistoryEntry
+     * @example
+     * // Get one CostRateHistoryEntry
+     * const costRateHistoryEntry = await prisma.costRateHistoryEntry.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CostRateHistoryEntryFindFirstOrThrowArgs>(args?: SelectSubset<T, CostRateHistoryEntryFindFirstOrThrowArgs<ExtArgs>>): Prisma__CostRateHistoryEntryClient<$Result.GetResult<Prisma.$CostRateHistoryEntryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CostRateHistoryEntries that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CostRateHistoryEntryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CostRateHistoryEntries
+     * const costRateHistoryEntries = await prisma.costRateHistoryEntry.findMany()
+     * 
+     * // Get first 10 CostRateHistoryEntries
+     * const costRateHistoryEntries = await prisma.costRateHistoryEntry.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const costRateHistoryEntryWithIdOnly = await prisma.costRateHistoryEntry.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CostRateHistoryEntryFindManyArgs>(args?: SelectSubset<T, CostRateHistoryEntryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CostRateHistoryEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CostRateHistoryEntry.
+     * @param {CostRateHistoryEntryCreateArgs} args - Arguments to create a CostRateHistoryEntry.
+     * @example
+     * // Create one CostRateHistoryEntry
+     * const CostRateHistoryEntry = await prisma.costRateHistoryEntry.create({
+     *   data: {
+     *     // ... data to create a CostRateHistoryEntry
+     *   }
+     * })
+     * 
+     */
+    create<T extends CostRateHistoryEntryCreateArgs>(args: SelectSubset<T, CostRateHistoryEntryCreateArgs<ExtArgs>>): Prisma__CostRateHistoryEntryClient<$Result.GetResult<Prisma.$CostRateHistoryEntryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CostRateHistoryEntries.
+     * @param {CostRateHistoryEntryCreateManyArgs} args - Arguments to create many CostRateHistoryEntries.
+     * @example
+     * // Create many CostRateHistoryEntries
+     * const costRateHistoryEntry = await prisma.costRateHistoryEntry.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CostRateHistoryEntryCreateManyArgs>(args?: SelectSubset<T, CostRateHistoryEntryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CostRateHistoryEntries and returns the data saved in the database.
+     * @param {CostRateHistoryEntryCreateManyAndReturnArgs} args - Arguments to create many CostRateHistoryEntries.
+     * @example
+     * // Create many CostRateHistoryEntries
+     * const costRateHistoryEntry = await prisma.costRateHistoryEntry.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CostRateHistoryEntries and only return the `id`
+     * const costRateHistoryEntryWithIdOnly = await prisma.costRateHistoryEntry.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CostRateHistoryEntryCreateManyAndReturnArgs>(args?: SelectSubset<T, CostRateHistoryEntryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CostRateHistoryEntryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CostRateHistoryEntry.
+     * @param {CostRateHistoryEntryDeleteArgs} args - Arguments to delete one CostRateHistoryEntry.
+     * @example
+     * // Delete one CostRateHistoryEntry
+     * const CostRateHistoryEntry = await prisma.costRateHistoryEntry.delete({
+     *   where: {
+     *     // ... filter to delete one CostRateHistoryEntry
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CostRateHistoryEntryDeleteArgs>(args: SelectSubset<T, CostRateHistoryEntryDeleteArgs<ExtArgs>>): Prisma__CostRateHistoryEntryClient<$Result.GetResult<Prisma.$CostRateHistoryEntryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CostRateHistoryEntry.
+     * @param {CostRateHistoryEntryUpdateArgs} args - Arguments to update one CostRateHistoryEntry.
+     * @example
+     * // Update one CostRateHistoryEntry
+     * const costRateHistoryEntry = await prisma.costRateHistoryEntry.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CostRateHistoryEntryUpdateArgs>(args: SelectSubset<T, CostRateHistoryEntryUpdateArgs<ExtArgs>>): Prisma__CostRateHistoryEntryClient<$Result.GetResult<Prisma.$CostRateHistoryEntryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CostRateHistoryEntries.
+     * @param {CostRateHistoryEntryDeleteManyArgs} args - Arguments to filter CostRateHistoryEntries to delete.
+     * @example
+     * // Delete a few CostRateHistoryEntries
+     * const { count } = await prisma.costRateHistoryEntry.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CostRateHistoryEntryDeleteManyArgs>(args?: SelectSubset<T, CostRateHistoryEntryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CostRateHistoryEntries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CostRateHistoryEntryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CostRateHistoryEntries
+     * const costRateHistoryEntry = await prisma.costRateHistoryEntry.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CostRateHistoryEntryUpdateManyArgs>(args: SelectSubset<T, CostRateHistoryEntryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CostRateHistoryEntries and returns the data updated in the database.
+     * @param {CostRateHistoryEntryUpdateManyAndReturnArgs} args - Arguments to update many CostRateHistoryEntries.
+     * @example
+     * // Update many CostRateHistoryEntries
+     * const costRateHistoryEntry = await prisma.costRateHistoryEntry.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CostRateHistoryEntries and only return the `id`
+     * const costRateHistoryEntryWithIdOnly = await prisma.costRateHistoryEntry.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CostRateHistoryEntryUpdateManyAndReturnArgs>(args: SelectSubset<T, CostRateHistoryEntryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CostRateHistoryEntryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CostRateHistoryEntry.
+     * @param {CostRateHistoryEntryUpsertArgs} args - Arguments to update or create a CostRateHistoryEntry.
+     * @example
+     * // Update or create a CostRateHistoryEntry
+     * const costRateHistoryEntry = await prisma.costRateHistoryEntry.upsert({
+     *   create: {
+     *     // ... data to create a CostRateHistoryEntry
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CostRateHistoryEntry we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CostRateHistoryEntryUpsertArgs>(args: SelectSubset<T, CostRateHistoryEntryUpsertArgs<ExtArgs>>): Prisma__CostRateHistoryEntryClient<$Result.GetResult<Prisma.$CostRateHistoryEntryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CostRateHistoryEntries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CostRateHistoryEntryCountArgs} args - Arguments to filter CostRateHistoryEntries to count.
+     * @example
+     * // Count the number of CostRateHistoryEntries
+     * const count = await prisma.costRateHistoryEntry.count({
+     *   where: {
+     *     // ... the filter for the CostRateHistoryEntries we want to count
+     *   }
+     * })
+    **/
+    count<T extends CostRateHistoryEntryCountArgs>(
+      args?: Subset<T, CostRateHistoryEntryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CostRateHistoryEntryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CostRateHistoryEntry.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CostRateHistoryEntryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CostRateHistoryEntryAggregateArgs>(args: Subset<T, CostRateHistoryEntryAggregateArgs>): Prisma.PrismaPromise<GetCostRateHistoryEntryAggregateType<T>>
+
+    /**
+     * Group by CostRateHistoryEntry.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CostRateHistoryEntryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CostRateHistoryEntryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CostRateHistoryEntryGroupByArgs['orderBy'] }
+        : { orderBy?: CostRateHistoryEntryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CostRateHistoryEntryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCostRateHistoryEntryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CostRateHistoryEntry model
+   */
+  readonly fields: CostRateHistoryEntryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CostRateHistoryEntry.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CostRateHistoryEntryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    createdBy<T extends CostRateHistoryEntry$createdByArgs<ExtArgs> = {}>(args?: Subset<T, CostRateHistoryEntry$createdByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CostRateHistoryEntry model
+   */
+  interface CostRateHistoryEntryFieldRefs {
+    readonly id: FieldRef<"CostRateHistoryEntry", 'String'>
+    readonly userId: FieldRef<"CostRateHistoryEntry", 'String'>
+    readonly rateType: FieldRef<"CostRateHistoryEntry", 'CostRateType'>
+    readonly amount: FieldRef<"CostRateHistoryEntry", 'Float'>
+    readonly currency: FieldRef<"CostRateHistoryEntry", 'String'>
+    readonly workHoursPerDay: FieldRef<"CostRateHistoryEntry", 'Float'>
+    readonly startDate: FieldRef<"CostRateHistoryEntry", 'DateTime'>
+    readonly endDate: FieldRef<"CostRateHistoryEntry", 'DateTime'>
+    readonly createdAt: FieldRef<"CostRateHistoryEntry", 'DateTime'>
+    readonly createdById: FieldRef<"CostRateHistoryEntry", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CostRateHistoryEntry findUnique
+   */
+  export type CostRateHistoryEntryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostRateHistoryEntry
+     */
+    select?: CostRateHistoryEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostRateHistoryEntry
+     */
+    omit?: CostRateHistoryEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostRateHistoryEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which CostRateHistoryEntry to fetch.
+     */
+    where: CostRateHistoryEntryWhereUniqueInput
+  }
+
+  /**
+   * CostRateHistoryEntry findUniqueOrThrow
+   */
+  export type CostRateHistoryEntryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostRateHistoryEntry
+     */
+    select?: CostRateHistoryEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostRateHistoryEntry
+     */
+    omit?: CostRateHistoryEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostRateHistoryEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which CostRateHistoryEntry to fetch.
+     */
+    where: CostRateHistoryEntryWhereUniqueInput
+  }
+
+  /**
+   * CostRateHistoryEntry findFirst
+   */
+  export type CostRateHistoryEntryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostRateHistoryEntry
+     */
+    select?: CostRateHistoryEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostRateHistoryEntry
+     */
+    omit?: CostRateHistoryEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostRateHistoryEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which CostRateHistoryEntry to fetch.
+     */
+    where?: CostRateHistoryEntryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CostRateHistoryEntries to fetch.
+     */
+    orderBy?: CostRateHistoryEntryOrderByWithRelationInput | CostRateHistoryEntryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CostRateHistoryEntries.
+     */
+    cursor?: CostRateHistoryEntryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CostRateHistoryEntries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CostRateHistoryEntries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CostRateHistoryEntries.
+     */
+    distinct?: CostRateHistoryEntryScalarFieldEnum | CostRateHistoryEntryScalarFieldEnum[]
+  }
+
+  /**
+   * CostRateHistoryEntry findFirstOrThrow
+   */
+  export type CostRateHistoryEntryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostRateHistoryEntry
+     */
+    select?: CostRateHistoryEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostRateHistoryEntry
+     */
+    omit?: CostRateHistoryEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostRateHistoryEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which CostRateHistoryEntry to fetch.
+     */
+    where?: CostRateHistoryEntryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CostRateHistoryEntries to fetch.
+     */
+    orderBy?: CostRateHistoryEntryOrderByWithRelationInput | CostRateHistoryEntryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CostRateHistoryEntries.
+     */
+    cursor?: CostRateHistoryEntryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CostRateHistoryEntries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CostRateHistoryEntries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CostRateHistoryEntries.
+     */
+    distinct?: CostRateHistoryEntryScalarFieldEnum | CostRateHistoryEntryScalarFieldEnum[]
+  }
+
+  /**
+   * CostRateHistoryEntry findMany
+   */
+  export type CostRateHistoryEntryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostRateHistoryEntry
+     */
+    select?: CostRateHistoryEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostRateHistoryEntry
+     */
+    omit?: CostRateHistoryEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostRateHistoryEntryInclude<ExtArgs> | null
+    /**
+     * Filter, which CostRateHistoryEntries to fetch.
+     */
+    where?: CostRateHistoryEntryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CostRateHistoryEntries to fetch.
+     */
+    orderBy?: CostRateHistoryEntryOrderByWithRelationInput | CostRateHistoryEntryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CostRateHistoryEntries.
+     */
+    cursor?: CostRateHistoryEntryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CostRateHistoryEntries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CostRateHistoryEntries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CostRateHistoryEntries.
+     */
+    distinct?: CostRateHistoryEntryScalarFieldEnum | CostRateHistoryEntryScalarFieldEnum[]
+  }
+
+  /**
+   * CostRateHistoryEntry create
+   */
+  export type CostRateHistoryEntryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostRateHistoryEntry
+     */
+    select?: CostRateHistoryEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostRateHistoryEntry
+     */
+    omit?: CostRateHistoryEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostRateHistoryEntryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CostRateHistoryEntry.
+     */
+    data: XOR<CostRateHistoryEntryCreateInput, CostRateHistoryEntryUncheckedCreateInput>
+  }
+
+  /**
+   * CostRateHistoryEntry createMany
+   */
+  export type CostRateHistoryEntryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CostRateHistoryEntries.
+     */
+    data: CostRateHistoryEntryCreateManyInput | CostRateHistoryEntryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CostRateHistoryEntry createManyAndReturn
+   */
+  export type CostRateHistoryEntryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostRateHistoryEntry
+     */
+    select?: CostRateHistoryEntrySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostRateHistoryEntry
+     */
+    omit?: CostRateHistoryEntryOmit<ExtArgs> | null
+    /**
+     * The data used to create many CostRateHistoryEntries.
+     */
+    data: CostRateHistoryEntryCreateManyInput | CostRateHistoryEntryCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostRateHistoryEntryIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CostRateHistoryEntry update
+   */
+  export type CostRateHistoryEntryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostRateHistoryEntry
+     */
+    select?: CostRateHistoryEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostRateHistoryEntry
+     */
+    omit?: CostRateHistoryEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostRateHistoryEntryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CostRateHistoryEntry.
+     */
+    data: XOR<CostRateHistoryEntryUpdateInput, CostRateHistoryEntryUncheckedUpdateInput>
+    /**
+     * Choose, which CostRateHistoryEntry to update.
+     */
+    where: CostRateHistoryEntryWhereUniqueInput
+  }
+
+  /**
+   * CostRateHistoryEntry updateMany
+   */
+  export type CostRateHistoryEntryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CostRateHistoryEntries.
+     */
+    data: XOR<CostRateHistoryEntryUpdateManyMutationInput, CostRateHistoryEntryUncheckedUpdateManyInput>
+    /**
+     * Filter which CostRateHistoryEntries to update
+     */
+    where?: CostRateHistoryEntryWhereInput
+    /**
+     * Limit how many CostRateHistoryEntries to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CostRateHistoryEntry updateManyAndReturn
+   */
+  export type CostRateHistoryEntryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostRateHistoryEntry
+     */
+    select?: CostRateHistoryEntrySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostRateHistoryEntry
+     */
+    omit?: CostRateHistoryEntryOmit<ExtArgs> | null
+    /**
+     * The data used to update CostRateHistoryEntries.
+     */
+    data: XOR<CostRateHistoryEntryUpdateManyMutationInput, CostRateHistoryEntryUncheckedUpdateManyInput>
+    /**
+     * Filter which CostRateHistoryEntries to update
+     */
+    where?: CostRateHistoryEntryWhereInput
+    /**
+     * Limit how many CostRateHistoryEntries to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostRateHistoryEntryIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CostRateHistoryEntry upsert
+   */
+  export type CostRateHistoryEntryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostRateHistoryEntry
+     */
+    select?: CostRateHistoryEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostRateHistoryEntry
+     */
+    omit?: CostRateHistoryEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostRateHistoryEntryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CostRateHistoryEntry to update in case it exists.
+     */
+    where: CostRateHistoryEntryWhereUniqueInput
+    /**
+     * In case the CostRateHistoryEntry found by the `where` argument doesn't exist, create a new CostRateHistoryEntry with this data.
+     */
+    create: XOR<CostRateHistoryEntryCreateInput, CostRateHistoryEntryUncheckedCreateInput>
+    /**
+     * In case the CostRateHistoryEntry was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CostRateHistoryEntryUpdateInput, CostRateHistoryEntryUncheckedUpdateInput>
+  }
+
+  /**
+   * CostRateHistoryEntry delete
+   */
+  export type CostRateHistoryEntryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostRateHistoryEntry
+     */
+    select?: CostRateHistoryEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostRateHistoryEntry
+     */
+    omit?: CostRateHistoryEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostRateHistoryEntryInclude<ExtArgs> | null
+    /**
+     * Filter which CostRateHistoryEntry to delete.
+     */
+    where: CostRateHistoryEntryWhereUniqueInput
+  }
+
+  /**
+   * CostRateHistoryEntry deleteMany
+   */
+  export type CostRateHistoryEntryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CostRateHistoryEntries to delete
+     */
+    where?: CostRateHistoryEntryWhereInput
+    /**
+     * Limit how many CostRateHistoryEntries to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CostRateHistoryEntry.createdBy
+   */
+  export type CostRateHistoryEntry$createdByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * CostRateHistoryEntry without action
+   */
+  export type CostRateHistoryEntryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CostRateHistoryEntry
+     */
+    select?: CostRateHistoryEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CostRateHistoryEntry
+     */
+    omit?: CostRateHistoryEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CostRateHistoryEntryInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model TimeTrackingPolicy
    */
 
@@ -117695,6 +119078,22 @@ export namespace Prisma {
   export type TeamMemberScalarFieldEnum = (typeof TeamMemberScalarFieldEnum)[keyof typeof TeamMemberScalarFieldEnum]
 
 
+  export const CostRateHistoryEntryScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    rateType: 'rateType',
+    amount: 'amount',
+    currency: 'currency',
+    workHoursPerDay: 'workHoursPerDay',
+    startDate: 'startDate',
+    endDate: 'endDate',
+    createdAt: 'createdAt',
+    createdById: 'createdById'
+  };
+
+  export type CostRateHistoryEntryScalarFieldEnum = (typeof CostRateHistoryEntryScalarFieldEnum)[keyof typeof CostRateHistoryEntryScalarFieldEnum]
+
+
   export const TimeTrackingPolicyScalarFieldEnum: {
     id: 'id',
     maxDailyHours: 'maxDailyHours',
@@ -118678,6 +120077,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'CostRateType'
+   */
+  export type EnumCostRateTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CostRateType'>
+    
+
+
+  /**
+   * Reference to a field of type 'CostRateType[]'
+   */
+  export type ListEnumCostRateTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CostRateType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'CustomFieldEntityType'
    */
   export type EnumCustomFieldEntityTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CustomFieldEntityType'>
@@ -119013,6 +120426,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockListRelationFilter
     lockedFinancialPeriods?: FinancialPeriodLockListRelationFilter
     teamMemberships?: TeamMemberListRelationFilter
+    costRateHistory?: CostRateHistoryEntryListRelationFilter
+    createdCostRateEntries?: CostRateHistoryEntryListRelationFilter
     holidayCalendar?: XOR<HolidayCalendarNullableScalarRelationFilter, HolidayCalendarWhereInput> | null
     resourceBookings?: ResourceBookingListRelationFilter
     createdResourceBookings?: ResourceBookingListRelationFilter
@@ -119092,6 +120507,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockOrderByRelationAggregateInput
     lockedFinancialPeriods?: FinancialPeriodLockOrderByRelationAggregateInput
     teamMemberships?: TeamMemberOrderByRelationAggregateInput
+    costRateHistory?: CostRateHistoryEntryOrderByRelationAggregateInput
+    createdCostRateEntries?: CostRateHistoryEntryOrderByRelationAggregateInput
     holidayCalendar?: HolidayCalendarOrderByWithRelationInput
     resourceBookings?: ResourceBookingOrderByRelationAggregateInput
     createdResourceBookings?: ResourceBookingOrderByRelationAggregateInput
@@ -119174,6 +120591,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockListRelationFilter
     lockedFinancialPeriods?: FinancialPeriodLockListRelationFilter
     teamMemberships?: TeamMemberListRelationFilter
+    costRateHistory?: CostRateHistoryEntryListRelationFilter
+    createdCostRateEntries?: CostRateHistoryEntryListRelationFilter
     holidayCalendar?: XOR<HolidayCalendarNullableScalarRelationFilter, HolidayCalendarWhereInput> | null
     resourceBookings?: ResourceBookingListRelationFilter
     createdResourceBookings?: ResourceBookingListRelationFilter
@@ -122727,6 +124146,91 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"TeamMember"> | string
   }
 
+  export type CostRateHistoryEntryWhereInput = {
+    AND?: CostRateHistoryEntryWhereInput | CostRateHistoryEntryWhereInput[]
+    OR?: CostRateHistoryEntryWhereInput[]
+    NOT?: CostRateHistoryEntryWhereInput | CostRateHistoryEntryWhereInput[]
+    id?: StringFilter<"CostRateHistoryEntry"> | string
+    userId?: StringFilter<"CostRateHistoryEntry"> | string
+    rateType?: EnumCostRateTypeFilter<"CostRateHistoryEntry"> | $Enums.CostRateType
+    amount?: FloatFilter<"CostRateHistoryEntry"> | number
+    currency?: StringFilter<"CostRateHistoryEntry"> | string
+    workHoursPerDay?: FloatFilter<"CostRateHistoryEntry"> | number
+    startDate?: DateTimeFilter<"CostRateHistoryEntry"> | Date | string
+    endDate?: DateTimeNullableFilter<"CostRateHistoryEntry"> | Date | string | null
+    createdAt?: DateTimeFilter<"CostRateHistoryEntry"> | Date | string
+    createdById?: StringNullableFilter<"CostRateHistoryEntry"> | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    createdBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type CostRateHistoryEntryOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    rateType?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    workHoursPerDay?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
+    createdBy?: UserOrderByWithRelationInput
+  }
+
+  export type CostRateHistoryEntryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CostRateHistoryEntryWhereInput | CostRateHistoryEntryWhereInput[]
+    OR?: CostRateHistoryEntryWhereInput[]
+    NOT?: CostRateHistoryEntryWhereInput | CostRateHistoryEntryWhereInput[]
+    userId?: StringFilter<"CostRateHistoryEntry"> | string
+    rateType?: EnumCostRateTypeFilter<"CostRateHistoryEntry"> | $Enums.CostRateType
+    amount?: FloatFilter<"CostRateHistoryEntry"> | number
+    currency?: StringFilter<"CostRateHistoryEntry"> | string
+    workHoursPerDay?: FloatFilter<"CostRateHistoryEntry"> | number
+    startDate?: DateTimeFilter<"CostRateHistoryEntry"> | Date | string
+    endDate?: DateTimeNullableFilter<"CostRateHistoryEntry"> | Date | string | null
+    createdAt?: DateTimeFilter<"CostRateHistoryEntry"> | Date | string
+    createdById?: StringNullableFilter<"CostRateHistoryEntry"> | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    createdBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id">
+
+  export type CostRateHistoryEntryOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    rateType?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    workHoursPerDay?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    _count?: CostRateHistoryEntryCountOrderByAggregateInput
+    _avg?: CostRateHistoryEntryAvgOrderByAggregateInput
+    _max?: CostRateHistoryEntryMaxOrderByAggregateInput
+    _min?: CostRateHistoryEntryMinOrderByAggregateInput
+    _sum?: CostRateHistoryEntrySumOrderByAggregateInput
+  }
+
+  export type CostRateHistoryEntryScalarWhereWithAggregatesInput = {
+    AND?: CostRateHistoryEntryScalarWhereWithAggregatesInput | CostRateHistoryEntryScalarWhereWithAggregatesInput[]
+    OR?: CostRateHistoryEntryScalarWhereWithAggregatesInput[]
+    NOT?: CostRateHistoryEntryScalarWhereWithAggregatesInput | CostRateHistoryEntryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CostRateHistoryEntry"> | string
+    userId?: StringWithAggregatesFilter<"CostRateHistoryEntry"> | string
+    rateType?: EnumCostRateTypeWithAggregatesFilter<"CostRateHistoryEntry"> | $Enums.CostRateType
+    amount?: FloatWithAggregatesFilter<"CostRateHistoryEntry"> | number
+    currency?: StringWithAggregatesFilter<"CostRateHistoryEntry"> | string
+    workHoursPerDay?: FloatWithAggregatesFilter<"CostRateHistoryEntry"> | number
+    startDate?: DateTimeWithAggregatesFilter<"CostRateHistoryEntry"> | Date | string
+    endDate?: DateTimeNullableWithAggregatesFilter<"CostRateHistoryEntry"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"CostRateHistoryEntry"> | Date | string
+    createdById?: StringNullableWithAggregatesFilter<"CostRateHistoryEntry"> | string | null
+  }
+
   export type TimeTrackingPolicyWhereInput = {
     AND?: TimeTrackingPolicyWhereInput | TimeTrackingPolicyWhereInput[]
     OR?: TimeTrackingPolicyWhereInput[]
@@ -125828,6 +127332,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -125905,6 +127411,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -125980,6 +127488,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -126057,6 +127567,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -129742,6 +131254,95 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type CostRateHistoryEntryCreateInput = {
+    id?: string
+    rateType: $Enums.CostRateType
+    amount: number
+    currency?: string
+    workHoursPerDay?: number
+    startDate: Date | string
+    endDate?: Date | string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutCostRateHistoryInput
+    createdBy?: UserCreateNestedOneWithoutCreatedCostRateEntriesInput
+  }
+
+  export type CostRateHistoryEntryUncheckedCreateInput = {
+    id?: string
+    userId: string
+    rateType: $Enums.CostRateType
+    amount: number
+    currency?: string
+    workHoursPerDay?: number
+    startDate: Date | string
+    endDate?: Date | string | null
+    createdAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type CostRateHistoryEntryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rateType?: EnumCostRateTypeFieldUpdateOperationsInput | $Enums.CostRateType
+    amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    workHoursPerDay?: FloatFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCostRateHistoryNestedInput
+    createdBy?: UserUpdateOneWithoutCreatedCostRateEntriesNestedInput
+  }
+
+  export type CostRateHistoryEntryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    rateType?: EnumCostRateTypeFieldUpdateOperationsInput | $Enums.CostRateType
+    amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    workHoursPerDay?: FloatFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CostRateHistoryEntryCreateManyInput = {
+    id?: string
+    userId: string
+    rateType: $Enums.CostRateType
+    amount: number
+    currency?: string
+    workHoursPerDay?: number
+    startDate: Date | string
+    endDate?: Date | string | null
+    createdAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type CostRateHistoryEntryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rateType?: EnumCostRateTypeFieldUpdateOperationsInput | $Enums.CostRateType
+    amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    workHoursPerDay?: FloatFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CostRateHistoryEntryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    rateType?: EnumCostRateTypeFieldUpdateOperationsInput | $Enums.CostRateType
+    amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    workHoursPerDay?: FloatFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type TimeTrackingPolicyCreateInput = {
     id?: string
     maxDailyHours?: number | null
@@ -133166,6 +134767,12 @@ export namespace Prisma {
     none?: TeamMemberWhereInput
   }
 
+  export type CostRateHistoryEntryListRelationFilter = {
+    every?: CostRateHistoryEntryWhereInput
+    some?: CostRateHistoryEntryWhereInput
+    none?: CostRateHistoryEntryWhereInput
+  }
+
   export type HolidayCalendarNullableScalarRelationFilter = {
     is?: HolidayCalendarWhereInput | null
     isNot?: HolidayCalendarWhereInput | null
@@ -133385,6 +134992,10 @@ export namespace Prisma {
   }
 
   export type TeamMemberOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CostRateHistoryEntryOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -136120,6 +137731,72 @@ export namespace Prisma {
     userId?: SortOrder
   }
 
+  export type EnumCostRateTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.CostRateType | EnumCostRateTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CostRateType[] | ListEnumCostRateTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CostRateType[] | ListEnumCostRateTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCostRateTypeFilter<$PrismaModel> | $Enums.CostRateType
+  }
+
+  export type CostRateHistoryEntryCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    rateType?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    workHoursPerDay?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    createdAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type CostRateHistoryEntryAvgOrderByAggregateInput = {
+    amount?: SortOrder
+    workHoursPerDay?: SortOrder
+  }
+
+  export type CostRateHistoryEntryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    rateType?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    workHoursPerDay?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    createdAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type CostRateHistoryEntryMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    rateType?: SortOrder
+    amount?: SortOrder
+    currency?: SortOrder
+    workHoursPerDay?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    createdAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type CostRateHistoryEntrySumOrderByAggregateInput = {
+    amount?: SortOrder
+    workHoursPerDay?: SortOrder
+  }
+
+  export type EnumCostRateTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CostRateType | EnumCostRateTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CostRateType[] | ListEnumCostRateTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CostRateType[] | ListEnumCostRateTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCostRateTypeWithAggregatesFilter<$PrismaModel> | $Enums.CostRateType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCostRateTypeFilter<$PrismaModel>
+    _max?: NestedEnumCostRateTypeFilter<$PrismaModel>
+  }
+
   export type TimeTrackingPolicyCountOrderByAggregateInput = {
     id?: SortOrder
     maxDailyHours?: SortOrder
@@ -138423,6 +140100,20 @@ export namespace Prisma {
     connect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
   }
 
+  export type CostRateHistoryEntryCreateNestedManyWithoutUserInput = {
+    create?: XOR<CostRateHistoryEntryCreateWithoutUserInput, CostRateHistoryEntryUncheckedCreateWithoutUserInput> | CostRateHistoryEntryCreateWithoutUserInput[] | CostRateHistoryEntryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CostRateHistoryEntryCreateOrConnectWithoutUserInput | CostRateHistoryEntryCreateOrConnectWithoutUserInput[]
+    createMany?: CostRateHistoryEntryCreateManyUserInputEnvelope
+    connect?: CostRateHistoryEntryWhereUniqueInput | CostRateHistoryEntryWhereUniqueInput[]
+  }
+
+  export type CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput = {
+    create?: XOR<CostRateHistoryEntryCreateWithoutCreatedByInput, CostRateHistoryEntryUncheckedCreateWithoutCreatedByInput> | CostRateHistoryEntryCreateWithoutCreatedByInput[] | CostRateHistoryEntryUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: CostRateHistoryEntryCreateOrConnectWithoutCreatedByInput | CostRateHistoryEntryCreateOrConnectWithoutCreatedByInput[]
+    createMany?: CostRateHistoryEntryCreateManyCreatedByInputEnvelope
+    connect?: CostRateHistoryEntryWhereUniqueInput | CostRateHistoryEntryWhereUniqueInput[]
+  }
+
   export type HolidayCalendarCreateNestedOneWithoutUsersInput = {
     create?: XOR<HolidayCalendarCreateWithoutUsersInput, HolidayCalendarUncheckedCreateWithoutUsersInput>
     connectOrCreate?: HolidayCalendarCreateOrConnectWithoutUsersInput
@@ -138805,6 +140496,20 @@ export namespace Prisma {
     connectOrCreate?: TeamMemberCreateOrConnectWithoutUserInput | TeamMemberCreateOrConnectWithoutUserInput[]
     createMany?: TeamMemberCreateManyUserInputEnvelope
     connect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+  }
+
+  export type CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<CostRateHistoryEntryCreateWithoutUserInput, CostRateHistoryEntryUncheckedCreateWithoutUserInput> | CostRateHistoryEntryCreateWithoutUserInput[] | CostRateHistoryEntryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CostRateHistoryEntryCreateOrConnectWithoutUserInput | CostRateHistoryEntryCreateOrConnectWithoutUserInput[]
+    createMany?: CostRateHistoryEntryCreateManyUserInputEnvelope
+    connect?: CostRateHistoryEntryWhereUniqueInput | CostRateHistoryEntryWhereUniqueInput[]
+  }
+
+  export type CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput = {
+    create?: XOR<CostRateHistoryEntryCreateWithoutCreatedByInput, CostRateHistoryEntryUncheckedCreateWithoutCreatedByInput> | CostRateHistoryEntryCreateWithoutCreatedByInput[] | CostRateHistoryEntryUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: CostRateHistoryEntryCreateOrConnectWithoutCreatedByInput | CostRateHistoryEntryCreateOrConnectWithoutCreatedByInput[]
+    createMany?: CostRateHistoryEntryCreateManyCreatedByInputEnvelope
+    connect?: CostRateHistoryEntryWhereUniqueInput | CostRateHistoryEntryWhereUniqueInput[]
   }
 
   export type ResourceBookingUncheckedCreateNestedManyWithoutUserInput = {
@@ -139541,6 +141246,34 @@ export namespace Prisma {
     update?: TeamMemberUpdateWithWhereUniqueWithoutUserInput | TeamMemberUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: TeamMemberUpdateManyWithWhereWithoutUserInput | TeamMemberUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: TeamMemberScalarWhereInput | TeamMemberScalarWhereInput[]
+  }
+
+  export type CostRateHistoryEntryUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CostRateHistoryEntryCreateWithoutUserInput, CostRateHistoryEntryUncheckedCreateWithoutUserInput> | CostRateHistoryEntryCreateWithoutUserInput[] | CostRateHistoryEntryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CostRateHistoryEntryCreateOrConnectWithoutUserInput | CostRateHistoryEntryCreateOrConnectWithoutUserInput[]
+    upsert?: CostRateHistoryEntryUpsertWithWhereUniqueWithoutUserInput | CostRateHistoryEntryUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CostRateHistoryEntryCreateManyUserInputEnvelope
+    set?: CostRateHistoryEntryWhereUniqueInput | CostRateHistoryEntryWhereUniqueInput[]
+    disconnect?: CostRateHistoryEntryWhereUniqueInput | CostRateHistoryEntryWhereUniqueInput[]
+    delete?: CostRateHistoryEntryWhereUniqueInput | CostRateHistoryEntryWhereUniqueInput[]
+    connect?: CostRateHistoryEntryWhereUniqueInput | CostRateHistoryEntryWhereUniqueInput[]
+    update?: CostRateHistoryEntryUpdateWithWhereUniqueWithoutUserInput | CostRateHistoryEntryUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CostRateHistoryEntryUpdateManyWithWhereWithoutUserInput | CostRateHistoryEntryUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CostRateHistoryEntryScalarWhereInput | CostRateHistoryEntryScalarWhereInput[]
+  }
+
+  export type CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput = {
+    create?: XOR<CostRateHistoryEntryCreateWithoutCreatedByInput, CostRateHistoryEntryUncheckedCreateWithoutCreatedByInput> | CostRateHistoryEntryCreateWithoutCreatedByInput[] | CostRateHistoryEntryUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: CostRateHistoryEntryCreateOrConnectWithoutCreatedByInput | CostRateHistoryEntryCreateOrConnectWithoutCreatedByInput[]
+    upsert?: CostRateHistoryEntryUpsertWithWhereUniqueWithoutCreatedByInput | CostRateHistoryEntryUpsertWithWhereUniqueWithoutCreatedByInput[]
+    createMany?: CostRateHistoryEntryCreateManyCreatedByInputEnvelope
+    set?: CostRateHistoryEntryWhereUniqueInput | CostRateHistoryEntryWhereUniqueInput[]
+    disconnect?: CostRateHistoryEntryWhereUniqueInput | CostRateHistoryEntryWhereUniqueInput[]
+    delete?: CostRateHistoryEntryWhereUniqueInput | CostRateHistoryEntryWhereUniqueInput[]
+    connect?: CostRateHistoryEntryWhereUniqueInput | CostRateHistoryEntryWhereUniqueInput[]
+    update?: CostRateHistoryEntryUpdateWithWhereUniqueWithoutCreatedByInput | CostRateHistoryEntryUpdateWithWhereUniqueWithoutCreatedByInput[]
+    updateMany?: CostRateHistoryEntryUpdateManyWithWhereWithoutCreatedByInput | CostRateHistoryEntryUpdateManyWithWhereWithoutCreatedByInput[]
+    deleteMany?: CostRateHistoryEntryScalarWhereInput | CostRateHistoryEntryScalarWhereInput[]
   }
 
   export type HolidayCalendarUpdateOneWithoutUsersNestedInput = {
@@ -140307,6 +142040,34 @@ export namespace Prisma {
     update?: TeamMemberUpdateWithWhereUniqueWithoutUserInput | TeamMemberUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: TeamMemberUpdateManyWithWhereWithoutUserInput | TeamMemberUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: TeamMemberScalarWhereInput | TeamMemberScalarWhereInput[]
+  }
+
+  export type CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CostRateHistoryEntryCreateWithoutUserInput, CostRateHistoryEntryUncheckedCreateWithoutUserInput> | CostRateHistoryEntryCreateWithoutUserInput[] | CostRateHistoryEntryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CostRateHistoryEntryCreateOrConnectWithoutUserInput | CostRateHistoryEntryCreateOrConnectWithoutUserInput[]
+    upsert?: CostRateHistoryEntryUpsertWithWhereUniqueWithoutUserInput | CostRateHistoryEntryUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CostRateHistoryEntryCreateManyUserInputEnvelope
+    set?: CostRateHistoryEntryWhereUniqueInput | CostRateHistoryEntryWhereUniqueInput[]
+    disconnect?: CostRateHistoryEntryWhereUniqueInput | CostRateHistoryEntryWhereUniqueInput[]
+    delete?: CostRateHistoryEntryWhereUniqueInput | CostRateHistoryEntryWhereUniqueInput[]
+    connect?: CostRateHistoryEntryWhereUniqueInput | CostRateHistoryEntryWhereUniqueInput[]
+    update?: CostRateHistoryEntryUpdateWithWhereUniqueWithoutUserInput | CostRateHistoryEntryUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CostRateHistoryEntryUpdateManyWithWhereWithoutUserInput | CostRateHistoryEntryUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CostRateHistoryEntryScalarWhereInput | CostRateHistoryEntryScalarWhereInput[]
+  }
+
+  export type CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput = {
+    create?: XOR<CostRateHistoryEntryCreateWithoutCreatedByInput, CostRateHistoryEntryUncheckedCreateWithoutCreatedByInput> | CostRateHistoryEntryCreateWithoutCreatedByInput[] | CostRateHistoryEntryUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: CostRateHistoryEntryCreateOrConnectWithoutCreatedByInput | CostRateHistoryEntryCreateOrConnectWithoutCreatedByInput[]
+    upsert?: CostRateHistoryEntryUpsertWithWhereUniqueWithoutCreatedByInput | CostRateHistoryEntryUpsertWithWhereUniqueWithoutCreatedByInput[]
+    createMany?: CostRateHistoryEntryCreateManyCreatedByInputEnvelope
+    set?: CostRateHistoryEntryWhereUniqueInput | CostRateHistoryEntryWhereUniqueInput[]
+    disconnect?: CostRateHistoryEntryWhereUniqueInput | CostRateHistoryEntryWhereUniqueInput[]
+    delete?: CostRateHistoryEntryWhereUniqueInput | CostRateHistoryEntryWhereUniqueInput[]
+    connect?: CostRateHistoryEntryWhereUniqueInput | CostRateHistoryEntryWhereUniqueInput[]
+    update?: CostRateHistoryEntryUpdateWithWhereUniqueWithoutCreatedByInput | CostRateHistoryEntryUpdateWithWhereUniqueWithoutCreatedByInput[]
+    updateMany?: CostRateHistoryEntryUpdateManyWithWhereWithoutCreatedByInput | CostRateHistoryEntryUpdateManyWithWhereWithoutCreatedByInput[]
+    deleteMany?: CostRateHistoryEntryScalarWhereInput | CostRateHistoryEntryScalarWhereInput[]
   }
 
   export type ResourceBookingUncheckedUpdateManyWithoutUserNestedInput = {
@@ -144688,6 +146449,40 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTeamMembershipsInput, UserUpdateWithoutTeamMembershipsInput>, UserUncheckedUpdateWithoutTeamMembershipsInput>
   }
 
+  export type UserCreateNestedOneWithoutCostRateHistoryInput = {
+    create?: XOR<UserCreateWithoutCostRateHistoryInput, UserUncheckedCreateWithoutCostRateHistoryInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCostRateHistoryInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutCreatedCostRateEntriesInput = {
+    create?: XOR<UserCreateWithoutCreatedCostRateEntriesInput, UserUncheckedCreateWithoutCreatedCostRateEntriesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCreatedCostRateEntriesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumCostRateTypeFieldUpdateOperationsInput = {
+    set?: $Enums.CostRateType
+  }
+
+  export type UserUpdateOneRequiredWithoutCostRateHistoryNestedInput = {
+    create?: XOR<UserCreateWithoutCostRateHistoryInput, UserUncheckedCreateWithoutCostRateHistoryInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCostRateHistoryInput
+    upsert?: UserUpsertWithoutCostRateHistoryInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCostRateHistoryInput, UserUpdateWithoutCostRateHistoryInput>, UserUncheckedUpdateWithoutCostRateHistoryInput>
+  }
+
+  export type UserUpdateOneWithoutCreatedCostRateEntriesNestedInput = {
+    create?: XOR<UserCreateWithoutCreatedCostRateEntriesInput, UserUncheckedCreateWithoutCreatedCostRateEntriesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCreatedCostRateEntriesInput
+    upsert?: UserUpsertWithoutCreatedCostRateEntriesInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCreatedCostRateEntriesInput, UserUpdateWithoutCreatedCostRateEntriesInput>, UserUncheckedUpdateWithoutCreatedCostRateEntriesInput>
+  }
+
   export type HolidayCreateNestedManyWithoutCalendarInput = {
     create?: XOR<HolidayCreateWithoutCalendarInput, HolidayUncheckedCreateWithoutCalendarInput> | HolidayCreateWithoutCalendarInput[] | HolidayUncheckedCreateWithoutCalendarInput[]
     connectOrCreate?: HolidayCreateOrConnectWithoutCalendarInput | HolidayCreateOrConnectWithoutCalendarInput[]
@@ -147897,6 +149692,23 @@ export namespace Prisma {
     _max?: NestedEnumApprovalDecisionStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumCostRateTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.CostRateType | EnumCostRateTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CostRateType[] | ListEnumCostRateTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CostRateType[] | ListEnumCostRateTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCostRateTypeFilter<$PrismaModel> | $Enums.CostRateType
+  }
+
+  export type NestedEnumCostRateTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CostRateType | EnumCostRateTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CostRateType[] | ListEnumCostRateTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CostRateType[] | ListEnumCostRateTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCostRateTypeWithAggregatesFilter<$PrismaModel> | $Enums.CostRateType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCostRateTypeFilter<$PrismaModel>
+    _max?: NestedEnumCostRateTypeFilter<$PrismaModel>
+  }
+
   export type NestedEnumCustomFieldEntityTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.CustomFieldEntityType | EnumCustomFieldEntityTypeFieldRefInput<$PrismaModel>
     in?: $Enums.CustomFieldEntityType[] | ListEnumCustomFieldEntityTypeFieldRefInput<$PrismaModel>
@@ -149316,6 +151128,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -149392,6 +151206,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -149471,6 +151287,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -149547,6 +151365,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -149906,6 +151726,74 @@ export namespace Prisma {
 
   export type TeamMemberCreateManyUserInputEnvelope = {
     data: TeamMemberCreateManyUserInput | TeamMemberCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CostRateHistoryEntryCreateWithoutUserInput = {
+    id?: string
+    rateType: $Enums.CostRateType
+    amount: number
+    currency?: string
+    workHoursPerDay?: number
+    startDate: Date | string
+    endDate?: Date | string | null
+    createdAt?: Date | string
+    createdBy?: UserCreateNestedOneWithoutCreatedCostRateEntriesInput
+  }
+
+  export type CostRateHistoryEntryUncheckedCreateWithoutUserInput = {
+    id?: string
+    rateType: $Enums.CostRateType
+    amount: number
+    currency?: string
+    workHoursPerDay?: number
+    startDate: Date | string
+    endDate?: Date | string | null
+    createdAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type CostRateHistoryEntryCreateOrConnectWithoutUserInput = {
+    where: CostRateHistoryEntryWhereUniqueInput
+    create: XOR<CostRateHistoryEntryCreateWithoutUserInput, CostRateHistoryEntryUncheckedCreateWithoutUserInput>
+  }
+
+  export type CostRateHistoryEntryCreateManyUserInputEnvelope = {
+    data: CostRateHistoryEntryCreateManyUserInput | CostRateHistoryEntryCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CostRateHistoryEntryCreateWithoutCreatedByInput = {
+    id?: string
+    rateType: $Enums.CostRateType
+    amount: number
+    currency?: string
+    workHoursPerDay?: number
+    startDate: Date | string
+    endDate?: Date | string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutCostRateHistoryInput
+  }
+
+  export type CostRateHistoryEntryUncheckedCreateWithoutCreatedByInput = {
+    id?: string
+    userId: string
+    rateType: $Enums.CostRateType
+    amount: number
+    currency?: string
+    workHoursPerDay?: number
+    startDate: Date | string
+    endDate?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type CostRateHistoryEntryCreateOrConnectWithoutCreatedByInput = {
+    where: CostRateHistoryEntryWhereUniqueInput
+    create: XOR<CostRateHistoryEntryCreateWithoutCreatedByInput, CostRateHistoryEntryUncheckedCreateWithoutCreatedByInput>
+  }
+
+  export type CostRateHistoryEntryCreateManyCreatedByInputEnvelope = {
+    data: CostRateHistoryEntryCreateManyCreatedByInput | CostRateHistoryEntryCreateManyCreatedByInput[]
     skipDuplicates?: boolean
   }
 
@@ -151346,6 +153234,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -151422,6 +153312,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -151747,6 +153639,54 @@ export namespace Prisma {
     NOT?: TeamMemberScalarWhereInput | TeamMemberScalarWhereInput[]
     teamId?: StringFilter<"TeamMember"> | string
     userId?: StringFilter<"TeamMember"> | string
+  }
+
+  export type CostRateHistoryEntryUpsertWithWhereUniqueWithoutUserInput = {
+    where: CostRateHistoryEntryWhereUniqueInput
+    update: XOR<CostRateHistoryEntryUpdateWithoutUserInput, CostRateHistoryEntryUncheckedUpdateWithoutUserInput>
+    create: XOR<CostRateHistoryEntryCreateWithoutUserInput, CostRateHistoryEntryUncheckedCreateWithoutUserInput>
+  }
+
+  export type CostRateHistoryEntryUpdateWithWhereUniqueWithoutUserInput = {
+    where: CostRateHistoryEntryWhereUniqueInput
+    data: XOR<CostRateHistoryEntryUpdateWithoutUserInput, CostRateHistoryEntryUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CostRateHistoryEntryUpdateManyWithWhereWithoutUserInput = {
+    where: CostRateHistoryEntryScalarWhereInput
+    data: XOR<CostRateHistoryEntryUpdateManyMutationInput, CostRateHistoryEntryUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type CostRateHistoryEntryScalarWhereInput = {
+    AND?: CostRateHistoryEntryScalarWhereInput | CostRateHistoryEntryScalarWhereInput[]
+    OR?: CostRateHistoryEntryScalarWhereInput[]
+    NOT?: CostRateHistoryEntryScalarWhereInput | CostRateHistoryEntryScalarWhereInput[]
+    id?: StringFilter<"CostRateHistoryEntry"> | string
+    userId?: StringFilter<"CostRateHistoryEntry"> | string
+    rateType?: EnumCostRateTypeFilter<"CostRateHistoryEntry"> | $Enums.CostRateType
+    amount?: FloatFilter<"CostRateHistoryEntry"> | number
+    currency?: StringFilter<"CostRateHistoryEntry"> | string
+    workHoursPerDay?: FloatFilter<"CostRateHistoryEntry"> | number
+    startDate?: DateTimeFilter<"CostRateHistoryEntry"> | Date | string
+    endDate?: DateTimeNullableFilter<"CostRateHistoryEntry"> | Date | string | null
+    createdAt?: DateTimeFilter<"CostRateHistoryEntry"> | Date | string
+    createdById?: StringNullableFilter<"CostRateHistoryEntry"> | string | null
+  }
+
+  export type CostRateHistoryEntryUpsertWithWhereUniqueWithoutCreatedByInput = {
+    where: CostRateHistoryEntryWhereUniqueInput
+    update: XOR<CostRateHistoryEntryUpdateWithoutCreatedByInput, CostRateHistoryEntryUncheckedUpdateWithoutCreatedByInput>
+    create: XOR<CostRateHistoryEntryCreateWithoutCreatedByInput, CostRateHistoryEntryUncheckedCreateWithoutCreatedByInput>
+  }
+
+  export type CostRateHistoryEntryUpdateWithWhereUniqueWithoutCreatedByInput = {
+    where: CostRateHistoryEntryWhereUniqueInput
+    data: XOR<CostRateHistoryEntryUpdateWithoutCreatedByInput, CostRateHistoryEntryUncheckedUpdateWithoutCreatedByInput>
+  }
+
+  export type CostRateHistoryEntryUpdateManyWithWhereWithoutCreatedByInput = {
+    where: CostRateHistoryEntryScalarWhereInput
+    data: XOR<CostRateHistoryEntryUpdateManyMutationInput, CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByInput>
   }
 
   export type HolidayCalendarUpsertWithoutUsersInput = {
@@ -152180,6 +154120,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -152256,6 +154198,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -152629,6 +154573,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -152705,6 +154651,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -153314,6 +155262,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -153390,6 +155340,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -153676,6 +155628,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -153752,6 +155706,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -154042,6 +155998,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -154118,6 +156076,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -154307,6 +156267,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -154383,6 +156345,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -154457,6 +156421,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -154533,6 +156499,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -154766,6 +156734,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -154842,6 +156812,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -155052,6 +157024,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -155128,6 +157102,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -155229,6 +157205,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -155305,6 +157283,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -155384,6 +157364,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -155460,6 +157442,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -155550,6 +157534,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -155626,6 +157612,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -155711,6 +157699,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -155787,6 +157777,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -155861,6 +157853,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -155937,6 +157931,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -156027,6 +158023,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -156103,6 +158101,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -156177,6 +158177,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -156253,6 +158255,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -156343,6 +158347,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -156419,6 +158425,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -156493,6 +158501,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -156569,6 +158579,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -156659,6 +158671,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -156735,6 +158749,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -156902,6 +158918,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -156978,6 +158996,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -157167,6 +159187,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -157243,6 +159265,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -158070,6 +160094,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -158146,6 +160172,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -158988,6 +161016,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -159064,6 +161094,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -160961,6 +162993,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -161037,6 +163071,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -161226,6 +163262,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -161302,6 +163340,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -161469,6 +163509,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -161545,6 +163587,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -161734,6 +163778,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -161810,6 +163856,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -162377,6 +164425,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -162453,6 +164503,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -163326,6 +165378,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -163402,6 +165456,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -164336,6 +166392,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -164412,6 +166470,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -164597,6 +166657,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -164673,6 +166735,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -164836,6 +166900,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -164912,6 +166978,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -165097,6 +167165,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -165173,6 +167243,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -165336,6 +167408,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -165412,6 +167486,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -165617,6 +167693,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -165693,6 +167771,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -165804,6 +167884,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -165880,6 +167962,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -165997,6 +168081,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -166073,6 +168159,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -166236,6 +168324,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -166312,6 +168402,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -166497,6 +168589,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -166573,6 +168667,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -166741,6 +168837,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -166817,6 +168915,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -167054,6 +169154,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -167130,6 +169232,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -167245,6 +169349,8 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -167321,6 +169427,8 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -167411,6 +169519,8 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -167487,6 +169597,8 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -167561,6 +169673,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -167637,6 +169751,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -167727,6 +169843,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -167803,6 +169921,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -167877,6 +169997,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -167953,6 +170075,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -168324,6 +170448,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -168400,6 +170526,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -168479,6 +170607,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -168555,6 +170685,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -168671,6 +170803,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -168747,6 +170881,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -169148,6 +171284,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -169224,6 +171362,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -169309,6 +171449,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -169385,6 +171527,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -169625,6 +171769,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -169701,6 +171847,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -169826,6 +171974,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -169902,6 +172052,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -170023,6 +172175,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -170099,6 +172253,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -170242,6 +172398,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -170318,6 +172476,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -170391,6 +172551,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -170467,6 +172629,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -170546,6 +172710,8 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -170622,6 +172788,8 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -170712,6 +172880,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -170788,6 +172958,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -170873,6 +173045,8 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -170949,6 +173123,8 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -171074,6 +173250,8 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -171150,6 +173328,8 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -171263,6 +173443,8 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -171339,6 +173521,656 @@ export namespace Prisma {
     timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+    resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
+    createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdExpenses?: ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdPurchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutCreatedByNestedInput
+    approvedExpenses?: ExpenseUncheckedUpdateManyWithoutApprovedByNestedInput
+    createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
+    accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
+    ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutCostRateHistoryInput = {
+    id?: string
+    email: string
+    passwordHash?: string | null
+    name?: string | null
+    role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
+    weeklyCapacityHours?: number
+    isActive?: boolean
+    avatarUrl?: string | null
+    avatarStoragePath?: string | null
+    avatarMimeType?: string | null
+    internalCostRate?: number | null
+    totpSecret?: string | null
+    totpEnabled?: boolean
+    locale?: $Enums.Locale
+    createdAt?: Date | string
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    assignedTasks?: TaskCreateNestedManyWithoutAssigneeInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    mentions?: MentionCreateNestedManyWithoutUserInput
+    attachments?: AttachmentCreateNestedManyWithoutUploadedByInput
+    activityEvents?: ActivityEventCreateNestedManyWithoutActorInput
+    notificationPreferences?: NotificationPreferenceCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    dashboards?: DashboardCreateNestedManyWithoutOwnerInput
+    checkInResponses?: CheckInResponseCreateNestedManyWithoutUserInput
+    ownedBudgets?: BudgetCreateNestedManyWithoutOwnerInput
+    budgetSectionAssignments?: BudgetSectionAssigneeCreateNestedManyWithoutUserInput
+    absenceRequests?: AbsenceRequestCreateNestedManyWithoutUserInput
+    reviewedAbsenceRequests?: AbsenceRequestCreateNestedManyWithoutReviewedByInput
+    createdAutomationRules?: AutomationRuleCreateNestedManyWithoutCreatedByInput
+    automationActionTargets?: AutomationActionCreateNestedManyWithoutTargetUserInput
+    createdInvoices?: InvoiceCreateNestedManyWithoutCreatedByInput
+    projectClientAccess?: ProjectClientAccessCreateNestedManyWithoutUserInput
+    createdSharedViews?: SharedViewCreateNestedManyWithoutCreatedByInput
+    createdTaskLinks?: TaskLinkCreateNestedManyWithoutCreatedByInput
+    pendingLogins?: PendingLoginCreateNestedManyWithoutUserInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
+    customRole?: CustomRoleCreateNestedOneWithoutUsersInput
+    projectRoleOverrides?: ProjectRoleOverrideCreateNestedManyWithoutUserInput
+    managedProjects?: ProjectCreateNestedManyWithoutProjectManagerInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    taskSubscriptions?: TaskSubscriberCreateNestedManyWithoutUserInput
+    assignedTodos?: TodoCreateNestedManyWithoutAssigneeInput
+    savedViews?: SavedViewCreateNestedManyWithoutOwnerInput
+    sharedWikiLinks?: SharedWikiLinkCreateNestedManyWithoutCreatedByInput
+    manager?: UserCreateNestedOneWithoutDirectReportsInput
+    directReports?: UserCreateNestedManyWithoutManagerInput
+    favorites?: FavoriteCreateNestedManyWithoutUserInput
+    auditLogEntries?: AuditLogEntryCreateNestedManyWithoutActorInput
+    invoicePayments?: InvoicePaymentCreateNestedManyWithoutCreatedByInput
+    creditNotes?: CreditNoteCreateNestedManyWithoutCreatedByInput
+    savedReports?: SavedReportCreateNestedManyWithoutOwnerInput
+    approvedTimeEntries?: TimeEntryCreateNestedManyWithoutApprovedByInput
+    loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
+    timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
+    lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
+    holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
+    resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
+    createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
+    createdMeetings?: MeetingCreateNestedManyWithoutCreatedByInput
+    createdExpenses?: ExpenseCreateNestedManyWithoutCreatedByInput
+    createdPurchaseOrders?: PurchaseOrderCreateNestedManyWithoutCreatedByInput
+    approvedExpenses?: ExpenseCreateNestedManyWithoutApprovedByInput
+    createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
+    accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
+    ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutCostRateHistoryInput = {
+    id?: string
+    email: string
+    passwordHash?: string | null
+    name?: string | null
+    role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
+    weeklyCapacityHours?: number
+    isActive?: boolean
+    avatarUrl?: string | null
+    avatarStoragePath?: string | null
+    avatarMimeType?: string | null
+    internalCostRate?: number | null
+    totpSecret?: string | null
+    totpEnabled?: boolean
+    locale?: $Enums.Locale
+    createdAt?: Date | string
+    customRoleId?: string | null
+    managerId?: string | null
+    holidayCalendarId?: string | null
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    mentions?: MentionUncheckedCreateNestedManyWithoutUserInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutUploadedByInput
+    activityEvents?: ActivityEventUncheckedCreateNestedManyWithoutActorInput
+    notificationPreferences?: NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    dashboards?: DashboardUncheckedCreateNestedManyWithoutOwnerInput
+    checkInResponses?: CheckInResponseUncheckedCreateNestedManyWithoutUserInput
+    ownedBudgets?: BudgetUncheckedCreateNestedManyWithoutOwnerInput
+    budgetSectionAssignments?: BudgetSectionAssigneeUncheckedCreateNestedManyWithoutUserInput
+    absenceRequests?: AbsenceRequestUncheckedCreateNestedManyWithoutUserInput
+    reviewedAbsenceRequests?: AbsenceRequestUncheckedCreateNestedManyWithoutReviewedByInput
+    createdAutomationRules?: AutomationRuleUncheckedCreateNestedManyWithoutCreatedByInput
+    automationActionTargets?: AutomationActionUncheckedCreateNestedManyWithoutTargetUserInput
+    createdInvoices?: InvoiceUncheckedCreateNestedManyWithoutCreatedByInput
+    projectClientAccess?: ProjectClientAccessUncheckedCreateNestedManyWithoutUserInput
+    createdSharedViews?: SharedViewUncheckedCreateNestedManyWithoutCreatedByInput
+    createdTaskLinks?: TaskLinkUncheckedCreateNestedManyWithoutCreatedByInput
+    pendingLogins?: PendingLoginUncheckedCreateNestedManyWithoutUserInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
+    projectRoleOverrides?: ProjectRoleOverrideUncheckedCreateNestedManyWithoutUserInput
+    managedProjects?: ProjectUncheckedCreateNestedManyWithoutProjectManagerInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    taskSubscriptions?: TaskSubscriberUncheckedCreateNestedManyWithoutUserInput
+    assignedTodos?: TodoUncheckedCreateNestedManyWithoutAssigneeInput
+    savedViews?: SavedViewUncheckedCreateNestedManyWithoutOwnerInput
+    sharedWikiLinks?: SharedWikiLinkUncheckedCreateNestedManyWithoutCreatedByInput
+    directReports?: UserUncheckedCreateNestedManyWithoutManagerInput
+    favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
+    auditLogEntries?: AuditLogEntryUncheckedCreateNestedManyWithoutActorInput
+    invoicePayments?: InvoicePaymentUncheckedCreateNestedManyWithoutCreatedByInput
+    creditNotes?: CreditNoteUncheckedCreateNestedManyWithoutCreatedByInput
+    savedReports?: SavedReportUncheckedCreateNestedManyWithoutOwnerInput
+    approvedTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutApprovedByInput
+    loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
+    timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
+    lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
+    resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
+    createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
+    createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
+    createdExpenses?: ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
+    createdPurchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutCreatedByInput
+    approvedExpenses?: ExpenseUncheckedCreateNestedManyWithoutApprovedByInput
+    createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
+    accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
+    ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutCostRateHistoryInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCostRateHistoryInput, UserUncheckedCreateWithoutCostRateHistoryInput>
+  }
+
+  export type UserCreateWithoutCreatedCostRateEntriesInput = {
+    id?: string
+    email: string
+    passwordHash?: string | null
+    name?: string | null
+    role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
+    weeklyCapacityHours?: number
+    isActive?: boolean
+    avatarUrl?: string | null
+    avatarStoragePath?: string | null
+    avatarMimeType?: string | null
+    internalCostRate?: number | null
+    totpSecret?: string | null
+    totpEnabled?: boolean
+    locale?: $Enums.Locale
+    createdAt?: Date | string
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    assignedTasks?: TaskCreateNestedManyWithoutAssigneeInput
+    timeEntries?: TimeEntryCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    mentions?: MentionCreateNestedManyWithoutUserInput
+    attachments?: AttachmentCreateNestedManyWithoutUploadedByInput
+    activityEvents?: ActivityEventCreateNestedManyWithoutActorInput
+    notificationPreferences?: NotificationPreferenceCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    dashboards?: DashboardCreateNestedManyWithoutOwnerInput
+    checkInResponses?: CheckInResponseCreateNestedManyWithoutUserInput
+    ownedBudgets?: BudgetCreateNestedManyWithoutOwnerInput
+    budgetSectionAssignments?: BudgetSectionAssigneeCreateNestedManyWithoutUserInput
+    absenceRequests?: AbsenceRequestCreateNestedManyWithoutUserInput
+    reviewedAbsenceRequests?: AbsenceRequestCreateNestedManyWithoutReviewedByInput
+    createdAutomationRules?: AutomationRuleCreateNestedManyWithoutCreatedByInput
+    automationActionTargets?: AutomationActionCreateNestedManyWithoutTargetUserInput
+    createdInvoices?: InvoiceCreateNestedManyWithoutCreatedByInput
+    projectClientAccess?: ProjectClientAccessCreateNestedManyWithoutUserInput
+    createdSharedViews?: SharedViewCreateNestedManyWithoutCreatedByInput
+    createdTaskLinks?: TaskLinkCreateNestedManyWithoutCreatedByInput
+    pendingLogins?: PendingLoginCreateNestedManyWithoutUserInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
+    customRole?: CustomRoleCreateNestedOneWithoutUsersInput
+    projectRoleOverrides?: ProjectRoleOverrideCreateNestedManyWithoutUserInput
+    managedProjects?: ProjectCreateNestedManyWithoutProjectManagerInput
+    projectMemberships?: ProjectMemberCreateNestedManyWithoutUserInput
+    taskSubscriptions?: TaskSubscriberCreateNestedManyWithoutUserInput
+    assignedTodos?: TodoCreateNestedManyWithoutAssigneeInput
+    savedViews?: SavedViewCreateNestedManyWithoutOwnerInput
+    sharedWikiLinks?: SharedWikiLinkCreateNestedManyWithoutCreatedByInput
+    manager?: UserCreateNestedOneWithoutDirectReportsInput
+    directReports?: UserCreateNestedManyWithoutManagerInput
+    favorites?: FavoriteCreateNestedManyWithoutUserInput
+    auditLogEntries?: AuditLogEntryCreateNestedManyWithoutActorInput
+    invoicePayments?: InvoicePaymentCreateNestedManyWithoutCreatedByInput
+    creditNotes?: CreditNoteCreateNestedManyWithoutCreatedByInput
+    savedReports?: SavedReportCreateNestedManyWithoutOwnerInput
+    approvedTimeEntries?: TimeEntryCreateNestedManyWithoutApprovedByInput
+    loggedForTimeEntries?: TimeEntryCreateNestedManyWithoutLoggedForUserInput
+    timesheetLocks?: TimesheetLockCreateNestedManyWithoutUserInput
+    lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
+    resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
+    createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
+    createdMeetings?: MeetingCreateNestedManyWithoutCreatedByInput
+    createdExpenses?: ExpenseCreateNestedManyWithoutCreatedByInput
+    createdPurchaseOrders?: PurchaseOrderCreateNestedManyWithoutCreatedByInput
+    approvedExpenses?: ExpenseCreateNestedManyWithoutApprovedByInput
+    createdWikiPages?: WikiPageCreateNestedManyWithoutCreatedByInput
+    accountOwnedClients?: ClientCreateNestedManyWithoutAccountOwnerInput
+    ownedDeals?: DealCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutCreatedCostRateEntriesInput = {
+    id?: string
+    email: string
+    passwordHash?: string | null
+    name?: string | null
+    role?: $Enums.Role
+    employmentType?: $Enums.EmploymentType
+    weeklyCapacityHours?: number
+    isActive?: boolean
+    avatarUrl?: string | null
+    avatarStoragePath?: string | null
+    avatarMimeType?: string | null
+    internalCostRate?: number | null
+    totpSecret?: string | null
+    totpEnabled?: boolean
+    locale?: $Enums.Locale
+    createdAt?: Date | string
+    customRoleId?: string | null
+    managerId?: string | null
+    holidayCalendarId?: string | null
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    timeEntries?: TimeEntryUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    mentions?: MentionUncheckedCreateNestedManyWithoutUserInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutUploadedByInput
+    activityEvents?: ActivityEventUncheckedCreateNestedManyWithoutActorInput
+    notificationPreferences?: NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    dashboards?: DashboardUncheckedCreateNestedManyWithoutOwnerInput
+    checkInResponses?: CheckInResponseUncheckedCreateNestedManyWithoutUserInput
+    ownedBudgets?: BudgetUncheckedCreateNestedManyWithoutOwnerInput
+    budgetSectionAssignments?: BudgetSectionAssigneeUncheckedCreateNestedManyWithoutUserInput
+    absenceRequests?: AbsenceRequestUncheckedCreateNestedManyWithoutUserInput
+    reviewedAbsenceRequests?: AbsenceRequestUncheckedCreateNestedManyWithoutReviewedByInput
+    createdAutomationRules?: AutomationRuleUncheckedCreateNestedManyWithoutCreatedByInput
+    automationActionTargets?: AutomationActionUncheckedCreateNestedManyWithoutTargetUserInput
+    createdInvoices?: InvoiceUncheckedCreateNestedManyWithoutCreatedByInput
+    projectClientAccess?: ProjectClientAccessUncheckedCreateNestedManyWithoutUserInput
+    createdSharedViews?: SharedViewUncheckedCreateNestedManyWithoutCreatedByInput
+    createdTaskLinks?: TaskLinkUncheckedCreateNestedManyWithoutCreatedByInput
+    pendingLogins?: PendingLoginUncheckedCreateNestedManyWithoutUserInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
+    projectRoleOverrides?: ProjectRoleOverrideUncheckedCreateNestedManyWithoutUserInput
+    managedProjects?: ProjectUncheckedCreateNestedManyWithoutProjectManagerInput
+    projectMemberships?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    taskSubscriptions?: TaskSubscriberUncheckedCreateNestedManyWithoutUserInput
+    assignedTodos?: TodoUncheckedCreateNestedManyWithoutAssigneeInput
+    savedViews?: SavedViewUncheckedCreateNestedManyWithoutOwnerInput
+    sharedWikiLinks?: SharedWikiLinkUncheckedCreateNestedManyWithoutCreatedByInput
+    directReports?: UserUncheckedCreateNestedManyWithoutManagerInput
+    favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
+    auditLogEntries?: AuditLogEntryUncheckedCreateNestedManyWithoutActorInput
+    invoicePayments?: InvoicePaymentUncheckedCreateNestedManyWithoutCreatedByInput
+    creditNotes?: CreditNoteUncheckedCreateNestedManyWithoutCreatedByInput
+    savedReports?: SavedReportUncheckedCreateNestedManyWithoutOwnerInput
+    approvedTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutApprovedByInput
+    loggedForTimeEntries?: TimeEntryUncheckedCreateNestedManyWithoutLoggedForUserInput
+    timesheetLocks?: TimesheetLockUncheckedCreateNestedManyWithoutUserInput
+    lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
+    createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
+    createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
+    createdExpenses?: ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
+    createdPurchaseOrders?: PurchaseOrderUncheckedCreateNestedManyWithoutCreatedByInput
+    approvedExpenses?: ExpenseUncheckedCreateNestedManyWithoutApprovedByInput
+    createdWikiPages?: WikiPageUncheckedCreateNestedManyWithoutCreatedByInput
+    accountOwnedClients?: ClientUncheckedCreateNestedManyWithoutAccountOwnerInput
+    ownedDeals?: DealUncheckedCreateNestedManyWithoutOwnerInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedCreateNestedManyWithoutSpecificUserInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedCreateNestedManyWithoutApproverInput
+    customFieldValues?: UserCustomFieldValueUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutCreatedCostRateEntriesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCreatedCostRateEntriesInput, UserUncheckedCreateWithoutCreatedCostRateEntriesInput>
+  }
+
+  export type UserUpsertWithoutCostRateHistoryInput = {
+    update: XOR<UserUpdateWithoutCostRateHistoryInput, UserUncheckedUpdateWithoutCostRateHistoryInput>
+    create: XOR<UserCreateWithoutCostRateHistoryInput, UserUncheckedCreateWithoutCostRateHistoryInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCostRateHistoryInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCostRateHistoryInput, UserUncheckedUpdateWithoutCostRateHistoryInput>
+  }
+
+  export type UserUpdateWithoutCostRateHistoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
+    weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarStoragePath?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarMimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    internalCostRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    totpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    locale?: EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    assignedTasks?: TaskUpdateManyWithoutAssigneeNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    mentions?: MentionUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUpdateManyWithoutUploadedByNestedInput
+    activityEvents?: ActivityEventUpdateManyWithoutActorNestedInput
+    notificationPreferences?: NotificationPreferenceUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    dashboards?: DashboardUpdateManyWithoutOwnerNestedInput
+    checkInResponses?: CheckInResponseUpdateManyWithoutUserNestedInput
+    ownedBudgets?: BudgetUpdateManyWithoutOwnerNestedInput
+    budgetSectionAssignments?: BudgetSectionAssigneeUpdateManyWithoutUserNestedInput
+    absenceRequests?: AbsenceRequestUpdateManyWithoutUserNestedInput
+    reviewedAbsenceRequests?: AbsenceRequestUpdateManyWithoutReviewedByNestedInput
+    createdAutomationRules?: AutomationRuleUpdateManyWithoutCreatedByNestedInput
+    automationActionTargets?: AutomationActionUpdateManyWithoutTargetUserNestedInput
+    createdInvoices?: InvoiceUpdateManyWithoutCreatedByNestedInput
+    projectClientAccess?: ProjectClientAccessUpdateManyWithoutUserNestedInput
+    createdSharedViews?: SharedViewUpdateManyWithoutCreatedByNestedInput
+    createdTaskLinks?: TaskLinkUpdateManyWithoutCreatedByNestedInput
+    pendingLogins?: PendingLoginUpdateManyWithoutUserNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
+    customRole?: CustomRoleUpdateOneWithoutUsersNestedInput
+    projectRoleOverrides?: ProjectRoleOverrideUpdateManyWithoutUserNestedInput
+    managedProjects?: ProjectUpdateManyWithoutProjectManagerNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    taskSubscriptions?: TaskSubscriberUpdateManyWithoutUserNestedInput
+    assignedTodos?: TodoUpdateManyWithoutAssigneeNestedInput
+    savedViews?: SavedViewUpdateManyWithoutOwnerNestedInput
+    sharedWikiLinks?: SharedWikiLinkUpdateManyWithoutCreatedByNestedInput
+    manager?: UserUpdateOneWithoutDirectReportsNestedInput
+    directReports?: UserUpdateManyWithoutManagerNestedInput
+    favorites?: FavoriteUpdateManyWithoutUserNestedInput
+    auditLogEntries?: AuditLogEntryUpdateManyWithoutActorNestedInput
+    invoicePayments?: InvoicePaymentUpdateManyWithoutCreatedByNestedInput
+    creditNotes?: CreditNoteUpdateManyWithoutCreatedByNestedInput
+    savedReports?: SavedReportUpdateManyWithoutOwnerNestedInput
+    approvedTimeEntries?: TimeEntryUpdateManyWithoutApprovedByNestedInput
+    loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
+    timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
+    lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
+    holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
+    resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
+    createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
+    createdMeetings?: MeetingUpdateManyWithoutCreatedByNestedInput
+    createdExpenses?: ExpenseUpdateManyWithoutCreatedByNestedInput
+    createdPurchaseOrders?: PurchaseOrderUpdateManyWithoutCreatedByNestedInput
+    approvedExpenses?: ExpenseUpdateManyWithoutApprovedByNestedInput
+    createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
+    accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
+    ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCostRateHistoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
+    weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarStoragePath?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarMimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    internalCostRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    totpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    locale?: EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customRoleId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    holidayCalendarId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    assignedTasks?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    mentions?: MentionUncheckedUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput
+    activityEvents?: ActivityEventUncheckedUpdateManyWithoutActorNestedInput
+    notificationPreferences?: NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    dashboards?: DashboardUncheckedUpdateManyWithoutOwnerNestedInput
+    checkInResponses?: CheckInResponseUncheckedUpdateManyWithoutUserNestedInput
+    ownedBudgets?: BudgetUncheckedUpdateManyWithoutOwnerNestedInput
+    budgetSectionAssignments?: BudgetSectionAssigneeUncheckedUpdateManyWithoutUserNestedInput
+    absenceRequests?: AbsenceRequestUncheckedUpdateManyWithoutUserNestedInput
+    reviewedAbsenceRequests?: AbsenceRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+    createdAutomationRules?: AutomationRuleUncheckedUpdateManyWithoutCreatedByNestedInput
+    automationActionTargets?: AutomationActionUncheckedUpdateManyWithoutTargetUserNestedInput
+    createdInvoices?: InvoiceUncheckedUpdateManyWithoutCreatedByNestedInput
+    projectClientAccess?: ProjectClientAccessUncheckedUpdateManyWithoutUserNestedInput
+    createdSharedViews?: SharedViewUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdTaskLinks?: TaskLinkUncheckedUpdateManyWithoutCreatedByNestedInput
+    pendingLogins?: PendingLoginUncheckedUpdateManyWithoutUserNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
+    projectRoleOverrides?: ProjectRoleOverrideUncheckedUpdateManyWithoutUserNestedInput
+    managedProjects?: ProjectUncheckedUpdateManyWithoutProjectManagerNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    taskSubscriptions?: TaskSubscriberUncheckedUpdateManyWithoutUserNestedInput
+    assignedTodos?: TodoUncheckedUpdateManyWithoutAssigneeNestedInput
+    savedViews?: SavedViewUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedWikiLinks?: SharedWikiLinkUncheckedUpdateManyWithoutCreatedByNestedInput
+    directReports?: UserUncheckedUpdateManyWithoutManagerNestedInput
+    favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
+    auditLogEntries?: AuditLogEntryUncheckedUpdateManyWithoutActorNestedInput
+    invoicePayments?: InvoicePaymentUncheckedUpdateManyWithoutCreatedByNestedInput
+    creditNotes?: CreditNoteUncheckedUpdateManyWithoutCreatedByNestedInput
+    savedReports?: SavedReportUncheckedUpdateManyWithoutOwnerNestedInput
+    approvedTimeEntries?: TimeEntryUncheckedUpdateManyWithoutApprovedByNestedInput
+    loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
+    timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
+    lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
+    resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
+    createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdExpenses?: ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdPurchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutCreatedByNestedInput
+    approvedExpenses?: ExpenseUncheckedUpdateManyWithoutApprovedByNestedInput
+    createdWikiPages?: WikiPageUncheckedUpdateManyWithoutCreatedByNestedInput
+    accountOwnedClients?: ClientUncheckedUpdateManyWithoutAccountOwnerNestedInput
+    ownedDeals?: DealUncheckedUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUncheckedUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUncheckedUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUpsertWithoutCreatedCostRateEntriesInput = {
+    update: XOR<UserUpdateWithoutCreatedCostRateEntriesInput, UserUncheckedUpdateWithoutCreatedCostRateEntriesInput>
+    create: XOR<UserCreateWithoutCreatedCostRateEntriesInput, UserUncheckedCreateWithoutCreatedCostRateEntriesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCreatedCostRateEntriesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCreatedCostRateEntriesInput, UserUncheckedUpdateWithoutCreatedCostRateEntriesInput>
+  }
+
+  export type UserUpdateWithoutCreatedCostRateEntriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
+    weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarStoragePath?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarMimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    internalCostRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    totpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    locale?: EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    assignedTasks?: TaskUpdateManyWithoutAssigneeNestedInput
+    timeEntries?: TimeEntryUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    mentions?: MentionUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUpdateManyWithoutUploadedByNestedInput
+    activityEvents?: ActivityEventUpdateManyWithoutActorNestedInput
+    notificationPreferences?: NotificationPreferenceUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    dashboards?: DashboardUpdateManyWithoutOwnerNestedInput
+    checkInResponses?: CheckInResponseUpdateManyWithoutUserNestedInput
+    ownedBudgets?: BudgetUpdateManyWithoutOwnerNestedInput
+    budgetSectionAssignments?: BudgetSectionAssigneeUpdateManyWithoutUserNestedInput
+    absenceRequests?: AbsenceRequestUpdateManyWithoutUserNestedInput
+    reviewedAbsenceRequests?: AbsenceRequestUpdateManyWithoutReviewedByNestedInput
+    createdAutomationRules?: AutomationRuleUpdateManyWithoutCreatedByNestedInput
+    automationActionTargets?: AutomationActionUpdateManyWithoutTargetUserNestedInput
+    createdInvoices?: InvoiceUpdateManyWithoutCreatedByNestedInput
+    projectClientAccess?: ProjectClientAccessUpdateManyWithoutUserNestedInput
+    createdSharedViews?: SharedViewUpdateManyWithoutCreatedByNestedInput
+    createdTaskLinks?: TaskLinkUpdateManyWithoutCreatedByNestedInput
+    pendingLogins?: PendingLoginUpdateManyWithoutUserNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
+    customRole?: CustomRoleUpdateOneWithoutUsersNestedInput
+    projectRoleOverrides?: ProjectRoleOverrideUpdateManyWithoutUserNestedInput
+    managedProjects?: ProjectUpdateManyWithoutProjectManagerNestedInput
+    projectMemberships?: ProjectMemberUpdateManyWithoutUserNestedInput
+    taskSubscriptions?: TaskSubscriberUpdateManyWithoutUserNestedInput
+    assignedTodos?: TodoUpdateManyWithoutAssigneeNestedInput
+    savedViews?: SavedViewUpdateManyWithoutOwnerNestedInput
+    sharedWikiLinks?: SharedWikiLinkUpdateManyWithoutCreatedByNestedInput
+    manager?: UserUpdateOneWithoutDirectReportsNestedInput
+    directReports?: UserUpdateManyWithoutManagerNestedInput
+    favorites?: FavoriteUpdateManyWithoutUserNestedInput
+    auditLogEntries?: AuditLogEntryUpdateManyWithoutActorNestedInput
+    invoicePayments?: InvoicePaymentUpdateManyWithoutCreatedByNestedInput
+    creditNotes?: CreditNoteUpdateManyWithoutCreatedByNestedInput
+    savedReports?: SavedReportUpdateManyWithoutOwnerNestedInput
+    approvedTimeEntries?: TimeEntryUpdateManyWithoutApprovedByNestedInput
+    loggedForTimeEntries?: TimeEntryUpdateManyWithoutLoggedForUserNestedInput
+    timesheetLocks?: TimesheetLockUpdateManyWithoutUserNestedInput
+    lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
+    resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
+    createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
+    createdMeetings?: MeetingUpdateManyWithoutCreatedByNestedInput
+    createdExpenses?: ExpenseUpdateManyWithoutCreatedByNestedInput
+    createdPurchaseOrders?: PurchaseOrderUpdateManyWithoutCreatedByNestedInput
+    approvedExpenses?: ExpenseUpdateManyWithoutApprovedByNestedInput
+    createdWikiPages?: WikiPageUpdateManyWithoutCreatedByNestedInput
+    accountOwnedClients?: ClientUpdateManyWithoutAccountOwnerNestedInput
+    ownedDeals?: DealUpdateManyWithoutOwnerNestedInput
+    approvalPolicyApprovals?: ApprovalPolicyApproverUpdateManyWithoutSpecificUserNestedInput
+    timeEntryApproverDecisions?: TimeEntryApproverDecisionUpdateManyWithoutApproverNestedInput
+    customFieldValues?: UserCustomFieldValueUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCreatedCostRateEntriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    employmentType?: EnumEmploymentTypeFieldUpdateOperationsInput | $Enums.EmploymentType
+    weeklyCapacityHours?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarStoragePath?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarMimeType?: NullableStringFieldUpdateOperationsInput | string | null
+    internalCostRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    totpEnabled?: BoolFieldUpdateOperationsInput | boolean
+    locale?: EnumLocaleFieldUpdateOperationsInput | $Enums.Locale
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customRoleId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    holidayCalendarId?: NullableStringFieldUpdateOperationsInput | string | null
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    assignedTasks?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    timeEntries?: TimeEntryUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    mentions?: MentionUncheckedUpdateManyWithoutUserNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutUploadedByNestedInput
+    activityEvents?: ActivityEventUncheckedUpdateManyWithoutActorNestedInput
+    notificationPreferences?: NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    dashboards?: DashboardUncheckedUpdateManyWithoutOwnerNestedInput
+    checkInResponses?: CheckInResponseUncheckedUpdateManyWithoutUserNestedInput
+    ownedBudgets?: BudgetUncheckedUpdateManyWithoutOwnerNestedInput
+    budgetSectionAssignments?: BudgetSectionAssigneeUncheckedUpdateManyWithoutUserNestedInput
+    absenceRequests?: AbsenceRequestUncheckedUpdateManyWithoutUserNestedInput
+    reviewedAbsenceRequests?: AbsenceRequestUncheckedUpdateManyWithoutReviewedByNestedInput
+    createdAutomationRules?: AutomationRuleUncheckedUpdateManyWithoutCreatedByNestedInput
+    automationActionTargets?: AutomationActionUncheckedUpdateManyWithoutTargetUserNestedInput
+    createdInvoices?: InvoiceUncheckedUpdateManyWithoutCreatedByNestedInput
+    projectClientAccess?: ProjectClientAccessUncheckedUpdateManyWithoutUserNestedInput
+    createdSharedViews?: SharedViewUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdTaskLinks?: TaskLinkUncheckedUpdateManyWithoutCreatedByNestedInput
+    pendingLogins?: PendingLoginUncheckedUpdateManyWithoutUserNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
+    projectRoleOverrides?: ProjectRoleOverrideUncheckedUpdateManyWithoutUserNestedInput
+    managedProjects?: ProjectUncheckedUpdateManyWithoutProjectManagerNestedInput
+    projectMemberships?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    taskSubscriptions?: TaskSubscriberUncheckedUpdateManyWithoutUserNestedInput
+    assignedTodos?: TodoUncheckedUpdateManyWithoutAssigneeNestedInput
+    savedViews?: SavedViewUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedWikiLinks?: SharedWikiLinkUncheckedUpdateManyWithoutCreatedByNestedInput
+    directReports?: UserUncheckedUpdateManyWithoutManagerNestedInput
+    favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
+    auditLogEntries?: AuditLogEntryUncheckedUpdateManyWithoutActorNestedInput
+    invoicePayments?: InvoicePaymentUncheckedUpdateManyWithoutCreatedByNestedInput
+    creditNotes?: CreditNoteUncheckedUpdateManyWithoutCreatedByNestedInput
+    savedReports?: SavedReportUncheckedUpdateManyWithoutOwnerNestedInput
+    approvedTimeEntries?: TimeEntryUncheckedUpdateManyWithoutApprovedByNestedInput
+    loggedForTimeEntries?: TimeEntryUncheckedUpdateManyWithoutLoggedForUserNestedInput
+    timesheetLocks?: TimesheetLockUncheckedUpdateManyWithoutUserNestedInput
+    lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
+    lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -171436,6 +174268,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingCreateNestedManyWithoutCreatedByInput
@@ -171511,6 +174345,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -171682,6 +174518,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingCreateNestedManyWithoutCreatedByInput
@@ -171758,6 +174596,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
     createdExpenses?: ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
@@ -171997,6 +174837,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdMeetings?: MeetingCreateNestedManyWithoutCreatedByInput
@@ -172073,6 +174915,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
     createdExpenses?: ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
@@ -172163,6 +175007,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUpdateManyWithoutCreatedByNestedInput
@@ -172239,6 +175085,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdExpenses?: ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -172496,6 +175344,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdMeetings?: MeetingUpdateManyWithoutCreatedByNestedInput
@@ -172572,6 +175422,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdExpenses?: ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -173567,6 +176419,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -173643,6 +176497,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -173923,6 +176779,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -173999,6 +176857,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -175423,6 +178283,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -175499,6 +178361,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -175636,6 +178500,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -175712,6 +178578,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -175814,6 +178682,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -175890,6 +178760,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -176015,6 +178887,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -176091,6 +178965,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -176258,6 +179134,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -176334,6 +179212,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -176695,6 +179575,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -176771,6 +179653,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -177021,6 +179905,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -177097,6 +179983,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -177280,6 +180168,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -177356,6 +180246,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -177529,6 +180421,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -177605,6 +180499,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -177722,6 +180618,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -177798,6 +180696,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -177905,6 +180805,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -177981,6 +180883,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -178101,6 +181005,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -178177,6 +181083,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -178302,6 +181210,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -178378,6 +181288,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -178538,6 +181450,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -178614,6 +181528,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -178723,6 +181639,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -178799,6 +181717,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -178921,6 +181841,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -178997,6 +181919,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -179391,6 +182315,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -179467,6 +182393,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -179557,6 +182485,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -179633,6 +182563,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -180024,6 +182956,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -180100,6 +183034,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -180221,6 +183157,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -180297,6 +183235,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -180464,6 +183404,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -180540,6 +183482,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -181103,6 +184047,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -181179,6 +184125,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -182376,6 +185324,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -182452,6 +185402,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -182793,6 +185745,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -182869,6 +185823,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -183390,6 +186346,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -183466,6 +186424,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -183605,6 +186565,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -183681,6 +186643,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -183798,6 +186762,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -183874,6 +186840,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -184013,6 +186981,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -184089,6 +187059,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -184257,6 +187229,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -184333,6 +187307,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdExpenses?: ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
@@ -184522,6 +187498,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -184598,6 +187576,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdExpenses?: ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -184845,6 +187825,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -184921,6 +187903,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -185000,6 +187984,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -185076,6 +188062,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -185432,6 +188420,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -185508,6 +188498,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -185593,6 +188585,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -185669,6 +188663,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -185901,6 +188897,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -185977,6 +188975,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -186166,6 +189166,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -186242,6 +189244,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -186315,6 +189319,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -186391,6 +189397,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -186481,6 +189489,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -186557,6 +189567,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -186698,6 +189710,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryCreateNestedManyWithoutCreatedByInput
     holidayCalendar?: HolidayCalendarCreateNestedOneWithoutUsersInput
     resourceBookings?: ResourceBookingCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingCreateNestedManyWithoutCreatedByInput
@@ -186774,6 +189788,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedCreateNestedManyWithoutLockedByInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedCreateNestedManyWithoutLockedByInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    costRateHistory?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutUserInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedCreateNestedManyWithoutCreatedByInput
     resourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutUserInput
     createdResourceBookings?: ResourceBookingUncheckedCreateNestedManyWithoutCreatedByInput
     createdMeetings?: MeetingUncheckedCreateNestedManyWithoutCreatedByInput
@@ -186937,6 +189953,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -187013,6 +190031,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -187468,6 +190488,30 @@ export namespace Prisma {
 
   export type TeamMemberCreateManyUserInput = {
     teamId: string
+  }
+
+  export type CostRateHistoryEntryCreateManyUserInput = {
+    id?: string
+    rateType: $Enums.CostRateType
+    amount: number
+    currency?: string
+    workHoursPerDay?: number
+    startDate: Date | string
+    endDate?: Date | string | null
+    createdAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type CostRateHistoryEntryCreateManyCreatedByInput = {
+    id?: string
+    userId: string
+    rateType: $Enums.CostRateType
+    amount: number
+    currency?: string
+    workHoursPerDay?: number
+    startDate: Date | string
+    endDate?: Date | string | null
+    createdAt?: Date | string
   }
 
   export type ResourceBookingCreateManyUserInput = {
@@ -188716,6 +191760,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -188792,6 +191838,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -189165,6 +192213,78 @@ export namespace Prisma {
 
   export type TeamMemberUncheckedUpdateManyWithoutUserInput = {
     teamId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type CostRateHistoryEntryUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rateType?: EnumCostRateTypeFieldUpdateOperationsInput | $Enums.CostRateType
+    amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    workHoursPerDay?: FloatFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: UserUpdateOneWithoutCreatedCostRateEntriesNestedInput
+  }
+
+  export type CostRateHistoryEntryUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rateType?: EnumCostRateTypeFieldUpdateOperationsInput | $Enums.CostRateType
+    amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    workHoursPerDay?: FloatFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CostRateHistoryEntryUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rateType?: EnumCostRateTypeFieldUpdateOperationsInput | $Enums.CostRateType
+    amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    workHoursPerDay?: FloatFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CostRateHistoryEntryUpdateWithoutCreatedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rateType?: EnumCostRateTypeFieldUpdateOperationsInput | $Enums.CostRateType
+    amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    workHoursPerDay?: FloatFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCostRateHistoryNestedInput
+  }
+
+  export type CostRateHistoryEntryUncheckedUpdateWithoutCreatedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    rateType?: EnumCostRateTypeFieldUpdateOperationsInput | $Enums.CostRateType
+    amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    workHoursPerDay?: FloatFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    rateType?: EnumCostRateTypeFieldUpdateOperationsInput | $Enums.CostRateType
+    amount?: FloatFieldUpdateOperationsInput | number
+    currency?: StringFieldUpdateOperationsInput | string
+    workHoursPerDay?: FloatFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ResourceBookingUpdateWithoutUserInput = {
@@ -190181,6 +193301,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     holidayCalendar?: HolidayCalendarUpdateOneWithoutUsersNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
@@ -190257,6 +193379,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -193337,6 +196461,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUpdateManyWithoutCreatedByNestedInput
@@ -193412,6 +196538,8 @@ export namespace Prisma {
     lockedTimesheets?: TimesheetLockUncheckedUpdateManyWithoutLockedByNestedInput
     lockedFinancialPeriods?: FinancialPeriodLockUncheckedUpdateManyWithoutLockedByNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    costRateHistory?: CostRateHistoryEntryUncheckedUpdateManyWithoutUserNestedInput
+    createdCostRateEntries?: CostRateHistoryEntryUncheckedUpdateManyWithoutCreatedByNestedInput
     resourceBookings?: ResourceBookingUncheckedUpdateManyWithoutUserNestedInput
     createdResourceBookings?: ResourceBookingUncheckedUpdateManyWithoutCreatedByNestedInput
     createdMeetings?: MeetingUncheckedUpdateManyWithoutCreatedByNestedInput
