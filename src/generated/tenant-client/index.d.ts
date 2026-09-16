@@ -369,6 +369,11 @@ export type ServiceType = $Result.DefaultSelection<Prisma.$ServiceTypePayload>
  */
 export type BudgetSection = $Result.DefaultSelection<Prisma.$BudgetSectionPayload>
 /**
+ * Model RateCard
+ * 
+ */
+export type RateCard = $Result.DefaultSelection<Prisma.$RateCardPayload>
+/**
  * Model RateCardItem
  * 
  */
@@ -1672,6 +1677,16 @@ export class PrismaClient<
   get budgetSection(): Prisma.BudgetSectionDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.rateCard`: Exposes CRUD operations for the **RateCard** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RateCards
+    * const rateCards = await prisma.rateCard.findMany()
+    * ```
+    */
+  get rateCard(): Prisma.RateCardDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.rateCardItem`: Exposes CRUD operations for the **RateCardItem** model.
     * Example usage:
     * ```ts
@@ -2288,6 +2303,7 @@ export namespace Prisma {
     Budget: 'Budget',
     ServiceType: 'ServiceType',
     BudgetSection: 'BudgetSection',
+    RateCard: 'RateCard',
     RateCardItem: 'RateCardItem',
     Invoice: 'Invoice',
     InvoiceLineItem: 'InvoiceLineItem',
@@ -2313,7 +2329,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "client" | "clientContact" | "pipeline" | "dealStatus" | "lostReason" | "deal" | "projectMember" | "customRole" | "projectRoleOverride" | "absenceRequest" | "session" | "favorite" | "auditLogEntry" | "invite" | "projectClientAccess" | "slackCaptureConfig" | "project" | "taskFolder" | "taskListGroup" | "baseline" | "baselineTaskSnapshot" | "portfolio" | "goal" | "cycle" | "transitionRule" | "sharedView" | "savedView" | "workflow" | "workflowStatus" | "task" | "tag" | "taskTag" | "taskSubscriber" | "todo" | "comment" | "mention" | "attachment" | "wikiPage" | "tenantSettings" | "pendingLogin" | "timeEntry" | "timesheetLock" | "timeTrackingPolicy" | "holidayCalendar" | "holiday" | "resourceBooking" | "taskProject" | "taskDependency" | "taskLink" | "customFieldDef" | "customFieldValue" | "budgetCustomFieldValue" | "wikiPageCustomFieldValue" | "sharedWikiLink" | "activityEvent" | "notificationPreference" | "notification" | "automationRule" | "automationAction" | "dashboard" | "dashboardWidget" | "webhookEndpoint" | "ssoConfig" | "apiKey" | "webhookDelivery" | "checkInSchedule" | "checkInResponse" | "budget" | "serviceType" | "budgetSection" | "rateCardItem" | "invoice" | "invoiceLineItem" | "invoicePayment" | "creditNote" | "meeting" | "expense" | "purchaseOrder" | "savedReport" | "budgetSectionAssignee"
+      modelProps: "user" | "client" | "clientContact" | "pipeline" | "dealStatus" | "lostReason" | "deal" | "projectMember" | "customRole" | "projectRoleOverride" | "absenceRequest" | "session" | "favorite" | "auditLogEntry" | "invite" | "projectClientAccess" | "slackCaptureConfig" | "project" | "taskFolder" | "taskListGroup" | "baseline" | "baselineTaskSnapshot" | "portfolio" | "goal" | "cycle" | "transitionRule" | "sharedView" | "savedView" | "workflow" | "workflowStatus" | "task" | "tag" | "taskTag" | "taskSubscriber" | "todo" | "comment" | "mention" | "attachment" | "wikiPage" | "tenantSettings" | "pendingLogin" | "timeEntry" | "timesheetLock" | "timeTrackingPolicy" | "holidayCalendar" | "holiday" | "resourceBooking" | "taskProject" | "taskDependency" | "taskLink" | "customFieldDef" | "customFieldValue" | "budgetCustomFieldValue" | "wikiPageCustomFieldValue" | "sharedWikiLink" | "activityEvent" | "notificationPreference" | "notification" | "automationRule" | "automationAction" | "dashboard" | "dashboardWidget" | "webhookEndpoint" | "ssoConfig" | "apiKey" | "webhookDelivery" | "checkInSchedule" | "checkInResponse" | "budget" | "serviceType" | "budgetSection" | "rateCard" | "rateCardItem" | "invoice" | "invoiceLineItem" | "invoicePayment" | "creditNote" | "meeting" | "expense" | "purchaseOrder" | "savedReport" | "budgetSectionAssignee"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -7571,6 +7587,80 @@ export namespace Prisma {
           }
         }
       }
+      RateCard: {
+        payload: Prisma.$RateCardPayload<ExtArgs>
+        fields: Prisma.RateCardFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RateCardFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RateCardFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>
+          }
+          findFirst: {
+            args: Prisma.RateCardFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RateCardFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>
+          }
+          findMany: {
+            args: Prisma.RateCardFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>[]
+          }
+          create: {
+            args: Prisma.RateCardCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>
+          }
+          createMany: {
+            args: Prisma.RateCardCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RateCardCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>[]
+          }
+          delete: {
+            args: Prisma.RateCardDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>
+          }
+          update: {
+            args: Prisma.RateCardUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>
+          }
+          deleteMany: {
+            args: Prisma.RateCardDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RateCardUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RateCardUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>[]
+          }
+          upsert: {
+            args: Prisma.RateCardUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateCardPayload>
+          }
+          aggregate: {
+            args: Prisma.RateCardAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRateCard>
+          }
+          groupBy: {
+            args: Prisma.RateCardGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RateCardGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RateCardCountArgs<ExtArgs>
+            result: $Utils.Optional<RateCardCountAggregateOutputType> | number
+          }
+        }
+      }
       RateCardItem: {
         payload: Prisma.$RateCardItemPayload<ExtArgs>
         fields: Prisma.RateCardItemFieldRefs
@@ -8505,6 +8595,7 @@ export namespace Prisma {
     budget?: BudgetOmit
     serviceType?: ServiceTypeOmit
     budgetSection?: BudgetSectionOmit
+    rateCard?: RateCardOmit
     rateCardItem?: RateCardItemOmit
     invoice?: InvoiceOmit
     invoiceLineItem?: InvoiceLineItemOmit
@@ -9062,6 +9153,7 @@ export namespace Prisma {
     projects: number
     contacts: number
     deals: number
+    rateCards: number
   }
 
   export type ClientCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9069,6 +9161,7 @@ export namespace Prisma {
     projects?: boolean | ClientCountOutputTypeCountProjectsArgs
     contacts?: boolean | ClientCountOutputTypeCountContactsArgs
     deals?: boolean | ClientCountOutputTypeCountDealsArgs
+    rateCards?: boolean | ClientCountOutputTypeCountRateCardsArgs
   }
 
   // Custom InputTypes
@@ -9108,6 +9201,13 @@ export namespace Prisma {
    */
   export type ClientCountOutputTypeCountDealsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DealWhereInput
+  }
+
+  /**
+   * ClientCountOutputType without action
+   */
+  export type ClientCountOutputTypeCountRateCardsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RateCardWhereInput
   }
 
 
@@ -10427,6 +10527,37 @@ export namespace Prisma {
    */
   export type BudgetSectionCountOutputTypeCountResourceBookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ResourceBookingWhereInput
+  }
+
+
+  /**
+   * Count Type RateCardCountOutputType
+   */
+
+  export type RateCardCountOutputType = {
+    items: number
+  }
+
+  export type RateCardCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    items?: boolean | RateCardCountOutputTypeCountItemsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * RateCardCountOutputType without action
+   */
+  export type RateCardCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCardCountOutputType
+     */
+    select?: RateCardCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * RateCardCountOutputType without action
+   */
+  export type RateCardCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RateCardItemWhereInput
   }
 
 
@@ -13469,6 +13600,7 @@ export namespace Prisma {
     projects?: boolean | Client$projectsArgs<ExtArgs>
     contacts?: boolean | Client$contactsArgs<ExtArgs>
     deals?: boolean | Client$dealsArgs<ExtArgs>
+    rateCards?: boolean | Client$rateCardsArgs<ExtArgs>
     _count?: boolean | ClientCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["client"]>
 
@@ -13529,6 +13661,7 @@ export namespace Prisma {
     projects?: boolean | Client$projectsArgs<ExtArgs>
     contacts?: boolean | Client$contactsArgs<ExtArgs>
     deals?: boolean | Client$dealsArgs<ExtArgs>
+    rateCards?: boolean | Client$rateCardsArgs<ExtArgs>
     _count?: boolean | ClientCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ClientIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13549,6 +13682,7 @@ export namespace Prisma {
       projects: Prisma.$ProjectPayload<ExtArgs>[]
       contacts: Prisma.$ClientContactPayload<ExtArgs>[]
       deals: Prisma.$DealPayload<ExtArgs>[]
+      rateCards: Prisma.$RateCardPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -13963,6 +14097,7 @@ export namespace Prisma {
     projects<T extends Client$projectsArgs<ExtArgs> = {}>(args?: Subset<T, Client$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     contacts<T extends Client$contactsArgs<ExtArgs> = {}>(args?: Subset<T, Client$contactsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientContactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     deals<T extends Client$dealsArgs<ExtArgs> = {}>(args?: Subset<T, Client$dealsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DealPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    rateCards<T extends Client$rateCardsArgs<ExtArgs> = {}>(args?: Subset<T, Client$rateCardsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14536,6 +14671,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: DealScalarFieldEnum | DealScalarFieldEnum[]
+  }
+
+  /**
+   * Client.rateCards
+   */
+  export type Client$rateCardsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    where?: RateCardWhereInput
+    orderBy?: RateCardOrderByWithRelationInput | RateCardOrderByWithRelationInput[]
+    cursor?: RateCardWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RateCardScalarFieldEnum | RateCardScalarFieldEnum[]
   }
 
   /**
@@ -93461,6 +93620,1118 @@ export namespace Prisma {
 
 
   /**
+   * Model RateCard
+   */
+
+  export type AggregateRateCard = {
+    _count: RateCardCountAggregateOutputType | null
+    _min: RateCardMinAggregateOutputType | null
+    _max: RateCardMaxAggregateOutputType | null
+  }
+
+  export type RateCardMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    clientId: string | null
+    archived: boolean | null
+    createdAt: Date | null
+  }
+
+  export type RateCardMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    clientId: string | null
+    archived: boolean | null
+    createdAt: Date | null
+  }
+
+  export type RateCardCountAggregateOutputType = {
+    id: number
+    name: number
+    clientId: number
+    archived: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type RateCardMinAggregateInputType = {
+    id?: true
+    name?: true
+    clientId?: true
+    archived?: true
+    createdAt?: true
+  }
+
+  export type RateCardMaxAggregateInputType = {
+    id?: true
+    name?: true
+    clientId?: true
+    archived?: true
+    createdAt?: true
+  }
+
+  export type RateCardCountAggregateInputType = {
+    id?: true
+    name?: true
+    clientId?: true
+    archived?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type RateCardAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RateCard to aggregate.
+     */
+    where?: RateCardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RateCards to fetch.
+     */
+    orderBy?: RateCardOrderByWithRelationInput | RateCardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RateCardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RateCards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RateCards.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RateCards
+    **/
+    _count?: true | RateCardCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RateCardMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RateCardMaxAggregateInputType
+  }
+
+  export type GetRateCardAggregateType<T extends RateCardAggregateArgs> = {
+        [P in keyof T & keyof AggregateRateCard]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRateCard[P]>
+      : GetScalarType<T[P], AggregateRateCard[P]>
+  }
+
+
+
+
+  export type RateCardGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RateCardWhereInput
+    orderBy?: RateCardOrderByWithAggregationInput | RateCardOrderByWithAggregationInput[]
+    by: RateCardScalarFieldEnum[] | RateCardScalarFieldEnum
+    having?: RateCardScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RateCardCountAggregateInputType | true
+    _min?: RateCardMinAggregateInputType
+    _max?: RateCardMaxAggregateInputType
+  }
+
+  export type RateCardGroupByOutputType = {
+    id: string
+    name: string
+    clientId: string | null
+    archived: boolean
+    createdAt: Date
+    _count: RateCardCountAggregateOutputType | null
+    _min: RateCardMinAggregateOutputType | null
+    _max: RateCardMaxAggregateOutputType | null
+  }
+
+  type GetRateCardGroupByPayload<T extends RateCardGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RateCardGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RateCardGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RateCardGroupByOutputType[P]>
+            : GetScalarType<T[P], RateCardGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RateCardSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    clientId?: boolean
+    archived?: boolean
+    createdAt?: boolean
+    client?: boolean | RateCard$clientArgs<ExtArgs>
+    items?: boolean | RateCard$itemsArgs<ExtArgs>
+    _count?: boolean | RateCardCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["rateCard"]>
+
+  export type RateCardSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    clientId?: boolean
+    archived?: boolean
+    createdAt?: boolean
+    client?: boolean | RateCard$clientArgs<ExtArgs>
+  }, ExtArgs["result"]["rateCard"]>
+
+  export type RateCardSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    clientId?: boolean
+    archived?: boolean
+    createdAt?: boolean
+    client?: boolean | RateCard$clientArgs<ExtArgs>
+  }, ExtArgs["result"]["rateCard"]>
+
+  export type RateCardSelectScalar = {
+    id?: boolean
+    name?: boolean
+    clientId?: boolean
+    archived?: boolean
+    createdAt?: boolean
+  }
+
+  export type RateCardOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "clientId" | "archived" | "createdAt", ExtArgs["result"]["rateCard"]>
+  export type RateCardInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    client?: boolean | RateCard$clientArgs<ExtArgs>
+    items?: boolean | RateCard$itemsArgs<ExtArgs>
+    _count?: boolean | RateCardCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type RateCardIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    client?: boolean | RateCard$clientArgs<ExtArgs>
+  }
+  export type RateCardIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    client?: boolean | RateCard$clientArgs<ExtArgs>
+  }
+
+  export type $RateCardPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RateCard"
+    objects: {
+      client: Prisma.$ClientPayload<ExtArgs> | null
+      items: Prisma.$RateCardItemPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      clientId: string | null
+      archived: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["rateCard"]>
+    composites: {}
+  }
+
+  type RateCardGetPayload<S extends boolean | null | undefined | RateCardDefaultArgs> = $Result.GetResult<Prisma.$RateCardPayload, S>
+
+  type RateCardCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RateCardFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RateCardCountAggregateInputType | true
+    }
+
+  export interface RateCardDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RateCard'], meta: { name: 'RateCard' } }
+    /**
+     * Find zero or one RateCard that matches the filter.
+     * @param {RateCardFindUniqueArgs} args - Arguments to find a RateCard
+     * @example
+     * // Get one RateCard
+     * const rateCard = await prisma.rateCard.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RateCardFindUniqueArgs>(args: SelectSubset<T, RateCardFindUniqueArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one RateCard that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RateCardFindUniqueOrThrowArgs} args - Arguments to find a RateCard
+     * @example
+     * // Get one RateCard
+     * const rateCard = await prisma.rateCard.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RateCardFindUniqueOrThrowArgs>(args: SelectSubset<T, RateCardFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RateCard that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateCardFindFirstArgs} args - Arguments to find a RateCard
+     * @example
+     * // Get one RateCard
+     * const rateCard = await prisma.rateCard.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RateCardFindFirstArgs>(args?: SelectSubset<T, RateCardFindFirstArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RateCard that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateCardFindFirstOrThrowArgs} args - Arguments to find a RateCard
+     * @example
+     * // Get one RateCard
+     * const rateCard = await prisma.rateCard.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RateCardFindFirstOrThrowArgs>(args?: SelectSubset<T, RateCardFindFirstOrThrowArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more RateCards that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateCardFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RateCards
+     * const rateCards = await prisma.rateCard.findMany()
+     * 
+     * // Get first 10 RateCards
+     * const rateCards = await prisma.rateCard.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const rateCardWithIdOnly = await prisma.rateCard.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RateCardFindManyArgs>(args?: SelectSubset<T, RateCardFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a RateCard.
+     * @param {RateCardCreateArgs} args - Arguments to create a RateCard.
+     * @example
+     * // Create one RateCard
+     * const RateCard = await prisma.rateCard.create({
+     *   data: {
+     *     // ... data to create a RateCard
+     *   }
+     * })
+     * 
+     */
+    create<T extends RateCardCreateArgs>(args: SelectSubset<T, RateCardCreateArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many RateCards.
+     * @param {RateCardCreateManyArgs} args - Arguments to create many RateCards.
+     * @example
+     * // Create many RateCards
+     * const rateCard = await prisma.rateCard.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RateCardCreateManyArgs>(args?: SelectSubset<T, RateCardCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RateCards and returns the data saved in the database.
+     * @param {RateCardCreateManyAndReturnArgs} args - Arguments to create many RateCards.
+     * @example
+     * // Create many RateCards
+     * const rateCard = await prisma.rateCard.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RateCards and only return the `id`
+     * const rateCardWithIdOnly = await prisma.rateCard.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RateCardCreateManyAndReturnArgs>(args?: SelectSubset<T, RateCardCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a RateCard.
+     * @param {RateCardDeleteArgs} args - Arguments to delete one RateCard.
+     * @example
+     * // Delete one RateCard
+     * const RateCard = await prisma.rateCard.delete({
+     *   where: {
+     *     // ... filter to delete one RateCard
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RateCardDeleteArgs>(args: SelectSubset<T, RateCardDeleteArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one RateCard.
+     * @param {RateCardUpdateArgs} args - Arguments to update one RateCard.
+     * @example
+     * // Update one RateCard
+     * const rateCard = await prisma.rateCard.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RateCardUpdateArgs>(args: SelectSubset<T, RateCardUpdateArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more RateCards.
+     * @param {RateCardDeleteManyArgs} args - Arguments to filter RateCards to delete.
+     * @example
+     * // Delete a few RateCards
+     * const { count } = await prisma.rateCard.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RateCardDeleteManyArgs>(args?: SelectSubset<T, RateCardDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RateCards.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateCardUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RateCards
+     * const rateCard = await prisma.rateCard.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RateCardUpdateManyArgs>(args: SelectSubset<T, RateCardUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RateCards and returns the data updated in the database.
+     * @param {RateCardUpdateManyAndReturnArgs} args - Arguments to update many RateCards.
+     * @example
+     * // Update many RateCards
+     * const rateCard = await prisma.rateCard.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more RateCards and only return the `id`
+     * const rateCardWithIdOnly = await prisma.rateCard.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RateCardUpdateManyAndReturnArgs>(args: SelectSubset<T, RateCardUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one RateCard.
+     * @param {RateCardUpsertArgs} args - Arguments to update or create a RateCard.
+     * @example
+     * // Update or create a RateCard
+     * const rateCard = await prisma.rateCard.upsert({
+     *   create: {
+     *     // ... data to create a RateCard
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RateCard we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RateCardUpsertArgs>(args: SelectSubset<T, RateCardUpsertArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of RateCards.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateCardCountArgs} args - Arguments to filter RateCards to count.
+     * @example
+     * // Count the number of RateCards
+     * const count = await prisma.rateCard.count({
+     *   where: {
+     *     // ... the filter for the RateCards we want to count
+     *   }
+     * })
+    **/
+    count<T extends RateCardCountArgs>(
+      args?: Subset<T, RateCardCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RateCardCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RateCard.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateCardAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RateCardAggregateArgs>(args: Subset<T, RateCardAggregateArgs>): Prisma.PrismaPromise<GetRateCardAggregateType<T>>
+
+    /**
+     * Group by RateCard.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateCardGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RateCardGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RateCardGroupByArgs['orderBy'] }
+        : { orderBy?: RateCardGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RateCardGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRateCardGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RateCard model
+   */
+  readonly fields: RateCardFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RateCard.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RateCardClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    client<T extends RateCard$clientArgs<ExtArgs> = {}>(args?: Subset<T, RateCard$clientArgs<ExtArgs>>): Prisma__ClientClient<$Result.GetResult<Prisma.$ClientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    items<T extends RateCard$itemsArgs<ExtArgs> = {}>(args?: Subset<T, RateCard$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RateCardItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RateCard model
+   */
+  interface RateCardFieldRefs {
+    readonly id: FieldRef<"RateCard", 'String'>
+    readonly name: FieldRef<"RateCard", 'String'>
+    readonly clientId: FieldRef<"RateCard", 'String'>
+    readonly archived: FieldRef<"RateCard", 'Boolean'>
+    readonly createdAt: FieldRef<"RateCard", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RateCard findUnique
+   */
+  export type RateCardFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * Filter, which RateCard to fetch.
+     */
+    where: RateCardWhereUniqueInput
+  }
+
+  /**
+   * RateCard findUniqueOrThrow
+   */
+  export type RateCardFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * Filter, which RateCard to fetch.
+     */
+    where: RateCardWhereUniqueInput
+  }
+
+  /**
+   * RateCard findFirst
+   */
+  export type RateCardFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * Filter, which RateCard to fetch.
+     */
+    where?: RateCardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RateCards to fetch.
+     */
+    orderBy?: RateCardOrderByWithRelationInput | RateCardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RateCards.
+     */
+    cursor?: RateCardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RateCards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RateCards.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RateCards.
+     */
+    distinct?: RateCardScalarFieldEnum | RateCardScalarFieldEnum[]
+  }
+
+  /**
+   * RateCard findFirstOrThrow
+   */
+  export type RateCardFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * Filter, which RateCard to fetch.
+     */
+    where?: RateCardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RateCards to fetch.
+     */
+    orderBy?: RateCardOrderByWithRelationInput | RateCardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RateCards.
+     */
+    cursor?: RateCardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RateCards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RateCards.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RateCards.
+     */
+    distinct?: RateCardScalarFieldEnum | RateCardScalarFieldEnum[]
+  }
+
+  /**
+   * RateCard findMany
+   */
+  export type RateCardFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * Filter, which RateCards to fetch.
+     */
+    where?: RateCardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RateCards to fetch.
+     */
+    orderBy?: RateCardOrderByWithRelationInput | RateCardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RateCards.
+     */
+    cursor?: RateCardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RateCards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RateCards.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RateCards.
+     */
+    distinct?: RateCardScalarFieldEnum | RateCardScalarFieldEnum[]
+  }
+
+  /**
+   * RateCard create
+   */
+  export type RateCardCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RateCard.
+     */
+    data: XOR<RateCardCreateInput, RateCardUncheckedCreateInput>
+  }
+
+  /**
+   * RateCard createMany
+   */
+  export type RateCardCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RateCards.
+     */
+    data: RateCardCreateManyInput | RateCardCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RateCard createManyAndReturn
+   */
+  export type RateCardCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * The data used to create many RateCards.
+     */
+    data: RateCardCreateManyInput | RateCardCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RateCard update
+   */
+  export type RateCardUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RateCard.
+     */
+    data: XOR<RateCardUpdateInput, RateCardUncheckedUpdateInput>
+    /**
+     * Choose, which RateCard to update.
+     */
+    where: RateCardWhereUniqueInput
+  }
+
+  /**
+   * RateCard updateMany
+   */
+  export type RateCardUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RateCards.
+     */
+    data: XOR<RateCardUpdateManyMutationInput, RateCardUncheckedUpdateManyInput>
+    /**
+     * Filter which RateCards to update
+     */
+    where?: RateCardWhereInput
+    /**
+     * Limit how many RateCards to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * RateCard updateManyAndReturn
+   */
+  export type RateCardUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * The data used to update RateCards.
+     */
+    data: XOR<RateCardUpdateManyMutationInput, RateCardUncheckedUpdateManyInput>
+    /**
+     * Filter which RateCards to update
+     */
+    where?: RateCardWhereInput
+    /**
+     * Limit how many RateCards to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RateCard upsert
+   */
+  export type RateCardUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RateCard to update in case it exists.
+     */
+    where: RateCardWhereUniqueInput
+    /**
+     * In case the RateCard found by the `where` argument doesn't exist, create a new RateCard with this data.
+     */
+    create: XOR<RateCardCreateInput, RateCardUncheckedCreateInput>
+    /**
+     * In case the RateCard was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RateCardUpdateInput, RateCardUncheckedUpdateInput>
+  }
+
+  /**
+   * RateCard delete
+   */
+  export type RateCardDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+    /**
+     * Filter which RateCard to delete.
+     */
+    where: RateCardWhereUniqueInput
+  }
+
+  /**
+   * RateCard deleteMany
+   */
+  export type RateCardDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RateCards to delete
+     */
+    where?: RateCardWhereInput
+    /**
+     * Limit how many RateCards to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * RateCard.client
+   */
+  export type RateCard$clientArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Client
+     */
+    select?: ClientSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Client
+     */
+    omit?: ClientOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientInclude<ExtArgs> | null
+    where?: ClientWhereInput
+  }
+
+  /**
+   * RateCard.items
+   */
+  export type RateCard$itemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCardItem
+     */
+    select?: RateCardItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCardItem
+     */
+    omit?: RateCardItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardItemInclude<ExtArgs> | null
+    where?: RateCardItemWhereInput
+    orderBy?: RateCardItemOrderByWithRelationInput | RateCardItemOrderByWithRelationInput[]
+    cursor?: RateCardItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RateCardItemScalarFieldEnum | RateCardItemScalarFieldEnum[]
+  }
+
+  /**
+   * RateCard without action
+   */
+  export type RateCardDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateCard
+     */
+    select?: RateCardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateCard
+     */
+    omit?: RateCardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateCardInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model RateCardItem
    */
 
@@ -93482,6 +94753,7 @@ export namespace Prisma {
 
   export type RateCardItemMinAggregateOutputType = {
     id: string | null
+    rateCardId: string | null
     name: string | null
     serviceTypeId: string | null
     billingType: $Enums.BillingType | null
@@ -93492,6 +94764,7 @@ export namespace Prisma {
 
   export type RateCardItemMaxAggregateOutputType = {
     id: string | null
+    rateCardId: string | null
     name: string | null
     serviceTypeId: string | null
     billingType: $Enums.BillingType | null
@@ -93502,6 +94775,7 @@ export namespace Prisma {
 
   export type RateCardItemCountAggregateOutputType = {
     id: number
+    rateCardId: number
     name: number
     serviceTypeId: number
     billingType: number
@@ -93522,6 +94796,7 @@ export namespace Prisma {
 
   export type RateCardItemMinAggregateInputType = {
     id?: true
+    rateCardId?: true
     name?: true
     serviceTypeId?: true
     billingType?: true
@@ -93532,6 +94807,7 @@ export namespace Prisma {
 
   export type RateCardItemMaxAggregateInputType = {
     id?: true
+    rateCardId?: true
     name?: true
     serviceTypeId?: true
     billingType?: true
@@ -93542,6 +94818,7 @@ export namespace Prisma {
 
   export type RateCardItemCountAggregateInputType = {
     id?: true
+    rateCardId?: true
     name?: true
     serviceTypeId?: true
     billingType?: true
@@ -93639,6 +94916,7 @@ export namespace Prisma {
 
   export type RateCardItemGroupByOutputType = {
     id: string
+    rateCardId: string
     name: string
     serviceTypeId: string | null
     billingType: $Enums.BillingType
@@ -93668,39 +94946,46 @@ export namespace Prisma {
 
   export type RateCardItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    rateCardId?: boolean
     name?: boolean
     serviceTypeId?: boolean
     billingType?: boolean
     trackingUnit?: boolean
     defaultPrice?: boolean
     createdAt?: boolean
+    rateCard?: boolean | RateCardDefaultArgs<ExtArgs>
     serviceType?: boolean | RateCardItem$serviceTypeArgs<ExtArgs>
   }, ExtArgs["result"]["rateCardItem"]>
 
   export type RateCardItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    rateCardId?: boolean
     name?: boolean
     serviceTypeId?: boolean
     billingType?: boolean
     trackingUnit?: boolean
     defaultPrice?: boolean
     createdAt?: boolean
+    rateCard?: boolean | RateCardDefaultArgs<ExtArgs>
     serviceType?: boolean | RateCardItem$serviceTypeArgs<ExtArgs>
   }, ExtArgs["result"]["rateCardItem"]>
 
   export type RateCardItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    rateCardId?: boolean
     name?: boolean
     serviceTypeId?: boolean
     billingType?: boolean
     trackingUnit?: boolean
     defaultPrice?: boolean
     createdAt?: boolean
+    rateCard?: boolean | RateCardDefaultArgs<ExtArgs>
     serviceType?: boolean | RateCardItem$serviceTypeArgs<ExtArgs>
   }, ExtArgs["result"]["rateCardItem"]>
 
   export type RateCardItemSelectScalar = {
     id?: boolean
+    rateCardId?: boolean
     name?: boolean
     serviceTypeId?: boolean
     billingType?: boolean
@@ -93709,24 +94994,29 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type RateCardItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "serviceTypeId" | "billingType" | "trackingUnit" | "defaultPrice" | "createdAt", ExtArgs["result"]["rateCardItem"]>
+  export type RateCardItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "rateCardId" | "name" | "serviceTypeId" | "billingType" | "trackingUnit" | "defaultPrice" | "createdAt", ExtArgs["result"]["rateCardItem"]>
   export type RateCardItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    rateCard?: boolean | RateCardDefaultArgs<ExtArgs>
     serviceType?: boolean | RateCardItem$serviceTypeArgs<ExtArgs>
   }
   export type RateCardItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    rateCard?: boolean | RateCardDefaultArgs<ExtArgs>
     serviceType?: boolean | RateCardItem$serviceTypeArgs<ExtArgs>
   }
   export type RateCardItemIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    rateCard?: boolean | RateCardDefaultArgs<ExtArgs>
     serviceType?: boolean | RateCardItem$serviceTypeArgs<ExtArgs>
   }
 
   export type $RateCardItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "RateCardItem"
     objects: {
+      rateCard: Prisma.$RateCardPayload<ExtArgs>
       serviceType: Prisma.$ServiceTypePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      rateCardId: string
       name: string
       serviceTypeId: string | null
       billingType: $Enums.BillingType
@@ -94127,6 +95417,7 @@ export namespace Prisma {
    */
   export interface Prisma__RateCardItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    rateCard<T extends RateCardDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RateCardDefaultArgs<ExtArgs>>): Prisma__RateCardClient<$Result.GetResult<Prisma.$RateCardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     serviceType<T extends RateCardItem$serviceTypeArgs<ExtArgs> = {}>(args?: Subset<T, RateCardItem$serviceTypeArgs<ExtArgs>>): Prisma__ServiceTypeClient<$Result.GetResult<Prisma.$ServiceTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -94158,6 +95449,7 @@ export namespace Prisma {
    */
   interface RateCardItemFieldRefs {
     readonly id: FieldRef<"RateCardItem", 'String'>
+    readonly rateCardId: FieldRef<"RateCardItem", 'String'>
     readonly name: FieldRef<"RateCardItem", 'String'>
     readonly serviceTypeId: FieldRef<"RateCardItem", 'String'>
     readonly billingType: FieldRef<"RateCardItem", 'BillingType'>
@@ -106065,8 +107357,20 @@ export namespace Prisma {
   export type BudgetSectionScalarFieldEnum = (typeof BudgetSectionScalarFieldEnum)[keyof typeof BudgetSectionScalarFieldEnum]
 
 
+  export const RateCardScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    clientId: 'clientId',
+    archived: 'archived',
+    createdAt: 'createdAt'
+  };
+
+  export type RateCardScalarFieldEnum = (typeof RateCardScalarFieldEnum)[keyof typeof RateCardScalarFieldEnum]
+
+
   export const RateCardItemScalarFieldEnum: {
     id: 'id',
+    rateCardId: 'rateCardId',
     name: 'name',
     serviceTypeId: 'serviceTypeId',
     billingType: 'billingType',
@@ -107061,6 +108365,7 @@ export namespace Prisma {
     projects?: ProjectListRelationFilter
     contacts?: ClientContactListRelationFilter
     deals?: DealListRelationFilter
+    rateCards?: RateCardListRelationFilter
   }
 
   export type ClientOrderByWithRelationInput = {
@@ -107082,6 +108387,7 @@ export namespace Prisma {
     projects?: ProjectOrderByRelationAggregateInput
     contacts?: ClientContactOrderByRelationAggregateInput
     deals?: DealOrderByRelationAggregateInput
+    rateCards?: RateCardOrderByRelationAggregateInput
   }
 
   export type ClientWhereUniqueInput = Prisma.AtLeast<{
@@ -107106,6 +108412,7 @@ export namespace Prisma {
     projects?: ProjectListRelationFilter
     contacts?: ClientContactListRelationFilter
     deals?: DealListRelationFilter
+    rateCards?: RateCardListRelationFilter
   }, "id" | "name">
 
   export type ClientOrderByWithAggregationInput = {
@@ -112091,28 +113398,90 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"BudgetSection"> | Date | string
   }
 
+  export type RateCardWhereInput = {
+    AND?: RateCardWhereInput | RateCardWhereInput[]
+    OR?: RateCardWhereInput[]
+    NOT?: RateCardWhereInput | RateCardWhereInput[]
+    id?: StringFilter<"RateCard"> | string
+    name?: StringFilter<"RateCard"> | string
+    clientId?: StringNullableFilter<"RateCard"> | string | null
+    archived?: BoolFilter<"RateCard"> | boolean
+    createdAt?: DateTimeFilter<"RateCard"> | Date | string
+    client?: XOR<ClientNullableScalarRelationFilter, ClientWhereInput> | null
+    items?: RateCardItemListRelationFilter
+  }
+
+  export type RateCardOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    clientId?: SortOrderInput | SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+    client?: ClientOrderByWithRelationInput
+    items?: RateCardItemOrderByRelationAggregateInput
+  }
+
+  export type RateCardWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RateCardWhereInput | RateCardWhereInput[]
+    OR?: RateCardWhereInput[]
+    NOT?: RateCardWhereInput | RateCardWhereInput[]
+    name?: StringFilter<"RateCard"> | string
+    clientId?: StringNullableFilter<"RateCard"> | string | null
+    archived?: BoolFilter<"RateCard"> | boolean
+    createdAt?: DateTimeFilter<"RateCard"> | Date | string
+    client?: XOR<ClientNullableScalarRelationFilter, ClientWhereInput> | null
+    items?: RateCardItemListRelationFilter
+  }, "id">
+
+  export type RateCardOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    clientId?: SortOrderInput | SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+    _count?: RateCardCountOrderByAggregateInput
+    _max?: RateCardMaxOrderByAggregateInput
+    _min?: RateCardMinOrderByAggregateInput
+  }
+
+  export type RateCardScalarWhereWithAggregatesInput = {
+    AND?: RateCardScalarWhereWithAggregatesInput | RateCardScalarWhereWithAggregatesInput[]
+    OR?: RateCardScalarWhereWithAggregatesInput[]
+    NOT?: RateCardScalarWhereWithAggregatesInput | RateCardScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"RateCard"> | string
+    name?: StringWithAggregatesFilter<"RateCard"> | string
+    clientId?: StringNullableWithAggregatesFilter<"RateCard"> | string | null
+    archived?: BoolWithAggregatesFilter<"RateCard"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"RateCard"> | Date | string
+  }
+
   export type RateCardItemWhereInput = {
     AND?: RateCardItemWhereInput | RateCardItemWhereInput[]
     OR?: RateCardItemWhereInput[]
     NOT?: RateCardItemWhereInput | RateCardItemWhereInput[]
     id?: StringFilter<"RateCardItem"> | string
+    rateCardId?: StringFilter<"RateCardItem"> | string
     name?: StringFilter<"RateCardItem"> | string
     serviceTypeId?: StringNullableFilter<"RateCardItem"> | string | null
     billingType?: EnumBillingTypeFilter<"RateCardItem"> | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFilter<"RateCardItem"> | $Enums.TrackingUnit
     defaultPrice?: FloatFilter<"RateCardItem"> | number
     createdAt?: DateTimeFilter<"RateCardItem"> | Date | string
+    rateCard?: XOR<RateCardScalarRelationFilter, RateCardWhereInput>
     serviceType?: XOR<ServiceTypeNullableScalarRelationFilter, ServiceTypeWhereInput> | null
   }
 
   export type RateCardItemOrderByWithRelationInput = {
     id?: SortOrder
+    rateCardId?: SortOrder
     name?: SortOrder
     serviceTypeId?: SortOrderInput | SortOrder
     billingType?: SortOrder
     trackingUnit?: SortOrder
     defaultPrice?: SortOrder
     createdAt?: SortOrder
+    rateCard?: RateCardOrderByWithRelationInput
     serviceType?: ServiceTypeOrderByWithRelationInput
   }
 
@@ -112121,17 +113490,20 @@ export namespace Prisma {
     AND?: RateCardItemWhereInput | RateCardItemWhereInput[]
     OR?: RateCardItemWhereInput[]
     NOT?: RateCardItemWhereInput | RateCardItemWhereInput[]
+    rateCardId?: StringFilter<"RateCardItem"> | string
     name?: StringFilter<"RateCardItem"> | string
     serviceTypeId?: StringNullableFilter<"RateCardItem"> | string | null
     billingType?: EnumBillingTypeFilter<"RateCardItem"> | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFilter<"RateCardItem"> | $Enums.TrackingUnit
     defaultPrice?: FloatFilter<"RateCardItem"> | number
     createdAt?: DateTimeFilter<"RateCardItem"> | Date | string
+    rateCard?: XOR<RateCardScalarRelationFilter, RateCardWhereInput>
     serviceType?: XOR<ServiceTypeNullableScalarRelationFilter, ServiceTypeWhereInput> | null
   }, "id">
 
   export type RateCardItemOrderByWithAggregationInput = {
     id?: SortOrder
+    rateCardId?: SortOrder
     name?: SortOrder
     serviceTypeId?: SortOrderInput | SortOrder
     billingType?: SortOrder
@@ -112150,6 +113522,7 @@ export namespace Prisma {
     OR?: RateCardItemScalarWhereWithAggregatesInput[]
     NOT?: RateCardItemScalarWhereWithAggregatesInput | RateCardItemScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"RateCardItem"> | string
+    rateCardId?: StringWithAggregatesFilter<"RateCardItem"> | string
     name?: StringWithAggregatesFilter<"RateCardItem"> | string
     serviceTypeId?: StringNullableWithAggregatesFilter<"RateCardItem"> | string | null
     billingType?: EnumBillingTypeWithAggregatesFilter<"RateCardItem"> | $Enums.BillingType
@@ -113238,6 +114611,7 @@ export namespace Prisma {
     projects?: ProjectCreateNestedManyWithoutClientInput
     contacts?: ClientContactCreateNestedManyWithoutClientInput
     deals?: DealCreateNestedManyWithoutCompanyInput
+    rateCards?: RateCardCreateNestedManyWithoutClientInput
   }
 
   export type ClientUncheckedCreateInput = {
@@ -113257,6 +114631,7 @@ export namespace Prisma {
     projects?: ProjectUncheckedCreateNestedManyWithoutClientInput
     contacts?: ClientContactUncheckedCreateNestedManyWithoutClientInput
     deals?: DealUncheckedCreateNestedManyWithoutCompanyInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type ClientUpdateInput = {
@@ -113276,6 +114651,7 @@ export namespace Prisma {
     projects?: ProjectUpdateManyWithoutClientNestedInput
     contacts?: ClientContactUpdateManyWithoutClientNestedInput
     deals?: DealUpdateManyWithoutCompanyNestedInput
+    rateCards?: RateCardUpdateManyWithoutClientNestedInput
   }
 
   export type ClientUncheckedUpdateInput = {
@@ -113295,6 +114671,7 @@ export namespace Prisma {
     projects?: ProjectUncheckedUpdateManyWithoutClientNestedInput
     contacts?: ClientContactUncheckedUpdateManyWithoutClientNestedInput
     deals?: DealUncheckedUpdateManyWithoutCompanyNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutClientNestedInput
   }
 
   export type ClientCreateManyInput = {
@@ -118411,6 +119788,65 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RateCardCreateInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+    client?: ClientCreateNestedOneWithoutRateCardsInput
+    items?: RateCardItemCreateNestedManyWithoutRateCardInput
+  }
+
+  export type RateCardUncheckedCreateInput = {
+    id?: string
+    name: string
+    clientId?: string | null
+    archived?: boolean
+    createdAt?: Date | string
+    items?: RateCardItemUncheckedCreateNestedManyWithoutRateCardInput
+  }
+
+  export type RateCardUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    client?: ClientUpdateOneWithoutRateCardsNestedInput
+    items?: RateCardItemUpdateManyWithoutRateCardNestedInput
+  }
+
+  export type RateCardUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    clientId?: NullableStringFieldUpdateOperationsInput | string | null
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: RateCardItemUncheckedUpdateManyWithoutRateCardNestedInput
+  }
+
+  export type RateCardCreateManyInput = {
+    id?: string
+    name: string
+    clientId?: string | null
+    archived?: boolean
+    createdAt?: Date | string
+  }
+
+  export type RateCardUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RateCardUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    clientId?: NullableStringFieldUpdateOperationsInput | string | null
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type RateCardItemCreateInput = {
     id?: string
     name: string
@@ -118418,11 +119854,13 @@ export namespace Prisma {
     trackingUnit?: $Enums.TrackingUnit
     defaultPrice: number
     createdAt?: Date | string
+    rateCard: RateCardCreateNestedOneWithoutItemsInput
     serviceType?: ServiceTypeCreateNestedOneWithoutRateCardItemsInput
   }
 
   export type RateCardItemUncheckedCreateInput = {
     id?: string
+    rateCardId: string
     name: string
     serviceTypeId?: string | null
     billingType?: $Enums.BillingType
@@ -118438,11 +119876,13 @@ export namespace Prisma {
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
     defaultPrice?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rateCard?: RateCardUpdateOneRequiredWithoutItemsNestedInput
     serviceType?: ServiceTypeUpdateOneWithoutRateCardItemsNestedInput
   }
 
   export type RateCardItemUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    rateCardId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     serviceTypeId?: NullableStringFieldUpdateOperationsInput | string | null
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
@@ -118453,6 +119893,7 @@ export namespace Prisma {
 
   export type RateCardItemCreateManyInput = {
     id?: string
+    rateCardId: string
     name: string
     serviceTypeId?: string | null
     billingType?: $Enums.BillingType
@@ -118472,6 +119913,7 @@ export namespace Prisma {
 
   export type RateCardItemUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    rateCardId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     serviceTypeId?: NullableStringFieldUpdateOperationsInput | string | null
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
@@ -119974,7 +121416,17 @@ export namespace Prisma {
     none?: ClientContactWhereInput
   }
 
+  export type RateCardListRelationFilter = {
+    every?: RateCardWhereInput
+    some?: RateCardWhereInput
+    none?: RateCardWhereInput
+  }
+
   export type ClientContactOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RateCardOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -123348,8 +124800,38 @@ export namespace Prisma {
     _max?: NestedEnumTrackingUnitFilter<$PrismaModel>
   }
 
+  export type RateCardCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    clientId?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RateCardMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    clientId?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RateCardMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    clientId?: SortOrder
+    archived?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RateCardScalarRelationFilter = {
+    is?: RateCardWhereInput
+    isNot?: RateCardWhereInput
+  }
+
   export type RateCardItemCountOrderByAggregateInput = {
     id?: SortOrder
+    rateCardId?: SortOrder
     name?: SortOrder
     serviceTypeId?: SortOrder
     billingType?: SortOrder
@@ -123364,6 +124846,7 @@ export namespace Prisma {
 
   export type RateCardItemMaxOrderByAggregateInput = {
     id?: SortOrder
+    rateCardId?: SortOrder
     name?: SortOrder
     serviceTypeId?: SortOrder
     billingType?: SortOrder
@@ -123374,6 +124857,7 @@ export namespace Prisma {
 
   export type RateCardItemMinOrderByAggregateInput = {
     id?: SortOrder
+    rateCardId?: SortOrder
     name?: SortOrder
     serviceTypeId?: SortOrder
     billingType?: SortOrder
@@ -126063,6 +127547,13 @@ export namespace Prisma {
     connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
   }
 
+  export type RateCardCreateNestedManyWithoutClientInput = {
+    create?: XOR<RateCardCreateWithoutClientInput, RateCardUncheckedCreateWithoutClientInput> | RateCardCreateWithoutClientInput[] | RateCardUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: RateCardCreateOrConnectWithoutClientInput | RateCardCreateOrConnectWithoutClientInput[]
+    createMany?: RateCardCreateManyClientInputEnvelope
+    connect?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+  }
+
   export type ClientUncheckedCreateNestedManyWithoutParentInput = {
     create?: XOR<ClientCreateWithoutParentInput, ClientUncheckedCreateWithoutParentInput> | ClientCreateWithoutParentInput[] | ClientUncheckedCreateWithoutParentInput[]
     connectOrCreate?: ClientCreateOrConnectWithoutParentInput | ClientCreateOrConnectWithoutParentInput[]
@@ -126089,6 +127580,13 @@ export namespace Prisma {
     connectOrCreate?: DealCreateOrConnectWithoutCompanyInput | DealCreateOrConnectWithoutCompanyInput[]
     createMany?: DealCreateManyCompanyInputEnvelope
     connect?: DealWhereUniqueInput | DealWhereUniqueInput[]
+  }
+
+  export type RateCardUncheckedCreateNestedManyWithoutClientInput = {
+    create?: XOR<RateCardCreateWithoutClientInput, RateCardUncheckedCreateWithoutClientInput> | RateCardCreateWithoutClientInput[] | RateCardUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: RateCardCreateOrConnectWithoutClientInput | RateCardCreateOrConnectWithoutClientInput[]
+    createMany?: RateCardCreateManyClientInputEnvelope
+    connect?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
   }
 
   export type NullableEnumClientTypeFieldUpdateOperationsInput = {
@@ -126183,6 +127681,20 @@ export namespace Prisma {
     deleteMany?: DealScalarWhereInput | DealScalarWhereInput[]
   }
 
+  export type RateCardUpdateManyWithoutClientNestedInput = {
+    create?: XOR<RateCardCreateWithoutClientInput, RateCardUncheckedCreateWithoutClientInput> | RateCardCreateWithoutClientInput[] | RateCardUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: RateCardCreateOrConnectWithoutClientInput | RateCardCreateOrConnectWithoutClientInput[]
+    upsert?: RateCardUpsertWithWhereUniqueWithoutClientInput | RateCardUpsertWithWhereUniqueWithoutClientInput[]
+    createMany?: RateCardCreateManyClientInputEnvelope
+    set?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+    disconnect?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+    delete?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+    connect?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+    update?: RateCardUpdateWithWhereUniqueWithoutClientInput | RateCardUpdateWithWhereUniqueWithoutClientInput[]
+    updateMany?: RateCardUpdateManyWithWhereWithoutClientInput | RateCardUpdateManyWithWhereWithoutClientInput[]
+    deleteMany?: RateCardScalarWhereInput | RateCardScalarWhereInput[]
+  }
+
   export type ClientUncheckedUpdateManyWithoutParentNestedInput = {
     create?: XOR<ClientCreateWithoutParentInput, ClientUncheckedCreateWithoutParentInput> | ClientCreateWithoutParentInput[] | ClientUncheckedCreateWithoutParentInput[]
     connectOrCreate?: ClientCreateOrConnectWithoutParentInput | ClientCreateOrConnectWithoutParentInput[]
@@ -126237,6 +127749,20 @@ export namespace Prisma {
     update?: DealUpdateWithWhereUniqueWithoutCompanyInput | DealUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: DealUpdateManyWithWhereWithoutCompanyInput | DealUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: DealScalarWhereInput | DealScalarWhereInput[]
+  }
+
+  export type RateCardUncheckedUpdateManyWithoutClientNestedInput = {
+    create?: XOR<RateCardCreateWithoutClientInput, RateCardUncheckedCreateWithoutClientInput> | RateCardCreateWithoutClientInput[] | RateCardUncheckedCreateWithoutClientInput[]
+    connectOrCreate?: RateCardCreateOrConnectWithoutClientInput | RateCardCreateOrConnectWithoutClientInput[]
+    upsert?: RateCardUpsertWithWhereUniqueWithoutClientInput | RateCardUpsertWithWhereUniqueWithoutClientInput[]
+    createMany?: RateCardCreateManyClientInputEnvelope
+    set?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+    disconnect?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+    delete?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+    connect?: RateCardWhereUniqueInput | RateCardWhereUniqueInput[]
+    update?: RateCardUpdateWithWhereUniqueWithoutClientInput | RateCardUpdateWithWhereUniqueWithoutClientInput[]
+    updateMany?: RateCardUpdateManyWithWhereWithoutClientInput | RateCardUpdateManyWithWhereWithoutClientInput[]
+    deleteMany?: RateCardScalarWhereInput | RateCardScalarWhereInput[]
   }
 
   export type ClientCreateNestedOneWithoutContactsInput = {
@@ -131547,10 +133073,82 @@ export namespace Prisma {
     deleteMany?: ResourceBookingScalarWhereInput | ResourceBookingScalarWhereInput[]
   }
 
+  export type ClientCreateNestedOneWithoutRateCardsInput = {
+    create?: XOR<ClientCreateWithoutRateCardsInput, ClientUncheckedCreateWithoutRateCardsInput>
+    connectOrCreate?: ClientCreateOrConnectWithoutRateCardsInput
+    connect?: ClientWhereUniqueInput
+  }
+
+  export type RateCardItemCreateNestedManyWithoutRateCardInput = {
+    create?: XOR<RateCardItemCreateWithoutRateCardInput, RateCardItemUncheckedCreateWithoutRateCardInput> | RateCardItemCreateWithoutRateCardInput[] | RateCardItemUncheckedCreateWithoutRateCardInput[]
+    connectOrCreate?: RateCardItemCreateOrConnectWithoutRateCardInput | RateCardItemCreateOrConnectWithoutRateCardInput[]
+    createMany?: RateCardItemCreateManyRateCardInputEnvelope
+    connect?: RateCardItemWhereUniqueInput | RateCardItemWhereUniqueInput[]
+  }
+
+  export type RateCardItemUncheckedCreateNestedManyWithoutRateCardInput = {
+    create?: XOR<RateCardItemCreateWithoutRateCardInput, RateCardItemUncheckedCreateWithoutRateCardInput> | RateCardItemCreateWithoutRateCardInput[] | RateCardItemUncheckedCreateWithoutRateCardInput[]
+    connectOrCreate?: RateCardItemCreateOrConnectWithoutRateCardInput | RateCardItemCreateOrConnectWithoutRateCardInput[]
+    createMany?: RateCardItemCreateManyRateCardInputEnvelope
+    connect?: RateCardItemWhereUniqueInput | RateCardItemWhereUniqueInput[]
+  }
+
+  export type ClientUpdateOneWithoutRateCardsNestedInput = {
+    create?: XOR<ClientCreateWithoutRateCardsInput, ClientUncheckedCreateWithoutRateCardsInput>
+    connectOrCreate?: ClientCreateOrConnectWithoutRateCardsInput
+    upsert?: ClientUpsertWithoutRateCardsInput
+    disconnect?: ClientWhereInput | boolean
+    delete?: ClientWhereInput | boolean
+    connect?: ClientWhereUniqueInput
+    update?: XOR<XOR<ClientUpdateToOneWithWhereWithoutRateCardsInput, ClientUpdateWithoutRateCardsInput>, ClientUncheckedUpdateWithoutRateCardsInput>
+  }
+
+  export type RateCardItemUpdateManyWithoutRateCardNestedInput = {
+    create?: XOR<RateCardItemCreateWithoutRateCardInput, RateCardItemUncheckedCreateWithoutRateCardInput> | RateCardItemCreateWithoutRateCardInput[] | RateCardItemUncheckedCreateWithoutRateCardInput[]
+    connectOrCreate?: RateCardItemCreateOrConnectWithoutRateCardInput | RateCardItemCreateOrConnectWithoutRateCardInput[]
+    upsert?: RateCardItemUpsertWithWhereUniqueWithoutRateCardInput | RateCardItemUpsertWithWhereUniqueWithoutRateCardInput[]
+    createMany?: RateCardItemCreateManyRateCardInputEnvelope
+    set?: RateCardItemWhereUniqueInput | RateCardItemWhereUniqueInput[]
+    disconnect?: RateCardItemWhereUniqueInput | RateCardItemWhereUniqueInput[]
+    delete?: RateCardItemWhereUniqueInput | RateCardItemWhereUniqueInput[]
+    connect?: RateCardItemWhereUniqueInput | RateCardItemWhereUniqueInput[]
+    update?: RateCardItemUpdateWithWhereUniqueWithoutRateCardInput | RateCardItemUpdateWithWhereUniqueWithoutRateCardInput[]
+    updateMany?: RateCardItemUpdateManyWithWhereWithoutRateCardInput | RateCardItemUpdateManyWithWhereWithoutRateCardInput[]
+    deleteMany?: RateCardItemScalarWhereInput | RateCardItemScalarWhereInput[]
+  }
+
+  export type RateCardItemUncheckedUpdateManyWithoutRateCardNestedInput = {
+    create?: XOR<RateCardItemCreateWithoutRateCardInput, RateCardItemUncheckedCreateWithoutRateCardInput> | RateCardItemCreateWithoutRateCardInput[] | RateCardItemUncheckedCreateWithoutRateCardInput[]
+    connectOrCreate?: RateCardItemCreateOrConnectWithoutRateCardInput | RateCardItemCreateOrConnectWithoutRateCardInput[]
+    upsert?: RateCardItemUpsertWithWhereUniqueWithoutRateCardInput | RateCardItemUpsertWithWhereUniqueWithoutRateCardInput[]
+    createMany?: RateCardItemCreateManyRateCardInputEnvelope
+    set?: RateCardItemWhereUniqueInput | RateCardItemWhereUniqueInput[]
+    disconnect?: RateCardItemWhereUniqueInput | RateCardItemWhereUniqueInput[]
+    delete?: RateCardItemWhereUniqueInput | RateCardItemWhereUniqueInput[]
+    connect?: RateCardItemWhereUniqueInput | RateCardItemWhereUniqueInput[]
+    update?: RateCardItemUpdateWithWhereUniqueWithoutRateCardInput | RateCardItemUpdateWithWhereUniqueWithoutRateCardInput[]
+    updateMany?: RateCardItemUpdateManyWithWhereWithoutRateCardInput | RateCardItemUpdateManyWithWhereWithoutRateCardInput[]
+    deleteMany?: RateCardItemScalarWhereInput | RateCardItemScalarWhereInput[]
+  }
+
+  export type RateCardCreateNestedOneWithoutItemsInput = {
+    create?: XOR<RateCardCreateWithoutItemsInput, RateCardUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: RateCardCreateOrConnectWithoutItemsInput
+    connect?: RateCardWhereUniqueInput
+  }
+
   export type ServiceTypeCreateNestedOneWithoutRateCardItemsInput = {
     create?: XOR<ServiceTypeCreateWithoutRateCardItemsInput, ServiceTypeUncheckedCreateWithoutRateCardItemsInput>
     connectOrCreate?: ServiceTypeCreateOrConnectWithoutRateCardItemsInput
     connect?: ServiceTypeWhereUniqueInput
+  }
+
+  export type RateCardUpdateOneRequiredWithoutItemsNestedInput = {
+    create?: XOR<RateCardCreateWithoutItemsInput, RateCardUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: RateCardCreateOrConnectWithoutItemsInput
+    upsert?: RateCardUpsertWithoutItemsInput
+    connect?: RateCardWhereUniqueInput
+    update?: XOR<XOR<RateCardUpdateToOneWithWhereWithoutItemsInput, RateCardUpdateWithoutItemsInput>, RateCardUncheckedUpdateWithoutItemsInput>
   }
 
   export type ServiceTypeUpdateOneWithoutRateCardItemsNestedInput = {
@@ -134737,6 +136335,7 @@ export namespace Prisma {
     projects?: ProjectCreateNestedManyWithoutClientInput
     contacts?: ClientContactCreateNestedManyWithoutClientInput
     deals?: DealCreateNestedManyWithoutCompanyInput
+    rateCards?: RateCardCreateNestedManyWithoutClientInput
   }
 
   export type ClientUncheckedCreateWithoutAccountOwnerInput = {
@@ -134755,6 +136354,7 @@ export namespace Prisma {
     projects?: ProjectUncheckedCreateNestedManyWithoutClientInput
     contacts?: ClientContactUncheckedCreateNestedManyWithoutClientInput
     deals?: DealUncheckedCreateNestedManyWithoutCompanyInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type ClientCreateOrConnectWithoutAccountOwnerInput = {
@@ -136577,6 +138177,7 @@ export namespace Prisma {
     projects?: ProjectCreateNestedManyWithoutClientInput
     contacts?: ClientContactCreateNestedManyWithoutClientInput
     deals?: DealCreateNestedManyWithoutCompanyInput
+    rateCards?: RateCardCreateNestedManyWithoutClientInput
   }
 
   export type ClientUncheckedCreateWithoutChildrenInput = {
@@ -136595,6 +138196,7 @@ export namespace Prisma {
     projects?: ProjectUncheckedCreateNestedManyWithoutClientInput
     contacts?: ClientContactUncheckedCreateNestedManyWithoutClientInput
     deals?: DealUncheckedCreateNestedManyWithoutCompanyInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type ClientCreateOrConnectWithoutChildrenInput = {
@@ -136618,6 +138220,7 @@ export namespace Prisma {
     projects?: ProjectCreateNestedManyWithoutClientInput
     contacts?: ClientContactCreateNestedManyWithoutClientInput
     deals?: DealCreateNestedManyWithoutCompanyInput
+    rateCards?: RateCardCreateNestedManyWithoutClientInput
   }
 
   export type ClientUncheckedCreateWithoutParentInput = {
@@ -136636,6 +138239,7 @@ export namespace Prisma {
     projects?: ProjectUncheckedCreateNestedManyWithoutClientInput
     contacts?: ClientContactUncheckedCreateNestedManyWithoutClientInput
     deals?: DealUncheckedCreateNestedManyWithoutCompanyInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type ClientCreateOrConnectWithoutParentInput = {
@@ -136809,6 +138413,32 @@ export namespace Prisma {
 
   export type DealCreateManyCompanyInputEnvelope = {
     data: DealCreateManyCompanyInput | DealCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RateCardCreateWithoutClientInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+    items?: RateCardItemCreateNestedManyWithoutRateCardInput
+  }
+
+  export type RateCardUncheckedCreateWithoutClientInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+    items?: RateCardItemUncheckedCreateNestedManyWithoutRateCardInput
+  }
+
+  export type RateCardCreateOrConnectWithoutClientInput = {
+    where: RateCardWhereUniqueInput
+    create: XOR<RateCardCreateWithoutClientInput, RateCardUncheckedCreateWithoutClientInput>
+  }
+
+  export type RateCardCreateManyClientInputEnvelope = {
+    data: RateCardCreateManyClientInput | RateCardCreateManyClientInput[]
     skipDuplicates?: boolean
   }
 
@@ -136988,6 +138618,7 @@ export namespace Prisma {
     projects?: ProjectUpdateManyWithoutClientNestedInput
     contacts?: ClientContactUpdateManyWithoutClientNestedInput
     deals?: DealUpdateManyWithoutCompanyNestedInput
+    rateCards?: RateCardUpdateManyWithoutClientNestedInput
   }
 
   export type ClientUncheckedUpdateWithoutChildrenInput = {
@@ -137006,6 +138637,7 @@ export namespace Prisma {
     projects?: ProjectUncheckedUpdateManyWithoutClientNestedInput
     contacts?: ClientContactUncheckedUpdateManyWithoutClientNestedInput
     deals?: DealUncheckedUpdateManyWithoutCompanyNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutClientNestedInput
   }
 
   export type ClientUpsertWithWhereUniqueWithoutParentInput = {
@@ -137086,6 +138718,33 @@ export namespace Prisma {
     data: XOR<DealUpdateManyMutationInput, DealUncheckedUpdateManyWithoutCompanyInput>
   }
 
+  export type RateCardUpsertWithWhereUniqueWithoutClientInput = {
+    where: RateCardWhereUniqueInput
+    update: XOR<RateCardUpdateWithoutClientInput, RateCardUncheckedUpdateWithoutClientInput>
+    create: XOR<RateCardCreateWithoutClientInput, RateCardUncheckedCreateWithoutClientInput>
+  }
+
+  export type RateCardUpdateWithWhereUniqueWithoutClientInput = {
+    where: RateCardWhereUniqueInput
+    data: XOR<RateCardUpdateWithoutClientInput, RateCardUncheckedUpdateWithoutClientInput>
+  }
+
+  export type RateCardUpdateManyWithWhereWithoutClientInput = {
+    where: RateCardScalarWhereInput
+    data: XOR<RateCardUpdateManyMutationInput, RateCardUncheckedUpdateManyWithoutClientInput>
+  }
+
+  export type RateCardScalarWhereInput = {
+    AND?: RateCardScalarWhereInput | RateCardScalarWhereInput[]
+    OR?: RateCardScalarWhereInput[]
+    NOT?: RateCardScalarWhereInput | RateCardScalarWhereInput[]
+    id?: StringFilter<"RateCard"> | string
+    name?: StringFilter<"RateCard"> | string
+    clientId?: StringNullableFilter<"RateCard"> | string | null
+    archived?: BoolFilter<"RateCard"> | boolean
+    createdAt?: DateTimeFilter<"RateCard"> | Date | string
+  }
+
   export type ClientCreateWithoutContactsInput = {
     id?: string
     name: string
@@ -137102,6 +138761,7 @@ export namespace Prisma {
     children?: ClientCreateNestedManyWithoutParentInput
     projects?: ProjectCreateNestedManyWithoutClientInput
     deals?: DealCreateNestedManyWithoutCompanyInput
+    rateCards?: RateCardCreateNestedManyWithoutClientInput
   }
 
   export type ClientUncheckedCreateWithoutContactsInput = {
@@ -137120,6 +138780,7 @@ export namespace Prisma {
     children?: ClientUncheckedCreateNestedManyWithoutParentInput
     projects?: ProjectUncheckedCreateNestedManyWithoutClientInput
     deals?: DealUncheckedCreateNestedManyWithoutCompanyInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type ClientCreateOrConnectWithoutContactsInput = {
@@ -137154,6 +138815,7 @@ export namespace Prisma {
     children?: ClientUpdateManyWithoutParentNestedInput
     projects?: ProjectUpdateManyWithoutClientNestedInput
     deals?: DealUpdateManyWithoutCompanyNestedInput
+    rateCards?: RateCardUpdateManyWithoutClientNestedInput
   }
 
   export type ClientUncheckedUpdateWithoutContactsInput = {
@@ -137172,6 +138834,7 @@ export namespace Prisma {
     children?: ClientUncheckedUpdateManyWithoutParentNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutClientNestedInput
     deals?: DealUncheckedUpdateManyWithoutCompanyNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutClientNestedInput
   }
 
   export type DealStatusCreateWithoutPipelineInput = {
@@ -137407,6 +139070,7 @@ export namespace Prisma {
     children?: ClientCreateNestedManyWithoutParentInput
     projects?: ProjectCreateNestedManyWithoutClientInput
     contacts?: ClientContactCreateNestedManyWithoutClientInput
+    rateCards?: RateCardCreateNestedManyWithoutClientInput
   }
 
   export type ClientUncheckedCreateWithoutDealsInput = {
@@ -137425,6 +139089,7 @@ export namespace Prisma {
     children?: ClientUncheckedCreateNestedManyWithoutParentInput
     projects?: ProjectUncheckedCreateNestedManyWithoutClientInput
     contacts?: ClientContactUncheckedCreateNestedManyWithoutClientInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type ClientCreateOrConnectWithoutDealsInput = {
@@ -137741,6 +139406,7 @@ export namespace Prisma {
     children?: ClientUpdateManyWithoutParentNestedInput
     projects?: ProjectUpdateManyWithoutClientNestedInput
     contacts?: ClientContactUpdateManyWithoutClientNestedInput
+    rateCards?: RateCardUpdateManyWithoutClientNestedInput
   }
 
   export type ClientUncheckedUpdateWithoutDealsInput = {
@@ -137759,6 +139425,7 @@ export namespace Prisma {
     children?: ClientUncheckedUpdateManyWithoutParentNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutClientNestedInput
     contacts?: ClientContactUncheckedUpdateManyWithoutClientNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutClientNestedInput
   }
 
   export type DealStatusUpsertWithoutDealsInput = {
@@ -141917,6 +143584,7 @@ export namespace Prisma {
     children?: ClientCreateNestedManyWithoutParentInput
     contacts?: ClientContactCreateNestedManyWithoutClientInput
     deals?: DealCreateNestedManyWithoutCompanyInput
+    rateCards?: RateCardCreateNestedManyWithoutClientInput
   }
 
   export type ClientUncheckedCreateWithoutProjectsInput = {
@@ -141935,6 +143603,7 @@ export namespace Prisma {
     children?: ClientUncheckedCreateNestedManyWithoutParentInput
     contacts?: ClientContactUncheckedCreateNestedManyWithoutClientInput
     deals?: DealUncheckedCreateNestedManyWithoutCompanyInput
+    rateCards?: RateCardUncheckedCreateNestedManyWithoutClientInput
   }
 
   export type ClientCreateOrConnectWithoutProjectsInput = {
@@ -142785,6 +144454,7 @@ export namespace Prisma {
     children?: ClientUpdateManyWithoutParentNestedInput
     contacts?: ClientContactUpdateManyWithoutClientNestedInput
     deals?: DealUpdateManyWithoutCompanyNestedInput
+    rateCards?: RateCardUpdateManyWithoutClientNestedInput
   }
 
   export type ClientUncheckedUpdateWithoutProjectsInput = {
@@ -142803,6 +144473,7 @@ export namespace Prisma {
     children?: ClientUncheckedUpdateManyWithoutParentNestedInput
     contacts?: ClientContactUncheckedUpdateManyWithoutClientNestedInput
     deals?: DealUncheckedUpdateManyWithoutCompanyNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutClientNestedInput
   }
 
   export type UserUpsertWithoutManagedProjectsInput = {
@@ -161966,10 +163637,12 @@ export namespace Prisma {
     trackingUnit?: $Enums.TrackingUnit
     defaultPrice: number
     createdAt?: Date | string
+    rateCard: RateCardCreateNestedOneWithoutItemsInput
   }
 
   export type RateCardItemUncheckedCreateWithoutServiceTypeInput = {
     id?: string
+    rateCardId: string
     name: string
     billingType?: $Enums.BillingType
     trackingUnit?: $Enums.TrackingUnit
@@ -162068,6 +163741,7 @@ export namespace Prisma {
     OR?: RateCardItemScalarWhereInput[]
     NOT?: RateCardItemScalarWhereInput | RateCardItemScalarWhereInput[]
     id?: StringFilter<"RateCardItem"> | string
+    rateCardId?: StringFilter<"RateCardItem"> | string
     name?: StringFilter<"RateCardItem"> | string
     serviceTypeId?: StringNullableFilter<"RateCardItem"> | string | null
     billingType?: EnumBillingTypeFilter<"RateCardItem"> | $Enums.BillingType
@@ -162460,6 +164134,165 @@ export namespace Prisma {
     data: XOR<ResourceBookingUpdateManyMutationInput, ResourceBookingUncheckedUpdateManyWithoutBudgetSectionInput>
   }
 
+  export type ClientCreateWithoutRateCardsInput = {
+    id?: string
+    name: string
+    note?: string | null
+    taxId?: string | null
+    website?: string | null
+    billingAddress?: string | null
+    type?: $Enums.ClientType | null
+    paymentTermsDays?: number | null
+    archivedAt?: Date | string | null
+    createdAt?: Date | string
+    accountOwner?: UserCreateNestedOneWithoutAccountOwnedClientsInput
+    parent?: ClientCreateNestedOneWithoutChildrenInput
+    children?: ClientCreateNestedManyWithoutParentInput
+    projects?: ProjectCreateNestedManyWithoutClientInput
+    contacts?: ClientContactCreateNestedManyWithoutClientInput
+    deals?: DealCreateNestedManyWithoutCompanyInput
+  }
+
+  export type ClientUncheckedCreateWithoutRateCardsInput = {
+    id?: string
+    name: string
+    note?: string | null
+    taxId?: string | null
+    website?: string | null
+    billingAddress?: string | null
+    type?: $Enums.ClientType | null
+    accountOwnerId?: string | null
+    paymentTermsDays?: number | null
+    archivedAt?: Date | string | null
+    parentId?: string | null
+    createdAt?: Date | string
+    children?: ClientUncheckedCreateNestedManyWithoutParentInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutClientInput
+    contacts?: ClientContactUncheckedCreateNestedManyWithoutClientInput
+    deals?: DealUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type ClientCreateOrConnectWithoutRateCardsInput = {
+    where: ClientWhereUniqueInput
+    create: XOR<ClientCreateWithoutRateCardsInput, ClientUncheckedCreateWithoutRateCardsInput>
+  }
+
+  export type RateCardItemCreateWithoutRateCardInput = {
+    id?: string
+    name: string
+    billingType?: $Enums.BillingType
+    trackingUnit?: $Enums.TrackingUnit
+    defaultPrice: number
+    createdAt?: Date | string
+    serviceType?: ServiceTypeCreateNestedOneWithoutRateCardItemsInput
+  }
+
+  export type RateCardItemUncheckedCreateWithoutRateCardInput = {
+    id?: string
+    name: string
+    serviceTypeId?: string | null
+    billingType?: $Enums.BillingType
+    trackingUnit?: $Enums.TrackingUnit
+    defaultPrice: number
+    createdAt?: Date | string
+  }
+
+  export type RateCardItemCreateOrConnectWithoutRateCardInput = {
+    where: RateCardItemWhereUniqueInput
+    create: XOR<RateCardItemCreateWithoutRateCardInput, RateCardItemUncheckedCreateWithoutRateCardInput>
+  }
+
+  export type RateCardItemCreateManyRateCardInputEnvelope = {
+    data: RateCardItemCreateManyRateCardInput | RateCardItemCreateManyRateCardInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ClientUpsertWithoutRateCardsInput = {
+    update: XOR<ClientUpdateWithoutRateCardsInput, ClientUncheckedUpdateWithoutRateCardsInput>
+    create: XOR<ClientCreateWithoutRateCardsInput, ClientUncheckedCreateWithoutRateCardsInput>
+    where?: ClientWhereInput
+  }
+
+  export type ClientUpdateToOneWithWhereWithoutRateCardsInput = {
+    where?: ClientWhereInput
+    data: XOR<ClientUpdateWithoutRateCardsInput, ClientUncheckedUpdateWithoutRateCardsInput>
+  }
+
+  export type ClientUpdateWithoutRateCardsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType | null
+    paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accountOwner?: UserUpdateOneWithoutAccountOwnedClientsNestedInput
+    parent?: ClientUpdateOneWithoutChildrenNestedInput
+    children?: ClientUpdateManyWithoutParentNestedInput
+    projects?: ProjectUpdateManyWithoutClientNestedInput
+    contacts?: ClientContactUpdateManyWithoutClientNestedInput
+    deals?: DealUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type ClientUncheckedUpdateWithoutRateCardsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableEnumClientTypeFieldUpdateOperationsInput | $Enums.ClientType | null
+    accountOwnerId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTermsDays?: NullableIntFieldUpdateOperationsInput | number | null
+    archivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: ClientUncheckedUpdateManyWithoutParentNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutClientNestedInput
+    contacts?: ClientContactUncheckedUpdateManyWithoutClientNestedInput
+    deals?: DealUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type RateCardItemUpsertWithWhereUniqueWithoutRateCardInput = {
+    where: RateCardItemWhereUniqueInput
+    update: XOR<RateCardItemUpdateWithoutRateCardInput, RateCardItemUncheckedUpdateWithoutRateCardInput>
+    create: XOR<RateCardItemCreateWithoutRateCardInput, RateCardItemUncheckedCreateWithoutRateCardInput>
+  }
+
+  export type RateCardItemUpdateWithWhereUniqueWithoutRateCardInput = {
+    where: RateCardItemWhereUniqueInput
+    data: XOR<RateCardItemUpdateWithoutRateCardInput, RateCardItemUncheckedUpdateWithoutRateCardInput>
+  }
+
+  export type RateCardItemUpdateManyWithWhereWithoutRateCardInput = {
+    where: RateCardItemScalarWhereInput
+    data: XOR<RateCardItemUpdateManyMutationInput, RateCardItemUncheckedUpdateManyWithoutRateCardInput>
+  }
+
+  export type RateCardCreateWithoutItemsInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+    client?: ClientCreateNestedOneWithoutRateCardsInput
+  }
+
+  export type RateCardUncheckedCreateWithoutItemsInput = {
+    id?: string
+    name: string
+    clientId?: string | null
+    archived?: boolean
+    createdAt?: Date | string
+  }
+
+  export type RateCardCreateOrConnectWithoutItemsInput = {
+    where: RateCardWhereUniqueInput
+    create: XOR<RateCardCreateWithoutItemsInput, RateCardUncheckedCreateWithoutItemsInput>
+  }
+
   export type ServiceTypeCreateWithoutRateCardItemsInput = {
     id?: string
     name: string
@@ -162479,6 +164312,33 @@ export namespace Prisma {
   export type ServiceTypeCreateOrConnectWithoutRateCardItemsInput = {
     where: ServiceTypeWhereUniqueInput
     create: XOR<ServiceTypeCreateWithoutRateCardItemsInput, ServiceTypeUncheckedCreateWithoutRateCardItemsInput>
+  }
+
+  export type RateCardUpsertWithoutItemsInput = {
+    update: XOR<RateCardUpdateWithoutItemsInput, RateCardUncheckedUpdateWithoutItemsInput>
+    create: XOR<RateCardCreateWithoutItemsInput, RateCardUncheckedCreateWithoutItemsInput>
+    where?: RateCardWhereInput
+  }
+
+  export type RateCardUpdateToOneWithWhereWithoutItemsInput = {
+    where?: RateCardWhereInput
+    data: XOR<RateCardUpdateWithoutItemsInput, RateCardUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type RateCardUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    client?: ClientUpdateOneWithoutRateCardsNestedInput
+  }
+
+  export type RateCardUncheckedUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    clientId?: NullableStringFieldUpdateOperationsInput | string | null
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ServiceTypeUpsertWithoutRateCardItemsInput = {
@@ -169010,6 +170870,7 @@ export namespace Prisma {
     projects?: ProjectUpdateManyWithoutClientNestedInput
     contacts?: ClientContactUpdateManyWithoutClientNestedInput
     deals?: DealUpdateManyWithoutCompanyNestedInput
+    rateCards?: RateCardUpdateManyWithoutClientNestedInput
   }
 
   export type ClientUncheckedUpdateWithoutAccountOwnerInput = {
@@ -169028,6 +170889,7 @@ export namespace Prisma {
     projects?: ProjectUncheckedUpdateManyWithoutClientNestedInput
     contacts?: ClientContactUncheckedUpdateManyWithoutClientNestedInput
     deals?: DealUncheckedUpdateManyWithoutCompanyNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutClientNestedInput
   }
 
   export type ClientUncheckedUpdateManyWithoutAccountOwnerInput = {
@@ -169143,6 +171005,13 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type RateCardCreateManyClientInput = {
+    id?: string
+    name: string
+    archived?: boolean
+    createdAt?: Date | string
+  }
+
   export type ClientUpdateWithoutParentInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -169159,6 +171028,7 @@ export namespace Prisma {
     projects?: ProjectUpdateManyWithoutClientNestedInput
     contacts?: ClientContactUpdateManyWithoutClientNestedInput
     deals?: DealUpdateManyWithoutCompanyNestedInput
+    rateCards?: RateCardUpdateManyWithoutClientNestedInput
   }
 
   export type ClientUncheckedUpdateWithoutParentInput = {
@@ -169177,6 +171047,7 @@ export namespace Prisma {
     projects?: ProjectUncheckedUpdateManyWithoutClientNestedInput
     contacts?: ClientContactUncheckedUpdateManyWithoutClientNestedInput
     deals?: DealUncheckedUpdateManyWithoutCompanyNestedInput
+    rateCards?: RateCardUncheckedUpdateManyWithoutClientNestedInput
   }
 
   export type ClientUncheckedUpdateManyWithoutParentInput = {
@@ -169368,6 +171239,29 @@ export namespace Prisma {
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RateCardUpdateWithoutClientInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: RateCardItemUpdateManyWithoutRateCardNestedInput
+  }
+
+  export type RateCardUncheckedUpdateWithoutClientInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: RateCardItemUncheckedUpdateManyWithoutRateCardNestedInput
+  }
+
+  export type RateCardUncheckedUpdateManyWithoutClientInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DealStatusCreateManyPipelineInput = {
@@ -173278,6 +175172,7 @@ export namespace Prisma {
 
   export type RateCardItemCreateManyServiceTypeInput = {
     id?: string
+    rateCardId: string
     name: string
     billingType?: $Enums.BillingType
     trackingUnit?: $Enums.TrackingUnit
@@ -173395,10 +175290,12 @@ export namespace Prisma {
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
     defaultPrice?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rateCard?: RateCardUpdateOneRequiredWithoutItemsNestedInput
   }
 
   export type RateCardItemUncheckedUpdateWithoutServiceTypeInput = {
     id?: StringFieldUpdateOperationsInput | string
+    rateCardId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
@@ -173408,6 +175305,7 @@ export namespace Prisma {
 
   export type RateCardItemUncheckedUpdateManyWithoutServiceTypeInput = {
     id?: StringFieldUpdateOperationsInput | string
+    rateCardId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
     trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
@@ -173643,6 +175541,46 @@ export namespace Prisma {
     hoursPerDay?: FloatFieldUpdateOperationsInput | number
     isTentative?: BoolFieldUpdateOperationsInput | boolean
     createdById?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RateCardItemCreateManyRateCardInput = {
+    id?: string
+    name: string
+    serviceTypeId?: string | null
+    billingType?: $Enums.BillingType
+    trackingUnit?: $Enums.TrackingUnit
+    defaultPrice: number
+    createdAt?: Date | string
+  }
+
+  export type RateCardItemUpdateWithoutRateCardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
+    trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
+    defaultPrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceType?: ServiceTypeUpdateOneWithoutRateCardItemsNestedInput
+  }
+
+  export type RateCardItemUncheckedUpdateWithoutRateCardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    serviceTypeId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
+    trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
+    defaultPrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RateCardItemUncheckedUpdateManyWithoutRateCardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    serviceTypeId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingType?: EnumBillingTypeFieldUpdateOperationsInput | $Enums.BillingType
+    trackingUnit?: EnumTrackingUnitFieldUpdateOperationsInput | $Enums.TrackingUnit
+    defaultPrice?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

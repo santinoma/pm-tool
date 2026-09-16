@@ -849,8 +849,17 @@ exports.Prisma.BudgetSectionScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.RateCardScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  clientId: 'clientId',
+  archived: 'archived',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.RateCardItemScalarFieldEnum = {
   id: 'id',
+  rateCardId: 'rateCardId',
   name: 'name',
   serviceTypeId: 'serviceTypeId',
   billingType: 'billingType',
@@ -1272,6 +1281,7 @@ exports.Prisma.ModelName = {
   Budget: 'Budget',
   ServiceType: 'ServiceType',
   BudgetSection: 'BudgetSection',
+  RateCard: 'RateCard',
   RateCardItem: 'RateCardItem',
   Invoice: 'Invoice',
   InvoiceLineItem: 'InvoiceLineItem',

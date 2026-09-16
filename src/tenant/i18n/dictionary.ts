@@ -157,7 +157,7 @@ const STRINGS = {
   "settings.serviceTypes.title": { de: "Leistungstypen", en: "Service types" },
   "settings.serviceTypes.desc": { de: "Verwalte Leistungstypen, die dein Unternehmen anbietet.", en: "Manage the service types your company offers." },
   "settings.rateCards.title": { de: "Rate Cards", en: "Rate cards" },
-  "settings.rateCards.desc": { de: "Wiederverwendbare Service-Vorlagen für Budgets.", en: "Reusable service templates for budgets." },
+  "settings.rateCards.desc": { de: "Benannte Preis-Kataloge für Budgets, optional pro Company.", en: "Named pricing catalogs for budgets, optionally per company." },
   "settings.holidayCalendars.title": { de: "Feiertagskalender", en: "Holiday calendars" },
   "settings.holidayCalendars.desc": { de: "Feiertagskalender anlegen und Mitgliedern zuweisen.", en: "Create holiday calendars and assign them to members." },
   "settings.recycleBin.title": { de: "Papierkorb", en: "Recycle bin" },

@@ -5,8 +5,8 @@ import { canManageMembers } from "@/tenant/auth/roleGuard";
 const VALID_BILLING_TYPES = ["fixed", "time_and_materials", "non_billable", "percentage"];
 const VALID_TRACKING_UNITS = ["hours", "days", "piece"];
 
-export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string; itemId: string }> }) {
+  const { itemId } = await params;
   const context = await getTenantContext();
   if (!context?.currentUser || !canManageMembers(context.currentUser.role)) {
     return NextResponse.json({ error: "Keine Berechtigung." }, { status: 403 });
@@ -24,11 +24,15 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   }
 
   const rateCardItem = await context.tenantDb.rateCardItem.update({
-    where: { id },
+    where: { id: itemId },
     data: {
       name: typeof body.name === "string" ? body.name : undefined,
-      serviceTypeId:
-        typeof body.serviceTypeId === "string" ? body.serviceTypeId : body.serviceTypeId === null ? null : undefined,
+      serviceType:
+        typeof body.serviceTypeId === "string"
+          ? { connect: { id: body.serviceTypeId } }
+          : body.serviceTypeId === null
+            ? { disconnect: true }
+            : undefined,
       billingType: body.billingType ?? undefined,
       trackingUnit: body.trackingUnit ?? undefined,
       defaultPrice: typeof body.defaultPrice === "number" ? body.defaultPrice : undefined,
@@ -38,13 +42,13 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   return NextResponse.json({ rateCardItem });
 }
 
-export async function DELETE(_request: Request, { params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
+export async function DELETE(_request: Request, { params }: { params: Promise<{ id: string; itemId: string }> }) {
+  const { itemId } = await params;
   const context = await getTenantContext();
   if (!context?.currentUser || !canManageMembers(context.currentUser.role)) {
     return NextResponse.json({ error: "Keine Berechtigung." }, { status: 403 });
   }
 
-  await context.tenantDb.rateCardItem.delete({ where: { id } });
+  await context.tenantDb.rateCardItem.delete({ where: { id: itemId } });
   return NextResponse.json({ ok: true });
 }

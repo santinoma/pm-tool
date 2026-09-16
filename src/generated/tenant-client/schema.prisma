@@ -123,6 +123,7 @@ model Client {
   projects         Project[]
   contacts         ClientContact[]
   deals            Deal[]
+  rateCards        RateCard[]
 
   @@unique([name])
 }
@@ -1230,8 +1231,20 @@ model BudgetSection {
   resourceBookings        ResourceBooking[]
 }
 
+model RateCard {
+  id        String         @id @default(uuid())
+  name      String
+  client    Client?        @relation(fields: [clientId], references: [id])
+  clientId  String?
+  archived  Boolean        @default(false)
+  createdAt DateTime       @default(now())
+  items     RateCardItem[]
+}
+
 model RateCardItem {
   id            String       @id @default(uuid())
+  rateCard      RateCard     @relation(fields: [rateCardId], references: [id])
+  rateCardId    String
   name          String
   serviceType   ServiceType? @relation(fields: [serviceTypeId], references: [id])
   serviceTypeId String?
