@@ -57,9 +57,19 @@ Task weitermachen — nicht die ganze Phase anhalten.
       "my_tasks" auf generische PROJECT_SCOPES/PRIVATE_SCOPES-Listen
       umgestellt (Company Time/Absence/Timesheet-Matrix haben keine
       filterbare Zeilenliste — dort bleibt nichts zu erweitern)
-- [ ] T206 Table-Layout als neuer Ansichtstyp
-- [ ] T207 Workload-Layout als neuer Ansichtstyp
-- [ ] T208 Sortierrichtung (auf/absteigend) ergänzen
+- [x] T206 Table-Layout als neuer Ansichtstyp — bereits vorhanden
+      (`projects/[id]/table/TableViewClient.tsx`, vollständig funktional inkl.
+      eigenem Sort mit Richtung), im Audit übersehen/vor dieser Session
+      entstanden. Kein neuer Code nötig.
+- [x] T207 Workload-Layout als neuer Ansichtstyp — bereits vorhanden
+      (`projects/[id]/workload/WorkloadClient.tsx`, echte Kapazitäts-/
+      Auslastungs-Berechnung, teilt sich die Utilization-Logik mit dem
+      Resource Planner). Kein neuer Code nötig.
+- [x] T208 Sortierrichtung (auf/absteigend) ergänzen — TableViewClient.tsx
+      hatte das bereits; neuer gemeinsamer `SortDirectionButton` in
+      ListClient.tsx, MyTasksClient.tsx, ProjectBudgetsClient.tsx und
+      TimeTrackingClient.tsx ergänzt, jeweils in SavedView.sortConfig
+      persistiert
 
 ### Settings
 - [x] T210 `TenantSettings`: Location & Format (Zeitzone, Datums-/Zahlenformat)

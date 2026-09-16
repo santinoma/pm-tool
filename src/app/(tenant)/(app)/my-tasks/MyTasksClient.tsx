@@ -7,6 +7,7 @@ import { LegendKey } from "@/ui/components/LegendKey";
 import { buildMonthGrid, getUtcDateKey } from "@/tenant/projects/dateUtils";
 import { SavedViewsBar, type SavedViewRecord } from "@/ui/components/SavedViewsBar";
 import { FilterBuilderPopover, type FilterFieldOption } from "@/ui/components/FilterBuilderPopover";
+import { SortDirectionButton, type SortDirection } from "@/ui/components/SortDirectionButton";
 import { evaluateFilterNode, resolveDynamicPlaceholders, parseFilterConfig, type FilterGroup } from "@/tenant/views/filterEngine";
 
 import { Button } from "@/ui/shadcn/components/button";
@@ -48,6 +49,7 @@ export function MyTasksClient({
 }) {
   const [view, setView] = useState<ViewMode>("list");
   const [sortKey, setSortKey] = useState<SortKey>("dueDate");
+  const [sortDir, setSortDir] = useState<SortDirection>("asc");
   const [filterGroup, setFilterGroup] = useState<FilterGroup>(EMPTY_FILTER_GROUP);
 
   const statuses = useMemo(() => Array.from(new Set(tasks.map((t) => t.status))), [tasks]);
@@ -74,6 +76,9 @@ export function MyTasksClient({
     if (typeof sortConfig.sortKey === "string") {
       setSortKey(sortConfig.sortKey as SortKey);
     }
+    if (sortConfig.sortDir === "asc" || sortConfig.sortDir === "desc") {
+      setSortDir(sortConfig.sortDir);
+    }
   }
 
   const visibleTasks = useMemo(() => {
@@ -83,9 +88,9 @@ export function MyTasksClient({
     return [...filtered].sort((a, b) => {
       const aValue = a[sortKey] ?? "";
       const bValue = b[sortKey] ?? "";
-      return aValue.localeCompare(bValue);
+      return sortDir === "asc" ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
     });
-  }, [tasks, sortKey, filterGroup]);
+  }, [tasks, sortKey, sortDir, filterGroup]);
 
   return (
     <div className="pb-10">
@@ -121,6 +126,7 @@ export function MyTasksClient({
                   <SelectItem value="dueDate">Sortieren: Fälligkeit</SelectItem>
                 </SelectContent>
               </Select>
+              <SortDirectionButton direction={sortDir} onToggle={() => setSortDir((d) => (d === "asc" ? "desc" : "asc"))} />
               <FilterBuilderPopover fields={filterFields} value={filterGroup} onChange={setFilterGroup} />
             </>
           )}
@@ -136,7 +142,7 @@ export function MyTasksClient({
           getCurrentConfig={() => ({
             viewType: view,
             filterConfig: filterGroup as unknown as Record<string, unknown>,
-            sortConfig: { sortKey },
+            sortConfig: { sortKey, sortDir },
           })}
           onApply={applySavedView}
         />

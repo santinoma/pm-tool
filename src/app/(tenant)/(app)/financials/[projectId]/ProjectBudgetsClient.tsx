@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
 import { SavedViewsBar, type SavedViewRecord } from "@/ui/components/SavedViewsBar";
 import { FilterBuilderPopover, type FilterFieldOption } from "@/ui/components/FilterBuilderPopover";
+import { SortDirectionButton, type SortDirection } from "@/ui/components/SortDirectionButton";
 import { evaluateFilterNode, resolveDynamicPlaceholders, parseFilterConfig, type FilterGroup } from "@/tenant/views/filterEngine";
 
 const EMPTY_FILTER_GROUP: FilterGroup = { logic: "AND", rules: [] };
@@ -51,6 +52,7 @@ export function ProjectBudgetsClient({
   const [creating, setCreating] = useState(false);
   const [filterGroup, setFilterGroup] = useState<FilterGroup>(EMPTY_FILTER_GROUP);
   const [sortKey, setSortKey] = useState<SortKey>("title");
+  const [sortDir, setSortDir] = useState<SortDirection>("asc");
   const [title, setTitle] = useState("");
   const [ownerId, setOwnerId] = useState(users[0]?.id ?? "");
   const [isRetainer, setIsRetainer] = useState(false);
@@ -103,10 +105,12 @@ export function ProjectBudgetsClient({
   const visibleBudgets = useMemo(() => {
     const filtered = budgets.filter((b) => evaluateFilterNode(filterGroup, (field) => getBudgetFieldValue(b, field)));
     return [...filtered].sort((a, b) => {
-      if (sortKey === "budgetTotal") return b.budgetTotal - a.budgetTotal;
-      return a[sortKey].localeCompare(b[sortKey]);
+      if (sortKey === "budgetTotal") {
+        return sortDir === "asc" ? a.budgetTotal - b.budgetTotal : b.budgetTotal - a.budgetTotal;
+      }
+      return sortDir === "asc" ? a[sortKey].localeCompare(b[sortKey]) : b[sortKey].localeCompare(a[sortKey]);
     });
-  }, [budgets, filterGroup, sortKey]);
+  }, [budgets, filterGroup, sortKey, sortDir]);
 
   function applySavedView(view: SavedViewRecord) {
     const parsedGroup = parseFilterConfig(view.filterConfig);
@@ -114,6 +118,9 @@ export function ProjectBudgetsClient({
     const sortConfig = view.sortConfig ?? {};
     if (typeof sortConfig.sortKey === "string") {
       setSortKey(sortConfig.sortKey as SortKey);
+    }
+    if (sortConfig.sortDir === "asc" || sortConfig.sortDir === "desc") {
+      setSortDir(sortConfig.sortDir);
     }
   }
 
@@ -142,7 +149,7 @@ export function ProjectBudgetsClient({
           getCurrentConfig={() => ({
             viewType: "budgets",
             filterConfig: filterGroup as unknown as Record<string, unknown>,
-            sortConfig: { sortKey },
+            sortConfig: { sortKey, sortDir },
           })}
           onApply={applySavedView}
         />
@@ -155,6 +162,7 @@ export function ProjectBudgetsClient({
             <SelectItem value="budgetTotal">Sort: Budget Total</SelectItem>
           </SelectContent>
         </Select>
+        <SortDirectionButton direction={sortDir} onToggle={() => setSortDir((d) => (d === "asc" ? "desc" : "asc"))} />
       </div>
 
       {creating && (

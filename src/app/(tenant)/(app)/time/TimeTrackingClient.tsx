@@ -14,6 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/shadcn/components
 import { TimesheetMatrixClient } from "./TimesheetMatrixClient";
 import { SavedViewsBar, type SavedViewRecord } from "@/ui/components/SavedViewsBar";
 import { FilterBuilderPopover, type FilterFieldOption } from "@/ui/components/FilterBuilderPopover";
+import { SortDirectionButton, type SortDirection } from "@/ui/components/SortDirectionButton";
 import { evaluateFilterNode, resolveDynamicPlaceholders, parseFilterConfig, type FilterGroup } from "@/tenant/views/filterEngine";
 
 const EMPTY_FILTER_GROUP: FilterGroup = { logic: "AND", rules: [] };
@@ -108,6 +109,7 @@ export function TimeTrackingClient({
   const router = useRouter();
   const [filterGroup, setFilterGroup] = useState<FilterGroup>(EMPTY_FILTER_GROUP);
   const [entrySortKey, setEntrySortKey] = useState<EntrySortKey>("date");
+  const [entrySortDir, setEntrySortDir] = useState<SortDirection>("desc");
   const [elapsed, setElapsed] = useState(runningEntry ? formatElapsed(runningEntry.startedAt) : "");
   const [selectedTarget, setSelectedTarget] = useState("__none__");
   const [manualDuration, setManualDuration] = useState("");
@@ -167,11 +169,15 @@ export function TimeTrackingClient({
   const visibleEntries = useMemo(() => {
     const filtered = entries.filter((entry) => evaluateFilterNode(filterGroup, (field) => getEntryFieldValue(entry, field)));
     return [...filtered].sort((a, b) => {
-      if (entrySortKey === "durationMinutes") return b.durationMinutes - a.durationMinutes;
-      if (entrySortKey === "date") return b.date.localeCompare(a.date);
-      return a.label.localeCompare(b.label);
+      if (entrySortKey === "durationMinutes") {
+        return entrySortDir === "asc" ? a.durationMinutes - b.durationMinutes : b.durationMinutes - a.durationMinutes;
+      }
+      if (entrySortKey === "date") {
+        return entrySortDir === "asc" ? a.date.localeCompare(b.date) : b.date.localeCompare(a.date);
+      }
+      return entrySortDir === "asc" ? a.label.localeCompare(b.label) : b.label.localeCompare(a.label);
     });
-  }, [entries, filterGroup, entrySortKey]);
+  }, [entries, filterGroup, entrySortKey, entrySortDir]);
 
   function applySavedView(view: SavedViewRecord) {
     const parsedGroup = parseFilterConfig(view.filterConfig);
@@ -179,6 +185,9 @@ export function TimeTrackingClient({
     const sortConfig = view.sortConfig ?? {};
     if (typeof sortConfig.entrySortKey === "string") {
       setEntrySortKey(sortConfig.entrySortKey as EntrySortKey);
+    }
+    if (sortConfig.entrySortDir === "asc" || sortConfig.entrySortDir === "desc") {
+      setEntrySortDir(sortConfig.entrySortDir);
     }
   }
 
@@ -449,7 +458,7 @@ export function TimeTrackingClient({
             getCurrentConfig={() => ({
               viewType: "time_entries",
               filterConfig: filterGroup as unknown as Record<string, unknown>,
-              sortConfig: { entrySortKey },
+              sortConfig: { entrySortKey, entrySortDir },
             })}
             onApply={applySavedView}
           />
@@ -462,6 +471,7 @@ export function TimeTrackingClient({
               <SelectItem value="label">Sort: Task/Projekt</SelectItem>
             </SelectContent>
           </Select>
+          <SortDirectionButton direction={entrySortDir} onToggle={() => setEntrySortDir((d) => (d === "asc" ? "desc" : "asc"))} />
         </div>
       </div>
       <div className="overflow-hidden rounded-lg border">
