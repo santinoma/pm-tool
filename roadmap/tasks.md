@@ -42,7 +42,7 @@ Task weitermachen — nicht die ganze Phase anhalten.
 - [x] T211 `TenantSettings`: Work Time (Wochenstart, Arbeitstage, Person-Day-Stunden)
 - [x] T212 `TenantSettings`: Fiscal Year
 - [x] T213 Notifications-Settings-Seite mit echter Funktion
-- [ ] T214 Appearance-Settings-Seite mit echter Funktion
+- [x] T214 Appearance-Settings-Seite mit echter Funktion
 - [ ] T215 Recycle-Bin-Seite mit echter Funktion
 - [ ] T216 Employee-Fields-Seite mit echter Funktion
 
