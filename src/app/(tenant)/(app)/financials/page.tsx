@@ -13,6 +13,12 @@ export default async function FinancialsPage() {
   }
   const canManage = canManageMembers(context.currentUser.role);
 
+  const projects = await context.tenantDb.project.findMany({
+    where: canManage ? undefined : { members: { some: { userId: context.currentUser.id } } },
+    orderBy: { name: "asc" },
+    select: { id: true, name: true },
+  });
+
   const budgets = await context.tenantDb.budget.findMany({
     where: canManage ? undefined : { project: { members: { some: { userId: context.currentUser.id } } } },
     orderBy: { updatedAt: "desc" },
@@ -89,7 +95,7 @@ export default async function FinancialsPage() {
       entitledFeatures={Array.from(context.entitledFeatures)}
       pageTitle="Financials"
     >
-      <FinancialsClient budgets={rows} />
+      <FinancialsClient budgets={rows} projects={projects} />
     </AppShellNextElite>
   );
 }
