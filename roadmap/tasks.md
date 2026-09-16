@@ -17,8 +17,8 @@ Task weitermachen — nicht die ganze Phase anhalten.
 - [x] T102 Revenue Recognition: `straight_line` nur auf Fixed/Percentage, nicht T&M;
       `deliveredAt`-Fallback-Kette einbauen
 - [x] T103 Rate-Card-Auflösung: Standard- und Kunden-Rate-Card gemeinsam anbieten
-- [ ] T104 Offboarding: `Deal.ownerId` reassignen
-- [ ] T105 Offboarding: `AbsenceRequest.reviewedById` reassignen
+- [x] T104 Offboarding: `Deal.ownerId` reassignen
+- [x] T105 Offboarding: `AbsenceRequest.reviewedById` reassignen
 - [ ] T106 Invoicing "uninvoiced_time_expenses": Expenses tatsächlich einbeziehen
 - [ ] T107 `multi_select` Custom Fields in `CustomFieldInput.tsx` render-/auswählbar
       machen

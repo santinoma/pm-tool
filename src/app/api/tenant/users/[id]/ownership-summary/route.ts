@@ -5,6 +5,7 @@ import type { PrismaClient } from "@/generated/tenant-client/client.js";
 
 export interface OwnershipSummary {
   budgets: number;
+  deals: number;
   managedProjects: number;
   openTasks: number;
   projectMemberships: number;
@@ -14,6 +15,7 @@ export interface OwnershipSummary {
   privateSavedViews: number;
   savedReports: number;
   apiKeys: number;
+  reviewedAbsenceRequests: number;
 }
 
 /**
@@ -25,6 +27,7 @@ export interface OwnershipSummary {
 export async function getOwnershipSummary(tenantDb: PrismaClient, userId: string): Promise<OwnershipSummary> {
   const [
     budgets,
+    deals,
     managedProjects,
     openTasks,
     projectMemberships,
@@ -34,8 +37,10 @@ export async function getOwnershipSummary(tenantDb: PrismaClient, userId: string
     privateSavedViews,
     savedReports,
     apiKeys,
+    reviewedAbsenceRequests,
   ] = await Promise.all([
     tenantDb.budget.count({ where: { ownerId: userId } }),
+    tenantDb.deal.count({ where: { ownerId: userId } }),
     tenantDb.project.count({ where: { projectManagerId: userId } }),
     tenantDb.task.count({ where: { assigneeId: userId, status: { category: { not: "done" } } } }),
     tenantDb.projectMember.count({ where: { userId } }),
@@ -45,10 +50,12 @@ export async function getOwnershipSummary(tenantDb: PrismaClient, userId: string
     tenantDb.savedView.count({ where: { ownerId: userId, sharedWithAll: false } }),
     tenantDb.savedReport.count({ where: { ownerId: userId } }),
     tenantDb.apiKey.count({ where: { userId, revokedAt: null } }),
+    tenantDb.absenceRequest.count({ where: { reviewedById: userId } }),
   ]);
 
   return {
     budgets,
+    deals,
     managedProjects,
     openTasks,
     projectMemberships,
@@ -58,6 +65,7 @@ export async function getOwnershipSummary(tenantDb: PrismaClient, userId: string
     privateSavedViews,
     savedReports,
     apiKeys,
+    reviewedAbsenceRequests,
   };
 }
 

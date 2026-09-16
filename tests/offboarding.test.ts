@@ -127,6 +127,45 @@ describe("offboard user", () => {
     expect(memberships).toHaveLength(0);
   });
 
+  it("reassigns owned deals to the successor, and rejects offboarding without one", async () => {
+    const tenantDb = getTenantDbClient(tenant.dbUrl);
+    const client = await tenantDb.client.create({ data: { name: "Acme Corp" } });
+    const pipeline = await tenantDb.pipeline.create({ data: { name: "Sales" } });
+    const dealStatus = await tenantDb.dealStatus.create({
+      data: { pipelineId: pipeline.id, name: "Open", category: "open", position: 0 },
+    });
+    const deal = await tenantDb.deal.create({
+      data: { title: "Big Deal", companyId: client.id, statusId: dealStatus.id, ownerId: departing.id },
+    });
+
+    await expect(runOffboardUser(tenantDb, owner, departing.id, null)).rejects.toThrow(OffboardValidationError);
+
+    const result = await runOffboardUser(tenantDb, owner, departing.id, successor.id);
+    expect(result.counts.dealsReassigned).toBe(1);
+
+    const updatedDeal = await tenantDb.deal.findUniqueOrThrow({ where: { id: deal.id } });
+    expect(updatedDeal.ownerId).toBe(successor.id);
+  });
+
+  it("reassigns reviewed absence requests to the successor, or clears them without one", async () => {
+    const tenantDb = getTenantDbClient(tenant.dbUrl);
+    const request = await tenantDb.absenceRequest.create({
+      data: {
+        userId: departing.id,
+        type: "vacation",
+        startDate: new Date("2026-01-01"),
+        endDate: new Date("2026-01-05"),
+        reviewedById: departing.id,
+      },
+    });
+
+    const result = await runOffboardUser(tenantDb, owner, departing.id, successor.id);
+    expect(result.counts.absenceRequestsReassigned).toBe(1);
+
+    const updated = await tenantDb.absenceRequest.findUniqueOrThrow({ where: { id: request.id } });
+    expect(updated.reviewedById).toBe(successor.id);
+  });
+
   it("rejects offboarding without a successor when the user owns a non-nullable-owner budget", async () => {
     const tenantDb = getTenantDbClient(tenant.dbUrl);
     await tenantDb.budget.create({ data: { projectId, title: "Retainer", ownerId: departing.id } });
@@ -185,5 +224,7 @@ describe("ownership summary", () => {
     expect(summary.openTasks).toBe(1);
     expect(summary.projectMemberships).toBe(1);
     expect(summary.automationRules).toBe(1);
+    expect(summary.deals).toBe(0);
+    expect(summary.reviewedAbsenceRequests).toBe(0);
   });
 });
