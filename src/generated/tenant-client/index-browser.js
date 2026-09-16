@@ -527,6 +527,15 @@ exports.Prisma.TenantSettingsScalarFieldEnum = {
   resourcingEnabled: 'resourcingEnabled',
   timeApprovalEnabled: 'timeApprovalEnabled',
   timeEntrySubmissionEnabled: 'timeEntrySubmissionEnabled',
+  timeZone: 'timeZone',
+  timeFormat: 'timeFormat',
+  dateFormat: 'dateFormat',
+  numberFormat: 'numberFormat',
+  weekStartDay: 'weekStartDay',
+  workingDays: 'workingDays',
+  personDayHours: 'personDayHours',
+  fiscalYearEnabled: 'fiscalYearEnabled',
+  fiscalYearStartMonth: 'fiscalYearStartMonth',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -1121,6 +1130,22 @@ exports.TaskTShirtSize = exports.$Enums.TaskTShirtSize = {
 exports.TimeTrackingMode = exports.$Enums.TimeTrackingMode = {
   timer: 'timer',
   entries: 'entries'
+};
+
+exports.TimeFormat = exports.$Enums.TimeFormat = {
+  h12: 'h12',
+  h24: 'h24'
+};
+
+exports.DateFormat = exports.$Enums.DateFormat = {
+  dd_mm_yyyy: 'dd_mm_yyyy',
+  mm_dd_yyyy: 'mm_dd_yyyy',
+  yyyy_mm_dd: 'yyyy_mm_dd'
+};
+
+exports.NumberFormat = exports.$Enums.NumberFormat = {
+  comma_decimal: 'comma_decimal',
+  period_decimal: 'period_decimal'
 };
 
 exports.TimeEntryApprovalStatus = exports.$Enums.TimeEntryApprovalStatus = {

@@ -38,9 +38,9 @@ Task weitermachen — nicht die ganze Phase anhalten.
 - [ ] T208 Sortierrichtung (auf/absteigend) ergänzen
 
 ### Settings
-- [ ] T210 `TenantSettings`: Location & Format (Zeitzone, Datums-/Zahlenformat)
-- [ ] T211 `TenantSettings`: Work Time (Wochenstart, Arbeitstage, Person-Day-Stunden)
-- [ ] T212 `TenantSettings`: Fiscal Year
+- [x] T210 `TenantSettings`: Location & Format (Zeitzone, Datums-/Zahlenformat)
+- [x] T211 `TenantSettings`: Work Time (Wochenstart, Arbeitstage, Person-Day-Stunden)
+- [x] T212 `TenantSettings`: Fiscal Year
 - [ ] T213 Notifications-Settings-Seite mit echter Funktion
 - [ ] T214 Appearance-Settings-Seite mit echter Funktion
 - [ ] T215 Recycle-Bin-Seite mit echter Funktion

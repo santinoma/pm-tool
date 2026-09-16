@@ -714,8 +714,36 @@ model TenantSettings {
   resourcingEnabled            Boolean          @default(true)
   timeApprovalEnabled          Boolean          @default(true)
   timeEntrySubmissionEnabled   Boolean          @default(false)
+  // Location & Format (Productive: Settings > General > Location & Format).
+  timeZone                     String           @default("Europe/Berlin")
+  timeFormat                   TimeFormat       @default(h24)
+  dateFormat                   DateFormat       @default(dd_mm_yyyy)
+  numberFormat                 NumberFormat     @default(comma_decimal)
+  // Work Time (Productive: Settings > General > Work Time).
+  weekStartDay                 Int              @default(1) // 0 = Sonntag … 6 = Samstag
+  workingDays                  Int[]            @default([1, 2, 3, 4, 5])
+  personDayHours               Float            @default(8)
+  // Fiscal Year (Productive: Settings > General > Fiscal Year).
+  fiscalYearEnabled            Boolean          @default(false)
+  fiscalYearStartMonth         Int              @default(1) // 1 = Januar … 12 = Dezember
   createdAt                    DateTime         @default(now())
   updatedAt                    DateTime         @updatedAt
+}
+
+enum TimeFormat {
+  h12
+  h24
+}
+
+enum DateFormat {
+  dd_mm_yyyy
+  mm_dd_yyyy
+  yyyy_mm_dd
+}
+
+enum NumberFormat {
+  comma_decimal
+  period_decimal
 }
 
 model PendingLogin {

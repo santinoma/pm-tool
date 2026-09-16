@@ -31,6 +31,15 @@ export default async function OrganizationSettingsPage() {
           triageEnabled={settings.triageEnabled}
           require2fa={settings.require2fa}
           scimBearerToken={settings.scimBearerToken}
+          timeZone={settings.timeZone}
+          timeFormat={settings.timeFormat}
+          dateFormat={settings.dateFormat}
+          numberFormat={settings.numberFormat}
+          weekStartDay={settings.weekStartDay}
+          workingDays={settings.workingDays}
+          personDayHours={settings.personDayHours}
+          fiscalYearEnabled={settings.fiscalYearEnabled}
+          fiscalYearStartMonth={settings.fiscalYearStartMonth}
         />
         <SlackCaptureClient
           config={

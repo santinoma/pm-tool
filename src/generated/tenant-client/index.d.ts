@@ -560,6 +560,31 @@ export const TimeTrackingMode: {
 export type TimeTrackingMode = (typeof TimeTrackingMode)[keyof typeof TimeTrackingMode]
 
 
+export const TimeFormat: {
+  h12: 'h12',
+  h24: 'h24'
+};
+
+export type TimeFormat = (typeof TimeFormat)[keyof typeof TimeFormat]
+
+
+export const DateFormat: {
+  dd_mm_yyyy: 'dd_mm_yyyy',
+  mm_dd_yyyy: 'mm_dd_yyyy',
+  yyyy_mm_dd: 'yyyy_mm_dd'
+};
+
+export type DateFormat = (typeof DateFormat)[keyof typeof DateFormat]
+
+
+export const NumberFormat: {
+  comma_decimal: 'comma_decimal',
+  period_decimal: 'period_decimal'
+};
+
+export type NumberFormat = (typeof NumberFormat)[keyof typeof NumberFormat]
+
+
 export const TimeEntryApprovalStatus: {
   pending: 'pending',
   approved: 'approved',
@@ -837,6 +862,18 @@ export const TaskTShirtSize: typeof $Enums.TaskTShirtSize
 export type TimeTrackingMode = $Enums.TimeTrackingMode
 
 export const TimeTrackingMode: typeof $Enums.TimeTrackingMode
+
+export type TimeFormat = $Enums.TimeFormat
+
+export const TimeFormat: typeof $Enums.TimeFormat
+
+export type DateFormat = $Enums.DateFormat
+
+export const DateFormat: typeof $Enums.DateFormat
+
+export type NumberFormat = $Enums.NumberFormat
+
+export const NumberFormat: typeof $Enums.NumberFormat
 
 export type TimeEntryApprovalStatus = $Enums.TimeEntryApprovalStatus
 
@@ -57924,8 +57961,24 @@ export namespace Prisma {
 
   export type AggregateTenantSettings = {
     _count: TenantSettingsCountAggregateOutputType | null
+    _avg: TenantSettingsAvgAggregateOutputType | null
+    _sum: TenantSettingsSumAggregateOutputType | null
     _min: TenantSettingsMinAggregateOutputType | null
     _max: TenantSettingsMaxAggregateOutputType | null
+  }
+
+  export type TenantSettingsAvgAggregateOutputType = {
+    weekStartDay: number | null
+    workingDays: number | null
+    personDayHours: number | null
+    fiscalYearStartMonth: number | null
+  }
+
+  export type TenantSettingsSumAggregateOutputType = {
+    weekStartDay: number | null
+    workingDays: number[]
+    personDayHours: number | null
+    fiscalYearStartMonth: number | null
   }
 
   export type TenantSettingsMinAggregateOutputType = {
@@ -57941,6 +57994,14 @@ export namespace Prisma {
     resourcingEnabled: boolean | null
     timeApprovalEnabled: boolean | null
     timeEntrySubmissionEnabled: boolean | null
+    timeZone: string | null
+    timeFormat: $Enums.TimeFormat | null
+    dateFormat: $Enums.DateFormat | null
+    numberFormat: $Enums.NumberFormat | null
+    weekStartDay: number | null
+    personDayHours: number | null
+    fiscalYearEnabled: boolean | null
+    fiscalYearStartMonth: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -57958,6 +58019,14 @@ export namespace Prisma {
     resourcingEnabled: boolean | null
     timeApprovalEnabled: boolean | null
     timeEntrySubmissionEnabled: boolean | null
+    timeZone: string | null
+    timeFormat: $Enums.TimeFormat | null
+    dateFormat: $Enums.DateFormat | null
+    numberFormat: $Enums.NumberFormat | null
+    weekStartDay: number | null
+    personDayHours: number | null
+    fiscalYearEnabled: boolean | null
+    fiscalYearStartMonth: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -57975,11 +58044,34 @@ export namespace Prisma {
     resourcingEnabled: number
     timeApprovalEnabled: number
     timeEntrySubmissionEnabled: number
+    timeZone: number
+    timeFormat: number
+    dateFormat: number
+    numberFormat: number
+    weekStartDay: number
+    workingDays: number
+    personDayHours: number
+    fiscalYearEnabled: number
+    fiscalYearStartMonth: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
+
+  export type TenantSettingsAvgAggregateInputType = {
+    weekStartDay?: true
+    workingDays?: true
+    personDayHours?: true
+    fiscalYearStartMonth?: true
+  }
+
+  export type TenantSettingsSumAggregateInputType = {
+    weekStartDay?: true
+    workingDays?: true
+    personDayHours?: true
+    fiscalYearStartMonth?: true
+  }
 
   export type TenantSettingsMinAggregateInputType = {
     id?: true
@@ -57994,6 +58086,14 @@ export namespace Prisma {
     resourcingEnabled?: true
     timeApprovalEnabled?: true
     timeEntrySubmissionEnabled?: true
+    timeZone?: true
+    timeFormat?: true
+    dateFormat?: true
+    numberFormat?: true
+    weekStartDay?: true
+    personDayHours?: true
+    fiscalYearEnabled?: true
+    fiscalYearStartMonth?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -58011,6 +58111,14 @@ export namespace Prisma {
     resourcingEnabled?: true
     timeApprovalEnabled?: true
     timeEntrySubmissionEnabled?: true
+    timeZone?: true
+    timeFormat?: true
+    dateFormat?: true
+    numberFormat?: true
+    weekStartDay?: true
+    personDayHours?: true
+    fiscalYearEnabled?: true
+    fiscalYearStartMonth?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -58028,6 +58136,15 @@ export namespace Prisma {
     resourcingEnabled?: true
     timeApprovalEnabled?: true
     timeEntrySubmissionEnabled?: true
+    timeZone?: true
+    timeFormat?: true
+    dateFormat?: true
+    numberFormat?: true
+    weekStartDay?: true
+    workingDays?: true
+    personDayHours?: true
+    fiscalYearEnabled?: true
+    fiscalYearStartMonth?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -58071,6 +58188,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: TenantSettingsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TenantSettingsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: TenantSettingsMinAggregateInputType
@@ -58101,6 +58230,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: TenantSettingsCountAggregateInputType | true
+    _avg?: TenantSettingsAvgAggregateInputType
+    _sum?: TenantSettingsSumAggregateInputType
     _min?: TenantSettingsMinAggregateInputType
     _max?: TenantSettingsMaxAggregateInputType
   }
@@ -58118,9 +58249,20 @@ export namespace Prisma {
     resourcingEnabled: boolean
     timeApprovalEnabled: boolean
     timeEntrySubmissionEnabled: boolean
+    timeZone: string
+    timeFormat: $Enums.TimeFormat
+    dateFormat: $Enums.DateFormat
+    numberFormat: $Enums.NumberFormat
+    weekStartDay: number
+    workingDays: number[]
+    personDayHours: number
+    fiscalYearEnabled: boolean
+    fiscalYearStartMonth: number
     createdAt: Date
     updatedAt: Date
     _count: TenantSettingsCountAggregateOutputType | null
+    _avg: TenantSettingsAvgAggregateOutputType | null
+    _sum: TenantSettingsSumAggregateOutputType | null
     _min: TenantSettingsMinAggregateOutputType | null
     _max: TenantSettingsMaxAggregateOutputType | null
   }
@@ -58152,6 +58294,15 @@ export namespace Prisma {
     resourcingEnabled?: boolean
     timeApprovalEnabled?: boolean
     timeEntrySubmissionEnabled?: boolean
+    timeZone?: boolean
+    timeFormat?: boolean
+    dateFormat?: boolean
+    numberFormat?: boolean
+    weekStartDay?: boolean
+    workingDays?: boolean
+    personDayHours?: boolean
+    fiscalYearEnabled?: boolean
+    fiscalYearStartMonth?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["tenantSettings"]>
@@ -58169,6 +58320,15 @@ export namespace Prisma {
     resourcingEnabled?: boolean
     timeApprovalEnabled?: boolean
     timeEntrySubmissionEnabled?: boolean
+    timeZone?: boolean
+    timeFormat?: boolean
+    dateFormat?: boolean
+    numberFormat?: boolean
+    weekStartDay?: boolean
+    workingDays?: boolean
+    personDayHours?: boolean
+    fiscalYearEnabled?: boolean
+    fiscalYearStartMonth?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["tenantSettings"]>
@@ -58186,6 +58346,15 @@ export namespace Prisma {
     resourcingEnabled?: boolean
     timeApprovalEnabled?: boolean
     timeEntrySubmissionEnabled?: boolean
+    timeZone?: boolean
+    timeFormat?: boolean
+    dateFormat?: boolean
+    numberFormat?: boolean
+    weekStartDay?: boolean
+    workingDays?: boolean
+    personDayHours?: boolean
+    fiscalYearEnabled?: boolean
+    fiscalYearStartMonth?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["tenantSettings"]>
@@ -58203,11 +58372,20 @@ export namespace Prisma {
     resourcingEnabled?: boolean
     timeApprovalEnabled?: boolean
     timeEntrySubmissionEnabled?: boolean
+    timeZone?: boolean
+    timeFormat?: boolean
+    dateFormat?: boolean
+    numberFormat?: boolean
+    weekStartDay?: boolean
+    workingDays?: boolean
+    personDayHours?: boolean
+    fiscalYearEnabled?: boolean
+    fiscalYearStartMonth?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TenantSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "allowProjectLevelTimeEntries" | "currency" | "triageEnabled" | "timeTrackingMode" | "require2fa" | "scimBearerToken" | "crmEnabled" | "reportsEnabled" | "resourcingEnabled" | "timeApprovalEnabled" | "timeEntrySubmissionEnabled" | "createdAt" | "updatedAt", ExtArgs["result"]["tenantSettings"]>
+  export type TenantSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "allowProjectLevelTimeEntries" | "currency" | "triageEnabled" | "timeTrackingMode" | "require2fa" | "scimBearerToken" | "crmEnabled" | "reportsEnabled" | "resourcingEnabled" | "timeApprovalEnabled" | "timeEntrySubmissionEnabled" | "timeZone" | "timeFormat" | "dateFormat" | "numberFormat" | "weekStartDay" | "workingDays" | "personDayHours" | "fiscalYearEnabled" | "fiscalYearStartMonth" | "createdAt" | "updatedAt", ExtArgs["result"]["tenantSettings"]>
 
   export type $TenantSettingsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "TenantSettings"
@@ -58225,6 +58403,15 @@ export namespace Prisma {
       resourcingEnabled: boolean
       timeApprovalEnabled: boolean
       timeEntrySubmissionEnabled: boolean
+      timeZone: string
+      timeFormat: $Enums.TimeFormat
+      dateFormat: $Enums.DateFormat
+      numberFormat: $Enums.NumberFormat
+      weekStartDay: number
+      workingDays: number[]
+      personDayHours: number
+      fiscalYearEnabled: boolean
+      fiscalYearStartMonth: number
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["tenantSettings"]>
@@ -58662,6 +58849,15 @@ export namespace Prisma {
     readonly resourcingEnabled: FieldRef<"TenantSettings", 'Boolean'>
     readonly timeApprovalEnabled: FieldRef<"TenantSettings", 'Boolean'>
     readonly timeEntrySubmissionEnabled: FieldRef<"TenantSettings", 'Boolean'>
+    readonly timeZone: FieldRef<"TenantSettings", 'String'>
+    readonly timeFormat: FieldRef<"TenantSettings", 'TimeFormat'>
+    readonly dateFormat: FieldRef<"TenantSettings", 'DateFormat'>
+    readonly numberFormat: FieldRef<"TenantSettings", 'NumberFormat'>
+    readonly weekStartDay: FieldRef<"TenantSettings", 'Int'>
+    readonly workingDays: FieldRef<"TenantSettings", 'Int[]'>
+    readonly personDayHours: FieldRef<"TenantSettings", 'Float'>
+    readonly fiscalYearEnabled: FieldRef<"TenantSettings", 'Boolean'>
+    readonly fiscalYearStartMonth: FieldRef<"TenantSettings", 'Int'>
     readonly createdAt: FieldRef<"TenantSettings", 'DateTime'>
     readonly updatedAt: FieldRef<"TenantSettings", 'DateTime'>
   }
@@ -112328,6 +112524,15 @@ export namespace Prisma {
     resourcingEnabled: 'resourcingEnabled',
     timeApprovalEnabled: 'timeApprovalEnabled',
     timeEntrySubmissionEnabled: 'timeEntrySubmissionEnabled',
+    timeZone: 'timeZone',
+    timeFormat: 'timeFormat',
+    dateFormat: 'dateFormat',
+    numberFormat: 'numberFormat',
+    weekStartDay: 'weekStartDay',
+    workingDays: 'workingDays',
+    personDayHours: 'personDayHours',
+    fiscalYearEnabled: 'fiscalYearEnabled',
+    fiscalYearStartMonth: 'fiscalYearStartMonth',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -113255,6 +113460,48 @@ export namespace Prisma {
    * Reference to a field of type 'TimeTrackingMode[]'
    */
   export type ListEnumTimeTrackingModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TimeTrackingMode[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'TimeFormat'
+   */
+  export type EnumTimeFormatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TimeFormat'>
+    
+
+
+  /**
+   * Reference to a field of type 'TimeFormat[]'
+   */
+  export type ListEnumTimeFormatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TimeFormat[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateFormat'
+   */
+  export type EnumDateFormatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateFormat'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateFormat[]'
+   */
+  export type ListEnumDateFormatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateFormat[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'NumberFormat'
+   */
+  export type EnumNumberFormatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NumberFormat'>
+    
+
+
+  /**
+   * Reference to a field of type 'NumberFormat[]'
+   */
+  export type ListEnumNumberFormatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NumberFormat[]'>
     
 
 
@@ -116611,6 +116858,15 @@ export namespace Prisma {
     resourcingEnabled?: BoolFilter<"TenantSettings"> | boolean
     timeApprovalEnabled?: BoolFilter<"TenantSettings"> | boolean
     timeEntrySubmissionEnabled?: BoolFilter<"TenantSettings"> | boolean
+    timeZone?: StringFilter<"TenantSettings"> | string
+    timeFormat?: EnumTimeFormatFilter<"TenantSettings"> | $Enums.TimeFormat
+    dateFormat?: EnumDateFormatFilter<"TenantSettings"> | $Enums.DateFormat
+    numberFormat?: EnumNumberFormatFilter<"TenantSettings"> | $Enums.NumberFormat
+    weekStartDay?: IntFilter<"TenantSettings"> | number
+    workingDays?: IntNullableListFilter<"TenantSettings">
+    personDayHours?: FloatFilter<"TenantSettings"> | number
+    fiscalYearEnabled?: BoolFilter<"TenantSettings"> | boolean
+    fiscalYearStartMonth?: IntFilter<"TenantSettings"> | number
     createdAt?: DateTimeFilter<"TenantSettings"> | Date | string
     updatedAt?: DateTimeFilter<"TenantSettings"> | Date | string
   }
@@ -116628,6 +116884,15 @@ export namespace Prisma {
     resourcingEnabled?: SortOrder
     timeApprovalEnabled?: SortOrder
     timeEntrySubmissionEnabled?: SortOrder
+    timeZone?: SortOrder
+    timeFormat?: SortOrder
+    dateFormat?: SortOrder
+    numberFormat?: SortOrder
+    weekStartDay?: SortOrder
+    workingDays?: SortOrder
+    personDayHours?: SortOrder
+    fiscalYearEnabled?: SortOrder
+    fiscalYearStartMonth?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -116648,6 +116913,15 @@ export namespace Prisma {
     resourcingEnabled?: BoolFilter<"TenantSettings"> | boolean
     timeApprovalEnabled?: BoolFilter<"TenantSettings"> | boolean
     timeEntrySubmissionEnabled?: BoolFilter<"TenantSettings"> | boolean
+    timeZone?: StringFilter<"TenantSettings"> | string
+    timeFormat?: EnumTimeFormatFilter<"TenantSettings"> | $Enums.TimeFormat
+    dateFormat?: EnumDateFormatFilter<"TenantSettings"> | $Enums.DateFormat
+    numberFormat?: EnumNumberFormatFilter<"TenantSettings"> | $Enums.NumberFormat
+    weekStartDay?: IntFilter<"TenantSettings"> | number
+    workingDays?: IntNullableListFilter<"TenantSettings">
+    personDayHours?: FloatFilter<"TenantSettings"> | number
+    fiscalYearEnabled?: BoolFilter<"TenantSettings"> | boolean
+    fiscalYearStartMonth?: IntFilter<"TenantSettings"> | number
     createdAt?: DateTimeFilter<"TenantSettings"> | Date | string
     updatedAt?: DateTimeFilter<"TenantSettings"> | Date | string
   }, "id">
@@ -116665,11 +116939,22 @@ export namespace Prisma {
     resourcingEnabled?: SortOrder
     timeApprovalEnabled?: SortOrder
     timeEntrySubmissionEnabled?: SortOrder
+    timeZone?: SortOrder
+    timeFormat?: SortOrder
+    dateFormat?: SortOrder
+    numberFormat?: SortOrder
+    weekStartDay?: SortOrder
+    workingDays?: SortOrder
+    personDayHours?: SortOrder
+    fiscalYearEnabled?: SortOrder
+    fiscalYearStartMonth?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: TenantSettingsCountOrderByAggregateInput
+    _avg?: TenantSettingsAvgOrderByAggregateInput
     _max?: TenantSettingsMaxOrderByAggregateInput
     _min?: TenantSettingsMinOrderByAggregateInput
+    _sum?: TenantSettingsSumOrderByAggregateInput
   }
 
   export type TenantSettingsScalarWhereWithAggregatesInput = {
@@ -116688,6 +116973,15 @@ export namespace Prisma {
     resourcingEnabled?: BoolWithAggregatesFilter<"TenantSettings"> | boolean
     timeApprovalEnabled?: BoolWithAggregatesFilter<"TenantSettings"> | boolean
     timeEntrySubmissionEnabled?: BoolWithAggregatesFilter<"TenantSettings"> | boolean
+    timeZone?: StringWithAggregatesFilter<"TenantSettings"> | string
+    timeFormat?: EnumTimeFormatWithAggregatesFilter<"TenantSettings"> | $Enums.TimeFormat
+    dateFormat?: EnumDateFormatWithAggregatesFilter<"TenantSettings"> | $Enums.DateFormat
+    numberFormat?: EnumNumberFormatWithAggregatesFilter<"TenantSettings"> | $Enums.NumberFormat
+    weekStartDay?: IntWithAggregatesFilter<"TenantSettings"> | number
+    workingDays?: IntNullableListFilter<"TenantSettings">
+    personDayHours?: FloatWithAggregatesFilter<"TenantSettings"> | number
+    fiscalYearEnabled?: BoolWithAggregatesFilter<"TenantSettings"> | boolean
+    fiscalYearStartMonth?: IntWithAggregatesFilter<"TenantSettings"> | number
     createdAt?: DateTimeWithAggregatesFilter<"TenantSettings"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"TenantSettings"> | Date | string
   }
@@ -123271,6 +123565,15 @@ export namespace Prisma {
     resourcingEnabled?: boolean
     timeApprovalEnabled?: boolean
     timeEntrySubmissionEnabled?: boolean
+    timeZone?: string
+    timeFormat?: $Enums.TimeFormat
+    dateFormat?: $Enums.DateFormat
+    numberFormat?: $Enums.NumberFormat
+    weekStartDay?: number
+    workingDays?: TenantSettingsCreateworkingDaysInput | number[]
+    personDayHours?: number
+    fiscalYearEnabled?: boolean
+    fiscalYearStartMonth?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -123288,6 +123591,15 @@ export namespace Prisma {
     resourcingEnabled?: boolean
     timeApprovalEnabled?: boolean
     timeEntrySubmissionEnabled?: boolean
+    timeZone?: string
+    timeFormat?: $Enums.TimeFormat
+    dateFormat?: $Enums.DateFormat
+    numberFormat?: $Enums.NumberFormat
+    weekStartDay?: number
+    workingDays?: TenantSettingsCreateworkingDaysInput | number[]
+    personDayHours?: number
+    fiscalYearEnabled?: boolean
+    fiscalYearStartMonth?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -123305,6 +123617,15 @@ export namespace Prisma {
     resourcingEnabled?: BoolFieldUpdateOperationsInput | boolean
     timeApprovalEnabled?: BoolFieldUpdateOperationsInput | boolean
     timeEntrySubmissionEnabled?: BoolFieldUpdateOperationsInput | boolean
+    timeZone?: StringFieldUpdateOperationsInput | string
+    timeFormat?: EnumTimeFormatFieldUpdateOperationsInput | $Enums.TimeFormat
+    dateFormat?: EnumDateFormatFieldUpdateOperationsInput | $Enums.DateFormat
+    numberFormat?: EnumNumberFormatFieldUpdateOperationsInput | $Enums.NumberFormat
+    weekStartDay?: IntFieldUpdateOperationsInput | number
+    workingDays?: TenantSettingsUpdateworkingDaysInput | number[]
+    personDayHours?: FloatFieldUpdateOperationsInput | number
+    fiscalYearEnabled?: BoolFieldUpdateOperationsInput | boolean
+    fiscalYearStartMonth?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -123322,6 +123643,15 @@ export namespace Prisma {
     resourcingEnabled?: BoolFieldUpdateOperationsInput | boolean
     timeApprovalEnabled?: BoolFieldUpdateOperationsInput | boolean
     timeEntrySubmissionEnabled?: BoolFieldUpdateOperationsInput | boolean
+    timeZone?: StringFieldUpdateOperationsInput | string
+    timeFormat?: EnumTimeFormatFieldUpdateOperationsInput | $Enums.TimeFormat
+    dateFormat?: EnumDateFormatFieldUpdateOperationsInput | $Enums.DateFormat
+    numberFormat?: EnumNumberFormatFieldUpdateOperationsInput | $Enums.NumberFormat
+    weekStartDay?: IntFieldUpdateOperationsInput | number
+    workingDays?: TenantSettingsUpdateworkingDaysInput | number[]
+    personDayHours?: FloatFieldUpdateOperationsInput | number
+    fiscalYearEnabled?: BoolFieldUpdateOperationsInput | boolean
+    fiscalYearStartMonth?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -123339,6 +123669,15 @@ export namespace Prisma {
     resourcingEnabled?: boolean
     timeApprovalEnabled?: boolean
     timeEntrySubmissionEnabled?: boolean
+    timeZone?: string
+    timeFormat?: $Enums.TimeFormat
+    dateFormat?: $Enums.DateFormat
+    numberFormat?: $Enums.NumberFormat
+    weekStartDay?: number
+    workingDays?: TenantSettingsCreateworkingDaysInput | number[]
+    personDayHours?: number
+    fiscalYearEnabled?: boolean
+    fiscalYearStartMonth?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -123356,6 +123695,15 @@ export namespace Prisma {
     resourcingEnabled?: BoolFieldUpdateOperationsInput | boolean
     timeApprovalEnabled?: BoolFieldUpdateOperationsInput | boolean
     timeEntrySubmissionEnabled?: BoolFieldUpdateOperationsInput | boolean
+    timeZone?: StringFieldUpdateOperationsInput | string
+    timeFormat?: EnumTimeFormatFieldUpdateOperationsInput | $Enums.TimeFormat
+    dateFormat?: EnumDateFormatFieldUpdateOperationsInput | $Enums.DateFormat
+    numberFormat?: EnumNumberFormatFieldUpdateOperationsInput | $Enums.NumberFormat
+    weekStartDay?: IntFieldUpdateOperationsInput | number
+    workingDays?: TenantSettingsUpdateworkingDaysInput | number[]
+    personDayHours?: FloatFieldUpdateOperationsInput | number
+    fiscalYearEnabled?: BoolFieldUpdateOperationsInput | boolean
+    fiscalYearStartMonth?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -123373,6 +123721,15 @@ export namespace Prisma {
     resourcingEnabled?: BoolFieldUpdateOperationsInput | boolean
     timeApprovalEnabled?: BoolFieldUpdateOperationsInput | boolean
     timeEntrySubmissionEnabled?: BoolFieldUpdateOperationsInput | boolean
+    timeZone?: StringFieldUpdateOperationsInput | string
+    timeFormat?: EnumTimeFormatFieldUpdateOperationsInput | $Enums.TimeFormat
+    dateFormat?: EnumDateFormatFieldUpdateOperationsInput | $Enums.DateFormat
+    numberFormat?: EnumNumberFormatFieldUpdateOperationsInput | $Enums.NumberFormat
+    weekStartDay?: IntFieldUpdateOperationsInput | number
+    workingDays?: TenantSettingsUpdateworkingDaysInput | number[]
+    personDayHours?: FloatFieldUpdateOperationsInput | number
+    fiscalYearEnabled?: BoolFieldUpdateOperationsInput | boolean
+    fiscalYearStartMonth?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -129508,6 +129865,35 @@ export namespace Prisma {
     not?: NestedEnumTimeTrackingModeFilter<$PrismaModel> | $Enums.TimeTrackingMode
   }
 
+  export type EnumTimeFormatFilter<$PrismaModel = never> = {
+    equals?: $Enums.TimeFormat | EnumTimeFormatFieldRefInput<$PrismaModel>
+    in?: $Enums.TimeFormat[] | ListEnumTimeFormatFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TimeFormat[] | ListEnumTimeFormatFieldRefInput<$PrismaModel>
+    not?: NestedEnumTimeFormatFilter<$PrismaModel> | $Enums.TimeFormat
+  }
+
+  export type EnumDateFormatFilter<$PrismaModel = never> = {
+    equals?: $Enums.DateFormat | EnumDateFormatFieldRefInput<$PrismaModel>
+    in?: $Enums.DateFormat[] | ListEnumDateFormatFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DateFormat[] | ListEnumDateFormatFieldRefInput<$PrismaModel>
+    not?: NestedEnumDateFormatFilter<$PrismaModel> | $Enums.DateFormat
+  }
+
+  export type EnumNumberFormatFilter<$PrismaModel = never> = {
+    equals?: $Enums.NumberFormat | EnumNumberFormatFieldRefInput<$PrismaModel>
+    in?: $Enums.NumberFormat[] | ListEnumNumberFormatFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NumberFormat[] | ListEnumNumberFormatFieldRefInput<$PrismaModel>
+    not?: NestedEnumNumberFormatFilter<$PrismaModel> | $Enums.NumberFormat
+  }
+
+  export type IntNullableListFilter<$PrismaModel = never> = {
+    equals?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    has?: number | IntFieldRefInput<$PrismaModel> | null
+    hasEvery?: number[] | ListIntFieldRefInput<$PrismaModel>
+    hasSome?: number[] | ListIntFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type TenantSettingsCountOrderByAggregateInput = {
     id?: SortOrder
     allowProjectLevelTimeEntries?: SortOrder
@@ -129521,8 +129907,24 @@ export namespace Prisma {
     resourcingEnabled?: SortOrder
     timeApprovalEnabled?: SortOrder
     timeEntrySubmissionEnabled?: SortOrder
+    timeZone?: SortOrder
+    timeFormat?: SortOrder
+    dateFormat?: SortOrder
+    numberFormat?: SortOrder
+    weekStartDay?: SortOrder
+    workingDays?: SortOrder
+    personDayHours?: SortOrder
+    fiscalYearEnabled?: SortOrder
+    fiscalYearStartMonth?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type TenantSettingsAvgOrderByAggregateInput = {
+    weekStartDay?: SortOrder
+    workingDays?: SortOrder
+    personDayHours?: SortOrder
+    fiscalYearStartMonth?: SortOrder
   }
 
   export type TenantSettingsMaxOrderByAggregateInput = {
@@ -129538,6 +129940,14 @@ export namespace Prisma {
     resourcingEnabled?: SortOrder
     timeApprovalEnabled?: SortOrder
     timeEntrySubmissionEnabled?: SortOrder
+    timeZone?: SortOrder
+    timeFormat?: SortOrder
+    dateFormat?: SortOrder
+    numberFormat?: SortOrder
+    weekStartDay?: SortOrder
+    personDayHours?: SortOrder
+    fiscalYearEnabled?: SortOrder
+    fiscalYearStartMonth?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -129555,8 +129965,23 @@ export namespace Prisma {
     resourcingEnabled?: SortOrder
     timeApprovalEnabled?: SortOrder
     timeEntrySubmissionEnabled?: SortOrder
+    timeZone?: SortOrder
+    timeFormat?: SortOrder
+    dateFormat?: SortOrder
+    numberFormat?: SortOrder
+    weekStartDay?: SortOrder
+    personDayHours?: SortOrder
+    fiscalYearEnabled?: SortOrder
+    fiscalYearStartMonth?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type TenantSettingsSumOrderByAggregateInput = {
+    weekStartDay?: SortOrder
+    workingDays?: SortOrder
+    personDayHours?: SortOrder
+    fiscalYearStartMonth?: SortOrder
   }
 
   export type EnumTimeTrackingModeWithAggregatesFilter<$PrismaModel = never> = {
@@ -129567,6 +129992,36 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTimeTrackingModeFilter<$PrismaModel>
     _max?: NestedEnumTimeTrackingModeFilter<$PrismaModel>
+  }
+
+  export type EnumTimeFormatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TimeFormat | EnumTimeFormatFieldRefInput<$PrismaModel>
+    in?: $Enums.TimeFormat[] | ListEnumTimeFormatFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TimeFormat[] | ListEnumTimeFormatFieldRefInput<$PrismaModel>
+    not?: NestedEnumTimeFormatWithAggregatesFilter<$PrismaModel> | $Enums.TimeFormat
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTimeFormatFilter<$PrismaModel>
+    _max?: NestedEnumTimeFormatFilter<$PrismaModel>
+  }
+
+  export type EnumDateFormatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DateFormat | EnumDateFormatFieldRefInput<$PrismaModel>
+    in?: $Enums.DateFormat[] | ListEnumDateFormatFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DateFormat[] | ListEnumDateFormatFieldRefInput<$PrismaModel>
+    not?: NestedEnumDateFormatWithAggregatesFilter<$PrismaModel> | $Enums.DateFormat
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDateFormatFilter<$PrismaModel>
+    _max?: NestedEnumDateFormatFilter<$PrismaModel>
+  }
+
+  export type EnumNumberFormatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NumberFormat | EnumNumberFormatFieldRefInput<$PrismaModel>
+    in?: $Enums.NumberFormat[] | ListEnumNumberFormatFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NumberFormat[] | ListEnumNumberFormatFieldRefInput<$PrismaModel>
+    not?: NestedEnumNumberFormatWithAggregatesFilter<$PrismaModel> | $Enums.NumberFormat
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNumberFormatFilter<$PrismaModel>
+    _max?: NestedEnumNumberFormatFilter<$PrismaModel>
   }
 
   export type PendingLoginCountOrderByAggregateInput = {
@@ -137786,8 +138241,29 @@ export namespace Prisma {
     deleteMany?: SharedWikiLinkScalarWhereInput | SharedWikiLinkScalarWhereInput[]
   }
 
+  export type TenantSettingsCreateworkingDaysInput = {
+    set: number[]
+  }
+
   export type EnumTimeTrackingModeFieldUpdateOperationsInput = {
     set?: $Enums.TimeTrackingMode
+  }
+
+  export type EnumTimeFormatFieldUpdateOperationsInput = {
+    set?: $Enums.TimeFormat
+  }
+
+  export type EnumDateFormatFieldUpdateOperationsInput = {
+    set?: $Enums.DateFormat
+  }
+
+  export type EnumNumberFormatFieldUpdateOperationsInput = {
+    set?: $Enums.NumberFormat
+  }
+
+  export type TenantSettingsUpdateworkingDaysInput = {
+    set?: number[]
+    push?: number | number[]
   }
 
   export type UserCreateNestedOneWithoutPendingLoginsInput = {
@@ -141118,6 +141594,27 @@ export namespace Prisma {
     not?: NestedEnumTimeTrackingModeFilter<$PrismaModel> | $Enums.TimeTrackingMode
   }
 
+  export type NestedEnumTimeFormatFilter<$PrismaModel = never> = {
+    equals?: $Enums.TimeFormat | EnumTimeFormatFieldRefInput<$PrismaModel>
+    in?: $Enums.TimeFormat[] | ListEnumTimeFormatFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TimeFormat[] | ListEnumTimeFormatFieldRefInput<$PrismaModel>
+    not?: NestedEnumTimeFormatFilter<$PrismaModel> | $Enums.TimeFormat
+  }
+
+  export type NestedEnumDateFormatFilter<$PrismaModel = never> = {
+    equals?: $Enums.DateFormat | EnumDateFormatFieldRefInput<$PrismaModel>
+    in?: $Enums.DateFormat[] | ListEnumDateFormatFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DateFormat[] | ListEnumDateFormatFieldRefInput<$PrismaModel>
+    not?: NestedEnumDateFormatFilter<$PrismaModel> | $Enums.DateFormat
+  }
+
+  export type NestedEnumNumberFormatFilter<$PrismaModel = never> = {
+    equals?: $Enums.NumberFormat | EnumNumberFormatFieldRefInput<$PrismaModel>
+    in?: $Enums.NumberFormat[] | ListEnumNumberFormatFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NumberFormat[] | ListEnumNumberFormatFieldRefInput<$PrismaModel>
+    not?: NestedEnumNumberFormatFilter<$PrismaModel> | $Enums.NumberFormat
+  }
+
   export type NestedEnumTimeTrackingModeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.TimeTrackingMode | EnumTimeTrackingModeFieldRefInput<$PrismaModel>
     in?: $Enums.TimeTrackingMode[] | ListEnumTimeTrackingModeFieldRefInput<$PrismaModel>
@@ -141126,6 +141623,36 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTimeTrackingModeFilter<$PrismaModel>
     _max?: NestedEnumTimeTrackingModeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumTimeFormatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TimeFormat | EnumTimeFormatFieldRefInput<$PrismaModel>
+    in?: $Enums.TimeFormat[] | ListEnumTimeFormatFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TimeFormat[] | ListEnumTimeFormatFieldRefInput<$PrismaModel>
+    not?: NestedEnumTimeFormatWithAggregatesFilter<$PrismaModel> | $Enums.TimeFormat
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTimeFormatFilter<$PrismaModel>
+    _max?: NestedEnumTimeFormatFilter<$PrismaModel>
+  }
+
+  export type NestedEnumDateFormatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DateFormat | EnumDateFormatFieldRefInput<$PrismaModel>
+    in?: $Enums.DateFormat[] | ListEnumDateFormatFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DateFormat[] | ListEnumDateFormatFieldRefInput<$PrismaModel>
+    not?: NestedEnumDateFormatWithAggregatesFilter<$PrismaModel> | $Enums.DateFormat
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDateFormatFilter<$PrismaModel>
+    _max?: NestedEnumDateFormatFilter<$PrismaModel>
+  }
+
+  export type NestedEnumNumberFormatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NumberFormat | EnumNumberFormatFieldRefInput<$PrismaModel>
+    in?: $Enums.NumberFormat[] | ListEnumNumberFormatFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NumberFormat[] | ListEnumNumberFormatFieldRefInput<$PrismaModel>
+    not?: NestedEnumNumberFormatWithAggregatesFilter<$PrismaModel> | $Enums.NumberFormat
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNumberFormatFilter<$PrismaModel>
+    _max?: NestedEnumNumberFormatFilter<$PrismaModel>
   }
 
   export type NestedEnumTimeEntryApprovalStatusFilter<$PrismaModel = never> = {
