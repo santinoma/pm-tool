@@ -39,8 +39,8 @@ export default async function ListPage({ params }: { params: Promise<{ id: strin
     context.tenantDb.user.findMany({ where: { isActive: true }, orderBy: { createdAt: "asc" } }),
     getEffectiveCustomFields(context.tenantDb, id, "task"),
     context.tenantDb.taskFolder.findMany({
-      where: { projectId: id },
-      include: { lists: { orderBy: { position: "asc" } } },
+      where: { projectId: id, archived: false },
+      include: { lists: { where: { archived: false }, orderBy: { position: "asc" } } },
       orderBy: { position: "asc" },
     }),
     context.tenantDb.savedView.findMany({

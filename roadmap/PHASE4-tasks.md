@@ -154,7 +154,7 @@ gekoppelt. Eine eigene `resourcing_manage`-Berechtigung dafür wäre ein sinnvol
 Folgeschritt, aber ein neuer, separat zu bewertender Scope — nicht Teil dieses
 Durchgangs.
 
-## T404 — Task-Struktur: Folders/Task-Lists-Lücken (NEU gefunden, nicht behoben)
+## T404 — Task-Struktur: Folders/Task-Lists-Lücken (T404.1 BEHOBEN, T404.2-8 offen)
 
 Zweiter Recherche-/Audit-Durchlauf (Task-Hierarchie-Artikel: "Task Folders", "Task
 Lists", "Duplicating Tasks/Lists/Folders") deckte auf, dass Task Folders/Lists in dieser
@@ -167,30 +167,53 @@ strukturell mehrfach vom dokumentierten Productive-Verhalten abweichen:
 | 2 | Default-Folder (Bookmark) | fehlt | Kein `isDefault`-Feld auf `TaskFolder` |
 | 3 | Folder in anderes Projekt verschieben (inkl. Renumbering/Dependency/Custom-Field/Status-Remap) | fehlt | PATCH-Route unterstützt keinen `projectId`-Wechsel |
 | 4 | Folder duplizieren | fehlt | Keine Duplicate-Route für `task-folders` |
-| 5 | Folder archivieren + wiederherstellen | fehlt | `DELETE` ist Hard-Delete, kein `archived`-Feld |
+| 5 | Folder archivieren + wiederherstellen | **behoben (T404.1)** | `archived`-Feld + kaskadierendes Archivieren der Listen, Restore-Panel |
 | 6 | Private/Client-versteckte Folders | fehlt | Kein Client-Access-Feld auf `TaskFolder` |
 | 7 | "Ohne Liste"-Gruppe nur in "Alle Folder"-Ansicht | teilweise | Gruppierung existiert, aber keine Folder-Navigation in List/Board, die diese Sichtbarkeitsregel überhaupt bräuchte |
 | 8 | Task-List in anderes Projekt/Folder verschieben | teilweise | PATCH unterstützt weder `folderId`- noch `projectId`-Wechsel |
 | 9 | Task-List duplizieren (inkl. abhängiger Tasks) | fehlt | Keine Duplicate-Route |
-| 10 | Task-Lists nicht löschbar, nur archivierbar | **widerspricht Doku** | Aktuell echtes Hard-Delete (Gegenteil von Productive) |
+| 10 | Task-Lists nicht löschbar, nur archivierbar | **behoben (T404.1)** | `DELETE` archiviert jetzt (statt zu löschen); Tasks behalten ihre Listen-Zuordnung |
 | 11 | CSV-Import in eine bestimmte Task-List | teilweise | Import ist projekt-, nicht listen-scoped |
 | 12 | Export (PDF/CSV/XLS) | teilweise | Nur CSV vorhanden, kein PDF/XLS |
 | 13 | Einzelnen Task duplizieren (mit Auswahl was kopiert wird) | fehlt | Keine Duplicate-Action für Tasks |
 | 14 | Mehrere Tasks bulk-duplizieren | fehlt | Bulk-Actions-Leiste kennt nur Status/Assignee/Termin/Löschen |
 | 15 | Drag&Drop zwischen Listen (projekt-intern), deaktiviert in globaler Tasks-Ansicht | teilweise | Nur Board-Status-Spalten haben natives HTML5-DnD; List/My-Tasks haben gar kein DnD |
 
-**Größte Einzellücke:** #10 (Hard-Delete statt Archivieren) ist ein echter
-Verhaltens-Widerspruch zur Doku, nicht nur eine fehlende Komfort-Funktion — Nutzer
-verlieren aktuell endgültig Daten, wo Productive nur eine reversible Archivierung
-vorsieht. Sollte bei der Umsetzung Priorität vor den reinen Komfort-Lücken (Duplicate,
-PDF-Export) bekommen.
+**Größte Einzellücke (BEHOBEN, 17.09.2026 Folgedurchgang):** #10 (Hard-Delete statt
+Archivieren) war ein echter Verhaltens-Widerspruch zur Doku, nicht nur eine fehlende
+Komfort-Funktion — Nutzer verloren endgültig Daten, wo Productive nur eine reversible
+Archivierung vorsieht. Priorität vor den reinen Komfort-Lücken (Duplicate, PDF-Export)
+bekommen, wie hier vorgemerkt.
 
-**Umsetzung:** noch nicht begonnen — eigener, mehrteiliger Anlauf nötig (Archivierungs-
-Infrastruktur ist Voraussetzung für #3/#5/#10 gemeinsam, dann Move/Duplicate als
-eigene Schritte). Als Task-Liste hier dokumentiert, nicht in einem Durchgang mit T401-T403
-erledigt.
+**T404.1 — Umsetzung:**
+- `TaskFolder.archived`/`TaskListGroup.archived` (neue Felder, Migration
+  `20260917020000_task_folder_list_archive`).
+- `DELETE /api/tenant/task-folders/[id]`: archiviert den Ordner UND kaskadiert das
+  Archivieren auf seine Listen (statt der alten 409-Ablehnung bei nicht-leeren Ordnern —
+  die brauchte es jetzt nicht mehr, da nichts mehr verloren geht). `DELETE
+  /api/tenant/task-list-groups/[id]`: archiviert die Liste; Tasks behalten ihre
+  `taskListGroupId` (kein Nullen mehr nötig — die Liste existiert ja weiterhin, nur
+  ausgeblendet).
+- Restore: derselbe `PATCH`-Endpunkt beider Routen akzeptiert jetzt `archived: false`.
+  Folder-Restore stellt NICHT automatisch die zuvor mitarchivierten Listen wieder her
+  (bewusst — verhindert überraschende Masse-Wiederherstellung einzeln archivierter
+  Listen), die werden einzeln restauriert.
+- Aktive Ansichten (Listen-Ansicht, Task-Detail-Picker, `GET /api/tenant/task-folders`)
+  filtern jetzt `archived: false` auf Ordner UND verschachtelten Listen. Die
+  Projekt-Settings-Seite (`/projects/[id]/settings/task-lists`) ist bewusst die
+  Ausnahme — lädt weiterhin ALLE (auch archivierte) für das neue Restore-Panel.
+- `TaskListsEditorClient.tsx`: "Löschen"-Buttons heißen jetzt "Archivieren"
+  (Ordner-Archivieren mit `window.confirm`, da es auf enthaltene Listen kaskadiert;
+  Listen-Archivieren ohne Confirm, da vollständig reversibel ohne Kaskadenwirkung). Neue
+  "Archivierte Ordner"-Sektion (einklappbar) + inline "Archivierte Listen"-Unterliste je
+  Ordner, je mit "Wiederherstellen"-Button.
 
-- [ ] T404.1 Archivieren statt Hard-Delete für `TaskFolder` + `TaskListGroup` (+ Restore-Panel)
+**Bewusst nicht Teil von T404.1** (siehe #3/#8 in der Tabelle oben, weiterhin offen):
+Folder/Liste in ein ANDERES Projekt verschieben (inkl. Renumbering/Dependency/Custom-
+Field/Status-Remap) ist ein eigenständiges, größeres Feature und keine
+Archivierungs-Voraussetzung — bleibt in T404.3 vorgemerkt.
+
+- [x] T404.1 Archivieren statt Hard-Delete für `TaskFolder` + `TaskListGroup` (+ Restore-Panel)
 - [ ] T404.2 Default-Folder (Bookmark) + Folder-Picker in List/Board-Navigation
 - [ ] T404.3 Folder/Task-List in anderes Projekt verschieben (Renumbering/Dependency/Custom-Field/Status-Remap-Regeln wie Doku)
 - [ ] T404.4 Folder/Task-List duplizieren
@@ -201,9 +224,10 @@ erledigt.
 
 ## Weiteres Vorgehen
 
-`T402` wird in diesem Durchgang umgesetzt (Code folgt in diesem Commit/den nächsten).
-`T404` bleibt als dokumentierte, priorisierte Lückenliste für einen eigenen, künftigen
-Anlauf stehen (zu groß für einen Durchgang, siehe Größenordnung in `T404`s Tabelle).
+`T402` und `T403` sind umgesetzt. Von `T404` ist die höchstpriorisierte Einzellücke
+(T404.1, Archivieren statt Hard-Delete) ebenfalls umgesetzt; T404.2-8 bleiben als
+dokumentierte, priorisierte Lückenliste für einen eigenen, künftigen Anlauf stehen (zu
+groß für einen Durchgang, siehe Größenordnung in `T404`s Tabelle).
 Ein noch breiterer, modulübergreifender Doku-Neudurchlauf (CRM/Deals, Docs, Reports,
 Resourcing, Integrations — jenseits von Tasks/Permissions) wurde in diesem Durchgang
 NICHT vollständig erneut durchgeführt, da diese Module bereits über bestehende

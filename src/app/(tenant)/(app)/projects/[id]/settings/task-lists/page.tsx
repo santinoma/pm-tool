@@ -16,6 +16,10 @@ export default async function TaskListsSettingsPage({
     redirect("/login");
   }
 
+  // T404.1: die Settings-Seite ist der einzige Ort, an dem auch archivierte
+  // Ordner/Listen geladen werden (zum Wiederherstellen) — alle anderen
+  // Ansichten (Listen-Ansicht, Task-Detail-Picker, GET /api/tenant/task-folders)
+  // blenden archivierte Einträge aus.
   const folders = await context.tenantDb.taskFolder.findMany({
     where: { projectId: id },
     include: { lists: { orderBy: { position: "asc" } } },
@@ -30,7 +34,8 @@ export default async function TaskListsSettingsPage({
         id: folder.id,
         name: folder.name,
         position: folder.position,
-        lists: folder.lists.map((list) => ({ id: list.id, name: list.name, position: list.position })),
+        archived: folder.archived,
+        lists: folder.lists.map((list) => ({ id: list.id, name: list.name, position: list.position, archived: list.archived })),
       }))}
     />
   );

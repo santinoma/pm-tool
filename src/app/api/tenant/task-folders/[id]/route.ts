@@ -26,6 +26,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     data: {
       name: typeof body.name === "string" ? body.name : undefined,
       position: typeof body.position === "number" ? body.position : undefined,
+      // T404.1: Restore läuft über denselben PATCH-Endpunkt (archived: false).
+      archived: typeof body.archived === "boolean" ? body.archived : undefined,
     },
     include: { lists: { orderBy: { position: "asc" } } },
   });
@@ -46,20 +48,16 @@ export async function DELETE(_request: Request, { params }: { params: Promise<{ 
   );
   if (denied) return denied;
 
-  // Design decision: rather than cascading (deleting lists + nulling out task
-  // assignments) on folder delete, we reject the deletion while the folder
-  // still has lists — the caller must move/delete the lists first. This keeps
-  // folder deletion a single, side-effect-free operation and avoids silently
-  // orphaning many tasks across possibly-unrelated lists in one request.
-  const listCount = await context.tenantDb.taskListGroup.count({ where: { folderId: id } });
-  if (listCount > 0) {
-    return NextResponse.json(
-      { error: "Ordner enthält noch Listen. Bitte zuerst die Listen verschieben oder löschen." },
-      { status: 409 },
-    );
-  }
-
-  await context.tenantDb.taskFolder.delete({ where: { id } });
+  // T404.1 (Productive-Doku: Folders sind archivierbar, nicht endgültig
+  // löschbar — vorheriges Verhalten war ein echter Widerspruch zur Doku).
+  // "Löschen" archiviert jetzt den Ordner UND kaskadiert das Archivieren auf
+  // seine Listen (nicht umgekehrt beim Wiederherstellen — Listen werden
+  // einzeln restauriert), statt Tasks/Listen zu verlieren oder die Aktion
+  // bei vorhandenen Listen abzulehnen.
+  await context.tenantDb.$transaction([
+    context.tenantDb.taskListGroup.updateMany({ where: { folderId: id }, data: { archived: true } }),
+    context.tenantDb.taskFolder.update({ where: { id }, data: { archived: true } }),
+  ]);
 
   return NextResponse.json({ ok: true });
 }

@@ -423,6 +423,11 @@ model TaskFolder {
   projectId String
   name      String
   position  Int             @default(0)
+  // T404.1: Productive-Dokupflicht — Folders/Task-Lists sind archivierbar,
+  // nicht endgültig löschbar. Archivieren eines Folders kaskadiert auf seine
+  // TaskListGroups (siehe DELETE-Handler); Wiederherstellen ist pro
+  // Folder/Liste einzeln (kein Auto-Restore der Listen beim Folder-Restore).
+  archived  Boolean         @default(false)
   createdAt DateTime        @default(now())
   lists     TaskListGroup[]
 }
@@ -433,6 +438,7 @@ model TaskListGroup {
   folderId  String
   name      String
   position  Int        @default(0)
+  archived  Boolean    @default(false)
   createdAt DateTime   @default(now())
   tasks     Task[]
 }

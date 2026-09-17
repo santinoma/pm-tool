@@ -34683,6 +34683,7 @@ export namespace Prisma {
     projectId: string | null
     name: string | null
     position: number | null
+    archived: boolean | null
     createdAt: Date | null
   }
 
@@ -34691,6 +34692,7 @@ export namespace Prisma {
     projectId: string | null
     name: string | null
     position: number | null
+    archived: boolean | null
     createdAt: Date | null
   }
 
@@ -34699,6 +34701,7 @@ export namespace Prisma {
     projectId: number
     name: number
     position: number
+    archived: number
     createdAt: number
     _all: number
   }
@@ -34717,6 +34720,7 @@ export namespace Prisma {
     projectId?: true
     name?: true
     position?: true
+    archived?: true
     createdAt?: true
   }
 
@@ -34725,6 +34729,7 @@ export namespace Prisma {
     projectId?: true
     name?: true
     position?: true
+    archived?: true
     createdAt?: true
   }
 
@@ -34733,6 +34738,7 @@ export namespace Prisma {
     projectId?: true
     name?: true
     position?: true
+    archived?: true
     createdAt?: true
     _all?: true
   }
@@ -34828,6 +34834,7 @@ export namespace Prisma {
     projectId: string
     name: string
     position: number
+    archived: boolean
     createdAt: Date
     _count: TaskFolderCountAggregateOutputType | null
     _avg: TaskFolderAvgAggregateOutputType | null
@@ -34855,6 +34862,7 @@ export namespace Prisma {
     projectId?: boolean
     name?: boolean
     position?: boolean
+    archived?: boolean
     createdAt?: boolean
     project?: boolean | ProjectDefaultArgs<ExtArgs>
     lists?: boolean | TaskFolder$listsArgs<ExtArgs>
@@ -34866,6 +34874,7 @@ export namespace Prisma {
     projectId?: boolean
     name?: boolean
     position?: boolean
+    archived?: boolean
     createdAt?: boolean
     project?: boolean | ProjectDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["taskFolder"]>
@@ -34875,6 +34884,7 @@ export namespace Prisma {
     projectId?: boolean
     name?: boolean
     position?: boolean
+    archived?: boolean
     createdAt?: boolean
     project?: boolean | ProjectDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["taskFolder"]>
@@ -34884,10 +34894,11 @@ export namespace Prisma {
     projectId?: boolean
     name?: boolean
     position?: boolean
+    archived?: boolean
     createdAt?: boolean
   }
 
-  export type TaskFolderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "projectId" | "name" | "position" | "createdAt", ExtArgs["result"]["taskFolder"]>
+  export type TaskFolderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "projectId" | "name" | "position" | "archived" | "createdAt", ExtArgs["result"]["taskFolder"]>
   export type TaskFolderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     project?: boolean | ProjectDefaultArgs<ExtArgs>
     lists?: boolean | TaskFolder$listsArgs<ExtArgs>
@@ -34911,6 +34922,7 @@ export namespace Prisma {
       projectId: string
       name: string
       position: number
+      archived: boolean
       createdAt: Date
     }, ExtArgs["result"]["taskFolder"]>
     composites: {}
@@ -35341,6 +35353,7 @@ export namespace Prisma {
     readonly projectId: FieldRef<"TaskFolder", 'String'>
     readonly name: FieldRef<"TaskFolder", 'String'>
     readonly position: FieldRef<"TaskFolder", 'Int'>
+    readonly archived: FieldRef<"TaskFolder", 'Boolean'>
     readonly createdAt: FieldRef<"TaskFolder", 'DateTime'>
   }
     
@@ -35810,6 +35823,7 @@ export namespace Prisma {
     folderId: string | null
     name: string | null
     position: number | null
+    archived: boolean | null
     createdAt: Date | null
   }
 
@@ -35818,6 +35832,7 @@ export namespace Prisma {
     folderId: string | null
     name: string | null
     position: number | null
+    archived: boolean | null
     createdAt: Date | null
   }
 
@@ -35826,6 +35841,7 @@ export namespace Prisma {
     folderId: number
     name: number
     position: number
+    archived: number
     createdAt: number
     _all: number
   }
@@ -35844,6 +35860,7 @@ export namespace Prisma {
     folderId?: true
     name?: true
     position?: true
+    archived?: true
     createdAt?: true
   }
 
@@ -35852,6 +35869,7 @@ export namespace Prisma {
     folderId?: true
     name?: true
     position?: true
+    archived?: true
     createdAt?: true
   }
 
@@ -35860,6 +35878,7 @@ export namespace Prisma {
     folderId?: true
     name?: true
     position?: true
+    archived?: true
     createdAt?: true
     _all?: true
   }
@@ -35955,6 +35974,7 @@ export namespace Prisma {
     folderId: string
     name: string
     position: number
+    archived: boolean
     createdAt: Date
     _count: TaskListGroupCountAggregateOutputType | null
     _avg: TaskListGroupAvgAggregateOutputType | null
@@ -35982,6 +36002,7 @@ export namespace Prisma {
     folderId?: boolean
     name?: boolean
     position?: boolean
+    archived?: boolean
     createdAt?: boolean
     folder?: boolean | TaskFolderDefaultArgs<ExtArgs>
     tasks?: boolean | TaskListGroup$tasksArgs<ExtArgs>
@@ -35993,6 +36014,7 @@ export namespace Prisma {
     folderId?: boolean
     name?: boolean
     position?: boolean
+    archived?: boolean
     createdAt?: boolean
     folder?: boolean | TaskFolderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["taskListGroup"]>
@@ -36002,6 +36024,7 @@ export namespace Prisma {
     folderId?: boolean
     name?: boolean
     position?: boolean
+    archived?: boolean
     createdAt?: boolean
     folder?: boolean | TaskFolderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["taskListGroup"]>
@@ -36011,10 +36034,11 @@ export namespace Prisma {
     folderId?: boolean
     name?: boolean
     position?: boolean
+    archived?: boolean
     createdAt?: boolean
   }
 
-  export type TaskListGroupOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "folderId" | "name" | "position" | "createdAt", ExtArgs["result"]["taskListGroup"]>
+  export type TaskListGroupOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "folderId" | "name" | "position" | "archived" | "createdAt", ExtArgs["result"]["taskListGroup"]>
   export type TaskListGroupInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     folder?: boolean | TaskFolderDefaultArgs<ExtArgs>
     tasks?: boolean | TaskListGroup$tasksArgs<ExtArgs>
@@ -36038,6 +36062,7 @@ export namespace Prisma {
       folderId: string
       name: string
       position: number
+      archived: boolean
       createdAt: Date
     }, ExtArgs["result"]["taskListGroup"]>
     composites: {}
@@ -36468,6 +36493,7 @@ export namespace Prisma {
     readonly folderId: FieldRef<"TaskListGroup", 'String'>
     readonly name: FieldRef<"TaskListGroup", 'String'>
     readonly position: FieldRef<"TaskListGroup", 'Int'>
+    readonly archived: FieldRef<"TaskListGroup", 'Boolean'>
     readonly createdAt: FieldRef<"TaskListGroup", 'DateTime'>
   }
     
@@ -118703,6 +118729,7 @@ export namespace Prisma {
     projectId: 'projectId',
     name: 'name',
     position: 'position',
+    archived: 'archived',
     createdAt: 'createdAt'
   };
 
@@ -118714,6 +118741,7 @@ export namespace Prisma {
     folderId: 'folderId',
     name: 'name',
     position: 'position',
+    archived: 'archived',
     createdAt: 'createdAt'
   };
 
@@ -121972,6 +122000,7 @@ export namespace Prisma {
     projectId?: StringFilter<"TaskFolder"> | string
     name?: StringFilter<"TaskFolder"> | string
     position?: IntFilter<"TaskFolder"> | number
+    archived?: BoolFilter<"TaskFolder"> | boolean
     createdAt?: DateTimeFilter<"TaskFolder"> | Date | string
     project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
     lists?: TaskListGroupListRelationFilter
@@ -121982,6 +122011,7 @@ export namespace Prisma {
     projectId?: SortOrder
     name?: SortOrder
     position?: SortOrder
+    archived?: SortOrder
     createdAt?: SortOrder
     project?: ProjectOrderByWithRelationInput
     lists?: TaskListGroupOrderByRelationAggregateInput
@@ -121995,6 +122025,7 @@ export namespace Prisma {
     projectId?: StringFilter<"TaskFolder"> | string
     name?: StringFilter<"TaskFolder"> | string
     position?: IntFilter<"TaskFolder"> | number
+    archived?: BoolFilter<"TaskFolder"> | boolean
     createdAt?: DateTimeFilter<"TaskFolder"> | Date | string
     project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
     lists?: TaskListGroupListRelationFilter
@@ -122005,6 +122036,7 @@ export namespace Prisma {
     projectId?: SortOrder
     name?: SortOrder
     position?: SortOrder
+    archived?: SortOrder
     createdAt?: SortOrder
     _count?: TaskFolderCountOrderByAggregateInput
     _avg?: TaskFolderAvgOrderByAggregateInput
@@ -122021,6 +122053,7 @@ export namespace Prisma {
     projectId?: StringWithAggregatesFilter<"TaskFolder"> | string
     name?: StringWithAggregatesFilter<"TaskFolder"> | string
     position?: IntWithAggregatesFilter<"TaskFolder"> | number
+    archived?: BoolWithAggregatesFilter<"TaskFolder"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"TaskFolder"> | Date | string
   }
 
@@ -122032,6 +122065,7 @@ export namespace Prisma {
     folderId?: StringFilter<"TaskListGroup"> | string
     name?: StringFilter<"TaskListGroup"> | string
     position?: IntFilter<"TaskListGroup"> | number
+    archived?: BoolFilter<"TaskListGroup"> | boolean
     createdAt?: DateTimeFilter<"TaskListGroup"> | Date | string
     folder?: XOR<TaskFolderScalarRelationFilter, TaskFolderWhereInput>
     tasks?: TaskListRelationFilter
@@ -122042,6 +122076,7 @@ export namespace Prisma {
     folderId?: SortOrder
     name?: SortOrder
     position?: SortOrder
+    archived?: SortOrder
     createdAt?: SortOrder
     folder?: TaskFolderOrderByWithRelationInput
     tasks?: TaskOrderByRelationAggregateInput
@@ -122055,6 +122090,7 @@ export namespace Prisma {
     folderId?: StringFilter<"TaskListGroup"> | string
     name?: StringFilter<"TaskListGroup"> | string
     position?: IntFilter<"TaskListGroup"> | number
+    archived?: BoolFilter<"TaskListGroup"> | boolean
     createdAt?: DateTimeFilter<"TaskListGroup"> | Date | string
     folder?: XOR<TaskFolderScalarRelationFilter, TaskFolderWhereInput>
     tasks?: TaskListRelationFilter
@@ -122065,6 +122101,7 @@ export namespace Prisma {
     folderId?: SortOrder
     name?: SortOrder
     position?: SortOrder
+    archived?: SortOrder
     createdAt?: SortOrder
     _count?: TaskListGroupCountOrderByAggregateInput
     _avg?: TaskListGroupAvgOrderByAggregateInput
@@ -122081,6 +122118,7 @@ export namespace Prisma {
     folderId?: StringWithAggregatesFilter<"TaskListGroup"> | string
     name?: StringWithAggregatesFilter<"TaskListGroup"> | string
     position?: IntWithAggregatesFilter<"TaskListGroup"> | number
+    archived?: BoolWithAggregatesFilter<"TaskListGroup"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"TaskListGroup"> | Date | string
   }
 
@@ -129026,6 +129064,7 @@ export namespace Prisma {
     id?: string
     name: string
     position?: number
+    archived?: boolean
     createdAt?: Date | string
     project: ProjectCreateNestedOneWithoutTaskFoldersInput
     lists?: TaskListGroupCreateNestedManyWithoutFolderInput
@@ -129036,6 +129075,7 @@ export namespace Prisma {
     projectId: string
     name: string
     position?: number
+    archived?: boolean
     createdAt?: Date | string
     lists?: TaskListGroupUncheckedCreateNestedManyWithoutFolderInput
   }
@@ -129044,6 +129084,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
+    archived?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: ProjectUpdateOneRequiredWithoutTaskFoldersNestedInput
     lists?: TaskListGroupUpdateManyWithoutFolderNestedInput
@@ -129054,6 +129095,7 @@ export namespace Prisma {
     projectId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
+    archived?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lists?: TaskListGroupUncheckedUpdateManyWithoutFolderNestedInput
   }
@@ -129063,6 +129105,7 @@ export namespace Prisma {
     projectId: string
     name: string
     position?: number
+    archived?: boolean
     createdAt?: Date | string
   }
 
@@ -129070,6 +129113,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
+    archived?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -129078,6 +129122,7 @@ export namespace Prisma {
     projectId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
+    archived?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -129085,6 +129130,7 @@ export namespace Prisma {
     id?: string
     name: string
     position?: number
+    archived?: boolean
     createdAt?: Date | string
     folder: TaskFolderCreateNestedOneWithoutListsInput
     tasks?: TaskCreateNestedManyWithoutTaskListGroupInput
@@ -129095,6 +129141,7 @@ export namespace Prisma {
     folderId: string
     name: string
     position?: number
+    archived?: boolean
     createdAt?: Date | string
     tasks?: TaskUncheckedCreateNestedManyWithoutTaskListGroupInput
   }
@@ -129103,6 +129150,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
+    archived?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     folder?: TaskFolderUpdateOneRequiredWithoutListsNestedInput
     tasks?: TaskUpdateManyWithoutTaskListGroupNestedInput
@@ -129113,6 +129161,7 @@ export namespace Prisma {
     folderId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
+    archived?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tasks?: TaskUncheckedUpdateManyWithoutTaskListGroupNestedInput
   }
@@ -129122,6 +129171,7 @@ export namespace Prisma {
     folderId: string
     name: string
     position?: number
+    archived?: boolean
     createdAt?: Date | string
   }
 
@@ -129129,6 +129179,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
+    archived?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -129137,6 +129188,7 @@ export namespace Prisma {
     folderId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
+    archived?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -136231,6 +136283,7 @@ export namespace Prisma {
     projectId?: SortOrder
     name?: SortOrder
     position?: SortOrder
+    archived?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -136243,6 +136296,7 @@ export namespace Prisma {
     projectId?: SortOrder
     name?: SortOrder
     position?: SortOrder
+    archived?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -136251,6 +136305,7 @@ export namespace Prisma {
     projectId?: SortOrder
     name?: SortOrder
     position?: SortOrder
+    archived?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -136268,6 +136323,7 @@ export namespace Prisma {
     folderId?: SortOrder
     name?: SortOrder
     position?: SortOrder
+    archived?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -136280,6 +136336,7 @@ export namespace Prisma {
     folderId?: SortOrder
     name?: SortOrder
     position?: SortOrder
+    archived?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -136288,6 +136345,7 @@ export namespace Prisma {
     folderId?: SortOrder
     name?: SortOrder
     position?: SortOrder
+    archived?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -160266,6 +160324,7 @@ export namespace Prisma {
     id?: string
     name: string
     position?: number
+    archived?: boolean
     createdAt?: Date | string
     lists?: TaskListGroupCreateNestedManyWithoutFolderInput
   }
@@ -160274,6 +160333,7 @@ export namespace Prisma {
     id?: string
     name: string
     position?: number
+    archived?: boolean
     createdAt?: Date | string
     lists?: TaskListGroupUncheckedCreateNestedManyWithoutFolderInput
   }
@@ -161197,6 +161257,7 @@ export namespace Prisma {
     projectId?: StringFilter<"TaskFolder"> | string
     name?: StringFilter<"TaskFolder"> | string
     position?: IntFilter<"TaskFolder"> | number
+    archived?: BoolFilter<"TaskFolder"> | boolean
     createdAt?: DateTimeFilter<"TaskFolder"> | Date | string
   }
 
@@ -161450,6 +161511,7 @@ export namespace Prisma {
     id?: string
     name: string
     position?: number
+    archived?: boolean
     createdAt?: Date | string
     tasks?: TaskCreateNestedManyWithoutTaskListGroupInput
   }
@@ -161458,6 +161520,7 @@ export namespace Prisma {
     id?: string
     name: string
     position?: number
+    archived?: boolean
     createdAt?: Date | string
     tasks?: TaskUncheckedCreateNestedManyWithoutTaskListGroupInput
   }
@@ -161595,6 +161658,7 @@ export namespace Prisma {
     folderId?: StringFilter<"TaskListGroup"> | string
     name?: StringFilter<"TaskListGroup"> | string
     position?: IntFilter<"TaskListGroup"> | number
+    archived?: BoolFilter<"TaskListGroup"> | boolean
     createdAt?: DateTimeFilter<"TaskListGroup"> | Date | string
   }
 
@@ -161602,6 +161666,7 @@ export namespace Prisma {
     id?: string
     name: string
     position?: number
+    archived?: boolean
     createdAt?: Date | string
     project: ProjectCreateNestedOneWithoutTaskFoldersInput
   }
@@ -161611,6 +161676,7 @@ export namespace Prisma {
     projectId: string
     name: string
     position?: number
+    archived?: boolean
     createdAt?: Date | string
   }
 
@@ -161728,6 +161794,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
+    archived?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: ProjectUpdateOneRequiredWithoutTaskFoldersNestedInput
   }
@@ -161737,6 +161804,7 @@ export namespace Prisma {
     projectId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
+    archived?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -164758,6 +164826,7 @@ export namespace Prisma {
     id?: string
     name: string
     position?: number
+    archived?: boolean
     createdAt?: Date | string
     folder: TaskFolderCreateNestedOneWithoutListsInput
   }
@@ -164767,6 +164836,7 @@ export namespace Prisma {
     folderId: string
     name: string
     position?: number
+    archived?: boolean
     createdAt?: Date | string
   }
 
@@ -165645,6 +165715,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
+    archived?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     folder?: TaskFolderUpdateOneRequiredWithoutListsNestedInput
   }
@@ -165654,6 +165725,7 @@ export namespace Prisma {
     folderId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
+    archived?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -193639,6 +193711,7 @@ export namespace Prisma {
     id?: string
     name: string
     position?: number
+    archived?: boolean
     createdAt?: Date | string
   }
 
@@ -194232,6 +194305,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
+    archived?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lists?: TaskListGroupUpdateManyWithoutFolderNestedInput
   }
@@ -194240,6 +194314,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
+    archived?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lists?: TaskListGroupUncheckedUpdateManyWithoutFolderNestedInput
   }
@@ -194248,6 +194323,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
+    archived?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -194548,6 +194624,7 @@ export namespace Prisma {
     id?: string
     name: string
     position?: number
+    archived?: boolean
     createdAt?: Date | string
   }
 
@@ -194555,6 +194632,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
+    archived?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tasks?: TaskUpdateManyWithoutTaskListGroupNestedInput
   }
@@ -194563,6 +194641,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
+    archived?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tasks?: TaskUncheckedUpdateManyWithoutTaskListGroupNestedInput
   }
@@ -194571,6 +194650,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     position?: IntFieldUpdateOperationsInput | number
+    archived?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
