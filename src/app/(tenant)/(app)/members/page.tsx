@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getTenantContext } from "@/tenant/context";
 import { canManageMembers } from "@/tenant/auth/roleGuard";
 import { AppShellNextElite } from "@/ui/nextelite/AppShellNextElite";
+import { getOrCreateSystemPermissionSets, getDefaultSystemSetNameForRole } from "@/tenant/permissions/systemPermissionSets";
 import { MembersClient } from "./MembersClient";
 
 export const dynamic = "force-dynamic";
@@ -19,9 +20,16 @@ export default async function MembersPage() {
   });
   const projects = await context.tenantDb.project.findMany({ orderBy: { name: "asc" } });
   const hasCustomRolesFeature = context.entitledFeatures.has("custom_roles");
-  const customRoles = hasCustomRolesFeature
-    ? await context.tenantDb.customRole.findMany({ orderBy: { name: "asc" } })
-    : [];
+  // T402: die acht System-Permission-Sets (Admin/Manager/Profitability
+  // Manager/Coordinator/Staff/Contractor/Client Collaborator/Client Lead)
+  // sind IMMER verfügbar, unabhängig vom `custom_roles`-Feature — nur
+  // echte, selbst angelegte Custom Roles bleiben Ultimate-gated (gefiltert
+  // clientseitig in MembersClient anhand `isSystem`/`hasCustomRolesFeature`).
+  await getOrCreateSystemPermissionSets(context.tenantDb);
+  const customRoles = await context.tenantDb.customRole.findMany({
+    where: hasCustomRolesFeature ? undefined : { isSystem: true },
+    orderBy: [{ isSystem: "desc" }, { name: "asc" }],
+  });
   const holidayCalendars = await context.tenantDb.holidayCalendar.findMany({ orderBy: { name: "asc" } });
 
   return (
@@ -42,6 +50,7 @@ export default async function MembersPage() {
           isActive: user.isActive,
           internalCostRate: user.internalCostRate,
           customRoleId: user.customRoleId,
+          defaultSystemSetName: getDefaultSystemSetNameForRole(user.role),
           holidayCalendarId: user.holidayCalendarId,
           managerId: user.managerId,
           employmentType: user.employmentType,
@@ -53,7 +62,7 @@ export default async function MembersPage() {
           expiresAt: invite.expiresAt.toISOString(),
         }))}
         projects={projects.map((project) => ({ id: project.id, name: project.name }))}
-        customRoles={customRoles.map((role) => ({ id: role.id, name: role.name }))}
+        customRoles={customRoles.map((role) => ({ id: role.id, name: role.name, isSystem: role.isSystem }))}
         holidayCalendars={holidayCalendars.map((calendar) => ({ id: calendar.id, name: calendar.name }))}
         hasCustomRolesFeature={hasCustomRolesFeature}
         hasProjectOverridesFeature={context.entitledFeatures.has("project_role_overrides")}

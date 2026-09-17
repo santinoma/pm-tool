@@ -19,6 +19,7 @@ interface CustomRoleRow {
   id: string;
   name: string;
   permissions: string[];
+  isSystem: boolean;
 }
 
 function isPermissionKey(key: string): key is PermissionKey {
@@ -46,7 +47,15 @@ function toggle(current: string[], key: string): { next: string[]; cascadedOff: 
   return { next: resolved, cascadedOff: [] };
 }
 
-export function RolesClient({ canManage, roles }: { canManage: boolean; roles: CustomRoleRow[] }) {
+export function RolesClient({
+  canManage,
+  hasCustomRolesFeature,
+  roles,
+}: {
+  canManage: boolean;
+  hasCustomRolesFeature: boolean;
+  roles: CustomRoleRow[];
+}) {
   const router = useRouter();
   const [name, setName] = useState("");
   const [permissions, setPermissions] = useState<string[]>([]);
@@ -112,8 +121,12 @@ export function RolesClient({ canManage, roles }: { canManage: boolean; roles: C
     <div className="mx-auto max-w-3xl pb-10">
       <h1 className="mb-2 text-2xl font-bold tracking-tight">Rollen & Rechte</h1>
       <p className="mb-6 text-sm text-muted-foreground">
-        Eigene Rollen mit granularen Berechtigungen — zusätzlich zu den Basis-Rollen (Owner/Admin/Member/Client).
-        Nutzer ohne zugewiesene Custom Role behalten das Verhalten ihrer Basis-Rolle unverändert.
+        Die acht Productive-Standard-Permission-Sets (Admin/Manager/Profitability Manager/Coordinator/Staff/
+        Contractor/Client Collaborator/Client Lead) sind auf jedem Plan verfügbar und ersetzen die frühere
+        Owner/Admin/Member/Client-Einteilung als sichtbares, zuweisbares Konzept — fest, nicht bearbeitbar/löschbar.
+        {hasCustomRolesFeature
+          ? " Zusätzlich könnt ihr eigene Rollen mit frei wählbaren Berechtigungen anlegen."
+          : " Eigene, frei konfigurierbare Rollen sind Teil des Ultimate-Plans."}
       </p>
 
       {cascadeNote && <p className="mb-4 text-sm text-muted-foreground">{cascadeNote}</p>}
@@ -126,8 +139,13 @@ export function RolesClient({ canManage, roles }: { canManage: boolean; roles: C
             <Card key={role.id}>
               <CardContent>
                 <div className="mb-3 flex items-center justify-between">
-                  <strong className="text-sm">{role.name}</strong>
-                  {canManage && (
+                  <span className="flex items-center gap-2">
+                    <strong className="text-sm">{role.name}</strong>
+                    {role.isSystem && (
+                      <span className="rounded-full border px-2 py-0.5 text-xs text-muted-foreground">Standard-Set</span>
+                    )}
+                  </span>
+                  {canManage && !role.isSystem && (
                     <Button type="button" variant="destructive" size="sm" onClick={() => handleDelete(role.id)}>
                       Löschen
                     </Button>
@@ -140,7 +158,7 @@ export function RolesClient({ canManage, roles }: { canManage: boolean; roles: C
                       <Label key={key} className="mb-1 flex items-center gap-2 font-normal">
                         <Checkbox
                           checked={role.permissions.includes(key)}
-                          disabled={!canManage}
+                          disabled={!canManage || role.isSystem}
                           onCheckedChange={() => togglePermissionOnExistingRole(role, key)}
                         />
                         {PERMISSION_LABELS[key as keyof typeof PERMISSION_LABELS] ?? key}
@@ -154,7 +172,7 @@ export function RolesClient({ canManage, roles }: { canManage: boolean; roles: C
         </div>
       )}
 
-      {canManage && (
+      {canManage && hasCustomRolesFeature && (
         <>
           <h2 className="mb-4 text-lg font-semibold">Neue Rolle</h2>
           <form onSubmit={handleCreate}>

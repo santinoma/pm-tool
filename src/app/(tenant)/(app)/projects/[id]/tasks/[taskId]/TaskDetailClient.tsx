@@ -455,7 +455,7 @@ export function TaskDetailClient({
   const isTimerRunningHere = runningTimerTaskId === task.id;
 
   return (
-    <div className="mx-auto max-w-5xl pb-10">
+    <div className="@container mx-auto max-w-5xl pb-10">
       {/* Reference "Aktionsleiste" (§05 Task-Detail): Timer ▶, Beobachten, Link,
           Favorit, Vollbild, Schließen. "Sperren"/"…" omitted — no locking
           feature exists in this app, and there are no further bulk actions
@@ -526,7 +526,12 @@ export function TaskDetailClient({
         </p>
       )}
 
-      <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-[1fr_300px]">
+      {/* Container query (not a viewport breakpoint): this component renders both as a
+          full page (wide) and inside TaskSlideOver's narrow drawer (max-w-3xl) — a
+          viewport-width breakpoint would fire in both cases identically, crushing the
+          two-column layout inside the drawer. @3xl responds to this element's own
+          rendered width (see the `@container` above), which is narrower inside the drawer. */}
+      <div className="grid grid-cols-1 items-start gap-8 @3xl:grid-cols-[1fr_300px]">
         {/* Main content — left column */}
         <div className="min-w-0">
           <h1 className="mb-3 text-2xl font-bold tracking-tight">{task.title}</h1>
