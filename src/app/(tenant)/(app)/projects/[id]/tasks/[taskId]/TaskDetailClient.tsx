@@ -68,8 +68,6 @@ interface TaskDetail {
   title: string;
   description: string | null;
   statusId: string;
-  priority: string;
-  tShirtSize: string | null;
   assigneeId: string | null;
   taskListGroupId: string | null;
   isKeyTask: boolean;
@@ -93,16 +91,6 @@ interface TaskDetail {
   subscribers: { userId: string; label: string }[];
   todos: TodoRow[];
 }
-
-const PRIORITY_OPTIONS: { value: string; label: string }[] = [
-  { value: "no_priority", label: "Keine Priorität" },
-  { value: "low", label: "Niedrig" },
-  { value: "medium", label: "Mittel" },
-  { value: "high", label: "Hoch" },
-  { value: "urgent", label: "Dringend" },
-];
-
-const T_SHIRT_SIZE_OPTIONS = ["XS", "S", "M", "L", "XL"];
 
 interface TaskSearchResult {
   id: string;
@@ -825,38 +813,6 @@ export function TaskDetailClient({
                   {statuses.map((status) => (
                     <SelectItem key={status.id} value={status.id}>
                       {status.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <Label>Priorität</Label>
-              <Select defaultValue={task.priority} onValueChange={(value) => updateTask({ priority: value })}>
-                <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  {PRIORITY_OPTIONS.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <Label>T-Shirt Size</Label>
-              <Select
-                defaultValue={task.tShirtSize ?? "__none__"}
-                onValueChange={(value) => updateTask({ tShirtSize: value === "__none__" ? null : value })}
-              >
-                <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="__none__">—</SelectItem>
-                  {T_SHIRT_SIZE_OPTIONS.map((size) => (
-                    <SelectItem key={size} value={size}>
-                      {size}
                     </SelectItem>
                   ))}
                 </SelectContent>

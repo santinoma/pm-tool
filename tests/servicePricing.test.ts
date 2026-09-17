@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { computeEffectiveUnitPrice, computeServiceTotal, isOverrunBlocked } from "../src/tenant/budgeting/servicePricing";
+import { computeEffectiveUnitPrice, computeServiceTotal, isOverrunBlocked, resolveBaseRate } from "../src/tenant/budgeting/servicePricing";
 
 describe("computeEffectiveUnitPrice", () => {
   it("returns the base price with no discount/markup", () => {
@@ -22,6 +22,32 @@ describe("computeEffectiveUnitPrice", () => {
 describe("computeServiceTotal", () => {
   it("multiplies quantity by the effective unit price", () => {
     expect(computeServiceTotal(5, 100, 10, null)).toBe(450);
+  });
+});
+
+describe("resolveBaseRate (T313 Billable Rate Strategy)", () => {
+  it("service strategy uses the section price, ignoring person/budget rates", () => {
+    expect(resolveBaseRate("service", 100, 50, 200)).toBe(100);
+  });
+
+  it("person strategy uses the assignee's individual rate", () => {
+    expect(resolveBaseRate("person", 100, 50, 200)).toBe(50);
+  });
+
+  it("person strategy falls back to the section price when the person has no rate configured", () => {
+    expect(resolveBaseRate("person", 100, null, 200)).toBe(100);
+  });
+
+  it("single strategy uses the one flat budget-wide rate, ignoring section/person rates", () => {
+    expect(resolveBaseRate("single", 100, 50, 200)).toBe(200);
+  });
+
+  it("single strategy without a configured budget rate resolves to 0", () => {
+    expect(resolveBaseRate("single", 100, 50, null)).toBe(0);
+  });
+
+  it("no_rate strategy always resolves to 0", () => {
+    expect(resolveBaseRate("no_rate", 100, 50, 200)).toBe(0);
   });
 });
 

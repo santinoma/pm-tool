@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
-import { validateCustomFieldValue, type CustomFieldTypeName } from "@/tenant/projects/customFieldValue";
+import { validateCustomFieldValue, isCustomFieldValueEmpty, type CustomFieldTypeName } from "@/tenant/projects/customFieldValue";
 import { resolveProjectIdForWikiPage } from "@/tenant/projectAccess/resolveProjectMembership";
 import { assertSingleProjectAccess } from "@/tenant/projectAccess/assertProjectAccess";
 
@@ -30,6 +30,9 @@ export async function PUT(
     return NextResponse.json({ error: "Feld nicht gefunden." }, { status: 404 });
   }
 
+  if (field.required && isCustomFieldValueEmpty(field.type as CustomFieldTypeName, body.value)) {
+    return NextResponse.json({ error: `„${field.label}" ist ein Pflichtfeld und darf nicht leer sein.` }, { status: 400 });
+  }
   const validation = validateCustomFieldValue(field.type as CustomFieldTypeName, body.value, field.options);
   if (!validation.valid) {
     return NextResponse.json({ error: validation.reason }, { status: 400 });

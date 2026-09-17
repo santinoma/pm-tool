@@ -3,6 +3,7 @@ import { getTenantContext } from "@/tenant/context";
 import { renderMarkdownSafe } from "@/tenant/collaboration/markdown";
 import { canManageMembers } from "@/tenant/auth/roleGuard";
 import { getEffectiveCustomFields } from "@/tenant/customFields/library";
+import { hasEffectivePermission } from "@/tenant/permissions/resolvePermissions";
 import { WikiPageClient } from "./WikiPageClient";
 
 export const dynamic = "force-dynamic";
@@ -24,6 +25,12 @@ export default async function WikiPageView({
   }
 
   const canManage = canManageMembers(context.currentUser.role);
+  const canViewSensitiveFields = await hasEffectivePermission(
+    context.tenantDb,
+    context.currentUser,
+    context.entitledFeatures,
+    "employee_fields_sensitive_view",
+  );
 
   const [customFieldDefs, customValues, sharedLinks, siblingPages] = await Promise.all([
     getEffectiveCustomFields(context.tenantDb, id, "wiki_page"),
@@ -38,20 +45,28 @@ export default async function WikiPageView({
     }),
   ]);
 
+  // Sensible Felder werden nur an Personen mit der entsprechenden Berechtigung
+  // ausgeliefert — sie fehlen für alle anderen komplett, statt nur verschleiert
+  // angezeigt zu werden.
+  const visibleCustomFieldDefs = customFieldDefs.filter((field) => !field.sensitive || canViewSensitiveFields);
+  const visibleFieldIds = new Set(visibleCustomFieldDefs.map((field) => field.id));
+
   return (
     <WikiPageClient
       projectId={id}
       page={{ id: page.id, title: page.title, content: page.content, isTemplate: page.isTemplate }}
       contentHtml={renderMarkdownSafe(page.content)}
       canManage={canManage}
-      customFieldDefs={customFieldDefs.map((field) => ({
+      customFieldDefs={visibleCustomFieldDefs.map((field) => ({
         id: field.id,
         key: field.key,
         label: field.label,
         type: field.type,
         options: field.options,
       }))}
-      customFieldValues={customValues.map((value) => ({ fieldId: value.fieldId, value: value.value }))}
+      customFieldValues={customValues
+        .filter((value) => visibleFieldIds.has(value.fieldId))
+        .map((value) => ({ fieldId: value.fieldId, value: value.value }))}
       sharedLinks={sharedLinks.map((link) => ({
         id: link.id,
         token: link.token,

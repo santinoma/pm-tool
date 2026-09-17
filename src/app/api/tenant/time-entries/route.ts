@@ -5,12 +5,13 @@ import { getOrCreateTimeTrackingPolicy } from "@/tenant/timeTracking/policy";
 import { validateAgainstPolicy } from "@/tenant/timeTracking/policyValidation";
 import { computeDurationMinutes, validateEntryTarget } from "@/tenant/timeTracking/duration";
 import { computeEntryCost } from "@/tenant/timeTracking/entryCost";
-import { computeEffectiveUnitPrice, isOverrunBlocked } from "@/tenant/budgeting/servicePricing";
+import { computeEffectiveUnitPrice, isOverrunBlocked, resolveBaseRate } from "@/tenant/budgeting/servicePricing";
 import { canManageMembers } from "@/tenant/auth/roleGuard";
 import { resolveProjectIdsForTask } from "@/tenant/projectAccess/resolveProjectMembership";
 import { assertSingleProjectAccess, assertAnyProjectAccess } from "@/tenant/projectAccess/assertProjectAccess";
 import { recordActivity } from "@/tenant/notifications/recordActivity";
 import { resolveInitialTimeEntryState } from "@/tenant/timeTracking/entryLifecycle";
+import { assertPeriodNotLocked } from "@/tenant/financials/monthClosing";
 import type { PrismaClient } from "@/generated/tenant-client/client.js";
 
 /**
@@ -170,6 +171,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: policyError }, { status: 400 });
   }
 
+  const lockError = await assertPeriodNotLocked(context.tenantDb, entryDate ?? new Date());
+  if (lockError) {
+    return NextResponse.json({ error: lockError }, { status: 409 });
+  }
+
   const initialState = await resolveInitialTimeEntryState(context.tenantDb);
   const entry = await context.tenantDb.timeEntry.create({
     data: {
@@ -230,8 +236,15 @@ export async function handleSectionEntry(
     );
   }
 
+  const lockError = await assertPeriodNotLocked(tenantDb, startedAt);
+  if (lockError) {
+    return NextResponse.json({ error: lockError }, { status: 409 });
+  }
+
   const durationMinutes = computeDurationMinutes(startedAt, endedAt);
-  const effectiveRate = computeEffectiveUnitPrice(section.price, section.discountPercent, section.markupPercent);
+  const assigneeHourlyRate = section.assignees.find((a) => a.userId === userId)?.hourlyRate ?? null;
+  const baseRate = resolveBaseRate(section.budget.billableRateStrategy, section.price, assigneeHourlyRate, section.budget.billableRate);
+  const effectiveRate = computeEffectiveUnitPrice(baseRate, section.discountPercent, section.markupPercent);
   const amount = computeEntryCost(durationMinutes, effectiveRate);
 
   if (isOverrunBlocked(section.budgetUsed, amount, section.guaranteedMaxPrice, section.blockOverrun)) {

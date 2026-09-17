@@ -5,8 +5,16 @@ export interface BillableTimeEntry {
   amount: number;
 }
 
+export interface BillableExpense {
+  id: string;
+  description: string;
+  amount: number;
+}
+
 export interface InvoiceLineItemDraft {
-  budgetSectionId: string;
+  /** Null for expense-based line items — Expense has no per-section FK. */
+  budgetSectionId: string | null;
+  expenseId?: string;
   description: string;
   quantityHours: number;
   rate: number;
@@ -17,6 +25,7 @@ export interface BuildInvoiceResult {
   lineItems: InvoiceLineItemDraft[];
   totalAmount: number;
   timeEntryIds: string[];
+  expenseIds: string[];
 }
 
 export function buildInvoiceLineItems(
@@ -46,7 +55,26 @@ export function buildInvoiceLineItems(
     totalAmount += amount;
   }
 
-  return { lineItems, totalAmount, timeEntryIds: entries.map((entry) => entry.id) };
+  return { lineItems, totalAmount, timeEntryIds: entries.map((entry) => entry.id), expenseIds: [] };
+}
+
+/**
+ * Ein Posten je Spesenbuchung (nicht aggregiert wie bei Zeiterfassung, da
+ * jede Buchung ihre eigene Beschreibung/ihr eigenes Datum trägt). `rate` und
+ * `quantityHours` sind hier nicht aussagekräftig (Spesen sind nicht
+ * zeitbasiert) — `quantityHours: 1`, `rate === amount` als Konvention.
+ */
+export function buildExpenseLineItems(expenses: BillableExpense[]): BuildInvoiceResult {
+  const lineItems: InvoiceLineItemDraft[] = expenses.map((expense) => ({
+    budgetSectionId: null,
+    expenseId: expense.id,
+    description: expense.description,
+    quantityHours: 1,
+    rate: expense.amount,
+    amount: expense.amount,
+  }));
+  const totalAmount = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+  return { lineItems, totalAmount, timeEntryIds: [], expenseIds: expenses.map((expense) => expense.id) };
 }
 
 export interface SectionForInvoicing {
@@ -81,7 +109,7 @@ export function buildRemainingAmountLineItems(
     });
     totalAmount += remaining;
   }
-  return { lineItems, totalAmount, timeEntryIds: [] };
+  return { lineItems, totalAmount, timeEntryIds: [], expenseIds: [] };
 }
 
 /**
@@ -108,5 +136,5 @@ export function buildPercentageLineItems(
     });
     totalAmount += amount;
   }
-  return { lineItems, totalAmount, timeEntryIds: [] };
+  return { lineItems, totalAmount, timeEntryIds: [], expenseIds: [] };
 }

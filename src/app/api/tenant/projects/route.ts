@@ -85,5 +85,17 @@ export async function POST(request: Request) {
     include: { workflow: { include: { statuses: true } }, members: true },
   });
 
+  // Library-Felder mit autoAttach werden an jedes neue Projekt automatisch
+  // angehängt — user-Felder sind org-weit und projektunabhängig, daher ausgenommen.
+  const autoAttachFields = await context.tenantDb.customFieldDef.findMany({
+    where: { library: true, autoAttach: true, entityType: { not: "user" } },
+    select: { id: true },
+  });
+  if (autoAttachFields.length > 0) {
+    await context.tenantDb.projectCustomField.createMany({
+      data: autoAttachFields.map((field) => ({ projectId: project.id, fieldId: field.id })),
+    });
+  }
+
   return NextResponse.json({ project }, { status: 201 });
 }

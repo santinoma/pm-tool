@@ -6,6 +6,22 @@ export interface CustomFieldValidationResult {
 }
 
 /**
+ * "Kein Wert" für Pflichtfeld-Prüfung, typabhängig — `multi_select` speichert
+ * eine leere Auswahl als `"[]"`, nicht als leerer String.
+ */
+export function isCustomFieldValueEmpty(type: CustomFieldTypeName, raw: string): boolean {
+  if (type === "multi_select") {
+    try {
+      const parsed = JSON.parse(raw);
+      return !Array.isArray(parsed) || parsed.length === 0;
+    } catch {
+      return true;
+    }
+  }
+  return raw.trim() === "";
+}
+
+/**
  * Validiert einen roh als String übergebenen Custom-Field-Wert gegen seinen Typ,
  * bevor er gespeichert wird. `options` ist nur für `select`/`multi_select` relevant.
  * `multi_select` speichert seinen Wert als JSON-codiertes String-Array im selben

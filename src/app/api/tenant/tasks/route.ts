@@ -88,8 +88,6 @@ export async function POST(request: Request) {
       estimatedHours: typeof body.estimatedHours === "number" ? body.estimatedHours : null,
       parentTaskId: typeof body.parentTaskId === "string" ? body.parentTaskId : null,
       taskListGroupId: typeof body.taskListGroupId === "string" ? body.taskListGroupId : null,
-      priority: typeof body.priority === "string" ? body.priority : "no_priority",
-      tShirtSize: typeof body.tShirtSize === "string" ? body.tShirtSize : null,
       isKeyTask: typeof body.isKeyTask === "boolean" ? body.isKeyTask : false,
       isPrivate: typeof body.isPrivate === "boolean" ? body.isPrivate : false,
       isTemplate: typeof body.isTemplate === "boolean" ? body.isTemplate : false,

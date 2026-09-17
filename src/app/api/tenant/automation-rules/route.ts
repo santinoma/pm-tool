@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
 import { hasEffectivePermission } from "@/tenant/permissions/resolvePermissions";
+import { isFilterGroup, type FilterGroup } from "@/tenant/views/filterEngine";
 
 const VALID_TRIGGERS = ["task_created", "task_status_changed", "task_updated", "task_commented", "time_daily", "time_weekly"];
 const VALID_ACTION_TYPES = [
@@ -13,8 +14,12 @@ const VALID_ACTION_TYPES = [
   "create_todo",
   "send_email",
 ];
-const VALID_STATUS_CATEGORIES = ["not_started", "started", "done"];
 const NEW_ITEM_ACTION_TYPES = ["create_task", "create_subtask", "create_todo"];
+
+/** T306: conditionConfig is a FilterGroup (see filterEngine.ts) — only shallow-validated here (a full-depth check would duplicate the type itself); malformed values are structurally inert since evaluateFilterNode's isFilterGroup guard falls through safely. */
+function isValidConditionConfig(value: unknown): value is FilterGroup | null {
+  return value === null || value === undefined || isFilterGroup(value as FilterGroup);
+}
 
 interface ActionInput {
   type: string;
@@ -93,8 +98,8 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   }
-  if (body.conditionStatusCategory != null && !VALID_STATUS_CATEGORIES.includes(body.conditionStatusCategory)) {
-    return NextResponse.json({ error: "Ungültige conditionStatusCategory." }, { status: 400 });
+  if (!isValidConditionConfig(body.conditionConfig)) {
+    return NextResponse.json({ error: "Ungültige conditionConfig." }, { status: 400 });
   }
   const hasTimeTrigger = triggers.includes("time_daily") || triggers.includes("time_weekly");
   if (triggers.includes("time_weekly") && (body.scheduleWeekday === undefined || body.scheduleWeekday === null)) {
@@ -115,9 +120,7 @@ export async function POST(request: Request) {
     data: {
       name: body.name,
       triggers: triggers as never,
-      conditionStatusCategory: triggers.includes("task_status_changed")
-        ? (body.conditionStatusCategory ?? null)
-        : null,
+      conditionConfig: (body.conditionConfig ?? null) as never,
       scheduleTime: hasTimeTrigger && typeof body.scheduleTime === "string" ? body.scheduleTime : null,
       scheduleWeekday: triggers.includes("time_weekly") ? body.scheduleWeekday : null,
       projectIds,

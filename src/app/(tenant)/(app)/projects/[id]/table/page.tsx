@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getTenantContext } from "@/tenant/context";
 import { privateTaskVisibilityFilter } from "@/tenant/projectAccess/privateTaskFilter";
+import { getOrCreateSystemTaskFields } from "@/tenant/customFields/systemTaskFields";
 import { TableViewClient } from "./TableViewClient";
 
 export const dynamic = "force-dynamic";
@@ -14,6 +15,8 @@ export default async function TableViewPage({ params }: { params: Promise<{ id: 
     redirect("/login");
   }
 
+  const { priorityField, tShirtSizeField } = await getOrCreateSystemTaskFields(context.tenantDb);
+
   const [tasks, statuses, users] = await Promise.all([
     context.tenantDb.task.findMany({
       where: {
@@ -22,7 +25,11 @@ export default async function TableViewPage({ params }: { params: Promise<{ id: 
           privateTaskVisibilityFilter(context.currentUser),
         ],
       },
-      include: { status: true, assignee: true },
+      include: {
+        status: true,
+        assignee: true,
+        customValues: { where: { fieldId: { in: [priorityField.id, tShirtSizeField.id] } } },
+      },
       orderBy: { position: "asc" },
     }),
     context.tenantDb.workflowStatus.findMany({
@@ -35,6 +42,8 @@ export default async function TableViewPage({ params }: { params: Promise<{ id: 
   return (
     <TableViewClient
       projectId={id}
+      priorityFieldId={priorityField.id}
+      priorityOptions={priorityField.options}
       tasks={tasks.map((task) => ({
         id: task.id,
         title: task.title,
@@ -43,8 +52,8 @@ export default async function TableViewPage({ params }: { params: Promise<{ id: 
         statusCategory: task.status.category,
         assigneeId: task.assigneeId,
         assignee: task.assignee?.name ?? task.assignee?.email ?? null,
-        priority: task.priority,
-        tShirtSize: task.tShirtSize,
+        priority: task.customValues.find((v) => v.fieldId === priorityField.id)?.value ?? "",
+        tShirtSize: task.customValues.find((v) => v.fieldId === tShirtSizeField.id)?.value ?? null,
         estimatedHours: task.estimatedHours,
         startDate: task.startDate ? task.startDate.toISOString() : null,
         dueDate: task.dueDate ? task.dueDate.toISOString() : null,

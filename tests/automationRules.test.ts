@@ -72,7 +72,7 @@ describe("automation rules execution (via recordActivity)", () => {
       data: {
         name: "Notify on done",
         triggers: ["task_status_changed"],
-        conditionStatusCategory: "done",
+        conditionConfig: { logic: "AND", rules: [{ field: "statusCategory", operator: "equals", value: "done" }] },
         createdById: ownerId,
         actions: { create: [{ type: "notify_user", targetUserId: assigneeId, position: 0 }] },
       },

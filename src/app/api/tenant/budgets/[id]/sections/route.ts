@@ -62,6 +62,8 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     );
   }
   const assigneeIds: string[] = Array.isArray(body.assigneeIds) ? body.assigneeIds : [];
+  const assigneeRates: Record<string, number> =
+    body.assigneeRates && typeof body.assigneeRates === "object" ? body.assigneeRates : {};
 
   const VALID_BILLING_TYPES = ["fixed", "time_and_materials", "non_billable", "percentage"];
   const VALID_TRACKING_UNITS = ["hours", "days", "piece"];
@@ -97,7 +99,12 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       trackExpenses: typeof body.trackExpenses === "boolean" ? body.trackExpenses : false,
       trackBooking: typeof body.trackBooking === "boolean" ? body.trackBooking : false,
       position: (maxPosition._max.position ?? -1) + 1,
-      assignees: { create: assigneeIds.map((userId) => ({ userId })) },
+      assignees: {
+        create: assigneeIds.map((userId) => ({
+          userId,
+          hourlyRate: typeof assigneeRates[userId] === "number" ? assigneeRates[userId] : null,
+        })),
+      },
     },
     include: { assignees: { include: { user: true } }, serviceType: true },
   });

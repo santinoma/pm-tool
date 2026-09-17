@@ -10,6 +10,7 @@ import { computeCurrentPeriod } from "@/tenant/retainer/period";
 import { computeSectionBurn } from "@/tenant/retainer/burn";
 import { getEffectiveRateCardItems } from "@/tenant/financials/rateCards";
 import { getEffectiveCustomFields } from "@/tenant/customFields/library";
+import { hasEffectivePermission } from "@/tenant/permissions/resolvePermissions";
 
 export const dynamic = "force-dynamic";
 
@@ -101,6 +102,17 @@ export default async function BudgetDetailPage({
   }
 
   const canManage = canManageMembers(context.currentUser.role);
+  const canViewSensitiveFields = await hasEffectivePermission(
+    context.tenantDb,
+    context.currentUser,
+    context.entitledFeatures,
+    "employee_fields_sensitive_view",
+  );
+  // Sensible Felder werden nur an Personen mit der entsprechenden Berechtigung
+  // ausgeliefert — sie fehlen für alle anderen komplett, statt nur verschleiert
+  // angezeigt zu werden.
+  const visibleCustomFieldDefs = customFieldDefs.filter((field) => !field.sensitive || canViewSensitiveFields);
+  const visibleFieldIds = new Set(visibleCustomFieldDefs.map((field) => field.id));
 
   return (
     <AppShellNextElite
@@ -124,6 +136,8 @@ export default async function BudgetDetailPage({
           scenarioOf: budget.scenarioOf,
           deliveredAt: budget.deliveredAt ? budget.deliveredAt.toISOString() : null,
           approvalPolicyId: budget.approvalPolicyId,
+          billableRateStrategy: budget.billableRateStrategy,
+          billableRate: budget.billableRate,
         }}
         approvalPolicies={approvalPolicies.map((policy) => ({ id: policy.id, name: policy.name }))}
         sections={budget.sections.map((section) => ({
@@ -150,25 +164,29 @@ export default async function BudgetDetailPage({
           position: section.position,
           assigneeIds: section.assignees.map((a) => a.userId),
           assigneeLabels: section.assignees.map((a) => a.user.name ?? a.user.email),
+          assigneeRates: Object.fromEntries(section.assignees.map((a) => [a.userId, a.hourlyRate])),
         }))}
         users={users.map((u) => ({ id: u.id, label: u.name ?? u.email }))}
         serviceTypes={serviceTypes.map((type) => ({ id: type.id, name: type.name }))}
-        rateCardItems={rateCardItems.map((item) => ({
+        rateCardItems={rateCardItems.map(({ source, item }) => ({
           id: item.id,
+          source,
           name: item.name,
           serviceTypeId: item.serviceTypeId,
           billingType: item.billingType,
           trackingUnit: item.trackingUnit,
           defaultPrice: item.defaultPrice,
         }))}
-        customFieldDefs={customFieldDefs.map((field) => ({
+        customFieldDefs={visibleCustomFieldDefs.map((field) => ({
           id: field.id,
           key: field.key,
           label: field.label,
           type: field.type,
           options: field.options,
         }))}
-        customFieldValues={budget.customFieldValues.map((value) => ({ fieldId: value.fieldId, value: value.value }))}
+        customFieldValues={budget.customFieldValues
+          .filter((value) => visibleFieldIds.has(value.fieldId))
+          .map((value) => ({ fieldId: value.fieldId, value: value.value }))}
         scenarios={scenarios.map((scenario) => ({
           id: scenario.id,
           title: scenario.title,

@@ -3,6 +3,7 @@ import { getTenantContext } from "@/tenant/context";
 import { canManageMembers } from "@/tenant/auth/roleGuard";
 import { privateTaskVisibilityFilter } from "@/tenant/projectAccess/privateTaskFilter";
 import { getEffectiveCustomFields } from "@/tenant/customFields/library";
+import { getOrCreateSystemTaskFields } from "@/tenant/customFields/systemTaskFields";
 import { ListClient } from "./ListClient";
 import { SharedViewsPanel } from "./SharedViewsPanel";
 
@@ -16,6 +17,7 @@ export default async function ListPage({ params }: { params: Promise<{ id: strin
   }
 
   const canManage = canManageMembers(context.currentUser.role);
+  const { priorityField } = await getOrCreateSystemTaskFields(context.tenantDb);
   const [tasks, sharedViews, statuses, users, customFields, folders, savedViews, templates] = await Promise.all([
     context.tenantDb.task.findMany({
       where: {
@@ -24,7 +26,7 @@ export default async function ListPage({ params }: { params: Promise<{ id: strin
           privateTaskVisibilityFilter(context.currentUser),
         ],
       },
-      include: { status: true, assignee: true },
+      include: { status: true, assignee: true, customValues: { where: { fieldId: priorityField.id } } },
       orderBy: { position: "asc" },
     }),
     canManage
@@ -82,6 +84,8 @@ export default async function ListPage({ params }: { params: Promise<{ id: strin
           statusCategory: task.status.category,
           assignee: task.assignee?.name ?? task.assignee?.email ?? null,
           dueDate: task.dueDate ? task.dueDate.toISOString() : null,
+          startDate: task.startDate ? task.startDate.toISOString() : null,
+          priority: task.customValues.find((v) => v.fieldId === priorityField.id)?.value ?? "",
           isKeyTask: task.isKeyTask,
           isPrivate: task.isPrivate,
           taskListGroupId: task.taskListGroupId,
@@ -106,6 +110,7 @@ export default async function ListPage({ params }: { params: Promise<{ id: strin
           ownerId: view.ownerId,
         }))}
         currentUserId={context.currentUser.id}
+        priorityOptions={priorityField.options}
       />
     </>
   );

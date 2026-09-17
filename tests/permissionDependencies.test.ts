@@ -44,6 +44,23 @@ describe("resolveWithDependencies", () => {
       new Set<PermissionKey>(["integrations_manage", "organization_settings_manage"]),
     );
   });
+
+  it("resolves invoicing_manage and cost_rates_manage independently (T304: Manager vs Profitability Manager)", () => {
+    const invoicing = resolveWithDependencies(["invoicing_manage"]);
+    expect(new Set(invoicing)).toEqual(new Set<PermissionKey>(["invoicing_manage", "budgets_manage", "projects_manage"]));
+    // cost_rates_manage does not require invoicing_manage, and vice versa — the two
+    // are independently grantable, matching Productive's Manager/Profitability Manager split.
+    expect(invoicing).not.toContain("cost_rates_manage");
+
+    const costRates = resolveWithDependencies(["cost_rates_manage"]);
+    expect(new Set(costRates)).toEqual(new Set<PermissionKey>(["cost_rates_manage", "budgets_manage", "projects_manage"]));
+    expect(costRates).not.toContain("invoicing_manage");
+  });
+
+  it("resolves employee_fields_sensitive_view to require members_invite", () => {
+    const result = resolveWithDependencies(["employee_fields_sensitive_view"]);
+    expect(new Set(result)).toEqual(new Set<PermissionKey>(["employee_fields_sensitive_view", "members_invite"]));
+  });
 });
 
 describe("blockingDependents", () => {

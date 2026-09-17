@@ -4,7 +4,9 @@ import { hasEffectivePermission } from "@/tenant/permissions/resolvePermissions"
 import { assertSingleProjectAccess } from "@/tenant/projectAccess/assertProjectAccess";
 import { recordActivity } from "@/tenant/notifications/recordActivity";
 import { cloneBudgetSections } from "@/tenant/budgeting/cloneBudgetSections";
-import type { BillingType, TrackingUnit } from "@/generated/tenant-client/client.js";
+import type { BillableRateStrategy, BillingType, TrackingUnit } from "@/generated/tenant-client/client.js";
+
+const VALID_BILLABLE_RATE_STRATEGIES = ["person", "service", "single", "no_rate"];
 
 export async function GET(request: Request) {
   const context = await getTenantContext();
@@ -75,13 +77,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "endDate muss nach startDate liegen." }, { status: 400 });
   }
 
+  if (body.billableRateStrategy !== undefined && !VALID_BILLABLE_RATE_STRATEGIES.includes(body.billableRateStrategy)) {
+    return NextResponse.json({ error: "Ungültige billableRateStrategy." }, { status: 400 });
+  }
+
   let templateSections: Awaited<ReturnType<typeof context.tenantDb.budgetSection.findMany>> = [];
   if (typeof body.templateBudgetId === "string" && body.templateBudgetId.length > 0) {
     const template = await context.tenantDb.budget.findUnique({
       where: { id: body.templateBudgetId },
       include: { sections: true },
     });
-    if (!template || !template.isTemplate || template.projectId !== body.projectId) {
+    // Productive Template Center: Vorlagen sind organisationsweit
+    // wiederverwendbar, nicht auf ihr Ursprungsprojekt beschränkt (T311).
+    if (!template || !template.isTemplate) {
       return NextResponse.json({ error: "Ungültige Budget-Vorlage." }, { status: 400 });
     }
     templateSections = template.sections;
@@ -97,6 +105,8 @@ export async function POST(request: Request) {
       startDate,
       endDate,
       color: typeof body.color === "string" ? body.color : null,
+      billableRateStrategy: (body.billableRateStrategy as BillableRateStrategy) ?? undefined,
+      billableRate: typeof body.billableRate === "number" ? body.billableRate : null,
       sections:
         templateSections.length > 0
           ? {

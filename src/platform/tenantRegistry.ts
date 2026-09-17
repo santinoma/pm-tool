@@ -23,6 +23,7 @@ export interface CreateTenantRecordInput {
   tier?: TenantTier;
   plan?: TenantPlan;
   addOnFeatures?: string[];
+  seatLimit?: number | null;
 }
 
 export function createTenantRecord(input: CreateTenantRecordInput): Promise<Tenant> {
@@ -35,12 +36,17 @@ export function createTenantRecord(input: CreateTenantRecordInput): Promise<Tena
       tier: input.tier ?? "shared",
       plan: input.plan ?? "small",
       addOnFeatures: input.addOnFeatures ?? [],
+      seatLimit: input.seatLimit ?? null,
     },
   });
 }
 
 export function updateTenantStatus(id: string, status: TenantStatus): Promise<Tenant> {
   return platformDb.tenant.update({ where: { id }, data: { status } });
+}
+
+export function updateTenantSeatLimit(id: string, seatLimit: number | null): Promise<Tenant> {
+  return platformDb.tenant.update({ where: { id }, data: { seatLimit } });
 }
 
 export function deleteTenantRecord(id: string): Promise<Tenant> {

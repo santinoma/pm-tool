@@ -54,7 +54,7 @@ export default async function TimePage() {
 
   const isPrivileged = canManageMembers(context.currentUser.role);
 
-  const [runningEntry, myEntries, projects, myLocks, activeUsers] = await Promise.all([
+  const [runningEntry, myEntries, projects, myLocks, activeUsers, savedViews] = await Promise.all([
     context.tenantDb.timeEntry.findFirst({
       where: { userId, startedAt: { not: null }, endedAt: null },
       include: { task: true, project: true },
@@ -72,6 +72,10 @@ export default async function TimePage() {
     isPrivileged
       ? context.tenantDb.user.findMany({ where: { isActive: true }, orderBy: { email: "asc" } })
       : Promise.resolve([]),
+    context.tenantDb.savedView.findMany({
+      where: { scope: "time_entries", ownerId: userId },
+      orderBy: { createdAt: "desc" },
+    }),
   ]);
 
   return (
@@ -110,6 +114,16 @@ export default async function TimePage() {
         projectId: entry.projectId,
       }))}
       users={activeUsers.map((user) => ({ id: user.id, label: user.name ?? user.email }))}
+      savedViews={savedViews.map((view) => ({
+        id: view.id,
+        name: view.name,
+        viewType: view.viewType,
+        filterConfig: view.filterConfig as Record<string, unknown>,
+        sortConfig: view.sortConfig as Record<string, unknown> | null,
+        sharedWithAll: view.sharedWithAll,
+        ownerId: view.ownerId,
+      }))}
+      currentUserId={userId}
     />
   );
 }

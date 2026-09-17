@@ -4,7 +4,12 @@ import { provisionTenant } from "../src/platform/provisionTenant";
 import { getTenantBySubdomain } from "../src/platform/tenantRegistry";
 import { getTenantDbClient } from "../src/tenant/tenantDb";
 import { recordActivity } from "../src/tenant/notifications/recordActivity";
-import { executeRuleActions, selectMatchingRules, type AutomationRuleInput } from "../src/tenant/automations/runAutomations";
+import {
+  executeRuleActions,
+  selectMatchingRules,
+  type AutomationRuleInput,
+  type AutomationTaskSnapshot,
+} from "../src/tenant/automations/runAutomations";
 import { runDueTimeAutomationRules } from "../src/tenant/automations/scheduleDueCheck";
 import type { Tenant } from "../src/platform/tenantRegistry";
 
@@ -48,7 +53,7 @@ describe("selectMatchingRules — project scope", () => {
     return {
       id: "rule-1",
       triggers: ["task_created"],
-      conditionStatusCategory: null,
+      conditionConfig: null,
       isEnabled: true,
       actions: [],
       projectIds: [],
@@ -56,19 +61,21 @@ describe("selectMatchingRules — project scope", () => {
     };
   }
 
+  const emptySnapshot: AutomationTaskSnapshot = { statusCategory: null, assigneeId: null, isKeyTask: false, isPrivate: false };
+
   it("a project-scoped rule only matches events whose task is in one of its projects", () => {
     const rules = [rule({ projectIds: ["proj-a"] })];
-    const matchesA = selectMatchingRules(rules, { type: "task_created", taskId: "t1", projectId: "proj-a" });
-    const matchesB = selectMatchingRules(rules, { type: "task_created", taskId: "t2", projectId: "proj-b" });
+    const matchesA = selectMatchingRules(rules, { type: "task_created", taskId: "t1", projectId: "proj-a" }, emptySnapshot);
+    const matchesB = selectMatchingRules(rules, { type: "task_created", taskId: "t2", projectId: "proj-b" }, emptySnapshot);
     expect(matchesA).toHaveLength(1);
     expect(matchesB).toHaveLength(0);
   });
 
   it("an empty-projectIds rule matches events from any project (legacy regression check)", () => {
     const rules = [rule({ projectIds: [] })];
-    const matchesA = selectMatchingRules(rules, { type: "task_created", taskId: "t1", projectId: "proj-a" });
-    const matchesB = selectMatchingRules(rules, { type: "task_created", taskId: "t2", projectId: "proj-b" });
-    const matchesUnknown = selectMatchingRules(rules, { type: "task_created", taskId: "t3" });
+    const matchesA = selectMatchingRules(rules, { type: "task_created", taskId: "t1", projectId: "proj-a" }, emptySnapshot);
+    const matchesB = selectMatchingRules(rules, { type: "task_created", taskId: "t2", projectId: "proj-b" }, emptySnapshot);
+    const matchesUnknown = selectMatchingRules(rules, { type: "task_created", taskId: "t3" }, emptySnapshot);
     expect(matchesA).toHaveLength(1);
     expect(matchesB).toHaveLength(1);
     expect(matchesUnknown).toHaveLength(1);
@@ -76,7 +83,7 @@ describe("selectMatchingRules — project scope", () => {
 
   it("a project-scoped rule does not match when the event has no resolvable project", () => {
     const rules = [rule({ projectIds: ["proj-a"] })];
-    const matches = selectMatchingRules(rules, { type: "task_created", taskId: "t1" });
+    const matches = selectMatchingRules(rules, { type: "task_created", taskId: "t1" }, emptySnapshot);
     expect(matches).toHaveLength(0);
   });
 });
@@ -280,7 +287,7 @@ describe("runDueTimeAutomationRules — bulk find-and-run with a cap", () => {
       data: {
         name: "Daily bulk assign",
         triggers: ["time_daily"],
-        conditionStatusCategory: "not_started",
+        conditionConfig: { logic: "AND", rules: [{ field: "statusCategory", operator: "equals", value: "not_started" }] },
         projectIds: [projectAId],
         scheduleTime: null,
         createdById: ownerId,
@@ -288,7 +295,7 @@ describe("runDueTimeAutomationRules — bulk find-and-run with a cap", () => {
       },
     });
 
-    await runDueTimeAutomationRules(tenantDb, new Date("2026-08-27T12:00:00Z"), ownerId);
+    await runDueTimeAutomationRules(tenantDb, new Date("2026-08-27T12:00:00Z"));
 
     const updatedA = await Promise.all(tasksInA.map((t) => tenantDb.task.findUniqueOrThrow({ where: { id: t.id } })));
     for (const task of updatedA) {
@@ -324,7 +331,7 @@ describe("runDueTimeAutomationRules — bulk find-and-run with a cap", () => {
     });
 
     // Small bound override to make the cap genuinely testable without creating 200+ tasks.
-    await runDueTimeAutomationRules(tenantDb, new Date("2026-08-27T12:00:00Z"), ownerId, 2);
+    await runDueTimeAutomationRules(tenantDb, new Date("2026-08-27T12:00:00Z"), 2);
 
     const updated = await Promise.all(tasks.map((t) => tenantDb.task.findUniqueOrThrow({ where: { id: t.id } })));
     const assignedCount = updated.filter((t) => t.assigneeId === assignee.id).length;
@@ -353,7 +360,7 @@ describe("runDueTimeAutomationRules — bulk find-and-run with a cap", () => {
       },
     });
 
-    await runDueTimeAutomationRules(tenantDb, new Date("2026-08-27T12:00:00Z"), ownerId);
+    await runDueTimeAutomationRules(tenantDb, new Date("2026-08-27T12:00:00Z"));
 
     const updated = await tenantDb.task.findUniqueOrThrow({ where: { id: task.id } });
     expect(updated.assigneeId).toBeNull();

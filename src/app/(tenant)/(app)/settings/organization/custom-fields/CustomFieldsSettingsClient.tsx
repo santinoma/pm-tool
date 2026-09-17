@@ -7,6 +7,7 @@ import { ChevronDown, ChevronUp, X } from "lucide-react";
 import { Badge } from "@/ui/shadcn/components/badge";
 import { Button } from "@/ui/shadcn/components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/shadcn/components/card";
+import { Checkbox } from "@/ui/shadcn/components/checkbox";
 import { Input } from "@/ui/shadcn/components/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 
@@ -22,6 +23,9 @@ interface FieldRow {
   type: string;
   entityType: string;
   options: string[];
+  required: boolean;
+  sensitive: boolean;
+  autoAttach: boolean;
   attachedProjects: ProjectOption[];
 }
 
@@ -40,6 +44,7 @@ const ENTITY_TYPE_LABELS: Record<string, string> = {
   task: "Tasks",
   budget: "Budgets",
   wiki_page: "Docs",
+  user: "Mitglieder",
 };
 
 const OPTIONS_REQUIRED_TYPES = ["select", "multi_select"];
@@ -62,6 +67,9 @@ export function CustomFieldsSettingsClient({
   const [type, setType] = useState("text");
   const [entityType, setEntityType] = useState("task");
   const [optionsText, setOptionsText] = useState("");
+  const [required, setRequired] = useState(false);
+  const [sensitive, setSensitive] = useState(false);
+  const [autoAttach, setAutoAttach] = useState(false);
   const [saving, setSaving] = useState(false);
 
   async function handleCreate(event: React.FormEvent<HTMLFormElement>) {
@@ -80,7 +88,7 @@ export function CustomFieldsSettingsClient({
     const response = await fetch("/api/tenant/custom-fields", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ key, label, type, entityType, options }),
+      body: JSON.stringify({ key, label, type, entityType, options, required, sensitive, autoAttach }),
     });
     setSaving(false);
     if (!response.ok) {
@@ -91,6 +99,9 @@ export function CustomFieldsSettingsClient({
     setKey("");
     setLabel("");
     setOptionsText("");
+    setRequired(false);
+    setSensitive(false);
+    setAutoAttach(false);
     router.refresh();
   }
 
@@ -166,6 +177,20 @@ export function CustomFieldsSettingsClient({
               className="w-56"
             />
           )}
+          <label className="flex items-center gap-1.5 text-sm text-muted-foreground">
+            <Checkbox checked={required} onCheckedChange={(checked) => setRequired(checked === true)} />
+            Pflichtfeld
+          </label>
+          <label className="flex items-center gap-1.5 text-sm text-muted-foreground">
+            <Checkbox checked={sensitive} onCheckedChange={(checked) => setSensitive(checked === true)} />
+            Sensibel
+          </label>
+          {entityType !== "user" && (
+            <label className="flex items-center gap-1.5 text-sm text-muted-foreground">
+              <Checkbox checked={autoAttach} onCheckedChange={(checked) => setAutoAttach(checked === true)} />
+              Auto-Attach an neue Projekte
+            </label>
+          )}
           <Button type="submit" disabled={saving || !key.trim() || !label.trim()}>
             Add Field
           </Button>
@@ -188,6 +213,9 @@ export function CustomFieldsSettingsClient({
                   {field.label}
                   <Badge variant="outline">{ENTITY_TYPE_LABELS[field.entityType] ?? field.entityType}</Badge>
                   <Badge variant="outline">{TYPE_LABELS[field.type] ?? field.type}</Badge>
+                  {field.required && <Badge variant="secondary">Pflichtfeld</Badge>}
+                  {field.sensitive && <Badge variant="secondary">Sensibel</Badge>}
+                  {field.autoAttach && <Badge variant="secondary">Auto-Attach</Badge>}
                   <span className="font-normal text-muted-foreground">
                     {field.attachedProjects.length} Projekt(e)
                   </span>

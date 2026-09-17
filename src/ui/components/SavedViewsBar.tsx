@@ -19,9 +19,10 @@ export interface SavedViewRecord {
 
 /**
  * Speichert/lädt eine benannte Kombination aus Ansichtstyp + Filter + Sortierung
- * ("Saved View"). Wird sowohl auf der Projekt-Listenansicht (scope "project",
- * mit optionaler Freigabe für alle Projektmitglieder) als auch auf "Meine
- * Tasks" (scope "my_tasks", rein privat — dort gibt es kein "alle") verwendet.
+ * ("Saved View"). Wird auf projektgebundenen Listen (scope "project"/"budgets",
+ * mit optionaler Freigabe für alle Projektmitglieder — Projektbezug erkannt an
+ * `projectId`, nicht am konkreten scope-String) sowie auf "Meine Tasks" (scope
+ * "my_tasks", rein privat — dort gibt es kein "alle") verwendet.
  */
 export function SavedViewsBar({
   scope,
@@ -32,7 +33,7 @@ export function SavedViewsBar({
   getCurrentConfig,
   onApply,
 }: {
-  scope: "project" | "my_tasks";
+  scope: "project" | "budgets" | "my_tasks" | "time_entries";
   projectId?: string;
   initialViews: SavedViewRecord[];
   currentUserId: string;
@@ -46,13 +47,13 @@ export function SavedViewsBar({
   const [sharedWithAll, setSharedWithAll] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const isProjectScoped = projectId !== undefined;
 
   async function refreshViews() {
     const params = new URLSearchParams();
-    if (scope === "project" && projectId) {
+    params.set("scope", scope);
+    if (isProjectScoped) {
       params.set("projectId", projectId);
-    } else {
-      params.set("scope", "my_tasks");
     }
     const response = await fetch(`/api/tenant/saved-views?${params.toString()}`);
     if (response.ok) {
@@ -71,12 +72,12 @@ export function SavedViewsBar({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         scope,
-        projectId: scope === "project" ? projectId : undefined,
+        projectId: isProjectScoped ? projectId : undefined,
         name: name.trim(),
         viewType,
         filterConfig,
         sortConfig,
-        sharedWithAll: scope === "project" ? sharedWithAll : false,
+        sharedWithAll: isProjectScoped ? sharedWithAll : false,
       }),
     });
     setSaving(false);

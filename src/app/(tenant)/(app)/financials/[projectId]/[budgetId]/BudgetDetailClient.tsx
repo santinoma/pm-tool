@@ -13,7 +13,7 @@ import { Checkbox } from "@/ui/shadcn/components/checkbox";
 import { Input } from "@/ui/shadcn/components/input";
 import { Label } from "@/ui/shadcn/components/label";
 import { Progress } from "@/ui/shadcn/components/progress";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/shadcn/components/tabs";
 import { cn } from "@/ui/shadcn/lib/utils";
@@ -42,6 +42,7 @@ interface Section {
   position: number;
   assigneeIds: string[];
   assigneeLabels: string[];
+  assigneeRates: Record<string, number | null>;
 }
 
 interface UserOption {
@@ -56,6 +57,7 @@ interface ServiceTypeOption {
 
 interface RateCardItemOption {
   id: string;
+  source: "client" | "default";
   name: string;
   serviceTypeId: string | null;
   billingType: string;
@@ -119,6 +121,13 @@ const RECOGNITION_METHOD_LABELS: Record<string, string> = {
   straight_line: "Linear über Budget-Zeitraum",
 };
 
+const BILLABLE_RATE_STRATEGY_LABELS: Record<string, string> = {
+  service: "Service Rate (Satz pro Service)",
+  person: "Person Rate (Satz pro Person)",
+  single: "Single Rate (ein Satz für das ganze Budget)",
+  no_rate: "No Rate (keine automatische Bewertung)",
+};
+
 const ACTIVITY_TYPE_LABELS: Record<string, string> = {
   budget_created: "Budget angelegt",
   budget_updated: "Budget aktualisiert",
@@ -132,12 +141,14 @@ function SectionEditRow({
   section,
   users,
   serviceTypes,
+  billableRateStrategy,
   onSaved,
   onCancel,
 }: {
   section: Section;
   users: UserOption[];
   serviceTypes: ServiceTypeOption[];
+  billableRateStrategy: string;
   onSaved: () => void;
   onCancel: () => void;
 }) {
@@ -161,11 +172,18 @@ function SectionEditRow({
   const [trackExpenses, setTrackExpenses] = useState(section.trackExpenses);
   const [trackBooking, setTrackBooking] = useState(section.trackBooking);
   const [assigneeIds, setAssigneeIds] = useState<string[]>(section.assigneeIds);
+  const [assigneeRates, setAssigneeRates] = useState<Record<string, string>>(
+    Object.fromEntries(Object.entries(section.assigneeRates).map(([userId, rate]) => [userId, rate?.toString() ?? ""])),
+  );
   const [saving, setSaving] = useState(false);
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   function toggleAssignee(userId: string) {
     setAssigneeIds((current) => (current.includes(userId) ? current.filter((id) => id !== userId) : [...current, userId]));
+  }
+
+  function handleAssigneeRateChange(userId: string, value: string) {
+    setAssigneeRates((current) => ({ ...current, [userId]: value }));
   }
 
   async function handleSave() {
@@ -194,6 +212,9 @@ function SectionEditRow({
         trackExpenses,
         trackBooking,
         assigneeIds,
+        assigneeRates: Object.fromEntries(
+          Object.entries(assigneeRates).filter(([, value]) => value.trim() !== "").map(([userId, value]) => [userId, Number(value)]),
+        ),
       }),
     });
     setSaving(false);
@@ -315,17 +336,14 @@ function SectionEditRow({
                   Overrun blockieren
                 </label>
               </div>
-              <div>
-                <span className="mb-1 block text-xs font-medium text-muted-foreground">Assignees</span>
-                <div className="flex max-w-md flex-wrap gap-2">
-                  {users.map((user) => (
-                    <label key={user.id} className="flex items-center gap-1.5 text-xs">
-                      <Checkbox checked={assigneeIds.includes(user.id)} onCheckedChange={() => toggleAssignee(user.id)} />
-                      {user.label}
-                    </label>
-                  ))}
-                </div>
-              </div>
+              <AssigneePicker
+                users={users}
+                billableRateStrategy={billableRateStrategy}
+                assigneeIds={assigneeIds}
+                assigneeRates={assigneeRates}
+                onToggle={toggleAssignee}
+                onRateChange={handleAssigneeRateChange}
+              />
             </div>
           )}
 
@@ -379,10 +397,56 @@ function TrackingToggle({
   );
 }
 
+/**
+ * Assignee-Auswahl für eine Section. Zeigt zusätzlich ein Satz-Feld pro
+ * ausgewählter Person, wenn die Billable-Rate-Strategie des Budgets
+ * "person" ist (T313) — die Zeiterfassung löst den Rechnungssatz dann pro
+ * Person statt über `section.price` auf.
+ */
+function AssigneePicker({
+  users,
+  billableRateStrategy,
+  assigneeIds,
+  assigneeRates,
+  onToggle,
+  onRateChange,
+}: {
+  users: UserOption[];
+  billableRateStrategy: string;
+  assigneeIds: string[];
+  assigneeRates: Record<string, string>;
+  onToggle: (userId: string) => void;
+  onRateChange: (userId: string, value: string) => void;
+}) {
+  return (
+    <div>
+      <span className="mb-1 block text-xs font-medium text-muted-foreground">Assignees</span>
+      <div className="flex max-w-md flex-col gap-1.5">
+        {users.map((user) => (
+          <label key={user.id} className="flex items-center gap-1.5 text-xs">
+            <Checkbox checked={assigneeIds.includes(user.id)} onCheckedChange={() => onToggle(user.id)} />
+            <span className="min-w-24">{user.label}</span>
+            {billableRateStrategy === "person" && assigneeIds.includes(user.id) && (
+              <Input
+                className="h-6 w-20 text-xs"
+                type="number"
+                placeholder="Satz"
+                value={assigneeRates[user.id] ?? ""}
+                onChange={(e) => onRateChange(user.id, e.target.value)}
+              />
+            )}
+          </label>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function SectionRow({
   section,
   users,
   serviceTypes,
+  billableRateStrategy,
   canManage,
   isFirst,
   isLast,
@@ -392,6 +456,7 @@ function SectionRow({
   section: Section;
   users: UserOption[];
   serviceTypes: ServiceTypeOption[];
+  billableRateStrategy: string;
   canManage: boolean;
   isFirst: boolean;
   isLast: boolean;
@@ -417,6 +482,7 @@ function SectionRow({
         section={section}
         users={users}
         serviceTypes={serviceTypes}
+        billableRateStrategy={billableRateStrategy}
         onSaved={() => {
           setEditing(false);
           onSaved();
@@ -501,6 +567,7 @@ function ServicesTab({
   users,
   serviceTypes,
   rateCardItems,
+  billableRateStrategy,
   onSaved,
 }: {
   budgetId: string;
@@ -509,6 +576,7 @@ function ServicesTab({
   users: UserOption[];
   serviceTypes: ServiceTypeOption[];
   rateCardItems: RateCardItemOption[];
+  billableRateStrategy: string;
   onSaved: () => void;
 }) {
   const [creating, setCreating] = useState(false);
@@ -522,6 +590,7 @@ function ServicesTab({
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState("");
   const [assigneeIds, setAssigneeIds] = useState<string[]>([]);
+  const [assigneeRates, setAssigneeRates] = useState<Record<string, string>>({});
   const [error, setError] = useState<string | null>(null);
 
   async function handleMove(section: Section, direction: "up" | "down") {
@@ -560,6 +629,10 @@ function ServicesTab({
     setAssigneeIds((current) => (current.includes(userId) ? current.filter((id) => id !== userId) : [...current, userId]));
   }
 
+  function handleAssigneeRateChange(userId: string, value: string) {
+    setAssigneeRates((current) => ({ ...current, [userId]: value }));
+  }
+
   async function handleCreate(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
@@ -576,6 +649,9 @@ function ServicesTab({
         quantity: Number(quantity),
         price: Number(price),
         assigneeIds,
+        assigneeRates: Object.fromEntries(
+          Object.entries(assigneeRates).filter(([, value]) => value.trim() !== "").map(([userId, value]) => [userId, Number(value)]),
+        ),
       }),
     });
     const data = await response.json();
@@ -593,6 +669,7 @@ function ServicesTab({
     setQuantity("");
     setPrice("");
     setAssigneeIds([]);
+    setAssigneeRates({});
     setCreating(false);
     onSaved();
   }
@@ -612,11 +689,28 @@ function ServicesTab({
               <SelectTrigger className="max-w-80"><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="__none__">— aus Rate Card übernehmen (optional) —</SelectItem>
-                {rateCardItems.map((item) => (
-                  <SelectItem key={item.id} value={item.id}>
-                    {item.name} ({item.defaultPrice.toFixed(2)})
-                  </SelectItem>
-                ))}
+                {rateCardItems.some((item) => item.source === "client") && (
+                  <SelectGroup>
+                    <SelectLabel>Kundenspezifische Rate Card</SelectLabel>
+                    {rateCardItems
+                      .filter((item) => item.source === "client")
+                      .map((item) => (
+                        <SelectItem key={item.id} value={item.id}>
+                          {item.name} ({item.defaultPrice.toFixed(2)})
+                        </SelectItem>
+                      ))}
+                  </SelectGroup>
+                )}
+                <SelectGroup>
+                  <SelectLabel>Standard Rate Card</SelectLabel>
+                  {rateCardItems
+                    .filter((item) => item.source === "default")
+                    .map((item) => (
+                      <SelectItem key={item.id} value={item.id}>
+                        {item.name} ({item.defaultPrice.toFixed(2)})
+                      </SelectItem>
+                    ))}
+                </SelectGroup>
               </SelectContent>
             </Select>
           )}
@@ -675,17 +769,14 @@ function ServicesTab({
             </LabeledField>
             <Button type="submit">Anlegen</Button>
           </div>
-          <div>
-            <span className="mb-1 block text-xs font-medium text-muted-foreground">Assignees</span>
-            <div className="flex max-w-md flex-wrap gap-2">
-              {users.map((user) => (
-                <label key={user.id} className="flex items-center gap-1.5 text-xs">
-                  <Checkbox checked={assigneeIds.includes(user.id)} onCheckedChange={() => toggleAssignee(user.id)} />
-                  {user.label}
-                </label>
-              ))}
-            </div>
-          </div>
+          <AssigneePicker
+            users={users}
+            billableRateStrategy={billableRateStrategy}
+            assigneeIds={assigneeIds}
+            assigneeRates={assigneeRates}
+            onToggle={toggleAssignee}
+            onRateChange={handleAssigneeRateChange}
+          />
           {error && <p className="text-sm text-destructive">{error}</p>}
         </form>
       )}
@@ -718,6 +809,7 @@ function ServicesTab({
                   section={section}
                   users={users}
                   serviceTypes={serviceTypes}
+                  billableRateStrategy={billableRateStrategy}
                   canManage={canManage}
                   isFirst={index === 0}
                   isLast={index === sections.length - 1}
@@ -993,6 +1085,8 @@ export function BudgetDetailClient({
     scenarioOf: { id: string; title: string } | null;
     deliveredAt: string | null;
     approvalPolicyId: string | null;
+    billableRateStrategy: string;
+    billableRate: number | null;
   };
   sections: Section[];
   users: UserOption[];
@@ -1014,6 +1108,8 @@ export function BudgetDetailClient({
   const [endDate, setEndDate] = useState(budget.endDate ?? "");
   const [color, setColor] = useState(budget.color ?? PROJECT_COLOR_PALETTE[0]);
   const [isTemplate, setIsTemplate] = useState(budget.isTemplate);
+  const [billableRateStrategy, setBillableRateStrategy] = useState(budget.billableRateStrategy);
+  const [billableRate, setBillableRate] = useState(budget.billableRate?.toString() ?? "");
   const [promoting, setPromoting] = useState(false);
   const [deliverBusy, setDeliverBusy] = useState(false);
   const [approvalPolicyId, setApprovalPolicyId] = useState(budget.approvalPolicyId ?? "__none__");
@@ -1031,6 +1127,8 @@ export function BudgetDetailClient({
         endDate: endDate || null,
         color,
         isTemplate,
+        billableRateStrategy,
+        billableRate: billableRateStrategy === "single" && billableRate.trim() !== "" ? Number(billableRate) : null,
       }),
     });
     setEditingHeader(false);
@@ -1186,6 +1284,25 @@ export function BudgetDetailClient({
             <Checkbox checked={isTemplate} onCheckedChange={(c) => setIsTemplate(c === true)} />
             Als Vorlage speichern (für neue Budgets in diesem Projekt auswählbar)
           </label>
+          <div className="mb-3 flex flex-wrap items-end gap-2">
+            <LabeledField label="Billable Rate">
+              <Select value={billableRateStrategy} onValueChange={setBillableRateStrategy}>
+                <SelectTrigger className="w-72"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {Object.entries(BILLABLE_RATE_STRATEGY_LABELS).map(([value, label]) => (
+                    <SelectItem key={value} value={value}>
+                      {label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </LabeledField>
+            {billableRateStrategy === "single" && (
+              <LabeledField label="Satz für das gesamte Budget">
+                <Input className="w-28" type="number" value={billableRate} onChange={(e) => setBillableRate(e.target.value)} />
+              </LabeledField>
+            )}
+          </div>
           <Button size="sm" onClick={handleSaveHeader}>
             Speichern
           </Button>
@@ -1204,7 +1321,16 @@ export function BudgetDetailClient({
         </TabsList>
 
         <TabsContent value="services">
-          <ServicesTab budgetId={budget.id} canManage={canManage} sections={sections} users={users} serviceTypes={serviceTypes} rateCardItems={rateCardItems} onSaved={onSaved} />
+          <ServicesTab
+            budgetId={budget.id}
+            canManage={canManage}
+            sections={sections}
+            users={users}
+            serviceTypes={serviceTypes}
+            rateCardItems={rateCardItems}
+            billableRateStrategy={budget.billableRateStrategy}
+            onSaved={onSaved}
+          />
         </TabsContent>
         <TabsContent value="time">
           <TimeTab entries={timeEntries} />

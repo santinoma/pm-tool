@@ -10,6 +10,7 @@ export interface OffboardResult {
   reassignedTo: string | null;
   counts: {
     budgetsReassigned: number;
+    dealsReassigned: number;
     managedProjectsReassigned: number;
     openTasksReassigned: number;
     projectMembershipsRemoved: number;
@@ -19,6 +20,7 @@ export interface OffboardResult {
     privateSavedViewsDeleted: number;
     savedReportsReassigned: number;
     apiKeysRevoked: number;
+    absenceRequestsReassigned: number;
   };
 }
 
@@ -40,7 +42,15 @@ export class OffboardValidationError extends Error {
  *  - Budget.ownerId (required/non-null) -> reassigned to reassignToUserId; if the
  *    target owns any budgets and no reassignToUserId is given, this is rejected (400)
  *    up front, since the field cannot be nulled.
+ *  - Deal.ownerId (required/non-null) -> same as Budget.ownerId. Productive's
+ *    documented offboarding flow explicitly reassigns deals where the user is the
+ *    owner; this was previously missing entirely, leaving a deactivated user as the
+ *    unreachable owner of open deals.
  *  - Project.projectManagerId (nullable) -> reassigned if given, else cleared to null.
+ *  - AbsenceRequest.reviewedById (nullable) -> same treatment as
+ *    Project.projectManagerId: reassigned if a successor is given, else cleared. Not
+ *    treated as a blocker (a past reviewer decision doesn't need an owner going
+ *    forward), unlike Budget/Deal ownership above.
  *  - AutomationRule.createdById (required/non-null) -> reassigned to reassignToUserId;
  *    required (400) if the target created any rules and no successor is given. Treated
  *    as ownership (not just audit metadata) because these are live, still-executing
@@ -116,6 +126,7 @@ export async function runOffboardUser(
   if (!successor) {
     const blockers: string[] = [];
     if (summary.budgets > 0) blockers.push(`${summary.budgets} Budget(s)`);
+    if (summary.deals > 0) blockers.push(`${summary.deals} Deal(s)`);
     if (summary.automationRules > 0) blockers.push(`${summary.automationRules} Automation-Regel(n)`);
     if (summary.resourceBookings > 0) blockers.push(`${summary.resourceBookings} Ressourcen-Buchung(en)`);
     if (summary.sharedSavedViews > 0) blockers.push(`${summary.sharedSavedViews} geteilte Ansicht(en)`);
@@ -144,9 +155,18 @@ export async function runOffboardUser(
       ? await tx.budget.updateMany({ where: { ownerId: targetUserId }, data: { ownerId: successor.id } })
       : { count: 0 };
 
+    const dealsReassignedResult = successor
+      ? await tx.deal.updateMany({ where: { ownerId: targetUserId }, data: { ownerId: successor.id } })
+      : { count: 0 };
+
     const managedProjectsReassignedResult = await tx.project.updateMany({
       where: { projectManagerId: targetUserId },
       data: { projectManagerId: successor ? successor.id : null },
+    });
+
+    const absenceRequestsReassignedResult = await tx.absenceRequest.updateMany({
+      where: { reviewedById: targetUserId },
+      data: { reviewedById: successor ? successor.id : null },
     });
 
     const automationRulesReassignedResult = successor
@@ -190,6 +210,7 @@ export async function runOffboardUser(
       updatedUser,
       counts: {
         budgetsReassigned: budgetsReassignedResult.count,
+        dealsReassigned: dealsReassignedResult.count,
         managedProjectsReassigned: managedProjectsReassignedResult.count,
         openTasksReassigned: openTasksReassignedResult.count,
         projectMembershipsRemoved: projectMembershipsRemovedResult.count,
@@ -199,6 +220,7 @@ export async function runOffboardUser(
         privateSavedViewsDeleted: privateSavedViewsDeletedResult.count,
         savedReportsReassigned: savedReportsReassignedResult.count,
         apiKeysRevoked: apiKeysRevokedResult.count,
+        absenceRequestsReassigned: absenceRequestsReassignedResult.count,
       },
     };
   });

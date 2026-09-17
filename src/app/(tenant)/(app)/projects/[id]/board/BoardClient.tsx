@@ -19,14 +19,6 @@ interface BoardStatus {
   category: string;
 }
 
-const PRIORITY_LABELS: Record<string, string> = {
-  no_priority: "",
-  low: "Niedrig",
-  medium: "Mittel",
-  high: "High",
-  urgent: "Dringend",
-};
-
 interface BoardTask {
   id: string;
   title: string;
@@ -192,9 +184,9 @@ export function BoardClient({
                     </Link>
                     {/* Reference card anatomy: Titel, ID, Estimate, Typ/Priority-Tags, Assignee-Avatar. */}
                     <div className="flex flex-wrap items-center gap-1.5">
-                      {task.priority !== "no_priority" && (
+                      {task.priority && (
                         <Badge variant="outline" className="font-mono text-[10px] uppercase">
-                          {PRIORITY_LABELS[task.priority] ?? task.priority}
+                          {task.priority}
                         </Badge>
                       )}
                       {task.tShirtSize && (

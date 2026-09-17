@@ -4,8 +4,12 @@ import { type RoleName } from "@/tenant/auth/roleGuard";
 import { buildInviteUrl, computeInviteExpiry, generateInviteToken } from "@/tenant/auth/invite";
 import { hasFeature } from "@/tenant/entitlements/features";
 import { hasEffectivePermission } from "@/tenant/permissions/resolvePermissions";
+import { getTenantById } from "@/platform/tenantRegistry";
+import { PAID_SEAT_ROLES, countPaidSeats } from "@/tenant/billing/seats";
+import { isRoleAllowedForEmploymentType, type EmploymentTypeName } from "@/tenant/auth/employmentType";
 
 const INVITABLE_ROLES: RoleName[] = ["admin", "member", "client"];
+const VALID_EMPLOYMENT_TYPES: EmploymentTypeName[] = ["employee", "contractor"];
 
 export async function POST(request: Request) {
   const context = await getTenantContext();
@@ -29,6 +33,17 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   }
+  const employmentType: EmploymentTypeName =
+    typeof body.employmentType === "string" && VALID_EMPLOYMENT_TYPES.includes(body.employmentType)
+      ? body.employmentType
+      : "employee";
+  if (!isRoleAllowedForEmploymentType(body.role, employmentType)) {
+    return NextResponse.json(
+      { error: "Contractors können nicht als admin eingeladen werden — nur ein festes Berechtigungsprofil (member)." },
+      { status: 400 },
+    );
+  }
+
   const grantedProjectIds = Array.isArray(body.grantedProjectIds)
     ? body.grantedProjectIds.filter((id: unknown) => typeof id === "string")
     : [];
@@ -39,6 +54,20 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Client-Portal ist im aktuellen Plan nicht enthalten." }, { status: 403 });
   }
 
+  if (PAID_SEAT_ROLES.includes(body.role as RoleName)) {
+    const tenantId = request.headers.get("x-tenant-id");
+    const tenant = tenantId ? await getTenantById(tenantId) : null;
+    if (tenant?.seatLimit != null) {
+      const usedSeats = await countPaidSeats(context.tenantDb);
+      if (usedSeats >= tenant.seatLimit) {
+        return NextResponse.json(
+          { error: `Sitzplatz-Limit erreicht (${tenant.seatLimit}). Bitte ein bestehendes Mitglied deaktivieren oder das Limit erhöhen lassen.` },
+          { status: 402 },
+        );
+      }
+    }
+  }
+
   const headerSubdomain = request.headers.get("x-tenant-subdomain") ?? "";
   const token = generateInviteToken();
 
@@ -46,6 +75,7 @@ export async function POST(request: Request) {
     data: {
       email: body.email,
       role: body.role,
+      employmentType,
       token,
       expiresAt: computeInviteExpiry(),
       grantedProjectIds: body.role === "client" ? grantedProjectIds : [],

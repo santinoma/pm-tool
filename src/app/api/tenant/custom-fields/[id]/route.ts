@@ -30,6 +30,9 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     data: {
       label: typeof body.label === "string" ? body.label.trim() : undefined,
       options: Array.isArray(body.options) ? body.options : undefined,
+      required: typeof body.required === "boolean" ? body.required : undefined,
+      sensitive: typeof body.sensitive === "boolean" ? body.sensitive : undefined,
+      autoAttach: typeof body.autoAttach === "boolean" ? body.autoAttach : undefined,
     },
   });
   return NextResponse.json({ field });

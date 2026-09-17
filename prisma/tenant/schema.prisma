@@ -18,6 +18,24 @@ enum Role {
   client
 }
 
+/**
+ * T315 (Productive "Employees vs. Contractors"): unterscheidet interne
+ * Mitarbeitende von externen Kollaborateuren, unabhängig von `role`.
+ * Laut Doku-Vergleichstabelle sind die strukturellen Unterschiede: (1)
+ * Contractors können nicht Admin/Owner sein — genau EIN festes
+ * Berechtigungsprofil statt mehrerer Stufen — und (2) Projekt-/Budget-
+ * Zugriff läuft ausschließlich über explizite Mitgliedschaft, nie über ein
+ * rollenbasiertes "sieht automatisch alles". Punkt (2) ist in dieser
+ * Codebase für `role: member` bereits strukturell erfüllt (siehe
+ * `hasProjectMemberAccess` — nur owner/admin umgehen die Mitgliedschafts-
+ * prüfung); Punkt (1) wird bei Einladung/Rollenänderung/Custom-Role-
+ * Zuweisung erzwungen (siehe `invites`- und `users/[id]`-Routen).
+ */
+enum EmploymentType {
+  employee
+  contractor
+}
+
 enum Locale {
   de
   en
@@ -29,6 +47,7 @@ model User {
   passwordHash               String? // null, solange die Einladung noch nicht angenommen wurde
   name                       String?
   role                       Role                        @default(member)
+  employmentType             EmploymentType              @default(employee)
   weeklyCapacityHours        Float                       @default(40)
   isActive                   Boolean                     @default(true)
   avatarUrl                  String?
@@ -83,6 +102,10 @@ model User {
   loggedForTimeEntries       TimeEntry[]                 @relation("TimeEntryLoggedFor")
   timesheetLocks             TimesheetLock[]
   lockedTimesheets           TimesheetLock[]             @relation("TimesheetLockedBy")
+  lockedFinancialPeriods     FinancialPeriodLock[]
+  teamMemberships            TeamMember[]
+  costRateHistory            CostRateHistoryEntry[]
+  createdCostRateEntries     CostRateHistoryEntry[]      @relation("CostRateHistoryCreatedBy")
   holidayCalendar            HolidayCalendar?            @relation(fields: [holidayCalendarId], references: [id])
   holidayCalendarId          String?
   resourceBookings           ResourceBooking[]
@@ -96,6 +119,7 @@ model User {
   ownedDeals                 Deal[]
   approvalPolicyApprovals    ApprovalPolicyApprover[]    @relation("ApprovalPolicySpecificApprover")
   timeEntryApproverDecisions TimeEntryApproverDecision[] @relation("TimeEntryApproverDecisionApprover")
+  customFieldValues          UserCustomFieldValue[]
 }
 
 enum ClientType {
@@ -300,14 +324,15 @@ model AuditLogEntry {
 }
 
 model Invite {
-  id                String    @id @default(uuid())
+  id                String         @id @default(uuid())
   email             String
-  token             String    @unique
-  role              Role      @default(member)
-  grantedProjectIds String[]  @default([])
+  token             String         @unique
+  role              Role           @default(member)
+  employmentType    EmploymentType @default(employee)
+  grantedProjectIds String[]       @default([])
   expiresAt         DateTime
   acceptedAt        DateTime?
-  createdAt         DateTime  @default(now())
+  createdAt         DateTime       @default(now())
 }
 
 model ProjectClientAccess {
@@ -714,8 +739,60 @@ model TenantSettings {
   resourcingEnabled            Boolean          @default(true)
   timeApprovalEnabled          Boolean          @default(true)
   timeEntrySubmissionEnabled   Boolean          @default(false)
+  // Location & Format (Productive: Settings > General > Location & Format).
+  timeZone                     String           @default("Europe/Berlin")
+  timeFormat                   TimeFormat       @default(h24)
+  dateFormat                   DateFormat       @default(dd_mm_yyyy)
+  numberFormat                 NumberFormat     @default(comma_decimal)
+  // Work Time (Productive: Settings > General > Work Time).
+  weekStartDay                 Int              @default(1) // 0 = Sonntag … 6 = Samstag
+  workingDays                  Int[]            @default([1, 2, 3, 4, 5])
+  personDayHours               Float            @default(8)
+  // Fiscal Year (Productive: Settings > General > Fiscal Year).
+  fiscalYearEnabled            Boolean          @default(false)
+  fiscalYearStartMonth         Int              @default(1) // 1 = Januar … 12 = Dezember
+  // Financial Month Closing (T312, Productive: Settings > Financial Month
+  // Closing). Getrennt von TimesheetLock (personenbezogenes Sperren) —
+  // organisationsweite Sperre für Zeiteinträge/Ausgaben je Kalendermonat.
+  financialMonthClosingEnabled Boolean          @default(false)
+  // Tag im Monat, ab dem der VORHERIGE Kalendermonat automatisch gesperrt
+  // wird (Productive-Beispiel: Closing Date = 5 → ab dem 5. eines Monats
+  // gilt der vorangegangene Monat als automatisch gesperrt).
+  financialMonthClosingDay     Int              @default(1)
   createdAt                    DateTime         @default(now())
   updatedAt                    DateTime         @updatedAt
+}
+
+/**
+ * Explizite Übersteuerung des Auto-Sperr-Regels aus
+ * `TenantSettings.financialMonthClosingEnabled/-Day` für einen einzelnen
+ * Kalendermonat (Productive: manuelles Sperren/Entsperren im "Month
+ * Overview"). `periodKey` im Format "YYYY-MM" (UTC). Fehlt für einen Monat
+ * ein Eintrag, gilt ausschließlich die Auto-Regel.
+ */
+model FinancialPeriodLock {
+  id         String   @id @default(uuid())
+  periodKey  String   @unique
+  locked     Boolean
+  lockedBy   User?    @relation(fields: [lockedById], references: [id])
+  lockedById String?
+  updatedAt  DateTime @updatedAt
+}
+
+enum TimeFormat {
+  h12
+  h24
+}
+
+enum DateFormat {
+  dd_mm_yyyy
+  mm_dd_yyyy
+  yyyy_mm_dd
+}
+
+enum NumberFormat {
+  comma_decimal
+  period_decimal
 }
 
 model PendingLogin {
@@ -843,6 +920,67 @@ model TimesheetLock {
   @@unique([userId, periodStart, periodEnd])
 }
 
+/**
+ * Team (T314, Productive "Managing Teams"): benannte Gruppe von Nutzern,
+ * many-to-many über `TeamMember` — eine Person kann in mehreren Teams sein.
+ * Productive nutzt Teams zum gemeinsamen Teilen von Budgets/Dashboards/Docs/
+ * Views sowie als Filter/Feld in Resourcing und Reports. Bewusst KEIN
+ * separates "Department"-Modell: laut Productive-Doku ist "Department" nur
+ * ein Beispiel-Einsatzzweck eines normalen Employee Field (Single-Select),
+ * kein eigenständiges Datenmodell — dafür reicht das bereits vorhandene
+ * Employee-Fields-Feature (T216).
+ */
+model Team {
+  id        String       @id @default(uuid())
+  name      String
+  createdAt DateTime     @default(now())
+  members   TeamMember[]
+}
+
+model TeamMember {
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  teamId String
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  @@id([teamId, userId])
+}
+
+enum CostRateType {
+  hourly
+  weekly
+  biweekly
+  monthly
+  annual
+}
+
+/**
+ * T316 (Productive "Understanding and Setting Up Cost Rates"): Cost Rates
+ * sind in Productive keine einzelne Zahl, sondern eine datierte Historie
+ * mehrerer Einträge (Gehaltsänderungen, Beförderungen etc.), von denen zu
+ * jedem Zeitpunkt höchstens einer aktiv ist (`startDate`..`endDate`, offenes
+ * Ende = aktuell laufend). `User.internalCostRate` bleibt als synchron
+ * gepflegter Cache des aktuell aufgelösten Stundensatzes bestehen (von
+ * praktisch jeder Profitabilitäts-Berechnung in dieser Codebase gelesen) —
+ * ihn durch diese Tabelle vollständig zu ersetzen wäre ein eigener, viel
+ * größerer Umbau aller Lesestellen; diese Tabelle ist die neue Quelle der
+ * Wahrheit, aus der der Cache abgeleitet wird.
+ */
+model CostRateHistoryEntry {
+  id              String       @id @default(uuid())
+  user            User         @relation(fields: [userId], references: [id])
+  userId          String
+  rateType        CostRateType
+  amount          Float
+  currency        String       @default("EUR")
+  workHoursPerDay Float        @default(8)
+  startDate       DateTime
+  endDate         DateTime?
+  createdAt       DateTime     @default(now())
+  createdBy       User?        @relation("CostRateHistoryCreatedBy", fields: [createdById], references: [id])
+  createdById     String?
+}
+
 model TimeTrackingPolicy {
   id            String   @id @default(uuid())
   maxDailyHours Float?
@@ -935,6 +1073,7 @@ enum CustomFieldEntityType {
   task
   budget
   wiki_page
+  user
 }
 
 model CustomFieldDef {
@@ -947,9 +1086,23 @@ model CustomFieldDef {
   label              String
   type               CustomFieldType
   options            String[]
+  /// Ein Pflichtfeld darf nicht auf einen leeren Wert gesetzt werden (siehe
+  /// die PUT-Value-Routen). Erzwingt nicht das Ausfüllen bei der Objekt-
+  /// erstellung selbst — Custom-Field-Werte werden in dieser Codebase immer
+  /// erst nach der Erstellung über einen eigenen Aufruf gesetzt, nicht inline.
+  required           Boolean                    @default(false)
+  /// Werte eines sensiblen Felds werden beim Laden nur an Personen mit der
+  /// Berechtigung `employee_fields_sensitive_view` ausgeliefert (siehe
+  /// getEffectiveCustomFields-Aufrufer).
+  sensitive          Boolean                    @default(false)
+  /// Nur für Library-Felder (library=true) relevant: wird bei jedem neuen
+  /// Projekt automatisch per ProjectCustomField angehängt, statt manuell
+  /// nachgetragen werden zu müssen (siehe projects/route.ts POST).
+  autoAttach         Boolean                    @default(false)
   taskValues         CustomFieldValue[]
   budgetValues       BudgetCustomFieldValue[]
   wikiPageValues     WikiPageCustomFieldValue[]
+  userValues         UserCustomFieldValue[]
   projectAttachments ProjectCustomField[]
 
   @@unique([projectId, key])
@@ -1001,6 +1154,20 @@ model WikiPageCustomFieldValue {
   value      String
 
   @@unique([fieldId, wikiPageId])
+}
+
+// Productive.io "Employee Fields" — org-wide, always library=true, never
+// project-scoped (Users aren't attached to a single project), so no
+// ProjectCustomField-style attachment step applies here.
+model UserCustomFieldValue {
+  id      String         @id @default(uuid())
+  field   CustomFieldDef @relation(fields: [fieldId], references: [id])
+  fieldId String
+  user    User           @relation(fields: [userId], references: [id])
+  userId  String
+  value   String
+
+  @@unique([fieldId, userId])
 }
 
 model SharedWikiLink {
@@ -1095,20 +1262,23 @@ enum AutomationActionType {
 }
 
 model AutomationRule {
-  id                      String              @id @default(uuid())
-  name                    String
-  triggers                AutomationTrigger[]
-  conditionStatusCategory StatusCategory?
-  projectIds              String[]            @default([])
-  scheduleTime            String?
-  scheduleWeekday         Int?
-  lastRunPeriodKey        String?
-  isEnabled               Boolean             @default(true)
-  createdBy               User                @relation(fields: [createdById], references: [id])
-  createdById             String
-  createdAt               DateTime            @default(now())
-  updatedAt               DateTime            @updatedAt
-  actions                 AutomationAction[]
+  id               String              @id @default(uuid())
+  name             String
+  triggers         AutomationTrigger[]
+  /// T306: generisches Attribut/Operator-Bedingungssystem (FilterGroup, siehe
+  /// src/tenant/views/filterEngine.ts) statt der früheren Einzelfeld-Bedingung
+  /// `conditionStatusCategory`. `null` = keine Bedingung, Regel matcht immer.
+  conditionConfig  Json?
+  projectIds       String[]            @default([])
+  scheduleTime     String?
+  scheduleWeekday  Int?
+  lastRunPeriodKey String?
+  isEnabled        Boolean             @default(true)
+  createdBy        User                @relation(fields: [createdById], references: [id])
+  createdById      String
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+  actions          AutomationAction[]
 }
 
 model AutomationAction {
@@ -1260,6 +1430,16 @@ model Budget {
   scenarios               Budget[]                 @relation("BudgetScenarios")
   isTemplate              Boolean                  @default(false)
   deliveredAt             DateTime?
+  /// Productive "Billable Rate"-Einstellung: bestimmt, welcher Satz für
+  /// Zeiterfassung in diesem Budget herangezogen wird — "service" (Standard,
+  /// bisheriges Verhalten) nimmt `BudgetSection.price`, "person" den
+  /// individuellen `BudgetSectionAssignee.hourlyRate` der buchenden Person
+  /// (Fallback auf `price`, falls für die Person kein Satz gepflegt ist),
+  /// "single" den einen `billableRate` für das gesamte Budget, "no_rate"
+  /// liefert 0 (Zeit bleibt erfassbar, wird aber nicht automatisch bewertet).
+  billableRateStrategy    BillableRateStrategy     @default(service)
+  /// Nur relevant bei billableRateStrategy = "single".
+  billableRate            Float?
   createdAt               DateTime                 @default(now())
   updatedAt               DateTime                 @updatedAt
   sections                BudgetSection[]
@@ -1269,6 +1449,13 @@ model Budget {
   expenses                Expense[]
   approvalPolicy          ApprovalPolicy?          @relation(fields: [approvalPolicyId], references: [id])
   approvalPolicyId        String?
+}
+
+enum BillableRateStrategy {
+  person
+  service
+  single
+  no_rate
 }
 
 enum BillingType {
@@ -1388,16 +1575,20 @@ model Invoice {
   createdAt       DateTime          @default(now())
   lineItems       InvoiceLineItem[]
   timeEntries     TimeEntry[]
+  expenses        Expense[]
   payments        InvoicePayment[]
   creditNotes     CreditNote[]
 }
 
 model InvoiceLineItem {
-  id              String        @id @default(uuid())
-  invoice         Invoice       @relation(fields: [invoiceId], references: [id])
+  id              String         @id @default(uuid())
+  invoice         Invoice        @relation(fields: [invoiceId], references: [id])
   invoiceId       String
-  budgetSection   BudgetSection @relation(fields: [budgetSectionId], references: [id])
-  budgetSectionId String
+  budgetSection   BudgetSection? @relation(fields: [budgetSectionId], references: [id])
+  /// Null for expense-based line items — Expense has no per-section FK in this schema.
+  budgetSectionId String?
+  expense         Expense?       @relation(fields: [expenseId], references: [id])
+  expenseId       String?
   description     String
   quantityHours   Float
   rate            Float
@@ -1485,6 +1676,9 @@ model Expense {
   createdById    String
   createdAt      DateTime              @default(now())
   updatedAt      DateTime              @updatedAt
+  invoice        Invoice?              @relation(fields: [invoiceId], references: [id])
+  invoiceId      String?
+  lineItems      InvoiceLineItem[]
 }
 
 model PurchaseOrder {
@@ -1518,10 +1712,14 @@ model SavedReport {
 }
 
 model BudgetSectionAssignee {
-  section   BudgetSection @relation(fields: [sectionId], references: [id])
-  sectionId String
-  user      User          @relation("BudgetSectionAssignee", fields: [userId], references: [id])
-  userId    String
+  section    BudgetSection @relation(fields: [sectionId], references: [id])
+  sectionId  String
+  user       User          @relation("BudgetSectionAssignee", fields: [userId], references: [id])
+  userId     String
+  /// Nur relevant, wenn das übergeordnete Budget billableRateStrategy =
+  /// "person" verwendet — individueller Stundensatz dieser Person in dieser
+  /// Section. Ohne Wert fällt die Zeiterfassung auf `BudgetSection.price` zurück.
+  hourlyRate Float?
 
   @@id([sectionId, userId])
 }

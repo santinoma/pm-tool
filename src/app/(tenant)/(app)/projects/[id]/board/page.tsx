@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getTenantContext } from "@/tenant/context";
 import { privateTaskVisibilityFilter } from "@/tenant/projectAccess/privateTaskFilter";
 import { getEffectiveCustomFields } from "@/tenant/customFields/library";
+import { getOrCreateSystemTaskFields } from "@/tenant/customFields/systemTaskFields";
 import { BoardClient } from "./BoardClient";
 
 export const dynamic = "force-dynamic";
@@ -12,6 +13,8 @@ export default async function BoardPage({ params }: { params: Promise<{ id: stri
   if (!context?.currentUser) {
     redirect("/login");
   }
+
+  const { priorityField, tShirtSizeField } = await getOrCreateSystemTaskFields(context.tenantDb);
 
   const [statuses, tasks, users, customFields, templates] = await Promise.all([
     context.tenantDb.workflowStatus.findMany({
@@ -25,7 +28,10 @@ export default async function BoardPage({ params }: { params: Promise<{ id: stri
           privateTaskVisibilityFilter(context.currentUser),
         ],
       },
-      include: { assignee: true },
+      include: {
+        assignee: true,
+        customValues: { where: { fieldId: { in: [priorityField.id, tShirtSizeField.id] } } },
+      },
       orderBy: { position: "asc" },
     }),
     context.tenantDb.user.findMany({ where: { isActive: true }, orderBy: { createdAt: "asc" } }),
@@ -46,8 +52,8 @@ export default async function BoardPage({ params }: { params: Promise<{ id: stri
         statusId: task.statusId,
         position: task.position,
         assignee: task.assignee?.name ?? task.assignee?.email ?? null,
-        priority: task.priority,
-        tShirtSize: task.tShirtSize,
+        priority: task.customValues.find((v) => v.fieldId === priorityField.id)?.value ?? "",
+        tShirtSize: task.customValues.find((v) => v.fieldId === tShirtSizeField.id)?.value ?? null,
         estimatedHours: task.estimatedHours,
       }))}
       users={users.map((user) => ({ id: user.id, label: user.name ?? user.email }))}

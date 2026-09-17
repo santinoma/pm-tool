@@ -78,17 +78,27 @@ export default async function ProjectBudgetsPage({
     });
   }
 
-  const [budgets, users, templates] = await Promise.all([
+  const [budgets, users, templates, savedViews] = await Promise.all([
     context.tenantDb.budget.findMany({
       where: { projectId, isScenario: false },
       include: { owner: true, sections: true },
       orderBy: { createdAt: "desc" },
     }),
     context.tenantDb.user.findMany({ orderBy: { email: "asc" } }),
+    // Productive Template Center: Budget-Vorlagen sind organisationsweit
+    // wiederverwendbar, nicht auf das Ursprungsprojekt beschränkt (T311).
     context.tenantDb.budget.findMany({
-      where: { projectId, isTemplate: true },
+      where: { isTemplate: true },
       orderBy: { title: "asc" },
-      select: { id: true, title: true },
+      select: { id: true, title: true, project: { select: { name: true } } },
+    }),
+    context.tenantDb.savedView.findMany({
+      where: {
+        scope: "budgets",
+        projectId,
+        OR: [{ ownerId: context.currentUser.id }, { sharedWithAll: true }],
+      },
+      orderBy: { createdAt: "desc" },
     }),
   ]);
 
@@ -148,6 +158,7 @@ export default async function ProjectBudgetsPage({
         budgets={budgets.map((budget) => ({
           id: budget.id,
           title: budget.title,
+          ownerId: budget.ownerId,
           ownerLabel: budget.owner.name ?? budget.owner.email,
           sectionCount: budget.sections.length,
           budgetTotal: budget.sections.reduce(
@@ -156,7 +167,17 @@ export default async function ProjectBudgetsPage({
           ),
         }))}
         users={users.map((u) => ({ id: u.id, label: u.name ?? u.email }))}
-        templates={templates.map((t) => ({ id: t.id, title: t.title }))}
+        templates={templates.map((t) => ({ id: t.id, title: t.title, projectName: t.project.name }))}
+        savedViews={savedViews.map((view) => ({
+          id: view.id,
+          name: view.name,
+          viewType: view.viewType,
+          filterConfig: view.filterConfig as Record<string, unknown>,
+          sortConfig: view.sortConfig as Record<string, unknown> | null,
+          sharedWithAll: view.sharedWithAll,
+          ownerId: view.ownerId,
+        }))}
+        currentUserId={context.currentUser.id}
       />
     </AppShellNextElite>
   );

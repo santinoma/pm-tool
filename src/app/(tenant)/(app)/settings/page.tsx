@@ -40,9 +40,9 @@ function getGroups(locale: Locale) {
       title: t(locale, "settings.group.myProfile"),
       items: [
         { href: "/settings/account", label: t(locale, "settings.account.title"), desc: t(locale, "settings.account.desc"), icon: UserCircle },
-        { href: "/settings/notifications", label: t(locale, "settings.notifications.title"), desc: t(locale, "settings.notifications.desc"), icon: SettingsIcon, placeholder: true },
+        { href: "/settings/notifications", label: t(locale, "settings.notifications.title"), desc: t(locale, "settings.notifications.desc"), icon: SettingsIcon },
         { href: "/settings/security", label: t(locale, "settings.security.title"), desc: t(locale, "settings.security.desc"), icon: ShieldCheck },
-        { href: "/settings/appearance", label: t(locale, "settings.appearance.title"), desc: t(locale, "settings.appearance.desc"), icon: Palette, placeholder: true },
+        { href: "/settings/appearance", label: t(locale, "settings.appearance.title"), desc: t(locale, "settings.appearance.desc"), icon: Palette },
       ],
     },
     {
@@ -53,8 +53,10 @@ function getGroups(locale: Locale) {
         { href: "/settings/time-tracking", label: t(locale, "settings.timeTracking.title"), desc: t(locale, "settings.timeTracking.desc"), icon: History },
         { href: "/settings/organization/service-types", label: t(locale, "settings.serviceTypes.title"), desc: t(locale, "settings.serviceTypes.desc"), icon: Tag },
         { href: "/settings/organization/rate-cards", label: t(locale, "settings.rateCards.title"), desc: t(locale, "settings.rateCards.desc"), icon: CreditCard },
+        { href: "/settings/organization/budget-templates", label: t(locale, "settings.budgetTemplates.title"), desc: t(locale, "settings.budgetTemplates.desc"), icon: CreditCard },
         { href: "/settings/organization/holiday-calendars", label: t(locale, "settings.holidayCalendars.title"), desc: t(locale, "settings.holidayCalendars.desc"), icon: CalendarDays },
         { href: "/settings/organization/recycle-bin", label: t(locale, "settings.recycleBin.title"), desc: t(locale, "settings.recycleBin.desc"), icon: Trash2, placeholder: true },
+        { href: "/settings/organization/financial-month-closing", label: t(locale, "settings.financialMonthClosing.title"), desc: t(locale, "settings.financialMonthClosing.desc"), icon: Lock },
       ],
     },
     {
@@ -89,7 +91,8 @@ function getGroups(locale: Locale) {
       title: t(locale, "settings.group.users"),
       items: [
         { href: "/members", label: t(locale, "settings.membersLink.title"), desc: t(locale, "settings.membersLink.desc"), icon: Users },
-        { href: "/settings/users/employee-fields", label: t(locale, "settings.employeeFields.title"), desc: t(locale, "settings.employeeFields.desc"), icon: IdCard, placeholder: true },
+        { href: "/settings/users/employee-fields", label: t(locale, "settings.employeeFields.title"), desc: t(locale, "settings.employeeFields.desc"), icon: IdCard },
+        { href: "/settings/organization/teams", label: t(locale, "settings.teams.title"), desc: t(locale, "settings.teams.desc"), icon: Users },
       ],
     },
   ];

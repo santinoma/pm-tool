@@ -11,14 +11,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
 import { cn } from "@/ui/shadcn/lib/utils";
 
-const PRIORITY_LABELS: Record<string, string> = {
-  no_priority: "Keine Priorität",
-  low: "Niedrig",
-  medium: "Mittel",
-  high: "Hoch",
-  urgent: "Dringend",
-};
-
 interface TableTask {
   id: string;
   title: string;
@@ -51,11 +43,15 @@ export function TableViewClient({
   tasks,
   statuses,
   users,
+  priorityFieldId,
+  priorityOptions,
 }: {
   projectId: string;
   tasks: TableTask[];
   statuses: { id: string; name: string; category: string }[];
   users: { id: string; label: string }[];
+  priorityFieldId: string;
+  priorityOptions: string[];
 }) {
   const router = useRouter();
   const [sortKey, setSortKey] = useState<SortKey>("dueDate");
@@ -89,6 +85,18 @@ export function TableViewClient({
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(fields),
+    });
+    setSavingId(null);
+    if (!response.ok) router.refresh();
+  }
+
+  async function patchCustomFieldValue(taskId: string, fieldId: string, value: string, optimistic: Partial<TableTask>) {
+    setLocalTasks((current) => current.map((task) => (task.id === taskId ? { ...task, ...optimistic } : task)));
+    setSavingId(taskId);
+    const response = await fetch(`/api/tenant/tasks/${taskId}/custom-fields/${fieldId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ value }),
     });
     setSavingId(null);
     if (!response.ok) router.refresh();
@@ -183,14 +191,22 @@ export function TableViewClient({
                     </Select>
                   </TableCell>
                   <TableCell className="min-w-32">
-                    <Select value={task.priority} onValueChange={(value) => patchTask(task.id, { priority: value }, { priority: value })}>
+                    <Select
+                      value={task.priority || "__none__"}
+                      onValueChange={(value) =>
+                        patchCustomFieldValue(task.id, priorityFieldId, value === "__none__" ? "" : value, {
+                          priority: value === "__none__" ? "" : value,
+                        })
+                      }
+                    >
                       <SelectTrigger className="h-8 w-full border-transparent bg-transparent text-muted-foreground hover:border-input">
-                        <SelectValue>{PRIORITY_LABELS[task.priority] ?? task.priority}</SelectValue>
+                        <SelectValue>{task.priority || "—"}</SelectValue>
                       </SelectTrigger>
                       <SelectContent>
-                        {Object.entries(PRIORITY_LABELS).map(([value, label]) => (
-                          <SelectItem key={value} value={value}>
-                            {label}
+                        <SelectItem value="__none__">—</SelectItem>
+                        {priorityOptions.map((option) => (
+                          <SelectItem key={option} value={option}>
+                            {option}
                           </SelectItem>
                         ))}
                       </SelectContent>

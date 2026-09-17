@@ -86,3 +86,37 @@ describe("Custom roles and permission resolution (data layer)", () => {
     expect(await hasEffectivePermission(tenantDb, owner, entitled, "members_manage_roles")).toBe(true);
   });
 });
+
+describe("T301-T304: Invoicing/Cost-Rate/Employee-Field granular permissions", () => {
+  it("grants a 'Billing Clerk' role invoicing_manage without cost_rates_manage", async () => {
+    const tenantDb = getTenantDbClient(tenant.dbUrl);
+    const role = await tenantDb.customRole.create({ data: { name: "Billing Clerk", permissions: ["invoicing_manage"] } });
+    const member = await tenantDb.user.create({ data: { email: "clerk@example.com", role: "member", customRoleId: role.id } });
+    const entitled = computeEntitledFeatures("enterprise", []);
+
+    expect(await hasEffectivePermission(tenantDb, member, entitled, "invoicing_manage")).toBe(true);
+    expect(await hasEffectivePermission(tenantDb, member, entitled, "cost_rates_manage")).toBe(false);
+  });
+
+  it("grants a 'Profitability Manager' role cost_rates_manage without invoicing_manage (T304)", async () => {
+    const tenantDb = getTenantDbClient(tenant.dbUrl);
+    const role = await tenantDb.customRole.create({ data: { name: "Profitability Manager", permissions: ["cost_rates_manage"] } });
+    const member = await tenantDb.user.create({ data: { email: "profit@example.com", role: "member", customRoleId: role.id } });
+    const entitled = computeEntitledFeatures("enterprise", []);
+
+    expect(await hasEffectivePermission(tenantDb, member, entitled, "cost_rates_manage")).toBe(true);
+    expect(await hasEffectivePermission(tenantDb, member, entitled, "invoicing_manage")).toBe(false);
+  });
+
+  it("grants employee_fields_sensitive_view independently of members_manage_roles", async () => {
+    const tenantDb = getTenantDbClient(tenant.dbUrl);
+    const role = await tenantDb.customRole.create({
+      data: { name: "HR Viewer", permissions: ["employee_fields_sensitive_view"] },
+    });
+    const member = await tenantDb.user.create({ data: { email: "hr@example.com", role: "member", customRoleId: role.id } });
+    const entitled = computeEntitledFeatures("enterprise", []);
+
+    expect(await hasEffectivePermission(tenantDb, member, entitled, "employee_fields_sensitive_view")).toBe(true);
+    expect(await hasEffectivePermission(tenantDb, member, entitled, "members_manage_roles")).toBe(false);
+  });
+});

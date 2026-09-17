@@ -944,8 +944,18 @@ export namespace Prisma {
 
   export type AggregateTenant = {
     _count: TenantCountAggregateOutputType | null
+    _avg: TenantAvgAggregateOutputType | null
+    _sum: TenantSumAggregateOutputType | null
     _min: TenantMinAggregateOutputType | null
     _max: TenantMaxAggregateOutputType | null
+  }
+
+  export type TenantAvgAggregateOutputType = {
+    seatLimit: number | null
+  }
+
+  export type TenantSumAggregateOutputType = {
+    seatLimit: number | null
   }
 
   export type TenantMinAggregateOutputType = {
@@ -955,6 +965,7 @@ export namespace Prisma {
     status: $Enums.TenantStatus | null
     tier: $Enums.TenantTier | null
     plan: $Enums.TenantPlan | null
+    seatLimit: number | null
     dbUrl: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -967,6 +978,7 @@ export namespace Prisma {
     status: $Enums.TenantStatus | null
     tier: $Enums.TenantTier | null
     plan: $Enums.TenantPlan | null
+    seatLimit: number | null
     dbUrl: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -980,12 +992,21 @@ export namespace Prisma {
     tier: number
     plan: number
     addOnFeatures: number
+    seatLimit: number
     dbUrl: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
+
+  export type TenantAvgAggregateInputType = {
+    seatLimit?: true
+  }
+
+  export type TenantSumAggregateInputType = {
+    seatLimit?: true
+  }
 
   export type TenantMinAggregateInputType = {
     id?: true
@@ -994,6 +1015,7 @@ export namespace Prisma {
     status?: true
     tier?: true
     plan?: true
+    seatLimit?: true
     dbUrl?: true
     createdAt?: true
     updatedAt?: true
@@ -1006,6 +1028,7 @@ export namespace Prisma {
     status?: true
     tier?: true
     plan?: true
+    seatLimit?: true
     dbUrl?: true
     createdAt?: true
     updatedAt?: true
@@ -1019,6 +1042,7 @@ export namespace Prisma {
     tier?: true
     plan?: true
     addOnFeatures?: true
+    seatLimit?: true
     dbUrl?: true
     createdAt?: true
     updatedAt?: true
@@ -1063,6 +1087,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: TenantAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TenantSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: TenantMinAggregateInputType
@@ -1093,6 +1129,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: TenantCountAggregateInputType | true
+    _avg?: TenantAvgAggregateInputType
+    _sum?: TenantSumAggregateInputType
     _min?: TenantMinAggregateInputType
     _max?: TenantMaxAggregateInputType
   }
@@ -1105,10 +1143,13 @@ export namespace Prisma {
     tier: $Enums.TenantTier
     plan: $Enums.TenantPlan
     addOnFeatures: string[]
+    seatLimit: number | null
     dbUrl: string
     createdAt: Date
     updatedAt: Date
     _count: TenantCountAggregateOutputType | null
+    _avg: TenantAvgAggregateOutputType | null
+    _sum: TenantSumAggregateOutputType | null
     _min: TenantMinAggregateOutputType | null
     _max: TenantMaxAggregateOutputType | null
   }
@@ -1135,6 +1176,7 @@ export namespace Prisma {
     tier?: boolean
     plan?: boolean
     addOnFeatures?: boolean
+    seatLimit?: boolean
     dbUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1148,6 +1190,7 @@ export namespace Prisma {
     tier?: boolean
     plan?: boolean
     addOnFeatures?: boolean
+    seatLimit?: boolean
     dbUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1161,6 +1204,7 @@ export namespace Prisma {
     tier?: boolean
     plan?: boolean
     addOnFeatures?: boolean
+    seatLimit?: boolean
     dbUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1174,12 +1218,13 @@ export namespace Prisma {
     tier?: boolean
     plan?: boolean
     addOnFeatures?: boolean
+    seatLimit?: boolean
     dbUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TenantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "subdomain" | "status" | "tier" | "plan" | "addOnFeatures" | "dbUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
+  export type TenantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "subdomain" | "status" | "tier" | "plan" | "addOnFeatures" | "seatLimit" | "dbUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
 
   export type $TenantPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Tenant"
@@ -1192,6 +1237,12 @@ export namespace Prisma {
       tier: $Enums.TenantTier
       plan: $Enums.TenantPlan
       addOnFeatures: string[]
+      /**
+       * Anzahl bezahlter Sitzplätze (Rollen owner/admin/member — client-Rolle ist
+       * kostenlos). `null` = kein Limit. Wird beim Einladen in `invites/route.ts`
+       * geprüft (siehe tenant/billing/seats.ts).
+       */
+      seatLimit: number | null
       dbUrl: string
       createdAt: Date
       updatedAt: Date
@@ -1625,6 +1676,7 @@ export namespace Prisma {
     readonly tier: FieldRef<"Tenant", 'TenantTier'>
     readonly plan: FieldRef<"Tenant", 'TenantPlan'>
     readonly addOnFeatures: FieldRef<"Tenant", 'String[]'>
+    readonly seatLimit: FieldRef<"Tenant", 'Int'>
     readonly dbUrl: FieldRef<"Tenant", 'String'>
     readonly createdAt: FieldRef<"Tenant", 'DateTime'>
     readonly updatedAt: FieldRef<"Tenant", 'DateTime'>
@@ -2021,6 +2073,7 @@ export namespace Prisma {
     tier: 'tier',
     plan: 'plan',
     addOnFeatures: 'addOnFeatures',
+    seatLimit: 'seatLimit',
     dbUrl: 'dbUrl',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -2043,6 +2096,14 @@ export namespace Prisma {
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -2107,6 +2168,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -2121,16 +2196,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Int'
+   * Reference to a field of type 'Float'
    */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
     
 
 
   /**
-   * Reference to a field of type 'Int[]'
+   * Reference to a field of type 'Float[]'
    */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
   /**
    * Deep Input Types
@@ -2148,6 +2223,7 @@ export namespace Prisma {
     tier?: EnumTenantTierFilter<"Tenant"> | $Enums.TenantTier
     plan?: EnumTenantPlanFilter<"Tenant"> | $Enums.TenantPlan
     addOnFeatures?: StringNullableListFilter<"Tenant">
+    seatLimit?: IntNullableFilter<"Tenant"> | number | null
     dbUrl?: StringFilter<"Tenant"> | string
     createdAt?: DateTimeFilter<"Tenant"> | Date | string
     updatedAt?: DateTimeFilter<"Tenant"> | Date | string
@@ -2161,6 +2237,7 @@ export namespace Prisma {
     tier?: SortOrder
     plan?: SortOrder
     addOnFeatures?: SortOrder
+    seatLimit?: SortOrderInput | SortOrder
     dbUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -2177,6 +2254,7 @@ export namespace Prisma {
     tier?: EnumTenantTierFilter<"Tenant"> | $Enums.TenantTier
     plan?: EnumTenantPlanFilter<"Tenant"> | $Enums.TenantPlan
     addOnFeatures?: StringNullableListFilter<"Tenant">
+    seatLimit?: IntNullableFilter<"Tenant"> | number | null
     dbUrl?: StringFilter<"Tenant"> | string
     createdAt?: DateTimeFilter<"Tenant"> | Date | string
     updatedAt?: DateTimeFilter<"Tenant"> | Date | string
@@ -2190,12 +2268,15 @@ export namespace Prisma {
     tier?: SortOrder
     plan?: SortOrder
     addOnFeatures?: SortOrder
+    seatLimit?: SortOrderInput | SortOrder
     dbUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: TenantCountOrderByAggregateInput
+    _avg?: TenantAvgOrderByAggregateInput
     _max?: TenantMaxOrderByAggregateInput
     _min?: TenantMinOrderByAggregateInput
+    _sum?: TenantSumOrderByAggregateInput
   }
 
   export type TenantScalarWhereWithAggregatesInput = {
@@ -2209,6 +2290,7 @@ export namespace Prisma {
     tier?: EnumTenantTierWithAggregatesFilter<"Tenant"> | $Enums.TenantTier
     plan?: EnumTenantPlanWithAggregatesFilter<"Tenant"> | $Enums.TenantPlan
     addOnFeatures?: StringNullableListFilter<"Tenant">
+    seatLimit?: IntNullableWithAggregatesFilter<"Tenant"> | number | null
     dbUrl?: StringWithAggregatesFilter<"Tenant"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Tenant"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Tenant"> | Date | string
@@ -2222,6 +2304,7 @@ export namespace Prisma {
     tier?: $Enums.TenantTier
     plan?: $Enums.TenantPlan
     addOnFeatures?: TenantCreateaddOnFeaturesInput | string[]
+    seatLimit?: number | null
     dbUrl: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -2235,6 +2318,7 @@ export namespace Prisma {
     tier?: $Enums.TenantTier
     plan?: $Enums.TenantPlan
     addOnFeatures?: TenantCreateaddOnFeaturesInput | string[]
+    seatLimit?: number | null
     dbUrl: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -2248,6 +2332,7 @@ export namespace Prisma {
     tier?: EnumTenantTierFieldUpdateOperationsInput | $Enums.TenantTier
     plan?: EnumTenantPlanFieldUpdateOperationsInput | $Enums.TenantPlan
     addOnFeatures?: TenantUpdateaddOnFeaturesInput | string[]
+    seatLimit?: NullableIntFieldUpdateOperationsInput | number | null
     dbUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2261,6 +2346,7 @@ export namespace Prisma {
     tier?: EnumTenantTierFieldUpdateOperationsInput | $Enums.TenantTier
     plan?: EnumTenantPlanFieldUpdateOperationsInput | $Enums.TenantPlan
     addOnFeatures?: TenantUpdateaddOnFeaturesInput | string[]
+    seatLimit?: NullableIntFieldUpdateOperationsInput | number | null
     dbUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2274,6 +2360,7 @@ export namespace Prisma {
     tier?: $Enums.TenantTier
     plan?: $Enums.TenantPlan
     addOnFeatures?: TenantCreateaddOnFeaturesInput | string[]
+    seatLimit?: number | null
     dbUrl: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -2287,6 +2374,7 @@ export namespace Prisma {
     tier?: EnumTenantTierFieldUpdateOperationsInput | $Enums.TenantTier
     plan?: EnumTenantPlanFieldUpdateOperationsInput | $Enums.TenantPlan
     addOnFeatures?: TenantUpdateaddOnFeaturesInput | string[]
+    seatLimit?: NullableIntFieldUpdateOperationsInput | number | null
     dbUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2300,6 +2388,7 @@ export namespace Prisma {
     tier?: EnumTenantTierFieldUpdateOperationsInput | $Enums.TenantTier
     plan?: EnumTenantPlanFieldUpdateOperationsInput | $Enums.TenantPlan
     addOnFeatures?: TenantUpdateaddOnFeaturesInput | string[]
+    seatLimit?: NullableIntFieldUpdateOperationsInput | number | null
     dbUrl?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2349,6 +2438,17 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -2360,6 +2460,11 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type TenantCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -2368,9 +2473,14 @@ export namespace Prisma {
     tier?: SortOrder
     plan?: SortOrder
     addOnFeatures?: SortOrder
+    seatLimit?: SortOrder
     dbUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type TenantAvgOrderByAggregateInput = {
+    seatLimit?: SortOrder
   }
 
   export type TenantMaxOrderByAggregateInput = {
@@ -2380,6 +2490,7 @@ export namespace Prisma {
     status?: SortOrder
     tier?: SortOrder
     plan?: SortOrder
+    seatLimit?: SortOrder
     dbUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -2392,9 +2503,14 @@ export namespace Prisma {
     status?: SortOrder
     tier?: SortOrder
     plan?: SortOrder
+    seatLimit?: SortOrder
     dbUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type TenantSumOrderByAggregateInput = {
+    seatLimit?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -2445,6 +2561,22 @@ export namespace Prisma {
     _max?: NestedEnumTenantPlanFilter<$PrismaModel>
   }
 
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -2484,6 +2616,14 @@ export namespace Prisma {
     push?: string | string[]
   }
 
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
@@ -2521,6 +2661,17 @@ export namespace Prisma {
     in?: $Enums.TenantPlan[] | ListEnumTenantPlanFieldRefInput<$PrismaModel>
     notIn?: $Enums.TenantPlan[] | ListEnumTenantPlanFieldRefInput<$PrismaModel>
     not?: NestedEnumTenantPlanFilter<$PrismaModel> | $Enums.TenantPlan
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -2590,6 +2741,33 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTenantPlanFilter<$PrismaModel>
     _max?: NestedEnumTenantPlanFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {

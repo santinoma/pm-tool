@@ -1,6 +1,8 @@
 import { canViewPrivateTask } from "@/tenant/projectAccess/privateTaskFilter";
 import { resolveLinkedTasks } from "@/tenant/taskLinks/taskLinkView";
 import { getEffectiveCustomFields } from "@/tenant/customFields/library";
+import { getOrCreateSystemTaskFields } from "@/tenant/customFields/systemTaskFields";
+import { hasEffectivePermission } from "@/tenant/permissions/resolvePermissions";
 import type { getTenantContext } from "@/tenant/context";
 
 type TenantContext = NonNullable<Awaited<ReturnType<typeof getTenantContext>>>;
@@ -10,6 +12,15 @@ export async function loadTaskDetail(context: TenantContext, projectId: string, 
   if (!currentUser) {
     return { notFound: true as const };
   }
+
+  const canViewSensitiveFields = await hasEffectivePermission(
+    context.tenantDb,
+    currentUser,
+    context.entitledFeatures,
+    "employee_fields_sensitive_view",
+  );
+
+  await getOrCreateSystemTaskFields(context.tenantDb);
 
   const [task, statuses, users, folders, customFieldDefRecords] = await Promise.all([
     context.tenantDb.task.findUnique({
@@ -98,8 +109,6 @@ export async function loadTaskDetail(context: TenantContext, projectId: string, 
       title: task.title,
       description: task.description,
       statusId: task.statusId,
-      priority: task.priority,
-      tShirtSize: task.tShirtSize,
       assigneeId: task.assigneeId,
       taskListGroupId: task.taskListGroupId,
       isKeyTask: task.isKeyTask,
@@ -122,12 +131,17 @@ export async function loadTaskDetail(context: TenantContext, projectId: string, 
       })),
       blocking: task.blocking.map((d) => ({ dependencyId: d.id, id: d.blockedTask.id, title: d.blockedTask.title })),
       blockedBy: task.blockedBy.map((d) => ({ dependencyId: d.id, id: d.blockingTask.id, title: d.blockingTask.title })),
-      customValues: task.customValues.map((v) => ({
-        fieldId: v.fieldId,
-        label: v.field.label,
-        type: v.field.type,
-        value: v.value,
-      })),
+      // Sensible Felder (z. B. Employee Fields) werden nur an Personen mit
+      // Verwaltungsrechten ausgeliefert — sie fehlen für alle anderen komplett,
+      // statt nur verschleiert angezeigt zu werden.
+      customValues: task.customValues
+        .filter((v) => !v.field.sensitive || canViewSensitiveFields)
+        .map((v) => ({
+          fieldId: v.fieldId,
+          label: v.field.label,
+          type: v.field.type,
+          value: v.value,
+        })),
       timeEntries: task.timeEntries.map((entry) => ({
         id: entry.id,
         userLabel: entry.user.name ?? entry.user.email,

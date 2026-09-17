@@ -126,6 +126,7 @@ exports.Prisma.UserScalarFieldEnum = {
   passwordHash: 'passwordHash',
   name: 'name',
   role: 'role',
+  employmentType: 'employmentType',
   weeklyCapacityHours: 'weeklyCapacityHours',
   isActive: 'isActive',
   avatarUrl: 'avatarUrl',
@@ -275,6 +276,7 @@ exports.Prisma.InviteScalarFieldEnum = {
   email: 'email',
   token: 'token',
   role: 'role',
+  employmentType: 'employmentType',
   grantedProjectIds: 'grantedProjectIds',
   expiresAt: 'expiresAt',
   acceptedAt: 'acceptedAt',
@@ -527,7 +529,26 @@ exports.Prisma.TenantSettingsScalarFieldEnum = {
   resourcingEnabled: 'resourcingEnabled',
   timeApprovalEnabled: 'timeApprovalEnabled',
   timeEntrySubmissionEnabled: 'timeEntrySubmissionEnabled',
+  timeZone: 'timeZone',
+  timeFormat: 'timeFormat',
+  dateFormat: 'dateFormat',
+  numberFormat: 'numberFormat',
+  weekStartDay: 'weekStartDay',
+  workingDays: 'workingDays',
+  personDayHours: 'personDayHours',
+  fiscalYearEnabled: 'fiscalYearEnabled',
+  fiscalYearStartMonth: 'fiscalYearStartMonth',
+  financialMonthClosingEnabled: 'financialMonthClosingEnabled',
+  financialMonthClosingDay: 'financialMonthClosingDay',
   createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.FinancialPeriodLockScalarFieldEnum = {
+  id: 'id',
+  periodKey: 'periodKey',
+  locked: 'locked',
+  lockedById: 'lockedById',
   updatedAt: 'updatedAt'
 };
 
@@ -596,6 +617,30 @@ exports.Prisma.TimesheetLockScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.TeamScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.TeamMemberScalarFieldEnum = {
+  teamId: 'teamId',
+  userId: 'userId'
+};
+
+exports.Prisma.CostRateHistoryEntryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  rateType: 'rateType',
+  amount: 'amount',
+  currency: 'currency',
+  workHoursPerDay: 'workHoursPerDay',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  createdAt: 'createdAt',
+  createdById: 'createdById'
+};
+
 exports.Prisma.TimeTrackingPolicyScalarFieldEnum = {
   id: 'id',
   maxDailyHours: 'maxDailyHours',
@@ -659,7 +704,10 @@ exports.Prisma.CustomFieldDefScalarFieldEnum = {
   key: 'key',
   label: 'label',
   type: 'type',
-  options: 'options'
+  options: 'options',
+  required: 'required',
+  sensitive: 'sensitive',
+  autoAttach: 'autoAttach'
 };
 
 exports.Prisma.ProjectCustomFieldScalarFieldEnum = {
@@ -687,6 +735,13 @@ exports.Prisma.WikiPageCustomFieldValueScalarFieldEnum = {
   id: 'id',
   fieldId: 'fieldId',
   wikiPageId: 'wikiPageId',
+  value: 'value'
+};
+
+exports.Prisma.UserCustomFieldValueScalarFieldEnum = {
+  id: 'id',
+  fieldId: 'fieldId',
+  userId: 'userId',
   value: 'value'
 };
 
@@ -729,7 +784,7 @@ exports.Prisma.AutomationRuleScalarFieldEnum = {
   id: 'id',
   name: 'name',
   triggers: 'triggers',
-  conditionStatusCategory: 'conditionStatusCategory',
+  conditionConfig: 'conditionConfig',
   projectIds: 'projectIds',
   scheduleTime: 'scheduleTime',
   scheduleWeekday: 'scheduleWeekday',
@@ -852,6 +907,8 @@ exports.Prisma.BudgetScalarFieldEnum = {
   scenarioOfId: 'scenarioOfId',
   isTemplate: 'isTemplate',
   deliveredAt: 'deliveredAt',
+  billableRateStrategy: 'billableRateStrategy',
+  billableRate: 'billableRate',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   approvalPolicyId: 'approvalPolicyId'
@@ -929,6 +986,7 @@ exports.Prisma.InvoiceLineItemScalarFieldEnum = {
   id: 'id',
   invoiceId: 'invoiceId',
   budgetSectionId: 'budgetSectionId',
+  expenseId: 'expenseId',
   description: 'description',
   quantityHours: 'quantityHours',
   rate: 'rate',
@@ -981,7 +1039,8 @@ exports.Prisma.ExpenseScalarFieldEnum = {
   approvedAt: 'approvedAt',
   createdById: 'createdById',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  invoiceId: 'invoiceId'
 };
 
 exports.Prisma.PurchaseOrderScalarFieldEnum = {
@@ -1013,7 +1072,8 @@ exports.Prisma.SavedReportScalarFieldEnum = {
 
 exports.Prisma.BudgetSectionAssigneeScalarFieldEnum = {
   sectionId: 'sectionId',
-  userId: 'userId'
+  userId: 'userId',
+  hourlyRate: 'hourlyRate'
 };
 
 exports.Prisma.SortOrder = {
@@ -1050,6 +1110,11 @@ exports.Role = exports.$Enums.Role = {
   admin: 'admin',
   member: 'member',
   client: 'client'
+};
+
+exports.EmploymentType = exports.$Enums.EmploymentType = {
+  employee: 'employee',
+  contractor: 'contractor'
 };
 
 exports.Locale = exports.$Enums.Locale = {
@@ -1121,6 +1186,22 @@ exports.TimeTrackingMode = exports.$Enums.TimeTrackingMode = {
   entries: 'entries'
 };
 
+exports.TimeFormat = exports.$Enums.TimeFormat = {
+  h12: 'h12',
+  h24: 'h24'
+};
+
+exports.DateFormat = exports.$Enums.DateFormat = {
+  dd_mm_yyyy: 'dd_mm_yyyy',
+  mm_dd_yyyy: 'mm_dd_yyyy',
+  yyyy_mm_dd: 'yyyy_mm_dd'
+};
+
+exports.NumberFormat = exports.$Enums.NumberFormat = {
+  comma_decimal: 'comma_decimal',
+  period_decimal: 'period_decimal'
+};
+
 exports.TimeEntryApprovalStatus = exports.$Enums.TimeEntryApprovalStatus = {
   pending: 'pending',
   approved: 'approved',
@@ -1151,10 +1232,19 @@ exports.ApprovalDecisionStatus = exports.$Enums.ApprovalDecisionStatus = {
   rejected: 'rejected'
 };
 
+exports.CostRateType = exports.$Enums.CostRateType = {
+  hourly: 'hourly',
+  weekly: 'weekly',
+  biweekly: 'biweekly',
+  monthly: 'monthly',
+  annual: 'annual'
+};
+
 exports.CustomFieldEntityType = exports.$Enums.CustomFieldEntityType = {
   task: 'task',
   budget: 'budget',
-  wiki_page: 'wiki_page'
+  wiki_page: 'wiki_page',
+  user: 'user'
 };
 
 exports.CustomFieldType = exports.$Enums.CustomFieldType = {
@@ -1224,6 +1314,13 @@ exports.CheckInRecurrence = exports.$Enums.CheckInRecurrence = {
 exports.RecurrenceInterval = exports.$Enums.RecurrenceInterval = {
   weekly: 'weekly',
   monthly: 'monthly'
+};
+
+exports.BillableRateStrategy = exports.$Enums.BillableRateStrategy = {
+  person: 'person',
+  service: 'service',
+  single: 'single',
+  no_rate: 'no_rate'
 };
 
 exports.BillingType = exports.$Enums.BillingType = {
@@ -1322,12 +1419,16 @@ exports.Prisma.ModelName = {
   Attachment: 'Attachment',
   WikiPage: 'WikiPage',
   TenantSettings: 'TenantSettings',
+  FinancialPeriodLock: 'FinancialPeriodLock',
   PendingLogin: 'PendingLogin',
   TimeEntry: 'TimeEntry',
   ApprovalPolicy: 'ApprovalPolicy',
   ApprovalPolicyApprover: 'ApprovalPolicyApprover',
   TimeEntryApproverDecision: 'TimeEntryApproverDecision',
   TimesheetLock: 'TimesheetLock',
+  Team: 'Team',
+  TeamMember: 'TeamMember',
+  CostRateHistoryEntry: 'CostRateHistoryEntry',
   TimeTrackingPolicy: 'TimeTrackingPolicy',
   HolidayCalendar: 'HolidayCalendar',
   Holiday: 'Holiday',
@@ -1340,6 +1441,7 @@ exports.Prisma.ModelName = {
   CustomFieldValue: 'CustomFieldValue',
   BudgetCustomFieldValue: 'BudgetCustomFieldValue',
   WikiPageCustomFieldValue: 'WikiPageCustomFieldValue',
+  UserCustomFieldValue: 'UserCustomFieldValue',
   SharedWikiLink: 'SharedWikiLink',
   ActivityEvent: 'ActivityEvent',
   NotificationPreference: 'NotificationPreference',

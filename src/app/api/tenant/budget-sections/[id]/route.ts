@@ -33,10 +33,16 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   }
 
   if (Array.isArray(body.assigneeIds)) {
+    const assigneeRates: Record<string, number> =
+      body.assigneeRates && typeof body.assigneeRates === "object" ? body.assigneeRates : {};
     await context.tenantDb.budgetSectionAssignee.deleteMany({ where: { sectionId: id } });
     if (body.assigneeIds.length > 0) {
       await context.tenantDb.budgetSectionAssignee.createMany({
-        data: body.assigneeIds.map((userId: string) => ({ sectionId: id, userId })),
+        data: body.assigneeIds.map((userId: string) => ({
+          sectionId: id,
+          userId,
+          hourlyRate: typeof assigneeRates[userId] === "number" ? assigneeRates[userId] : null,
+        })),
       });
     }
   }

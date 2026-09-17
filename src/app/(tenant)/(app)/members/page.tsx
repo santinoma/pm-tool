@@ -44,6 +44,7 @@ export default async function MembersPage() {
           customRoleId: user.customRoleId,
           holidayCalendarId: user.holidayCalendarId,
           managerId: user.managerId,
+          employmentType: user.employmentType,
         }))}
         invites={invites.map((invite) => ({
           id: invite.id,

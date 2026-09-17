@@ -24,6 +24,7 @@ export default async function TenantsPage() {
     status: tenant.status,
     plan: tenant.plan,
     tier: tenant.tier,
+    seatLimit: tenant.seatLimit,
     createdAtLabel: tenant.createdAt.toLocaleDateString("de-DE"),
   }));
 

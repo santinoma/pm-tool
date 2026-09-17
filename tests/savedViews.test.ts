@@ -110,6 +110,95 @@ describe("POST /api/tenant/saved-views", () => {
   });
 });
 
+describe("POST /api/tenant/saved-views — budgets scope (T204)", () => {
+  it("creates a budgets-scoped saved view, sharable like project views", async () => {
+    setCurrentUser(owner);
+    const response = await POST(
+      jsonRequest({
+        scope: "budgets",
+        projectId,
+        name: "By Owner",
+        viewType: "budgets",
+        filterConfig: { logic: "AND", rules: [{ field: "ownerId", operator: "equals", value: owner.id }] },
+        sortConfig: { sortKey: "title" },
+        sharedWithAll: true,
+      }),
+    );
+    expect(response.status).toBe(201);
+    const data = await response.json();
+    expect(data.view.scope).toBe("budgets");
+    expect(data.view.projectId).toBe(projectId);
+    expect(data.view.sharedWithAll).toBe(true);
+  });
+
+  it("keeps budgets views project-scoped and separate from project (task list) views", async () => {
+    setCurrentUser(owner);
+    await POST(
+      jsonRequest({ scope: "budgets", projectId, name: "Budgets View", viewType: "budgets", filterConfig: {}, sharedWithAll: true }),
+    );
+    await POST(
+      jsonRequest({ scope: "project", projectId, name: "Task List View", viewType: "list", filterConfig: {}, sharedWithAll: true }),
+    );
+
+    const budgetsResponse = await GET(new Request(`http://tenant.local/api/tenant/saved-views?scope=budgets&projectId=${projectId}`));
+    const budgetsData = await budgetsResponse.json();
+    expect(budgetsData.views.map((v: { name: string }) => v.name)).toEqual(["Budgets View"]);
+
+    const projectResponse = await GET(new Request(`http://tenant.local/api/tenant/saved-views?scope=project&projectId=${projectId}`));
+    const projectData = await projectResponse.json();
+    expect(projectData.views.map((v: { name: string }) => v.name)).toEqual(["Task List View"]);
+  });
+
+  it("requires projectId for the budgets scope", async () => {
+    setCurrentUser(owner);
+    const response = await POST(jsonRequest({ scope: "budgets", name: "No Project", viewType: "budgets", filterConfig: {} }));
+    expect(response.status).toBe(400);
+  });
+});
+
+describe("POST /api/tenant/saved-views — time_entries scope (T205)", () => {
+  it("creates a private time_entries-scoped saved view without a project", async () => {
+    setCurrentUser(owner);
+    const response = await POST(
+      jsonRequest({
+        scope: "time_entries",
+        name: "Rejected mine",
+        viewType: "time_entries",
+        filterConfig: { logic: "AND", rules: [{ field: "approvalStatus", operator: "equals", value: "rejected" }] },
+        sortConfig: { entrySortKey: "date" },
+      }),
+    );
+    expect(response.status).toBe(201);
+    const data = await response.json();
+    expect(data.view.scope).toBe("time_entries");
+    expect(data.view.projectId).toBeNull();
+    expect(data.view.ownerId).toBe(owner.id);
+  });
+
+  it("rejects sharedWithAll:true for a time_entries-scoped view", async () => {
+    setCurrentUser(owner);
+    const response = await POST(
+      jsonRequest({ scope: "time_entries", name: "Nope", viewType: "time_entries", filterConfig: {}, sharedWithAll: true }),
+    );
+    expect(response.status).toBe(400);
+  });
+
+  it("keeps time_entries views strictly private to their owner, like my_tasks", async () => {
+    setCurrentUser(owner);
+    await POST(jsonRequest({ scope: "time_entries", name: "Owner's Time View", viewType: "time_entries", filterConfig: {} }));
+
+    setCurrentUser(member);
+    const response = await GET(new Request("http://tenant.local/api/tenant/saved-views?scope=time_entries"));
+    const data = await response.json();
+    expect(data.views).toHaveLength(0);
+
+    setCurrentUser(owner);
+    const ownResponse = await GET(new Request("http://tenant.local/api/tenant/saved-views?scope=time_entries"));
+    const ownData = await ownResponse.json();
+    expect(ownData.views).toHaveLength(1);
+  });
+});
+
 describe("GET /api/tenant/saved-views — visibility", () => {
   it("lets a second user see a sharedWithAll project view but not another user's private view", async () => {
     setCurrentUser(owner);

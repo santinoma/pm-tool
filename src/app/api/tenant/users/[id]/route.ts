@@ -4,8 +4,10 @@ import { wouldRemoveLastOwner, type RoleName } from "@/tenant/auth/roleGuard";
 import { hasEffectivePermission } from "@/tenant/permissions/resolvePermissions";
 import { recordAuditEntry } from "@/tenant/auditLog/recordAuditEntry";
 import { wouldCreateManagerCycle } from "@/tenant/org/managerHierarchy";
+import { isRoleAllowedForEmploymentType, type EmploymentTypeName } from "@/tenant/auth/employmentType";
 
 const VALID_ROLES: RoleName[] = ["owner", "admin", "member"];
+const VALID_EMPLOYMENT_TYPES: EmploymentTypeName[] = ["employee", "contractor"];
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -31,11 +33,29 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
   const hasRole = body.role !== undefined;
   const hasHolidayCalendarId = body.holidayCalendarId !== undefined;
   const hasManagerId = body.managerId !== undefined;
-  if (!hasRole && !hasHolidayCalendarId && !hasManagerId) {
+  const hasEmploymentType = body.employmentType !== undefined;
+  if (!hasRole && !hasHolidayCalendarId && !hasManagerId && !hasEmploymentType) {
     return NextResponse.json({ error: "Ungültige Anfrage." }, { status: 400 });
   }
   if (hasRole && !VALID_ROLES.includes(body.role)) {
     return NextResponse.json({ error: "Ungültige Rolle." }, { status: 400 });
+  }
+  if (hasEmploymentType && !VALID_EMPLOYMENT_TYPES.includes(body.employmentType)) {
+    return NextResponse.json({ error: "Ungültiger employmentType." }, { status: 400 });
+  }
+  if (hasRole || hasEmploymentType) {
+    const target = await context.tenantDb.user.findUnique({ where: { id }, select: { role: true, employmentType: true } });
+    if (!target) {
+      return NextResponse.json({ error: "Nutzer nicht gefunden." }, { status: 404 });
+    }
+    const effectiveRole = hasRole ? body.role : target.role;
+    const effectiveEmploymentType = hasEmploymentType ? body.employmentType : target.employmentType;
+    if (!isRoleAllowedForEmploymentType(effectiveRole, effectiveEmploymentType)) {
+      return NextResponse.json(
+        { error: "Contractors können nicht Admin oder Owner sein — nur ein festes Berechtigungsprofil (member)." },
+        { status: 400 },
+      );
+    }
   }
   if (hasHolidayCalendarId && body.holidayCalendarId !== null && typeof body.holidayCalendarId !== "string") {
     return NextResponse.json({ error: "holidayCalendarId muss ein String oder null sein." }, { status: 400 });
@@ -76,6 +96,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     where: { id },
     data: {
       role: hasRole ? body.role : undefined,
+      employmentType: hasEmploymentType ? body.employmentType : undefined,
       holidayCalendarId: hasHolidayCalendarId ? body.holidayCalendarId : undefined,
       managerId: hasManagerId ? body.managerId : undefined,
     },
