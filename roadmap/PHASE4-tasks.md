@@ -105,36 +105,56 @@ Diese Lücken sind unten als **T403** separat vermerkt statt stillschweigend üb
   "Admin"-Set ersetzt (identische Rechte, aber jetzt über das echte Productive-Konzept
   benannt und zuweisbar statt hartkodiert), Member/Client durch Staff/Client Collaborator.
 
-## T403 — Bekannte Lücken im Permission-Mapping (dokumentiert, nicht behoben)
+## T403 — Bekannte Lücken im Permission-Mapping (BEHOBEN, 17.09.2026 Folgedurchgang)
 
-Diese Nuancen aus der Doku lassen sich mit dem aktuellen 14-Key-Katalog nicht 1:1
-abbilden, ohne neue Keys/Abhängigkeits-Umbauten einzuführen — bewusst zurückgestellt:
+Diese Nuancen aus der Doku ließen sich mit dem T402-Stand des 14-Key-Katalogs nicht 1:1
+abbilden. Umsetzung in diesem Durchgang:
 
-- **Gestufte Rollen-Vergabe**: Laut Doku darf ein Manager andere Nutzer nur auf
-  Manager/Coordinator/Staff/Client Lead/Client Collaborator/Contractor setzen (nicht auf
-  Admin/Profitability Manager). `members_manage_roles` in dieser Codebase ist binär
-  (darf alles oder nichts) — Manager bekommt das Recht daher aktuell GAR NICHT (statt
-  fälschlich zu viel), Admin-Only bleibt vorerst der einzige Weg, Rollen zu ändern.
-  Eine echte Lösung bräuchte eine "bis zu welcher Stufe darf X befördern"-Matrix statt
-  eines einzelnen Boolean-Keys.
-- **Coordinator vs. Projekt-Verwaltung**: Coordinator soll "vollen Projekt-Zugriff außer
-  Budgets/Profitabilität" haben, aber "keine Projekte selbst anlegen/bearbeiten/löschen".
-  `workflows_manage`/`automations_manage` hängen aktuell hart von `projects_manage` ab
-  (`PERMISSION_DEPENDENCIES`) — das würde Coordinator automatisch auch `projects_manage`
-  einschließen, wenn man ihm Workflow-Rechte gäbe. Coordinator bekommt daher vorerst NUR
-  `tasks_manage_all`, keine Workflow-/Automation-Rechte, bis die Abhängigkeitskette
-  entkoppelt ist (Workflows/Automations müssten auch ohne Projekt-CRUD-Recht vergebbar
-  sein).
-- **Resource-Planner-spezifische Rechte** (Staff sieht nur eigene Bookings, kein
-  "By Project"; Coordinator+ sieht alle) — kein `PERMISSION_KEYS`-Eintrag für Resourcing
-  existiert aktuell; die Resource-Planner-UI müsste eigene Sichtbarkeitsregeln je
-  System-Set bekommen.
-- **Client Lead Budget-/Timesheet-Zugriff**: bleibt wie bisher über den bestehenden
-  per-Budget "Client Access"-Schalter geregelt (`ProjectClientAccess`), nicht über einen
-  neuen Permission-Key — entspricht der Doku ("Granting budget and timesheet access is
-  specific to a particular client").
+- **Gestufte Rollen-Vergabe (behoben)**: Statt einer hartkodierten "bis zu welcher Stufe
+  darf X befördern"-Tabelle wurde ein allgemeineres, selbst konsistentes Prinzip
+  umgesetzt: `/api/tenant/users/[id]/custom-role` prüft jetzt `members_manage_roles`
+  (statt der groben owner/admin-Prüfung) UND, dass die Rechte der Ziel-Rolle eine
+  **Teilmenge** der eigenen effektiven Rechte des Handelnden sind (niemand kann mehr
+  Rechte vergeben, als er selbst hat). Manager/Profitability Manager haben
+  `members_manage_roles` jetzt beide (`systemPermissionSets.ts`, `MANAGER_PERMISSIONS`),
+  können damit aber niemanden zu Admin oder Profitability Manager befördern — beiden
+  fehlt mindestens ein Key, den Admin/Profitability Manager haben
+  (`organization_settings_manage` bzw. `cost_rates_manage`) —, wohl aber zu
+  Coordinator/Staff/Client Lead/Client Collaborator/Contractor, exakt wie in der Doku
+  beschrieben. Gilt automatisch auch für künftige, frei angelegte Custom Roles, ohne
+  Sonderfall-Code.
+- **Coordinator vs. Projekt-Verwaltung (behoben)**: Die Abhängigkeit
+  `workflows_manage → projects_manage` wurde aus `PERMISSION_DEPENDENCIES` entfernt
+  (`automations_manage → workflows_manage` bleibt bestehen). Coordinator bekommt jetzt
+  `tasks_manage_all` + `workflows_manage` + `automations_manage` + `resourcing_view_all`,
+  weiterhin OHNE `projects_manage` — entspricht "full project access besides project
+  financials ... does not have permission to add, edit, and delete projects on their
+  own". Bestätigt (siehe Audit): keine Produktionsstelle verließ sich auf die entfernte
+  Kaskade, nur `tests/permissionDependencies.test.ts` musste angepasst werden.
+- **Resource-Planner-spezifische Rechte (behoben)**: neuer Key `resourcing_view_all`
+  (keine Abhängigkeit, eigene `PERMISSION_GROUPS`-Gruppe "Resourcing"). Admin/Manager/
+  Profitability Manager/Coordinator haben ihn, Staff/Contractor/Client-Sets nicht.
+  `/resource-planning/page.tsx` nutzt ihn jetzt für die Bookings-/Projekt-Sichtbarkeit
+  (`canViewAllBookings`), entkoppelt von den bisherigen Bearbeitungsrechten (`canEdit`,
+  unverändert weiter an owner/admin gebunden — Bearbeitungsrechte für Coordinator sind
+  nicht Teil dieser T403-Lücke, siehe unten).
+- **Client Lead Budget-/Timesheet-Zugriff**: unverändert korrekt über den bestehenden
+  per-Budget "Client Access"-Schalter (`ProjectClientAccess`) — kein Code-Änderungsbedarf,
+  entspricht der Doku ("Granting budget and timesheet access is specific to a particular
+  client").
 
-## T404 — Task-Struktur: Folders/Task-Lists-Lücken (NEU gefunden, nicht behoben)
+**Bewusst weiterhin nicht umgesetzt** (außerhalb des T403-Wortlauts, eigener Punkt):
+Coordinator soll laut Doku auch selbst Personen einplanen können ("kann Personen
+einplanen, Abwesenheiten genehmigen") — das ist ein BEARBEITUNGS-Recht auf Bookings, kein
+Sichtbarkeits-Recht, und war nicht Teil der ursprünglichen T403-Lückenbeschreibung (die
+sich explizit nur auf die Sichtbarkeits-Unterscheidung Staff/Coordinator+ bezog). Der
+Resource Planner hat aktuell nur ein einziges `canEdit` für alle Bearbeitungsaktionen
+(Bookings anlegen/verschieben/löschen), weiterhin an `canManageMembers` (owner/admin)
+gekoppelt. Eine eigene `resourcing_manage`-Berechtigung dafür wäre ein sinnvoller
+Folgeschritt, aber ein neuer, separat zu bewertender Scope — nicht Teil dieses
+Durchgangs.
+
+## T404 — Task-Struktur: Folders/Task-Lists-Lücken (T404.1 BEHOBEN, T404.2-8 offen)
 
 Zweiter Recherche-/Audit-Durchlauf (Task-Hierarchie-Artikel: "Task Folders", "Task
 Lists", "Duplicating Tasks/Lists/Folders") deckte auf, dass Task Folders/Lists in dieser
@@ -147,30 +167,53 @@ strukturell mehrfach vom dokumentierten Productive-Verhalten abweichen:
 | 2 | Default-Folder (Bookmark) | fehlt | Kein `isDefault`-Feld auf `TaskFolder` |
 | 3 | Folder in anderes Projekt verschieben (inkl. Renumbering/Dependency/Custom-Field/Status-Remap) | fehlt | PATCH-Route unterstützt keinen `projectId`-Wechsel |
 | 4 | Folder duplizieren | fehlt | Keine Duplicate-Route für `task-folders` |
-| 5 | Folder archivieren + wiederherstellen | fehlt | `DELETE` ist Hard-Delete, kein `archived`-Feld |
+| 5 | Folder archivieren + wiederherstellen | **behoben (T404.1)** | `archived`-Feld + kaskadierendes Archivieren der Listen, Restore-Panel |
 | 6 | Private/Client-versteckte Folders | fehlt | Kein Client-Access-Feld auf `TaskFolder` |
 | 7 | "Ohne Liste"-Gruppe nur in "Alle Folder"-Ansicht | teilweise | Gruppierung existiert, aber keine Folder-Navigation in List/Board, die diese Sichtbarkeitsregel überhaupt bräuchte |
 | 8 | Task-List in anderes Projekt/Folder verschieben | teilweise | PATCH unterstützt weder `folderId`- noch `projectId`-Wechsel |
 | 9 | Task-List duplizieren (inkl. abhängiger Tasks) | fehlt | Keine Duplicate-Route |
-| 10 | Task-Lists nicht löschbar, nur archivierbar | **widerspricht Doku** | Aktuell echtes Hard-Delete (Gegenteil von Productive) |
+| 10 | Task-Lists nicht löschbar, nur archivierbar | **behoben (T404.1)** | `DELETE` archiviert jetzt (statt zu löschen); Tasks behalten ihre Listen-Zuordnung |
 | 11 | CSV-Import in eine bestimmte Task-List | teilweise | Import ist projekt-, nicht listen-scoped |
 | 12 | Export (PDF/CSV/XLS) | teilweise | Nur CSV vorhanden, kein PDF/XLS |
 | 13 | Einzelnen Task duplizieren (mit Auswahl was kopiert wird) | fehlt | Keine Duplicate-Action für Tasks |
 | 14 | Mehrere Tasks bulk-duplizieren | fehlt | Bulk-Actions-Leiste kennt nur Status/Assignee/Termin/Löschen |
 | 15 | Drag&Drop zwischen Listen (projekt-intern), deaktiviert in globaler Tasks-Ansicht | teilweise | Nur Board-Status-Spalten haben natives HTML5-DnD; List/My-Tasks haben gar kein DnD |
 
-**Größte Einzellücke:** #10 (Hard-Delete statt Archivieren) ist ein echter
-Verhaltens-Widerspruch zur Doku, nicht nur eine fehlende Komfort-Funktion — Nutzer
-verlieren aktuell endgültig Daten, wo Productive nur eine reversible Archivierung
-vorsieht. Sollte bei der Umsetzung Priorität vor den reinen Komfort-Lücken (Duplicate,
-PDF-Export) bekommen.
+**Größte Einzellücke (BEHOBEN, 17.09.2026 Folgedurchgang):** #10 (Hard-Delete statt
+Archivieren) war ein echter Verhaltens-Widerspruch zur Doku, nicht nur eine fehlende
+Komfort-Funktion — Nutzer verloren endgültig Daten, wo Productive nur eine reversible
+Archivierung vorsieht. Priorität vor den reinen Komfort-Lücken (Duplicate, PDF-Export)
+bekommen, wie hier vorgemerkt.
 
-**Umsetzung:** noch nicht begonnen — eigener, mehrteiliger Anlauf nötig (Archivierungs-
-Infrastruktur ist Voraussetzung für #3/#5/#10 gemeinsam, dann Move/Duplicate als
-eigene Schritte). Als Task-Liste hier dokumentiert, nicht in einem Durchgang mit T401-T403
-erledigt.
+**T404.1 — Umsetzung:**
+- `TaskFolder.archived`/`TaskListGroup.archived` (neue Felder, Migration
+  `20260917020000_task_folder_list_archive`).
+- `DELETE /api/tenant/task-folders/[id]`: archiviert den Ordner UND kaskadiert das
+  Archivieren auf seine Listen (statt der alten 409-Ablehnung bei nicht-leeren Ordnern —
+  die brauchte es jetzt nicht mehr, da nichts mehr verloren geht). `DELETE
+  /api/tenant/task-list-groups/[id]`: archiviert die Liste; Tasks behalten ihre
+  `taskListGroupId` (kein Nullen mehr nötig — die Liste existiert ja weiterhin, nur
+  ausgeblendet).
+- Restore: derselbe `PATCH`-Endpunkt beider Routen akzeptiert jetzt `archived: false`.
+  Folder-Restore stellt NICHT automatisch die zuvor mitarchivierten Listen wieder her
+  (bewusst — verhindert überraschende Masse-Wiederherstellung einzeln archivierter
+  Listen), die werden einzeln restauriert.
+- Aktive Ansichten (Listen-Ansicht, Task-Detail-Picker, `GET /api/tenant/task-folders`)
+  filtern jetzt `archived: false` auf Ordner UND verschachtelten Listen. Die
+  Projekt-Settings-Seite (`/projects/[id]/settings/task-lists`) ist bewusst die
+  Ausnahme — lädt weiterhin ALLE (auch archivierte) für das neue Restore-Panel.
+- `TaskListsEditorClient.tsx`: "Löschen"-Buttons heißen jetzt "Archivieren"
+  (Ordner-Archivieren mit `window.confirm`, da es auf enthaltene Listen kaskadiert;
+  Listen-Archivieren ohne Confirm, da vollständig reversibel ohne Kaskadenwirkung). Neue
+  "Archivierte Ordner"-Sektion (einklappbar) + inline "Archivierte Listen"-Unterliste je
+  Ordner, je mit "Wiederherstellen"-Button.
 
-- [ ] T404.1 Archivieren statt Hard-Delete für `TaskFolder` + `TaskListGroup` (+ Restore-Panel)
+**Bewusst nicht Teil von T404.1** (siehe #3/#8 in der Tabelle oben, weiterhin offen):
+Folder/Liste in ein ANDERES Projekt verschieben (inkl. Renumbering/Dependency/Custom-
+Field/Status-Remap) ist ein eigenständiges, größeres Feature und keine
+Archivierungs-Voraussetzung — bleibt in T404.3 vorgemerkt.
+
+- [x] T404.1 Archivieren statt Hard-Delete für `TaskFolder` + `TaskListGroup` (+ Restore-Panel)
 - [ ] T404.2 Default-Folder (Bookmark) + Folder-Picker in List/Board-Navigation
 - [ ] T404.3 Folder/Task-List in anderes Projekt verschieben (Renumbering/Dependency/Custom-Field/Status-Remap-Regeln wie Doku)
 - [ ] T404.4 Folder/Task-List duplizieren
@@ -181,9 +224,10 @@ erledigt.
 
 ## Weiteres Vorgehen
 
-`T402` wird in diesem Durchgang umgesetzt (Code folgt in diesem Commit/den nächsten).
-`T404` bleibt als dokumentierte, priorisierte Lückenliste für einen eigenen, künftigen
-Anlauf stehen (zu groß für einen Durchgang, siehe Größenordnung in `T404`s Tabelle).
+`T402` und `T403` sind umgesetzt. Von `T404` ist die höchstpriorisierte Einzellücke
+(T404.1, Archivieren statt Hard-Delete) ebenfalls umgesetzt; T404.2-8 bleiben als
+dokumentierte, priorisierte Lückenliste für einen eigenen, künftigen Anlauf stehen (zu
+groß für einen Durchgang, siehe Größenordnung in `T404`s Tabelle).
 Ein noch breiterer, modulübergreifender Doku-Neudurchlauf (CRM/Deals, Docs, Reports,
 Resourcing, Integrations — jenseits von Tasks/Permissions) wurde in diesem Durchgang
 NICHT vollständig erneut durchgeführt, da diese Module bereits über bestehende

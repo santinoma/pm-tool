@@ -11,12 +11,14 @@ interface ListRow {
   id: string;
   name: string;
   position: number;
+  archived: boolean;
 }
 
 interface FolderRow {
   id: string;
   name: string;
   position: number;
+  archived: boolean;
   lists: ListRow[];
 }
 
@@ -33,6 +35,10 @@ export function TaskListsEditorClient({
   const [newFolderName, setNewFolderName] = useState("");
   const [newListNameByFolder, setNewListNameByFolder] = useState<Record<string, string>>({});
   const [error, setError] = useState<string | null>(null);
+  const [showArchived, setShowArchived] = useState(false);
+
+  const activeFolders = folders.filter((folder) => !folder.archived);
+  const archivedFolders = folders.filter((folder) => folder.archived);
 
   async function handleAddFolder(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -67,20 +73,41 @@ export function TaskListsEditorClient({
     router.refresh();
   }
 
-  async function deleteFolder(folderId: string) {
+  async function archiveFolder(folder: FolderRow) {
     setError(null);
-    const response = await fetch(`/api/tenant/task-folders/${folderId}`, { method: "DELETE" });
+    if (folder.lists.some((list) => !list.archived)) {
+      const confirmed = window.confirm(
+        "Ordner archivieren? Enthaltene Listen werden mit archiviert und können danach einzeln wiederhergestellt werden.",
+      );
+      if (!confirmed) return;
+    }
+    const response = await fetch(`/api/tenant/task-folders/${folder.id}`, { method: "DELETE" });
     if (!response.ok) {
       const body = await response.json().catch(() => ({}));
-      setError(body.error ?? "Löschen fehlgeschlagen.");
+      setError(body.error ?? "Archivieren fehlgeschlagen.");
+      return;
+    }
+    router.refresh();
+  }
+
+  async function restoreFolder(folderId: string) {
+    setError(null);
+    const response = await fetch(`/api/tenant/task-folders/${folderId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ archived: false }),
+    });
+    if (!response.ok) {
+      const body = await response.json().catch(() => ({}));
+      setError(body.error ?? "Wiederherstellen fehlgeschlagen.");
       return;
     }
     router.refresh();
   }
 
   async function moveFolder(index: number, direction: -1 | 1) {
-    const target = folders[index + direction];
-    const current = folders[index];
+    const target = activeFolders[index + direction];
+    const current = activeFolders[index];
     if (!target) return;
     await Promise.all([
       fetch(`/api/tenant/task-folders/${current.id}`, {
@@ -131,20 +158,35 @@ export function TaskListsEditorClient({
     router.refresh();
   }
 
-  async function deleteList(listId: string) {
+  async function archiveList(listId: string) {
     setError(null);
     const response = await fetch(`/api/tenant/task-list-groups/${listId}`, { method: "DELETE" });
     if (!response.ok) {
       const body = await response.json().catch(() => ({}));
-      setError(body.error ?? "Löschen fehlgeschlagen.");
+      setError(body.error ?? "Archivieren fehlgeschlagen.");
       return;
     }
     router.refresh();
   }
 
-  async function moveList(folder: FolderRow, index: number, direction: -1 | 1) {
-    const target = folder.lists[index + direction];
-    const current = folder.lists[index];
+  async function restoreList(listId: string) {
+    setError(null);
+    const response = await fetch(`/api/tenant/task-list-groups/${listId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ archived: false }),
+    });
+    if (!response.ok) {
+      const body = await response.json().catch(() => ({}));
+      setError(body.error ?? "Wiederherstellen fehlgeschlagen.");
+      return;
+    }
+    router.refresh();
+  }
+
+  async function moveList(activeLists: ListRow[], index: number, direction: -1 | 1) {
+    const target = activeLists[index + direction];
+    const current = activeLists[index];
     if (!target) return;
     await Promise.all([
       fetch(`/api/tenant/task-list-groups/${current.id}`, {
@@ -169,11 +211,14 @@ export function TaskListsEditorClient({
       </p>
       {error && <p className="mb-4 text-sm text-destructive">{error}</p>}
 
-      {folders.length === 0 ? (
+      {activeFolders.length === 0 ? (
         <p className="mb-6 text-sm text-muted-foreground">Noch keine Ordner.</p>
       ) : (
         <ul className="mb-8 overflow-hidden rounded-lg border">
-          {folders.map((folder, folderIndex) => (
+          {activeFolders.map((folder, folderIndex) => {
+            const activeLists = folder.lists.filter((list) => !list.archived);
+            const archivedLists = folder.lists.filter((list) => list.archived);
+            return (
             <li key={folder.id} className="border-b p-4 last:border-0">
               <div className="mb-3 flex items-center gap-2">
                 {canManage && (
@@ -181,7 +226,7 @@ export function TaskListsEditorClient({
                     <Button variant="ghost" size="icon-sm" disabled={folderIndex === 0} onClick={() => moveFolder(folderIndex, -1)} aria-label="Ordner nach oben">
                       <ChevronUp className="size-3.5" />
                     </Button>
-                    <Button variant="ghost" size="icon-sm" disabled={folderIndex === folders.length - 1} onClick={() => moveFolder(folderIndex, 1)} aria-label="Ordner nach unten">
+                    <Button variant="ghost" size="icon-sm" disabled={folderIndex === activeFolders.length - 1} onClick={() => moveFolder(folderIndex, 1)} aria-label="Ordner nach unten">
                       <ChevronDown className="size-3.5" />
                     </Button>
                   </>
@@ -196,25 +241,25 @@ export function TaskListsEditorClient({
                   <strong className="text-sm">{folder.name}</strong>
                 )}
                 {canManage && (
-                  <Button variant="destructiveSubtle" size="sm" onClick={() => deleteFolder(folder.id)} className="ml-auto">
-                    Ordner löschen
+                  <Button variant="destructiveSubtle" size="sm" onClick={() => archiveFolder(folder)} className="ml-auto">
+                    Ordner archivieren
                   </Button>
                 )}
               </div>
 
-              {folder.lists.length === 0 ? (
+              {activeLists.length === 0 ? (
                 <p className="ml-6 text-sm text-muted-foreground">Noch keine Listen.</p>
               ) : (
                 <ul className="mb-3 ml-6 flex flex-col gap-1.5">
-                  {folder.lists.map((list, listIndex) => (
+                  {activeLists.map((list, listIndex) => (
                     <li key={list.id} className="flex items-center gap-2">
                       <div className="flex flex-1 items-center gap-2">
                         {canManage && (
                           <>
-                            <Button variant="ghost" size="icon-sm" disabled={listIndex === 0} onClick={() => moveList(folder, listIndex, -1)} aria-label="Liste nach oben">
+                            <Button variant="ghost" size="icon-sm" disabled={listIndex === 0} onClick={() => moveList(activeLists, listIndex, -1)} aria-label="Liste nach oben">
                               <ChevronUp className="size-3.5" />
                             </Button>
-                            <Button variant="ghost" size="icon-sm" disabled={listIndex === folder.lists.length - 1} onClick={() => moveList(folder, listIndex, 1)} aria-label="Liste nach unten">
+                            <Button variant="ghost" size="icon-sm" disabled={listIndex === activeLists.length - 1} onClick={() => moveList(activeLists, listIndex, 1)} aria-label="Liste nach unten">
                               <ChevronDown className="size-3.5" />
                             </Button>
                           </>
@@ -230,10 +275,23 @@ export function TaskListsEditorClient({
                         )}
                       </div>
                       {canManage && (
-                        <Button variant="destructiveSubtle" size="sm" onClick={() => deleteList(list.id)}>
-                          Löschen
+                        <Button variant="destructiveSubtle" size="sm" onClick={() => archiveList(list.id)}>
+                          Archivieren
                         </Button>
                       )}
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {canManage && archivedLists.length > 0 && (
+                <ul className="mb-3 ml-6 flex flex-col gap-1.5">
+                  {archivedLists.map((list) => (
+                    <li key={list.id} className="flex items-center gap-2 text-muted-foreground">
+                      <span className="flex-1 text-sm italic">{list.name} (archiviert)</span>
+                      <Button variant="outline" size="sm" onClick={() => restoreList(list.id)}>
+                        Wiederherstellen
+                      </Button>
                     </li>
                   ))}
                 </ul>
@@ -253,7 +311,8 @@ export function TaskListsEditorClient({
                 </form>
               )}
             </li>
-          ))}
+            );
+          })}
         </ul>
       )}
 
@@ -265,6 +324,31 @@ export function TaskListsEditorClient({
             <Button type="submit">Hinzufügen</Button>
           </form>
         </>
+      )}
+
+      {archivedFolders.length > 0 && (
+        <div className="mt-10">
+          <Button type="button" variant="ghost" size="sm" onClick={() => setShowArchived((current) => !current)} className="mb-3 px-0">
+            {showArchived ? <ChevronUp className="mr-1 size-3.5" /> : <ChevronDown className="mr-1 size-3.5" />}
+            Archivierte Ordner ({archivedFolders.length})
+          </Button>
+          {showArchived && (
+            <ul className="overflow-hidden rounded-lg border">
+              {archivedFolders.map((folder) => (
+                <li key={folder.id} className="flex items-center gap-2 border-b p-4 text-muted-foreground last:border-0">
+                  <span className="flex-1 text-sm italic">
+                    {folder.name} ({folder.lists.length} {folder.lists.length === 1 ? "Liste" : "Listen"})
+                  </span>
+                  {canManage && (
+                    <Button variant="outline" size="sm" onClick={() => restoreFolder(folder.id)}>
+                      Wiederherstellen
+                    </Button>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       )}
     </div>
   );

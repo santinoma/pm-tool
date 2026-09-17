@@ -15,9 +15,12 @@ export async function GET(request: Request) {
   const denied = await assertSingleProjectAccess(context.tenantDb, context.currentUser, projectId);
   if (denied) return denied;
 
+  // T404.1: aktive Ansicht blendet archivierte Ordner/Listen standardmäßig
+  // aus (Restore passiert ausschließlich über die Projekt-Settings-Seite,
+  // die explizit auch archivierte Einträge lädt).
   const folders = await context.tenantDb.taskFolder.findMany({
-    where: { projectId },
-    include: { lists: { orderBy: { position: "asc" } } },
+    where: { projectId, archived: false },
+    include: { lists: { where: { archived: false }, orderBy: { position: "asc" } } },
     orderBy: { position: "asc" },
   });
   return NextResponse.json({ folders });

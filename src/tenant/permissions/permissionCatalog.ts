@@ -13,6 +13,7 @@ export const PERMISSION_KEYS = [
   "workflows_manage",
   "integrations_manage",
   "portfolios_manage",
+  "resourcing_view_all",
 ] as const;
 
 export type PermissionKey = (typeof PERMISSION_KEYS)[number];
@@ -23,6 +24,7 @@ export const PERMISSION_GROUPS: { label: string; keys: PermissionKey[] }[] = [
   { label: "Financials", keys: ["budgets_manage", "invoicing_manage", "cost_rates_manage", "financial_month_closing_manage"] },
   { label: "Automatisierung", keys: ["automations_manage", "workflows_manage", "integrations_manage"] },
   { label: "Organisation", keys: ["organization_settings_manage", "portfolios_manage"] },
+  { label: "Resourcing", keys: ["resourcing_view_all"] },
 ];
 
 export const PERMISSION_LABELS: Record<PermissionKey, string> = {
@@ -40,6 +42,7 @@ export const PERMISSION_LABELS: Record<PermissionKey, string> = {
   workflows_manage: "Workflow-Übergangsregeln verwalten",
   integrations_manage: "Integrationen & API-Keys verwalten",
   portfolios_manage: "Portfolios & Goals verwalten",
+  resourcing_view_all: "Ressourcenplanung: Bookings aller Personen einsehen (nicht nur eigene)",
 };
 
 /**
@@ -56,12 +59,15 @@ export const PERMISSION_LABELS: Record<PermissionKey, string> = {
  *   hat — sonst entsteht eine Berechtigung ohne den Kontext, in dem sie greift.
  * - budgets_manage → projects_manage: Budgets hängen an Projekten; ohne
  *   Projektverwaltung gibt es keinen sinnvollen Zugriffspfad auf Budgets.
- * - workflows_manage → projects_manage: Workflow-Übergangsregeln sind
- *   Projektkonfiguration.
+ * - workflows_manage hat bewusst KEINE Abhängigkeit von projects_manage (mehr):
+ *   Productives Coordinator-Profil hat vollen Workflow-Zugriff, darf aber
+ *   Projekte selbst nicht anlegen/bearbeiten/löschen ("Full project access
+ *   besides project financials ... does not have permission to add, edit,
+ *   and delete projects on their own") — beides an projects_manage zu koppeln
+ *   hätte das nicht abbildbar gemacht (T403, behoben).
  * - automations_manage → workflows_manage: Automations reagieren auf/lösen
  *   Workflow-Status-Übergänge aus — ohne Workflow-Rechte keine sinnvolle
- *   Automation-Verwaltung. (workflows_manage zieht transitiv projects_manage
- *   nach sich.)
+ *   Automation-Verwaltung.
  * - integrations_manage → organization_settings_manage: API-Keys/Integrationen
  *   sind organisationsweite Einstellungen.
  * - portfolios_manage → projects_manage: Portfolios bündeln Projekte; ohne
@@ -82,6 +88,10 @@ export const PERMISSION_LABELS: Record<PermissionKey, string> = {
  *   Closing sperrt/entsperrt Zeiteinträge, Ausgaben und Services, die alle
  *   an Budgets hängen — ohne Budget-Zugriff kein sinnvoller Kontext
  *   (Productive: systemseitiges Äquivalent ist die Admin-Berechtigung).
+ * - resourcing_view_all hat keine Voraussetzung: eigenständiges
+ *   Sichtbarkeits-Recht für den Resource Planner (Staff sieht nur eigene
+ *   Bookings, Coordinator+ sieht alle — T403, behoben), unabhängig von
+ *   Projekt-/Budget-Verwaltung.
  *
  * `members_invite`, `projects_manage` und `organization_settings_manage`
  * selbst haben keine Voraussetzungen — sie sind die "Basis-Level" pro Gruppe.
@@ -94,7 +104,6 @@ export const PERMISSION_DEPENDENCIES: Partial<Record<PermissionKey, PermissionKe
   cost_rates_manage: ["budgets_manage"],
   financial_month_closing_manage: ["budgets_manage"],
   employee_fields_sensitive_view: ["members_invite"],
-  workflows_manage: ["projects_manage"],
   automations_manage: ["workflows_manage"],
   integrations_manage: ["organization_settings_manage"],
   portfolios_manage: ["projects_manage"],

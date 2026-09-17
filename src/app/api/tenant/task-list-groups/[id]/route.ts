@@ -26,6 +26,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     data: {
       name: typeof body.name === "string" ? body.name : undefined,
       position: typeof body.position === "number" ? body.position : undefined,
+      // T404.1: Restore läuft über denselben PATCH-Endpunkt (archived: false).
+      archived: typeof body.archived === "boolean" ? body.archived : undefined,
     },
   });
 
@@ -45,11 +47,14 @@ export async function DELETE(_request: Request, { params }: { params: Promise<{ 
   );
   if (denied) return denied;
 
-  // Deleting a list must not delete its tasks — just unassign them so they
-  // fall back to "no list" (mirrors folder-delete's rejection-based safety,
-  // but here nulling is safe since it only affects this one list's tasks).
-  await context.tenantDb.task.updateMany({ where: { taskListGroupId: id }, data: { taskListGroupId: null } });
-  await context.tenantDb.taskListGroup.delete({ where: { id } });
+  // T404.1 (Productive-Doku: Task-Lists sind nur archivierbar, nicht
+  // löschbar — vorheriges Hard-Delete war ein direkter Widerspruch zur
+  // Doku und ließ echte Daten verloren gehen). "Löschen" archiviert die
+  // Liste jetzt statt sie zu entfernen; ihre Tasks behalten ihre
+  // `taskListGroupId`-Zuordnung (kein Nullen mehr nötig, die Liste existiert
+  // ja weiterhin) und tauchen einfach nicht mehr in aktiven Listen-Ansichten
+  // auf, bis die Liste wiederhergestellt wird.
+  await context.tenantDb.taskListGroup.update({ where: { id }, data: { archived: true } });
 
   return NextResponse.json({ ok: true });
 }

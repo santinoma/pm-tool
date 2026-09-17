@@ -323,6 +323,7 @@ exports.Prisma.TaskFolderScalarFieldEnum = {
   projectId: 'projectId',
   name: 'name',
   position: 'position',
+  archived: 'archived',
   createdAt: 'createdAt'
 };
 
@@ -331,6 +332,7 @@ exports.Prisma.TaskListGroupScalarFieldEnum = {
   folderId: 'folderId',
   name: 'name',
   position: 'position',
+  archived: 'archived',
   createdAt: 'createdAt'
 };
 

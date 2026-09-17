@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getTenantContext } from "@/tenant/context";
 import { canManageMembers } from "@/tenant/auth/roleGuard";
+import { hasEffectivePermission } from "@/tenant/permissions/resolvePermissions";
 import { getCurrentWeekRange, isWithinWeek } from "@/tenant/resourcePlanning/week";
 import { computeUtilization } from "@/tenant/resourcePlanning/utilization";
 import { computeEffectiveWeeklyCapacity } from "@/tenant/resourcePlanning/holidays";
@@ -19,6 +20,13 @@ export default async function ResourcePlanningPage() {
   const week = getCurrentWeekRange(new Date());
   const weekDays = Array.from({ length: 7 }, (_, index) => addDays(week.start, index));
   const canEdit = canManageMembers(context.currentUser.role);
+  // T403: Sichtbarkeit im Resource Planner ist jetzt ein eigenes Recht
+  // (`resourcing_view_all`), nicht mehr an die Bearbeitungsrechte gekoppelt
+  // — Productive: "Staff members can only see their own bookings ...
+  // Coordinators and above can view all planned time." Coordinator/Manager/
+  // Profitability Manager sehen dadurch alle Bookings, auch ohne `canEdit`.
+  const canViewAllBookings =
+    canEdit || (await hasEffectivePermission(context.tenantDb, context.currentUser, context.entitledFeatures, "resourcing_view_all"));
 
   const [users, tasks, projects, bookings] = await Promise.all([
     context.tenantDb.user.findMany({
@@ -30,7 +38,7 @@ export default async function ResourcePlanningPage() {
       include: { status: true, projects: { where: { isPrimary: true }, include: { project: true } } },
     }),
     context.tenantDb.project.findMany({
-      where: canEdit ? undefined : { members: { some: { userId: context.currentUser.id } } },
+      where: canViewAllBookings ? undefined : { members: { some: { userId: context.currentUser.id } } },
       orderBy: { name: "asc" },
       include: { budgets: { include: { sections: { select: { id: true, name: true } } } } },
     }),
@@ -38,7 +46,7 @@ export default async function ResourcePlanningPage() {
       where: {
         startDate: { lte: week.end },
         endDate: { gte: week.start },
-        ...(canEdit ? {} : { project: { members: { some: { userId: context.currentUser.id } } } }),
+        ...(canViewAllBookings ? {} : { project: { members: { some: { userId: context.currentUser.id } } } }),
       },
       include: { user: true, project: true, budgetSection: true },
       orderBy: { startDate: "asc" },

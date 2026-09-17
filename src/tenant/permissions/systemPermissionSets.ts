@@ -15,11 +15,16 @@ import type { RoleName } from "../auth/roleGuard";
  * NICHT gemacht wurde.
  *
  * Mapping auf den bestehenden `PERMISSION_KEYS`-Katalog: mehrere von
- * Productives dokumentierten Nuancen lassen sich mit den aktuellen 14 Keys
- * nicht exakt abbilden (siehe Kommentare unten je Set) — in jedem
- * Zweifelsfall wurde die KONSERVATIVERE Auslegung gewählt (lieber ein Recht
- * fehlt, als dass zu viel gewährt wird). Dokumentiert als bekannte Lücken in
- * `roadmap/PHASE4-tasks.md` T403.
+ * Productives dokumentierten Nuancen ließen sich mit dem ursprünglichen
+ * 14-Key-Katalog nicht abbilden (T402-Stand) — in jedem Zweifelsfall wurde
+ * damals die KONSERVATIVERE Auslegung gewählt. T403 hat die verbleibenden
+ * Lücken behoben: `resourcing_view_all` (neuer Key) für die Resource-
+ * Planner-Sichtbarkeit, Entkopplung von `workflows_manage`/
+ * `automations_manage` von `projects_manage` (Coordinator), und eine
+ * Teilmengen-Prüfung in der Rollen-API statt eines pauschalen
+ * `members_manage_roles`-Verbots für Manager/Profitability Manager — siehe
+ * `roadmap/PHASE4-tasks.md` T403 für Details und die verbleibenden,
+ * bewusst nicht behebbaren Restfälle (Contractor/Client Lead).
  */
 export const ADMIN_SET_NAME = "Admin";
 export const MANAGER_SET_NAME = "Manager";
@@ -46,6 +51,17 @@ const MANAGER_PERMISSIONS: PermissionKey[] = [
   "automations_manage",
   "portfolios_manage",
   "members_invite",
+  // T403 (behoben): members_manage_roles ist jetzt vergebbar, weil die
+  // Rollen-API (`/api/tenant/users/[id]/custom-role`) seit T403 die Ziel-
+  // Rolle gegen die effektiven Rechte des Handelnden prüft (nur Teilmengen
+  // der eigenen Rechte sind vergebbar) — Manager kann damit nie zu Admin
+  // oder Profitability Manager befördern (beide haben Keys, die Manager
+  // selbst fehlen), aber sehr wohl zu Coordinator/Staff/Client Lead/Client
+  // Collaborator/Contractor, exakt wie in der Doku beschrieben.
+  "members_manage_roles",
+  // Resource Planner: Manager sieht Bookings aller Personen, nicht nur
+  // projektbezogen eigene.
+  "resourcing_view_all",
 ];
 
 export const SYSTEM_PERMISSION_SETS: SystemPermissionSetDef[] = [
@@ -63,10 +79,9 @@ export const SYSTEM_PERMISSION_SETS: SystemPermissionSetDef[] = [
     // excluding cost and profit. They don't have access to cost rates and
     // organization-level settings." — bewusst OHNE cost_rates_manage,
     // financial_month_closing_manage, organization_settings_manage,
-    // employee_fields_sensitive_view, integrations_manage. OHNE
-    // members_manage_roles (siehe T403: Manager darf laut Doku nur
-    // niedrigere Stufen befördern, nicht global Rollen ändern — mit dem
-    // aktuell binären Key würde das zu viel gewähren).
+    // employee_fields_sensitive_view, integrations_manage.
+    // members_manage_roles/resourcing_view_all: siehe Kommentar auf
+    // MANAGER_PERMISSIONS oben (T403).
     permissions: MANAGER_PERMISSIONS,
   },
   {
@@ -85,12 +100,16 @@ export const SYSTEM_PERMISSION_SETS: SystemPermissionSetDef[] = [
     name: COORDINATOR_SET_NAME,
     legacyRoleMapping: [],
     // "Full project access besides project financials ... does not have
-    // permission to add, edit, and delete projects on their own." — NUR
-    // tasks_manage_all. Bewusst OHNE projects_manage (Coordinator darf laut
-    // Doku keine Projekte anlegen/bearbeiten/löschen) und ohne
-    // workflows_manage/automations_manage, da diese aktuell hart von
-    // projects_manage abhängen (PERMISSION_DEPENDENCIES) — siehe T403.
-    permissions: ["tasks_manage_all"],
+    // permission to add, edit, and delete projects on their own." — Bewusst
+    // OHNE projects_manage (Coordinator darf laut Doku keine Projekte
+    // anlegen/bearbeiten/löschen) und ohne budgets_manage/invoicing_manage/
+    // cost_rates_manage (Financials). workflows_manage/automations_manage
+    // sind seit T403 (Entkopplung von projects_manage in
+    // PERMISSION_DEPENDENCIES) vergebbar, weil sie kein projects_manage mehr
+    // voraussetzen — passt jetzt zu "full project access besides
+    // financials". resourcing_view_all: "Coordinators and above can view all
+    // planned time".
+    permissions: ["tasks_manage_all", "workflows_manage", "automations_manage", "resourcing_view_all"],
   },
   {
     name: STAFF_SET_NAME,
