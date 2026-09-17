@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getTenantContext } from "@/tenant/context";
 import { AppShellNextElite } from "@/ui/nextelite/AppShellNextElite";
 import { canManageMembers } from "@/tenant/auth/roleGuard";
+import { getOrCreateSystemPermissionSets } from "@/tenant/permissions/systemPermissionSets";
 import { RolesClient } from "./RolesClient";
 
 export const dynamic = "force-dynamic";
@@ -12,7 +13,11 @@ export default async function RolesSettingsPage() {
     redirect("/login");
   }
 
-  const roles = await context.tenantDb.customRole.findMany({ orderBy: { createdAt: "asc" } });
+  // T402: die acht Productive-Standard-Permission-Sets sind IMMER verfügbar
+  // (nicht ans `custom_roles`-Feature/Ultimate-Plan gebunden) — nur das
+  // Anlegen/Bearbeiten eigener, zusätzlicher Sets bleibt Ultimate-gated.
+  await getOrCreateSystemPermissionSets(context.tenantDb);
+  const roles = await context.tenantDb.customRole.findMany({ orderBy: [{ isSystem: "desc" }, { createdAt: "asc" }] });
 
   return (
     <AppShellNextElite
@@ -22,7 +27,8 @@ export default async function RolesSettingsPage() {
     >
       <RolesClient
         canManage={canManageMembers(context.currentUser.role)}
-        roles={roles.map((role) => ({ id: role.id, name: role.name, permissions: role.permissions }))}
+        hasCustomRolesFeature={context.entitledFeatures.has("custom_roles")}
+        roles={roles.map((role) => ({ id: role.id, name: role.name, permissions: role.permissions, isSystem: role.isSystem }))}
       />
     </AppShellNextElite>
   );

@@ -11,6 +11,17 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     return NextResponse.json({ error: "Keine Berechtigung." }, { status: 403 });
   }
 
+  const target = await context.tenantDb.customRole.findUnique({ where: { id } });
+  if (!target) {
+    return NextResponse.json({ error: "Rolle nicht gefunden." }, { status: 404 });
+  }
+  // T402: die acht Productive-Standard-Permission-Sets sind fest — nicht
+  // umbenennbar, nicht in ihren Rechten veränderbar (analog zu Productive:
+  // "System sets cannot be edited directly").
+  if (target.isSystem) {
+    return NextResponse.json({ error: "Standard-Permission-Sets können nicht bearbeitet werden." }, { status: 403 });
+  }
+
   const body = await request.json().catch(() => null);
   if (!body) {
     return NextResponse.json({ error: "Ungültige Anfrage." }, { status: 400 });
@@ -52,6 +63,11 @@ export async function DELETE(_request: Request, { params }: { params: Promise<{ 
   const context = await getTenantContext();
   if (!context?.currentUser || !canManageMembers(context.currentUser.role)) {
     return NextResponse.json({ error: "Keine Berechtigung." }, { status: 403 });
+  }
+
+  const target = await context.tenantDb.customRole.findUnique({ where: { id } });
+  if (target?.isSystem) {
+    return NextResponse.json({ error: "Standard-Permission-Sets können nicht gelöscht werden." }, { status: 403 });
   }
 
   await context.tenantDb.user.updateMany({ where: { customRoleId: id }, data: { customRoleId: null } });

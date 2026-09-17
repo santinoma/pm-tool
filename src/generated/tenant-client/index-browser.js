@@ -220,6 +220,7 @@ exports.Prisma.CustomRoleScalarFieldEnum = {
   id: 'id',
   name: 'name',
   permissions: 'permissions',
+  isSystem: 'isSystem',
   createdAt: 'createdAt'
 };
 

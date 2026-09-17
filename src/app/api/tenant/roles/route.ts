@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getTenantContext } from "@/tenant/context";
 import { canManageMembers } from "@/tenant/auth/roleGuard";
 import { PERMISSION_KEYS, resolveWithDependencies } from "@/tenant/permissions/permissionCatalog";
+import { getOrCreateSystemPermissionSets } from "@/tenant/permissions/systemPermissionSets";
 
 export async function GET() {
   const context = await getTenantContext();
@@ -9,7 +10,8 @@ export async function GET() {
     return NextResponse.json({ error: "Nicht angemeldet." }, { status: 401 });
   }
 
-  const roles = await context.tenantDb.customRole.findMany({ orderBy: { createdAt: "asc" } });
+  await getOrCreateSystemPermissionSets(context.tenantDb);
+  const roles = await context.tenantDb.customRole.findMany({ orderBy: [{ isSystem: "desc" }, { createdAt: "asc" }] });
   return NextResponse.json({ roles });
 }
 

@@ -22885,12 +22885,14 @@ export namespace Prisma {
   export type CustomRoleMinAggregateOutputType = {
     id: string | null
     name: string | null
+    isSystem: boolean | null
     createdAt: Date | null
   }
 
   export type CustomRoleMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    isSystem: boolean | null
     createdAt: Date | null
   }
 
@@ -22898,6 +22900,7 @@ export namespace Prisma {
     id: number
     name: number
     permissions: number
+    isSystem: number
     createdAt: number
     _all: number
   }
@@ -22906,12 +22909,14 @@ export namespace Prisma {
   export type CustomRoleMinAggregateInputType = {
     id?: true
     name?: true
+    isSystem?: true
     createdAt?: true
   }
 
   export type CustomRoleMaxAggregateInputType = {
     id?: true
     name?: true
+    isSystem?: true
     createdAt?: true
   }
 
@@ -22919,6 +22924,7 @@ export namespace Prisma {
     id?: true
     name?: true
     permissions?: true
+    isSystem?: true
     createdAt?: true
     _all?: true
   }
@@ -22999,6 +23005,7 @@ export namespace Prisma {
     id: string
     name: string
     permissions: string[]
+    isSystem: boolean
     createdAt: Date
     _count: CustomRoleCountAggregateOutputType | null
     _min: CustomRoleMinAggregateOutputType | null
@@ -23023,6 +23030,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     permissions?: boolean
+    isSystem?: boolean
     createdAt?: boolean
     users?: boolean | CustomRole$usersArgs<ExtArgs>
     projectOverrides?: boolean | CustomRole$projectOverridesArgs<ExtArgs>
@@ -23033,6 +23041,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     permissions?: boolean
+    isSystem?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["customRole"]>
 
@@ -23040,6 +23049,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     permissions?: boolean
+    isSystem?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["customRole"]>
 
@@ -23047,10 +23057,11 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     permissions?: boolean
+    isSystem?: boolean
     createdAt?: boolean
   }
 
-  export type CustomRoleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "permissions" | "createdAt", ExtArgs["result"]["customRole"]>
+  export type CustomRoleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "permissions" | "isSystem" | "createdAt", ExtArgs["result"]["customRole"]>
   export type CustomRoleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | CustomRole$usersArgs<ExtArgs>
     projectOverrides?: boolean | CustomRole$projectOverridesArgs<ExtArgs>
@@ -23069,6 +23080,17 @@ export namespace Prisma {
       id: string
       name: string
       permissions: string[]
+      /**
+       * T-Permission-Sets: markiert die acht von Productive dokumentierten
+       * Standard-Berechtigungsprofile (Admin/Manager/Profitability Manager/
+       * Coordinator/Staff/Contractor/Client Collaborator/Client Lead) —
+       * siehe `src/tenant/permissions/systemPermissionSets.ts`. Anders als
+       * selbst angelegte Custom Roles sind diese IMMER verfügbar (nicht an
+       * das `custom_roles`-Feature/Ultimate-Plan gebunden, siehe
+       * `resolveEffectivePermissions`), nicht löschbar und nicht umbenennbar/
+       * bearbeitbar über die normale Rollen-API.
+       */
+      isSystem: boolean
       createdAt: Date
     }, ExtArgs["result"]["customRole"]>
     composites: {}
@@ -23498,6 +23520,7 @@ export namespace Prisma {
     readonly id: FieldRef<"CustomRole", 'String'>
     readonly name: FieldRef<"CustomRole", 'String'>
     readonly permissions: FieldRef<"CustomRole", 'String[]'>
+    readonly isSystem: FieldRef<"CustomRole", 'Boolean'>
     readonly createdAt: FieldRef<"CustomRole", 'DateTime'>
   }
     
@@ -118547,6 +118570,7 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     permissions: 'permissions',
+    isSystem: 'isSystem',
     createdAt: 'createdAt'
   };
 
@@ -121186,6 +121210,7 @@ export namespace Prisma {
     id?: StringFilter<"CustomRole"> | string
     name?: StringFilter<"CustomRole"> | string
     permissions?: StringNullableListFilter<"CustomRole">
+    isSystem?: BoolFilter<"CustomRole"> | boolean
     createdAt?: DateTimeFilter<"CustomRole"> | Date | string
     users?: UserListRelationFilter
     projectOverrides?: ProjectRoleOverrideListRelationFilter
@@ -121195,6 +121220,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     permissions?: SortOrder
+    isSystem?: SortOrder
     createdAt?: SortOrder
     users?: UserOrderByRelationAggregateInput
     projectOverrides?: ProjectRoleOverrideOrderByRelationAggregateInput
@@ -121207,6 +121233,7 @@ export namespace Prisma {
     OR?: CustomRoleWhereInput[]
     NOT?: CustomRoleWhereInput | CustomRoleWhereInput[]
     permissions?: StringNullableListFilter<"CustomRole">
+    isSystem?: BoolFilter<"CustomRole"> | boolean
     createdAt?: DateTimeFilter<"CustomRole"> | Date | string
     users?: UserListRelationFilter
     projectOverrides?: ProjectRoleOverrideListRelationFilter
@@ -121216,6 +121243,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     permissions?: SortOrder
+    isSystem?: SortOrder
     createdAt?: SortOrder
     _count?: CustomRoleCountOrderByAggregateInput
     _max?: CustomRoleMaxOrderByAggregateInput
@@ -121229,6 +121257,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"CustomRole"> | string
     name?: StringWithAggregatesFilter<"CustomRole"> | string
     permissions?: StringNullableListFilter<"CustomRole">
+    isSystem?: BoolWithAggregatesFilter<"CustomRole"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"CustomRole"> | Date | string
   }
 
@@ -128189,6 +128218,7 @@ export namespace Prisma {
     id?: string
     name: string
     permissions?: CustomRoleCreatepermissionsInput | string[]
+    isSystem?: boolean
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutCustomRoleInput
     projectOverrides?: ProjectRoleOverrideCreateNestedManyWithoutCustomRoleInput
@@ -128198,6 +128228,7 @@ export namespace Prisma {
     id?: string
     name: string
     permissions?: CustomRoleCreatepermissionsInput | string[]
+    isSystem?: boolean
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCustomRoleInput
     projectOverrides?: ProjectRoleOverrideUncheckedCreateNestedManyWithoutCustomRoleInput
@@ -128207,6 +128238,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     permissions?: CustomRoleUpdatepermissionsInput | string[]
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCustomRoleNestedInput
     projectOverrides?: ProjectRoleOverrideUpdateManyWithoutCustomRoleNestedInput
@@ -128216,6 +128248,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     permissions?: CustomRoleUpdatepermissionsInput | string[]
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCustomRoleNestedInput
     projectOverrides?: ProjectRoleOverrideUncheckedUpdateManyWithoutCustomRoleNestedInput
@@ -128225,6 +128258,7 @@ export namespace Prisma {
     id?: string
     name: string
     permissions?: CustomRoleCreatepermissionsInput | string[]
+    isSystem?: boolean
     createdAt?: Date | string
   }
 
@@ -128232,6 +128266,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     permissions?: CustomRoleUpdatepermissionsInput | string[]
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -128239,6 +128274,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     permissions?: CustomRoleUpdatepermissionsInput | string[]
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -135690,18 +135726,21 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     permissions?: SortOrder
+    isSystem?: SortOrder
     createdAt?: SortOrder
   }
 
   export type CustomRoleMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    isSystem?: SortOrder
     createdAt?: SortOrder
   }
 
   export type CustomRoleMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    isSystem?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -150797,6 +150836,7 @@ export namespace Prisma {
     id?: string
     name: string
     permissions?: CustomRoleCreatepermissionsInput | string[]
+    isSystem?: boolean
     createdAt?: Date | string
     projectOverrides?: ProjectRoleOverrideCreateNestedManyWithoutCustomRoleInput
   }
@@ -150805,6 +150845,7 @@ export namespace Prisma {
     id?: string
     name: string
     permissions?: CustomRoleCreatepermissionsInput | string[]
+    isSystem?: boolean
     createdAt?: Date | string
     projectOverrides?: ProjectRoleOverrideUncheckedCreateNestedManyWithoutCustomRoleInput
   }
@@ -152944,6 +152985,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     permissions?: CustomRoleUpdatepermissionsInput | string[]
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     projectOverrides?: ProjectRoleOverrideUpdateManyWithoutCustomRoleNestedInput
   }
@@ -152952,6 +152994,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     permissions?: CustomRoleUpdatepermissionsInput | string[]
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     projectOverrides?: ProjectRoleOverrideUncheckedUpdateManyWithoutCustomRoleNestedInput
   }
@@ -156837,6 +156880,7 @@ export namespace Prisma {
     id?: string
     name: string
     permissions?: CustomRoleCreatepermissionsInput | string[]
+    isSystem?: boolean
     createdAt?: Date | string
     users?: UserCreateNestedManyWithoutCustomRoleInput
   }
@@ -156845,6 +156889,7 @@ export namespace Prisma {
     id?: string
     name: string
     permissions?: CustomRoleCreatepermissionsInput | string[]
+    isSystem?: boolean
     createdAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCustomRoleInput
   }
@@ -157133,6 +157178,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     permissions?: CustomRoleUpdatepermissionsInput | string[]
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCustomRoleNestedInput
   }
@@ -157141,6 +157187,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     permissions?: CustomRoleUpdatepermissionsInput | string[]
+    isSystem?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCustomRoleNestedInput
   }

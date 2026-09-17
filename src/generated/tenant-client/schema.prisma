@@ -245,6 +245,15 @@ model CustomRole {
   id               String                @id @default(uuid())
   name             String
   permissions      String[]
+  /// T-Permission-Sets: markiert die acht von Productive dokumentierten
+  /// Standard-Berechtigungsprofile (Admin/Manager/Profitability Manager/
+  /// Coordinator/Staff/Contractor/Client Collaborator/Client Lead) —
+  /// siehe `src/tenant/permissions/systemPermissionSets.ts`. Anders als
+  /// selbst angelegte Custom Roles sind diese IMMER verfügbar (nicht an
+  /// das `custom_roles`-Feature/Ultimate-Plan gebunden, siehe
+  /// `resolveEffectivePermissions`), nicht löschbar und nicht umbenennbar/
+  /// bearbeitbar über die normale Rollen-API.
+  isSystem         Boolean               @default(false)
   createdAt        DateTime              @default(now())
   users            User[]
   projectOverrides ProjectRoleOverride[]

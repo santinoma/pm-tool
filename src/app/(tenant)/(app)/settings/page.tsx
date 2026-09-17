@@ -82,7 +82,7 @@ function getGroups(locale: Locale) {
     {
       title: t(locale, "settings.group.securityAccess"),
       items: [
-        { href: "/settings/organization/roles", label: t(locale, "settings.roles.title"), desc: t(locale, "settings.roles.desc"), icon: KeyRound, feature: "custom_roles" },
+        { href: "/settings/organization/roles", label: t(locale, "settings.roles.title"), desc: t(locale, "settings.roles.desc"), icon: KeyRound },
         { href: "/settings/organization/sso", label: t(locale, "settings.sso.title"), desc: t(locale, "settings.sso.desc"), icon: Lock },
         { href: "/settings/organization/audit-log", label: t(locale, "settings.auditLog.title"), desc: t(locale, "settings.auditLog.desc"), icon: History },
       ],

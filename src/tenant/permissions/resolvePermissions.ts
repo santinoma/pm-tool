@@ -1,7 +1,17 @@
 import { computeEffectivePermissions, hasPermission, type PermissionKey } from "./permissionCatalog";
+import { getDefaultSystemSetNameForRole, getOrCreateSystemPermissionSets } from "./systemPermissionSets";
 import type { PrismaClient, User } from "../../generated/tenant-client/client.js";
 import type { FeatureKey } from "../entitlements/features";
 
+/**
+ * T402: ein explizit gesetztes `customRoleId` wirkt IMMER, wenn es ein
+ * System-Permission-Set ist (die acht Productive-Standardprofile — nicht an
+ * `custom_roles`/Ultimate gebunden), sonst nur bei echter (nicht-System-)
+ * Custom Role UND gebuchtem `custom_roles`-Feature. Fehlt ein nutzbares
+ * `customRoleId`, wird automatisch auf das zur Legacy-Basisrolle passende
+ * System-Set zurückgefallen (owner/admin → Admin, member → Staff, client →
+ * Client Collaborator) statt auf das grobe alte `LEGACY_ROLE_PERMISSIONS`.
+ */
 export async function resolveEffectivePermissions(
   tenantDb: PrismaClient,
   user: User,
@@ -12,9 +22,27 @@ export async function resolveEffectivePermissions(
   const hasProjectOverridesFeature = entitledFeatures.has("project_role_overrides");
 
   let customRolePermissions: string[] | null = null;
-  if (hasCustomRolesFeature && user.customRoleId) {
+  let resolvedViaSystemOrEntitledCustomRole = false;
+
+  if (user.customRoleId) {
     const customRole = await tenantDb.customRole.findUnique({ where: { id: user.customRoleId } });
-    customRolePermissions = customRole?.permissions ?? null;
+    if (customRole && (customRole.isSystem || hasCustomRolesFeature)) {
+      customRolePermissions = customRole.permissions;
+      resolvedViaSystemOrEntitledCustomRole = true;
+    }
+  }
+
+  if (!resolvedViaSystemOrEntitledCustomRole) {
+    const systemSetName = getDefaultSystemSetNameForRole(user.role);
+    let systemSet = await tenantDb.customRole.findFirst({ where: { name: systemSetName, isSystem: true } });
+    if (!systemSet) {
+      await getOrCreateSystemPermissionSets(tenantDb);
+      systemSet = await tenantDb.customRole.findFirst({ where: { name: systemSetName, isSystem: true } });
+    }
+    if (systemSet) {
+      customRolePermissions = systemSet.permissions;
+      resolvedViaSystemOrEntitledCustomRole = true;
+    }
   }
 
   let projectOverridePermissions: string[] | null = null;
@@ -30,7 +58,9 @@ export async function resolveEffectivePermissions(
     baseRole: user.role,
     customRolePermissions,
     projectOverridePermissions,
-    hasCustomRolesFeature,
+    // Fallback auf LEGACY_ROLE_PERMISSIONS nur im (praktisch unerreichbaren)
+    // Fall, dass selbst das Self-Healing-Seeding fehlschlug.
+    hasCustomRolesFeature: resolvedViaSystemOrEntitledCustomRole ? true : hasCustomRolesFeature,
     hasProjectOverridesFeature,
   });
 }

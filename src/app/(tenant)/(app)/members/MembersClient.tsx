@@ -33,6 +33,7 @@ interface MemberUser {
   isActive: boolean;
   internalCostRate: number | null;
   customRoleId: string | null;
+  defaultSystemSetName: string;
   holidayCalendarId: string | null;
   managerId: string | null;
 }
@@ -52,6 +53,7 @@ interface PendingInvite {
 interface CustomRoleOption {
   id: string;
   name: string;
+  isSystem: boolean;
 }
 
 interface OwnershipSummary {
@@ -385,7 +387,7 @@ export function MembersClient({
               <TableHead>E-Mail</TableHead>
               <TableHead>Rolle</TableHead>
               <TableHead>Typ</TableHead>
-              {hasCustomRolesFeature && <TableHead>Custom Role</TableHead>}
+              <TableHead>Permission Set</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Interner Stundensatz</TableHead>
               <TableHead>Feiertagskalender</TableHead>
@@ -430,27 +432,38 @@ export function MembersClient({
                     <span className="text-muted-foreground">{user.employmentType === "contractor" ? "Contractor" : "Employee"}</span>
                   )}
                 </TableCell>
-                {hasCustomRolesFeature && (
-                  <TableCell>
-                    {canManage && user.employmentType !== "contractor" ? (
-                      <Select defaultValue={user.customRoleId ?? "__none__"} onValueChange={(value) => handleCustomRoleChange(user.id, value)}>
-                        <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="__none__">— Basis-Rolle —</SelectItem>
-                          {customRoles.map((role) => (
-                            <SelectItem key={role.id} value={role.id}>
-                              {role.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    ) : user.customRoleId && customRoles.find((role) => role.id === user.customRoleId) ? (
-                      <LegendKey label={customRoles.find((role) => role.id === user.customRoleId)!.name} variant="started" />
+                <TableCell>
+                  {(() => {
+                    // T402: fehlt ein explizites customRoleId, gilt automatisch das
+                    // zur Basis-Rolle passende System-Permission-Set (siehe
+                    // getDefaultSystemSetNameForRole) — die Anzeige/Auswahl fällt
+                    // also nie auf "— keins —" zurück, sondern zeigt immer das
+                    // tatsächlich wirksame Set.
+                    const effectiveRoleId =
+                      user.customRoleId ?? customRoles.find((role) => role.isSystem && role.name === user.defaultSystemSetName)?.id ?? "";
+                    const selectableRoles = customRoles.filter((role) => role.isSystem || hasCustomRolesFeature);
+                    if (canManage && user.employmentType !== "contractor" && effectiveRoleId) {
+                      return (
+                        <Select defaultValue={effectiveRoleId} onValueChange={(value) => handleCustomRoleChange(user.id, value)}>
+                          <SelectTrigger className="w-48"><SelectValue /></SelectTrigger>
+                          <SelectContent>
+                            {selectableRoles.map((role) => (
+                              <SelectItem key={role.id} value={role.id}>
+                                {role.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      );
+                    }
+                    const current = customRoles.find((role) => role.id === effectiveRoleId);
+                    return current ? (
+                      <LegendKey label={current.name} variant={current.isSystem ? "default" : "started"} />
                     ) : (
                       <span className="text-muted-foreground">{user.employmentType === "contractor" ? "Festes Profil" : "—"}</span>
-                    )}
-                  </TableCell>
-                )}
+                    );
+                  })()}
+                </TableCell>
                 <TableCell>
                   <LegendKey label={user.isActive ? "aktiv" : "deaktiviert"} variant={user.isActive ? "done" : "default"} />
                 </TableCell>
