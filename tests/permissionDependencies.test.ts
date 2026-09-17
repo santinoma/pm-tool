@@ -12,11 +12,12 @@ describe("resolveWithDependencies", () => {
     expect(result).toHaveLength(2);
   });
 
-  it("walks a transitive chain: automations_manage -> workflows_manage -> projects_manage", () => {
+  it("walks the chain: automations_manage -> workflows_manage (T403: no longer -> projects_manage)", () => {
+    // T403: workflows_manage no longer requires projects_manage (Coordinator gets full
+    // workflow/automation access without project CRUD rights, per Productive's docs).
     const result = resolveWithDependencies(["automations_manage"]);
-    expect(new Set(result)).toEqual(
-      new Set<PermissionKey>(["automations_manage", "workflows_manage", "projects_manage"]),
-    );
+    expect(new Set(result)).toEqual(new Set<PermissionKey>(["automations_manage", "workflows_manage"]));
+    expect(result).not.toContain("projects_manage");
   });
 
   it("returns just the permission itself when it has no dependencies", () => {
@@ -76,16 +77,21 @@ describe("blockingDependents", () => {
   });
 
   it("returns transitive dependents when unchecking a root prerequisite", () => {
-    const selected: PermissionKey[] = ["projects_manage", "workflows_manage", "automations_manage"];
+    const selected: PermissionKey[] = ["projects_manage", "budgets_manage", "invoicing_manage"];
     const result = blockingDependents("projects_manage", selected);
-    expect(new Set(result)).toEqual(new Set<PermissionKey>(["workflows_manage", "automations_manage"]));
+    expect(new Set(result)).toEqual(new Set<PermissionKey>(["budgets_manage", "invoicing_manage"]));
   });
 
   it("only reports dependents that are actually selected", () => {
-    // automations_manage is NOT selected, so it should not appear even though it
-    // transitively depends on projects_manage via workflows_manage.
-    const selected: PermissionKey[] = ["projects_manage", "workflows_manage"];
-    expect(blockingDependents("projects_manage", selected)).toEqual(["workflows_manage"]);
+    // invoicing_manage is NOT selected, so it should not appear even though it
+    // transitively depends on projects_manage via budgets_manage.
+    const selected: PermissionKey[] = ["projects_manage", "budgets_manage"];
+    expect(blockingDependents("projects_manage", selected)).toEqual(["budgets_manage"]);
+  });
+
+  it("T403: workflows_manage no longer depends on projects_manage, so unchecking projects_manage doesn't cascade to it", () => {
+    const selected: PermissionKey[] = ["projects_manage", "workflows_manage", "automations_manage"];
+    expect(blockingDependents("projects_manage", selected)).toEqual([]);
   });
 
   it("returns no dependents when the permission itself is not a prerequisite of anything selected", () => {

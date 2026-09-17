@@ -11,7 +11,7 @@ import {
   CLIENT_LEAD_SET_NAME,
   getDefaultSystemSetNameForRole,
 } from "@/tenant/permissions/systemPermissionSets";
-import { PERMISSION_KEYS } from "@/tenant/permissions/permissionCatalog";
+import { PERMISSION_KEYS, type PermissionKey } from "@/tenant/permissions/permissionCatalog";
 
 describe("SYSTEM_PERMISSION_SETS (T402)", () => {
   it("defines exactly the eight Productive default permission sets", () => {
@@ -54,9 +54,22 @@ describe("SYSTEM_PERMISSION_SETS (T402)", () => {
     expect(profitabilityManager.permissions).not.toContain("financial_month_closing_manage");
   });
 
-  it("Coordinator only has tasks_manage_all (cannot manage projects themselves)", () => {
+  it("Coordinator has full task/workflow/automation/resourcing access but cannot manage projects themselves (T403)", () => {
     const coordinator = SYSTEM_PERMISSION_SETS.find((set) => set.name === COORDINATOR_SET_NAME)!;
-    expect(coordinator.permissions).toEqual(["tasks_manage_all"]);
+    expect(new Set(coordinator.permissions)).toEqual(
+      new Set<PermissionKey>(["tasks_manage_all", "workflows_manage", "automations_manage", "resourcing_view_all"]),
+    );
+    expect(coordinator.permissions).not.toContain("projects_manage");
+    expect(coordinator.permissions).not.toContain("budgets_manage");
+  });
+
+  it("Manager and Profitability Manager have members_manage_roles and resourcing_view_all (T403)", () => {
+    const manager = SYSTEM_PERMISSION_SETS.find((set) => set.name === MANAGER_SET_NAME)!;
+    const profitabilityManager = SYSTEM_PERMISSION_SETS.find((set) => set.name === PROFITABILITY_MANAGER_SET_NAME)!;
+    for (const set of [manager, profitabilityManager]) {
+      expect(set.permissions).toContain("members_manage_roles");
+      expect(set.permissions).toContain("resourcing_view_all");
+    }
   });
 
   it("Staff, Contractor, Client Collaborator, and Client Lead have no elevated org-level keys", () => {

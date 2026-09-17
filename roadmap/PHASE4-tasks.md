@@ -105,34 +105,54 @@ Diese Lücken sind unten als **T403** separat vermerkt statt stillschweigend üb
   "Admin"-Set ersetzt (identische Rechte, aber jetzt über das echte Productive-Konzept
   benannt und zuweisbar statt hartkodiert), Member/Client durch Staff/Client Collaborator.
 
-## T403 — Bekannte Lücken im Permission-Mapping (dokumentiert, nicht behoben)
+## T403 — Bekannte Lücken im Permission-Mapping (BEHOBEN, 17.09.2026 Folgedurchgang)
 
-Diese Nuancen aus der Doku lassen sich mit dem aktuellen 14-Key-Katalog nicht 1:1
-abbilden, ohne neue Keys/Abhängigkeits-Umbauten einzuführen — bewusst zurückgestellt:
+Diese Nuancen aus der Doku ließen sich mit dem T402-Stand des 14-Key-Katalogs nicht 1:1
+abbilden. Umsetzung in diesem Durchgang:
 
-- **Gestufte Rollen-Vergabe**: Laut Doku darf ein Manager andere Nutzer nur auf
-  Manager/Coordinator/Staff/Client Lead/Client Collaborator/Contractor setzen (nicht auf
-  Admin/Profitability Manager). `members_manage_roles` in dieser Codebase ist binär
-  (darf alles oder nichts) — Manager bekommt das Recht daher aktuell GAR NICHT (statt
-  fälschlich zu viel), Admin-Only bleibt vorerst der einzige Weg, Rollen zu ändern.
-  Eine echte Lösung bräuchte eine "bis zu welcher Stufe darf X befördern"-Matrix statt
-  eines einzelnen Boolean-Keys.
-- **Coordinator vs. Projekt-Verwaltung**: Coordinator soll "vollen Projekt-Zugriff außer
-  Budgets/Profitabilität" haben, aber "keine Projekte selbst anlegen/bearbeiten/löschen".
-  `workflows_manage`/`automations_manage` hängen aktuell hart von `projects_manage` ab
-  (`PERMISSION_DEPENDENCIES`) — das würde Coordinator automatisch auch `projects_manage`
-  einschließen, wenn man ihm Workflow-Rechte gäbe. Coordinator bekommt daher vorerst NUR
-  `tasks_manage_all`, keine Workflow-/Automation-Rechte, bis die Abhängigkeitskette
-  entkoppelt ist (Workflows/Automations müssten auch ohne Projekt-CRUD-Recht vergebbar
-  sein).
-- **Resource-Planner-spezifische Rechte** (Staff sieht nur eigene Bookings, kein
-  "By Project"; Coordinator+ sieht alle) — kein `PERMISSION_KEYS`-Eintrag für Resourcing
-  existiert aktuell; die Resource-Planner-UI müsste eigene Sichtbarkeitsregeln je
-  System-Set bekommen.
-- **Client Lead Budget-/Timesheet-Zugriff**: bleibt wie bisher über den bestehenden
-  per-Budget "Client Access"-Schalter geregelt (`ProjectClientAccess`), nicht über einen
-  neuen Permission-Key — entspricht der Doku ("Granting budget and timesheet access is
-  specific to a particular client").
+- **Gestufte Rollen-Vergabe (behoben)**: Statt einer hartkodierten "bis zu welcher Stufe
+  darf X befördern"-Tabelle wurde ein allgemeineres, selbst konsistentes Prinzip
+  umgesetzt: `/api/tenant/users/[id]/custom-role` prüft jetzt `members_manage_roles`
+  (statt der groben owner/admin-Prüfung) UND, dass die Rechte der Ziel-Rolle eine
+  **Teilmenge** der eigenen effektiven Rechte des Handelnden sind (niemand kann mehr
+  Rechte vergeben, als er selbst hat). Manager/Profitability Manager haben
+  `members_manage_roles` jetzt beide (`systemPermissionSets.ts`, `MANAGER_PERMISSIONS`),
+  können damit aber niemanden zu Admin oder Profitability Manager befördern — beiden
+  fehlt mindestens ein Key, den Admin/Profitability Manager haben
+  (`organization_settings_manage` bzw. `cost_rates_manage`) —, wohl aber zu
+  Coordinator/Staff/Client Lead/Client Collaborator/Contractor, exakt wie in der Doku
+  beschrieben. Gilt automatisch auch für künftige, frei angelegte Custom Roles, ohne
+  Sonderfall-Code.
+- **Coordinator vs. Projekt-Verwaltung (behoben)**: Die Abhängigkeit
+  `workflows_manage → projects_manage` wurde aus `PERMISSION_DEPENDENCIES` entfernt
+  (`automations_manage → workflows_manage` bleibt bestehen). Coordinator bekommt jetzt
+  `tasks_manage_all` + `workflows_manage` + `automations_manage` + `resourcing_view_all`,
+  weiterhin OHNE `projects_manage` — entspricht "full project access besides project
+  financials ... does not have permission to add, edit, and delete projects on their
+  own". Bestätigt (siehe Audit): keine Produktionsstelle verließ sich auf die entfernte
+  Kaskade, nur `tests/permissionDependencies.test.ts` musste angepasst werden.
+- **Resource-Planner-spezifische Rechte (behoben)**: neuer Key `resourcing_view_all`
+  (keine Abhängigkeit, eigene `PERMISSION_GROUPS`-Gruppe "Resourcing"). Admin/Manager/
+  Profitability Manager/Coordinator haben ihn, Staff/Contractor/Client-Sets nicht.
+  `/resource-planning/page.tsx` nutzt ihn jetzt für die Bookings-/Projekt-Sichtbarkeit
+  (`canViewAllBookings`), entkoppelt von den bisherigen Bearbeitungsrechten (`canEdit`,
+  unverändert weiter an owner/admin gebunden — Bearbeitungsrechte für Coordinator sind
+  nicht Teil dieser T403-Lücke, siehe unten).
+- **Client Lead Budget-/Timesheet-Zugriff**: unverändert korrekt über den bestehenden
+  per-Budget "Client Access"-Schalter (`ProjectClientAccess`) — kein Code-Änderungsbedarf,
+  entspricht der Doku ("Granting budget and timesheet access is specific to a particular
+  client").
+
+**Bewusst weiterhin nicht umgesetzt** (außerhalb des T403-Wortlauts, eigener Punkt):
+Coordinator soll laut Doku auch selbst Personen einplanen können ("kann Personen
+einplanen, Abwesenheiten genehmigen") — das ist ein BEARBEITUNGS-Recht auf Bookings, kein
+Sichtbarkeits-Recht, und war nicht Teil der ursprünglichen T403-Lückenbeschreibung (die
+sich explizit nur auf die Sichtbarkeits-Unterscheidung Staff/Coordinator+ bezog). Der
+Resource Planner hat aktuell nur ein einziges `canEdit` für alle Bearbeitungsaktionen
+(Bookings anlegen/verschieben/löschen), weiterhin an `canManageMembers` (owner/admin)
+gekoppelt. Eine eigene `resourcing_manage`-Berechtigung dafür wäre ein sinnvoller
+Folgeschritt, aber ein neuer, separat zu bewertender Scope — nicht Teil dieses
+Durchgangs.
 
 ## T404 — Task-Struktur: Folders/Task-Lists-Lücken (NEU gefunden, nicht behoben)
 
