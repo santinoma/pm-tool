@@ -217,8 +217,21 @@ Blass-Zustand für Teil-Tage.
 - [ ] T504.5 Resourcing-Bars von Pills zu echten Balken + Blass-Zustand für
       Teil-Tage — zurückgestellt, eigener gründlicher Durchgang nötig (Timeline-
       Grid-Geometrie)
-- [ ] T504.6 Systematische Rechtsbündigkeit + Negativ-Rot als Tabellen-
-      Primitive statt Ad-hoc — zurückgestellt
+- [x] T504.6 Neues `NumericCell`-Bauteil (`src/ui/nextelite/NumericCell.tsx`)
+      als Tabellen-Primitive: rechtsbündig + `font-mono` + Negativ-Rot
+      (`tabular-nums` kommt schon kostenlos aus der Basis-`TableCell`).
+      Ersetzt ~25 Ad-hoc-Stellen in Financials/Budget-Detail/Invoices/
+      Purchase-Orders/Approvals/Expenses/Rate-Cards/Dashboard/Table-View/
+      Resource-Planning/Client-Portal. Dabei zwei echte Bugs mitgefixt:
+      `payments/page.tsx` hatte weder Rechtsbündigkeit noch Mono-Font für
+      den Betrag; `DashboardClient.tsx`s Zeit-Tabellen hatten kein
+      `font-mono`. Nicht migriert: Cost-Rate-History (Währung variiert pro
+      Zeile, passt nicht auf das feste EUR-Format), Timesheet-Matrix
+      (bereits korrekt, negative Stunden nicht möglich), reine Zähl-
+      spalten (Section-Count etc.). Verifiziert per `tsc`/`eslint` +
+      Playwright-Screenshots (Dashboard/Ressourcen mit echten Werten,
+      Financials/Approvals/Expenses/Payments im Empty-State — Demo-Tenant
+      hat dort keine Daten, siehe T504.4).
 
 ---
 

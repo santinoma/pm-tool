@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getTenantContext } from "@/tenant/context";
 import { hasProjectAccess } from "@/tenant/portal/portalAccess";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
+import { NumericCell } from "@/ui/nextelite/NumericCell";
 
 export const dynamic = "force-dynamic";
 
@@ -97,7 +98,7 @@ export default async function PortalProjectPage({
                     {invoice.periodStart.toISOString().slice(0, 10)} – {invoice.periodEnd.toISOString().slice(0, 10)}
                   </TableCell>
                   <TableCell>{invoice.status === "paid" ? "Bezahlt" : "Versendet"}</TableCell>
-                  <TableCell className="text-right font-mono">{invoice.totalAmount.toFixed(2)}</TableCell>
+                  <NumericCell value={invoice.totalAmount} />
                 </TableRow>
               ))}
             </TableBody>

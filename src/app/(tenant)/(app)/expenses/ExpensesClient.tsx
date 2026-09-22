@@ -10,6 +10,7 @@ import { Input } from "@/ui/shadcn/components/input";
 import { Label } from "@/ui/shadcn/components/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
+import { NumericCell } from "@/ui/nextelite/NumericCell";
 import { cn } from "@/ui/shadcn/lib/utils";
 
 interface ProjectOption {
@@ -253,8 +254,8 @@ export function ExpensesClient({
                               <TableCell className="text-muted-foreground">{expense.serviceTypeName ?? "—"}</TableCell>
                               <TableCell className="text-muted-foreground">{expense.personName}</TableCell>
                               <TableCell className="text-muted-foreground">{expense.clientName ?? "—"}</TableCell>
-                              <TableCell className="text-right font-mono tabular-nums text-muted-foreground">{expense.billable ? expense.amount.toFixed(2) : "0.00"}</TableCell>
-                              <TableCell className="text-right font-mono tabular-nums text-muted-foreground">{expense.amount.toFixed(2)}</TableCell>
+                              <NumericCell value={expense.billable ? expense.amount : 0} className="text-muted-foreground" />
+                              <NumericCell value={expense.amount} className="text-muted-foreground" />
                               <TableCell>
                                 <Badge variant={APPROVAL_BADGE_VARIANT[expense.approvalStatus]}>{APPROVAL_LABEL[expense.approvalStatus]}</Badge>
                               </TableCell>

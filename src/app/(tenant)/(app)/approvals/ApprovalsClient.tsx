@@ -7,6 +7,7 @@ import { Badge } from "@/ui/shadcn/components/badge";
 import { Button } from "@/ui/shadcn/components/button";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/ui/shadcn/components/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
+import { NumericCell } from "@/ui/nextelite/NumericCell";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/shadcn/components/tabs";
 import { Textarea } from "@/ui/shadcn/components/textarea";
 
@@ -198,7 +199,7 @@ export function ApprovalsClient({
                       </TableCell>
                       <TableCell className="max-w-64 truncate text-muted-foreground">{expense.description}</TableCell>
                       <TableCell className="text-muted-foreground">{formatDate(expense.incurredAt)}</TableCell>
-                      <TableCell className="text-right font-mono tabular-nums text-muted-foreground">{expense.amount.toFixed(2)}</TableCell>
+                      <NumericCell value={expense.amount} className="text-muted-foreground" />
                       <TableCell>
                         <div className="flex justify-end gap-2">
                           <Button

@@ -14,6 +14,7 @@ import { Input } from "@/ui/shadcn/components/input";
 import { Label } from "@/ui/shadcn/components/label";
 import { Progress } from "@/ui/shadcn/components/progress";
 import { InlineDonut } from "@/ui/nextelite/InlineDonut";
+import { NumericCell } from "@/ui/nextelite/NumericCell";
 import { ragVariantForUsagePercent } from "@/ui/nextelite/ragVariant";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
@@ -516,13 +517,11 @@ function SectionRow({
       <TableCell className="text-right">
         {section.quantity} {TRACKING_UNIT_LABELS[section.trackingUnit] ?? section.trackingUnit}
       </TableCell>
-      <TableCell className="text-right font-mono">{section.price.toFixed(2)}</TableCell>
-      <TableCell className="text-right font-mono font-semibold">{totals.budgetTotal.toFixed(2)}</TableCell>
-      <TableCell className="text-right font-mono">{section.budgetUsed.toFixed(2)}</TableCell>
+      <NumericCell value={section.price} />
+      <NumericCell value={totals.budgetTotal} className="font-semibold" />
+      <NumericCell value={section.budgetUsed} />
       {/* Reference §04: "Budget remaining negativ & rot bei Überschreitung." */}
-      <TableCell className={cn("text-right font-mono", totals.budgetRemaining < 0 && "text-destructive")}>
-        {totals.budgetRemaining.toFixed(2)}
-      </TableCell>
+      <NumericCell value={totals.budgetRemaining} />
       <TableCell className="min-w-32">
         <div className="flex items-center gap-2">
           <InlineDonut percent={totals.usagePercent} title={`Usage ${totals.usagePercent.toFixed(0)}%`} />
@@ -1043,8 +1042,8 @@ function TimeTab({ entries }: { entries: TimeEntryRow[] }) {
               <TableCell>{entry.userLabel}</TableCell>
               <TableCell className="text-muted-foreground">{entry.sectionName}</TableCell>
               <TableCell className="text-muted-foreground">{entry.description ?? "—"}</TableCell>
-              <TableCell className="text-right font-mono">{entry.durationMinutes !== null ? `${(entry.durationMinutes / 60).toFixed(2)}h` : "—"}</TableCell>
-              <TableCell className="text-right font-mono">{entry.amount !== null ? entry.amount.toFixed(2) : "—"}</TableCell>
+              <NumericCell value={entry.durationMinutes !== null ? entry.durationMinutes / 60 : null} format="hours" />
+              <NumericCell value={entry.amount} />
               <TableCell className="text-right text-muted-foreground">{new Date(entry.createdAt).toLocaleDateString("de-DE")}</TableCell>
             </TableRow>
           ))}

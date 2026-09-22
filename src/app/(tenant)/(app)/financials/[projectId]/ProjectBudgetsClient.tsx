@@ -16,6 +16,7 @@ import { FilterBuilderPopover, type FilterFieldOption } from "@/ui/components/Fi
 import { SortDirectionButton, type SortDirection } from "@/ui/components/SortDirectionButton";
 import { evaluateFilterNode, resolveDynamicPlaceholders, parseFilterConfig, type FilterGroup } from "@/tenant/views/filterEngine";
 import { ListToolbar } from "@/ui/nextelite/ListToolbar";
+import { NumericCell } from "@/ui/nextelite/NumericCell";
 
 const EMPTY_FILTER_GROUP: FilterGroup = { logic: "AND", rules: [] };
 
@@ -265,7 +266,7 @@ export function ProjectBudgetsClient({
                   </TableCell>
                   <TableCell className="text-muted-foreground">{budget.ownerLabel}</TableCell>
                   <TableCell className="text-muted-foreground">{budget.sectionCount}</TableCell>
-                  <TableCell className="text-right font-mono">{budget.budgetTotal.toFixed(2)}</TableCell>
+                  <NumericCell value={budget.budgetTotal} />
                 </TableRow>
               ))}
             </TableBody>

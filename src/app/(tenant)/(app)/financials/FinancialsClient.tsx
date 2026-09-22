@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
 import { cn } from "@/ui/shadcn/lib/utils";
 import { InlineDonut } from "@/ui/nextelite/InlineDonut";
+import { NumericCell } from "@/ui/nextelite/NumericCell";
 import { ragVariantForUsagePercent } from "@/ui/nextelite/ragVariant";
 
 interface ProjectOption {
@@ -229,8 +230,8 @@ export function FinancialsClient({ budgets, projects }: { budgets: BudgetRow[]; 
                               <span className="font-mono text-xs tabular-nums text-muted-foreground">{budget.invoicedPercent}%</span>
                             </div>
                           </TableCell>
-                          <TableCell className="font-mono tabular-nums text-muted-foreground">{currencyFormat(budget.revenue)}</TableCell>
-                          <TableCell className="font-mono tabular-nums text-muted-foreground">{currencyFormat(budget.recognizedRevenue)}</TableCell>
+                          <NumericCell value={budget.revenue} format="currency" decimals={0} className="text-muted-foreground" />
+                          <NumericCell value={budget.recognizedRevenue} format="currency" decimals={0} className="text-muted-foreground" />
                           <TableCell className="w-40">
                             <div className="flex items-center gap-2">
                               {(() => {

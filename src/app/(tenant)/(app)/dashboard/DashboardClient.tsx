@@ -35,6 +35,7 @@ import { Progress } from "@/ui/shadcn/components/progress";
 import { ragVariantForUsagePercent } from "@/ui/nextelite/ragVariant";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
+import { NumericCell } from "@/ui/nextelite/NumericCell";
 import { WIDGET_CATALOG, WIDGET_CATALOG_BY_TYPE } from "@/tenant/reporting/widgets";
 import { t, widgetLabel, type Locale } from "@/tenant/i18n/dictionary";
 
@@ -512,10 +513,10 @@ export function DashboardClient({
                 {rows.map((row) => (
                   <TableRow key={row.period}>
                     <TableCell>{row.period}</TableCell>
-                    <TableCell className="text-right text-muted-foreground">{row.availableHours.toFixed(2)}h</TableCell>
-                    <TableCell className="text-right text-muted-foreground">{row.workedHours.toFixed(2)}h</TableCell>
-                    <TableCell className="text-right text-muted-foreground">{row.billableHours.toFixed(2)}h</TableCell>
-                    <TableCell className="text-right text-muted-foreground">{row.missingHours.toFixed(2)}h</TableCell>
+                    <NumericCell value={row.availableHours} format="hours" className="text-muted-foreground" />
+                    <NumericCell value={row.workedHours} format="hours" className="text-muted-foreground" />
+                    <NumericCell value={row.billableHours} format="hours" className="text-muted-foreground" />
+                    <NumericCell value={row.missingHours} format="hours" className="text-muted-foreground" />
                   </TableRow>
                 ))}
               </TableBody>
@@ -546,9 +547,9 @@ export function DashboardClient({
                         {row.projectName}
                       </Link>
                     </TableCell>
-                    <TableCell className="text-right text-muted-foreground">{row.forecastHours.toFixed(2)}h</TableCell>
-                    <TableCell className="text-right text-muted-foreground">{row.billableHours.toFixed(2)}h</TableCell>
-                    <TableCell className="text-right text-muted-foreground">{row.ratioPercent}%</TableCell>
+                    <NumericCell value={row.forecastHours} format="hours" className="text-muted-foreground" />
+                    <NumericCell value={row.billableHours} format="hours" className="text-muted-foreground" />
+                    <NumericCell value={row.ratioPercent} format="percent" className="text-muted-foreground" />
                   </TableRow>
                 ))}
               </TableBody>

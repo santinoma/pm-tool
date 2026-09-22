@@ -8,6 +8,7 @@ import { Button } from "@/ui/shadcn/components/button";
 import { Input } from "@/ui/shadcn/components/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
+import { NumericCell } from "@/ui/nextelite/NumericCell";
 
 interface ProjectOption {
   id: string;
@@ -199,7 +200,7 @@ export function PurchaseOrdersClient({ projects, purchaseOrders }: { projects: P
                   <TableCell>
                     <LegendKey label={PAYMENT_STATUS_LABELS[po.paymentStatus]} variant={PAYMENT_STATUS_VARIANT[po.paymentStatus]} />
                   </TableCell>
-                  <TableCell className="text-right font-mono tabular-nums text-muted-foreground">{po.amount.toFixed(2)}</TableCell>
+                  <NumericCell value={po.amount} className="text-muted-foreground" />
                   <TableCell className="text-muted-foreground">{new Date(po.orderedAt).toLocaleDateString("de-DE")}</TableCell>
                 </TableRow>
               ))}

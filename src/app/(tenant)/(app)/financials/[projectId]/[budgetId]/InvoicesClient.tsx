@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/ui/shadcn/components/card";
 import { Input } from "@/ui/shadcn/components/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
+import { NumericCell } from "@/ui/nextelite/NumericCell";
 
 interface LineItem {
   description: string;
@@ -290,10 +291,10 @@ function InvoiceCard({
               {invoice.lineItems.map((item, index) => (
                 <TableRow key={index}>
                   <TableCell>{item.description}</TableCell>
-                  <TableCell className="text-right font-mono">{item.quantityHours.toFixed(2)}</TableCell>
-                  <TableCell className="text-right font-mono">{item.rate.toFixed(2)}</TableCell>
-                  <TableCell className="text-right font-mono">{item.amount.toFixed(2)}</TableCell>
-                  <TableCell className="text-right font-mono">{item.taxRatePercent ?? "—"}</TableCell>
+                  <NumericCell value={item.quantityHours} />
+                  <NumericCell value={item.rate} />
+                  <NumericCell value={item.amount} />
+                  <NumericCell value={item.taxRatePercent} format="percent" />
                 </TableRow>
               ))}
             </TableBody>

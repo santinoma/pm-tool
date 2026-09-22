@@ -13,6 +13,7 @@ import { Progress } from "@/ui/shadcn/components/progress";
 import { ragVariantForUsagePercent } from "@/ui/nextelite/ragVariant";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
+import { NumericCell } from "@/ui/nextelite/NumericCell";
 import { ToggleGroup, ToggleGroupItem } from "@/ui/shadcn/components/toggle-group";
 import { cn } from "@/ui/shadcn/lib/utils";
 
@@ -240,7 +241,7 @@ export function ResourcePlanningClient({
               <Fragment key={person.id}>
                 <TableRow>
                   <TableCell>{person.name ?? person.email}</TableCell>
-                  <TableCell className="text-right">{person.plannedHours}h</TableCell>
+                  <NumericCell value={person.plannedHours} format="hours" />
                   <TableCell className="text-right">
                     {editingId === person.id ? (
                       <span className="flex items-center justify-end gap-2">
