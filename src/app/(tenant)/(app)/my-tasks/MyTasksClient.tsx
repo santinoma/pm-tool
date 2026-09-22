@@ -9,6 +9,7 @@ import { SavedViewsBar, type SavedViewRecord } from "@/ui/components/SavedViewsB
 import { FilterBuilderPopover, type FilterFieldOption } from "@/ui/components/FilterBuilderPopover";
 import { SortDirectionButton, type SortDirection } from "@/ui/components/SortDirectionButton";
 import { evaluateFilterNode, resolveDynamicPlaceholders, parseFilterConfig, type FilterGroup } from "@/tenant/views/filterEngine";
+import { ListToolbar } from "@/ui/nextelite/ListToolbar";
 
 import { Button } from "@/ui/shadcn/components/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
@@ -94,12 +95,29 @@ export function MyTasksClient({
 
   return (
     <div className="pb-10">
-      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-bold tracking-tight">Meine Tasks</h1>
-          <span className="text-sm text-muted-foreground">({tasks.length})</span>
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
+      <div className="mb-3 flex items-center gap-3">
+        <h1 className="text-2xl font-bold tracking-tight">Meine Tasks</h1>
+        <span className="text-sm text-muted-foreground">({tasks.length})</span>
+      </div>
+
+      {/* Reference §03 universelles Listen-Muster: View/Layout-Zeile + Sort/Filter-Zeile,
+          über denselben `ListToolbar`-Rahmen wie die Projekt-Tasks-Liste. */}
+      <ListToolbar
+        viewSelector={
+          <SavedViewsBar
+            scope="my_tasks"
+            initialViews={savedViews}
+            currentUserId={currentUserId}
+            allowSharing={false}
+            getCurrentConfig={() => ({
+              viewType: view,
+              filterConfig: filterGroup as unknown as Record<string, unknown>,
+              sortConfig: { sortKey, sortDir },
+            })}
+            onApply={applySavedView}
+          />
+        }
+        layout={
           <div className="flex overflow-hidden rounded-md border">
             {(["list", "board", "calendar"] as ViewMode[]).map((mode) => (
               <button
@@ -115,7 +133,10 @@ export function MyTasksClient({
               </button>
             ))}
           </div>
-          {view === "list" && (
+        }
+        filters={view === "list" ? <FilterBuilderPopover fields={filterFields} value={filterGroup} onChange={setFilterGroup} /> : undefined}
+        sort={
+          view === "list" ? (
             <>
               <Select value={sortKey} onValueChange={(value) => setSortKey(value as SortKey)}>
                 <SelectTrigger className="w-44"><SelectValue /></SelectTrigger>
@@ -127,26 +148,10 @@ export function MyTasksClient({
                 </SelectContent>
               </Select>
               <SortDirectionButton direction={sortDir} onToggle={() => setSortDir((d) => (d === "asc" ? "desc" : "asc"))} />
-              <FilterBuilderPopover fields={filterFields} value={filterGroup} onChange={setFilterGroup} />
             </>
-          )}
-        </div>
-      </div>
-
-      <div className="mb-5">
-        <SavedViewsBar
-          scope="my_tasks"
-          initialViews={savedViews}
-          currentUserId={currentUserId}
-          allowSharing={false}
-          getCurrentConfig={() => ({
-            viewType: view,
-            filterConfig: filterGroup as unknown as Record<string, unknown>,
-            sortConfig: { sortKey, sortDir },
-          })}
-          onApply={applySavedView}
-        />
-      </div>
+          ) : undefined
+        }
+      />
 
       {tasks.length === 0 ? (
         <div className="rounded-lg border py-14 text-center">

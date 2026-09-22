@@ -114,11 +114,21 @@ keine überfälligen-rot-Logik; keine Aggregat-Totale im Spaltenkopf irgendwo.
       eigenständiger "+ Datum"-Text — ein nativer Date-Input kann das nicht
       ohne einen komplett neuen Popover-Datepicker, bewusst nicht gebaut in
       diesem Durchgang, siehe T502.6).
-- [ ] T502.6 Retrofit Budgets-/Members-/My-Tasks-Toolbar auf `ListToolbar`,
-      + ein echter "+ Datum"-Platzhalter (eigener Popover-Datepicker statt
-      nativem `<input type="date">`) — zurückgestellt (siehe unten, jede
-      Liste hat eigene Datenform, braucht eigenen sorgfältigen Durchgang
-      statt Fließband-Copy-Paste)
+- [x] T502.6 Retrofit auf `ListToolbar` — umgesetzt für `MyTasksClient.tsx`
+      (View/Layout-Zeile + Sort/Filter-Zeile, Layout-Segmented-Control
+      List/Board/Kalender jetzt im `layout`-Slot) und
+      `ProjectBudgetsClient.tsx` (View/Filters/Sort + „Neues Budget" als
+      Primäraktion, vorher in einer separaten Kopfzeile). Die globale
+      `/financials`-Übersicht (`FinancialsClient.tsx`) hat bewusst KEINEN
+      Retrofit bekommen — sie hat aktuell gar keine Fields/Filters/Sort/
+      Group-Controls, nur Titel + Primäraktion + Stat-Karten; ein
+      `ListToolbar`-Wrapper um zwei Elemente ohne echte Toolbar-Struktur
+      wäre reine Kosmetik ohne Mehrwert. Members-Liste ebenfalls NICHT
+      angefasst (hat aktuell gar kein Sichten-/Filter-Konzept — bräuchte
+      das erst grundsätzlich, kein reiner Retrofit).
+      Noch offen: ein echter "+ Datum"-Platzhalter (eigener Popover-
+      Datepicker statt nativem `<input type="date">`) — zurückgestellt,
+      eigener Bauteil-Durchgang.
 - [ ] T502.7 Aggregat-Totale im Spaltenkopf — siehe T504 (hängt an der
       DataViz-Arbeit)
 
@@ -209,11 +219,10 @@ Session: lieber ehrlich zurückstellen als hastig/riskant durchziehen):
   vorliegt — jede Seite müsste ihren Breadcrumb-Kontext an die Shell
   durchreichen. Strukturell größer als die anderen Fixes dieser Phase.
   Ist die einzige P1-Chrome-Lücke, die offen bleibt.
-- **Budgets-/Members-/My-Tasks-Toolbar-Retrofit** (T502.6): der neue
-  `ListToolbar` ist an der Tasks-Liste (Referenzfall) gebaut und verifiziert;
-  die anderen drei Listen haben abweichende Datenmodelle (Budgets: keine
-  Fields/Group; Members: gar kein Sichten-Konzept; My-Tasks: eigener
-  Segment-Switch) — Copy-Paste ohne echte Anpassung wäre Schein-Parität.
+- **Members-Toolbar-Retrofit** (Teil von T502.6): Members hat aktuell gar
+  kein Sichten-/Filter-/Sort-Konzept — bräuchte das erst grundsätzlich
+  eingeführt, kein reiner `ListToolbar`-Retrofit. Budgets- und My-Tasks-
+  Toolbar sind inzwischen umgesetzt (siehe T502.6 oben).
 - **Bookings-Tab am Task** (T503.3), **Budget Overview/Recurring-Tabs +
   Status-Pille** (T503.5), **Deal-Detail-Screen** (T503.6): jeweils neue
   Datenmodell-/Routing-Arbeit, kein reiner Style-Fix.
