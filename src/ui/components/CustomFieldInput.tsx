@@ -76,7 +76,7 @@ export function CustomFieldInput({
       onChange(JSON.stringify(next));
     }
     return (
-      <div id={id} className="flex flex-col gap-1.5 rounded-md border p-2.5">
+      <div id={id} className="flex flex-col gap-1.5 rounded-md border-border border p-2.5">
         {field.options.length === 0 && <span className="text-sm text-muted-foreground">Keine Optionen definiert.</span>}
         {field.options.map((option) => (
           <label key={option} className="flex cursor-pointer items-center gap-2 text-sm">

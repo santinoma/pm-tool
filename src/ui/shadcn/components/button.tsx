@@ -19,7 +19,7 @@ const buttonVariants = cva(
         destructiveSubtle:
           "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40",
         outline:
-          "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+          "border-border border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
         outlineSuccess: "border border-success border-dashed text-success bg-transparent",
         outlineWarning: "border border-warning border-dashed text-warning bg-transparent",
         outlineDestructive: "border border-destructive border-dashed text-destructive bg-transparent",

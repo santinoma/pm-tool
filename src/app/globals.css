@@ -17,6 +17,15 @@
 @layer base {
   * {
     box-sizing: border-box;
+    /* Tailwind v4 Preflight would normally set this too (the bare `border`
+       utility only sets width/style, not color) — without it, every
+       `className="border"` with no explicit border-<color> fell back to
+       CSS's `currentColor` default, rendering the app's near-black ink
+       text color instead of the intended pale `--border` token on cards,
+       dialogs, popovers and every "empty state" panel. Utility classes
+       like `border-border`/`border-input`/`border-destructive` still win
+       (utilities layer beats base, see file header). */
+    border-color: var(--border);
   }
 
   * + * {
@@ -60,5 +69,12 @@
   textarea {
     font: inherit;
     color: inherit;
+    margin: 0;
+    padding: 0;
+    /* Preflight would normally do `*{border:0 solid}` — without it every
+       <button> kept the browser's native 2px outset border, visible as a
+       stray box around every ghost/icon button app-wide. */
+    border: 0 solid;
+    background-color: transparent;
   }
 }

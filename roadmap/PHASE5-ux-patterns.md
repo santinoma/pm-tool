@@ -323,6 +323,65 @@ Demo-Tenant (Dashboard-Umbenennung behält Serife, Members-Rollen-Badge
 neutral statt farbig, Status-Badge „aktiv" bleibt korrekt grün als echter
 Zustand).
 
+## T506 — Zwei fehlende Preflight-Regeln als Root Cause für „zu viele Buttons"
+
+Auf Nutzeranfrage „Schau unter Task, da sind mehrere Buttons, bitte
+versuche das minimalistischer darzustellen" zunächst die Task-Actionleiste
+(Timer/Beobachten/Link/Favorit/Vollbild) untersucht — die sah tatsächlich
+klobig aus, aber nicht wegen zu vieler Buttons, sondern weil **jeder
+einzelne Button einen sichtbaren Kasten hatte**, obwohl alle als `ghost`-
+Variante ohne `border`-Klasse definiert sind. `getComputedStyle` auf so
+einem Button zeigte `border: 2px outset rgb(0,0,0)` — der native
+Browser-Default für `<button>`-Elemente.
+
+**Root Cause:** `src/ui/shadcn/tailwind.css` deaktiviert Tailwinds
+Preflight bewusst (Kommentar dort: „globals.css already owns the
+cross-browser reset"), aber `src/app/globals.css`s Ersatz-Reset hatte nur
+`font`/`color` auf `button, input, select, textarea` gesetzt — nicht
+Preflights `*{box-sizing:border-box;margin:0;padding:0;border:0 solid}`.
+Dadurch behielt jeder `<button>` app-weit ohne eigene `border`-Utility
+seinen nativen Rahmen — sichtbar überall dort, wo keine Hintergrundfarbe
+ihn überdeckte (ghost-/icon-Buttons in der gesamten App, nicht nur am
+Task).
+
+**Zweiter, verwandter Fund beim Verifizieren:** Tailwind v4 setzt bei der
+nackten `border`-Utility (ohne Farb-Suffix wie `border-input`) keine
+Border-Farbe — das fällt auf CSS' Default `currentColor` zurück.
+Preflight würde normalerweise `*{border-color: var(--default-border-color)}`
+setzen; ohne das rendern alle `border`-Aufrufe ohne expliziten Farb-Suffix
+mit der Tinten-Textfarbe (`#1B1826`) statt dem blassen `--border`-Token
+(`#E7E3F0`) — sichtbar u. a. am „owner"-Rollen-Badge (Members), an
+Dialogen/Dropdowns/Popovers/Alerts und an ~126 „Empty State"-Karten
+projektweit (`rounded-lg border py-14 text-center`-Muster).
+
+**Fix (zwei globale Regeln in `globals.css`, statt hunderte Einzelstellen
+anzufassen):**
+- [x] `* { border-color: var(--border) }` ergänzt — ersetzt Preflights
+      fehlenden globalen Default, behoben in EINER Stelle statt an
+      ~126 App-Seiten mit nacktem `border`.
+- [x] `button, input, select, textarea { border: 0 solid; margin: 0;
+      padding: 0; background-color: transparent }` ergänzt — der
+      eigentliche Preflight-Ersatz, der beim ursprünglichen Reset fehlte.
+- [x] Zusätzlich an den am meisten wiederverwendeten Primitiven, die
+      selbst nackte `border` ohne Farb-Suffix nutzten, explizit
+      `border-border` ergänzt (robuster/selbstdokumentierend direkt an
+      der Definition, auch wenn der globale Default sie jetzt schon
+      abdeckt): `Badge` (`outline`-Variante), `Button` (`outline`-
+      Variante), `Alert`, `Dialog`, `DropdownMenuContent` +
+      `DropdownMenuSubContent`, `NavigationMenuViewport`, `Popover`,
+      `SelectContent`, sowie `CustomFieldInput.tsx` (App-Ebene).
+
+Beide Regeln sitzen in `@layer base` — jede Tailwind-Utility mit
+explizitem Border-Setting (`border-input`, `dark:border-input`,
+`border-primary`, …) gewinnt weiterhin, wie die bestehende
+Layer-Reihenfolge im Datei-Header von `globals.css` bereits dokumentiert.
+
+Verifiziert per `tsc`/`eslint` (clean), vollständiger `npx vitest run`
+(957/957), Playwright-Screenshots in Light UND Dark Mode gegen Dashboard,
+Members, Financials/Bestellungen (Empty State), My-Tasks (Segment-Control)
+und den Task-Slide-Over (vorher/nachher) — keine Regressionen, durchweg
+sichtbar ruhigere, blassere Rahmen statt harter schwarzer Kästen.
+
 ## Nicht wiederholt in diesem Durchgang
 
 Ein erneuter, wortwörtlicher Nachbau einzelner Screens Pixel für Pixel
