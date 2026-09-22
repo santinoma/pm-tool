@@ -193,8 +193,14 @@ Blass-Zustand für Teil-Tage.
 - [x] T504.3 Dritte RAG-Stufe („nähert sich", `warning`) in den bestehenden
       `Progress`-Einsatzstellen aktiviert (Budgets-Liste, Budget-Detail,
       Resourcing, Dashboard)
-- [ ] T504.4 Aggregat-Totale in den Spaltenkopf verschieben (statt Stat-Card-
-      Leiste) — zurückgestellt, siehe unten
+- [x] T504.4 Aggregat-Totale (Budgets-Liste, `FinancialsClient.tsx`) aus der
+      separaten Stat-Card-Leiste in die vier betroffenen `TableHead`-Zellen
+      verschoben (Invoiced %/Revenue invoiced/Revenue recognized/Budgeted
+      time usage je mit Ø/Summe als zweite, kleinere Zeile unter dem
+      Spaltenlabel; `Budget`-Spalte trägt die Objektzahl `(N)`). Nicht
+      visuell mit echten Daten verifiziert — der Demo-Tenant hat aktuell
+      keine Budgets (Empty-State), daher nur über `tsc`/`eslint` + Code-
+      Review abgesichert, kein Playwright-Screenshot mit Zahlen möglich.
 - [ ] T504.5 Resourcing-Bars von Pills zu echten Balken + Blass-Zustand für
       Teil-Tage — zurückgestellt, eigener gründlicher Durchgang nötig (Timeline-
       Grid-Geometrie)
@@ -226,10 +232,11 @@ Session: lieber ehrlich zurückstellen als hastig/riskant durchziehen):
 - **Bookings-Tab am Task** (T503.3), **Budget Overview/Recurring-Tabs +
   Status-Pille** (T503.5), **Deal-Detail-Screen** (T503.6): jeweils neue
   Datenmodell-/Routing-Arbeit, kein reiner Style-Fix.
-- **Aggregat-Totale im Spaltenkopf** (T504.4), **Resourcing-Balken-Umbau**
-  (T504.5), **Tabellen-Rechtsbündigkeit/Negativ-Rot als Primitive**
-  (T504.6): strukturelle Tabellen-Änderungen mit vielen Aufrufern —
-  eigener, sorgfältiger Durchgang statt Sammel-Fix.
+- **Resourcing-Balken-Umbau** (T504.5), **Tabellen-Rechtsbündigkeit/
+  Negativ-Rot als Primitive** (T504.6): strukturelle Tabellen-Änderungen
+  mit vielen Aufrufern — eigener, sorgfältiger Durchgang statt Sammel-Fix.
+  (T504.4, Aggregat-Totale im Spaltenkopf, ist inzwischen umgesetzt, siehe
+  oben.)
 
 ## Nicht wiederholt in diesem Durchgang
 

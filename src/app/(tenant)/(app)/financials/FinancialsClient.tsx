@@ -95,7 +95,7 @@ export function FinancialsClient({ budgets, projects }: { budgets: BudgetRow[]; 
   const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set());
 
   // Reference §03 "Kopf-Totale": aggregate summary over every visible budget —
-  // portfolio-at-a-glance, shown as a stat row above the table.
+  // portfolio-at-a-glance, shown directly in the table's column headers.
   const totals = useMemo(() => {
     const revenue = budgets.reduce((sum, b) => sum + b.revenue, 0);
     const recognizedRevenue = budgets.reduce((sum, b) => sum + b.recognizedRevenue, 0);
@@ -149,42 +149,40 @@ export function FinancialsClient({ budgets, projects }: { budgets: BudgetRow[]; 
         </div>
       ) : (
         <>
-          <div className="mb-5 grid grid-cols-2 gap-4 sm:grid-cols-4">
-            <div className="rounded-lg border p-4">
-              <div className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">Invoiced</div>
-              <div className="mt-1 font-mono text-xl tabular-nums">{totals.avgInvoicedPercent.toFixed(0)}%</div>
-            </div>
-            <div className="rounded-lg border p-4">
-              <div className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">Revenue (invoiced)</div>
-              <div className="mt-1 font-mono text-xl tabular-nums">{currencyFormat(totals.revenue)}</div>
-            </div>
-            <div className="rounded-lg border p-4">
-              <div className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">Revenue (recognized)</div>
-              <div className="mt-1 font-mono text-xl tabular-nums">{currencyFormat(totals.recognizedRevenue)}</div>
-            </div>
-            <div className="rounded-lg border p-4">
-              <div className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">Budgeted time</div>
-              <div className="mt-1 font-mono text-xl tabular-nums">
-                {totals.usedTimeHours.toFixed(0)} / {totals.budgetedTimeHours.toFixed(0)} h
-              </div>
-            </div>
-            <div className="rounded-lg border p-4">
-              <div className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">Budgets</div>
-              <div className="mt-1 font-mono text-xl tabular-nums">{budgets.length}</div>
-            </div>
-          </div>
           <div className="overflow-hidden rounded-lg border">
           <Table>
+            {/* Reference §03: "Aggregat-Totale im Spaltenkopf" — Summe/Schnitt direkt im
+                Spaltenkopf statt einer separaten Stat-Card-Leiste darüber. */}
             <TableHeader>
               <TableRow>
-                <TableHead>Budget</TableHead>
+                <TableHead>Budget ({budgets.length})</TableHead>
                 <TableHead>Project manager</TableHead>
                 <TableHead>Time approval</TableHead>
                 <TableHead>Expense approval</TableHead>
-                <TableHead>Invoiced %</TableHead>
-                <TableHead>Revenue (invoiced)</TableHead>
-                <TableHead>Revenue (recognized)</TableHead>
-                <TableHead>Budgeted time usage</TableHead>
+                <TableHead className="h-auto py-2 align-top">
+                  <div>Invoiced %</div>
+                  <div className="font-mono text-[11px] font-normal tabular-nums text-muted-foreground normal-case">
+                    Ø {totals.avgInvoicedPercent.toFixed(0)}%
+                  </div>
+                </TableHead>
+                <TableHead className="h-auto py-2 align-top">
+                  <div>Revenue (invoiced)</div>
+                  <div className="font-mono text-[11px] font-normal tabular-nums text-muted-foreground normal-case">
+                    {currencyFormat(totals.revenue)}
+                  </div>
+                </TableHead>
+                <TableHead className="h-auto py-2 align-top">
+                  <div>Revenue (recognized)</div>
+                  <div className="font-mono text-[11px] font-normal tabular-nums text-muted-foreground normal-case">
+                    {currencyFormat(totals.recognizedRevenue)}
+                  </div>
+                </TableHead>
+                <TableHead className="h-auto py-2 align-top">
+                  <div>Budgeted time usage</div>
+                  <div className="font-mono text-[11px] font-normal tabular-nums text-muted-foreground normal-case">
+                    {totals.usedTimeHours.toFixed(0)} / {totals.budgetedTimeHours.toFixed(0)}h
+                  </div>
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
