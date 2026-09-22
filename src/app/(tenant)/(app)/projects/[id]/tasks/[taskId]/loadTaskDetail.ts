@@ -22,7 +22,7 @@ export async function loadTaskDetail(context: TenantContext, projectId: string, 
 
   await getOrCreateSystemTaskFields(context.tenantDb);
 
-  const [task, statuses, users, folders, customFieldDefRecords] = await Promise.all([
+  const [task, statuses, users, folders, customFieldDefRecords, project] = await Promise.all([
     context.tenantDb.task.findUnique({
       where: { id: taskId },
       include: {
@@ -59,6 +59,7 @@ export async function loadTaskDetail(context: TenantContext, projectId: string, 
       orderBy: { position: "asc" },
     }),
     getEffectiveCustomFields(context.tenantDb, projectId, "task"),
+    context.tenantDb.project.findUnique({ where: { id: projectId }, select: { name: true } }),
   ]);
 
   const taskLists = folders.flatMap((folder) =>
@@ -186,6 +187,7 @@ export async function loadTaskDetail(context: TenantContext, projectId: string, 
     taskLists,
     isFavorite: favorite !== null,
     linkedTasks,
+    projectName: project?.name ?? null,
   };
 }
 

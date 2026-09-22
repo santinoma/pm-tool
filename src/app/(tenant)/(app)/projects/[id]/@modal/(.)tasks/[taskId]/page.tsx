@@ -26,6 +26,7 @@ export default async function TaskDetailModal({
     <TaskSlideOver>
       <TaskDetailClient
         projectId={id}
+        projectName={data.projectName}
         task={data.task}
         statuses={data.statuses}
         users={data.users}
