@@ -258,11 +258,70 @@ Session: lieber ehrlich zurückstellen als hastig/riskant durchziehen):
 - **Bookings-Tab am Task** (T503.3), **Deal-Detail-Screen** (T503.6):
   jeweils neue Datenmodell-/Routing-Arbeit, kein reiner Style-Fix.
   (T503.5 ist inzwischen umgesetzt, siehe oben.)
-- **Resourcing-Balken-Umbau** (T504.5), **Tabellen-Rechtsbündigkeit/
-  Negativ-Rot als Primitive** (T504.6): strukturelle Tabellen-Änderungen
-  mit vielen Aufrufern — eigener, sorgfältiger Durchgang statt Sammel-Fix.
-  (T504.4, Aggregat-Totale im Spaltenkopf, ist inzwischen umgesetzt, siehe
+- **Resourcing-Balken-Umbau** (T504.5): strukturelle Tabellen-Änderung mit
+  vielen Aufrufern — eigener, sorgfältiger Durchgang statt Sammel-Fix.
+  (T504.4, Aggregat-Totale im Spaltenkopf, und T504.6, Rechtsbündigkeit/
+  Negativ-Rot als `NumericCell`-Primitive, sind inzwischen umgesetzt, siehe
   oben.)
+
+## T505 — Systematischer DESIGN.md-Konformitäts-Audit
+
+Auf Nutzeranfrage „Checke nochmal, ob jedes einzelne UI-Element state of
+the art ist" ein mechanischer, vollständiger (nicht stichprobenartiger)
+Audit der gesamten `src/`-Baumstruktur gegen die konkreten Regeln aus
+`DESIGN.md` (drei parallele Background-Agents: Hex-/Radius-/Legacy-Klassen,
+RAG-Farb-Disziplin + Primitiven-Nutzung, Typografie-Stufen-Konformität).
+
+**Befund & Fix:**
+- Hex-Farben/Radius-Brackets/Legacy-Klassen (`.btn`/`.card`/`.field`/
+  `.legend-key`, blurred Topbar): **sauber**. Einzige Hex-Quelle ist die
+  bewusst isolierte `PROJECT_COLOR_PALETTE`. Die einzigen `rounded-[...]`-
+  Treffer liegen in den Primitiven selbst (2px-Dot-Indikator, Tooltip-
+  Pfeil, `calc(var(--radius)-5px)`-Verschachtelung in `input-group.tsx`) —
+  Token-abgeleitet, kein Ad-hoc-Fix nötig.
+- [x] RAG-Farben, die keinen echten Zustand ausdrücken, sondern nur
+      Dekoration waren, auf `primary`/neutral korrigiert: `FavoriteButton`
+      (Stern bei „favorisiert" war `warning`, jetzt `primary` — ist ein
+      Auswahl-Zustand, kein Warn-Zustand), `AdminShellNextElite` (grüner
+      Punkt am statischen „Platform Admin"-Chip ohne echte Health-Check-
+      Logik dahinter, jetzt neutral), `TenantsTable` (Enterprise-Stat-Kachel
+      war `warning`-getönt ohne Zustandsbezug, jetzt neutral),
+      `WorkflowEditorClient` (Default-Status-Stern war `warning`, jetzt
+      `primary` wie beim Favoriten-Stern), `MembersClient` (`ROLE_VARIANT`
+      mappte Rollen wie `owner`/`admin`/`client` auf RAG-artige
+      `LegendKey`-Varianten obwohl eine Rolle keine Ampel-Zustand ist —
+      durch neutrales `Badge variant="outline"` ersetzt, `ROLE_VARIANT`
+      entfernt).
+- [x] Typografie-Lücken: Umbenennungs-`Input` im Dashboard-Titel
+      (`DashboardClient.tsx`) rendert ohne `<h1>`-Tag und verlor dadurch
+      die globale Lora-Serife — `font-display` ergänzt, damit der Titel
+      beim Umbenennen nicht sichtbar auf Sans-Serif umspringt.
+      `TenantsTable.tsx` und `NotificationSettingsClient.tsx` rollen ihre
+      Tabellenköpfe von Hand statt über `TableHead` und hatten dabei
+      `font-mono` vergessen (uppercase/tracked war vorhanden, mono
+      fehlte) — ergänzt. `WorkloadClient.tsx` rollt seinen Tabellenkopf
+      ebenfalls von Hand, hatte aber `font-mono` bereits korrekt gesetzt —
+      visuell konform, nur strukturell nicht auf die Primitive migriert,
+      daher nicht angefasst (drei Dateien insgesamt umgehen `TableHead`,
+      nur zwei davon hatten den echten Fehler).
+- **Nicht angefasst, bewusst:** der RAG-Audit fand zusätzlich 18 „echte"
+  und 9 „Grenzfall"-Stellen, wo ein rohes `<button>` statt der
+  `Button`-Komponente verwendet wird (Sortier-Spaltenköpfe, Gruppen-
+  Toggle-Zeilen, Segment-Controls wie „Open/Delivered" oder List/Board/
+  Kalender, Tab-Leisten, Kartenauswahl-Buttons). Das ist keine DESIGN.md-
+  Regel (die verbietet nur Hex/Ad-hoc-Radius/Legacy-Klassen), sondern ein
+  zusätzliches, selbst gewähltes Prüfkriterium dieses Audits. Ein
+  Sammel-Umbau von 18+ Stellen auf `Button` wäre ein struktureller
+  Eingriff mit Regressionsrisiko für zusammengesetzte Custom-Controls
+  (Segment-Pillen, Tab-Unterstreichung, volle-Breite-Zeilen), die `Button`
+  so nicht direkt unterstützt — bewusst zurückgestellt für einen
+  eigenen, fokussierten Durchgang statt hastig durchgezogen.
+
+Verifiziert per `tsc`/`eslint` (alle geänderten Dateien clean),
+vollständiger `npx vitest run` (957/957), Playwright-Screenshots gegen den
+Demo-Tenant (Dashboard-Umbenennung behält Serife, Members-Rollen-Badge
+neutral statt farbig, Status-Badge „aktiv" bleibt korrekt grün als echter
+Zustand).
 
 ## Nicht wiederholt in diesem Durchgang
 

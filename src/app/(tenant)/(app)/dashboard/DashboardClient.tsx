@@ -580,7 +580,7 @@ export function DashboardClient({
                 if (event.key === "Enter") renameDashboard();
                 if (event.key === "Escape") setRenamingDashboard(false);
               }}
-              className="h-9 w-56 text-2xl font-bold tracking-tight"
+              className="h-9 w-56 font-display text-2xl font-bold tracking-tight"
             />
           ) : (
             <h1

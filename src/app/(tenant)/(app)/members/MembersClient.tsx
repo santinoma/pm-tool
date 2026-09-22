@@ -14,14 +14,8 @@ import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogT
 import { Input } from "@/ui/shadcn/components/input";
 import { Label } from "@/ui/shadcn/components/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
+import { Badge } from "@/ui/shadcn/components/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
-
-const ROLE_VARIANT: Record<string, "default" | "started" | "done" | "warning" | "danger"> = {
-  owner: "warning",
-  admin: "started",
-  member: "default",
-  client: "done",
-};
 
 interface MemberUser {
   id: string;
@@ -416,7 +410,7 @@ export function MembersClient({
                       </SelectContent>
                     </Select>
                   ) : (
-                    <LegendKey label={user.role} variant={ROLE_VARIANT[user.role] ?? "default"} />
+                    <Badge variant="outline">{user.role}</Badge>
                   )}
                 </TableCell>
                 <TableCell>

@@ -60,7 +60,7 @@ export function FavoriteButton({
       aria-label={favorited ? "Von Favoriten entfernen" : "Zu Favoriten hinzufügen"}
       title={favorited ? "Von Favoriten entfernen" : "Zu Favoriten hinzufügen"}
     >
-      <Star className={cn(size === "md" && "size-4.5", favorited && "fill-warning text-warning")} />
+      <Star className={cn(size === "md" && "size-4.5", favorited && "fill-primary text-primary")} />
     </Button>
   );
 }
