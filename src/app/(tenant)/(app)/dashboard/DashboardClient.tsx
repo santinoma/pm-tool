@@ -32,6 +32,7 @@ import {
 import { Input } from "@/ui/shadcn/components/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/ui/shadcn/components/popover";
 import { Progress } from "@/ui/shadcn/components/progress";
+import { ragVariantForUsagePercent } from "@/ui/nextelite/ragVariant";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
 import { WIDGET_CATALOG, WIDGET_CATALOG_BY_TYPE } from "@/tenant/reporting/widgets";
@@ -181,7 +182,7 @@ function ProgressRowItem({ label, sub, percent }: { label: React.ReactNode; sub:
         <span className="min-w-0 truncate">{label}</span>
         <span className="shrink-0 text-muted-foreground">{sub}</span>
       </div>
-      <Progress value={Math.min(100, percent)} variant={percent > 100 ? "destructive" : "success"} />
+      <Progress value={Math.min(100, percent)} variant={ragVariantForUsagePercent(percent)} />
     </div>
   );
 }
@@ -439,7 +440,7 @@ export function DashboardClient({
                       <TableCell className="text-right text-muted-foreground">
                         {remaining !== null ? `${remaining.toFixed(unit ? 1 : 2)}${unit}` : "—"}
                       </TableCell>
-                      <TableCell>{percent !== null && <Progress value={Math.min(100, percent)} variant={percent > 100 ? "destructive" : "success"} />}</TableCell>
+                      <TableCell>{percent !== null && <Progress value={Math.min(100, percent)} variant={ragVariantForUsagePercent(percent)} />}</TableCell>
                     </TableRow>
                   );
                 })}

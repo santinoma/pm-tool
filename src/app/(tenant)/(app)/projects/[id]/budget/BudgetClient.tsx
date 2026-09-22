@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/ui/shadcn/components/card";
 import { Input } from "@/ui/shadcn/components/input";
 import { Label } from "@/ui/shadcn/components/label";
 import { Progress } from "@/ui/shadcn/components/progress";
+import { ragVariantForUsagePercent } from "@/ui/nextelite/ragVariant";
 
 interface Budget {
   budgetHours: number | null;
@@ -81,7 +82,7 @@ export function BudgetClient({
                 {actualHours.toFixed(1)}h{budget.budgetHours !== null ? ` / ${budget.budgetHours}h` : ""}
               </span>
             </div>
-            {hoursPercent !== null && <Progress value={Math.min(100, hoursPercent)} variant={hoursPercent > 100 ? "destructive" : "success"} />}
+            {hoursPercent !== null && <Progress value={Math.min(100, hoursPercent)} variant={ragVariantForUsagePercent(hoursPercent)} />}
           </div>
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center justify-between text-sm">
@@ -91,7 +92,7 @@ export function BudgetClient({
                 {budget.budgetAmount !== null ? ` / ${formatAmount(budget.budgetAmount, currency)}` : ""}
               </span>
             </div>
-            {amountPercent !== null && <Progress value={Math.min(100, amountPercent)} variant={amountPercent > 100 ? "destructive" : "success"} />}
+            {amountPercent !== null && <Progress value={Math.min(100, amountPercent)} variant={ragVariantForUsagePercent(amountPercent)} />}
           </div>
         </CardContent>
       </Card>

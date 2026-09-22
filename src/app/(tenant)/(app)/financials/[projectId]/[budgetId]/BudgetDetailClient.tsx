@@ -13,6 +13,8 @@ import { Checkbox } from "@/ui/shadcn/components/checkbox";
 import { Input } from "@/ui/shadcn/components/input";
 import { Label } from "@/ui/shadcn/components/label";
 import { Progress } from "@/ui/shadcn/components/progress";
+import { InlineDonut } from "@/ui/nextelite/InlineDonut";
+import { ragVariantForUsagePercent } from "@/ui/nextelite/ragVariant";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/shadcn/components/tabs";
@@ -492,8 +494,6 @@ function SectionRow({
     );
   }
 
-  const usageOver = totals.usagePercent > 100;
-
   return (
     <TableRow>
       <TableCell>
@@ -524,10 +524,13 @@ function SectionRow({
         {totals.budgetRemaining.toFixed(2)}
       </TableCell>
       <TableCell className="min-w-32">
-        <div className="flex flex-col gap-1">
-          <span className="text-xs text-muted-foreground">{totals.usagePercent.toFixed(0)}%</span>
-          {/* RAG kept separate from the brand accent — reference §Farbsemantik. */}
-          <Progress value={Math.min(totals.usagePercent, 100)} variant={usageOver ? "destructive" : "success"} />
+        <div className="flex items-center gap-2">
+          <InlineDonut percent={totals.usagePercent} title={`Usage ${totals.usagePercent.toFixed(0)}%`} />
+          <div className="flex flex-1 flex-col gap-1">
+            <span className="text-xs text-muted-foreground">{totals.usagePercent.toFixed(0)}%</span>
+            {/* RAG kept separate from the brand accent — reference §Farbsemantik. */}
+            <Progress value={Math.min(totals.usagePercent, 100)} variant={ragVariantForUsagePercent(totals.usagePercent)} />
+          </div>
         </div>
       </TableCell>
       <TableCell className="text-center">

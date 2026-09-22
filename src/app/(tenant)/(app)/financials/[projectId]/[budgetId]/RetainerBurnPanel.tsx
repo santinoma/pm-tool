@@ -1,4 +1,5 @@
 import { Progress } from "@/ui/shadcn/components/progress";
+import { ragVariantForUsagePercent } from "@/ui/nextelite/ragVariant";
 
 interface SectionBurnRow {
   sectionId: string;
@@ -38,7 +39,7 @@ export function RetainerBurnPanel({
                 {row.usedHours.toFixed(1)}h / {row.periodQuantityHours.toFixed(1)}h ({row.usagePercent.toFixed(0)}%)
               </span>
             </div>
-            <Progress value={Math.min(100, row.usagePercent)} variant={row.usagePercent > 100 ? "destructive" : "success"} />
+            <Progress value={Math.min(100, row.usagePercent)} variant={ragVariantForUsagePercent(row.usagePercent)} />
             <p className="mt-2 text-sm text-muted-foreground">Verbleibend: {row.remainingHours.toFixed(1)}h</p>
           </div>
         ))}

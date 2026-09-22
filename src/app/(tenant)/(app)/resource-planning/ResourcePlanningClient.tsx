@@ -10,6 +10,7 @@ import { Checkbox } from "@/ui/shadcn/components/checkbox";
 import { Input } from "@/ui/shadcn/components/input";
 import { Label } from "@/ui/shadcn/components/label";
 import { Progress } from "@/ui/shadcn/components/progress";
+import { ragVariantForUsagePercent } from "@/ui/nextelite/ragVariant";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
 import { ToggleGroup, ToggleGroupItem } from "@/ui/shadcn/components/toggle-group";
@@ -279,7 +280,7 @@ export function ResourcePlanningClient({
                     <div className="flex items-center justify-end gap-2">
                       <Progress
                         value={Math.min(person.utilizationPercent, 100)}
-                        variant={person.utilizationPercent > 100 ? "destructive" : "success"}
+                        variant={ragVariantForUsagePercent(person.utilizationPercent)}
                         className="h-1.5 w-16"
                       />
                       <span className="w-10 text-right font-mono text-xs tabular-nums">{person.utilizationPercent.toFixed(0)}%</span>
