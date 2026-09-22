@@ -94,6 +94,13 @@ interface FavoriteNavEntry {
   href: string | null;
 }
 
+interface NotificationEntry {
+  id: string;
+  activityEvent: { summary: string; actor: { name: string | null; email: string }; project: { name: string } };
+  createdAt: string;
+  readAt: string | null;
+}
+
 interface RecentNavData {
   tasks: NavRecentItem[];
   docs: NavRecentItem[];
@@ -435,6 +442,9 @@ export function AppShellNextElite({
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [favorites, setFavorites] = useState<FavoriteNavEntry[]>([]);
+  const [favoritesOpen, setFavoritesOpen] = useState(false);
+  const [notifications, setNotifications] = useState<NotificationEntry[]>([]);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [recentNavData, setRecentNavData] = useState<RecentNavData>(EMPTY_RECENT_NAV_DATA);
   const [recentFinancialsNavData, setRecentFinancialsNavData] = useState<RecentFinancialsNavData>(
     EMPTY_RECENT_FINANCIALS_NAV_DATA,
@@ -517,6 +527,23 @@ export function AppShellNextElite({
     return () => {
       cancelled = true;
       window.removeEventListener("favorites-changed", loadFavorites);
+    };
+  }, []);
+
+  // Reference §02 "Drei rechte Sidebars: Notifications · Favorites · AI
+  // Assistant — als Overlay, ohne Kontextverlust" — Notifications lädt hier
+  // client-seitig wie Favorites, statt nur über die volle /notifications-
+  // Route erreichbar zu sein (die bleibt als Deep-Link/Fallback bestehen).
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/tenant/notifications")
+      .then((response) => (response.ok ? response.json() : { notifications: [] }))
+      .then((data) => {
+        if (!cancelled) setNotifications((data.notifications ?? []).slice(0, 8));
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
     };
   }, []);
 
@@ -826,26 +853,32 @@ export function AppShellNextElite({
             </Link>
           </Button>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon-sm" aria-label={t(locale, "nav.favorites")} className="text-muted-foreground">
-                <Star className="size-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {favorites.length === 0 ? (
-                <div className="px-2 py-1.5 text-sm text-muted-foreground">{t(locale, "nav.noFavoritesYet")}</div>
-              ) : (
-                favorites
-                  .filter((favorite) => favorite.href)
-                  .map((favorite) => (
-                    <DropdownMenuItem key={favorite.id} asChild>
-                      <Link href={favorite.href!}>{favorite.title ?? "—"}</Link>
-                    </DropdownMenuItem>
-                  ))
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-sm"
+            className="relative hidden text-muted-foreground md:inline-flex"
+            onClick={() => setNotificationsOpen(true)}
+            aria-label={t(locale, "nav.notifications")}
+            title={t(locale, "nav.notifications")}
+          >
+            <Bell className="size-4" />
+            {notifications.some((n) => !n.readAt) && (
+              <span className="absolute top-1 right-1 size-1.5 rounded-full bg-destructive" aria-hidden="true" />
+            )}
+          </Button>
+
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-sm"
+            className="text-muted-foreground"
+            onClick={() => setFavoritesOpen(true)}
+            aria-label={t(locale, "nav.favorites")}
+            title={t(locale, "nav.favorites")}
+          >
+            <Star className="size-4" />
+          </Button>
 
           <div className="flex items-center gap-1 border-e border-border/40 pe-3">
             <ThemeToggle />
@@ -889,6 +922,59 @@ export function AppShellNextElite({
           <SheetTitle className="sr-only">Navigation</SheetTitle>
           <div className="flex h-app-header items-center gap-2.5 border-b px-4">{brand}</div>
           <MobileNav groups={groups} pathname={pathname} onNavigate={() => setMobileOpen(false)} />
+        </SheetContent>
+      </Sheet>
+
+      {/* Reference §02: Notifications/Favorites as right-hand overlay sidebars, list stays visible behind. */}
+      <Sheet open={notificationsOpen} onOpenChange={setNotificationsOpen}>
+        <SheetContent side="right" className="w-80 gap-0 p-0 sm:w-96">
+          <SheetTitle className="border-b px-4 py-3 text-sm font-semibold">{t(locale, "nav.notifications")}</SheetTitle>
+          <div className="flex flex-col gap-1 overflow-y-auto p-2">
+            {notifications.length === 0 ? (
+              <div className="px-2 py-1.5 text-sm text-muted-foreground">{t(locale, "nav.noNotificationsYet")}</div>
+            ) : (
+              notifications.map((notification) => (
+                <div
+                  key={notification.id}
+                  className={cn("flex flex-col gap-0.5 rounded-md p-2 text-sm", !notification.readAt && "bg-accent/50")}
+                >
+                  <span>{notification.activityEvent.summary}</span>
+                  <span className="text-xs text-muted-foreground">
+                    {notification.activityEvent.project.name} · {new Date(notification.createdAt).toLocaleString("de-DE")}
+                  </span>
+                </div>
+              ))
+            )}
+          </div>
+          <div className="border-t p-2">
+            <Button variant="ghost" size="sm" className="w-full" asChild onClick={() => setNotificationsOpen(false)}>
+              <Link href="/notifications">{t(locale, "nav.viewAllNotifications")}</Link>
+            </Button>
+          </div>
+        </SheetContent>
+      </Sheet>
+
+      <Sheet open={favoritesOpen} onOpenChange={setFavoritesOpen}>
+        <SheetContent side="right" className="w-80 gap-0 p-0 sm:w-96">
+          <SheetTitle className="border-b px-4 py-3 text-sm font-semibold">{t(locale, "nav.favorites")}</SheetTitle>
+          <div className="flex flex-col gap-1 overflow-y-auto p-2">
+            {favorites.length === 0 ? (
+              <div className="px-2 py-1.5 text-sm text-muted-foreground">{t(locale, "nav.noFavoritesYet")}</div>
+            ) : (
+              favorites
+                .filter((favorite) => favorite.href)
+                .map((favorite) => (
+                  <Link
+                    key={favorite.id}
+                    href={favorite.href!}
+                    onClick={() => setFavoritesOpen(false)}
+                    className="rounded-md p-2 text-sm hover:bg-accent/50"
+                  >
+                    {favorite.title ?? "—"}
+                  </Link>
+                ))
+            )}
+          </div>
         </SheetContent>
       </Sheet>
 

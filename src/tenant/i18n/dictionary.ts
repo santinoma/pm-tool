@@ -23,6 +23,8 @@ const STRINGS = {
   "nav.noFavoritesYet": { de: "Noch keine Favoriten", en: "No favorites yet" },
   "nav.members": { de: "Mitglieder", en: "Members" },
   "nav.notifications": { de: "Benachrichtigungen", en: "Notifications" },
+  "nav.noNotificationsYet": { de: "Noch keine Benachrichtigungen", en: "No notifications yet" },
+  "nav.viewAllNotifications": { de: "Alle anzeigen", en: "View all" },
   "nav.settings": { de: "Einstellungen", en: "Settings" },
   "nav.logout": { de: "Abmelden", en: "Log out" },
   "nav.openNavigation": { de: "Navigation öffnen", en: "Open navigation" },
