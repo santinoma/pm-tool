@@ -145,11 +145,11 @@ als abgeleitetes Feld mit Über-/Unterschreitung rot. Swap-ohne-
 Kontextverlust ist korrekt über Parallel-/Intercepting-Routes implementiert
 — kein Fix nötig.
 
-**Befund Full-Page (Budget):** Tab-Strip hat nur Services/Time/Invoices/
-Scenarios/Feed — **fehlt Overview/Expenses/Purchase orders/Recurring** als
-Tabs (Expenses/POs existieren als eigene Top-Level-Module statt als Budget-
-Tabs). Kein Segment-Pille „Open → Delivered" (nur boolescher
-„Delivered"-Toggle).
+**Befund Full-Page (Budget):** Tab-Strip hatte nur Services/Time/Invoices/
+Scenarios/Feed — fehlte Overview/Recurring als Tabs (Expenses/POs bleiben
+bewusst eigene Top-Level-Module statt Budget-Tabs, siehe T503.5 unten). Kein
+Segment-Pille „Open → Delivered" (nur boolescher „Delivered"-Toggle). Beides
+in diesem Durchgang gefixt, siehe T503.5.
 
 **Befund weitere Objekte:** Projekt hat bereits ein korrektes Full-Page-
 Tab-Strip-Muster (`ProjectSubnav`). **Deal/CRM hat GAR KEIN Detail-Muster**
@@ -164,10 +164,23 @@ Tab-Strip-Muster (`ProjectSubnav`). **Deal/CRM hat GAR KEIN Detail-Muster**
       eigene Datenmodell-Prüfung, siehe „Bewusst zurückgestellt")
 - [ ] T503.4 KI-Zusammenfassungs-Icon am Kommentarfeld — zurückgestellt
       (kein AI-Feature vorhanden, siehe T501.5)
-- [ ] T503.5 Budget-Detail: Overview/Recurring-Tabs + Segment-Pille
-      Open→Delivered — zurückgestellt (Expenses/PO bewusst NICHT zu Tabs
-      degradiert, da als eigene Module funktional richtig; reine Pillen-
-      /Overview-Tab-Ergänzung wäre eigener Durchgang)
+- [x] T503.5 Budget-Detail: neuer „Overview"-Tab (erster Tab, Total/Used/
+      Remaining aggregiert über alle Sections via `computeSectionTotals`,
+      Budget-Auslastung als InlineDonut+RAG-Balken, Zeitfortschritt aus
+      Start-/Enddatum), `retainerBurnTab` aus dem `invoices`-Tab in einen
+      eigenen, nur bei Retainer-Budgets sichtbaren „Recurring"-Tab
+      ausgelagert, boolescher `deliveredAt`-Badge+Toggle-Buttons durch eine
+      echte Segment-Pille „Open ⇄ Delivered" im Kopf ersetzt (klickt auf das
+      jeweils inaktive Segment, ruft die bestehenden Deliver-/Undeliver-
+      Endpunkte). Marge/Invoiced-% bewusst NICHT im Overview-Tab — dafür
+      gibt es in diesem Scope keine Umsatz-/Kosten-Datenquelle (kein
+      `profitability`/`invoicedAmount` in `BudgetDetailClient.tsx` oder
+      dessen `page.tsx`); Expenses/POs bleiben bewusst eigene Top-Level-
+      Module statt Budget-Tabs, wie schon zuvor entschieden. Verifiziert
+      per Playwright gegen ein eigens angelegtes Retainer-Test-Budget im
+      Demo-Tenant (Overview-Tab, Recurring-Tab mit „Live Burn", Pillen-
+      Toggle Open→Delivered inkl. Server-Persistenz bestätigt), danach
+      wieder gelöscht.
 - [ ] T503.6 Deal-Detail-Screen (Slide-over oder Full-Page) — zurückgestellt,
       eigenständiges neues Feature (aktuell nur Board+Dialog), kein
       Redesign eines bestehenden Screens
@@ -229,9 +242,9 @@ Session: lieber ehrlich zurückstellen als hastig/riskant durchziehen):
   kein Sichten-/Filter-/Sort-Konzept — bräuchte das erst grundsätzlich
   eingeführt, kein reiner `ListToolbar`-Retrofit. Budgets- und My-Tasks-
   Toolbar sind inzwischen umgesetzt (siehe T502.6 oben).
-- **Bookings-Tab am Task** (T503.3), **Budget Overview/Recurring-Tabs +
-  Status-Pille** (T503.5), **Deal-Detail-Screen** (T503.6): jeweils neue
-  Datenmodell-/Routing-Arbeit, kein reiner Style-Fix.
+- **Bookings-Tab am Task** (T503.3), **Deal-Detail-Screen** (T503.6):
+  jeweils neue Datenmodell-/Routing-Arbeit, kein reiner Style-Fix.
+  (T503.5 ist inzwischen umgesetzt, siehe oben.)
 - **Resourcing-Balken-Umbau** (T504.5), **Tabellen-Rechtsbündigkeit/
   Negativ-Rot als Primitive** (T504.6): strukturelle Tabellen-Änderungen
   mit vielen Aufrufern — eigener, sorgfältiger Durchgang statt Sammel-Fix.
