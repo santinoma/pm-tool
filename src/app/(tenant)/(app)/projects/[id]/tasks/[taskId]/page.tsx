@@ -24,6 +24,7 @@ export default async function TaskDetailPage({
   return (
     <TaskDetailClient
       projectId={id}
+      projectName={data.projectName}
       task={data.task}
       statuses={data.statuses}
       users={data.users}

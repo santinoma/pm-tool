@@ -4,6 +4,7 @@ import { getTenantContext } from "@/tenant/context";
 import { canManageMembers } from "@/tenant/auth/roleGuard";
 import { AppShellNextElite } from "@/ui/nextelite/AppShellNextElite";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
+import { NumericCell } from "@/ui/nextelite/NumericCell";
 
 export const dynamic = "force-dynamic";
 
@@ -48,7 +49,7 @@ export default async function PaymentsPage() {
                   <TableHead>Projekt</TableHead>
                   <TableHead>Client</TableHead>
                   <TableHead>Budget</TableHead>
-                  <TableHead>Betrag</TableHead>
+                  <TableHead className="text-right">Betrag</TableHead>
                   <TableHead>Bezahlt am</TableHead>
                 </TableRow>
               </TableHeader>
@@ -65,7 +66,7 @@ export default async function PaymentsPage() {
                     </TableCell>
                     <TableCell className="text-muted-foreground">{payment.invoice.budget.project.client?.name ?? "—"}</TableCell>
                     <TableCell className="text-muted-foreground">{payment.invoice.budget.title}</TableCell>
-                    <TableCell className="text-muted-foreground">{payment.amount.toFixed(2)}</TableCell>
+                    <NumericCell value={payment.amount} className="text-muted-foreground" />
                     <TableCell className="text-muted-foreground">{payment.paidAt.toLocaleDateString("de-DE")}</TableCell>
                   </TableRow>
                 ))}

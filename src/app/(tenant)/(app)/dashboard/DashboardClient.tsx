@@ -32,8 +32,10 @@ import {
 import { Input } from "@/ui/shadcn/components/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/ui/shadcn/components/popover";
 import { Progress } from "@/ui/shadcn/components/progress";
+import { ragVariantForUsagePercent } from "@/ui/nextelite/ragVariant";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
+import { NumericCell } from "@/ui/nextelite/NumericCell";
 import { WIDGET_CATALOG, WIDGET_CATALOG_BY_TYPE } from "@/tenant/reporting/widgets";
 import { t, widgetLabel, type Locale } from "@/tenant/i18n/dictionary";
 
@@ -181,7 +183,7 @@ function ProgressRowItem({ label, sub, percent }: { label: React.ReactNode; sub:
         <span className="min-w-0 truncate">{label}</span>
         <span className="shrink-0 text-muted-foreground">{sub}</span>
       </div>
-      <Progress value={Math.min(100, percent)} variant={percent > 100 ? "destructive" : "success"} />
+      <Progress value={Math.min(100, percent)} variant={ragVariantForUsagePercent(percent)} />
     </div>
   );
 }
@@ -439,7 +441,7 @@ export function DashboardClient({
                       <TableCell className="text-right text-muted-foreground">
                         {remaining !== null ? `${remaining.toFixed(unit ? 1 : 2)}${unit}` : "—"}
                       </TableCell>
-                      <TableCell>{percent !== null && <Progress value={Math.min(100, percent)} variant={percent > 100 ? "destructive" : "success"} />}</TableCell>
+                      <TableCell>{percent !== null && <Progress value={Math.min(100, percent)} variant={ragVariantForUsagePercent(percent)} />}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -511,10 +513,10 @@ export function DashboardClient({
                 {rows.map((row) => (
                   <TableRow key={row.period}>
                     <TableCell>{row.period}</TableCell>
-                    <TableCell className="text-right text-muted-foreground">{row.availableHours.toFixed(2)}h</TableCell>
-                    <TableCell className="text-right text-muted-foreground">{row.workedHours.toFixed(2)}h</TableCell>
-                    <TableCell className="text-right text-muted-foreground">{row.billableHours.toFixed(2)}h</TableCell>
-                    <TableCell className="text-right text-muted-foreground">{row.missingHours.toFixed(2)}h</TableCell>
+                    <NumericCell value={row.availableHours} format="hours" className="text-muted-foreground" />
+                    <NumericCell value={row.workedHours} format="hours" className="text-muted-foreground" />
+                    <NumericCell value={row.billableHours} format="hours" className="text-muted-foreground" />
+                    <NumericCell value={row.missingHours} format="hours" className="text-muted-foreground" />
                   </TableRow>
                 ))}
               </TableBody>
@@ -545,9 +547,9 @@ export function DashboardClient({
                         {row.projectName}
                       </Link>
                     </TableCell>
-                    <TableCell className="text-right text-muted-foreground">{row.forecastHours.toFixed(2)}h</TableCell>
-                    <TableCell className="text-right text-muted-foreground">{row.billableHours.toFixed(2)}h</TableCell>
-                    <TableCell className="text-right text-muted-foreground">{row.ratioPercent}%</TableCell>
+                    <NumericCell value={row.forecastHours} format="hours" className="text-muted-foreground" />
+                    <NumericCell value={row.billableHours} format="hours" className="text-muted-foreground" />
+                    <NumericCell value={row.ratioPercent} format="percent" className="text-muted-foreground" />
                   </TableRow>
                 ))}
               </TableBody>
@@ -578,7 +580,7 @@ export function DashboardClient({
                 if (event.key === "Enter") renameDashboard();
                 if (event.key === "Escape") setRenamingDashboard(false);
               }}
-              className="h-9 w-56 text-2xl font-bold tracking-tight"
+              className="h-9 w-56 font-display text-2xl font-bold tracking-tight"
             />
           ) : (
             <h1

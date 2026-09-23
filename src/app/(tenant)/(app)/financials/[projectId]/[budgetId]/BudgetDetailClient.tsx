@@ -13,6 +13,9 @@ import { Checkbox } from "@/ui/shadcn/components/checkbox";
 import { Input } from "@/ui/shadcn/components/input";
 import { Label } from "@/ui/shadcn/components/label";
 import { Progress } from "@/ui/shadcn/components/progress";
+import { InlineDonut } from "@/ui/nextelite/InlineDonut";
+import { NumericCell } from "@/ui/nextelite/NumericCell";
+import { ragVariantForUsagePercent } from "@/ui/nextelite/ragVariant";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/shadcn/components/tabs";
@@ -492,8 +495,6 @@ function SectionRow({
     );
   }
 
-  const usageOver = totals.usagePercent > 100;
-
   return (
     <TableRow>
       <TableCell>
@@ -516,18 +517,19 @@ function SectionRow({
       <TableCell className="text-right">
         {section.quantity} {TRACKING_UNIT_LABELS[section.trackingUnit] ?? section.trackingUnit}
       </TableCell>
-      <TableCell className="text-right font-mono">{section.price.toFixed(2)}</TableCell>
-      <TableCell className="text-right font-mono font-semibold">{totals.budgetTotal.toFixed(2)}</TableCell>
-      <TableCell className="text-right font-mono">{section.budgetUsed.toFixed(2)}</TableCell>
+      <NumericCell value={section.price} />
+      <NumericCell value={totals.budgetTotal} className="font-semibold" />
+      <NumericCell value={section.budgetUsed} />
       {/* Reference §04: "Budget remaining negativ & rot bei Überschreitung." */}
-      <TableCell className={cn("text-right font-mono", totals.budgetRemaining < 0 && "text-destructive")}>
-        {totals.budgetRemaining.toFixed(2)}
-      </TableCell>
+      <NumericCell value={totals.budgetRemaining} />
       <TableCell className="min-w-32">
-        <div className="flex flex-col gap-1">
-          <span className="text-xs text-muted-foreground">{totals.usagePercent.toFixed(0)}%</span>
-          {/* RAG kept separate from the brand accent — reference §Farbsemantik. */}
-          <Progress value={Math.min(totals.usagePercent, 100)} variant={usageOver ? "destructive" : "success"} />
+        <div className="flex items-center gap-2">
+          <InlineDonut percent={totals.usagePercent} title={`Usage ${totals.usagePercent.toFixed(0)}%`} />
+          <div className="flex flex-1 flex-col gap-1">
+            <span className="text-xs text-muted-foreground">{totals.usagePercent.toFixed(0)}%</span>
+            {/* RAG kept separate from the brand accent — reference §Farbsemantik. */}
+            <Progress value={Math.min(totals.usagePercent, 100)} variant={ragVariantForUsagePercent(totals.usagePercent)} />
+          </div>
         </div>
       </TableCell>
       <TableCell className="text-center">
@@ -1040,8 +1042,8 @@ function TimeTab({ entries }: { entries: TimeEntryRow[] }) {
               <TableCell>{entry.userLabel}</TableCell>
               <TableCell className="text-muted-foreground">{entry.sectionName}</TableCell>
               <TableCell className="text-muted-foreground">{entry.description ?? "—"}</TableCell>
-              <TableCell className="text-right font-mono">{entry.durationMinutes !== null ? `${(entry.durationMinutes / 60).toFixed(2)}h` : "—"}</TableCell>
-              <TableCell className="text-right font-mono">{entry.amount !== null ? entry.amount.toFixed(2) : "—"}</TableCell>
+              <NumericCell value={entry.durationMinutes !== null ? entry.durationMinutes / 60 : null} format="hours" />
+              <NumericCell value={entry.amount} />
               <TableCell className="text-right text-muted-foreground">{new Date(entry.createdAt).toLocaleDateString("de-DE")}</TableCell>
             </TableRow>
           ))}
@@ -1051,7 +1053,122 @@ function TimeTab({ entries }: { entries: TimeEntryRow[] }) {
   );
 }
 
-type TabKey = "services" | "time" | "invoices" | "scenarios" | "feed";
+type TabKey = "overview" | "services" | "time" | "invoices" | "recurring" | "scenarios" | "feed";
+
+// Reference §05: "Status als Fortschritt" — Deal-Stufen (real Open → Delivered)
+// als Segment-Pille im Kopf statt eines reinen Boolean-Badges.
+function DeliveryStatusPill({
+  delivered,
+  canManage,
+  busy,
+  onDeliver,
+  onUndeliver,
+}: {
+  delivered: boolean;
+  canManage: boolean;
+  busy: boolean;
+  onDeliver: () => void;
+  onUndeliver: () => void;
+}) {
+  return (
+    <div className="mt-2 inline-flex items-center rounded-full border p-0.5 text-xs font-medium">
+      <button
+        type="button"
+        disabled={!canManage || busy || !delivered}
+        onClick={onUndeliver}
+        className={cn(
+          "rounded-full px-3 py-1 transition-colors",
+          !delivered ? "bg-primary text-primary-foreground" : "text-muted-foreground",
+          canManage && delivered && "hover:bg-muted",
+        )}
+      >
+        Open
+      </button>
+      <button
+        type="button"
+        disabled={!canManage || busy || delivered}
+        onClick={onDeliver}
+        className={cn(
+          "rounded-full px-3 py-1 transition-colors",
+          delivered ? "bg-primary text-primary-foreground" : "text-muted-foreground",
+          canManage && !delivered && "hover:bg-muted",
+        )}
+      >
+        Delivered
+      </button>
+    </div>
+  );
+}
+
+// Reference §04/§05 "Overview": Total/Used/Remaining aggregiert über alle Sections,
+// plus Zeitfortschritt aus Start-/Enddatum. Marge/Invoiced-% sind hier bewusst nicht
+// enthalten — dafür fehlt in diesem Scope die nötige Umsatz-/Kosten-Datenquelle
+// (siehe roadmap/PHASE5-ux-patterns.md, T503.5).
+function OverviewTab({ sections, startDate, endDate }: { sections: Section[]; startDate: string | null; endDate: string | null }) {
+  const totals = sections.reduce(
+    (acc, section) => {
+      const { budgetTotal, budgetRemaining } = computeSectionTotals(section);
+      acc.budgetTotal += budgetTotal;
+      acc.budgetUsed += section.budgetUsed;
+      acc.budgetRemaining += budgetRemaining;
+      return acc;
+    },
+    { budgetTotal: 0, budgetUsed: 0, budgetRemaining: 0 },
+  );
+  const usagePercent = totals.budgetTotal > 0 ? (totals.budgetUsed / totals.budgetTotal) * 100 : 0;
+
+  let timeProgressPercent: number | null = null;
+  if (startDate && endDate) {
+    const start = new Date(startDate).getTime();
+    const end = new Date(endDate).getTime();
+    const now = new Date().getTime();
+    if (end > start) {
+      timeProgressPercent = Math.min(100, Math.max(0, ((now - start) / (end - start)) * 100));
+    }
+  }
+
+  return (
+    <div className="flex flex-col gap-6">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+        <div className="rounded-lg border p-4">
+          <div className="text-xs text-muted-foreground">Total</div>
+          <div className="mt-1 font-mono text-lg tabular-nums">{totals.budgetTotal.toFixed(2)}</div>
+        </div>
+        <div className="rounded-lg border p-4">
+          <div className="text-xs text-muted-foreground">Used</div>
+          <div className="mt-1 font-mono text-lg tabular-nums">{totals.budgetUsed.toFixed(2)}</div>
+        </div>
+        <div className="rounded-lg border p-4">
+          <div className="text-xs text-muted-foreground">Remaining</div>
+          <div className={cn("mt-1 font-mono text-lg tabular-nums", totals.budgetRemaining < 0 && "text-destructive")}>
+            {totals.budgetRemaining.toFixed(2)}
+          </div>
+        </div>
+      </div>
+
+      <div className="rounded-lg border p-4">
+        <div className="mb-2 flex items-center justify-between text-xs text-muted-foreground">
+          <span>Budget-Auslastung</span>
+          <span className="font-mono tabular-nums">{usagePercent.toFixed(0)}%</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <InlineDonut percent={usagePercent} title={`Budget-Auslastung ${usagePercent.toFixed(0)}%`} />
+          <Progress value={Math.min(usagePercent, 100)} variant={ragVariantForUsagePercent(usagePercent)} className="h-1.5" />
+        </div>
+      </div>
+
+      {timeProgressPercent !== null && (
+        <div className="rounded-lg border p-4">
+          <div className="mb-2 flex items-center justify-between text-xs text-muted-foreground">
+            <span>Zeitfortschritt</span>
+            <span className="font-mono tabular-nums">{timeProgressPercent.toFixed(0)}%</span>
+          </div>
+          <Progress value={timeProgressPercent} className="h-1.5" />
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function BudgetDetailClient({
   projectId,
@@ -1102,7 +1219,7 @@ export function BudgetDetailClient({
   approvalPolicies: { id: string; name: string }[];
 }) {
   const router = useRouter();
-  const [tab, setTab] = useState<TabKey>("services");
+  const [tab, setTab] = useState<TabKey>("overview");
   const [editingHeader, setEditingHeader] = useState(false);
   const [startDate, setStartDate] = useState(budget.startDate ?? "");
   const [endDate, setEndDate] = useState(budget.endDate ?? "");
@@ -1229,23 +1346,19 @@ export function BudgetDetailClient({
               <span>{approvalPolicies.find((p) => p.id === approvalPolicyId)?.name ?? "Keine Policy"}</span>
             )}
           </div>
+          <DeliveryStatusPill
+            delivered={!!budget.deliveredAt}
+            canManage={canManage}
+            busy={deliverBusy}
+            onDeliver={handleDeliver}
+            onUndeliver={handleUndeliver}
+          />
           {budget.deliveredAt && (
-            <Badge variant="primaryOutline" className="mt-2">
-              Geliefert am {new Date(budget.deliveredAt).toLocaleDateString("de-DE")}
-            </Badge>
+            <p className="mt-1 text-xs text-muted-foreground">Geliefert am {new Date(budget.deliveredAt).toLocaleDateString("de-DE")}</p>
           )}
         </div>
         {canManage && (
           <div className="flex gap-2">
-            {budget.deliveredAt ? (
-              <Button variant="outline" size="sm" onClick={handleUndeliver} loading={deliverBusy}>
-                Lieferung zurücknehmen
-              </Button>
-            ) : (
-              <Button variant="outline" size="sm" onClick={handleDeliver} loading={deliverBusy}>
-                Budget liefern
-              </Button>
-            )}
             <Button variant="outline" size="sm" onClick={() => setEditingHeader((v) => !v)}>
               Budget-Einstellungen
             </Button>
@@ -1313,13 +1426,18 @@ export function BudgetDetailClient({
 
       <Tabs value={tab} onValueChange={(value) => setTab(value as TabKey)}>
         <TabsList className="mb-5 border-b">
+          <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="services">Services</TabsTrigger>
           <TabsTrigger value="time">Time</TabsTrigger>
           <TabsTrigger value="invoices">Invoices</TabsTrigger>
+          {retainerBurnTab && <TabsTrigger value="recurring">Recurring</TabsTrigger>}
           <TabsTrigger value="scenarios">Scenarios{scenarios.length > 0 ? ` (${scenarios.length})` : ""}</TabsTrigger>
           <TabsTrigger value="feed">Feed</TabsTrigger>
         </TabsList>
 
+        <TabsContent value="overview">
+          <OverviewTab sections={sections} startDate={budget.startDate} endDate={budget.endDate} />
+        </TabsContent>
         <TabsContent value="services">
           <ServicesTab
             budgetId={budget.id}
@@ -1336,11 +1454,13 @@ export function BudgetDetailClient({
           <TimeTab entries={timeEntries} />
         </TabsContent>
         <TabsContent value="invoices">
-          <div className="flex flex-col gap-6">
-            {retainerBurnTab}
-            {invoicesTab}
-          </div>
+          {invoicesTab}
         </TabsContent>
+        {retainerBurnTab && (
+          <TabsContent value="recurring">
+            {retainerBurnTab}
+          </TabsContent>
+        )}
         <TabsContent value="scenarios">
           <ScenariosTab projectId={projectId} budgetId={budget.id} canManage={canManage} scenarios={scenarios} onCreated={onSaved} />
         </TabsContent>

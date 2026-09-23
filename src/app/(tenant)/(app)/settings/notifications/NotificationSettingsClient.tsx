@@ -47,7 +47,7 @@ export function NotificationSettingsClient({ projects }: { projects: ProjectPref
       ) : (
         <div className="overflow-hidden rounded-lg border">
           <table className="w-full text-sm">
-            <thead className="bg-muted/40 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+            <thead className="bg-muted/40 font-mono text-xs font-semibold tracking-wide text-muted-foreground uppercase">
               <tr>
                 <th className="px-4 py-2.5 text-left">Projekt</th>
                 <th className="px-4 py-2.5 text-left">Benachrichtigungen</th>

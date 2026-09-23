@@ -149,7 +149,7 @@ export function TenantsTable({
       <div className="mb-6 grid grid-cols-2 gap-3.5 lg:grid-cols-4">
         <StatCard icon={Building2} value={stats.total} label="Tenants gesamt" tone="primary" />
         <StatCard icon={CheckCircle2} value={stats.active} label="Aktiv" tone="success" />
-        <StatCard icon={Server} value={stats.enterprise} label="Enterprise" tone="warning" />
+        <StatCard icon={Server} value={stats.enterprise} label="Enterprise" tone="neutral" />
         <StatCard icon={Server} value={stats.dedicated} label="Dedizierte Infra" tone="neutral" />
       </div>
 
@@ -186,7 +186,7 @@ export function TenantsTable({
                   <thead>
                     <tr className="border-b bg-muted/40">
                       {["Name", "Subdomain", "Status", "Plan", "Sitzplätze", "Infrastruktur", "Erstellt", ""].map((head) => (
-                        <th key={head} className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+                        <th key={head} className="px-4 py-3 text-left font-mono text-xs font-semibold tracking-wide text-muted-foreground uppercase">
                           {head}
                         </th>
                       ))}

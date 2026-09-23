@@ -80,8 +80,10 @@ export default async function ListPage({ params }: { params: Promise<{ id: strin
         tasks={tasks.map((task) => ({
           id: task.id,
           title: task.title,
+          statusId: task.statusId,
           status: task.status.name,
           statusCategory: task.status.category,
+          assigneeId: task.assigneeId,
           assignee: task.assignee?.name ?? task.assignee?.email ?? null,
           dueDate: task.dueDate ? task.dueDate.toISOString() : null,
           startDate: task.startDate ? task.startDate.toISOString() : null,
@@ -90,8 +92,9 @@ export default async function ListPage({ params }: { params: Promise<{ id: strin
           isPrivate: task.isPrivate,
           taskListGroupId: task.taskListGroupId,
         }))}
-        statuses={statuses.map((status) => ({ id: status.id, name: status.name }))}
+        statuses={statuses.map((status) => ({ id: status.id, name: status.name, category: status.category }))}
         users={users.map((user) => ({ id: user.id, label: user.name ?? user.email }))}
+        priorityFieldId={priorityField.id}
         customFields={customFields.map((field) => ({
           id: field.id,
           label: field.label,

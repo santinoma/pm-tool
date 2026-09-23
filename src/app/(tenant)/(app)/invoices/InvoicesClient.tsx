@@ -7,6 +7,7 @@ import { ChevronDown } from "lucide-react";
 import { Input } from "@/ui/shadcn/components/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
+import { NumericCell } from "@/ui/nextelite/NumericCell";
 import { cn } from "@/ui/shadcn/lib/utils";
 
 interface InvoiceRow {
@@ -143,7 +144,7 @@ export function InvoicesClient({ invoices }: { invoices: InvoiceRow[] }) {
                           </TableCell>
                           <TableCell className="text-muted-foreground">{invoice.budgetTitle}</TableCell>
                           <TableCell className="text-muted-foreground">{invoice.status}</TableCell>
-                          <TableCell className="text-right font-mono tabular-nums text-muted-foreground">{invoice.totalAmount.toFixed(2)}</TableCell>
+                          <NumericCell value={invoice.totalAmount} className="text-muted-foreground" />
                           <TableCell className="text-muted-foreground">
                             {new Date(invoice.createdAt).toLocaleDateString("de-DE")}
                           </TableCell>

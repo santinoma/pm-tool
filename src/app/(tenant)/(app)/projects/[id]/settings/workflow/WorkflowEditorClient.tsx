@@ -221,7 +221,7 @@ export function WorkflowEditorClient({
                                 <SelectItem value="done">done</SelectItem>
                               </SelectContent>
                             </Select>
-                            {status.isDefault && <Star className="size-4 text-warning" aria-label="Default-Status für neue Tasks" />}
+                            {status.isDefault && <Star className="size-4 fill-primary text-primary" aria-label="Default-Status für neue Tasks" />}
                           </div>
                           <Button variant="destructiveSubtle" size="sm" onClick={() => deleteStatus(status.id)}>
                             Löschen

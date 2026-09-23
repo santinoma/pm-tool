@@ -8,7 +8,7 @@ import { FavoriteButton } from "@/ui/components/FavoriteButton";
 import { CustomFieldInput, CustomFieldValueDisplay, type CustomFieldInputType } from "@/ui/components/CustomFieldInput";
 
 import { Badge } from "@/ui/shadcn/components/badge";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/ui/shadcn/components/breadcrumb";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/ui/shadcn/components/breadcrumb";
 import { Button } from "@/ui/shadcn/components/button";
 import { Card, CardContent } from "@/ui/shadcn/components/card";
 import { Checkbox } from "@/ui/shadcn/components/checkbox";
@@ -18,6 +18,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/shadcn/components/tabs";
 import { TaskLinksPanel } from "./TaskLinksPanel";
 import { Textarea } from "@/ui/shadcn/components/textarea";
+import { cn } from "@/ui/shadcn/lib/utils";
 
 interface SubtaskRow {
   id: string;
@@ -168,8 +169,23 @@ function DependencyAddControl({ taskId, ownId, mode }: { taskId: string; ownId: 
   );
 }
 
+// Reference §06 "Task-Feld-Spezifikation": "Time to complete — abgeleitet —
+// Estimate − erfasste Zeit (±)". Never persisted — computed from the same
+// estimatedHours/timeEntries the sidebar already renders.
+function formatTimeToComplete(estimatedHours: number | null, timeEntries: TimeEntryRow[]): { text: string; negative: boolean } | null {
+  if (estimatedHours === null) return null;
+  const loggedMinutes = timeEntries.reduce((sum, entry) => sum + entry.durationMinutes, 0);
+  const remainingMinutes = Math.round(estimatedHours * 60) - loggedMinutes;
+  const negative = remainingMinutes < 0;
+  const absMinutes = Math.abs(remainingMinutes);
+  const hours = Math.floor(absMinutes / 60);
+  const minutes = absMinutes % 60;
+  return { text: `${negative ? "−" : ""}${hours}:${String(minutes).padStart(2, "0")}`, negative };
+}
+
 export function TaskDetailClient({
   projectId,
+  projectName = null,
   task,
   statuses,
   users,
@@ -180,6 +196,7 @@ export function TaskDetailClient({
   linkedTasks = [],
 }: {
   projectId: string;
+  projectName?: string | null;
   task: TaskDetail;
   statuses: { id: string; name: string }[];
   users: { id: string; label: string }[];
@@ -463,6 +480,18 @@ export function TaskDetailClient({
       <div className="mb-3 flex items-center justify-between gap-2">
         <Breadcrumb>
           <BreadcrumbList>
+            {/* Reference §05: "Projekt-Sprints / Sprint 07 / #T-2026-00764" — vorher fehlte
+                das Projekt-Segment, nur Liste/Ref waren sichtbar. */}
+            {projectName && (
+              <>
+                <BreadcrumbItem>
+                  <BreadcrumbLink asChild>
+                    <Link href={`/projects/${projectId}`}>{projectName}</Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+              </>
+            )}
             {taskListLabel && (
               <>
                 <BreadcrumbItem>{taskListLabel}</BreadcrumbItem>
@@ -873,6 +902,18 @@ export function TaskDetailClient({
                 onBlur={(event) => updateTask({ estimatedHours: event.target.value === "" ? null : Number(event.target.value) })}
               />
             </div>
+
+            {(() => {
+              const timeToComplete = formatTimeToComplete(task.estimatedHours, task.timeEntries);
+              return (
+                <div className="flex flex-col gap-2">
+                  <Label>Time to complete</Label>
+                  <span className={cn("font-mono text-sm tabular-nums", timeToComplete?.negative && "text-destructive")}>
+                    {timeToComplete ? timeToComplete.text : "—"}
+                  </span>
+                </div>
+              );
+            })()}
 
             <div className="flex flex-wrap items-center gap-4">
               <label className="flex items-center gap-2 text-sm">

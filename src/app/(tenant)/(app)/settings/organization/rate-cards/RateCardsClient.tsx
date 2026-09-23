@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/ui/shadcn/components
 import { Input } from "@/ui/shadcn/components/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
+import { NumericCell } from "@/ui/nextelite/NumericCell";
 
 interface RateCardItemRow {
   id: string;
@@ -226,7 +227,7 @@ export function RateCardsClient({
                               <TableCell className="text-muted-foreground">
                                 {TRACKING_UNIT_LABELS[item.trackingUnit] ?? item.trackingUnit}
                               </TableCell>
-                              <TableCell className="text-right font-mono">{item.defaultPrice.toFixed(2)}</TableCell>
+                              <NumericCell value={item.defaultPrice} />
                               <TableCell className="text-right">
                                 {canManage && (
                                   <Button

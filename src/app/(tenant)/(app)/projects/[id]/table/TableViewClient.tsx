@@ -9,6 +9,7 @@ import { LegendKey } from "@/ui/components/LegendKey";
 import { Input } from "@/ui/shadcn/components/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/ui/shadcn/components/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/ui/shadcn/components/table";
+import { NumericCell } from "@/ui/nextelite/NumericCell";
 import { cn } from "@/ui/shadcn/lib/utils";
 
 interface TableTask {
@@ -212,9 +213,7 @@ export function TableViewClient({
                       </SelectContent>
                     </Select>
                   </TableCell>
-                  <TableCell className="text-right font-mono tabular-nums text-muted-foreground">
-                    {task.estimatedHours != null ? `${task.estimatedHours}h` : "—"}
-                  </TableCell>
+                  <NumericCell value={task.estimatedHours} format="hours" className="text-muted-foreground" />
                   <TableCell>
                     <Input
                       type="date"

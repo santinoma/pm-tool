@@ -15,6 +15,8 @@ import { SavedViewsBar, type SavedViewRecord } from "@/ui/components/SavedViewsB
 import { FilterBuilderPopover, type FilterFieldOption } from "@/ui/components/FilterBuilderPopover";
 import { SortDirectionButton, type SortDirection } from "@/ui/components/SortDirectionButton";
 import { evaluateFilterNode, resolveDynamicPlaceholders, parseFilterConfig, type FilterGroup } from "@/tenant/views/filterEngine";
+import { ListToolbar } from "@/ui/nextelite/ListToolbar";
+import { NumericCell } from "@/ui/nextelite/NumericCell";
 
 const EMPTY_FILTER_GROUP: FilterGroup = { logic: "AND", rules: [] };
 
@@ -126,44 +128,51 @@ export function ProjectBudgetsClient({
 
   return (
     <div className="pb-10">
-      <div className="mb-6 flex items-center justify-between gap-4">
-        <div>
-          <div className="text-xs text-muted-foreground">{projectName}</div>
-          <h1 className="mt-1 text-2xl font-bold tracking-tight">Budgets</h1>
-        </div>
-        {canManage && (
-          <Button onClick={() => setCreating((c) => !c)}>
-            <Plus className="size-4" />
-            Neues Budget
-          </Button>
-        )}
+      <div className="mb-3">
+        <div className="text-xs text-muted-foreground">{projectName}</div>
+        <h1 className="mt-1 text-2xl font-bold tracking-tight">Budgets</h1>
       </div>
 
-      <div className="mb-4 flex flex-wrap items-center gap-2">
-        <SavedViewsBar
-          scope="budgets"
-          projectId={projectId}
-          initialViews={savedViews}
-          currentUserId={currentUserId}
-          allowSharing
-          getCurrentConfig={() => ({
-            viewType: "budgets",
-            filterConfig: filterGroup as unknown as Record<string, unknown>,
-            sortConfig: { sortKey, sortDir },
-          })}
-          onApply={applySavedView}
-        />
-        <FilterBuilderPopover fields={filterFields} value={filterGroup} onChange={setFilterGroup} />
-        <Select value={sortKey} onValueChange={(value) => setSortKey(value as SortKey)}>
-          <SelectTrigger className="h-9 w-44"><SelectValue /></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="title">Sort: Titel</SelectItem>
-            <SelectItem value="ownerLabel">Sort: Owner</SelectItem>
-            <SelectItem value="budgetTotal">Sort: Budget Total</SelectItem>
-          </SelectContent>
-        </Select>
-        <SortDirectionButton direction={sortDir} onToggle={() => setSortDir((d) => (d === "asc" ? "desc" : "asc"))} />
-      </div>
+      {/* Reference §03 universelles Listen-Muster: Sicht/Filters/Sort + genau eine Primäraktion. */}
+      <ListToolbar
+        viewSelector={
+          <SavedViewsBar
+            scope="budgets"
+            projectId={projectId}
+            initialViews={savedViews}
+            currentUserId={currentUserId}
+            allowSharing
+            getCurrentConfig={() => ({
+              viewType: "budgets",
+              filterConfig: filterGroup as unknown as Record<string, unknown>,
+              sortConfig: { sortKey, sortDir },
+            })}
+            onApply={applySavedView}
+          />
+        }
+        filters={<FilterBuilderPopover fields={filterFields} value={filterGroup} onChange={setFilterGroup} />}
+        sort={
+          <>
+            <Select value={sortKey} onValueChange={(value) => setSortKey(value as SortKey)}>
+              <SelectTrigger className="h-9 w-44"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="title">Sort: Titel</SelectItem>
+                <SelectItem value="ownerLabel">Sort: Owner</SelectItem>
+                <SelectItem value="budgetTotal">Sort: Budget Total</SelectItem>
+              </SelectContent>
+            </Select>
+            <SortDirectionButton direction={sortDir} onToggle={() => setSortDir((d) => (d === "asc" ? "desc" : "asc"))} />
+          </>
+        }
+        primaryAction={
+          canManage && (
+            <Button onClick={() => setCreating((c) => !c)}>
+              <Plus className="size-4" />
+              Neues Budget
+            </Button>
+          )
+        }
+      />
 
       {creating && (
         <form onSubmit={handleCreate} className="mb-6 flex max-w-md flex-col gap-4 rounded-lg border p-5">
@@ -257,7 +266,7 @@ export function ProjectBudgetsClient({
                   </TableCell>
                   <TableCell className="text-muted-foreground">{budget.ownerLabel}</TableCell>
                   <TableCell className="text-muted-foreground">{budget.sectionCount}</TableCell>
-                  <TableCell className="text-right font-mono">{budget.budgetTotal.toFixed(2)}</TableCell>
+                  <NumericCell value={budget.budgetTotal} />
                 </TableRow>
               ))}
             </TableBody>
